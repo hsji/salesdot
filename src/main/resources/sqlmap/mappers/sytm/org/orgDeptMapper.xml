@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="orgDeptMapper">
+<!-- 부서 정보 조회 -->
+<select id="selectCommonDeptList" parameterType="java.util.Map" resultType="java.util.Map">
+/* selectCommonDeptList */
+	SELECT
+		AA.DEPT_CD AS CODE
+		, AA.DEPT_KORN_NM AS NAME
+	    , AA.DEPT_CD
+	    , HIPO_DEPT_CD
+	    , (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = AA.HIPO_DEPT_CD) AS HIPO_DEPT_NM
+	    , AA.DEPT_KORN_NM
+	    , AA.DEPT_ENGL_NM
+	    , AA.DEPT_ABBR_NM
+	    , AA.DEPT_ENGL_ABBR_NM
+	    , AA.DEPT_SHOW_NM
+	    , AA.DEPT_ORDR
+	    , AA.DEPT_YN
+	    , AA.DEPT_FLAG_CD
+	    , AA.DEPT_LVL
+	    , AA.BEFO_DEPT_CD
+	    , AA.DEPT_FRDT
+	    , AA.DEPT_TODT
+	    , AA.BUSINESS_TYPE
+	    , AA.INPT_ID
+	    , AA.INPT_DTTM
+	    , AA.INPT_IP
+	    , AA.CHGE_ID
+	    , AA.CHGE_DTTM
+	    , AA.CHGE_IP
+	    , AA.COMPANY_CD
+	 FROM T_SYTM_DEPT AA 
+	WHERE AA.DEPT_CD = #{SRCH}
+	  AND AA.COMPANY_CD     = #{COMPANY_CD}
+</select>
+
+<!-- 부서 정보 조회 -->
+<select id="selectDeptList" parameterType="java.util.Map" resultType="java.util.Map">
+/* selectDeptList */
+WITH RECURSIVE CTE_Dept AS (
+    SELECT
+    	AA.COMPANY_CD,
+        AA.DEPT_CD,
+        HIPO_DEPT_CD,
+        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = AA.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+        AA.DEPT_KORN_NM,
+        AA.DEPT_ENGL_NM,
+        AA.DEPT_ABBR_NM,
+        AA.DEPT_ENGL_ABBR_NM,
+        AA.DEPT_SHOW_NM,
+        AA.DEPT_ORDR,
+        AA.DEPT_YN,
+        AA.DEPT_FLAG_CD,
+        AA.DEPT_LVL,
+        AA.BEFO_DEPT_CD,
+        AA.DEPT_FRDT,
+        AA.DEPT_TODT,
+        AA.BUSINESS_TYPE,
+        AA.INPT_ID,
+        AA.INPT_DTTM,
+        AA.INPT_IP,
+        AA.CHGE_ID,
+        AA.CHGE_DTTM,
+        AA.CHGE_IP,
+        CONVERT(AA.DEPT_ORDR, char(100)) as SortOrder
+    FROM T_SYTM_DEPT AA
+    WHERE DEPT_LVL = '0'
+    AND AA.COMPANY_CD     = #{COMPANY_CD}
+    UNION ALL
+    SELECT
+    	BB.COMPANY_CD,
+        BB.DEPT_CD,
+        BB.HIPO_DEPT_CD,
+        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = BB.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+        BB.DEPT_KORN_NM,
+        BB.DEPT_ENGL_NM,
+        BB.DEPT_ABBR_NM,
+        BB.DEPT_ENGL_ABBR_NM,
+        BB.DEPT_SHOW_NM,
+        BB.DEPT_ORDR,
+        BB.DEPT_YN,
+        BB.DEPT_FLAG_CD,
+        BB.DEPT_LVL,
+        BB.BEFO_DEPT_CD,
+        BB.DEPT_FRDT,
+        BB.DEPT_TODT,
+        BB.BUSINESS_TYPE,
+        BB.INPT_ID,
+        BB.INPT_DTTM,
+        BB.INPT_IP,
+        BB.CHGE_ID,
+        BB.CHGE_DTTM,
+        BB.CHGE_IP,
+        CONCAT(CTE_Dept.SortOrder, '|', BB.DEPT_ORDR) as DEPT_ORDER
+    FROM T_SYTM_DEPT BB
+    INNER JOIN CTE_Dept ON BB.HIPO_DEPT_CD = CTE_Dept.DEPT_CD
+    WHERE BB.COMPANY_CD     = #{COMPANY_CD}
+)
+SELECT *
+FROM CTE_Dept
+WHERE 1=1
+<if test="DEPT_CD != null and DEPT_CD != ''">
+    AND CTE_Dept.DEPT_CD LIKE CONCAT('%', #{DEPT_CD}, '%')
+</if>
+<if test="DEPT_NM != null and DEPT_NM != ''">
+    AND CTE_Dept.DEPT_KORN_NM LIKE CONCAT('%', #{DEPT_NM}, '%')
+</if >
+<if test="USED_YN != null and USED_YN != ''">
+    AND CTE_Dept.DEPT_YN = #{USED_YN}
+</if>
+ORDER BY SortOrder; 
+</select>
+
+<!--  MAP 신규등록 메시지 코드 존재여부 체크 -->
+<select id="checkDeptCd" parameterType="java.util.List" resultType="java.util.Map">
+/* checkDeptCd */
+	SELECT 
+		DEPT_CD
+	FROM T_SYTM_DEPT
+	WHERE DEPT_CD IN
+	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	    #{item.DEPT_CD}
+	</foreach>  
+	AND COMPANY_CD     = #{COMPANY_CD}
+</select>
+    
+<!-- 사용자 추가 -->
+<insert id="insertDeptInfo" parameterType="java.util.Map">
+/* insertDeptInfo */
+	INSERT INTO T_SYTM_DEPT
+	(
+		COMPANY_CD
+	    , DEPT_CD
+		, HIPO_DEPT_CD
+		, DEPT_KORN_NM
+		, DEPT_ENGL_NM
+		, DEPT_ABBR_NM
+		, DEPT_ENGL_ABBR_NM
+		, DEPT_SHOW_NM
+		, DEPT_ORDR
+		, DEPT_YN
+		, DEPT_FLAG_CD
+		, DEPT_LVL
+		, BEFO_DEPT_CD
+		, DEPT_FRDT
+		, DEPT_TODT
+		, BUSINESS_TYPE
+		, INPT_ID
+		, INPT_DTTM
+		, INPT_IP
+		, CHGE_ID
+		, CHGE_DTTM
+		, CHGE_IP
+	)VALUES(
+		#{COMPANY_CD}
+	    , #{DEPT_CD}
+		, #{HIPO_DEPT_CD}
+		, #{DEPT_KORN_NM}
+		, #{DEPT_ENGL_NM}
+		, #{DEPT_ABBR_NM}
+		, #{DEPT_ENGL_ABBR_NM}
+		, #{DEPT_SHOW_NM}
+		, #{DEPT_ORDR}
+		, #{DEPT_YN}
+		, #{DEPT_FLAG_CD}
+		, #{DEPT_LVL}
+		, #{BEFO_DEPT_CD}
+		, DATE_FORMAT(#{DEPT_FRDT}, '%Y%m%d')
+		, DATE_FORMAT(#{DEPT_TODT}, '%Y%m%d')
+		, #{BUSINESS_TYPE}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	)
+</insert>
+
+<!--  MAP 사용자 정보 수정 -->   
+<update id="updateDeptInfo" parameterType="java.util.Map">
+/* updateDeptInfo */
+	UPDATE T_SYTM_DEPT 
+	SET 
+		HIPO_DEPT_CD 		= #{HIPO_DEPT_CD}
+		, DEPT_KORN_NM 		= #{DEPT_KORN_NM}
+		, DEPT_ENGL_NM 		= #{DEPT_ENGL_NM}
+		, DEPT_ABBR_NM 		= #{DEPT_ABBR_NM}
+		, DEPT_ENGL_ABBR_NM = #{DEPT_ENGL_ABBR_NM}
+		, DEPT_SHOW_NM 		= #{DEPT_SHOW_NM}
+		, DEPT_ORDR 		= #{DEPT_ORDR}
+		, DEPT_YN 		    = #{DEPT_YN}
+		, DEPT_FLAG_CD 		= #{DEPT_FLAG_CD}
+		, DEPT_LVL 			= #{DEPT_LVL}
+		, BEFO_DEPT_CD 		= #{BEFO_DEPT_CD}
+		, DEPT_FRDT 		= #{DEPT_FRDT}
+		, DEPT_TODT 		= #{DEPT_TODT}
+		, BUSINESS_TYPE		= #{BUSINESS_TYPE}
+		, CHGE_ID 			= #{USER_ID_SRV}
+		, CHGE_DTTM 		= NOW()
+		, CHGE_IP 			= #{USER_CON_IPADDR_SRV}
+	WHERE DEPT_CD 			= #{DEPT_CD}
+	AND   COMPANY_CD		= #{COMPANY_CD}
+</update>
+
+<!--  MAP 사용자 정보 삭제 -->   
+<delete id="deleteDeptInfo" parameterType="java.util.Map">
+/* deleteDeptInfo */
+	DELETE FROM T_SYTM_DEPT 
+	WHERE DEPT_CD=#{DEPT_CD}
+		AND HIPO_DEPT_CD = #{HIPO_DEPT_CD}
+		AND   COMPANY_CD		= #{COMPANY_CD}
+</delete>
+
+
+<!-- 조직도 -->
+<select id="selectCompanyMapList" resultType="java.util.Map">
+WITH RECURSIVE CTE_DEPT AS (
+    SELECT
+    	AA.COMPANY_CD,
+        AA.DEPT_CD,
+        HIPO_DEPT_CD,
+        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = AA.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+        AA.DEPT_KORN_NM,
+        AA.DEPT_ENGL_NM,
+        AA.DEPT_ABBR_NM,
+        AA.DEPT_ENGL_ABBR_NM,
+        AA.DEPT_SHOW_NM,
+        AA.DEPT_ORDR,
+        AA.DEPT_YN,
+        AA.DEPT_FLAG_CD,
+        AA.DEPT_LVL,
+        AA.BEFO_DEPT_CD,
+        AA.DEPT_FRDT,
+        AA.DEPT_TODT,
+        AA.BUSINESS_TYPE,
+        CONVERT(AA.DEPT_ORDR, CHAR(100)) AS SORTORDER
+    FROM T_SYTM_DEPT AA
+    WHERE DEPT_LVL = '0'
+    AND   AA.COMPANY_CD		= #{COMPANY_CD}
+    UNION ALL
+    SELECT
+    	BB.COMPANY_CD,
+        BB.DEPT_CD,
+        BB.HIPO_DEPT_CD,
+        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = BB.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+        BB.DEPT_KORN_NM,
+        BB.DEPT_ENGL_NM,
+        BB.DEPT_ABBR_NM,
+        BB.DEPT_ENGL_ABBR_NM,
+        BB.DEPT_SHOW_NM,
+        BB.DEPT_ORDR,
+        BB.DEPT_YN,
+        BB.DEPT_FLAG_CD,
+        BB.DEPT_LVL,
+        BB.BEFO_DEPT_CD,
+        BB.DEPT_FRDT,
+        BB.DEPT_TODT,
+        BB.BUSINESS_TYPE,
+        CONCAT(CTE_DEPT.SORTORDER, '|', BB.DEPT_ORDR) AS DEPT_ORDER
+    FROM T_SYTM_DEPT BB
+    INNER JOIN CTE_DEPT ON BB.HIPO_DEPT_CD = CTE_DEPT.DEPT_CD
+    WHERE  BB.COMPANY_CD		= #{COMPANY_CD}
+)
+SELECT K.COMPANY_CD, K.DEPT_CD, K.DEPT_KORN_NM, K.HIPO_DEPT_NM, K.HIPO_DEPT_CD, K.KORN_NM , K.SORTORDER, K.WKORDER, K.EMP_NO, K.UID, IFNULL(K.HIPO_EMPNO,' ') HIPO_EMPNO	, 
+	K.WKDT_CD, K.USER_PIC, K.LEAF_YN, BGCOLOR, TXTCOLOR, FONTSTYLE,
+	CASE 
+		WHEN K.WKDT_CD = '0050' THEN '' -- 팀원
+		ELSE K.DEPT_KORN_NM
+	END AS DEPT_NEW_NAME,			
+   CONCAT((SELECT SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM06' AND SSC_CD = K.WKDT_CD), ' ' , K.KORN_NM) AS TITLE,
+	CASE 
+		WHEN K.WKDT_CD = '0050' THEN '' -- 팀원
+		ELSE CONCAT((select FN_ORGCOUNT(K.DEPT_CD)),'명')
+	END AS METACNT
+FROM (
+	SELECT A.COMPANY_CD, A.DEPT_CD, A.DEPT_KORN_NM, A.HIPO_DEPT_NM, A.HIPO_DEPT_CD, B.KORN_NM , A.SORTORDER,		
+		CONCAT(A.SORTORDER, ' |', B.WKGD_CD) AS WKORDER, B.EMP_NO, B.USER_FLAG_CD,
+		CONCAT(A.DEPT_CD, B.EMP_NO) UID,
+		-- CONCAT(A.HIPO_DEPT_CD, (SELECT MAX(EMP_NO) FROM T_SYTM_USER WHERE DEPT_CD = A.HIPO_DEPT_CD)) AS HIPO_EMPNO,
+		B.WKDT_CD, B.USER_PIC,
+		CASE 
+			WHEN B.WKDT_CD = '0040' THEN '1'
+			ELSE '' 
+		END AS LEAF_YN,
+		CASE 
+			WHEN B.WKDT_CD = '0010' THEN '#473F66'	-- 대표이사
+			WHEN B.WKDT_CD = '0020' THEN '#FFC215'	-- 본부장
+			WHEN B.WKDT_CD = '0040' THEN '#FF7372'	-- 팀장
+			ELSE '#F2F2F2' 
+		END AS BGCOLOR,		
+		CASE 
+			WHEN B.WKDT_CD = '0010' THEN '#FFFFFF'	-- 대표이사
+			ELSE '#000000' 
+		END AS TXTCOLOR	,	
+		CASE 
+			WHEN B.WKDT_CD = '0010' THEN 'bold 14px noto'	-- 대표이사
+			WHEN B.WKDT_CD = '0020' THEN 'bold 11px noto'	-- 본부장
+			WHEN B.WKDT_CD = '0040' THEN 'bold 11px noto'	-- 본부장
+			ELSE '10px noto' 
+		END AS FONTSTYLE,		
+		CASE 
+			WHEN B.WKDT_CD = '0050' THEN CONCAT(A.DEPT_CD, (SELECT MAX(EMP_NO) FROM T_SYTM_USER WHERE DEPT_CD = A.DEPT_CD AND USER_FLAG_CD = 'RW' AND HOOF_STAT_CD = 'HO' AND (WKDT_CD = '0040' OR WKDT_CD = '0020')))	-- 팀원
+			ELSE CONCAT(A.HIPO_DEPT_CD, (SELECT MAX(EMP_NO) FROM T_SYTM_USER WHERE DEPT_CD = A.HIPO_DEPT_CD)) 
+		END AS HIPO_EMPNO		
+	FROM CTE_DEPT A
+	LEFT JOIN T_SYTM_USER B 
+	ON B.DEPT_CD = A.DEPT_CD
+	AND B.USER_FLAG_CD = 'RW'
+	AND B.HOOF_STAT_CD = 'HO'
+	AND B.COMPANY_CD = #{COMPANY_CD} 
+) K
+WHERE K.USER_FLAG_CD = 'RW'
+AND K.COMPANY_CD = #{COMPANY_CD}
+ORDER BY K.WKORDER
+
+</select>
+
+<select id="selectCompanyDocMapList" resultType="java.util.Map">
+WITH RECURSIVE CTE_DEPT AS (
+    SELECT
+    	AA.COMPANY_CD,
+        AA.DEPT_CD,
+        HIPO_DEPT_CD,
+        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = AA.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+        AA.DEPT_KORN_NM,
+        AA.DEPT_ENGL_NM,
+        AA.DEPT_ABBR_NM,
+        AA.DEPT_ENGL_ABBR_NM,
+        AA.DEPT_SHOW_NM,
+        AA.DEPT_ORDR,
+        AA.DEPT_YN,
+        AA.DEPT_FLAG_CD,
+        AA.DEPT_LVL,
+        AA.BEFO_DEPT_CD,
+        AA.DEPT_FRDT,
+        AA.DEPT_TODT,
+        CONVERT(AA.DEPT_ORDR, CHAR(100)) AS SORTORDER
+    FROM T_SYTM_DEPT AA
+    WHERE DEPT_LVL = '0'
+    AND   AA.COMPANY_CD		= #{COMPANY_CD}
+    UNION ALL
+    SELECT
+    	BB.COMPANY_CD,
+        BB.DEPT_CD,
+        BB.HIPO_DEPT_CD,
+        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = BB.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+        BB.DEPT_KORN_NM,
+        BB.DEPT_ENGL_NM,
+        BB.DEPT_ABBR_NM,
+        BB.DEPT_ENGL_ABBR_NM,
+        BB.DEPT_SHOW_NM,
+        BB.DEPT_ORDR,
+        BB.DEPT_YN,
+        BB.DEPT_FLAG_CD,
+        BB.DEPT_LVL,
+        BB.BEFO_DEPT_CD,
+        BB.DEPT_FRDT,
+        BB.DEPT_TODT,
+        CONCAT(CTE_DEPT.SORTORDER, '|', BB.DEPT_ORDR) AS DEPT_ORDER
+    FROM T_SYTM_DEPT BB
+    INNER JOIN CTE_DEPT ON BB.HIPO_DEPT_CD = CTE_DEPT.DEPT_CD
+    WHERE BB.COMPANY_CD = #{COMPANY_CD}
+)
+SELECT Z.COMPANY_CD, Z.DEPT_CD, Z.DEPT_KORN_NM, Z.KORN_NM , Z.USER_ID,
+		Z.DEPT_LVL,Z.DEPT_NEW_NAME, Z.EMAIL, Z.CELL_NUMB,  '0' AS CHK, Z.GRPTYPE,
+		CASE 
+			WHEN TITLE IS NULL THEN DEPT_NEW_NAME
+			ELSE TITLE
+		 END AS TITLE		
+FROM
+(
+	SELECT K.COMPANY_CD, K.DEPT_CD, K.DEPT_KORN_NM, K.HIPO_DEPT_NM, K.HIPO_DEPT_CD, K.KORN_NM , K.SORTORDER, K.WKORDER, K.USER_ID,
+		K.WKDT_CD, K.DEPT_LVL, K.EMAIL, K.CELL_NUMB, K.GRPTYPE,
+		CASE 
+			WHEN K.WKDT_CD = '0050' THEN '' -- 팀원
+			ELSE K.DEPT_KORN_NM
+		END AS DEPT_NEW_NAME,			
+	   CONCAT((SELECT SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM06' AND SSC_CD = K.WKDT_CD), ' ' , K.KORN_NM) AS TITLE
+	FROM (
+	
+			SELECT COMPANY_CD, DEPT_CD, DEPT_KORN_NM, HIPO_DEPT_NM, HIPO_DEPT_CD, '' AS KORN_NM, SORTORDER,
+				SORTORDER AS WKORDER, '' AS USER_ID, 'RW' AS USER_FLAG_CD, '' AS WKDT_CD, DEPT_LVL,
+				'' AS EMAIL, '' AS CELL_NUMB, 'G' AS GRPTYPE
+			FROM CTE_DEPT
+			
+			UNION ALL
+			
+			SELECT A.COMPANY_CD, A.DEPT_CD, A.DEPT_KORN_NM, A.HIPO_DEPT_NM, A.HIPO_DEPT_CD, B.KORN_NM , A.SORTORDER,		
+				CONCAT(A.SORTORDER, ' |', B.WKGD_CD) AS WKORDER, B.USER_ID, B.USER_FLAG_CD,
+				B.WKDT_CD,
+				CASE 
+					WHEN A.DEPT_CD = '1000000' THEN 1
+					ELSE A.DEPT_LVL + 1
+				END AS DEPT_LVL,
+				B.EMAIL, B.CELL_NUMB, 'U' AS GRPTYPE
+		
+			FROM CTE_DEPT A
+			RIGHT JOIN T_SYTM_USER B 
+			ON B.DEPT_CD = A.DEPT_CD
+			AND B.USER_FLAG_CD = 'RW'
+			AND B.HOOF_STAT_CD = 'HO'		
+	
+	
+	) K
+	WHERE K.USER_FLAG_CD = 'RW'
+	AND K.DEPT_CD IS NOT NULL
+	AND K.COMPANY_CD = #{COMPANY_CD}
+	ORDER BY K.WKORDER
+) Z
+</select>
+</mapper>

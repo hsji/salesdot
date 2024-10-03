@@ -1,0 +1,928 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="statusOP" width="1200" height="736" titletext="MainFrame" onload="form_onload" onsize="form_onsize" cssclass="frm_WF_Frame" onkeydown="frmMain_onkeydown" ontimer="frmMain_ontimer">
+    <Layouts>
+      <Layout height="736" width="1200">
+        <Div id="divSearch" taborder="0" left="10.00" top="10" height="50" cssclass="div_WF_Search" text="" right="10">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle00" taborder="1" text="년도" left="0" top="11" width="72" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="Combo01" taborder="2" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="3" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="4" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="5" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="0" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Calendar id="calMonth" taborder="8" left="staTitle00:0" top="10" width="114" height="27" dateformat="yyyy" editformat="yyyy" type="spin" onspin="divSearch_calMonth_onspin"/>
+              <Static id="staTitle02" taborder="6" text="사업구분" left="calMonth:20" top="11" width="87" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="cboType" taborder="7" text="전체" left="staTitle02:0" top="10" width="194" height="27" innerdataset="dsCode" codecolumn="CODE" datacolumn="NAME" index="0" onitemchanged="divSearch_cboType_onitemchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdList" taborder="1" left="10" top="100" right="10" bottom="10" formatid="EMP" binddataset="dsOutput" oncelldblclick="grdList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="130" band="left"/>
+                <Column size="80" band="left"/>
+                <Column size="120" band="left"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="120" band="right"/>
+                <Column size="120" band="right"/>
+                <Column size="50" band="right"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24" band="head"/>
+                <Row size="30"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="부서" TL_SEQ="74"/>
+                <Cell col="1" rowspan="2" text="영업대표" TL_SEQ="55"/>
+                <Cell col="2" rowspan="2" text="분류" TL_SEQ="2287"/>
+                <Cell col="3" colspan="3" text="1월" TL_SEQ="477"/>
+                <Cell col="6" colspan="3" text="2월" TL_SEQ="478"/>
+                <Cell col="9" colspan="3" text="3월" TL_SEQ="479"/>
+                <Cell col="12" colspan="3" text="1/4분기" TL_SEQ="462"/>
+                <Cell col="15" colspan="3" text="4월" TL_SEQ="480"/>
+                <Cell col="18" colspan="3" text="5월" TL_SEQ="481"/>
+                <Cell col="21" colspan="3" text="6월" TL_SEQ="482"/>
+                <Cell col="24" colspan="3" text="2/4분기" TL_SEQ="463"/>
+                <Cell col="27" colspan="3" text="상반기" TL_SEQ="460"/>
+                <Cell col="30" colspan="3" text="7월" TL_SEQ="483"/>
+                <Cell col="33" colspan="3" text="8월" TL_SEQ="484"/>
+                <Cell col="36" colspan="3" text="9월" TL_SEQ="485"/>
+                <Cell col="39" colspan="3" text="3/4분기" TL_SEQ="464"/>
+                <Cell col="42" colspan="3" text="10월" TL_SEQ="486"/>
+                <Cell col="45" colspan="3" text="11월" TL_SEQ="487"/>
+                <Cell col="48" colspan="3" text="12월" TL_SEQ="488"/>
+                <Cell col="51" colspan="3" text="4/4분기" TL_SEQ="465"/>
+                <Cell col="54" colspan="3" text="하반기" TL_SEQ="461"/>
+                <Cell col="57" colspan="3" text="년합계" TL_SEQ="2288"/>
+                <Cell row="1" col="3" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="4" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="5" text="(%)"/>
+                <Cell row="1" col="6" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="7" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="8" text="(%)"/>
+                <Cell row="1" col="9" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="10" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="11" text="(%)"/>
+                <Cell row="1" col="12" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="13" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="14" text="(%)"/>
+                <Cell row="1" col="15" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="16" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="17" text="(%)"/>
+                <Cell row="1" col="18" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="19" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="20" text="(%)"/>
+                <Cell row="1" col="21" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="22" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="23" text="(%)"/>
+                <Cell row="1" col="24" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="25" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="26" text="(%)"/>
+                <Cell row="1" col="27" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="28" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="29" text="(%)"/>
+                <Cell row="1" col="30" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="31" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="32" text="(%)"/>
+                <Cell row="1" col="33" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="34" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="35" text="(%)"/>
+                <Cell row="1" col="36" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="37" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="38" text="(%)"/>
+                <Cell row="1" col="39" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="40" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="41" text="(%)"/>
+                <Cell row="1" col="42" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="43" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="44" text="(%)"/>
+                <Cell row="1" col="45" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="46" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="47" text="(%)"/>
+                <Cell row="1" col="48" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="49" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="50" text="(%)"/>
+                <Cell row="1" col="51" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="52" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="53" text="(%)"/>
+                <Cell row="1" col="54" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="55" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="56" text="(%)"/>
+                <Cell row="1" col="57" text="목표" TL_SEQ="428"/>
+                <Cell row="1" col="58" text="실적" TL_SEQ="423"/>
+                <Cell row="1" col="59" text="(%)"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:dataset.getRowLevel(currow)==1?dataset.getColumn(currow-1,'DEPT_NAME'):DEPT_NAME" suppress="1"/>
+                <Cell col="1" text="expr:dataset.getRowLevel(currow)==1?dataset.getColumn(currow-1,'EMP_NAME'):EMP_NAME" suppress="2"/>
+                <Cell col="2" text="expr:dataset.getRowLevel(currow)==1?dataset.parent.gfnGetTransTxt(437,'합계'):CONTRACT_TYPE_NAME" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="3" text="bind:SG_01" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="4" text="bind:CL_01" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_01&lt;CL_01?'goalplus':SG_01&gt;0?'goalminus':'')"/>
+                <Cell col="5" expr="nexacro.round( ( CL_01 / SG_01 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="6" text="bind:SG_02" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="7" text="bind:CL_02" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_02&lt;CL_02?'goalplus':SG_02&gt;0?'goalminus':'')"/>
+                <Cell col="8" expr="nexacro.round( ( CL_02 / SG_02 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="9" text="bind:SG_03" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="10" text="bind:CL_03" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_03&lt;CL_03?'goalplus':SG_03&gt;0?'goalminus':'')"/>
+                <Cell col="11" expr="nexacro.round( ( CL_03 / SG_03 ) * 100 , 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="12" text="bind:SG_Q01" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="13" text="bind:CL_Q01" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_Q01&lt;CL_Q01?'goalplus':SG_Q01&gt;0?'goalminus':'')"/>
+                <Cell col="14" expr="nexacro.round(  ( CL_Q01 /  SG_Q01 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="15" text="bind:SG_04" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="16" text="bind:CL_04" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_04&lt;CL_04?'goalplus':SG_04&gt;0?'goalminus':'')"/>
+                <Cell col="17" expr="nexacro.round( ( CL_04 / SG_04 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="18" text="bind:SG_05" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="19" text="bind:CL_05" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_05&lt;CL_05?'goalplus':SG_05&gt;0?'goalminus':'')"/>
+                <Cell col="20" expr="nexacro.round( ( CL_05 / SG_05 ) * 100 , 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="21" text="bind:SG_06" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="22" text="bind:CL_06" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_06&lt;CL_06?'goalplus':SG_06&gt;0?'goalminus':'')"/>
+                <Cell col="23" expr="nexacro.round( ( CL_06 / SG_06 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="24" text="bind:SG_Q02" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="25" text="bind:CL_Q02" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_Q02&lt;CL_Q02?'goalplus':SG_Q02&gt;0?'goalminus':'')"/>
+                <Cell col="26" expr="nexacro.round( ( CL_Q02 /  SG_Q02 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="27" text="bind:SG_H01" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="28" text="bind:CL_H01" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_H01&lt;CL_H01?'goalplus':SG_H01&gt;0?'goalminus':'')"/>
+                <Cell col="29" expr="nexacro.round( ( CL_H01 / SG_H01 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="30" text="bind:SG_07" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="31" text="bind:CL_07" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_07&lt;CL_07?'goalplus':SG_07&gt;0?'goalminus':'')"/>
+                <Cell col="32" expr="nexacro.round( ( CL_07 / SG_07 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="33" text="bind:SG_08" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="34" text="bind:CL_08" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_08&lt;CL_08?'goalplus':SG_08&gt;0?'goalminus':'')"/>
+                <Cell col="35" expr="nexacro.round( ( CL_08 / SG_08 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="36" text="bind:SG_09" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="37" text="bind:CL_09" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_09&lt;CL_09?'goalplus':SG_09&gt;0?'goalminus':'')"/>
+                <Cell col="38" expr="nexacro.round( ( CL_09 / SG_09 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="39" text="bind:SG_Q03" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="40" text="bind:CL_Q03" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_Q03&lt;CL_Q03?'goalplus':SG_Q03&gt;0?'goalminus':'')"/>
+                <Cell col="41" expr="nexacro.round( ( CL_Q03 /  SG_Q03 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="42" text="bind:SG_10" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="43" text="bind:CL_10" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_10&lt;CL_10?'goalplus':SG_10&gt;0?'goalminus':'')"/>
+                <Cell col="44" expr="nexacro.round( ( CL_10 / SG_10 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="45" text="bind:SG_11" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="46" text="bind:CL_11" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_11&lt;CL_11?'goalplus':SG_11&gt;0?'goalminus':'')"/>
+                <Cell col="47" expr="nexacro.round( ( CL_11 / SG_11 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="48" text="bind:SG_12" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="49" text="bind:CL_12" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_12&lt;CL_12?'goalplus':SG_12&gt;0?'goalminus':'')"/>
+                <Cell col="50" expr="nexacro.round( ( CL_12 / SG_12 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="51" text="bind:SG_Q04" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="52" text="bind:CL_Q04" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_Q04&lt;CL_Q04?'goalplus':SG_Q04&gt;0?'goalminus':'')"/>
+                <Cell col="53" expr="nexacro.round( ( CL_Q04 /  SG_Q04 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="54" text="bind:SG_H02" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="55" text="bind:CL_H02" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':(SG_H02&lt;CL_H02?'goalplus':SG_H02&gt;0?'goalminus':'')"/>
+                <Cell col="56" expr="nexacro.round( ( CL_H02 / SG_H02 ) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="57" text="bind:SG_Y" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="58" text="bind:CL_Y" textAlign="right" displaytype="mask" maskeditformat="9,990" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+                <Cell col="59" expr="nexacro.round( (CL_Y / SG_Y) * 100, 2)" displaytype="mask" textAlign="right" maskeditformat="90.90" cssclass="expr:dataset.getRowLevel(currow)==1?'Expr_Case_SubSum':''"/>
+              </Band>
+              <Band id="summary">
+                <Cell rowspan="6" colspan="2" text="합계" TL_SEQ="437"/>
+                <Cell col="2" text="제품" TL_SEQ="62"/>
+                <Cell col="3" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="5" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_01&quot;)) * 100, 2)" maskeditformat="90.90"/>
+                <Cell col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="7" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="8" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="10" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_03&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="11" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_03&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_03&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="12" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_Q01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="13" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Q01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="14" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Q01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_Q01&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="16" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_04&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="17" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_04&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_04&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_05&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="19" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_05&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="20" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_05&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_05&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="21" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_06&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="22" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="23" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_06&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_06&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="24" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_Q02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="25" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Q02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="26" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Q02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_Q02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="27" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_H01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="28" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="29" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_H01&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="30" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_07&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="31" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="32" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_07&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_07&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="33" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_08&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="34" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="35" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_08&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_08&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="36" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_09&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="37" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="38" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_09&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_09&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="39" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_Q03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="40" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Q03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="41" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Q03&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_Q03&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="42" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_10&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="43" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="44" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_10&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_10&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="45" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_11&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="46" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_11&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="47" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_11&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_11&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="48" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_12&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="49" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="50" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_12&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_12&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="51" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_Q04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="52" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Q04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="53" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Q04&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_Q04&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="54" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_H02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="55" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="56" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_H02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell col="57" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_Y&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="58" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell col="59" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Y&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;SG_Y&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="2" text="용역" TL_SEQ="17"/>
+                <Cell row="1" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="5" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_01&quot;)) * 100, 2)" maskeditformat="90.90"/>
+                <Cell row="1" col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="7" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="8" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="11" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_03&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_03&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_Q01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Q01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="14" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Q01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_Q01&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="17" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_04&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_04&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_05&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="19" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="20" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_05&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_05&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="21" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_06&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="22" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="23" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_06&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_06&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="24" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_Q02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="25" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Q02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="26" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Q02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_Q02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="27" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_H01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="28" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="29" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_H01&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="30" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_07&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="31" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="32" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_07&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_07&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="33" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_08&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="34" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="35" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_08&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_08&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="36" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_09&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="37" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="38" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_09&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_09&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="39" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_Q03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="40" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Q03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="41" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Q03&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_Q03&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="42" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_10&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="43" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="44" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_10&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_10&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="45" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_11&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="46" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_11&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="47" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_11&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_11&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="48" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_12&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="49" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="50" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_12&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_12&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="51" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_Q04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="52" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Q04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="53" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Q04&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_Q04&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="54" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_H02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="55" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="56" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_H02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="1" col="57" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_Y&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="58" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="1" col="59" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Y&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;SG_Y&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="2" text="기술서비스" TL_SEQ="407"/>
+                <Cell row="2" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="5" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_01&quot;)) * 100, 2)" maskeditformat="90.90"/>
+                <Cell row="2" col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="7" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="8" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="11" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_03&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_03&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_Q01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Q01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="14" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Q01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_Q01&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="17" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_04&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_04&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_05&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="19" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="20" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_05&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_05&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="21" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_06&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="22" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="23" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_06&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_06&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="24" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_Q02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="25" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Q02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="26" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Q02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_Q02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="27" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_H01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="28" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="29" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_H01&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="30" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_07&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="31" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="32" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_07&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_07&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="33" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_08&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="34" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="35" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_08&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_08&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="36" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_09&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="37" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="38" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_09&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_09&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="39" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_Q03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="40" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Q03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="41" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Q03&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_Q03&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="42" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_10&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="43" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="44" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_10&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_10&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="45" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_11&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="46" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_11&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="47" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_11&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_11&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="48" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_12&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="49" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="50" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_12&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_12&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="51" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_Q04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="52" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Q04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="53" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Q04&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_Q04&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="54" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_H02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="55" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="56" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_H02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="2" col="57" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_Y&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="58" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="2" col="59" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Y&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;SG_Y&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="2" text="유지" TL_SEQ="2290"/>
+                <Cell row="3" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="5" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_01&quot;)) * 100, 2)" maskeditformat="90.90"/>
+                <Cell row="3" col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="7" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="8" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="11" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_03&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_03&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_Q01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Q01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="14" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Q01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_Q01&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="17" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_04&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_04&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_05&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="19" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="20" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_05&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_05&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="21" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_06&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="22" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="23" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_06&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_06&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="24" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_Q02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="25" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Q02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="26" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Q02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_Q02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="27" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_H01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="28" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="29" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H01&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_H01&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="30" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_07&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="31" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="32" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_07&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_07&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="33" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_08&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="34" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="35" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_08&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_08&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="36" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_09&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="37" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="38" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_09&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_09&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="39" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_Q03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="40" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Q03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="41" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Q03&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_Q03&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="42" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_10&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="43" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="44" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_10&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_10&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="45" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_11&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="46" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_11&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="47" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_11&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_11&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="48" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_12&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="49" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="50" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_12&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_12&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="51" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_Q04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="52" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Q04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="53" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Q04&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_Q04&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="54" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_H02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="55" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="56" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H02&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_H02&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="3" col="57" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_Y&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="58" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="3" col="59" displaytype="mask" textAlign="right" expr="nexacro.round( (dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Y&quot;) / dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;SG_Y&quot;)) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="2" text="상품/기타" TL_SEQ="2291"/>
+                <Cell row="4" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="5" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_01&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_01&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="7" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="8" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_02&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_02&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="11" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_03&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_03&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_Q01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_Q01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Q01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Q01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="14" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Q01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Q01&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_Q01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_Q01&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="17" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_04&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_04&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_05&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_05&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="19" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_05&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="20" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_05&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_05&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_05&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_05&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="21" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_06&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_06&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="22" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_06&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="23" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_06&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_06&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_06&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_06&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="24" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_Q02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_Q02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="25" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Q02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Q02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="26" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Q02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Q02&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_Q02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_Q02&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="27" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_H01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_H01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="28" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="29" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H01&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_H01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_H01&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="30" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_07&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_07&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="31" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_07&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="32" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_07&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_07&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_07&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_07&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="33" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_08&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_08&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="34" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_08&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="35" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_08&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_08&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_08&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_08&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="36" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_09&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_09&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="37" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_09&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="38" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_09&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_09&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_09&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_09&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="39" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_Q03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_Q03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="40" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Q03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Q03&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="41" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Q03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Q03&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_Q03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_Q03&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="42" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_10&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_10&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="43" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_10&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="44" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_10&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_10&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_10&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_10&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="45" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_11&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_11&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="46" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_11&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_11&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="47" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_11&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_11&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_11&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_11&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="48" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_12&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_12&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="49" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_12&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="50" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_12&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_12&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_12&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_12&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="51" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_Q04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_Q04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="52" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Q04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Q04&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="53" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Q04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Q04&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_Q04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_Q04&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="54" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_H02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_H02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="55" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="56" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H02&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_H02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_H02&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="4" col="57" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_Y&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_Y&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="58" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Y&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="9,990"/>
+                <Cell row="4" col="59" displaytype="mask" textAlign="right" expr="nexacro.round( ((dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Y&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Y&quot;) ) / (dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;SG_Y&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;SG_Y&quot;))) * 100,2)" maskeditformat="90.90"/>
+                <Cell row="5" col="2" text="총계" TL_SEQ="2289" background="#FFFF00"/>
+                <Cell row="5" col="3" expr="dataset.getSum(&quot;SG_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="4" expr="dataset.getSum(&quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="5" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_01&quot;) / dataset.getSum(&quot;SG_01&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="6" expr="dataset.getSum(&quot;SG_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="7" expr="dataset.getSum(&quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="8" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_02&quot;) / dataset.getSum(&quot;SG_02&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="9" displaytype="mask" expr="dataset.getSum(&quot;SG_03&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="10" displaytype="mask" expr="dataset.getSum(&quot;CL_03&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="11" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_03&quot;) / dataset.getSum(&quot;SG_03&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="12" displaytype="mask" expr="dataset.getSum(&quot;SG_Q01&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="13" displaytype="mask" expr="dataset.getSum(&quot;CL_Q01&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="14" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_Q01&quot;) / dataset.getSum(&quot;SG_Q01&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="15" displaytype="mask" expr="dataset.getSum(&quot;SG_04&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="16" displaytype="mask" expr="dataset.getSum(&quot;CL_04&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="17" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_04&quot;) / dataset.getSum(&quot;SG_04&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="18" displaytype="mask" expr="dataset.getSum(&quot;SG_05&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="19" displaytype="mask" expr="dataset.getSum(&quot;CL_05&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="20" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_05&quot;) / dataset.getSum(&quot;SG_05&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="21" displaytype="mask" expr="dataset.getSum(&quot;SG_06&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="22" displaytype="mask" expr="dataset.getSum(&quot;CL_06&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="23" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_06&quot;) / dataset.getSum(&quot;SG_06&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="24" displaytype="mask" expr="dataset.getSum(&quot;SG_Q02&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="25" displaytype="mask" expr="dataset.getSum(&quot;CL_Q02&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="26" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_Q02&quot;) / dataset.getSum(&quot;SG_Q02&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="27" displaytype="mask" expr="dataset.getSum(&quot;SG_H01&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="28" displaytype="mask" expr="dataset.getSum(&quot;CL_H01&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="29" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_H01&quot;) / dataset.getSum(&quot;SG_H01&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="30" displaytype="mask" expr="dataset.getSum(&quot;SG_07&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="31" displaytype="mask" expr="dataset.getSum(&quot;CL_07&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="32" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_07&quot;) / dataset.getSum(&quot;SG_07&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="33" displaytype="mask" expr="dataset.getSum(&quot;SG_08&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="34" displaytype="mask" expr="dataset.getSum(&quot;CL_08&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="35" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_08&quot;) / dataset.getSum(&quot;SG_08&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="36" displaytype="mask" expr="dataset.getSum(&quot;SG_09&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="37" displaytype="mask" expr="dataset.getSum(&quot;CL_09&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="38" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_09&quot;) / dataset.getSum(&quot;SG_09&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="39" displaytype="mask" expr="dataset.getSum(&quot;SG_Q03&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="40" displaytype="mask" expr="dataset.getSum(&quot;CL_Q03&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="41" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_Q03&quot;) / dataset.getSum(&quot;SG_Q03&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="42" displaytype="mask" expr="dataset.getSum(&quot;SG_10&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="43" displaytype="mask" expr="dataset.getSum(&quot;CL_10&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="44" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_10&quot;) / dataset.getSum(&quot;SG_10&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="45" displaytype="mask" expr="dataset.getSum(&quot;SG_11&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="46" displaytype="mask" expr="dataset.getSum(&quot;CL_11&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="47" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_11&quot;) / dataset.getSum(&quot;SG_11&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="48" displaytype="mask" expr="dataset.getSum(&quot;SG_12&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="49" displaytype="mask" expr="dataset.getSum(&quot;CL_12&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="50" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_12&quot;) / dataset.getSum(&quot;SG_12&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="51" displaytype="mask" expr="dataset.getSum(&quot;SG_Q04&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="52" displaytype="mask" expr="dataset.getSum(&quot;CL_Q04&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="53" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_Q04&quot;) / dataset.getSum(&quot;SG_Q04&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="54" displaytype="mask" expr="dataset.getSum(&quot;SG_H02&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="55" displaytype="mask" expr="dataset.getSum(&quot;CL_H02&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="56" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_H02&quot;) / dataset.getSum(&quot;SG_H02&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+                <Cell row="5" col="57" displaytype="mask" expr="dataset.getSum(&quot;SG_Y&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="58" displaytype="mask" expr="dataset.getSum(&quot;CL_Y&quot;)" textAlign="right" maskeditformat="9,990" background="#FFFF00"/>
+                <Cell row="5" col="59" displaytype="mask" textAlign="right" expr="nexacro.round( dataset.getSum(&quot;CL_Y&quot;) / dataset.getSum(&quot;SG_Y&quot;) * 100,2)" maskeditformat="90.90" background="#FFFF00"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnExcelDown" taborder="2" text="엑셀다운로드" top="66" width="119" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" onclick="divCmmnBtn_btnExcelDown_onclick" right="10"/>
+        <Static id="staTitle01" taborder="3" text="영업일(계약일) 기준 매출현황" left="10" width="650" height="45" top="55" cssclass="sta_WF_Title"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	statusVM1.xfdl
+*  @Creator 	
+*  @CreateDate 	
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj);
+	
+	var date = this.gfnGetDate();
+	this.divSearch.form.calMonth.set_value(date);
+	
+	this.divSearch.form.cboType.set_index(0);
+	this.staTitle01.set_text(date.substr(0,4) + "년도 영업일 기준 월별 목표 대비 실적 현황");
+};
+
+//조회
+this.cfnSearch = function ()
+{
+	var selDate = this.divSearch.form.calMonth.value;
+	var selYear = selDate.substr(0,4);
+	this.dsParam1.setColumn(0, "YEAR", selYear);
+	
+	this.fnTranSearch();
+};
+
+
+//max size 변경
+this.form_onsize = function(obj:nexacro.Form,e:nexacro.SizeEventInfo)
+{
+
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+this.fnTranSearch = function()
+{
+	var index = this.divSearch.form.cboType.index;
+	var strKeystring = index == 0 ? "G:+ORD+DEPT_CD" : "G:+ORD+DEPT_CD+EMP_NO";
+
+	this.dsOutput.set_keystring(strKeystring);
+
+	this.gfnInitNextGlobalDataset(this.dsGlobal);
+	
+	this.dsParam1.applyChange();
+	
+	// https://nextcns.tobesoft.com/FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_TargetVsResults_S01&format=xml&version=xplatform&compress=false HTTP/1.1
+	var strSvcId 	= "month";
+	var strSvcUrl 	= "nextService.do";
+	var inData 		= "dsGlobal=dsGlobal:A dsParam=dsParam1:A";
+	var outData 	= "dsOutput=dsOutput";
+	var strArg 		= "trxUrl=" + nexacro.wrapQuote("FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_TargetVsResults_S01&format=xml&version=xplatform&compress=false");
+
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, "fnCallback");
+
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg, oJson)
+{
+	switch(sSvcId) {
+		case "month":
+			break;					
+		default:
+			break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdList, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");	
+};
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+// 구분 변경
+this.divSearch_cboType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.grdList.set_formatid(e.postvalue);
+	this.dsOutput.clearData();
+};
+
+this.divSearch_calMonth_onspin = function(obj:nexacro.Calendar,e:nexacro.CalendarSpinEventInfo)
+{
+	this.dsOutput.clearData();		
+	this.staTitle01.set_text(e.postvalue.substr(0,4) + "년도 영업일 기준 월별 목표 대비 실적 현황");
+};
+
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var objDsId = obj.binddataset;
+	var objDs = this.lookup(objDsId);
+
+	var sCellText = obj.getCellProperty("body", e.cell, "text");
+	var sMonth = sCellText.split("_")[1];
+
+	if(nexacro.isNumeric(sMonth)) //년합계 제외
+	{
+		if(sCellText.indexOf("bind:CL_") != -1 && objDs.getColumn(e.row, sCellText.split(":")[1]) != 0)
+		{
+			var selDate = this.divSearch.form.calMonth.value;
+			var selYear = selDate.substr(0,4);
+			
+			var sTitle = "매출상세";
+			var oArg = {
+								"END_MONTH" : selYear+sMonth,
+								"CONTRACT_TYPE" : objDs.getColumn(objDs.rowposition, "CONTRACT_TYPE"),
+								"FORMAT" : this.divSearch.form.cboType.value,
+								"DEPT_CD" : objDs.getColumn(objDs.rowposition, "DEPT_CD"),
+								"EMP_NO" : objDs.getColumn(objDs.rowposition, "SALES_EMP_NO"),
+								"CLIENT_CODE" : objDs.getColumn(objDs.rowposition, "CLIENT_CODE"),
+								"PROJECT_CODE" : objDs.getColumn(objDs.rowposition, "PROJECT_CODE"),
+								"CONTRACT_NO" : objDs.getColumn(objDs.rowposition, "CONTRACT_NO")
+							};
+			var oOption = {title:sTitle
+						,titlebar:true};
+			var sPopupCallBack = "fnPopupCallback";
+			this.gfnOpenPopup("orgUserDetail", "sales::next/salesDetailPu.xfdl", oArg, sPopupCallBack, oOption);				
+		}
+	}	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsParam1">
+        <ColumnInfo>
+          <Column id="KIND" type="string" size="256"/>
+          <Column id="YEAR" type="string" size="256"/>
+          <Column id="DEPT_LEVEL" type="string" size="256"/>
+          <Column id="BUSINESS_TYPE" type="string" size="256"/>
+          <Column id="UNIT" type="string" size="256"/>
+          <Column id="TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DEPT_LEVEL">1</Col>
+            <Col id="UNIT">1</Col>
+            <Col id="KIND">E</Col>
+            <Col id="TYPE">TAX</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsOutput">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="40"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="INDUSTRY" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="120"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CL_01" type="bigdecimal" size="40"/>
+          <Column id="CL_02" type="bigdecimal" size="40"/>
+          <Column id="CL_03" type="bigdecimal" size="40"/>
+          <Column id="CL_04" type="bigdecimal" size="40"/>
+          <Column id="CL_05" type="bigdecimal" size="40"/>
+          <Column id="CL_06" type="bigdecimal" size="40"/>
+          <Column id="CL_07" type="bigdecimal" size="40"/>
+          <Column id="CL_08" type="bigdecimal" size="40"/>
+          <Column id="CL_09" type="bigdecimal" size="40"/>
+          <Column id="CL_10" type="bigdecimal" size="40"/>
+          <Column id="CL_11" type="bigdecimal" size="40"/>
+          <Column id="CL_12" type="bigdecimal" size="40"/>
+          <Column id="CL_H01" type="bigdecimal" size="40"/>
+          <Column id="CL_H02" type="bigdecimal" size="40"/>
+          <Column id="CL_Y" type="bigdecimal" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsItem">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="BUSINESS_TYPE" type="string" size="20"/>
+          <Column id="GOAL" type="bigdecimal" size="20"/>
+          <Column id="RESULT" type="bigdecimal" size="20"/>
+          <Column id="GOAL_Y" type="bigdecimal" size="20"/>
+          <Column id="RESULT_Y" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsGlobal">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NM" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NM" type="string" size="100"/>
+          <Column id="EMAIL" type="string" size="268"/>
+          <Column id="MOBILE" type="string" size="44"/>
+          <Column id="OFFICE" type="string" size="20"/>
+          <Column id="GRADE_CD" type="string" size="30"/>
+          <Column id="GRADE_NM" type="string" size="100"/>
+          <Column id="DUTY_CD" type="string" size="30"/>
+          <Column id="DUTY_NM" type="string" size="100"/>
+          <Column id="EMP_KIND" type="string" size="255"/>
+          <Column id="CO_CD" type="string" size="30"/>
+          <Column id="CO_NM" type="string" size="100"/>
+          <Column id="LOGIN_SYS" type="string" size="10"/>
+          <Column id="LANGUAGE" type="string" size="10"/>
+          <Column id="MODEL_ID" type="string" size="50"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCode">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">전체</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">U</Col>
+            <Col id="NAME">UI/UX</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">S</Col>
+            <Col id="NAME">솔루션</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.cboType" propid="text" datasetid="dsParam1" columnid="BUSINESS_TYPE"/>
+    </Bind>
+  </Form>
+</FDL>

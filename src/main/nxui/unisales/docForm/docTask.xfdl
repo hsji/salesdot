@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="docMain" width="1280" height="720" titletext="New Form" onload="docMain_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="staTitle01_01" taborder="0" left="10.00" width="592" height="43" top="62" cssclass="sta_WF_Title" text="메일 수신 현황"/>
+        <Grid id="Grid00_00" taborder="1" left="10" top="staTitle01_01:3" bottom="10" right="10" binddataset="dsList" autofittype="col" oncellclick="Grid00_00_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="150"/>
+                <Column size="355"/>
+                <Column size="119"/>
+                <Column size="119"/>
+                <Column size="78"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="수신일자"/>
+                <Cell col="1" text="문서제목"/>
+                <Cell col="2" text="발신자명"/>
+                <Cell col="3" text="서명상태"/>
+                <Cell col="4" text="문서보기"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SEND_DTTM" displaytype="mask" maskedittype="string" maskeditformat="@@@@/@@/@@ @@:@@:@@"/>
+                <Cell col="1" text="bind:SEND_TITLE" textAlign="left"/>
+                <Cell col="2" text="bind:SEND_NAME"/>
+                <Cell col="3" text="bind:R_STATUS" combodataset="dsRstatus" combocodecol="code" combodatacol="name" displaytype="combotext" cssclass="expr:R_STATUS=='Z'||R_STATUS=='K'||R_STATUS=='U'?'cell_WF_Point03':'cell_WF_Point01'"/>
+                <Cell col="4" displaytype="expr:R_STATUS=='Z'||R_STATUS=='K'||R_STATUS=='U'?'imagecontrol':'normal'" expr="R_STATUS=='Z'||R_STATUS=='K'||R_STATUS=='U'?'theme://images/btn_WF_Search.png':'Sign하기'"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divSearch" taborder="2" left="10.00" top="10" height="50" cssclass="div_WF_Search" text="" right="10">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle00" taborder="2" text="문서명" left="0" top="11" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="Combo01" taborder="3" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="4" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="5" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="6" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="1" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Edit id="edtMsgCd" taborder="0" left="staTitle00:1.00" top="10" width="191" height="27" onkeyup="searchEdit_onkeyup" enable="false"/>
+              <Static id="staTitle03" taborder="7" text="서명여부" left="edtMsgCd:0" top="11" width="98" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="cboUseYN" taborder="8" left="staTitle03:0.00" top="10" width="112" height="27" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="- 전체 - " enable="false">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="datacolumn">- 전체 - </Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">발송</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">미발송</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Static id="staTitle03_00" taborder="9" text="수신일" left="cboUseYN:0" top="11" width="84" height="24" cssclass="sta_WF_SchLabel"/>
+              <Div id="divCalPeriod" taborder="10" left="staTitle03_00:4" top="10" width="280" height="27" url="common::cmmPeriodCalendar.xfdl" text="" enable="false"/>
+              <Button id="Button00" taborder="11" left="divCalPeriod:4" top="12" width="20" height="23" background="url('theme://images/img_titlebar_Close.png') no-repeat center center" border="0px none" onclick="divSearch_Button00_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnSign" taborder="3" text="서명등록" top="70" width="100" height="28" fittocontents="width" onclick="divCmmnBtn_btnExcelDown_onclick" right="10"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="PDF_FILE_NM" type="string" size="32"/>
+          <Column id="SEND_TITLE" type="string" size="32"/>
+          <Column id="USER_MAILADDR" type="string" size="32"/>
+          <Column id="APRV_SEQ" type="undefined" size="0"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="USER_NAME" type="string" size="32"/>
+          <Column id="SEND_DTTM" type="undefined" size="0"/>
+          <Column id="SEND_NAME" type="string" size="32"/>
+          <Column id="R_STATUS" type="string" size="32"/>
+          <Column id="M_STATUS" type="string" size="32"/>
+          <Column id="CHGE_ID" type="string" size="32"/>
+          <Column id="USER_PHONE" type="string" size="32"/>
+          <Column id="PDF_ORIG_FILE_NM" type="undefined" size="0"/>
+          <Column id="PDF_FILE_PATH_NM" type="string" size="32"/>
+          <Column id="R_ORDER" type="undefined" size="0"/>
+          <Column id="SEND_SEQ" type="int" size="4"/>
+          <Column id="SEND_ID" type="string" size="32"/>
+          <Column id="INPT_ID" type="string" size="32"/>
+          <Column id="EDIT_INFO" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDocList">
+        <ColumnInfo>
+          <Column id="USED_FLAG" type="string" size="32"/>
+          <Column id="SEND_DTTM" type="undefined" size="0"/>
+          <Column id="EXPIREMAIL_DATE" type="undefined" size="0"/>
+          <Column id="SEND_NAME" type="string" size="32"/>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="DOC_TITLE" type="string" size="32"/>
+          <Column id="DRAWSIGN_FLAG" type="string" size="32"/>
+          <Column id="SEND_SEQ" type="int" size="4"/>
+          <Column id="EXPIRE_DATE" type="string" size="32"/>
+          <Column id="EDIT_INFO" type="string" size="32"/>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="PDF_FILE_NM" type="string" size="32"/>
+          <Column id="SEND_MESSAGE" type="undefined" size="0"/>
+          <Column id="SEND_TITLE" type="undefined" size="0"/>
+          <Column id="DRAWIMAGE_FLAG" type="string" size="32"/>
+          <Column id="REFIMAGE_FLAG" type="string" size="32"/>
+          <Column id="CHGE_ID" type="string" size="32"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="PDF_ORIG_FILE_NM" type="string" size="32"/>
+          <Column id="PDF_FILE_PATH_NM" type="string" size="32"/>
+          <Column id="SEND_ID" type="string" size="32"/>
+          <Column id="SEND_PHONE" type="string" size="32"/>
+          <Column id="INPT_ID" type="string" size="32"/>
+          <Column id="SEND_MAILADDR" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsHistory" onrowposchanged="dsHistory_onrowposchanged">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="SEND_DTTM" type="string" size="32"/>
+          <Column id="SEND_SEQ" type="int" size="4"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReceiveInfo">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="PDF_FILE_NM" type="string" size="32"/>
+          <Column id="USER_MAILADDR" type="string" size="32"/>
+          <Column id="APRV_SEQ" type="int" size="4"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="USER_NAME" type="string" size="32"/>
+          <Column id="R_STATUS" type="string" size="32"/>
+          <Column id="CHGE_ID" type="string" size="32"/>
+          <Column id="USER_PHONE" type="string" size="32"/>
+          <Column id="CHGE_DTTM" type="datetime" size="17"/>
+          <Column id="PDF_ORIG_FILE_NM" type="string" size="32"/>
+          <Column id="PDF_FILE_PATH_NM" type="string" size="32"/>
+          <Column id="R_ORDER" type="int" size="4"/>
+          <Column id="SEND_SEQ" type="int" size="4"/>
+          <Column id="INPT_DTTM" type="datetime" size="17"/>
+          <Column id="INPT_ID" type="string" size="32"/>
+          <Column id="EDIT_INFO" type="string" size="32"/>
+          <Column id="M_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsMstatus">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="name">미발송</Col>
+          </Row>
+          <Row>
+            <Col id="code">1</Col>
+            <Col id="name">발송</Col>
+          </Row>
+          <Row>
+            <Col id="code">0</Col>
+            <Col id="name">발송오류</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsRstatus">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="name"/>
+          </Row>
+          <Row>
+            <Col id="code">1</Col>
+            <Col id="name">서명대기</Col>
+          </Row>
+          <Row>
+            <Col id="code">Z</Col>
+            <Col id="name">서명완료</Col>
+          </Row>
+          <Row>
+            <Col id="code">K</Col>
+            <Col id="name">서명완료-확인메일오류</Col>
+          </Row>
+          <Row>
+            <Col id="code">U</Col>
+            <Col id="name">서명완요메일오류</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  메일발송 현황
+*  @FileName 	docResult.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2024/03/04
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2024/03/04			DXTOBE						최초생성
+*******************************************************************************
+*/
+this.fvRedrawPos = -1;
+this.docMain_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.dsCond.setColumn(0, "USER_ID", this.gfnGetUserInfo("USER_ID"));
+	this.fnListSearch();
+};
+
+/**
+* @function fnDeptSearch  <br>
+* description 문서그룹조회 - 조직으로 임시처리
+*/
+this.fnListSearch = function ()
+{
+	var strSvcId    = "searchDocMyMailList";
+	var strSvcUrl   = "searchDocMyMailList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/**
+* @function fnCallback  <br>
+* description 서비스콜백
+*/
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchDocMyMailList":
+			break;
+		default :
+	}
+};
+
+
+this.grdList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+
+};
+
+// row change
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+
+};
+
+
+this.dsHistory_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+
+};
+
+this.Grid00_00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 4) {
+		var pos = this.dsList.rowposition;
+		var rStatus = this.dsList.getColumn(pos, "R_STATUS");
+		if(rStatus == "Z" || rStatus == "K" || rStatus == "U") {
+			var sTitle  = "문서보기";
+			var docId   = this.dsList.getColumn(pos,"DOC_ID");
+			var Doctitle  = this.dsList.getColumn(pos,"SEND_TITLE");
+			var sysCode = this.dsList.getColumn(pos,"SYS_CODE");
+			var bizCode = this.dsList.getColumn(pos,"BIZ_CODE");
+			var seq 	= this.dsList.getColumn(pos,"SEND_SEQ")+"";
+			var oArg    = { pvUUID:		docId,
+							pvSysCode:	sysCode,
+							pvBizCode:	bizCode,
+							pvTitle :	Doctitle,
+							pvSeq :	seq,
+							pvUserId:	this.dsList.getColumn(pos,"USER_ID")
+						  };
+						  console.log(oArg);
+			var oOption = {title:sTitle , titlebar:true};
+			var sPopupCallBack = "fnPopupCallback";
+			this.gfnOpenPopup("docView", "docForm::docViewPu.xfdl", oArg, sPopupCallBack, oOption);	
+		} else {
+			var sTitle  = "사인하기";
+			var oArg    = { pvUrl:		this.dsList.getColumn(pos,"MAIL_URL")
+						  };
+			var oOption = {title:sTitle , titlebar:true};
+			var sPopupCallBack = "fnPopupCallback";
+			this.gfnOpenPopup("docView", "docForm::docSignPu.xfdl", oArg, sPopupCallBack, oOption);	
+		}
+	}
+};
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnListSearch();
+};
+//사인등록
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sTitle  = "서명등록";
+	var oArg    = { 
+				  };
+	var oOption = {title:sTitle , titlebar:true};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup("docView", "ubiComm::ubiSignRegPu.xfdl", oArg, sPopupCallBack, oOption);		
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtMsgCd" propid="value" datasetid="dsCond" columnid="DOC_TITLE"/>
+      <BindItem id="item1" compid="divSearch.form.edtMsgTxt" propid="value" datasetid="dsCond" columnid="INPT_ID"/>
+      <BindItem id="item2" compid="divSearch.form.cboUseYN" propid="value" datasetid="dsCond" columnid="SEND_TYPE"/>
+    </Bind>
+  </Form>
+</FDL>

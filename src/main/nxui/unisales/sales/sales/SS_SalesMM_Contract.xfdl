@@ -1,0 +1,740 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SS_SalesMM" width="1290" height="570" titletext="영업관리" onload="SS_SalesMM_onload">
+    <Layouts>
+      <Layout height="570" mobileorientation="landscape" width="1290">
+        <Button id="btn_RequestLicense" taborder="0" text="라이선스요청" top="89" height="22" right="290" width="0" enable="false" onclick="btn_RequestLicense_onclick" TL_SEQ="130" visible="false"/>
+        <Div id="div_search" taborder="1" text="" left="0" top="0" height="79" right="20" cssclass="div_WF_Search" formscrolltype="none">
+          <Layouts>
+            <Layout>
+              <Static id="stc_ClientCode" taborder="7" text=" 고객사" left="0" top="12" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="32"/>
+              <Static id="stc_SalesRepresent" taborder="11" text="영업대표" left="0" top="stc_ClientCode:5" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="55"/>
+              <Combo id="cmb_SalesRepresent" taborder="0" text="" left="stc_SalesRepresent:0.00" top="41" height="24" innerdataset="ds_cond_sales_emp" codecolumn="EMP_NO" datacolumn="FULL_NAME" width="209"/>
+              <Static id="stc_SalesStatus" taborder="12" text="영업상태" left="cmb_SalesRepresent:0.00" top="41" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="84"/>
+              <Combo id="cmb_SalesStatus" taborder="1" text="영업실패 제외" left="stc_SalesStatus:0" top="41" height="24" innerdataset="ds_SalesStatus" codecolumn="CODE" datacolumn="DATA" width="127" TL_FLAG="1" index="0" value="0"/>
+              <Button id="btn_Excel" taborder="3" text="Excel" top="8" width="60" height="22" right="200" onclick="div_search_btn_Excel_onclick" cssclass="btn_WF_Excel" visible="false"/>
+              <Div id="div_ClientName" taborder="5" text="Div00" left="stc_ClientCode:0" top="12" height="24" url="sales::comm/COM_Search.xfdl" kind="CLIENT" param="" enable_keydownevent="false" user_onchanged="" onkeyup="div_search_div_ClientName_onkeyup" width="209"/>
+              <Static id="stc_Project" taborder="8" text="프로젝트" left="div_ClientName:0.00" top="12" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="119"/>
+              <Div id="div_ProjectName" taborder="4" text="Div00" left="stc_Project:0" top="12" height="24" url="sales::comm/COM_Search.xfdl" kind="PROJECT" param="" enable_keydownevent="false" onkeyup="div_search_div_ProjectName_onkeyup" width="241"/>
+              <Button id="btn_Search" taborder="6" text="조회" top="39" width="48" height="28" cssclass="btn_WF_Search" right="8" onclick="div_search_btn_Search_onclick" TL_SEQ="118"/>
+              <Static id="stc_DueDate" taborder="9" text="계약기간" left="cmb_SalesStatus:114.00" top="41" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="120"/>
+              <Static id="stc_ContractStatus" taborder="10" text="계약상태" left="div_ProjectName:0.00" top="12" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="121"/>
+              <Combo id="cmb_ContractStatus" taborder="2" text="" left="stc_ContractStatus:0" top="12" height="24" innerdataset="ds_cmm_ContractStatus" codecolumn="CODE" datacolumn="CAPTION" width="127"/>
+              <Div id="div_Search_yyyyMM_FromTo" taborder="13" left="stc_DueDate:0" top="41" width="221" height="24" url="sales::comm/COM_yyyyMM_FromTo2.xfdl"/>
+              <CheckBox id="chk_NoneDate" taborder="14" text="기간무시" left="div_Search_yyyyMM_FromTo:10" top="41" width="74" height="24" falsevalue="0" truevalue="1" TL_SEQ="122"/>
+              <Radio id="rd_EmpKind" taborder="15" left="chk_NoneDate:19.00" top="41" width="154" height="24" innerdataset="ds_EmpKind" codecolumn="CODE" datacolumn="DATA" columncount="2" rowcount="1" index="0" text="영업대표" value="E" visible="false" TL_FLAG="1"/>
+              <Static id="stc_ContractType" taborder="16" text="계약구분" left="cmb_ContractStatus:87.00" top="12" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="123"/>
+              <Combo id="cmb_ContractType" taborder="17" text="" left="stc_ContractType:0" top="12" height="24" codecolumn="CODE" datacolumn="DATA" innerdataset="ds_ContractType" width="127" TL_FLAG="1"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle01" taborder="2" text="계약현황" left="0" width="342" height="43" cssclass="sta_WF_Title" top="div_search:0"/>
+        <Button id="btn_ContractReport" taborder="3" text="매출현황보고" top="89" height="28" enable="false" width="100" right="20" onclick="btn_ContractReport_onclick" TL_SEQ="127"/>
+        <Button id="btn_Order_Confirm" taborder="4" text="계약확정" top="89" width="84" height="28" right="btn_ContractReport:8" onclick="btn_Order_Confirm_onclick" enable="false" TL_SEQ="128"/>
+        <Button id="btn_CostSheet" taborder="5" text="매출원가표" top="89" height="28" right="btn_Order_Confirm:8" width="84" onclick="btn_CostSheet_onclick" enable="false" TL_SEQ="129"/>
+        <Button id="btn_RequestLicense00" taborder="6" text="라이선스요청" top="89" height="22" right="296" width="0" enable="false" onclick="btn_RequestLicense_onclick" TL_SEQ="130" visible="false"/>
+        <Button id="btn_Affirmation" taborder="7" text="확약서" top="89" height="28" right="btn_CostSheet:8" width="84" onclick="btn_Affirmation_onclick" enable="false" TL_SEQ="131"/>
+        <Div id="div_Attachment" taborder="8" top="89" height="28" width="110" async="false" SOURCE_CD="P" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="true" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" right="btn_CostSheet:8" enable="false">
+          <Layouts>
+            <Layout>
+              <Button id="btn_Estimate" taborder="0" text="견적서" top="0" height="28" enable="false" visible="false" right="-10" width="84" onclick="btn_Estimate_onclick" TL_SEQ="12430"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_ContractList" taborder="9" left="0" top="staTitle01:0" right="20" bottom="0" binddataset="dsList" cellsizingtype="col" oncelldblclick="grd_ContractList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48" band="left"/>
+                <Column size="130" band="left"/>
+                <Column size="170" band="left"/>
+                <Column size="60" band="left"/>
+                <Column size="200" band="left"/>
+                <Column size="130" band="left"/>
+                <Column size="100"/>
+                <Column size="75"/>
+                <Column size="70"/>
+                <Column size="80"/>
+                <Column size="90"/>
+                <Column size="80"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell/>
+                <Cell col="1" text="고객사" TL_SEQ="32"/>
+                <Cell col="2" text="프로젝트명" TL_SEQ="114"/>
+                <Cell col="3" text="계약구분" TL_SEQ="123"/>
+                <Cell col="4" text="계약명" TL_SEQ="33"/>
+                <Cell col="5" text="계약처" TL_SEQ="34"/>
+                <Cell col="6" text="계약일자" TL_SEQ="156"/>
+                <Cell col="7" text="계약상태" TL_SEQ="121"/>
+                <Cell col="8" text="사전원가표" TL_SEQ="19"/>
+                <Cell col="9" text="담당영업" TL_SEQ="37"/>
+                <Cell col="10" text="인센티브해당자" TL_SEQ="272"/>
+                <Cell col="11" text="계산발행" TL_SEQ="273"/>
+                <Cell col="12" text="수금일자" TL_SEQ="274"/>
+                <Cell col="13" text="납품일자" TL_SEQ="275"/>
+                <Cell col="14" text="오픈일자" TL_SEQ="276"/>
+                <Cell col="15" text="매출총액" TL_SEQ="277"/>
+                <Cell col="16" text="매입금액" TL_SEQ="278"/>
+                <Cell col="17" text="순매출" TL_SEQ="279"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="expr:CONTRACT_TYPE==&quot;유지보수&quot;?&quot;normal&quot;:CONTRACT_TYPE==&quot;가계약&quot;?&quot;normal&quot;:&quot;checkboxcontrol&quot;" edittype="expr:CONTRACT_TYPE==&quot;유지보수&quot;?&quot;none&quot;:CONTRACT_TYPE==&quot;가계약&quot;?&quot;none&quot;:&quot;checkbox&quot;" text="bind:CHECK_FLAG"/>
+                <Cell col="1" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:CONTRACT_TYPE"/>
+                <Cell col="4" text="bind:CONTRACT_NAME" textAlign="left"/>
+                <Cell col="5" text="bind:CONTRACT_MAIN_NAME" textAlign="left"/>
+                <Cell col="6" text="bind:CONTRACT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="7" text="bind:CONTRACT_STATUS_NAME"/>
+                <Cell col="8" text="bind:COSTSHEEP_FLAG"/>
+                <Cell col="9" text="bind:SALSE_STAFF"/>
+                <Cell col="10" text="bind:INCENTIVE_STAFF"/>
+                <Cell col="11" text="bind:TAX_DATE" displaytype="expr:TAX_DATE.length  == 0 ? 'none' : 'date'" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="12" displaytype="expr:BILL_DATE.length  == 0 ? 'none' : 'date'" text="bind:BILL_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="13" displaytype="expr:DELIVERY_DATE.length  == 0 ? 'none' : 'date'" text="bind:DELIVERY_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="14" text="bind:OPEN_DATE" displaytype="expr:OPEN_DATE.length  == 0 ? 'none' : 'date'" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="15" text="bind:CONTRACT_AMT" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('normal')" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_AMT)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
+                <Cell col="16" text="bind:PURCHASE_AMT" textAlign="right" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(PURCHASE_AMT)" displaytype="expr:comp.parent.gfn_getPriceDisplayType('normal')"/>
+                <Cell col="17" text="bind:NET_SALES_AMT" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('normal')" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(NET_SALES_AMT)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 영업관리 - 영업관리
+ * 02. 화면명   : 영업관리(SS_SalesMM)
+ * 03. 화면설명 : 영업관리
+ * 04. 작성일   : 2018.08.19
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+
+ this.FV_PARENT_FORM = this.parent.parent.parent; 
+ this.FV_AUTH_PRICE_MASK = false;  
+  
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.SS_SalesMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnSetComCmbConfig();	// 공통 코드찾기 설정 처리
+	this.fnAuthConfig(1);		// 화면 권한 처리
+	
+	this.fnGetCode();
+	
+	var sToday = this.gfnToday();
+	var sStartDt = this.gfnAddMonth(sToday, -12);
+	this.div_search.form.div_Search_yyyyMM_FromTo.setFromYYYYMM(sStartDt.substr(0, 6));	// 계약기간 시작
+	this.div_search.form.div_Search_yyyyMM_FromTo.setToYYYYMM(sToday.substr(0, 6));		// 계약기간 종료
+	this.div_search.form.chk_NoneDate.set_value("1");			// 기간무시 체크
+	
+	this.fnsetInit();
+};
+
+this.fnsetInit = function ()
+{
+	//var sCocd = this.gfnGetCompanyCode();
+	
+	//this.btn_RequestLicense.set_enable(true);
+	//this.tab_Sales.tpg_Presales.form.fnAuthConfig();
+
+// 	this.div_search.form.cmb_ContractStatus.set_visible(false);	// 계약 상태
+// 	this.div_search.form.stc_ContractStatus.set_visible(false);
+// 	this.div_search.form.stc_ContractType.set_visible(false);
+// 	this.div_search.form.cmb_ContractType.set_visible(false);
+// 	this.div_Attachment.set_enable(true);
+	//this.btn_Order_Confirm.set_text(this.gfnGetTransTxt (128, "계약확정"));
+	
+	// 프로젝트 검색 팝업 가계약만 조회 처리
+	//this.div_search.form.div_ProjectName.param = "searchtype:P,contractstatus:0";
+	
+// 	if(sCocd == "J02") {
+// 		var sRight = this.btn_Affirmation.right;
+// 		
+// 		// 견적서
+// 		this.btn_Estimate.set_visible(true);
+// 		this.div_Attachment.set_right(sRight);
+// 		
+// 		// 확약서
+// 		this.btn_Affirmation.set_visible(false);
+// 		// 라이선스 요청
+// 		this.btn_RequestLicense.set_visible(false);
+// 	}
+	//this.fnQueryData();
+}
+
+//조회
+this.cfnSearch = function ()
+{
+	this.fnQueryData();
+};
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+  
+ // 공통코드 조회
+ this.fnGetCode = function()
+ {
+	this.gfnAddCodeDataset("ds_cmm_ContractStatus", "CONTRACTSTATUS", true);	// 계약상태 코드
+	//this.gfnAddCodeDataset("ds_SalesStatus", "SALESSTATUS", true);	// 영업상태 코드
+	this.gfnCodeTransaction();	// 공통코드 조회
+	
+	// 조회용 Output dataset 세팅
+	//this.gfnAddOutputDataset("ds_cond_sales_emp", 	"ds_output");
+	this.gfnAddSendParameter("COMPANY_CODE", this.gfnGetCompanyCode());
+	this.gfnSetMap("salesManagerMapper", "SalesmanCombo", "ds_cond_sales_emp");
+	this.gfnCommonTransaction("SalesEmp", 	"selectNextList.do"/*		"CO_SalesEmp_S01"*/);
+ }
+ 
+ // 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	switch (strSvcID) 
+	{
+		case "gfnGetCode" :
+			this.div_search.form.cmb_ContractStatus.set_index(0);
+		break;
+		case "SalesEmp" : 
+			var nAddRow = this.ds_cond_sales_emp.insertRow(0);
+			this.ds_cond_sales_emp.setColumn(nAddRow, "EMP_NAME",	this.gfnGetTransTxt(350,"전체"));
+			this.ds_cond_sales_emp.setColumn(nAddRow, "EMP_NO",		"");
+			this.ds_cond_sales_emp.setColumn(nAddRow, "DEPT_CD",	"");
+			
+			// 일반영업(팀장이상x)인 경우
+			var sLoginEmpNo = this.gfnGetUserInfo("EMP_NO");
+			if (this.commUtil.getFormAuthority(235,1)) {
+				var nFindRow = this.ds_cond_sales_emp.findRow("EMP_NO", sLoginEmpNo);
+				if (nFindRow<0) nFindRow = 0;
+				this.div_search.form.cmb_SalesRepresent.set_index(nFindRow);
+			} else {
+				this.div_search.form.cmb_SalesRepresent.set_index(0);
+			}
+			
+			this.div_search.form.cmb_SalesStatus.set_index(0);
+			
+			this.div_search.form.btn_Search.click();
+			break;
+		case "SS_SalesMM_S02" :
+			break;
+		case "SearchEstimateCnt" : 
+			break;
+	}
+};
+
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+// 공통 검색 Popup 설정 처리
+this.fnSetComCmbConfig = function ()
+{
+	this.div_search.form.div_ClientName.param = "pvMode:1";
+	this.div_search.form.div_ProjectName.param = "searchtype:P";
+}
+ 
+// 화면 권한 설정 처리
+this.fnAuthConfig = function(nTabIndx)
+{
+	if( (this.commUtil.getFormAuthority(235,1) == true) 
+		|| (this.commUtil.getFormAuthority(235,2) == true))	//저장권한
+	{
+			//this.btn_File_Upload.set_enable(false);
+			this.btn_CostSheet.set_enable(false);
+			this.btn_ContractReport.set_enable(true);
+			this.btn_Order_Confirm.set_enable(false);
+			//this.div_search.form.rd_EmpKind.set_visible(true);
+		
+			this.div_search.form.cmb_ContractStatus.set_visible(true);	// 계약 상태
+			this.div_search.form.stc_ContractStatus.set_visible(true);
+			this.div_search.form.stc_ContractType.set_visible(true);
+			this.div_search.form.cmb_ContractType.set_visible(true);
+			
+			this.ds_cmm_ContractStatus.filter("CODE==''||CODE=='2'||CODE=='3'");
+			this.div_search.form.cmb_ContractStatus.set_index(0);
+			
+			this.div_Attachment.set_enable(false);
+			this.div_Attachment.set_url("");
+			
+			this.btn_Order_Confirm.set_text(this.gfnGetTransTxt (660, "계약확정취소"));
+			this.btn_RequestLicense.set_enable(false);	// 라이선스요청
+			this.btn_Affirmation.set_enable(false);	// 확약서
+			//this.btn_Estimate.set_enable(false); // 견적서
+			
+			//this.div_search.form.div_ProjectName.param = "searchtype:P";		
+
+			
+			
+	}
+	
+	if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹
+}
+
+
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+// 조회 버튼 클릭 
+this.div_search_btn_Search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnQueryData();	// 영업현황탭 조회 버튼 이벤트
+};
+
+
+// 엑셀 Export
+this.div_search_btn_Excel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objGrd;
+	var sFileNm;
+	var nTabIdx = this.tab_Sales.tabindex;
+	if (nTabIdx == 0) {
+		objGrd = this.tab_Sales.tpg_sales.form.grd_SalesList;
+		sFileNm = "ExcelSales";
+	} else if (nTabIdx == 1) {
+		objGrd = this.tab_Sales.tpg_Presales.form.grd_Presales;
+		sFileNm = "ExcelPresles";
+	} else if (nTabIdx == 2) {
+		objGrd = this.tab_Sales.tpg_Contract.form.grd_ContractList;
+		sFileNm = "ExcelContract";
+	}
+	
+	this.gfn_excelExport(this, objGrd, sFileNm);
+};
+	
+
+this.div_search_div_ClientName_onkeyup = function(obj:nexacro.Div,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.div_search.form.btn_Search.click();
+	}	
+};
+
+this.div_search_div_ProjectName_onkeyup = function(obj:nexacro.Div,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.div_search.form.btn_Search.click();
+	}
+};
+
+
+// 확약서 Popup
+this.btn_Affirmation_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nCurrow = this.tab_Sales.tpg_sales.form.ds_list.rowposition;
+	var objDs = this.tab_Sales.tpg_sales.form.ds_list;
+	var sContractNo = "";
+	if (objDs.rowcount > 0) {
+		sContractNo = objDs.getColumn(nCurrow, "CONTRACT_NO");
+	}
+	
+	var Argument = {pvContractNo:sContractNo};
+	this.commUtil.popup(this, "popupAffirmation", "Sales::SS_AffirmationReport.xfdl", -1, -1, 1300, 830, true, false, false, Argument, "fnPopupCallBack");
+};
+
+this.btn_ContractReport_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.tab_Sales.tpg_Contract.form.fnPopupContractReport();
+};
+
+// 견적서 Popup
+this.fnEstimateRegPopup = function()
+{
+	var nCurrow =  this.tab_Sales.tpg_Presales.form.dsList.rowposition;
+	var sProjectCd = this.tab_Sales.tpg_Presales.form.dsList.getColumn(nCurrow, "PROJECT_CODE");
+	var sSalesEmpNo = this.tab_Sales.tpg_Presales.form.dsList.getColumn(nCurrow, "SALES_EMP_NO");
+	var sSalesEmpName = this.tab_Sales.tpg_Presales.form.dsList.getColumn(nCurrow, "SALES_EMP_NAME");
+	
+	if (this.gfnIsEmpty(sProjectCd)) {
+		this.alert(this.gfnGetTransTxt (1508, "선택된 프로젝트가 없습니다."));
+		return;
+	}
+	
+	var Argument =  {
+						pvProjectCode:sProjectCd
+					   ,pvSalesEmpNo:sSalesEmpNo
+					   ,pvsSalesEmpName:sSalesEmpName
+					   ,pvSalesDocType:"ESTIMATE"
+					   ,pvEstimateType:"NEW_ESTIMATE"
+					   ,pvEstimateKind:"PRODUCT"
+					   ,pvAutoSearch : true
+					};
+	this.commUtil.popup(this, "popupEstimate", "Sales::SS_EstimateReg.xfdl", -1, -1, 1400, 916, true, true, true, Argument, "fnPopupCallBack");
+};
+
+this.btn_Estimate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnEstimateRegPopup();
+};
+
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+
+ // 계약조회
+ this.fnQueryData = function()
+ {
+	this.dsList.clearData();
+	// 조건값(Rarameter) 셋팅
+	this.gfnAddSendParameter("PROJECT_NAME",		this.div_search.form.div_ProjectName.getData());
+	this.gfnAddSendParameter("CLIENT_NAME",			this.div_search.form.div_ClientName.form.getData());
+	this.gfnAddSendParameter("NONE_DATE",			this.div_search.form.chk_NoneDate.value);
+	this.gfnAddSendParameter("FROM_CONTRACT_DT",	this.div_search.form.div_Search_yyyyMM_FromTo.getFromYYYYMM());
+	this.gfnAddSendParameter("TO_CONTRACT_DT",		this.div_search.form.div_Search_yyyyMM_FromTo.getToYYYYMM());
+	if(this.div_search.form.rd_EmpKind.value=="E")
+		this.gfnAddSendParameter("SALES_EMP_NO",		this.div_search.form.cmb_SalesRepresent.value);
+	else if(this.div_search.form.rd_EmpKind.value=="D")
+	{
+		var nFindRow = this.ds_cond_sales_emp.findRow("EMP_NO", this.div_search.form.cmb_SalesRepresent.value);
+		var srtDeptCD = this.ds_cond_sales_emp.getColumn(nFindRow,"DEPT_CD");		
+		this.gfnAddSendParameter("SALES_DEPT_CD",		srtDeptCD);
+	}
+	this.gfnAddSendParameter("CONTRACT_STATUS",		this.div_search.form.cmb_ContractStatus.value);
+	this.gfnAddSendParameter("CONTRACT_TYPE",		this.div_search.form.cmb_ContractType.value);
+	this.gfnAddSendParameter("SALES_STATUS",		this.div_search.form.cmb_SalesStatus.value);
+	
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("dsList", "ds_output");
+// 	this.gfnCommonTransaction("SS_Contract_S01", "SS_Contract_S01");
+	this.gfnSetMap("salesManagerMapper", "SS_Contract_S01", "dsList");
+	this.gfnCommonTransaction("SS_SalesList_S01", 	"selectNextList.do"/*		"SS_SalesList_S01"*/, this.grd_SalesList);
+	
+ };
+ 
+ // 계약확정취소 저장
+ this.fn_SaveData = function ()
+ {
+	if (!this.gfnIsUpdateDs(this.dsList))
+	{
+		return;
+	}
+	
+	// 입력용 Input Dataset 세팅
+	this.gfnAddInputDataset ("dsList", "dsInput");
+	this.gfnCommonTransaction("SS_Contract_R01", "SS_Contract_R01");
+ }
+ 
+ 
+ // 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	switch (strSvcID) 
+	{
+		case "SS_Contract_R01":
+			this.fnQueryData();
+			break;
+		case "SS_Contract_S01":
+			// trace(this.dsList.saveXML());
+			break;
+	}
+ }
+  
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+this.fnPopupContractReport= function()
+{
+	var arrList = new Array();
+	for (var i=0; i<this.dsList.rowcount; i++)
+	{
+		if(this.dsList.getColumn(i, "CHECK_FLAG")=="1")
+		{
+			arrList.push(this.dsList.getColumn(i, "CONTRACT_NO"));
+		}
+	}
+	var sArgument = {pvContractList : arrList
+					,pvEmpKind : this.div_search.form.rd_EmpKind.value}
+	this.commUtil.popup(this, "popContractReport", "Sales::SS_ContractReport.xfdl", -1, -1, 1150, 650, true, true, false, sArgument, "fn_popCallBack");
+};
+
+
+//계약확정 취소처리
+this.fnContractCancel = function()
+{
+	if( this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_STATUS") == "3" )
+	{
+		alert(this.gfnGetTransTxt (1242,"완료건은 계약확정 취소 할 수 없습니다."));
+		return;
+	}
+	
+	if(confirm(this.gfnGetTransTxt (1669,"계약확정 취소 처리를 하시겠습니까?")))
+	{
+		if(this.FV_CO_CD == "J02") {
+			this.gfnAddSendParameter("PROJECT_CODE",  this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE"));
+			this.gfnAddSendParameter("CONTRACT_STATUS",  "2");
+			this.gfnAddSendParameter("TARGET_CONTRACT_STATUS",  "0");
+			this.gfnAddOutputDataset("ds_checkProduct",	"ds_output");
+			this.gfnCommonTransaction("SS_Contract_S02", "SS_Contract_S02", null, false);
+			
+			if(this.ds_checkProduct.rowcount > 0) {
+				if(this.confirm(this.gfnGetTransTxt (32856,"영업관리에 해당 프로젝트 가계약에 동일한 제품 또는 상품이 있습니다. 그래도 계약확정 취소 처리를 하시겠습니까?"))) {
+					this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
+					this.fn_SaveData();
+				}
+			} else {
+				this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
+				this.fn_SaveData();
+			}
+		} else {
+			this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
+			this.fn_SaveData();
+		}
+	}
+}
+
+// 팝업 콜백
+this.fn_popCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant)) {
+		//
+	}
+	else {
+		if (sPopupId == "popContractDet")	{
+			// 
+		}
+		else if (sPopupId == "popProjectMM") {
+			//
+		}
+	}
+} 
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+// 프로젝트관리 popup 처리
+this.grd_ContractList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var sContractSt =	this.dsList.getColumn(e.row, "CONTRACT_STATUS");
+	var sProjectCd =	this.dsList.getColumn(e.row, "PROJECT_CODE");
+	var sProjectNm =	this.dsList.getColumn(e.row, "PROJECT_NAME");
+	var sContractNo =	this.dsList.getColumn(e.row, "CONTRACT_NO");
+	
+	//trace("sContractSt:["+sContractSt+"]  sProjectCd:["+sProjectCd+"]  sContractNo:["+sContractNo+"]");
+	
+	if (sContractSt == "3") {
+		this.commUtil.popupProjectMM (this, "popProjectMM", "fn_popCallBack", sProjectCd, sProjectNm, "R");
+	} else {
+		var sArgument = {pvProjectCd : sProjectCd, pvContractNo : sContractNo}
+		this.commUtil.popup(this, "popContractDet", "Sales::SS_ContractDetail.xfdl", -1, -1, 700, 696, true, true, false, sArgument, "fn_popCallBack");
+	}
+};
+
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var bEnable = false;
+	if( this.dsList.getColumn(e.newrow, "CONTRACT_STATUS") == "2")
+		bEnable = true;
+	
+	this.btn_Order_Confirm.set_enable(bEnable);
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_cond_SalesStatus">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cond_sales_emp">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NAME" type="string" size="262"/>
+          <Column id="CO_CD" type="string" size="60"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="BUSINESS_TYPE" type="string" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ContractStatus">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_SalesStatus">
+        <ColumnInfo>
+          <Column id="CODE" size="256" type="STRING"/>
+          <Column id="DATA" size="256" type="STRING"/>
+          <Column id="DATA_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DATA">영업실패 제외</Col>
+            <Col id="CODE">0</Col>
+            <Col id="DATA_JAP">営業失敗除外</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">장기홀딩 제외</Col>
+            <Col id="CODE">1</Col>
+            <Col id="DATA_JAP">長期ホールディング除外</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">영실/장홀 제외</Col>
+            <Col id="CODE">2</Col>
+            <Col id="DATA_JAP">営業失敗/長期ホールディング除外</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">삭제상태 보기</Col>
+            <Col id="CODE">3</Col>
+            <Col id="DATA_JAP">削除状態を見る</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">모두보기</Col>
+            <Col id="CODE">4</Col>
+            <Col id="DATA_JAP">全て見る</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_EmpKind">
+        <ColumnInfo>
+          <Column id="CODE" size="256" type="STRING"/>
+          <Column id="DATA" size="256" type="STRING"/>
+          <Column id="DATA_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DATA">영업대표</Col>
+            <Col id="CODE">E</Col>
+            <Col id="DATA_JAP">営業代表</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">팀</Col>
+            <Col id="CODE">D</Col>
+            <Col id="DATA_JAP">チーム</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_ContractType">
+        <ColumnInfo>
+          <Column id="CODE" size="256" type="STRING"/>
+          <Column id="DATA" size="256" type="STRING"/>
+          <Column id="DATA_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DATA">전체</Col>
+            <Col id="DATA_JAP">全体</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">유지보수 제외</Col>
+            <Col id="CODE">M</Col>
+            <Col id="DATA_JAP">保守除外</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="SALES_EMP_NO" type="string" size="60"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_AMT" type="float" size="22"/>
+          <Column id="PURCHASE_MAIN" type="string" size="20"/>
+          <Column id="PURCHASE_MAIN_NAME" type="string" size="100"/>
+          <Column id="PURCHASE_AMT" type="float" size="22"/>
+          <Column id="PURCHASE_PRODUCT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ContractStatus00">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="100"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="DELIVERY_DATE" type="string" size="8"/>
+          <Column id="TAX_DATE" type="string" size="8"/>
+          <Column id="BILL_DATE" type="string" size="8"/>
+          <Column id="OPEN_DATE" type="string" size="8"/>
+          <Column id="INCENTIVE_STAFF" type="string" size="255"/>
+          <Column id="CONTRACT_AMT" type="BIGDECIMAL" size="22"/>
+          <Column id="PURCHASE_AMT" type="BIGDECIMAL" size="22"/>
+          <Column id="NET_SALES_AMT" type="BIGDECIMAL" size="22"/>
+          <Column id="SALES_STATUS" type="string" size="20"/>
+          <Column id="CONTRACT_STATUS_NAME" type="string" size="8"/>
+          <Column id="CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="CONTRACT_TYPE" type="string" size="100"/>
+          <Column id="COSTSHEEP_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_checkProduct">
+        <ColumnInfo>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

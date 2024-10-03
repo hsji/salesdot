@@ -1,0 +1,826 @@
+@import url(./ui/font-style.css);
+
+
+
+body, html {
+	height: 100%;
+	margin: 0;
+}
+
+.toolbar {
+	width: 100%;
+	height: 60px;
+	background-color: #4E3814;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index:100;
+	color: #fff ;
+	font-size:16px;
+	font-weight:bold;
+	letter-spacing: 0;
+}
+
+.step-container {
+	width: 100%;
+	height: 100%;
+	/* display: flex;
+	justify-content: center;
+	align-items: center; */
+	position: relative;
+	top: 0px; /* 1026수정 병욱 */
+	background-color: #ffffff; /*1024추가*/
+	/* overflow:auto; *//*1027*/
+	
+}
+.step-container-wrap{/*1024추가*/ 
+	height: calc(100% - 60px - 60px); /* 1026수정 병욱 */
+    min-height: 700px;
+    overflow: auto !important;
+    position:relative;
+    top: 60px; /* 1026수정 병욱 */
+    background-color: #ffffff;
+}
+
+
+/* 1026수정 병욱 */
+.Editor-Component {
+    width: 300px;
+    height: calc(100% - 64px) !important;
+    top: 64px;
+    position: absolute;
+    background-color: #ffffff;
+    border-right: #ccc 1px solid;
+    overflow: auto;
+}
+
+/* 1026수정 병욱 */
+.Viewer-Container {
+  overflow: auto;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  position: absolute;
+  top: 64px;
+  left: 300px;
+  outline: none;
+  inset: 64px 300px 0px;
+  width: calc(100% - 300px);
+  height: calc(100% - 64px) !important;
+}
+
+.step-container-wrap-hidden{
+	overflow:hidden;
+}
+#step1 {
+	width: 80%;
+	max-width:800px;
+	height: 80%;
+	background-color: #ffffff;
+	display: none;
+	font-size: 20px;
+	color: black;
+	/* padding: 20px; 1024제거*/
+	/* border: 1px solid #ccc; 1024제거*/
+	position: absolute; /*1024추가*/
+    top: 50px; /*1024추가*/
+}
+
+#step2 {
+	width: 100%;
+	height: 100%;
+	display: none;
+	/*font-size: 20px;*/
+	/*color: black;*/
+	/*padding: 20px;*/
+	/* border: 1px solid #ccc; 1024제거*/
+}
+
+#step3 {
+	/* overflow: auto; 1024*/
+	width: 80%;
+	max-width:800px;
+	/* height: 90%; 1027*/
+	/*background-color: #ffffff;*/
+	display: block;
+	font-size: 20px;
+	color: black;
+	/* padding: 20px; 1024제거*/
+	/*border: 1px solid #ccc;*/
+}
+
+.current-step {
+	/* color: blue; 1024*/
+	color: #fff !important;
+	font-size:16px;
+	font-weight:bold;
+	letter-spacing: 0;
+}
+.toolbar span{
+	color: rgba(255,255,255,0.2);
+	font-size:16px;
+	font-weight:bold;
+	letter-spacing: 0;
+	margin:-3px 4px 0;
+}
+.toolbar-bottom {
+	width: 100%;
+	height: 60px;
+	background-color: #4E3814;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	z-index:100;
+}
+
+/* 버튼 스타일 */
+.gradient-button {
+	background: linear-gradient(45deg, #ff6b6b, #ffa18d); /* 그래디언트 배경 */
+	color: #ffffff; /* 글자색 */
+	border: none; /* 테두리 제거 */
+	padding: 10px 20px; /* 여백 설정 */
+	border-radius: 5px; /* 둥근 모서리 */
+	cursor: pointer; /* 포인터 커서 */
+	transition: background 0.3s ease; /* 부드러운 전환 효과 */
+	margin-right: 10px; /* 오른쪽 여백 설정 (원하는 크기로 조절) */
+	margin-left: 10px;
+}
+
+/* 마우스 호버 시 그래디언트 변경 */
+.gradient-button:hover {
+	/* background: linear-gradient(45deg, #ffa18d, #ff6b6b); 1024*/
+	background: linear-gradient(45deg, #F9662C, #F9662C);
+}
+
+.form-container {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+	 box-shadow:none;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.form-input {
+	width: 30%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.form-textarea {
+	width: 60%;
+	height: 50px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.form-select {
+	width: 30%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.send_btn {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.send_btn:hover {
+	background-color: #0056b3;
+}
+
+#fileUploadDiv {
+	display: none;
+	/* padding: 20px; 1024*/
+	width: 50%;
+}
+
+.grid-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+}
+
+.grid-table {
+	width: 90%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+	font-size: 14px;
+}
+
+.grid-table th, .grid-table td {
+	padding: 1px;
+	text-align: center;
+	border: 1px solid #ccc;
+}
+
+.grid-table th {
+	background-color: #f0f0f0;
+}
+
+
+.grid-table td:first-child {
+	font-weight: bold;
+}
+
+/* 수정된 스타일: input 경계선 없애고 부모 td 영역 꽉 채우기 */
+.grid-table input {
+	border: none;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0;
+	outline: none;
+}
+
+.add-button, .delete-button {
+	/* background-color: #007bff; 1024*/
+	color: white;
+	border: none;
+	/* padding: 10px; 1024*/
+	/* font-size: 10px; 1024*/
+	cursor: pointer;
+/* 	border-radius: 5px; 1024*/
+	margin-top: 10px;
+	
+    background-color: #F9662C;
+    padding: 0;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 1.28;
+}
+
+.add-button:hover, .delete-button:hover {
+	background-color: #F9662C;
+}
+
+/* 선택된 input의 부모 td의 부모 tr 경계선 스타일 변경 */
+.grid-table tr.selected-row {
+	border: 2px solid #ff6666; /* 연한 빨강색 경계선 */
+}
+
+.fileupload_box {
+	margin: 10px 0;
+	/* padding: 0 30px; 1024*/
+	padding: 0 20px;
+	border: 1px solid #d2d2d2;
+	border-radius: 4px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.fileupload_box .step_tit {
+	margin: 0 0 4px;
+	color: gray;
+	/* font-size: 12px 1024*/
+	font-size: 14px;
+    letter-spacing: 0;
+    color:#212529;
+    font-weight:bold;
+}
+
+.fileupload_box .step_cont {
+	/* font-size: 14px; 1024*/
+	font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0;
+    color: #A6A8A9;
+}
+
+.fileupload_box .step_box {
+	/* padding: 30px 0; 1024*/
+	padding: 14px 0;
+	border-top: 1px solid #e5e5e5
+}
+
+.fileupload_box .step_box:first-child {
+	border-top: 0 none
+}
+
+.fileupload_box .upload_cont {
+	margin: 8px 0 0;
+	padding: 50px 30px;
+	border-radius: 4px;
+	background: #F8F8F8;
+	text-align: center
+}
+
+.fileupload_box .upload_cont .cont_txt {
+	margin: 0 0 20px;
+	color: gray;
+	font-size: 14px
+}
+
+.fileupload_box .line_table table tbody th {
+	padding: 8px 10px
+}
+
+.fileupload_box .line_table table tbody td {
+	padding: 0
+}
+
+.fileupload_box .line_table table .file_area img {
+	max-height: 23px
+}
+
+.fileupload_box .line_table table .file_area .file_name, .fileupload_box .line_table table .file_area .data-preview
+	{
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	color: #b2b2b2;
+	font-size: 14px;
+	font-weight: 500;
+	white-space: nowrap;
+	text-overflow: ellipsis
+}
+
+.fileupload_box .line_table table .file_area a:hover {
+	color: #0e73c3
+}
+
+.fileupload_box .line_table table .file_area a::before {
+	display: none
+}
+
+.fileupload_box .line_table table .file_area .data-preview::before {
+	content: attr(extension);
+	display: inline-block;
+	height: 17px;
+	line-height: 15px;
+	margin-right: 4px;
+	padding: 0 5px;
+	color: gray;
+	font-size: 10px;
+	font-weight: 500;
+	text-transform: uppercase;
+	vertical-align: 1px;
+	border: 1px solid #b2b2b2;
+	border-radius: 4px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.fileupload_box .line_table table .has-error .file_area {
+	background: #F3D0D0
+}
+
+.fileupload_box .step_box.step2.upload_ing .btn_area {
+	opacity: 0.5
+}
+
+/*
+         */
+.bulk_innerArea {
+	/* margin: 0 0 0 30px */
+	margin: 0 ;
+}
+
+.cont_sub_tit {
+	font-size: 16px
+}
+
+.cont_sub_titDesc {
+	/* margin: 4px 0 10px;
+	font-size: 14px  1024*/
+	margin: 0;
+	font-size: 12px
+}
+
+/*
+         */
+.btn_common.line_basic:hover {
+	background: #F1F1F1;
+}
+
+/* .btn_common.line_basic {
+	color: #0e73c3 !important;
+	border: 1px solid #d2d2d2;
+} */
+
+.btn_common[class*="line_"] {
+	line-height: 32px;
+	background: #fff;
+}
+
+.btn_common:hover, .btn_common:active {
+	background: #045799;
+}
+
+.btn_common {
+	overflow: hidden;
+	display: inline-block;
+	height: 34px;
+	line-height: 34px;
+	padding: 0 14px;
+	background: #0e73c3;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 500;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: center;
+	border-radius: 4px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/*  인증방식 부분  */
+.userInfo_box {
+	position: relative;
+	margin-top: 5px;
+	padding-top: 5px;
+	padding-bottom: 15px;
+	/*border-top: 1px solid #d2d2d2;*/
+}
+
+.userInfo_box {
+	margin: 0;
+}
+
+.userInfo_box .checksWrap .checks label {
+	color: #323232;
+	font-size: 14px;
+}
+/*  1024
+.titleWrap {
+	padding: 10px;
+} */
+
+.titLabel {
+	display: inline-block;
+	font-size: 18px;
+	font-weight: 500;
+	color: #323232;
+	margin: 0 0 6px;
+}
+
+.font400 {
+	font-weight: 400 !important;
+}
+
+/* ===================================================================================================
+   추가 1024
+=================================================================================================== */
+body {
+    background-color: #fff;
+}
+.add_title01{
+	font-size:20px ;
+	font-weight: bold ;
+	padding-top: 8px;
+	color: #4E3814 ;
+    margin-bottom: 30px;
+    display: block;
+}
+.add-label-title{
+	display:block;
+	background-image: url(./images/icon_circle.png);
+    background-position: 0px 9px;
+    background-repeat: no-repeat;
+    background-size: 6px;
+    padding-left: 14px;
+	font-size: 16px;
+    margin-top: 37px;
+    height: 30px;
+    font-weight: 500;
+    color: #4E3814 ;
+}
+/* .add-input-title01{
+	font-size: 16px;
+    font-weight: 500;
+    color: #4E3814;
+    width: 60px;
+} */
+.add-input01{
+	border:1px solid #DEE2E6;
+	height:36px;
+	border-radius:4px;
+	padding:0 10px;
+	width: 100%;
+    box-sizing: border-box;
+}
+.add-check {
+    border: 1px solid #DEE2E6;
+    height: 16px;
+    border-radius: 4px;
+    margin-right:12px;
+}
+.btn-orange02{
+	border: none;
+    background: #F9662C;
+    color: #fff !important;
+    border-radius: 50px !important;
+    padding: 8px 30px; 
+    height:auto !important;
+    font-size:16px;   
+}
+
+.btn-brawn01{
+	border: none;
+    background: #4E3814;
+    color: #fff !important;
+    border-radius: 50px !important;
+    padding: 8px 30px; 
+    height:auto !important;
+    font-size:16px;  
+}
+.btn-brawn02{
+	border: none;
+    background: #4E3814 !important;
+    color: #fff !important;
+    border-radius: 50px !important;
+    padding: 1px 20px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'Noto Sans';
+    line-height: 1 !important;
+    height: 30px; 
+}
+.btn-brawn03 button{
+	border: none;
+    background: #4E3814 !important;
+    color: #fff !important;
+    border-radius: 50px !important;
+    padding: 1px 20px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'Noto Sans';
+    line-height: 1 !important;
+    height: 30px; 
+}
+.participant{
+	border: 2px solid #4E3814;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.participant>button{
+	width: 34px;
+	height: 34px;
+    background-color: transparent !important;
+    margin-left: 10px;
+    background-image: url(./images/icon_close.png);
+    background-position: 0 0 !important;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    border: 0;
+    cursor: pointer;
+    font-size:0;
+}
+.participant>input{
+	border:1px solid #DEE2E6;
+	height:36px;
+	border-radius:4px;
+	padding:0 10px;
+	width: 100%;
+    box-sizing: border-box;
+}
+.add-btn-delete{
+	width: 34px;
+	height: 34px;
+    background-color: transparent !important;
+    margin-left: 10px;
+    background-image: url(./images/icon_close.png);
+    background-position: 0 0 !important;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    border: 0;
+    cursor: pointer;
+}
+
+.w35per{
+	width:35% !important;
+}
+.w100per{
+	width:100% !important;
+}
+.min-w1024{
+	width:100%;
+	min-width:1024px;
+	overflow-x:auto;
+}
+.flex-wrap{
+	flex-wrap:wrap;
+}
+
+.grid-container-100per{
+	margin-bottom: 50px;
+}
+    
+.grid-container-100per table{
+	width:100% !important;
+	margin-top:10px;
+	margin-bottom:0 !important;
+}
+.grid-container-100per table tr th{
+	text-wrap: nowrap;
+	padding: 5px 8px;
+}
+
+
+.Reader-Button {
+	background-color: rgba(111, 57, 21, 0.3) !important;
+	border: 0 !important;
+}
+.Reader-Toolbar-Group.Center {
+    margin: 5px auto 0 !important;
+}
+
+.Zoom-Out-Button, .Zoom-In-Button {
+    background-color: transparent !important;
+}
+
+.Reader-Toolbar-Group > ul > li .Toolbar-Label > a {
+    filter: brightness(0.1);
+}
+
+
+
+/* margin  추가*/
+.ma-t10{
+	margin-top:10px;
+}
+
+.ma-l200{
+	margin-left:200px;
+}
+.ma-l358{
+	margin-left:358px;
+}
+
+.ma-b40{
+	margin-bottom: 40px;
+}
+.ma-b100{
+	margin-bottom: 100px;
+}
+.ma-r10{
+	margin-right:10px !important;
+}
+
+/* padding 추가*/
+.pa-0{
+	padding:0  !important;
+}
+
+.pa-b0{
+	padding-bottom:0 !important;
+}
+
+/* height  추가*/
+.min-h200{
+	min-height:200px;
+	height:auto;
+}
+
+/* ===================================================================================================
+   reser 1024
+=================================================================================================== */
+body {
+    background-color: #fff !important;
+}
+.gradient-button {
+    background: linear-gradient(45deg, #F9662C, #F9662C);
+    color: #ffffff;
+    padding: 9px 40px;
+    border-radius: 50px;
+    font-weight: bold ;
+    font-size:16px;  
+}
+
+.User-Component-List-Conatiner {
+    border: solid 2px #E9BD74 !important;
+    margin-bottom: 6px;
+}
+.User-Component-List>li:first-child>span{
+	background-image: url(./images/icon_people.png);
+    background-position: 0 3px !important;
+    background-repeat: no-repeat;
+    background-size: 14px;
+    padding-left: 20px;
+}
+
+.add-form-flex{
+	display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.add-form-flex .form-label{
+	font-size:16px;
+	width:120px;
+	letter-spacing:0;
+	background-image: url(./images/icon_circle.png);
+    background-position: 0px 6px;
+    background-repeat: no-repeat;
+    background-size: 10px;
+    padding-left: 18px;
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+.add-form-flex01{
+	display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.add-form-flex02{
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.add-form-flex03{
+	display: flex;
+    flex-direction: column;
+}
+.add-titLabel {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #323232;
+}
+
+.Reader-Toolbar {
+    height: 56px !important;
+    background-color: #E0A038 !important;
+    border-radius:0 !important;
+}
+.Reader-Toolbar-Group.Center {
+    position: relative;
+    z-index: 10000;
+}
+
+#PreviewReaderViewerContainer {
+    top: 56px !important;
+    left: 302px !important;
+    height: calc(100% - 56px) !important;
+}
+.Preview-Compoment.Editor-Component {
+    height: calc(100% - 106px) !important;
+}
+
+
+/* templateMod.scss reset 1024*/
+.Editor-Toolbar {
+    background-color: #E0A038 !important;
+}
+.Template-Button.Toolbar-Border {
+    border: solid 1px #E9BD74 !important;
+}
+.Editor-Toolbar-Group.Center > span {
+    color: #ffffff !important;
+}
+.Toolbar-Button-Divider {
+    background-color:  #ffffff !important;
+}
+.Editor-Component_Box div ul > li > span.tit, .Editor-Toolbar-Group.Center > span, .Attribute-Contents-Row .Title, .Attribute-Contents-Row-CheckBox-Container, .Template-Button, .Editor-Toolbar-Group.Right #scaleSelectContainer.Toolbar-Label, .User-Component-List > li, .User-Component-List > li:nth-child(1) {
+font-family: 'Noto Sans', 'Malgun Gothic', Dotum, Helvetica, 'Apple SD Gothic Neo', Sans-serif !important;
+}
+.Editor-Component_Box div ul > li > span.tit {
+    font-weight: 500 !important;
+}
+.Editor-Toolbar-Group.Left {
+    width: auto !important;
+}
+.align-start{
+	    align-items: flex-start !important;
+}

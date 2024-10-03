@@ -1,0 +1,1044 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="orgUserMapper">
+
+<select id="selectCommonUserList" parameterType="java.util.Map" resultType="java.util.Map">
+	/* selectCommonUserList */ 
+	SELECT
+		USER_ID AS CODE
+		, KORN_NM AS NAME
+	    , EMP_NO
+	    , USER_ID
+	    , EMP_NM
+	    , KORN_NM
+	    , ENGL_NM
+	    , DEPT_CD
+	    , USER_FLAG_CD
+	    , WKGD_CD
+	    , WKDT_CD
+	    , OCCU_CD
+	    , CHAG_WORK
+	    , JOIN_DATE
+	    , RETR_DATE
+	    , HOOF_STAT_CD
+	    , WKPL_TELP_NUMB
+	    , REGI_NUMB
+	    , BIR_DT
+	    , CELL_NUMB
+	    , COALESCE(REGEXP_SUBSTR(CELL_NUMB, '[^-]+',1,1),'') AS PHONE1
+	    , COALESCE(REGEXP_SUBSTR(CELL_NUMB, '[^-]+',1,2),'') AS PHONE2
+	    , COALESCE(REGEXP_SUBSTR(CELL_NUMB, '[^-]+',1,3),'') AS PHONE3
+	    , HUS_TELP_NUMB
+	    , EMAIL
+	    , ZIP_NUMB
+	    , BASC_ADDR
+	    , DTL_ADDR
+	    , COMPANY_CD
+	FROM T_SYTM_USER
+	WHERE 1=1
+	    AND EMP_NO = #{SRCH}
+	    AND COMPANY_CD = #{COMPANY_CD}
+</select>
+
+<!-- 부서 정보 조회 -->
+<select id="searchDeptInfo" parameterType="java.util.Map" resultType="java.util.Map">
+	/* searchDeptInfo */
+	WITH RECURSIVE CTE_Dept AS (
+	   SELECT
+	       convert(D.DEPT_ORDR, char(100)) as DEPT_ORDER,
+	       D.*
+	   FROM T_SYTM_DEPT D
+	   WHERE DEPT_LVL = '0'
+	   AND COMPANY_CD = #{COMPANY_CD}
+	   UNION ALL
+	   SELECT
+	       CONCAT(CTE_Dept.DEPT_ORDER, '|', E.DEPT_ORDR) as DEPT_ORDER,
+	       E.*
+	   FROM T_SYTM_DEPT E
+	   INNER JOIN CTE_Dept ON E.HIPO_DEPT_CD = CTE_Dept.DEPT_CD
+	   WHERE E.COMPANY_CD = #{COMPANY_CD}
+	)
+	SELECT *
+	FROM CTE_Dept
+	WHERE 1=1
+	  AND DEPT_YN = '1'
+	   AND COMPANY_CD = #{COMPANY_CD}
+	ORDER BY CTE_Dept.DEPT_ORDER
+</select>
+
+<!-- 부서 정보 조회 -->
+<select id="searchDeptUserList" parameterType="java.util.Map" resultType="java.util.Map">
+	/* searchDeptUserList */
+	WITH TREE_MAIN AS
+	(
+	SELECT
+	    	AA.DEPT_CD
+	    	, HIPO_DEPT_CD
+	    	, (
+	        	SELECT
+	            	DEPT_KORN_NM
+	        	FROM T_SYTM_DEPT
+	        	WHERE DEPT_CD = AA.HIPO_DEPT_CD
+	        	 AND COMPANY_CD = #{COMPANY_CD}
+	    	  ) AS HIPO_DEPT_NM
+	    	, AA.DEPT_KORN_NM
+	    	, AA.DEPT_LVL
+	    	, NULL AS USER_ID
+	    	, NULL AS KORN_NM
+	    	, 'D' AS TYPE
+	    	, NULL AS EMP_NO
+	    	, AA.COMPANY_CD
+		FROM T_SYTM_DEPT AA
+		WHERE AA.COMPANY_CD = #{COMPANY_CD}
+	)
+	, SUB1 AS 
+	(
+		SELECT tm.*
+		FROM TREE_MAIN tm
+		WHERE DEPT_LVL = '0' 
+		UNION ALL
+		SELECT tm1.DEPT_CD
+	    	, tm1.HIPO_DEPT_CD
+	    	, (
+	        	SELECT
+	            	DEPT_KORN_NM
+	        	FROM T_SYTM_DEPT
+	        	WHERE DEPT_CD = tm1.HIPO_DEPT_CD
+	        	AND COMPANY_CD = #{COMPANY_CD}
+	    	  ) AS HIPO_DEPT_NM
+	    	, tm1.DEPT_KORN_NM
+	    	, tm1.DEPT_LVL
+	    	, NULL AS USER_ID
+	    	, NULL AS KORN_NM
+	    	, 'D' AS TYPE
+	    	, NULL AS EMP_NO
+		FROM T_SYTM_DEPT tm1
+			INNER JOIN TREE_MAIN tm2
+				ON tm2.DEPT_CD = tm1.HIPO_DEPT_CD
+		WHERE tm1.COMPANY_CD = #{COMPANY_CD}
+	)  
+	SELECT 
+		AA.*
+	FROM 
+	(
+		SELECT
+	    	s1.*
+		FROM SUB1  s1
+		UNION ALL
+		SELECT
+	    	CU.DEPT_CD
+	    	, CD.HIPO_DEPT_CD
+	     	, (
+	        	SELECT
+	            	DEPT_KORN_NM
+	        	FROM T_SYTM_DEPT
+	        	WHERE DEPT_CD = CD.HIPO_DEPT_CD
+	        	AND COMPANY_CD = #{COMPANY_CD}
+	    	  ) AS HIPO_DEPT_NM
+	    	, CD.DEPT_KORN_NM
+	    	, CD.DEPT_LVL + 1 AS DEPT_LVL
+	    	, CU.USER_ID
+	    	, CU.KORN_NM
+	    	, 'U' AS TYPE
+	    	, EMP_NO
+		FROM T_SYTM_DEPT CD
+	    	INNER JOIN T_SYTM_USER CU
+				ON CD.DEPT_CD = CU.DEPT_CD
+		WHERE CD.COMPANY_CD = #{COMPANY_CD}
+	)AA
+	ORDER BY AA.DEPT_CD, AA.TYPE  
+</select>
+
+<!-- 부서 및 부서별 사용자 조회. 조직도 화면에 쓰이는 쿼리. searchDeptUserList와 구분 위한 넘버링 추가-->
+<select id="searchDeptUserList2" parameterType="java.util.Map" resultType="java.util.Map">
+/* searchDeptUserList2 */
+WITH RECURSIVE CTE_Dept AS (
+   SELECT
+       convert(D.DEPT_ORDR, char(100)) as SortOrder,
+       D.*
+   FROM T_SYTM_DEPT D
+   WHERE DEPT_LVL = '0'
+   AND COMPANY_CD = #{COMPANY_CD}
+   UNION ALL
+   SELECT
+       CONCAT(CTE_Dept.SortOrder, '|', E.DEPT_ORDR) as DEPT_ORDER,
+       E.*
+   FROM T_SYTM_DEPT E
+   INNER JOIN CTE_Dept ON E.HIPO_DEPT_CD = CTE_Dept.DEPT_CD
+   WHERE E.COMPANY_CD = #{COMPANY_CD}
+)
+SELECT AA.ROW_ORDER,
+       AA.DEPT_CD,
+       AA.DEPT_ORDR,
+       AA.HIPO_DEPT_NM,
+       COALESCE(AA.KORN_NM, AA.DEPT_KORN_NM) AS KORN_NM,
+       AA.DEPT_LVL,
+       AA.USER_ID,
+       AA.TYPE,
+       AA.EMP_NO,
+       AA.WKDT_CD,
+       AA.WKGD_CD,
+       AA.WKDT_NM,
+       AA.WKGD_NM,
+       AA.COMPANY_CD
+FROM (
+	SELECT DEPT.*
+	FROM
+	(
+	    SELECT ROW_NUMBER() OVER (ORDER BY DP.SortOrder) AS ROW_ORDER,
+	       DP.DEPT_CD,
+	       DEPT_ORDR,
+	       HIPO_DEPT_CD,
+	       DP2.DEPT_KORN_NM AS HIPO_DEPT_NM,
+	       DP.DEPT_KORN_NM,
+	       DEPT_LVL,
+	       NULL AS USER_ID,
+	       NULL AS KORN_NM,
+	       'D' AS TYPE,
+	       NULL AS EMP_NO,
+	       '0000' AS WKDT_CD,
+	       NULL AS WKDT_NM,
+	       '0000' AS WKGD_CD,
+	       NULL AS WKGD_NM,
+	       DP2.COMPANY_CD
+		FROM CTE_Dept DP
+	    LEFT JOIN (SELECT DEPT_CD, DEPT_KORN_NM FROM T_SYTM_DEPT WHERE COMPANY_CD = #{COMPANY_CD}) DP2
+	    ON DP2.DEPT_CD = DP.HIPO_DEPT_CD
+		WHERE 1=1
+		<if test="DEPT_YN != null and DEPT_YN != ''">
+		AND DEPT_YN = #{DEPT_YN}
+		</if> 
+		AND COMPANY_CD = #{COMPANY_CD}
+	) DEPT
+	UNION ALL
+	SELECT CD.ROW_ORDER, 
+	       CU.DEPT_CD
+	     , CD.DEPT_ORDR
+	     , CD.HIPO_DEPT_CD
+	     , CD.HIPO_DEPT_NM
+	     , CD.DEPT_KORN_NM
+	     , CAST(CD.DEPT_LVL AS UNSIGNED) + 1 AS DEPT_LVL
+	     , CU.USER_ID
+	     , CU.KORN_NM
+	     , 'U' AS TYPE
+	     , CU.EMP_NO
+	     , CU.WKDT_CD
+	     , DCD.SSC_CD_KORN_NM AS WKDT_NM 
+	     , CU.WKGD_CD
+	     , GCD.SSC_CD_KORN_NM AS WKGD_NM
+	     , CU.COMPANY_CD 
+	        FROM T_SYTM_USER CU,
+		        (
+		            SELECT DP.DEPT_CD,
+		                   DEPT_ORDR,
+		                   HIPO_DEPT_CD,
+		                   DP2.DEPT_KORN_NM AS HIPO_DEPT_NM,
+		                   DP.DEPT_KORN_NM,
+		                   DEPT_LVL,
+		                   ROW_NUMBER() OVER (ORDER BY DP.SortOrder) AS ROW_ORDER,
+		                   DP.COMPANY_CD
+		            FROM CTE_Dept DP
+				    LEFT JOIN (SELECT DEPT_CD, DEPT_KORN_NM FROM T_SYTM_DEPT WHERE COMPANY_CD = #{COMPANY_CD}) DP2
+				    ON DP2.DEPT_CD = DP.HIPO_DEPT_CD
+				    WHERE DEPT_YN = '1'
+		        ) CD 
+		        ,(SELECT SSC_CD, SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM05' AND  COMPANY_CD = #{COMPANY_CD}) GCD
+			    ,(SELECT SSC_CD, SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM06' AND  COMPANY_CD = #{COMPANY_CD}) DCD
+	        WHERE 1=1
+			AND GCD.SSC_CD = CU.WKGD_CD
+			AND DCD.SSC_CD = CU.WKDT_CD       
+			AND CD.DEPT_CD = CU.DEPT_CD
+			<if test="HOOF_STAT_CD != null and HOOF_STAT_CD != ''">
+			AND CU.HOOF_STAT_CD = #{HOOF_STAT_CD}
+			AND CU.COMPANY_CD = #{COMPANY_CD}
+			</if>
+) AA
+ORDER BY AA.ROW_ORDER, AA.DEPT_LVL, AA.WKDT_CD, AA.WKGD_CD, AA.USER_ID
+</select>
+
+<!--  MAP 사용자 정보 조회  -->
+<select id="searchUserInfo" parameterType="java.util.Map" resultType="java.util.Map">
+/* searchUserInfo */
+WITH RECURSIVE CTE_Dept AS (
+   SELECT
+       convert(D.DEPT_ORDR, char(100)) as SortOrder,
+       D.*
+   FROM T_SYTM_DEPT D
+   WHERE DEPT_LVL = '0'
+   AND   COMPANY_CD = #{COMPANY_CD}
+   UNION ALL
+   SELECT
+       CONCAT(CTE_Dept.SortOrder, '|', E.DEPT_ORDR) as DEPT_ORDER,
+       E.*
+   FROM T_SYTM_DEPT E
+   INNER JOIN CTE_Dept ON E.HIPO_DEPT_CD = CTE_Dept.DEPT_CD
+   WHERE E.COMPANY_CD = #{COMPANY_CD}
+)
+	SELECT	/*  searchUserInfo  */
+	    US.EMP_NO
+	    , US.USER_ID
+	    , '' AS PASSWORD
+	    , US.EMP_NM 
+	    , US.KORN_NM 
+	    , US.ENGL_NM
+	    , US.DEPT_CD
+	    , DP.DEPT_KORN_NM AS DEPT_NM
+	    , US.USER_FLAG_CD
+	    , US.WKGD_CD
+	    , US.WKDT_CD
+	    , US.OCCU_CD
+	    , US.CHAG_WORK
+	    , US.JOIN_DATE
+	    , US.RETR_DATE
+	    , US.HOOF_STAT_CD
+	    , US.WKPL_TELP_NUMB
+	    , US.REGI_NUMB
+	    , US.BIR_DT
+	    , US.CELL_NUMB
+	    , US.HUS_TELP_NUMB
+	    , US.EMAIL
+	    , US.ZIP_NUMB
+	    , US.BASC_ADDR
+	    , US.DTL_ADDR
+	    , US.THEME_ID
+	    , US.WKGD_CD
+	    , GCD.SSC_CD_KORN_NM WKGD_NM 
+	    , US.WKDT_CD   
+	    , DCD.SSC_CD_KORN_NM WKDT_NM 
+	    , US.COMPANY_CD
+	FROM T_SYTM_USER US
+	    INNER JOIN (
+		    SELECT 
+				ROW_NUMBER() OVER (ORDER BY CTE_Dept.SortOrder) AS DEPT_ORDER, 
+				CTE_Dept.*
+			FROM CTE_Dept
+	      ) DP
+	      ON DP.DEPT_CD = US.DEPT_CD 
+		LEFT JOIN (
+		    SELECT SSC_CD, SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM05' AND  COMPANY_CD = #{COMPANY_CD}) GCD
+	      ON GCD.SSC_CD = US.WKGD_CD	      
+		LEFT JOIN (
+		    SELECT SSC_CD, SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM06' AND  COMPANY_CD = #{COMPANY_CD}) DCD
+	      ON DCD.SSC_CD = US.WKDT_CD							
+	WHERE 1=1	  
+	  <if test="USER_ID != null and USER_ID != ''">
+	  AND USER_ID LIKE CONCAT('%', #{USER_ID} ,'%')
+	  </if>
+	  <if test="USER_NM != null and USER_NM != ''">
+	  AND KORN_NM LIKE CONCAT('%', #{USER_NM}, '%')
+	  </if >
+	  <if test="EMP_NO != null and EMP_NO != ''">
+	  AND EMP_NO LIKE CONCAT('%', #{EMP_NO}, '%')
+	  </if >
+ 	  <if test="HOOF_STAT_CD != null and HOOF_STAT_CD != ''">   
+	  AND HOOF_STAT_CD = #{HOOF_STAT_CD}
+	  </if>                        
+	  <if test="DEPT_CD != null and DEPT_CD != ''">
+	  AND US.DEPT_CD = #{DEPT_CD}
+	  </if>
+	  <if test="USER_FLAG_CD != null and USER_FLAG_CD != ''">
+	  AND US.USER_FLAG_CD = #{USER_FLAG_CD}
+	  </if>
+	  AND US.COMPANY_CD = #{COMPANY_CD}
+	ORDER BY DP.DEPT_ORDER, US.WKDT_CD, US.WKGD_CD, US.USER_ID	
+</select> 
+
+
+<!--  MAP 사용자 정보 조회  -->
+<select id="selectCheckEmpNo" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT	
+	    US.EMP_NO
+	    , US.USER_ID
+	FROM T_SYTM_USER US
+	WHERE EMP_NO = #{EMP_NO}
+	AND US.COMPANY_CD = #{COMPANY_CODE}
+</select> 
+
+<!--  MAP 사용자 정보 조회  -->
+<select id="searchUserOneInfo" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT	/*  searchUserInfo  */
+	    US.EMP_NO
+	    , US.USER_ID
+	    , '' AS PASSWORD
+	    , US.EMP_NM 
+	    , US.KORN_NM 
+	    , US.ENGL_NM
+	    , US.DEPT_CD
+	    , DP.DEPT_KORN_NM AS DEPT_NM
+	    , US.USER_FLAG_CD
+	    , US.WKGD_CD
+	    , US.WKDT_CD
+	    , US.OCCU_CD
+	    , US.CHAG_WORK
+	    , US.JOIN_DATE
+	    , US.RETR_DATE
+	    , US.HOOF_STAT_CD
+	    , US.WKPL_TELP_NUMB
+	    , US.REGI_NUMB
+	    , US.BIR_DT
+	    , US.CELL_NUMB
+	    , COALESCE(REGEXP_SUBSTR(US.CELL_NUMB, '-',1,1),'') AS PHONE1
+	    , COALESCE(REGEXP_SUBSTR(US.CELL_NUMB, '-',1,2),'') AS PHONE2
+	    , COALESCE(REGEXP_SUBSTR(US.CELL_NUMB, '-',1,3),'') AS PHONE3
+	    , US.HUS_TELP_NUMB
+	    , US.EMAIL
+	    , US.ZIP_NUMB
+	    , US.BASC_ADDR
+	    , US.DTL_ADDR
+	    , US.THEME_ID
+	    , US.WKGD_CD
+	    , GCD.SSC_CD_KORN_NM WKGD_NM 
+	    , US.WKDT_CD   
+	    , DCD.SSC_CD_KORN_NM WKDT_NM
+	    , US.USER_PIC  
+	    , US.COMPANY_CD  
+	FROM T_SYTM_USER US
+	    INNER JOIN T_SYTM_DEPT DP
+	      ON DP.DEPT_CD = US.DEPT_CD 
+		LEFT JOIN (
+		    SELECT SSC_CD, SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM05' AND  COMPANY_CD = #{COMPANY_CD}) GCD
+	      ON GCD.SSC_CD = US.WKGD_CD	      
+		LEFT JOIN (
+		    SELECT SSC_CD, SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM06' AND  COMPANY_CD = #{COMPANY_CD}) DCD
+	      ON DCD.SSC_CD = US.WKDT_CD							
+	WHERE EMP_NO = #{EMP_NO}
+	AND US.COMPANY_CD = #{COMPANY_CD}
+</select> 
+
+<!--  MAP 신규등록 메시지 코드 존재여부 체크 -->
+<select id="checkUserId" parameterType="java.util.List" resultType="java.util.Map">
+/* checkUserId */
+	SELECT 
+		USER_ID
+	FROM T_SYTM_USER
+	WHERE USER_ID IN
+	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	    #{item.USER_ID}
+	</foreach>  
+	AND COMPANY_CD IN
+	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	    #{item.COMPANY_CD}
+	</foreach>  
+</select>
+    
+<!-- 사용자 추가 SHA256 단방향 암호화 적용 2022-12-15 --> 
+<insert id="insertUserInfo" parameterType="java.util.Map">
+	INSERT INTO T_SYTM_USER
+	(
+		COMPANY_CD
+	    , EMP_NO
+	    , USER_ID
+	    <if test="PASSWORD != null and PASSWORD != ''">
+	    , PASSWORD
+	    </if>
+	    , EMP_NM
+	    , KORN_NM
+	    , ENGL_NM
+	    , DEPT_CD
+	    , USER_FLAG_CD
+	    , WKGD_CD
+	    , WKDT_CD
+	    , OCCU_CD
+	    , CHAG_WORK
+	    , JOIN_DATE
+	    , RETR_DATE
+	    , HOOF_STAT_CD
+	    , WKPL_TELP_NUMB
+	    , REGI_NUMB
+	    , BIR_DT
+	    , BIR_LUNAR_FLAG
+	    , CELL_NUMB
+	    , HUS_TELP_NUMB
+	    , EMAIL
+	    , ZIP_NUMB
+	    , BASC_ADDR
+	    , DTL_ADDR
+	    , THEME_ID
+	    , MARRIAGE_FLAG
+	    , WORK_STARTDATE
+	    , WORK_YY
+	    , WORK_MM
+	    , WORK_LEVEL_CD
+	    , EDU_LEVEL_CD
+	    , SEX_FLAG
+	    , SI_FLAG
+	    , INPT_ID
+	    , INPT_DTTM
+	    , INPT_IP
+	    , CHGE_ID
+	    , CHGE_DTTM
+	    , CHGE_IP	    
+	)VALUES(
+		#{COMPANY_CD}
+	    , 
+		<choose>
+			<when test=' EMP_NO == null or EMP_NO == "" '>
+				(SELECT CONCAT('EU', LPAD(IFNULL(MAX(CAST(SUBSTRING(TU.EMP_NO, 3) AS UNSIGNED)), 0) + 1, 8, '0')) AS EMP_NO
+				FROM T_SYTM_USER TU
+				WHERE TU.EMP_NO LIKE 'EU%' AND TU.COMPANY_CD = #{COMPANY_CD})
+			</when>
+			<otherwise>
+				#{EMP_NO}
+			</otherwise>
+		</choose>
+		,			
+		<choose>
+			<when test=' (USER_ID == null or USER_ID == "") and (EMP_NO == null or EMP_NO == "") '>
+				(SELECT CONCAT('EU', LPAD(IFNULL(MAX(CAST(SUBSTRING(TU.EMP_NO, 3) AS UNSIGNED)), 0) + 1, 8, '0')) AS EMP_NO
+				FROM T_SYTM_USER TU
+				WHERE TU.EMP_NO LIKE 'EU%' AND TU.COMPANY_CD = #{COMPANY_CD})
+			</when>
+			<otherwise>
+				#{USER_ID}
+			</otherwise>
+		</choose>			
+		<if test="PASSWORD != null and PASSWORD != ''">
+	    , CONVERT(#{PASSWORD}, CHAR)
+	    </if>
+	    , #{EMP_NM}
+	    , #{KORN_NM}
+	    , #{ENGL_NM}
+	    , #{DEPT_CD}
+	    , #{USER_FLAG_CD}
+	    , #{WKGD_CD}
+	    , #{WKDT_CD}
+	    , #{OCCU_CD}
+	    , #{CHAG_WORK}
+	    , #{JOIN_DATE}
+	    , #{RETR_DATE}
+	    , #{HOOF_STAT_CD}
+	    , #{WKPL_TELP_NUMB}
+	    , #{REGI_NUMB}
+	    , #{BIR_DT}
+	    , #{BIR_LUNAR_FLAG}
+	    , #{CELL_NUMB}
+	    , #{HUS_TELP_NUMB}
+	    , #{EMAIL}
+	    , #{ZIP_NUMB}
+	    , #{BASC_ADDR}
+	    , #{DTL_ADDR}
+	    , #{THEME_ID}
+	    , #{MARRIAGE_FLAG}
+	    , #{WORK_STARTDATE}
+	    , #{WORK_YY}
+	    , #{WORK_MM}
+	    , #{WORK_LEVEL_CD}
+	    , #{EDU_LEVEL_CD}
+	    , #{SEX_FLAG}
+	    , #{SI_FLAG}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+		);
+</insert>
+
+<!--  MAP 사용자 정보 수정 -->    
+<update id="updateUserInfo" parameterType="java.util.Map">
+	UPDATE T_SYTM_USER 
+	SET 
+	    EMP_NO 			= #{EMP_NO}
+	    <if test="PASSWORD != null and PASSWORD != ''">
+	    , PASSWORD      =  CONVERT(#{PASSWORD}, CHAR)
+	    </if >
+	    , EMP_NM 		= #{EMP_NM}
+	    , KORN_NM 		= #{KORN_NM}
+	    , ENGL_NM 		= #{ENGL_NM}
+	    , DEPT_CD 		= #{DEPT_CD}
+	    , USER_FLAG_CD 	= #{USER_FLAG_CD}
+	    , WKGD_CD 		= #{WKGD_CD}
+	    , WKDT_CD 		= #{WKDT_CD}
+	    , OCCU_CD 		= #{OCCU_CD}
+	    , CHAG_WORK 	= #{CHAG_WORK}
+	    , JOIN_DATE 	= #{JOIN_DATE}
+	    , RETR_DATE 	= #{RETR_DATE}
+	    , HOOF_STAT_CD 	= #{HOOF_STAT_CD}
+	    , WKPL_TELP_NUMB= #{WKPL_TELP_NUMB}
+	    , REGI_NUMB 	= #{REGI_NUMB}
+	    , BIR_DT 		= #{BIR_DT}
+	    , BIR_LUNAR_FLAG = #{BIR_LUNAR_FLAG}
+	    , CELL_NUMB 	= #{CELL_NUMB}
+	    , HUS_TELP_NUMB = #{HUS_TELP_NUMB}
+	    , EMAIL 		= #{EMAIL}
+	    , ZIP_NUMB 		= #{ZIP_NUMB}
+	    , BASC_ADDR 	= #{BASC_ADDR}
+	    , DTL_ADDR 		= #{DTL_ADDR}
+	    , THEME_ID 		= #{THEME_ID}
+	    , MARRIAGE_FLAG = #{MARRIAGE_FLAG}
+	    , MILITARY_FLAG = #{MILITARY_FLAG}
+	    , WORK_STARTDATE = #{WORK_STARTDATE}
+	    , WORK_YY 		= #{WORK_YY}
+	    , WORK_MM 		= #{WORK_MM}
+	    , WORK_LEVEL_CD = #{WORK_LEVEL_CD}
+	    , EDU_LEVEL_CD 	= #{EDU_LEVEL_CD}
+	    , SEX_FLAG 		= #{SEX_FLAG}
+	    , SI_FLAG 		= #{SI_FLAG}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	    <if test="USER_PIC != null and USER_PIC != ''">
+	    , USER_PIC 		= #{USER_PIC}
+	    </if>
+	WHERE USER_ID 		= #{USER_ID}	
+	AND  COMPANY_CD     = #{COMPANY_CD}
+</update>
+
+
+<!--  MAP 사용자 정보 삭제 -->   
+<delete id="deleteUserInfo" parameterType="java.util.Map">
+	DELETE FROM T_SYTM_USER 
+	WHERE USER_ID=#{USER_ID}
+	AND  COMPANY_CD     = #{COMPANY_CD}
+</delete>
+
+<!--  MAP 사용자 테마 정보 수정 -->   
+<update id="updateUserSetting" parameterType="java.util.Map">
+	UPDATE T_SYTM_USER 
+	SET 
+	    THEME_ID 		= #{THEME_ID}
+	WHERE USER_ID 		= #{USER_ID_SRV}
+	AND  COMPANY_CD     = #{COMPANY_CD}
+</update>
+
+<!--  MAP 사용자 비밀번호 수정 -->    
+<update id="updateUserPassword" parameterType="java.util.Map">
+	UPDATE T_SYTM_USER 
+	SET 
+	    PASSWORD 		=  CONVERT(#{NEW_PASSWORD}, CHAR)
+	WHERE EMP_NO 		= #{EMP_NO}
+	AND PASSWORD = #{CUR_PASSWORD}
+	AND  COMPANY_CD     = #{COMPANY_CD}
+</update>
+
+<select id="checkUserPassword" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT EMP_NO
+	FROM  T_SYTM_USER
+	WHERE EMP_NO = #{EMP_NO}
+	AND PASSWORD = #{NEW_PASSWORD}
+	AND  COMPANY_CD     = #{COMPANY_CD}
+</select>
+
+<!--  MAP 사용자 비밀번호 수정 -->    
+<update id="initUserPassword" parameterType="java.util.Map">
+	UPDATE T_SYTM_USER 
+	SET 
+	    PASSWORD 		=  CONVERT(#{PASSWORD}, CHAR)
+	WHERE EMP_NO 		= #{EMP_NO}
+	AND  COMPANY_CD     = #{COMPANY_CD}
+
+</update>
+
+<insert id="insertEmpScroolCareer" parameterType="java.util.Map">
+	INSERT EMP_SCHOOL_CAREER
+		(COMPANY_CD
+		, EMP_NO
+		, ESC_SEQ
+		, SCHOOL_NAME
+		, START_DATE
+		, END_DATE
+		, SUBJECT_NAME
+		, GRADUATE_FLAG
+		, PLACE_NAME
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM
+	) VALUES(
+		  #{COMPANY_CD}
+		, #{EMP_NO}
+		, (SELECT IFNULL(MAX(ESC.ESC_SEQ),0)+1 FROM EMP_SCHOOL_CAREER ESC WHERE ESC.COMPANY_CD = #{COMPANY_CD} AND ESC.EMP_NO = #{EMP_NO})
+		, #{SCHOOL_NAME}
+		, #{START_DATE}
+		, #{END_DATE}
+		, #{SUBJECT_NAME}
+		, #{GRADUATE_FLAG}
+		, #{PLACE_NAME}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	)
+</insert>
+
+<update id="updateEmpScroolCareer" parameterType="java.util.Map">
+	UPDATE EMP_SCHOOL_CAREER
+	SET 
+		SCHOOL_NAME 	= #{SCHOOL_NAME}
+		, START_DATE	= #{START_DATE}
+		, END_DATE		= #{END_DATE}
+		, SUBJECT_NAME	= #{SUBJECT_NAME}
+		, GRADUATE_FLAG	= #{GRADUATE_FLAG}
+		, PLACE_NAME	= #{PLACE_NAME}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND ESC_SEQ=#{ESC_SEQ}
+</update>
+
+<delete id="deleteEmpScroolCareer" parameterType="java.util.Map">
+	DELETE FROM EMP_SCHOOL_CAREER
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND ESC_SEQ=#{ESC_SEQ}	
+</delete>
+
+<insert id="insertEmpCompanyCareer" parameterType="java.util.Map">
+	INSERT INTO EMP_COMPANY_CAREER
+	(	COMPANY_CD
+		, EMP_NO
+		, ECC_SEQ
+		, COMPANY_NAME
+		, START_DATE
+		, END_DATE
+		, GRADE_NAME
+		, WORK_PART
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM
+	) VALUES(
+		#{COMPANY_CD}
+		, #{EMP_NO}
+		, (SELECT IFNULL(MAX(ESC.ECC_SEQ),0)+1 FROM EMP_COMPANY_CAREER ESC WHERE ESC.COMPANY_CD = #{COMPANY_CD} AND ESC.EMP_NO = #{EMP_NO})
+		, #{COMPANY_NAME}
+		, #{START_DATE}
+		, #{END_DATE}
+		, #{GRADE_NAME}
+		, #{WORK_PART}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}	
+	)
+</insert>
+
+<update id="updateEmpCompanyCareer" parameterType="java.util.Map">
+	UPDATE EMP_COMPANY_CAREER
+	SET 
+		  COMPANY_NAME 	= #{COMPANY_NAME}
+		, START_DATE 	= #{START_DATE}
+		, END_DATE 		= #{END_DATE}
+		, GRADE_NAME 	= #{GRADE_NAME}
+		, WORK_PART 	= #{WORK_PART}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND ECC_SEQ=#{ECC_SEQ}
+</update>
+
+<delete id="deleteEmpCompanyCareer" parameterType="java.util.Map">
+	DELETE FROM EMP_COMPANY_CAREER
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND ECC_SEQ=#{ECC_SEQ}	
+</delete>
+
+<insert id="insertEmpProjectCareer" parameterType="java.util.Map">
+	INSERT INTO EMP_PROJECT_CAREER
+	(	COMPANY_CD
+		, EMP_NO
+		, EPC_SEQ
+		, PROJECT_NAME
+		, START_DATE
+		, END_DATE
+		, CLIENT_NAME
+		, COMPANY_NAME
+		, ROLE_CODE
+		, ENV
+		, PRLANGUAGE
+		, DBMS
+		, REMARKS
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM
+	) VALUES(
+		#{COMPANY_CD}
+		, #{EMP_NO}
+		, (SELECT IFNULL(MAX(ESC.EPC_SEQ),0)+1 FROM EMP_PROJECT_CAREER ESC WHERE ESC.COMPANY_CD = #{COMPANY_CD} AND ESC.EMP_NO = #{EMP_NO})
+		, #{PROJECT_NAME}
+		, #{START_DATE}
+		, #{END_DATE}
+		, #{CLIENT_NAME}
+		, #{COMPANY_NAME}
+		, #{ROLE_CODE}
+		, #{ENV}
+		, #{PRLANGUAGE}
+		, #{DBMS}
+		, #{REMARKS}		
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}	
+	)		
+</insert>
+<update id="updateEmpProjectCareer" parameterType="java.util.Map">
+	UPDATE EMP_PROJECT_CAREER
+	SET 
+		  PROJECT_NAME 	= #{PROJECT_NAME}
+		, START_DATE 	= #{START_DATE}
+		, END_DATE 		= #{END_DATE}
+		, CLIENT_NAME 	= #{CLIENT_NAME}
+		, COMPANY_NAME 	= #{COMPANY_NAME}
+		, ROLE_CODE 	= #{ROLE_CODE}
+		, ENV			= #{ENV}
+		, PRLANGUAGE 	= #{PRLANGUAGE}
+		, DBMS 			= #{DBMS}
+		, REMARKS 		= #{REMARKS}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND EPC_SEQ=#{EPC_SEQ}
+</update>
+
+<delete id="deleteEmpProjectCareer" parameterType="java.util.Map">
+	DELETE FROM EMP_PROJECT_CAREER
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND EPC_SEQ=#{EPC_SEQ}	
+</delete>
+
+<insert id="insertEmpTechSkill" parameterType="java.util.Map">
+	INSERT INTO EMP_TECH_SKILL
+	(	COMPANY_CD
+		, EMP_NO
+		, ETS_SEQ
+		, SKILL_NAME
+		, SKILL
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM
+	) VALUES(
+		#{COMPANY_CD}
+		, #{EMP_NO}
+		, (SELECT IFNULL(MAX(ESC.ETS_SEQ),0)+1 FROM EMP_TECH_SKILL ESC WHERE ESC.COMPANY_CD = #{COMPANY_CD} AND ESC.EMP_NO = #{EMP_NO})
+		, #{SKILL_NAME}
+		, #{SKILL}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}	
+	)				
+</insert>
+<update id="updateEmpTechSkill" parameterType="java.util.Map">
+	UPDATE EMP_TECH_SKILL
+	SET 
+		  SKILL_NAME 	= #{SKILL_NAME}
+		, SKILL 		= #{SKILL}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND ETS_SEQ=#{ETS_SEQ}
+</update>
+
+<delete id="deleteEmpTechSkill" parameterType="java.util.Map">
+	DELETE FROM EMP_TECH_SKILL
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND ETS_SEQ=#{ETS_SEQ}	
+</delete>
+
+<insert id="insertEmpEducation" parameterType="java.util.Map">
+	INSERT INTO EMP_EDUCATION
+	(	COMPANY_CD
+		, EMP_NO
+		, EE_SEQ
+		, EDU_NAME
+		, INSTITUTION_NAME
+		, START_DATE
+		, END_DATE
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM
+	) VALUES(
+		#{COMPANY_CD}
+		, #{EMP_NO}
+		, (SELECT IFNULL(MAX(ESC.EE_SEQ),0)+1 FROM EMP_EDUCATION ESC WHERE ESC.COMPANY_CD = #{COMPANY_CD} AND ESC.EMP_NO = #{EMP_NO})
+		, #{EDU_NAME}
+		, #{INSTITUTION_NAME}
+		, #{START_DATE}
+		, #{END_DATE}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}	
+	)				
+</insert>
+
+<update id="updateEmpEducation" parameterType="java.util.Map">
+	UPDATE EMP_EDUCATION
+	SET 
+		  EDU_NAME 	= #{EDU_NAME}
+		, INSTITUTION_NAME 		= #{INSTITUTION_NAME}
+		, START_DATE 		= #{START_DATE}
+		, END_DATE 		= #{END_DATE}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND EE_SEQ=#{EE_SEQ}
+</update>
+
+<delete id="deleteEmpEducation" parameterType="java.util.Map">
+	DELETE FROM EMP_EDUCATION
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND EE_SEQ=#{EE_SEQ}	
+</delete>
+
+<insert id="insertEmplicense" parameterType="java.util.Map">
+	INSERT INTO EMP_LICENSE
+	(	COMPANY_CD
+		, EMP_NO
+		, EL_SEQ
+		, LICENSE_CODE
+		, LICENSE_DATE
+		, LICENSE_FM_SEQ
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM
+	) VALUES(
+		#{COMPANY_CD}
+		, #{EMP_NO}
+		, (SELECT IFNULL(MAX(ESC.EL_SEQ),0)+1 FROM EMP_LICENSE ESC WHERE ESC.COMPANY_CD = #{COMPANY_CD} AND ESC.EMP_NO = #{EMP_NO})
+		, #{LICENSE_CODE}
+		, #{LICENSE_DATE}
+		, #{LICENSE_FM_SEQ}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}	
+	)				
+</insert>
+
+<update id="updateEmplicense" parameterType="java.util.Map">
+	UPDATE EMP_LICENSE
+	SET 
+		  LICENSE_CODE 	= #{LICENSE_CODE}
+		, LICENSE_DATE 		= #{LICENSE_DATE}
+		, LICENSE_FM_SEQ 		= #{LICENSE_FM_SEQ}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND EL_SEQ=#{EL_SEQ}
+</update>
+
+<delete id="deleteEmplicense" parameterType="java.util.Map">
+	DELETE FROM EMP_LICENSE
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND EL_SEQ=#{EL_SEQ}	
+</delete>
+
+<insert id="insertEmpAppointment" parameterType="java.util.Map">
+	INSERT INTO EMP_APPOINTMENT
+	(	COMPANY_CD
+		, EMP_NO
+		, EA_SEQ
+		, APPOINT_CD
+		, APPOINT_DATE
+		, GROUP_NAME
+		, TEAM_NAME
+		, WKDT_CD
+		, REMARKS
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM
+	) VALUES(
+		#{COMPANY_CD}
+		, #{EMP_NO}
+		, (SELECT IFNULL(MAX(ESC.EA_SEQ),0)+1 FROM EMP_APPOINTMENT ESC WHERE ESC.COMPANY_CD = #{COMPANY_CD} AND ESC.EMP_NO = #{EMP_NO})
+		, #{APPOINT_CD}
+		, #{APPOINT_DATE}
+		, #{GROUP_NAME}
+		, #{TEAM_NAME}
+		, #{WKDT_CD}
+		, #{REMARKS}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}	
+	)		
+</insert>
+
+
+<update id="updateEmpAppointment" parameterType="java.util.Map">
+	UPDATE EMP_APPOINTMENT
+	SET 
+		  APPOINT_CD 	= #{APPOINT_CD}
+		, APPOINT_DATE 	= #{APPOINT_DATE}
+		, GROUP_NAME 	= #{GROUP_NAME}
+		, TEAM_NAME 	= #{TEAM_NAME}
+		, WKDT_CD 		= #{WKDT_CD}
+		, REMARKS 		= #{REMARKS}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND EA_SEQ=#{EA_SEQ}
+</update>
+
+<delete id="deleteEmpAppointment" parameterType="java.util.Map">
+	DELETE FROM EMP_APPOINTMENT
+	WHERE COMPANY_CD=#{COMPANY_CD} 
+	AND EMP_NO=#{EMP_NO} 
+	AND EA_SEQ=#{EA_SEQ}	
+</delete>
+
+<select id="selectMakeEmpNo" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT CONCAT('Z', LPAD(IFNULL(MAX(CAST(SUBSTRING(EMP_NO, 2, LENGTH(EMP_NO) - 1) AS UNSIGNED)), 0) + 1, 9, '0')) AS EMP_NO
+FROM T_SYTM_USER
+WHERE LENGTH(EMP_NO) = 10
+  AND EMP_NO LIKE 'Z%'
+  AND COMPANY_CD = #{CO_CD}
+</select>
+
+</mapper>

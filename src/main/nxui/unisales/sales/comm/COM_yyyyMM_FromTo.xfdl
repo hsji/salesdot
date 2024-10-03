@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="COM_yyyyMM_FromTo" width="300" height="24" titletext="New Form" onload="COM_yyyyMM_FromTo_onload">
+    <Layouts>
+      <Layout height="24" mobileorientation="landscape" width="300">
+        <Div id="div_yyyyMM_From" taborder="0" left="0" top="0" width="140" url="sales::comm/COM_yyyyMM.xfdl" user_onchanged="from_onchanged" formscrolltype="none" formscrollbartype="none none" bottom="0"/>
+        <Static id="Static00" taborder="1" text="~" left="div_yyyyMM_From:0" top="0" width="10" height="20" textAlign="center"/>
+        <Div id="div_yyyyMM_To" taborder="2" left="Static00:9" top="0" width="140" url="sales::comm/COM_yyyyMM.xfdl" user_onchanged="to_onchanged" formscrollbartype="none none" formscrolltype="none" bottom="0"/>
+      </Layout>
+      <Layout name="portrait" screenid="Mobile_screen" width="462" height="30" mobileorientation="portrait">
+        <Div id="div_yyyyMM_To" left="Static00:0" top="0" width="224" height="30"/>
+        <Static id="Static00" left="div_yyyyMM_From:0" top="0" width="14" height="30"/>
+        <Div id="div_yyyyMM_From" left="0" top="0" width="224" height="30"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.pForm;
+this.pComp;
+
+this.COM_yyyyMM_FromTo_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//스크롤바 제거
+	this.set_scrollbartype("none none");
+	
+	this.pForm = this.parent.parent;
+	this.pComp = this.parent;	
+	
+	var pThis = this;
+	this.pComp.getFromYear = function()		{	return pThis.div_yyyyMM_From.getYear();		}
+	this.pComp.getFromMonth = function()	{	return pThis.div_yyyyMM_From.getMonth();	}
+	this.pComp.getFromYYYYMM = function()	{	return pThis.div_yyyyMM_From.getYYYYMM()	}
+	
+	this.pComp.getToYear = function()		{	return pThis.div_yyyyMM_To.getYear();		}
+	this.pComp.getToMonth = function()		{	return pThis.div_yyyyMM_To.getMonth();		}
+	this.pComp.getToYYYYMM = function()		{	return pThis.div_yyyyMM_To.getYYYYMM();		}
+		
+	this.pComp.setFromYYYYMM = function(v)	{	return pThis.div_yyyyMM_From.setYYYYMM(v);	}	
+	this.pComp.setToYYYYMM = function(v)	{	return pThis.div_yyyyMM_To.setYYYYMM(v);	}
+	
+};
+
+this.from_onchanged = function(obj, e)
+{
+	if(e.newvalue > this.div_yyyyMM_To.getYYYYMM())
+	{
+		this.div_yyyyMM_To.setYYYYMM(e.newvalue);
+	}
+	
+	e.target = "from";
+	this.onchanged(obj, e);
+}
+
+this.to_onchanged = function(obj, e)
+{
+	if(e.newvalue < this.div_yyyyMM_From.getYYYYMM())
+	{
+		this.div_yyyyMM_From.setYYYYMM(e.newvalue);
+	}
+	
+	e.target = "to";
+	this.onchanged(obj, e);
+}
+
+
+this.onchanged = function(obj, e)
+{
+	if(this.pComp.hasOwnProperty("user_onchanged"))
+	{
+		var event = this.pComp.user_onchanged;
+		
+		if(!this.gfnIsEmpty(event))
+		{
+			var f = this.pForm;	
+			var fe;
+			/*상위로 올라가면서 event fn 찾기*/
+			for (f; (f != null); f = f.parent)
+			{
+				if (event in f)
+				{
+					/*event fn이 존재한다면 호출*/
+					f[event].call(f, this.pComp, e);
+					break;
+				}
+			}
+		}		
+	}	
+}
+
+]]></Script>
+  </Form>
+</FDL>

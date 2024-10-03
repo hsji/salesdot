@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="assetListPu" width="750" height="630" titletext="사용자전체조회" onload="form_onload">
+    <Layouts>
+      <Layout height="630" mobileorientation="landscape" width="750">
+        <Div id="divSearch" taborder="0" left="25" top="20" height="50" cssclass="div_WF_Search" text="" right="25">
+          <Layouts>
+            <Layout>
+              <Button id="btnSearch" taborder="1" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Static id="staCd" taborder="1" text="자산구분" cssclass="sta_WF_SchLabel" left="0" top="12" width="98" height="24"/>
+              <Combo id="cboAssetGrp" taborder="2" left="98" top="12" width="165" height="24" onitemchanged="divSearch_cboAssetGrp_onitemchanged" value="" index="-1"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="1" text="자산목록" left="25" top="70" height="43" cssclass="sta_WF_Title" right="25"/>
+        <Button id="btnConfirm" taborder="2" text="확인" height="28" width="50" fittocontents="width" cssclass="btn_WF_Crud" right="78" bottom="20" onclick="btnConfirm_onclick"/>
+        <Button id="btnClose" taborder="3" text="취소" height="28" width="50" fittocontents="width" right="25" bottom="20" onclick="btnClose_onclick"/>
+        <Static id="Static04" taborder="4" left="165" top="70" width="30" height="43" cssclass="sta_WF_GSize" visible="false" text="H43"/>
+        <Static id="Static04_01" taborder="5" left="0" top="0" width="25" cssclass="sta_WF_GSize" visible="false" text="W 25" bottom="0"/>
+        <Static id="Static04_01_00" taborder="6" top="0" width="25" cssclass="sta_WF_GSize" visible="false" text="W 25" bottom="0" right="0"/>
+        <Static id="Static04_00" taborder="7" left="166" top="0" width="30" height="20" cssclass="sta_WF_GSize" visible="false" text="H20"/>
+        <Grid id="grdMaster" taborder="8" left="25" top="113" binddataset="dsList" autoenter="select" bottom="68" cellsizingtype="col" autofittype="col" uFunction="filter,sort,!colfix,!initial,find" minheight="250" maxheight="" right="25" oncelldblclick="grdMaster_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="65"/>
+                <Column size="139"/>
+                <Column size="98"/>
+                <Column size="160"/>
+                <Column size="160"/>
+                <Column size="160"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구분"/>
+                <Cell col="1" text="순번"/>
+                <Cell col="2" text="자산번호"/>
+                <Cell col="3" text="사용자"/>
+                <Cell col="4" text="형태"/>
+                <Cell col="5" text="버전"/>
+                <Cell col="6" text="시리얼"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ASSET_CD" suppress="1"/>
+                <Cell col="1" text="bind:ASSET_NO"/>
+                <Cell col="2" expr="ASSET_CD &amp;&amp; ASSET_NO?ASSET_CD + '-' + (ASSET_NO+'').padLeft(3,'0'):''"/>
+                <Cell col="3" text="bind:OWNNER_NAME"/>
+                <Cell col="4" text="bind:ASSET_TYPE"/>
+                <Cell col="5" text="bind:ASSET_VERSION"/>
+                <Cell col="6" text="bind:SERIAL_NO"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	orgUserListPu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/28
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/28			TOBESOFT					최초생성
+* 2022/10/18			TOBESOFT					재직상태추가
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	var param = 
+	[
+		  {biztype : "Combo", code : "SM23", selecttype : "A", objid : this.divSearch.form.cboAssetGrp}				// 자산구분
+		, {biztype : "Grid",  code : "SM23", objid : this.grdMaster, bindcolumn : "ASSET_CD", edit : "false"}	// 자산구분코드
+		, {biztype : "Grid",  code : "SM19", objid : this.grdMaster, bindcolumn : "ASSET_TYPE", edit : "false"}	// 자산형태
+		  
+	];
+	this.gfnGetCommonCode(param);	
+	
+	this.fvSearchCode = this.getOwnerFrame().pvSearchCode;
+	this.fvSearchName = this.getOwnerFrame().pvSearchNo;
+	
+	if(this.fvSearchCode && this.fvSearchCode != "") {
+		this.divSearch.form.cboAssetGrp.set_value(this.fvSearchCode);
+	}
+	
+	this.cfnSearch(); //자동조회
+};
+
+this.afterCommCodeLoad = function()
+{
+
+}
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*****************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	//this.dsCond.clearData();
+	this.dsList.clearData();
+
+	var strSvcId    = "SearchAssetList";
+	var strSvcUrl   = "SearchAssetList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "SearchAssetList":
+			break;
+		default:break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnClose = function (nRow)
+{
+	var sCd = this.dsList.getColumn(nRow, "ASSET_CD");
+	var sNo = this.dsList.getColumn(nRow, "ASSET_NO");
+	var sName = this.dsList.getColumn(nRow, "OWNNER_NAME");
+	var sType = this.dsList.getColumn(nRow, "ASSET_TYPE");
+	var sVersion = this.dsList.getColumn(nRow, "ASSET_VERSION");
+
+	var rtn = sCd +"|" + sNo+"|" + sName+"|" + sType+"|" + sVersion;
+
+	this.close(rtn);
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnClose(this.dsList.rowposition);
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close("");
+};
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.grdMaster_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnClose(e.row);
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="ASSET_CD" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="HOOF_STAT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" firefirstcount="0" onrowposchanged="dsList_onrowposchanged" oncolumnchanged="dsList_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="ASSET_STATUS_CD" type="string" size="32"/>
+          <Column id="P_DATE" type="string" size="32"/>
+          <Column id="REASON_CD" type="string" size="32"/>
+          <Column id="SERIAL_NO" type="string" size="32"/>
+          <Column id="POSITION_CD" type="string" size="32"/>
+          <Column id="OWNNER" type="string" size="32"/>
+          <Column id="I_DATE" type="string" size="32"/>
+          <Column id="IP_ADDR" type="string" size="32"/>
+          <Column id="MEM_TYPE" type="string" size="32"/>
+          <Column id="M_STATUS" type="string" size="32"/>
+          <Column id="DEGREE_LVL" type="string" size="32"/>
+          <Column id="ASSET_SIZE" type="string" size="32"/>
+          <Column id="ASSET_CD" type="string" size="32"/>
+          <Column id="ASSET_NO" type="int" size="4"/>
+          <Column id="ASSET_TYPE" type="string" size="32"/>
+          <Column id="MANAGETEAM_CD" type="string" size="32"/>
+          <Column id="MANAGER" type="string" size="32"/>
+          <Column id="HDD_TYPE" type="string" size="32"/>
+          <Column id="TITLE" type="string" size="32"/>
+          <Column id="REMARK" type="string" size="32"/>
+          <Column id="M_CNT" type="int" size="4"/>
+          <Column id="CPU_TYPE" type="string" size="32"/>
+          <Column id="ASSET_VERSION" type="string" size="32"/>
+          <Column id="PRODUCT_CD" type="STRING" size="256"/>
+          <Column id="RELATION_ASSET" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+          <Column id="MANAGER_NAME" type="STRING" size="256"/>
+          <Column id="OWNNER_NAME" type="STRING" size="256"/>
+          <Column id="DEPT_NAME" type="STRING" size="256"/>
+          <Column id="OS_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtEmpNo" propid="value" datasetid="dsCond" columnid="EMP_NO"/>
+      <BindItem id="item1" compid="divSearch.form.edtUserNm" propid="value" datasetid="dsCond" columnid="USER_NM"/>
+      <BindItem id="item2" compid="divSearch.form.cboHoofStat" propid="value" datasetid="dsCond" columnid="HOOF_STAT_CD"/>
+      <BindItem id="item3" compid="divSearch.form.cboAssetGrp" propid="value" datasetid="dsCond" columnid="ASSET_CD"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,648 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CO_FindSiEmp" width="900" height="600" titletext="투입인력 선택" cssclass="frm_popBg" onload="CO_FindSiEmp_onload">
+    <Layouts>
+      <Layout height="600" mobileorientation="landscape" width="900" screenid="Desktop_screen">
+        <Button id="btn_close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_close_onclick" escapebutton="true"/>
+        <Static id="Static00" taborder="4" left="1" height="38" cssclass="sta_POP_BtnBg" bottom="1" right="1"/>
+        <Button id="btn_Confirm" taborder="5" text="선택" width="60" height="24" right="88" bottom="7" cssclass="btn_WF_tran" onclick="btn_Confirm_onclick" TL_SEQ="113"/>
+        <Button id="btn_Cancel" taborder="6" text="닫기" width="70" height="24" right="10" bottom="7" cssclass="btn_WF_tran" onclick="btn_Cancel_onclick" TL_SEQ="59"/>
+        <Div id="div_Search" taborder="1" text="" left="4" top="39" height="40" right="4" cssclass="div_WF_SchList">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Name" taborder="3" text="성명" left="228" top="8" width="44" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="27"/>
+              <Edit id="edt_Name" taborder="1" left="276" top="8" height="22" onkeydown="div_Search_edt_Name_onkeydown" width="172"/>
+              <Button id="btn_Search" taborder="2" text="조회" top="7" width="60" height="24" cssclass="btn_WF_SchText" right="8" onclick="div_Search_btn_Search_onclick" TL_SEQ="118"/>
+              <Edit id="edt_CompanyName" taborder="0" left="52" top="8" height="22" width="172" onkeydown="div_Search_edt_CompanyName_onkeydown"/>
+              <Static id="stc_Name00" taborder="4" text="회사" left="4" top="8" width="44" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="73"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Name" height="30" left="196" top="4" width="44"/>
+              <Edit id="edt_Name" height="30" left="244" top="4" width="140"/>
+              <Button id="btn_Search" height="30" top="3" width="70" right="4"/>
+              <Edit id="edt_CompanyName" height="30" left="52" top="4" width="140"/>
+              <Static id="stc_Name00" height="30" left="4" top="4" width="44"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_Organ" taborder="2" left="4" top="div_Search:4" width="260" bottom="Static00:4">
+          <Layouts>
+            <Layout>
+              <Static id="Static06" taborder="2" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" right="0"/>
+              <Grid id="grd_List" taborder="0" left="0" top="Static06:1" bottom="0" binddataset="ds_Orgran" treeinitstatus="expand,all" treeuseexpandkey="true" right="0" oncelldblclick="grd_List_oncelldblclick" onkeydown="grd_List_onkeydown" cellsizingtype="col" autofittype="col" formatid="default">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="30"/>
+                      <Column size="200"/>
+                      <Column size="50"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="No." TL_SEQ="735"/>
+                      <Cell col="1" text="회사" TL_SEQ="73"/>
+                      <Cell col="2" text="직원수" TL_SEQ="766"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell expr="currow+1"/>
+                      <Cell col="1" text="bind:COMPANY_NAME" textAlign="left"/>
+                      <Cell col="2" text="bind:EMP_CNT" textAlign="right" displaytype="number" padding="0px 5px 0px 0px"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell colspan="2" expr="dataset.getRowCount()"/>
+                      <Cell col="2" expr="dataset.getSum(&quot;EMP_CNT&quot;)"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile">
+                    <Columns>
+                      <Column size="30"/>
+                      <Column size="200"/>
+                      <Column size="50"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
+                      <Row size="30" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="No." TL_SEQ="735"/>
+                      <Cell col="1" text="회사" TL_SEQ="73"/>
+                      <Cell col="2" text="직원수" TL_SEQ="766"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell expr="currow+1"/>
+                      <Cell col="1" text="bind:COMPANY_NAME" textAlign="left"/>
+                      <Cell col="2" text="bind:EMP_CNT" textAlign="right" displaytype="number" padding="0px 5px 0px 0px"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell colspan="2" expr="dataset.getRowCount()"/>
+                      <Cell col="2" expr="dataset.getSum(&quot;EMP_CNT&quot;)"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static07" taborder="1" text="회사" left="10" top="9" width="120" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="73"/>
+            </Layout>
+            <Layout name="portrait">
+              <Grid id="grd_List" left="0" top="36" right="0" formatid="mobile" bottom="0"/>
+              <Static id="Static07" height="35" left="10" top="0" width="120"/>
+              <Static id="Static06" height="35" left="0" top="0" right="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_Emp" taborder="3" left="div_Organ:4" top="div_Search:4" right="4" bottom="Static00:4">
+          <Layouts>
+            <Layout>
+              <Static id="Static06" taborder="3" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" right="0"/>
+              <Grid id="grd_List" taborder="0" left="0" top="Static06:1" bottom="288" binddataset="ds_Emp" treeinitstatus="expand,all" treeuseexpandkey="true" right="0" oncelldblclick="div_Emp_grd_List_oncelldblclick" onkeydown="div_Emp_grd_List_onkeydown" cellsizingtype="col" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="25"/>
+                      <Column size="150"/>
+                      <Column size="60"/>
+                      <Column size="80"/>
+                      <Column size="45"/>
+                      <Column size="270"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="No." TL_SEQ="735"/>
+                      <Cell col="1" text="회사" TL_SEQ="73"/>
+                      <Cell col="2" text="성명" TL_SEQ="27"/>
+                      <Cell col="3" text="등급" TL_SEQ="92"/>
+                      <Cell col="4" text="투입수" TL_SEQ="767"/>
+                      <Cell col="5" text="최근 투입" TL_SEQ="768"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell expr="currow+1"/>
+                      <Cell col="1" text="bind:COMPANY_NAME" textAlign="left"/>
+                      <Cell col="2" text="bind:EMP_NAME"/>
+                      <Cell col="3" text="bind:LEVEL_NAME"/>
+                      <Cell col="4" text="bind:PSE_CNT" textAlign="right" displaytype="number"/>
+                      <Cell col="5" text="bind:RECENT_PSE" textAlign="left" padding="0px 0px 0px 5px"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="120"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell rowspan="2" text="No." TL_SEQ="735"/>
+                      <Cell col="1" colspan="2" text="회사" TL_SEQ="73"/>
+                      <Cell col="3" text="등급" TL_SEQ="92"/>
+                      <Cell col="4" text="투입수" TL_SEQ="767"/>
+                      <Cell row="1" col="1" text="성명" TL_SEQ="27"/>
+                      <Cell row="1" col="2" colspan="3" text="최근 투입" TL_SEQ="768"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell rowspan="2" expr="currow+1"/>
+                      <Cell col="1" colspan="2" text="bind:COMPANY_NAME" textAlign="left"/>
+                      <Cell col="3" text="bind:LEVEL_NAME"/>
+                      <Cell col="4" text="bind:PSE_CNT" textAlign="right" displaytype="number"/>
+                      <Cell row="1" col="1" text="bind:EMP_NAME"/>
+                      <Cell row="1" col="2" colspan="3" text="bind:RECENT_PSE" textAlign="left" padding="0px 0px 0px 5px"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static07" taborder="2" text="직원" left="10" top="9" width="120" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="769"/>
+              <Static id="stc_GBProduct" taborder="7" cssclass="sta_POP_GroupBg" left="0" top="grd_List:4" height="30" right="0"/>
+              <Div id="div01" taborder="6" text="div01" left="0" top="stc_GBProduct:0" height="100" right="0" cssclass="div_WF_detailBg">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta00" taborder="0" text="고객사" left="2" top="8" width="55" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="32"/>
+                    <Static id="sta01" taborder="1" text="프로젝트" left="-1" top="38" width="55" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="119"/>
+                    <Edit id="edtProject" taborder="2" left="62" top="38" width="297" height="22" readonly="true"/>
+                    <Static id="sta03" taborder="3" text="역할" left="500" top="38" width="31" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="75"/>
+                    <Static id="sta04" taborder="4" text="투입기간" left="356" top="8" width="55" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="770"/>
+                    <Static id="sta08" taborder="5" text="평가" left="356" top="38" width="55" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="771"/>
+                    <Edit id="edtClient" taborder="6" left="62" top="8" width="297" height="22" readonly="true"/>
+                    <Edit id="edtRole" taborder="7" left="536" top="38" width="82" height="22" readonly="true"/>
+                    <Edit id="edtScore3" taborder="8" left="417" top="38" width="82" height="22" readonly="true"/>
+                    <MaskEdit id="calStartDate" taborder="9" left="417" top="8" width="82" height="22" readonly="true" type="string" format="####-##-##" textAlign="center"/>
+                    <MaskEdit id="calEndDate" taborder="10" left="536" top="8" width="82" height="22" readonly="true" format="####-##-##" type="string" textAlign="center"/>
+                    <Static id="sta05" taborder="11" text="~" left="507" top="8" height="22" cssclass="sta_WF_DetailTit" textAlign="center" width="17"/>
+                    <Static id="sta08_00" taborder="12" text="평가의견" left="2" top="68" width="55" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="772"/>
+                    <Edit id="edtScore3_00" taborder="13" left="63" top="68" height="22" readonly="true" right="8"/>
+                  </Layout>
+                  <Layout name="portrait">
+                    <Static id="sta00" height="30" left="8" top="4" width="64"/>
+                    <Static id="sta01" height="30" left="8" top="38" width="64"/>
+                    <Edit id="edtProject" height="30" left="80" top="38" right="133"/>
+                    <Static id="sta03" height="30" top="39" width="39" right="92"/>
+                    <Static id="sta04" height="30" left="8" top="72" width="64"/>
+                    <Static id="sta08" height="30" top="5" width="39" right="92"/>
+                    <Edit id="edtClient" height="30" left="80" top="4" right="133"/>
+                    <Edit id="edtRole" height="30" top="39" width="82" right="3"/>
+                    <Edit id="edtScore3" height="30" top="5" width="82" right="4"/>
+                    <MaskEdit id="calStartDate" height="30" left="80" top="72" width="92"/>
+                    <MaskEdit id="calEndDate" height="30" top="72" width="92" left="200"/>
+                    <Static id="sta05" height="30" top="72" width="17" left="179"/>
+                    <Static id="sta08_00" height="30" left="8" top="106" width="64" text="평가의견"/>
+                    <Edit id="edtScore3_00" height="30" left="80" top="106" right="4"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="Static00" taborder="4" left="0" top="div01:4" height="30" cssclass="sta_POP_GroupBg" right="0"/>
+              <Grid id="grd_ListPse" taborder="1" left="0" top="div01:35" bottom="0" binddataset="ds_Pse" treeinitstatus="expand,all" treeuseexpandkey="true" right="0" oncelldblclick="grd_List_oncelldblclick" onkeydown="grd_List_onkeydown" cellsizingtype="col" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="30"/>
+                      <Column size="150"/>
+                      <Column size="200"/>
+                      <Column size="85"/>
+                      <Column size="85"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="No." TL_SEQ="735"/>
+                      <Cell col="1" text="고객사" TL_SEQ="32"/>
+                      <Cell col="2" text="프로젝트" TL_SEQ="119"/>
+                      <Cell col="3" text="투입일" TL_SEQ="773"/>
+                      <Cell col="4" text="종료일" TL_SEQ="39"/>
+                      <Cell col="5" text="담당영업" TL_SEQ="37"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell expr="currow+1"/>
+                      <Cell col="1" text="bind:CLIENT_NAME" textAlign="left"/>
+                      <Cell col="2" text="bind:PROJECT_NAME" textAlign="left"/>
+                      <Cell col="3" text="bind:START_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="4" text="bind:END_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="5" text="bind:SALES_EMP_NAME"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="180"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell rowspan="2" text="No." TL_SEQ="735"/>
+                      <Cell col="1" text="고객사" TL_SEQ="32"/>
+                      <Cell col="2" text="담당영업" TL_SEQ="37"/>
+                      <Cell col="3" text="투입일" TL_SEQ="773"/>
+                      <Cell row="1" col="1" colspan="2" text="프로젝트" TL_SEQ="119"/>
+                      <Cell row="1" col="3" text="종료일" TL_SEQ="39"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell rowspan="2" expr="currow+1"/>
+                      <Cell col="1" text="bind:CLIENT_NAME" textAlign="left"/>
+                      <Cell col="2" text="bind:SALES_EMP_NAME"/>
+                      <Cell col="3" text="bind:START_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell row="1" col="1" colspan="2" text="bind:PROJECT_NAME" textAlign="left"/>
+                      <Cell row="1" col="3" text="bind:END_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static01" taborder="5" text="투입이력" left="10" top="div01:12" width="120" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="774"/>
+              <Static id="stc_Product" taborder="8" text="최근 평가 프로젝트 정보" visible="true" cssclass="sta_POP_GroupTit" top="grd_List:11" left="10" height="16" width="158" TL_SEQ="775"/>
+              <Button id="btn_StaffEvaluation" taborder="9" text="투입평가" top="grd_List:8" width="60" height="22" right="8" onclick="div_Emp_btn_StaffEvaluation_onclick" TL_SEQ="776"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="Static07" height="35" left="10" top="0" width="120"/>
+              <Static id="Static06" height="35" left="0" top="0" right="0"/>
+              <Static id="stc_Product" height="35" left="10" top="282" width="158"/>
+              <Static id="stc_GBProduct" height="35" left="0" top="282" right="0"/>
+              <Static id="Static01" height="35" left="10" top="462" width="120"/>
+              <Static id="Static00" height="35" left="0" top="462" right="0"/>
+              <Grid id="grd_List" formatid="mobile" left="0" top="36" right="0" height="242"/>
+              <Grid id="grd_ListPse" formatid="mobile" left="0" top="498" right="0" bottom="2"/>
+              <Div id="div01" height="142" left="0" top="316" right="0"/>
+              <Button id="btn_StaffEvaluation" height="30" top="grd_List:6" width="80" right="4"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="st_Title" taborder="7" text="투입인력 선택" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="777"/>
+      </Layout>
+      <Layout name="portrait" screenid="Mobile_screen" width="480" height="1120" mobileorientation="portrait">
+        <Div id="div_Search" left="4" top="39" height="40" right="4"/>
+        <Div id="div_Organ" left="4" top="83" right="4" formscrolltype="none" height="249"/>
+        <Div id="div_Emp" left="4" top="336" right="4" formscrolltype="none" height="742"/>
+        <Button id="btn_Confirm" height="30" width="70" right="78" top="1085"/>
+        <Button id="btn_Cancel" height="30" width="70" right="4" top="1085"/>
+        <Static id="Static00" left="1" top="1081" height="38" right="1"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_Orgran" onrowposchanged="ds_Orgran_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CODE" type="STRING" size="20"/>
+          <Column id="COMPANY_NAME" type="STRING" size="100"/>
+          <Column id="EMP_CNT" type="INT" size="11"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Emp" onrowposchanged="ds_Emp_onrowposchanged">
+        <ColumnInfo>
+          <Column id="CO_CD" type="STRING" size="60"/>
+          <Column id="COMPANY_NAME" type="STRING" size="100"/>
+          <Column id="EMP_NO" type="STRING" size="60"/>
+          <Column id="EMP_NAME" type="STRING" size="100"/>
+          <Column id="PSE_CNT" type="INT" size="11"/>
+          <Column id="PROJECT_CODE" type="STRING" size="15"/>
+          <Column id="PROJECT_NAME" type="STRING" size="100"/>
+          <Column id="RECENT_PSE" type="STRING" size="126"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Pse">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="60"/>
+          <Column id="CLIENT_CODE" type="STRING" size="20"/>
+          <Column id="CLIENT_NAME" type="STRING" size="100"/>
+          <Column id="PROJECT_CODE" type="STRING" size="15"/>
+          <Column id="PROJECT_NAME" type="STRING" size="100"/>
+          <Column id="START_DATE" type="STRING" size="8"/>
+          <Column id="END_DATE" type="STRING" size="8"/>
+          <Column id="CONTRACT_NO" type="STRING" size="10"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="100"/>
+          <Column id="SALES_EMP_NAME" type="STRING" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsLastProjectInfo">
+        <ColumnInfo>
+          <Column id="PSE_SEQ" type="BIGDECIMAL" size="20"/>
+          <Column id="EMP_NO" type="STRING" size="100"/>
+          <Column id="CLIENT_NAME" type="STRING" size="100"/>
+          <Column id="PROJECT_NAME" type="STRING" size="100"/>
+          <Column id="CO_NAME" type="STRING" size="100"/>
+          <Column id="EMP_NAME" type="STRING" size="255"/>
+          <Column id="ROLE_CODE" type="STRING" size="20"/>
+          <Column id="ROLE_NAME" type="STRING" size="100"/>
+          <Column id="START_DATE" type="STRING" size="8"/>
+          <Column id="END_DATE" type="STRING" size="8"/>
+          <Column id="STEP_NAME" type="STRING" size="100"/>
+          <Column id="SCORES_GRADE" type="STRING" size="6"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: xxx
+* 02. 화면명		: xxx
+* 03. 화면설명 		: xxx
+* 04. 작성일   	: 2018.xx.xx
+* 05. 작성자   	: xxx
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.sEmpName = "";
+this.sCompanyCode = "";
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.CO_FindSiEmp_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnInitForm();
+};
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.btn_Confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnReturnOne(this.ds_Emp.rowposition);
+};
+
+this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+this.btn_Cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+this.ds_Orgran_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fnSearchEmp("COMP");
+};
+
+this.ds_Emp_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fnSearchPse();
+	this.fnSearchProjectLast();
+};
+
+this.div_Search_edt_Name_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.fnSearchEmp("EMP");
+	}
+};
+
+this.div_Search_edt_CompanyName_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.ds_Orgran.set_rowposition(-1);
+		var v = obj.text;
+		if(!this.gfnIsEmpty(v))
+		{
+			this.ds_Orgran.filter("COMPANY_NAME.indexOf('" +v+ "') != -1");
+		}else{
+			this.ds_Orgran.filter("");			
+		}
+
+		if(this.ds_Orgran.getRowCount() > 0)
+		{
+			this.ds_Orgran.set_rowposition(0);
+		}		
+	}
+};
+
+
+this.div_Emp_grd_List_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnReturnOne(e.row);
+};
+
+this.div_Emp_grd_List_onkeydown = function(obj:nexacro.Grid,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13 && obj.currentrow >= 0)
+	{
+		this.fnReturnOne(obj.currentrow);
+	}
+};
+
+this.fnReturnOne = function(row)
+{
+	if(row >= 0)
+	{
+		var dsReturn = new nexacro.Dataset();
+		dsReturn.assign(this.ds_Emp);
+		dsReturn.clearData();
+		
+		var newrow = dsReturn.addRow();
+		dsReturn.copyRow(newrow, this.ds_Emp, row);
+		this.commUtil.popupClose(dsReturn);
+	}else{
+		alert(this.gfnGetTransTxt(1229, "투입인력을 선택하십시오."));
+	}
+}
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInitForm = function()
+{
+	if(this.parent.hasOwnProperty("sEmpName"))
+	{
+		this.sEmpName = this.parent.sEmpName;
+	}
+	if(this.parent.hasOwnProperty("sCompanyCode"))
+	{
+		this.sCompanyCode = this.parent.sCompanyCode;
+	}
+	if(this.commUtil.gfnGetMobile())
+		this.div_Emp.form.btn_StaffEvaluation.set_visible(false);
+		
+	this.fnGetCode();
+}
+
+this.fnPopupCallBack = function (popupId, popupArg)
+{
+	popupArg = this.commUtil.popupReturn();
+	
+	switch(popupId)
+	{
+		case "" :			
+			//this.fnSearch();
+		default:
+			break;
+	}
+}
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{
+	this.gfnAddOutputDataset("ds_Orgran", "dsOutput");
+	this.gfnCommonTransaction("SelectOrgan", "CO_FindSiEmp_S01");
+}
+
+this.fnSearchEmp = function(sType)
+{	
+	//최초 팝업 시 파라미터로 넘어온 회사코드를 선택하도록 처리
+	if(!this.gfnIsEmpty(this.sCompanyCode))
+	{
+		var fRow = this.ds_Orgran.findRow("COMPANY_CODE", this.sCompanyCode);
+		this.sCompanyCode = ""; // 초기화 (한번만 실행되도록)
+		
+		if(fRow != -1)
+		{
+			this.ds_Orgran.set_rowposition(fRow);
+			this.div_Organ.form.grd_List.selectRow(fRow, true);
+		}
+	}
+	
+	var row = this.ds_Orgran.rowposition;
+	var companyCode = this.ds_Orgran.getColumn(row,"COMPANY_CODE");
+	var companyName = this.div_Search.form.edt_CompanyName.text;
+	var empName		= this.div_Search.form.edt_Name.text;
+	
+	
+	if(sType == "COMP")
+	{
+		if(!this.gfnIsEmpty(companyCode))
+		{
+			this.gfnAddSendParameter("COMPANY_CODE"	, companyCode);
+			this.gfnAddOutputDataset("ds_Emp", "dsOutput");
+			this.gfnCommonTransaction("SelectEmp_"+sType, "CO_FindSiEmp_S02");
+		}else{
+			this.ds_Emp.clearData();
+		}
+	}
+	else if(sType == "EMP")
+	{
+		this.ds_Orgran.set_rowposition(-1);
+		if(!this.gfnIsEmpty(companyName))
+		{
+			this.gfnAddSendParameter("COMPANY_NAME"		, companyName);
+		}
+		this.gfnAddSendParameter("EMP_NAME"		, empName);
+		this.gfnAddOutputDataset("ds_Emp", "dsOutput");
+		this.gfnCommonTransaction("SelectEmp_"+sType, "CO_FindSiEmp_S02");
+	}	
+}
+
+this.fnSearchPse = function()
+{	
+	var row = this.ds_Emp.rowposition;
+	var empNo = this.ds_Emp.getColumn(row,"EMP_NO");
+	if(!this.gfnIsEmpty(empNo))
+	{
+		this.gfnAddSendParameter("EMP_NO", empNo);
+		this.gfnAddOutputDataset("ds_Pse", "dsOutput");
+		this.gfnCommonTransaction("SelectPse", "CO_FindSiEmp_S03");
+	}else{
+		this.ds_Pse.clearData();
+	}
+}
+
+this.fnSearchProjectLast = function()
+{
+	var row = this.ds_Emp.rowposition;
+	var empNo = this.ds_Emp.getColumn(row,"EMP_NO");
+	if(!this.gfnIsEmpty(empNo))
+	{
+		if(this.commUtil.getFormAuthority(291,1))	// 투비직원평가권한
+			this.gfnAddSendParameter("TOBE_FLAG", "1");
+		this.gfnAddSendParameter("EMP_NO", empNo);
+		this.gfnAddOutputDataset("dsLastProjectInfo", "dsOutput");
+		this.gfnCommonTransaction("fnSearchProjectLast", "TS_StaffEvaluation_S01");
+	}else{
+		this.dsLastProjectInfo.clearData();
+	}
+};
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		return;
+	}
+	else 
+	{
+		if(strSvcID=="gfnGetCode") 
+		{
+
+		}
+		else if(strSvcID=="SelectOrgan") 
+		{
+			
+		}
+		else if(strSvcID=="SelectEmp_COMP") 
+		{
+			this.div_Organ.form.grd_List.setFocus();
+		}
+		else if(strSvcID=="SelectEmp_EMP")
+		{
+			var nCnt = this.ds_Emp.getRowCount();
+// 			if(nCnt == 1)
+// 			{
+// 				//이름검색 결과가 1건이면 즉시 리턴
+// 				this.fnReturnOne(0);
+// 			}
+// 			else 
+			if(nCnt >= 1)
+			{
+				//1건 초과이면 그리드 포커스
+				this.div_Emp.form.grd_List.setFocus();
+			}
+		}
+	}
+}
+
+this.div_Emp_btn_StaffEvaluation_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var strEmpNo = this.ds_Emp.getColumn(this.ds_Emp.rowposition,"EMP_NO");
+	var strEmpName = this.ds_Emp.getColumn(this.ds_Emp.rowposition,"EMP_NAME");
+	
+	var sArgument = {pvEmpNo:strEmpNo, pvEmpName:strEmpName};
+	this.commUtil.popup(this, "CO_StaffEvaluation", "sales::comm/CO_StaffEvaluation.xfdl", -1, -1, -1, -1, true, true, false, sArgument, "");
+};
+
+this.div_Search_btn_Search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSearchEmp("EMP");
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_Emp.form.div01.form.edtClient" propid="value" datasetid="dsLastProjectInfo" columnid="CLIENT_NAME"/>
+      <BindItem id="item1" compid="div_Emp.form.div01.form.edtProject" propid="value" datasetid="dsLastProjectInfo" columnid="PROJECT_NAME"/>
+      <BindItem id="item3" compid="div_Emp.form.div01.form.edtRole" propid="value" datasetid="dsLastProjectInfo" columnid="ROLE_NAME"/>
+      <BindItem id="item4" compid="div_Emp.form.div01.form.calStartDate" propid="value" datasetid="dsLastProjectInfo" columnid="START_DATE"/>
+      <BindItem id="item5" compid="div_Emp.form.div01.form.calEndDate" propid="value" datasetid="dsLastProjectInfo" columnid="END_DATE"/>
+      <BindItem id="item8" compid="div_Emp.form.div01.form.edtScore3" propid="value" datasetid="dsLastProjectInfo" columnid="ST3_CAPTION"/>
+      <BindItem id="item2" compid="div_Emp.form.div01.form.edtScore3_00" propid="value" datasetid="dsLastProjectInfo" columnid="REMARKS"/>
+    </Bind>
+  </Form>
+</FDL>

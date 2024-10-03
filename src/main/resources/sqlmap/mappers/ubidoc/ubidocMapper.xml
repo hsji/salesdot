@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ubiDocMapper">
+
+<!-- 신규 문서 저장 -->    
+<insert id="insertDocInfo" parameterType="java.util.Map">
+
+	INSERT INTO UBI_DOC
+	(
+		  DOC_ID
+		  , SYS_CODE
+		  , BIZ_CODE
+		  , DOC_TITLE
+		  , EXPIRE_DATE
+		  , EDIT_INFO
+		  , PDF_FILE_NM
+		  , PDF_ORIG_FILE_NM
+		  , PDF_FILE_PATH_NM
+		  , USED_FLAG
+		  , INPT_ID
+		  , INPT_DTTM
+		  , CHGE_ID
+		  , CHGE_DTTM
+	)VALUES(
+		  #{DOC_ID}
+		  , #{SYS_CODE}
+		  , #{BIZ_CODE}
+		  , #{DOC_TITLE}
+		  , #{EXPIRE_DATE}
+		  , #{EDIT_INFO}
+		  , #{PDF_FILE_NM}
+		  , #{PDF_ORIG_FILE_NM}
+		  , #{PDF_FILE_PATH_NM}
+		  , #{USED_FLAG}
+		  , #{INPT_ID}
+		  , NOW()
+		  , #{CHGE_ID}
+		  , NOW()
+		)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		    SYS_CODE 			= #{SYS_CODE}
+		    , BIZ_CODE 			= #{BIZ_CODE}
+		    , DOC_TITLE 		= #{DOC_TITLE}
+		    , EXPIRE_DATE 		= #{EXPIRE_DATE}
+		    , EDIT_INFO 		= #{EDIT_INFO}
+		    , PDF_FILE_NM 		= #{PDF_FILE_NM}
+		    , PDF_ORIG_FILE_NM 	= #{PDF_ORIG_FILE_NM}
+		    , PDF_FILE_PATH_NM 	= #{PDF_FILE_PATH_NM}
+		    , USED_FLAG 		= #{USED_FLAG}
+		    , CHGE_ID 			= #{INPT_ID}
+		    , CHGE_DTTM			= NOW()
+</insert>
+
+<delete id="deleteDocInfo" parameterType="java.util.Map">
+	DELETE FROM UBI_DOC
+	WHERE DOC_ID = #{DOC_ID}
+</delete>
+
+
+<select id="selectDocOne" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT DOC_ID, SYS_CODE, BIZ_CODE, DOC_TITLE 
+				, EXPIRE_DATE, EDIT_INFO, PDF_FILE_NM
+				, PDF_ORIG_FILE_NM, PDF_FILE_PATH_NM
+				, USED_FLAG
+	FROM UBI_DOC
+	WHERE DOC_ID = #{DOC_ID}
+</select>
+
+<select id="selectDocTitle" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT DOC_ID, SEND_TITLE , SEND_MESSAGE
+	FROM UBI_DOCSENDHISTORY
+	WHERE DOC_ID = #{DOC_ID}
+	AND SEND_SEQ = #{SEND_SEQ}
+</select>
+
+<select id="selectDocInfo" parameterType="java.util.Map" resultType="java.util.Map"> 
+
+	SELECT A.DOC_ID, A.SYS_CODE, A.BIZ_CODE, A.DOC_TITLE 
+				, A.EXPIRE_DATE, A.EDIT_INFO, A.PDF_FILE_NM
+				, A.PDF_ORIG_FILE_NM, A.PDF_FILE_PATH_NM
+				, A.USED_FLAG, DATE_FORMAT(A.INPT_DTTM, '%Y%m%d%H%i%s') AS INPT_DTTM, A.INPT_ID
+				, B.KORN_NM
+	FROM UBI_DOC A
+		LEFT JOIN T_SYTM_USER B ON B.USER_ID = A.INPT_ID
+	WHERE 1 = 1
+	<if test="DOC_ID != null and DOC_ID != '' ">
+		AND	A.DOC_ID = #{DOC_ID}
+	</if>
+	<if test="IN_FDATE != null and IN_FDATE != '' and IN_TDATE != null and IN_TDATE != '' ">
+		AND	DATE_FORMAT(A.INPT_DTTM,  '%Y%m%d') BETWEEN #{IN_FDATE} AND #{IN_TDATE}
+	</if>
+	<if test="DOC_TITLE != null and DOC_TITLE != '' ">
+		AND	A.DOC_TITLE LIKE CONCAT('%', #{DOC_TITLE} ,'%')
+	</if>
+	<if test="INPT_ID != null and INPT_ID != '' ">
+		AND	A.INPT_ID LIKE CONCAT('%', #{INPT_ID} ,'%')
+	</if>
+	<if test="BIZ_CODE != null and BIZ_CODE != '' ">
+		AND	A.BIZ_CODE = #{BIZ_CODE}
+	</if>
+	<if test="SYS_CODE != null and SYS_CODE != '' ">
+		AND	A.SYS_CODE = #{SYS_CODE}
+	</if>
+	<if test="DOC_LIST != null and DOC_LIST != '' ">
+		AND A.BIZ_CODE IN ${DOC_LIST}
+	</if>
+</select>
+
+<select id="selectDocReceiveInfo" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT A.DOC_ID, A.USER_ID, A.SEND_SEQ, A.APRV_SEQ, A.M_STATUS, A.R_STATUS, A.R_ORDER
+			, A.EDIT_INFO, A.PDF_FILE_NM, A.PDF_ORIG_FILE_NM
+			, A.PDF_FILE_PATH_NM, A.INPT_ID, A.INPT_DTTM, A.CHGE_ID, A.CHGE_DTTM
+			, A.USER_NAME
+			, A.USER_MAILADDR
+			, A.USER_PHONE
+			, A.USER_REGNO
+			, A.FORMER_ID 
+	FROM UBI_DOCRECEIVERINFO A
+	WHERE A.DOC_ID = #{DOC_ID}
+	<if test="SEND_SEQ != null and SEND_SEQ != ''">
+		AND A.SEND_SEQ = #{SEND_SEQ}
+	</if>
+	<if test="DOC_ID != null and DOC_ID != ''">
+		AND A.DOC_ID = #{DOC_ID}
+	</if>
+	ORDER BY A.SEND_SEQ, A.USER_ID 
+</select>
+
+<select id="selectDocReceiveOne" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT A.DOC_ID, A.USER_ID, A.SEND_SEQ, A.APRV_SEQ, A.M_STATUS, A.R_STATUS, A.R_ORDER
+			, A.EDIT_INFO, A.PDF_FILE_NM, A.PDF_ORIG_FILE_NM
+			, A.PDF_FILE_PATH_NM, A.INPT_ID, A.INPT_DTTM, A.CHGE_ID, A.CHGE_DTTM
+			, A.USER_NAME
+			, A.USER_MAILADDR
+			, A.USER_PHONE 
+			, A.USER_REGNO 
+			, A.MAILUSER_ID
+			, A.FORMER_ID
+	FROM UBI_DOCRECEIVERINFO A
+	WHERE A.DOC_ID = #{DOC_ID}
+	AND   A.USER_ID = #{USER_ID}
+</select>
+
+<!-- 신규 문서 저장 -->    
+<insert id="insertReceiveInfo" parameterType="java.util.Map">
+	INSERT INTO UBI_DOCRECEIVERINFO
+	(
+		  DOC_ID
+		  , USER_ID
+		  , SEND_SEQ
+		  , APRV_SEQ
+		  , USER_NAME
+		  , USER_MAILADDR
+		  , USER_PHONE
+		  , USER_REGNO
+		  , M_STATUS
+		  , R_STATUS
+		  , R_ORDER
+		  , EDIT_INFO
+		  , PDF_FILE_NM
+		  , PDF_ORIG_FILE_NM
+		  , PDF_FILE_PATH_NM
+		  , MAILUSER_ID
+		  , MAIL_URL
+		  , FORMER_ID
+		  , INPT_ID
+		  , INPT_DTTM
+		  , CHGE_ID
+		  , CHGE_DTTM
+	)VALUES(
+		  #{DOC_ID}
+		  , #{USER_ID}
+		  , #{SEND_SEQ}
+		  , #{APRV_SEQ}
+		  , #{USER_NAME}
+		  , #{USER_MAILADDR}
+		  , #{USER_PHONE}
+		  , #{USER_REGNO}
+		  , #{M_STATUS}
+		  , #{R_STATUS}
+		  , #{R_ORDER}
+		  , #{EDIT_INFO}
+		  , #{PDF_FILE_NM}
+		  , #{PDF_ORIG_FILE_NM}
+		  , #{PDF_FILE_PATH_NM}
+		  , #{MAILUSER_ID}
+		  , #{MAIL_URL}
+		  , #{FORMER_ID}
+		  , #{INPT_ID}
+		  , NOW()
+		  , #{CHGE_ID}
+		  , NOW()
+		)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+			APRV_SEQ 			= #{APRV_SEQ}
+			, USER_NAME 		= #{USER_NAME}
+			, USER_MAILADDR 	= #{USER_MAILADDR}
+			, USER_PHONE 		= #{USER_PHONE}
+			, USER_REGNO 		= #{USER_REGNO}
+			, M_STATUS 			= #{M_STATUS}
+		    , R_STATUS 			= #{R_STATUS}
+		    , R_ORDER 			= #{R_ORDER}
+		    , EDIT_INFO 		= #{EDIT_INFO}
+		    , PDF_FILE_NM 		= #{PDF_FILE_NM}
+		    , PDF_ORIG_FILE_NM 	= #{PDF_ORIG_FILE_NM}
+		    , PDF_FILE_PATH_NM 	= #{PDF_FILE_PATH_NM}
+		    , MAILUSER_ID 		= #{MAILUSER_ID}
+		    , MAIL_URL 			= #{MAIL_URL}
+		    , CHGE_ID 			= #{INPT_ID}
+		    , CHGE_DTTM			= NOW()
+</insert>
+
+
+
+<!-- 신규 문서 저장 -->    
+<update id="updateReveiceInfo" parameterType="java.util.Map">
+	UPDATE UBI_DOCRECEIVERINFO
+	SET R_STATUS = #{R_STATUS}
+	, CHGE_ID = #{CHGE_ID}
+	WHERE DOC_ID = #{DOC_ID}
+	AND USER_ID = #{USER_ID}
+	AND SEND_SEQ = #{SEND_SEQ}
+</update>
+
+<delete id="deleteReceiveInfo" parameterType="java.util.Map">
+	DELETE FROM UBI_DOCRECEIVERINFO
+	WHERE DOC_ID = #{DOC_ID}
+	AND  USER_ID = #{USER_ID}
+	AND  SEND_SEQ = #{SEND_SEQ}
+</delete>
+
+<delete id="deleteReceiveDoc" parameterType="java.util.Map">
+	DELETE FROM UBI_DOCRECEIVERINFO
+	WHERE DOC_ID = #{DOC_ID}
+</delete>
+
+
+<select id="selectDocBaseFieldInfo" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT DOC_ID, FIELD_ID, FIELD_NAME, FIELD_ORDER, FIELD_MASK
+			, USED_FLAG, FORMER_ID, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM
+	  FROM UBI_DOCBASEFIELD
+	WHERE DOC_ID = #{DOC_ID}
+	ORDER BY FIELD_ORDER
+</select>
+
+<insert id="insertDocBaseFieldInfo" parameterType="java.util.Map">
+	INSERT INTO UBI_DOCBASEFIELD
+	(
+		 DOC_ID, FIELD_ID, FIELD_NAME, FIELD_ORDER, FIELD_MASK
+		  , USED_FLAG, FORMER_ID, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM
+	)VALUES(
+		  #{DOC_ID}
+		  , #{FIELD_ID}
+		  , #{FIELD_NAME}
+		  , #{FIELD_ORDER}
+		  , #{FIELD_MASK}
+		  , #{USED_FLAG}
+		  , #{FORMER_ID}
+		  , #{INPT_ID}
+		  , NOW()
+		  , #{CHGE_ID}
+		  , NOW()
+		)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		    FIELD_NAME 		= #{FIELD_NAME}
+		    , FIELD_ORDER 		= #{FIELD_ORDER}
+		    , FIELD_MASK 		= #{FIELD_MASK}
+		    , USED_FLAG 		= #{USED_FLAG}
+		    , FORMER_ID 		= #{FORMER_ID}
+		    , CHGE_ID 			= #{INPT_ID}
+		    , CHGE_DTTM			= NOW()
+</insert>
+
+<delete id="deleteDocBaseFieldInfo" parameterType="java.util.Map">
+	DELETE FROM UBI_DOCBASEFIELD
+	WHERE DOC_ID = #{DOC_ID}
+	AND  BASE_NAME = #{FIELD_ID}
+</delete>
+
+<delete id="deleteDocBaseFieldAll" parameterType="java.util.Map">
+	DELETE FROM UBI_DOCBASEFIELD
+	WHERE DOC_ID = #{DOC_ID}
+</delete>
+
+
+<select id="selectDocReceiverField" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT DOC_ID, USER_ID, SEND_SEQ, FIELD_ID, FVALUE, MAILUSER_ID, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM
+	  FROM UBI_DOCRECEIVERFIELD
+	WHERE DOC_ID = #{DOC_ID}
+	 AND  SEND_SEQ = #{SEND_SEQ}
+</select>
+
+<select id="selectMailUser" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT USER_ID
+	  FROM UBI_DOCRECEIVERINFO
+	WHERE DOC_ID = #{DOC_ID}
+	 AND  SEND_SEQ = #{SEND_SEQ}
+	 AND  MAILUSER_ID = #{MAILUSER_ID}
+	 GROUP BY USER_ID
+</select>
+
+<insert id="insertDocReceiverField" parameterType="java.util.Map">
+	INSERT INTO UBI_DOCRECEIVERFIELD
+	(
+		 DOC_ID, USER_ID, SEND_SEQ, FIELD_ID, FVALUE, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM
+	)VALUES(
+		  #{DOC_ID}
+		  , #{USER_ID}
+		  , #{SEND_SEQ}
+		  , #{FIELD_ID}
+		  , #{FVALUE}
+		  , #{INPT_ID}
+		  , NOW()
+		  , #{INPT_ID}
+		  , NOW()
+		)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		    FVALUE 		= #{FVALUE}
+		    , CHGE_ID 			= #{INPT_ID}
+		    , CHGE_DTTM			= NOW()
+</insert>
+
+
+<delete id="deleteDocReceiverField" parameterType="java.util.Map">
+	DELETE FROM UBI_DOCRECEIVERFIELD
+	WHERE DOC_ID = #{DOC_ID}
+	AND  USER_ID = #{USER_ID}
+	AND  SEND_SEQ = #{SEND_SEQ}
+</delete>
+
+<delete id="deleteDocReceiverAll" parameterType="java.util.Map">
+	DELETE FROM UBI_DOCRECEIVERFIELD
+	WHERE DOC_ID = #{DOC_ID}
+</delete>
+
+<update id="updateDocFieldSeq" parameterType="java.util.Map">
+	UPDATE UBI_DOCRECEIVERFIELD
+	SET SEND_SEQ = #{NEW_SEQ}
+	WHERE DOC_ID = #{DOC_ID}
+	AND  SEND_SEQ = #{ORG_SEQ}
+</update>
+
+<update id="updateDocFieldUser" parameterType="java.util.Map">
+	UPDATE UBI_DOCRECEIVERFIELD
+	SET MAILUSER_ID = #{MAILUSER_ID}
+	WHERE DOC_ID = #{DOC_ID}
+	AND  SEND_SEQ = #{SEND_SEQ}
+	AND  USER_ID = #{USER_ID}
+</update>
+
+<select id="selectDocHistory" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT A.DOC_ID, A.SEND_SEQ, DATE_FORMAT(A.SEND_DTTM, '%Y%m%d%H%i%s') AS SEND_DTTM
+			, A.DRAWSIGN_FLAG, A.DRAWIMAGE_FLAG, A.REFIMAGE_FLAG, A.SEND_TITLE, A.SEND_MESSAGE, A.SEND_ID
+			, A.EXPIREMAIL_DATE, A.CERT_TYPE, A.SEND_TYPE, A.SIGN_TYPE, A.USER_MAILADDR, A.USER_PHONE, A.USER_NAME
+			, B.SYS_CODE, B.BIZ_CODE 
+	  FROM UBI_DOCSENDHISTORY A, UBI_DOC B
+	WHERE A.DOC_ID = #{DOC_ID}
+	AND A.DOC_ID = B.DOC_ID
+	<if test="SEND_MAX != null and SEND_MAX != ''">
+		AND A.SEND_SEQ = (SELECT MAX(SEND_SEQ) FROM UBI_DOCSENDHISTORY WHERE DOC_ID = #{DOC_ID})
+	</if>	
+</select>
+
+<select id="selectDocHistoryExpireDate" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT EXPIREMAIL_DATE
+	  FROM UBI_DOCSENDHISTORY
+	WHERE DOC_ID = #{DOC_ID}
+	AND SEND_SEQ = #{SEND_SEQ}
+</select>
+
+<insert id="insertDocHistory" parameterType="java.util.Map">
+	INSERT INTO UBI_DOCSENDHISTORY
+	(
+		 DOC_ID, SEND_SEQ, SEND_DTTM, DRAWSIGN_FLAG, DRAWIMAGE_FLAG, REFIMAGE_FLAG, SEND_TITLE
+		 , SEND_MESSAGE, SEND_ID, EXPIREMAIL_DATE, CERT_TYPE, SEND_TYPE, SIGN_TYPE, USER_NAME, USER_MAILADDR, USER_PHONE
+	)VALUES(
+		  #{DOC_ID}
+		  , #{SEND_SEQ}
+		  , NOW()
+		  , #{DRAWSIGN_FLAG}
+		  , #{DRAWIMAGE_FLAG}
+		  , #{REFIMAGE_FLAG}
+		  , #{SEND_TITLE}
+		  , #{SEND_MESSAGE}
+		  , #{SEND_ID}
+		  , #{EXPIREMAIL_DATE}
+		  , #{CERT_TYPE}
+		  , #{SEND_TYPE}
+		  , #{SIGN_TYPE}
+		  , #{USER_NAME}
+		  , #{USER_MAILADDR}
+		  , #{USER_PHONE}
+		)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		    SEND_DTTM 		= NOW()
+		   , DRAWSIGN_FLAG	= #{DRAWSIGN_FLAG}
+		   , DRAWIMAGE_FLAG	= #{DRAWIMAGE_FLAG}
+		   , REFIMAGE_FLAG	= #{REFIMAGE_FLAG}
+		   , SEND_TITLE		= #{SEND_TITLE}
+		   , SEND_MESSAGE	= #{SEND_MESSAGE}
+		   , SEND_ID		= #{SEND_ID}
+		   , EXPIREMAIL_DATE = #{EXPIREMAIL_DATE}
+		   , CERT_TYPE 		= #{CERT_TYPE}
+		   , SEND_TYPE 		= #{SEND_TYPE}
+		   , SIGN_TYPE 		= #{SIGN_TYPE}
+		   , USER_NAME 		= #{USER_NAME}
+		   , USER_MAILADDR 	= #{USER_MAILADDR}
+		   , USER_PHONE 	= #{USER_PHONE}
+</insert>
+
+
+<delete id="deleteDocHistory" parameterType="java.util.Map">
+	DELETE FROM UBI_DOCSENDHISTORY
+	WHERE DOC_ID = #{DOC_ID}
+	AND  SEND_SEQ = #{SEND_SEQ}
+</delete>
+
+<delete id="deleteDocHistoryAll" parameterType="java.util.Map">
+	DELETE FROM UBI_DOCSENDHISTORY
+	WHERE DOC_ID = #{DOC_ID}
+</delete>
+
+<select id="selectDeptDocList" resultType="java.util.Map">
+<![CDATA[
+WITH RECURSIVE CTE_Dept AS (
+    SELECT
+    	'DXTOBE' AS SYS_CODE,
+    	AA.DEPT_CD AS BIZ_CODE,
+        AA.DEPT_CD,
+        HIPO_DEPT_CD,
+        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = AA.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+        AA.DEPT_KORN_NM,
+        AA.DEPT_ORDR,
+        AA.DEPT_FLAG_CD,
+        AA.DEPT_LVL,
+        CONVERT(AA.DEPT_ORDR, char(100)) as SortOrder
+    FROM T_SYTM_DEPT AA
+    WHERE DEPT_LVL = '0'
+    UNION ALL
+    SELECT
+    	'DXTOBE' AS SYS_CODE,
+    	BB.DEPT_CD AS BIZ_CODE,
+        BB.DEPT_CD,
+        BB.HIPO_DEPT_CD,
+        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = BB.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+        BB.DEPT_KORN_NM,
+        BB.DEPT_ORDR,
+        BB.DEPT_FLAG_CD,
+        BB.DEPT_LVL,
+        CONCAT(CTE_Dept.SortOrder, '|', BB.DEPT_ORDR) as DEPT_ORDER
+    FROM T_SYTM_DEPT BB
+    INNER JOIN CTE_Dept ON BB.HIPO_DEPT_CD = CTE_Dept.DEPT_CD
+)
+
+select K.SYS_CODE, K.BIZ_CODE, K.TITLE, K.DEPT_LVL, K.SortOrder, K.REORDER, K. DOC_ID
+FROM(
+	SELECT SYS_CODE, BIZ_CODE, DEPT_KORN_NM as TITLE, DEPT_LVL, SortOrder,
+			SORTORDER AS REORDER, '' as DOC_ID
+	FROM CTE_Dept	
+	union ALL
+	SELECT A.SYS_CODE, A.BIZ_CODE, b.doc_title as TITLE, A.DEPT_LVL + 1 as DEPT_LVL , A.SortOrder,
+			CONCAT(A.SORTORDER, '|', B.DOC_ID) AS REORDER,B.DOC_ID
+	FROM CTE_Dept A
+	RIGHT JOIN UBI_DOC B on B.SYS_CODE = A.SYS_CODE and B.BIZ_CODE = A.BIZ_CODE
+	
+) K
+order by REORDER
+ ]]>
+</select>
+
+<!-- copy -->
+<insert id="insertCopyDoc" parameterType="java.util.Map">
+	INSERT INTO UBI_DOC
+	(DOC_ID, SYS_CODE, BIZ_CODE, DOC_TITLE, EXPIRE_DATE, EDIT_INFO, PDF_FILE_NM, PDF_ORIG_FILE_NM, PDF_FILE_PATH_NM, USED_FLAG, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM)
+		SELECT #{NEWUUID}, SYS_CODE, BIZ_CODE, #{DOC_TITLE}, EXPIRE_DATE, 
+		REPLACE(EDIT_INFO, #{DOC_ID}, #{NEWUUID}),
+		PDF_FILE_NM, PDF_ORIG_FILE_NM, 
+		REPLACE(PDF_FILE_PATH_NM, #{OLDPATH}, #{NEWPATH}), 
+		USED_FLAG, #{USER_ID}, NOW(), #{USER_ID}, NOW()
+		FROM UBI_DOC
+		WHERE DOC_ID = #{DOC_ID} 
+</insert>
+
+<insert id="insertCopyDocField" parameterType="java.util.Map">
+	INSERT INTO UBI_DOCBASEFIELD
+	(DOC_ID, FIELD_ID, FIELD_NAME, FIELD_ORDER, FIELD_TYPE, FIELD_MASK, USED_FLAG, FORMER_ID, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM)
+		SELECT  #{NEWUUID}, FIELD_ID, FIELD_NAME, FIELD_ORDER, FIELD_TYPE, FIELD_MASK, USED_FLAG, FORMER_ID, #{USER_ID}, NOW(), #{USER_ID}, NOW()
+		FROM UBI_DOCBASEFIELD
+		WHERE DOC_ID = #{DOC_ID} 
+</insert>
+
+<select id="selectSignCheck" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT R_STATUS
+	FROM UBI_DOCRECEIVERINFO
+	WHERE  DOC_ID = #{DOC_ID}	
+	AND   USER_ID = #{USER_ID}	
+	AND   SEND_SEQ = #{SEND_SEQ}
+</select>
+
+<select id="selectDocMailList" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT A.DOC_ID, A.USER_ID, A.SEND_SEQ, A.APRV_SEQ, A.M_STATUS, A.R_STATUS, A.R_ORDER
+			, A.EDIT_INFO, A.PDF_FILE_NM, A.PDF_ORIG_FILE_NM
+			, A.PDF_FILE_PATH_NM, A.INPT_ID, A.INPT_DTTM, A.CHGE_ID, A.CHGE_DTTM
+			, A.USER_NAME
+			, A.USER_MAILADDR
+			, A.USER_PHONE
+			, A.USER_REGNO
+			, A.MAIL_URL
+			, A.FORMER_ID
+			, DATE_FORMAT(C.SEND_DTTM,  '%Y%m%d%H%m%s') AS SEND_DTTM
+			, C.SEND_TITLE AS SEND_TITLE
+			, C.SEND_ID AS SEND_ID
+			, (select KORN_NM from T_SYTM_USER where USER_ID = C.SEND_ID) AS SEND_NAME
+			, B.SYS_CODE
+			, B.BIZ_CODE
+	FROM UBI_DOCRECEIVERINFO A
+		LEFT JOIN UBI_DOCSENDHISTORY C ON C.DOC_ID = A.DOC_ID and C.SEND_SEQ = A.SEND_SEQ
+		, UBI_DOC B
+	WHERE  A.DOC_ID = B.DOC_ID
+	AND   A.USER_ID = #{USER_ID}
+	ORDER BY C.SEND_DTTM DESC, A.DOC_ID, A.SEND_SEQ 
+</select>
+
+
+<!-- 문서그룹 조회 -->
+<select id="selectDocuTreeLust" parameterType="java.util.Map" resultType="java.util.Map">
+/* selectDeptList */
+WITH RECURSIVE CTE_DocTree AS (
+    SELECT
+    	'DXTOBE' AS SYS_CODE,
+    	AA.DT_CD AS BIZ_CODE,
+    	AA.DT_CD,
+        HIPO_DT_CD,
+        (SELECT DT_NAME FROM UBI_DOCTREE WHERE DT_CD = AA.HIPO_DT_CD) AS HIPO_DT_NAME,
+        AA.DT_NAME,
+        AA.DT_ORDR,
+        AA.DT_YN,
+        AA.DT_LVL,
+        AA.INPT_ID,
+        AA.INPT_DTTM,
+        AA.CHGE_ID,
+        AA.CHGE_DTTM,
+        CONVERT(AA.DT_ORDR, char(100)) as SortOrder
+    FROM UBI_DOCTREE AA
+    WHERE DT_LVL = '0'
+    UNION ALL
+    SELECT
+    	'DXTOBE' AS SYS_CODE,
+    	BB.DT_CD AS BIZ_CODE,
+    	BB.DT_CD,
+        BB.HIPO_DT_CD,
+        (SELECT DT_NAME FROM UBI_DOCTREE WHERE DT_CD = BB.HIPO_DT_CD) AS HIPO_DT_NAME,
+        BB.DT_NAME,
+        BB.DT_ORDR,
+        BB.DT_YN,
+        BB.DT_LVL,
+        BB.INPT_ID,
+        BB.INPT_DTTM,
+        BB.CHGE_ID,
+        BB.CHGE_DTTM,
+        CONCAT(CTE_DocTree.SortOrder, '|', BB.DT_ORDR) as DT_ORDR
+    FROM UBI_DOCTREE BB
+    INNER JOIN CTE_DocTree ON BB.HIPO_DT_CD = CTE_DocTree.BIZ_CODE
+)
+SELECT *
+FROM CTE_DocTree
+WHERE 1=1
+<if test="DT_CD != null and DT_CD != ''">
+    AND CTE_DocTree.DT_CD LIKE CONCAT('%', #{DT_CD}, '%')
+</if>
+<if test="DT_NAME != null and DT_NAME != ''">
+    AND CTE_DocTree.DT_NAME LIKE CONCAT('%', #{DT_NAME}, '%')
+</if >
+<if test="USED_YN != null and USED_YN != ''">
+    AND CTE_DocTree.DT_YN = #{USED_YN}
+</if>
+ORDER BY SortOrder; 
+</select>
+
+
+<select id="selectResultDocList" resultType="java.util.Map">
+<![CDATA[
+WITH RECURSIVE CTE_DocTree AS (
+    SELECT
+    	'DXTOBE' AS SYS_CODE,
+    	AA.DT_CD AS BIZ_CODE,
+        AA.DT_CD,
+        HIPO_DT_CD,
+        (SELECT DT_NAME FROM UBI_DOCTREE WHERE DT_CD = AA.HIPO_DT_CD) AS HIPO_DT_NAME,
+        AA.DT_NAME,
+        AA.DT_ORDR,
+        AA.DT_LVL,
+        CONVERT(AA.DT_ORDR, char(100)) as SortOrder
+    FROM UBI_DOCTREE AA
+    WHERE DT_LVL = '0'
+    UNION ALL
+    SELECT
+    	'DXTOBE' AS SYS_CODE,
+    	BB.DT_CD AS BIZ_CODE,
+        BB.DT_CD,
+        BB.HIPO_DT_CD,
+        (SELECT DT_NAME FROM UBI_DOCTREE WHERE DT_CD = BB.HIPO_DT_CD) AS HIPO_DT_NAME,
+        BB.DT_NAME,
+        BB.DT_ORDR,
+        BB.DT_LVL,
+        CONCAT(CTE_DocTree.SortOrder, '|', BB.DT_ORDR) as DT_ORDR
+    FROM UBI_DOCTREE BB
+    INNER JOIN CTE_DocTree ON BB.HIPO_DT_CD = CTE_DocTree.DT_CD
+)
+
+SELECT K.SYS_CODE, K.BIZ_CODE, K.TITLE, K.DT_LVL, K.SortOrder, K.REORDER, K.DOC_ID
+FROM(
+	SELECT SYS_CODE, BIZ_CODE, DT_NAME AS TITLE, DT_LVL, SortOrder,
+			SORTORDER AS REORDER, '' AS DOC_ID
+	FROM CTE_DocTree	
+	UNION ALL
+	SELECT A.SYS_CODE, A.BIZ_CODE, b.DOC_TITLE as TITLE, A.DT_LVL + 1 AS DT_LVL , A.SortOrder,
+			CONCAT(A.SORTORDER, '|', B.DOC_ID) AS REORDER, B.DOC_ID
+	FROM CTE_DocTree A
+	RIGHT JOIN UBI_DOC B on B.SYS_CODE = A.SYS_CODE and B.BIZ_CODE = A.BIZ_CODE
+) K
+order by REORDER
+ ]]>
+</select>
+
+<!-- 문서그룹 조회 -->
+<select id="selectDocuTreeInfo" parameterType="java.util.Map" resultType="java.util.Map">
+	/* searchDeptInfo */
+	WITH RECURSIVE CTE_DocTree AS (
+	   SELECT
+	       convert(D.DT_ORDR, char(100)) as DEPT_ORDER,
+	       D.*
+	   FROM UBI_DOCTREE D
+	   WHERE DT_LVL = '0'
+	   UNION ALL
+	   SELECT
+	       CONCAT(CTE_DocTree.DT_ORDR, '|', E.DT_ORDR) as DT_ORDR,
+	       E.*
+	   FROM UBI_DOCTREE E
+	   INNER JOIN CTE_DocTree ON E.HIPO_DT_CD = CTE_DocTree.DT_CD
+	)
+	SELECT *, 'DXTOBE' AS SYS_CODE, DT_CD AS BIZ_CODE
+	FROM CTE_DocTree
+	WHERE 1=1
+	  AND DT_YN = '1'
+	ORDER BY CTE_DocTree.DT_ORDR
+</select>
+
+<select id="selectDocTreeOne" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT DT_CD, HIPO_DT_CD, DT_NAME, DT_ORDR, DT_YN, DT_LVL
+			, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM
+			, (SELECT DT_NAME FROM UBI_DOCTREE WHERE DT_CD = HIPO_DT_CD) AS HIPO_DT_NAME
+	FROM UBI_DOCTREE
+	WHERE 1=1
+	  AND AA.DT_CD = #{SRCH}
+</select>
+
+
+<insert id="insertDocTree" parameterType="java.util.Map">
+	INSERT INTO UBI_DOCTREE
+	(DT_CD, HIPO_DT_CD, DT_NAME, DT_ORDR, DT_YN, DT_LVL, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM)
+	VALUES(
+	    #{DT_CD}
+		, #{HIPO_DT_CD}
+		, #{DT_NAME}
+		, #{DT_ORDR}
+		, #{DT_YN}
+		, #{DT_LVL}
+		, #{INPT_ID}
+		, #{INPT_DTTM}
+		, #{CHGE_ID}
+		, #{CHGE_DTTM}
+	)
+</insert>
+
+<!--  MAP 사용자 정보 수정 -->   
+<update id="updateDocTree" parameterType="java.util.Map">
+
+	UPDATE UBI_DOCTREE 
+	SET 
+		HIPO_DT_CD 		= #{HIPO_DT_CD}
+		, DT_NAME 		= #{DT_NAME}
+		, DT_ORDR 		= #{DT_ORDR}
+		, DT_YN 		    = #{DT_YN}
+		, DT_LVL 			= #{DT_LVL}
+		, CHGE_ID 			= #{USER_ID_SRV}
+		, CHGE_DTTM 		= NOW()
+	WHERE DT_CD 			= #{DT_CD}
+</update>
+
+<!--  MAP 사용자 정보 삭제 -->   
+<delete id="deleteDocTree" parameterType="java.util.Map">
+	DELETE FROM UBI_DOCTREE 
+	WHERE DT_CD=#{DT_CD}
+</delete>
+
+<select id="selectUserSign" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT USER_ID, USER_SIGN, USER_SIGNIMAGE
+	FROM UBI_DOCSIGN
+	WHERE  USER_ID = #{USER_ID}	
+</select>
+
+<select id="selectUserSign1" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT USER_SIGN
+	FROM UBI_DOCSIGN
+	WHERE  USER_ID = #{USER_ID}	
+</select>
+
+<select id="selectUserSign2" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT USER_SIGNIMAGE
+	FROM UBI_DOCSIGN
+	WHERE  USER_ID = #{USER_ID}	
+</select>
+
+<insert id="insertUserSign" parameterType="java.util.Map">
+	INSERT INTO UBI_DOCSIGN
+	(
+		 USER_ID, USER_SIGN, USER_SIGNIMAGE
+	)VALUES(
+		  #{USER_ID}
+		  , #{USER_SIGN}
+		  , #{USER_SIGNIMAGE}
+		)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		     USER_SIGN		= #{USER_SIGN}
+		   , USER_SIGNIMAGE	= #{USER_SIGNIMAGE}
+</insert>
+
+<!--  former -->
+
+<select id="selectDocFormer" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT DOC_ID, FORMER_ID, FORMER_NAME, FORMER_YN, FORMER_ORDER, USED_FLAG, INPT_ID, CHGE_ID
+	  FROM UBI_DOCFORMER
+	WHERE DOC_ID = #{DOC_ID}
+	ORDER BY FORMER_YN DESC, FORMER_ID ASC
+</select>
+
+<insert id="insertDocFormer" parameterType="java.util.Map">
+	INSERT INTO UBI_DOCFORMER
+	(
+		 DOC_ID, FORMER_ID, FORMER_NAME, FORMER_YN, FORMER_ORDER, USED_FLAG, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM
+	)VALUES(
+		  #{DOC_ID}
+		  , #{FORMER_ID}
+		  , #{FORMER_NAME}
+		  , #{FORMER_YN}
+		  , #{FORMER_ORDER}
+		  , '1'
+		  , #{INPT_ID}
+		  , NOW()
+		  , #{INPT_ID}
+		  , NOW()
+		)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		    FORMER_ID 		= #{FORMER_ID}
+		   , FORMER_NAME	= #{FORMER_NAME}
+		   , FORMER_YN		= #{FORMER_YN}
+		   , FORMER_ORDER	= #{FORMER_ORDER}
+		   , CHGE_ID 		= #{CHGE_ID}
+		   , CHGE_DTTM 		= NOW()
+</insert>
+
+<delete id="deleteDocFormer" parameterType="java.util.Map">
+	DELETE FROM UBI_DOCFORMER
+	WHERE DOC_ID = #{DOC_ID}
+</delete>
+</mapper>

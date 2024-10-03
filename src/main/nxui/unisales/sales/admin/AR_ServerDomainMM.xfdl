@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AR_ServerDomainMM" width="1280" height="720" titletext="서버 자원 관리">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Div id="div_DomainMMheader" taborder="0" left="8" top="8" height="40" cssclass="div_WF_SchList" right="8">
+          <Layouts>
+            <Layout>
+              <Button id="btn_Search" taborder="0" text="조회" top="8" width="60" height="22" right="8" onclick="comm_select_onclick" cssclass="btn_WF_SchText"/>
+              <Button id="btn_Save" taborder="1" text="저장" top="8" height="22" cssclass="btn_WF_tran" right="btn_Search:8" width="55" onclick="comm_save_onclick"/>
+              <CheckBox id="chk_useOnly" taborder="2" text="사용중인 데이터만 보기" left="8" top="8" width="150" height="20" visible="false"/>
+              <Button id="btn_ServerListExcel" taborder="3" text="Excel" top="8" height="22" cssclass="btn_WF_Excel" right="btn_Save:8" width="60"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Tab id="tab_serverDomain" taborder="1" tabindex="0" left="8" top="div_DomainMMheader:8" right="8" bottom="8" onchanged="tab_serverDomain_onchanged">
+          <Tabpages>
+            <Tabpage id="tpg_Server" text="서버 관리" url="Admin::AR_ServerListMM.xfdl"/>
+            <Tabpage id="tpg_Domain" text="도메인 관리" url="Admin::AR_DomainListMM.xfdl"/>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 
+* 02. 화면명   : 서버 자원 관리(AR_ServerDomainMM)
+* 03. 화면설명 : 
+* 04. 작성일   : 2023/12/28
+* 05. 작성자   : 이상원
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.comm_select_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nTabIndex = this.tab_serverDomain.tabindex;
+	
+	if(nTabIndex == 0) {
+		this.tab_serverDomain.tpg_Server.form.fnSearch();
+	} else if(nTabIndex == 1) {
+		this.tab_serverDomain.tpg_Domain.form.fnSearch();
+	}
+};
+
+this.comm_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nTabIndex = this.tab_serverDomain.tabindex;
+	
+	if(nTabIndex == 0) {
+		this.tab_serverDomain.tpg_Server.form.fnServerInfoValidation();
+	} else if(nTabIndex == 1) {
+		this.tab_serverDomain.tpg_Domain.form.fnDomainValidation();
+	}
+};
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.tab_serverDomain_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChangeEventInfo)
+{
+	var nTabIndex = this.tab_serverDomain.tabindex;
+	
+	if(nTabIndex == 0) {
+		if(this.gfnIsEmpty(this.tab_serverDomain.tpg_Server.form.div_ServerList) == false) {
+			this.tab_serverDomain.tpg_Server.form.fnSearch();
+		}
+	} else if(nTabIndex == 1) {
+		if(this.gfnIsEmpty(this.tab_serverDomain.tpg_Domain.form.div_SSL_List) == false) {
+			this.tab_serverDomain.tpg_Domain.form.fnSearch();		
+		}
+	}
+};
+/************************************************************************************************
+* 팝업 TRANSACTION 및 추가 FUNCTION 영역 
+************************************************************************************************/
+
+/************************************************************************************************
+* 팝업 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+]]></Script>
+  </Form>
+</FDL>

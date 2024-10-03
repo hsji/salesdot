@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AH_QuestionMarketingAgreedListPopup" width="400" height="400" titletext="월별 마켓팅동의 선택" cssclass="frm_popBg" onload="AH_QuestionMarketingAgreedListPopup_onload">
+    <Layouts>
+      <Layout height="400" mobileorientation="landscape" width="400">
+        <Static id="st_Title" taborder="0" text="월별 마켓팅동의 선택" left="10" top="0" width="186" height="35" cssclass="sta_POP_Title"/>
+        <Static id="stc_BottomFrame" taborder="1" left="0" cssclass="sta_POP_BtnBg" right="0" text="" height="40" bottom="0"/>
+        <Button id="btn_Cancel" taborder="2" text="닫기" width="60" height="22" cssclass="btn_WF_cancel" right="8" onclick="common_onclick" bottom="9"/>
+        <Button id="btn_Excel" taborder="3" text="다운로드" width="90" height="22" cssclass="btn_WF_Excel" right="btn_Cancel:8" bottom="9" onclick="common_onclick"/>
+        <Button id="btn_close" taborder="4" top="10" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="common_onclick" escapebutton="true"/>
+        <Grid id="grd_QuestionExcelList" taborder="5" left="630" autofittype="none" autosizingtype="none" right="-1278" top="8" bottom="-230" onheadclick="grd_CheckServerList_onheadclick" autoenter="select" binddataset="ds_QuestionExcelList" oncelldblclick="grd_QuestionList_oncelldblclick" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="150"/>
+                <Column size="80"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="250"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="질문유형"/>
+                <Cell col="2" text="문의자"/>
+                <Cell col="3" text="기업/기관명"/>
+                <Cell col="4" text="유입경로"/>
+                <Cell col="5" text="문의자 연락처"/>
+                <Cell col="6" text="문의자 이메일"/>
+                <Cell col="7" text="담당자 이메일"/>
+                <Cell col="8" text="등록일자"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow + 1"/>
+                <Cell col="1" text="bind:CATEGORY_CODE" combodataset="ds_cmm_CategoryCode" combodatacol="CAPTION" combocodecol="CODE" displaytype="combotext" textAlign="left"/>
+                <Cell col="2" text="bind:CUSTOMER_NAME"/>
+                <Cell col="3" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:INFLOW_PATH_CODE" displaytype="combotext" combodataset="ds_cmm_InflowPathCode" combodatacol="CAPTION" combocodecol="CODE" textAlign="left"/>
+                <Cell col="5" text="bind:TEL_HP" textAlign="left"/>
+                <Cell col="6" text="bind:EMAIL" textAlign="left"/>
+                <Cell col="7" text="bind:MANAGER_EMAIL" textAlign="left"/>
+                <Cell col="8" text="bind:INSERT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div_QuestionMarketAgreed" taborder="6" left="8" top="40" right="8" bottom="stc_BottomFrame:8" cssclass="div_WF_detailBg">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_YYYYMM" taborder="0" left="0" top="33" right="0" bottom="0" binddataset="ds_YYYYMM" autofittype="col" oncelldblclick="div_QuestionMarketAgreed_grd_YYYYMM_oncelldblclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="150"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="년월"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:YYYYMM" displaytype="date" calendardateformat="yyyy-MM" calendareditformat="yyyy-MM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="stc_YYYYMM" taborder="1" text="년월 검색" left="0" top="8" width="82" height="17" cssclass="sta_WF_DetailTit"/>
+              <MaskEdit id="msk_YYYYMM" taborder="2" left="stc_YYYYMM:8" top="8" width="115" height="19" format="####-##" type="string" onkeyup="div_QuestionMarketAgreed_msk_YYYYMM_onkeyup"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 홈페이지관리
+ * 02. 화면명   : 마켓팅동의 (AH_QuestionManagerListPopup)
+ * 03. 화면설명 : 문의담당자 상세
+ * 04. 작성일   : 2022.09.13
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_WebEditor.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_QML_SEQ;
+this.FV_MODE;
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.AH_QuestionMarketingAgreedListPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);	// 사용자 Grid
+	this.fnQueryData();		// 월별 문의 조회
+};
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 년월 검색
+this.fnSearchData = function()
+{
+	var sYYYYMM = this.div_QuestionMarketAgreed.form.msk_YYYYMM.value;
+	var sFindRow = this.ds_YYYYMM.findRow("YYYYMM", sYYYYMM);
+	if(sFindRow == -1) {
+		alert("해당 년월 데이터가 없습니다.");
+		this.div_QuestionMarketAgreed.form.msk_YYYYMM.set_value('');
+	} else {
+		this.ds_YYYYMM.set_rowposition(sFindRow);
+	}
+};
+
+// 조회
+this.fnQueryData = function()
+{
+	this.gfnAddOutputDataset("ds_YYYYMM", "dsOutput");	
+	this.gfnCommonTransaction("Search", "AH_QuestionMarketingAgreedList_S01", this.div_QuestionMarketAgreed.form.grd_YYYYMM);
+};
+
+// 선택 년월 마켓팅 동의 문의 데이터 조회
+this.fnExcelData = function()
+{
+	var curRow = this.ds_YYYYMM.rowposition;
+	var sYYYYMM = this.ds_YYYYMM.getColumn(curRow, "YYYYMM");
+	
+	this.gfnAddSendParameter("YYYYMM", sYYYYMM);
+	
+	this.gfnAddOutputDataset("ds_QuestionExcelList", "dsOutput");	
+	this.gfnCommonTransaction("Search_QuestionExcelList", "AH_QuestionList_S02", this.grd_QuestionExcelList);
+};
+
+// 엑셀
+this.fnExcel = function()
+{
+	var curRow = this.ds_YYYYMM.rowposition;
+	var sYYYYMM = this.ds_YYYYMM.getColumn(curRow, "YYYYMM");
+	
+	var objGrd = this.grd_QuestionExcelList;
+	var sFileNm = "마켓팅 동의 문의 목록";
+	sFileNm += "(" + sYYYYMM + ")";
+	
+	if(nexacro.getApplication().id=="ACEp")
+	{
+		this.parent.parent.parent.parent.parent.fn_excelExport(this, objGrd, sFileNm);
+	}
+	else
+	{
+		this.gfn_excelExport(this, objGrd, sFileNm);
+	}
+};
+
+ // 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if (nErrorCode<0) {
+		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		return;
+	} else {
+		switch (strSvcID) 
+		{
+			case "Search" : 
+				
+				break;
+			case "Search_QuestionExcelList" :
+				this.fnExcel();
+				break;
+		}
+	}
+};
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_Excel" : // Excel
+			this.fnExcelData();
+			break;
+		
+		case "btn_close": case "btn_Cancel":
+			//this.close();
+			this.commUtil.popupClose("close");
+			break;
+	}
+};
+
+// grid 셀 더블 클릭
+this.div_QuestionMarketAgreed_grd_YYYYMM_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnExcelData();
+};
+
+this.div_QuestionMarketAgreed_msk_YYYYMM_onkeyup = function(obj:nexacro.MaskEdit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		var sYYYYMM = this.div_QuestionMarketAgreed.form.msk_YYYYMM.value;
+		if(this.gfnIsEmpty(sYYYYMM)) alert("검색어를 입력해 주세요.");
+		else this.fnSearchData();
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_YYYYMM">
+        <ColumnInfo>
+          <Column id="YYYYMM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_QuestionExcelList">
+        <ColumnInfo>
+          <Column id="QL_SEQ" type="STRING" size="256"/>
+          <Column id="CATEGORY_CODE" type="STRING" size="256"/>
+          <Column id="CUSTOMER_NAME" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="TEL_HP" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="INFLOW_PATH_CODE" type="STRING" size="256"/>
+          <Column id="CONTENTS" type="STRING" size="256"/>
+          <Column id="MANAGER_EMAIL" type="STRING" size="256"/>
+          <Column id="MARKETING_AGREED" type="STRING" size="256"/>
+          <Column id="USE_PRODUCT_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

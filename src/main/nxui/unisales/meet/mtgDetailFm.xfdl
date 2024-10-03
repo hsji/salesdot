@@ -1,0 +1,497 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="mtgNewFm" width="1400" height="800" titletext="New Form" onload="mtgNewFm_onload" ontimer="docMain_ontimer">
+    <Layouts>
+      <Layout height="800" width="1400">
+        <Static id="staBoardTitle" taborder="0" text="회의록 내용" left="25.00" top="0" height="43" cssclass="sta_WF_Title" width="315"/>
+        <Div id="divContents" taborder="1" left="10.00" top="53" right="20" minheight="589" maxheight="" height="1117" text="">
+          <Layouts>
+            <Layout>
+              <Static id="sta01_01" taborder="34" left="10" top="46" height="87" right="10" background="#f1f1f1" visible="true"/>
+              <CheckBox id="chk00_00" taborder="9" text="열람" left="406" top="8" width="91" height="22" falsevalue="N" truevalue="Y" visible="false"/>
+              <Static id="staBg01_00_00_00_00_01_00" taborder="21" left="0" top="263" height="38" cssclass="sta_WF_SchLabelBg" right="0"/>
+              <Static id="staBg01_00_00_00_00_01" taborder="18" left="0" top="222" height="38" cssclass="sta_WF_SchLabelBg" right="0"/>
+              <Static id="staTitle00" taborder="0" text="작성자" left="0" top="0" width="97" height="38" cssclass="sta_WF_SchLabel"/>
+              <Static id="staTitle02" taborder="1" text="회의명" left="0" top="staTitle00:14" width="97" height="38" cssclass="sta_WF_SchLabel"/>
+              <Edit id="edtInpId" taborder="2" left="staTitle00:10.00" top="5" width="187" height="28" readonly="true"/>
+              <Edit id="edtTitle" taborder="3" left="staTitle02:10" top="57" height="28" width="973" enable="true"/>
+              <Static id="staTitle00_00_00" taborder="4" text="열람개시일" left="470" top="0" width="100" height="38" cssclass="sta_WF_SchLabel"/>
+              <Static id="staTitle02_00" taborder="5" text="회의장소" left="0" top="89" width="97" height="38" cssclass="sta_WF_SchLabel"/>
+              <Combo id="cboMTG_PLACE_CD" taborder="6" text="cbo00" left="106.00" top="94" width="254" height="28"/>
+              <Static id="staTitle02_00_01" taborder="7" text="회의일" left="470.00" top="89" width="97" height="38" cssclass="sta_WF_SchLabel"/>
+              <Static id="staTitle02_00_00_01" taborder="8" text="열람여부" left="300" top="0" width="97" height="38" cssclass="sta_WF_SchLabel" visible="false"/>
+              <Calendar id="calReadDate" taborder="10" left="staTitle00_00_00:7" top="5" width="150" height="28"/>
+              <Static id="staTitle02_00_00_01_00_00" taborder="11" text="주관자/부서" left="0" top="143" width="104" height="38" cssclass="sta_WF_SchLabel"/>
+              <Static id="staBg01_00_00_00_00" taborder="12" left="0" top="181" height="38" cssclass="sta_WF_SchLabelBg" right="0"/>
+              <Static id="staTitle02_00_00_01_00_00_00" taborder="13" text="참석자" left="0" top="181" width="97" height="38" cssclass="sta_WF_SchLabel"/>
+              <MultiCombo id="MultiComboUser" taborder="14" text="MultiCombo00" left="106.00" top="184" height="34" right="113" edittype="multitag" innerdataset="dsUser" codecolumn="USER_ID" datacolumn="USER_NAME" onitemchanged="divContents_MultiComboUser_onitemchanged"/>
+              <Static id="staTitle03" taborder="15" text="회의내용&#13;&#10;(700픽셀)" left="0" top="316" width="97" cssclass="sta_WF_SchLabel" height="775"/>
+              <WebBrowser id="webEditor" taborder="16" left="22.40%" top="326" onloadcompleted="divContents_divCont_webEditor_onloadcompleted" onusernotify="divContents_divCont_webEditor_onusernotify" height="753" width="750"/>
+              <Static id="staTitle02_00_00_01_00_00_01" taborder="17" text="열람가능자" left="0" top="222" width="103" height="38" cssclass="sta_WF_SchLabel"/>
+              <MultiCombo id="MultiComboReadUser" taborder="19" text="MultiCombo00" left="106.00" top="225" height="34" right="113" edittype="multitag" innerdataset="dsReadUser" codecolumn="USER_ID" datacolumn="USER_NAME"/>
+              <Static id="staTitle02_00_00_01_00_00_01_00" taborder="20" text="결재자 1" left="0" top="263" width="97" height="38" cssclass="sta_WF_SchLabel" visible="false"/>
+              <Div id="divSign1" taborder="22" text="div00" left="106.00" top="267" width="290" height="28" url="meet::cmmUserSearch.xfdl" visible="false"/>
+              <Static id="staTitle02_00_00_01_00_00_01_00_00" taborder="23" text="결재자 2" left="470" top="263" width="97" height="38" cssclass="sta_WF_SchLabel" visible="false"/>
+              <Div id="divSign2" taborder="24" text="div00" left="576.00" top="268" width="290" height="28" url="meet::cmmUserSearch.xfdl" visible="false"/>
+              <Edit id="edtHost" taborder="25" left="106" top="149" width="254" height="28"/>
+              <Calendar id="calDate" taborder="26" left="576.00" top="94" width="150" height="28"/>
+              <Static id="staTitle02_00_01_01" taborder="27" text="회의시간" left="767.00" top="89" width="97" height="38" cssclass="sta_WF_SchLabel"/>
+              <Div id="divTimeFr" taborder="28" text="div00" left="874" top="94" width="86" height="28" url="common::cmmTimeSelect.xfdl"/>
+              <Div id="divTimeTo" taborder="29" text="div00" left="994.00" top="94" width="86" height="28" url="common::cmmTimeSelect.xfdl"/>
+              <Static id="sta00" taborder="30" text="~" left="972" top="97" width="15" height="23"/>
+              <Static id="sta01" taborder="31" left="10" top="44" height="1" right="10" border="1px dotted #cccccc"/>
+              <Static id="sta01_00" taborder="32" left="10" top="134" height="1" right="10" border="1px dotted #cccccc" text=""/>
+              <Static id="sta01_00_00" taborder="33" left="10" top="309" height="1" right="10" border="1px dotted #cccccc" text=""/>
+              <Static id="staTitle00_00_00_00" taborder="35" text="문서보관일" left="767" top="0" width="100" height="38" cssclass="sta_WF_SchLabel"/>
+              <Calendar id="calReadDate00" taborder="36" left="staTitle00_00_00_00:7" top="5" width="150" height="28"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnClose" taborder="2" text="닫기" height="28" width="92" right="20" onclick="divButton_btnClose_onclick" top="10"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="DOC_TITLE" type="STRING" size="256"/>
+          <Column id="IN_FDATE" type="STRING" size="256"/>
+          <Column id="IN_TDATE" type="STRING" size="256"/>
+          <Column id="DOC_LIST" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+          <Column id="SEND_TYPE" type="STRING" size="256"/>
+          <Column id="LIMIT" type="INT" size="256"/>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="USED_FLAG" type="string" size="32"/>
+          <Column id="MTG_END_TM" type="string" size="32"/>
+          <Column id="MTG_DATE" type="string" size="32"/>
+          <Column id="MTG_RESULT_TYPE" type="string" size="32"/>
+          <Column id="MTG_RESULT_CN" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="CLSDR_MTG_AT" type="string" size="32"/>
+          <Column id="ETC_MATTER" type="string" size="32"/>
+          <Column id="HOST_NAME" type="string" size="32"/>
+          <Column id="HOST_ID" type="string" size="32"/>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="DOC_TITLE" type="string" size="32"/>
+          <Column id="INPT_DTTM" type="string" size="32"/>
+          <Column id="EXPIRE_DATE" type="string" size="32"/>
+          <Column id="EDIT_INFO" type="string" size="32"/>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="PDF_FILE_NM" type="string" size="32"/>
+          <Column id="MTG_CNT" type="int" size="4"/>
+          <Column id="WORK_NAME" type="string" size="32"/>
+          <Column id="MTG_MTR_CN" type="string" size="32"/>
+          <Column id="MTG_BEGIN_TM" type="string" size="32"/>
+          <Column id="MTG_PLACE_CD" type="string" size="32"/>
+          <Column id="MTG_SEQ" type="int" size="4"/>
+          <Column id="READNG_AT" type="string" size="32"/>
+          <Column id="HOST_TYPE" type="string" size="32"/>
+          <Column id="USER_NAME" type="string" size="32"/>
+          <Column id="HOST_WORK_NAME" type="string" size="32"/>
+          <Column id="CHGE_ID" type="string" size="32"/>
+          <Column id="MTG_AT" type="string" size="32"/>
+          <Column id="CHGE_DTTM" type="datetime" size="17"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="PDF_ORIG_FILE_NM" type="string" size="32"/>
+          <Column id="PDF_FILE_PATH_NM" type="string" size="32"/>
+          <Column id="READNG_DATE" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckDept">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDeptList">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDocInfo">
+        <ColumnInfo>
+          <Column id="MTG_END_TM" type="string" size="32"/>
+          <Column id="CHGE_IP" type="string" size="32"/>
+          <Column id="MTG_DATE" type="string" size="32"/>
+          <Column id="NONATDRN_CNT" type="bigdecimal" size="16"/>
+          <Column id="CLSDR_MTG_AT" type="string" size="32"/>
+          <Column id="READNG_DATE" type="string" size="32"/>
+          <Column id="MTG_RESULT_ENNC" type="string" size="32"/>
+          <Column id="HOST_DEPT_CD" type="string" size="32"/>
+          <Column id="HOST_ID" type="string" size="32"/>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="INPT_DTTM" type="datetime" size="17"/>
+          <Column id="MTG_CNT" type="bigdecimal" size="16"/>
+          <Column id="MTG_BEGIN_TM" type="string" size="32"/>
+          <Column id="MTG_PLACE_CD" type="string" size="32"/>
+          <Column id="MTG_SEQ" type="bigdecimal" size="16"/>
+          <Column id="READNG_AT" type="string" size="32"/>
+          <Column id="USER_NAME" type="string" size="32"/>
+          <Column id="CHGE_ID" type="string" size="32"/>
+          <Column id="INPT_IP" type="string" size="32"/>
+          <Column id="MTG_AT" type="string" size="32"/>
+          <Column id="CHGE_DTTM" type="datetime" size="17"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="DOC_TITLE" type="string" size="32"/>
+          <Column id="ATDRN_CNT" type="bigdecimal" size="16"/>
+          <Column id="INPT_ID" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsFieldInfo">
+        <ColumnInfo>
+          <Column id="FIELD_NAME" type="STRING" size="256"/>
+          <Column id="FIELD_ID" type="STRING" size="256"/>
+          <Column id="FIELD_MASK" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="FIELD_NAME">기본급</Col>
+            <Col id="FIELD_ID">field_base</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">고정연장수당</Col>
+            <Col id="FIELD_ID">field_overtime</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">직책수당</Col>
+            <Col id="FIELD_ID">field_work</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">출산보육수당</Col>
+            <Col id="FIELD_ID">field_baby</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">연구개발비</Col>
+            <Col id="FIELD_ID">field_rnd</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">월합계</Col>
+            <Col id="FIELD_ID">field_month</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">총연봉</Col>
+            <Col id="FIELD_ID">field_year</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">주민등록번호</Col>
+            <Col id="FIELD_ID">field_resno</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">성명</Col>
+            <Col id="FIELD_ID">field_name</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">서명</Col>
+            <Col id="FIELD_ID">field_sign</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsUser">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="WORK_NAME" type="STRING" size="256"/>
+          <Column id="COMP_NAME" type="STRING" size="256"/>
+          <Column id="TYPE_NAME" type="STRING" size="256"/>
+          <Column id="FORMER_YN" type="STRING" size="256"/>
+          <Column id="FORMER_ORDER" type="INT" size="256"/>
+          <Column id="SEND_SEQ" type="int" size="2"/>
+          <Column id="USER_MAILADDR" type="STRING" size="256"/>
+          <Column id="USER_PHONE" type="STRING" size="256"/>
+          <Column id="FORMER_ID" type="STRING" size="256"/>
+          <Column id="FORMER_NAME" type="STRING" size="256"/>
+          <Column id="APRV_SEQ" type="INT" size="256"/>
+          <Column id="READ_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="USER_ID">jihs</Col>
+            <Col id="USER_NAME">지해식</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsSignUser">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="SIGN_SEQ" type="INT" size="256"/>
+          <Column id="SSRESULT_CD" type="STRING" size="256"/>
+          <Column id="SS_COMMENT" type="STRING" size="256"/>
+          <Column id="WORK_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReadUser">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="DEPT_GB" type="STRING" size="256"/>
+          <Column id="WORK_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCal">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="name">선택</Col>
+            <Col id="code">Z</Col>
+          </Row>
+          <Row>
+            <Col id="name">1년</Col>
+            <Col id="code">A</Col>
+          </Row>
+          <Row>
+            <Col id="name">3년</Col>
+            <Col id="code">B</Col>
+          </Row>
+          <Row>
+            <Col id="name">5년</Col>
+            <Col id="code">C</Col>
+          </Row>
+          <Row>
+            <Col id="name">10년</Col>
+            <Col id="code">D</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCompany"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  회의록 작성
+*  @FileName 	mtgNewFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2024/03/25
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2024/03/25			DXTOBE						최초생성
+*******************************************************************************
+*/
+this.fvMyDoc = false;
+/**
+* @function docMain_onload  <br>
+* description 기간달력 초기화 , 문서(여기서는 부서)리스트 조회
+*/
+this.mtgNewFm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드
+	var param = [
+			  {biztype : "Combo", code : "SM40", objid : this.divContents.form.cboMTG_PLACE_CD}							// 직원구분
+	];
+	this.gfnGetCommonCode(param);
+	
+	
+	//받아온값 세팅
+	this.fvDocId  	 = this.getOwnerFrame().pvDocId; 	// 문서 ID
+	this.fvSyscode   = this.getOwnerFrame().pvSyscode; 	// sys code
+	this.fvBizcode   = this.getOwnerFrame().pvBizcode; 	// biz code
+
+	if(this.fvDocId) {
+		this.dsCond.setColumn(0, "DOC_ID", this.fvDocId);
+		this.fnGetDocInfo();
+	} else {
+
+	}
+	var oWeb = this.divContents.form.webEditor;
+	this.gfnCreateHtmlViewer(oWeb);
+	
+	this.resetScroll();
+};
+
+/**
+* @function fnGetDocInfo  <br>
+* description 문서 컨텐츠 조회
+*/
+this.fnGetDocInfo = function (v)
+{	
+	var arrMap = ["meet","meet","meet","meet"];
+	var arrMapId = ["MeetList","MeetUserList","MeetSignUserList", "MeetReadUserList"];
+	var arrOut = ["dsList","dsUser","dsSignUser", "dsReadUser"];
+	
+	this.gfnSetMap(arrMap, arrMapId,arrOut);
+	
+	var strSvcId    = "searchDocInfo";
+	var strSvcUrl   = "searchCommonListService.do";
+	var inData      = "dsCond=dsCond dsMap=dsMap";
+	var outData     = "dsList=dsList dsUser=dsUser dsSignUser=dsSignUser dsReadUser=dsReadUser";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction callback
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchDocInfo":
+			var userId = this.gfnGetUserInfo("USER_ID");
+			var createId = this.dsList.getColumn(0, "INPT_ID");
+			var result = this.dsList.getColumn(0, "MTG_RESULT_TYPE");
+			
+			if(this.dsUser.rowcount > 0) {
+				var v = "";
+				for(var i=0,len=this.dsUser.rowcount;i<len;i++) {
+					if(i>0) v += ",";
+					v += this.dsUser.getColumn(i, "USER_ID");
+				}
+				this.divContents.form.MultiComboUser.set_value(v);
+			}
+			if(this.dsReadUser.rowcount > 0) {
+				var v = "";
+				for(var i=0,len=this.dsReadUser.rowcount;i<len;i++) {
+					if(i>0) v += ",";
+					v += this.dsReadUser.getColumn(i, "USER_ID");
+				}
+				this.divContents.form.MultiComboReadUser.set_value(v);
+			}
+			this.divContents.form.divTimeFr.form.setValue(this.dsList.getColumn(0, "MTG_BEGIN_TM").substr(8,4));
+			this.divContents.form.divTimeTo.form.setValue(this.dsList.getColumn(0, "MTG_END_TM").substr(8,4));
+			
+			if(this.dsSignUser.rowcount > 0) {
+				var v = "";
+				for(var i=0,len=this.dsSignUser.rowcount;i<len;i++) {
+					var form = this.divContents.form["divSign" + (i+1)].form;
+					form.edtCode.set_value(this.dsSignUser.getColumn(i, "USER_ID"));
+					form.edtName.set_value(this.dsSignUser.getColumn(i, "USER_NAME"));
+					//form.edtEmail.set_value(this.dsSignUser.getColumn(i, "EMAIL"));
+					//form.edtWorkName.set_value(this.dsSignUser.getColumn(i, "PHONE"));
+				}
+			}
+			
+			this.setTimer(0,500);
+			
+			break;
+		default:break;
+	}
+};
+
+//message callback
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "saveAfter":
+			if (sRtn)
+			{
+				this.close();
+			}
+			break;
+		default: 
+			break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//웹브라우저 온로드 컴플리트
+this.divContents_divCont_webEditor_onloadcompleted = function(obj:nexacro.WebBrowser,e:nexacro.WebLoadCompEventInfo)
+{
+
+};
+
+this.isLoad=false;
+//웹브라우저 유저노티
+this.divContents_divCont_webEditor_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+// 	if (e.userdata=="instanceReady" && !this.isLoad){
+// 		obj.callMethod("init", obj.getOffsetHeight()-40);
+// 		this.isLoad=true;
+// 		this.setTimer(0,300);
+// 	} else {
+// 		this.setTimer(0,300);
+// 	}
+};
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	switch(sPopupId) {
+		case "DMUserPopup":
+			break;
+		default:break;
+	}
+};
+
+
+//닫기버튼클릭
+this.divButton_btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+this.docMain_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+	if(e.timerid == 0){
+		this.killTimer(0);
+		
+		var sCntn = this.dsList.getColumn(0, "MTG_MTR_CN");
+		if(!this.gfnIsNull(sCntn)){
+			this.gfnSetHtmlView(this.divContents.form.webEditor, sCntn);
+		}
+		// 회의결과내용
+		sCntn = this.dsList.getColumn(0, "MTG_RESULT_CN");
+		if(!this.gfnIsNull(sCntn)){
+			this.gfnSetHtmlView(this.divContents.form.webEditorResult, sCntn);
+		}
+	}	
+};
+
+this.CaltoCallBack = function(id, e) {
+	this.divContents.form.calMonthTimeTemp00.set_value(e);
+};
+this.CalfromCallBack = function(id, e) {
+	this.divContents.form.calMonthTimeTemp.set_value(e);
+};
+
+this.calMonthTime_onlbuttonup = function(obj:nexacro.Calendar,e:nexacro.MouseEventInfo)
+{
+	this.gfnCompTimeCalendar(obj, e);
+};
+
+this.divContents_calMonthTimeTemp00_onlbuttonup = function(obj:nexacro.Calendar,e:nexacro.MouseEventInfo)
+{
+	this.gfnCompTimeCalendar(obj, e);
+};
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="divContents.form.calINPT_DTTM" propid="value" datasetid="dsList" columnid="INPT_DTTM"/>
+      <BindItem id="item1" compid="divContents.form.edtTitle" propid="value" datasetid="dsList" columnid="DOC_TITLE"/>
+      <BindItem id="item2" compid="divContents.form.cboMTG_PLACE_CD" propid="value" datasetid="dsList" columnid="MTG_PLACE_CD"/>
+      <BindItem id="item5" compid="divContents.form.chk00_00" propid="value" datasetid="dsList" columnid="READNG_AT"/>
+      <BindItem id="item6" compid="divContents.form.calReadDate" propid="value" datasetid="dsList" columnid="READNG_DATE"/>
+      <BindItem id="item9" compid="divContents.form.chk00" propid="value" datasetid="dsList" columnid="CLSDR_MTG_AT"/>
+      <BindItem id="item3" compid="divContents.form.calDate" propid="value" datasetid="dsList" columnid="MTG_DATE"/>
+      <BindItem id="item4" compid="divContents.form.edtHost" propid="value" datasetid="dsList" columnid="HOST_NAME"/>
+      <BindItem id="item7" compid="divContents.form.edtInpId" propid="value" datasetid="dsList" columnid="USER_NAME"/>
+      <BindItem id="item8" compid="divContents.form.staTitle00_00_00_00" propid="value" datasetid="dsList" columnid="READNG_DATE"/>
+      <BindItem id="item10" compid="divContents.form.calReadDate00" propid="value" datasetid="dsList" columnid="EXPIRE_DATE"/>
+    </Bind>
+  </Form>
+</FDL>

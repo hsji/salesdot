@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AT_TranslationMM" width="1280" height="720" titletext="변역관리" onload="AT_TranslationMM_onload" TL_FLAG="1">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Tab id="tab_TranslationMM" taborder="0" tabindex="0" left="8" top="8" right="8" bottom="8">
+          <Tabpages>
+            <Tabpage id="tpg_TranslationInfoList" text="번역정보목록" url="Admin::AT_TranslationInfo.xfdl" TL_SEQ="22598"/>
+            <Tabpage id="tpg_TransMenuList" text="번역메뉴목록" url="Admin::AT_TranslationMenu.xfdl" TL_SEQ="22599"/>
+            <Tabpage id="tpg_TransCodeList" text="번역코드목록" url="Admin::AT_TranslationCode.xfdl" TL_SEQ="22600"/>
+            <Tabpage id="tpg_TransCompanyList" text="번역회사목록" url="Admin::AT_TranslationCompany.xfdl" TL_SEQ="22601"/>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsTranslationList">
+        <ColumnInfo>
+          <Column id="RN" type="STRING" size="256"/>
+          <Column id="TL_SEQ" type="STRING" size="256"/>
+          <Column id="TL_DATA_KOR" type="STRING" size="256"/>
+          <Column id="TL_DATA_JAP" type="STRING" size="256"/>
+          <Column id="TL_DATA_ENG" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="DELETE_FLAG" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NM" type="STRING" size="256"/>
+          <Column id="INSERT_DEPT_CD" type="STRING" size="256"/>
+          <Column id="INSERT_DEPT_NM" type="STRING" size="256"/>
+          <Column id="UPDATE_DATE" type="STRING" size="256"/>
+          <Column id="UPDATE_EMP_NO" type="STRING" size="256"/>
+          <Column id="UPDATE_DEPT_CD" type="STRING" size="256"/>
+          <Column id="UPDATE_DEPT_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTranslationListCnt">
+        <ColumnInfo>
+          <Column id="TOTAL_COUNT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTranslationExcelList">
+        <ColumnInfo>
+          <Column id="TL_SEQ" type="STRING" size="256"/>
+          <Column id="TL_DATA_KOR" type="STRING" size="256"/>
+          <Column id="TL_DATA_JAP" type="STRING" size="256"/>
+          <Column id="TL_DATA_ENG" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="DELETE_FLAG" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NM" type="STRING" size="256"/>
+          <Column id="INSERT_DEPT_CD" type="STRING" size="256"/>
+          <Column id="INSERT_DEPT_NM" type="STRING" size="256"/>
+          <Column id="UPDATE_DATE" type="STRING" size="256"/>
+          <Column id="UPDATE_EMP_NO" type="STRING" size="256"/>
+          <Column id="UPDATE_DEPT_CD" type="STRING" size="256"/>
+          <Column id="UPDATE_DEPT_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_UseFlag">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">사용</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">미사용</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 번역관리
+ * 02. 화면명   : 번역관리(AT_TranslationMM)
+ * 03. 화면설명 : 번역관리
+ * 04. 작성일   : 2023.01.31
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_WebEditor.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_AUTH;
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.AT_TranslationMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnAuthConfig();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+//권한처리
+this.fnAuthConfig = function()
+{
+	if (this.commUtil.getFormAuthority(326,1)) /*	관리자 권한	*/
+	{	
+		this.FV_AUTH = "ALL";
+	}
+	else if (this.commUtil.getFormAuthority(326,2)) /*	일문 권한	*/
+	{	
+		this.FV_AUTH = "JAP";
+	}
+	else if (this.commUtil.getFormAuthority(326,3)) /*	일본컨설팅 권한+회사정보 권한	*/
+	{	
+		this.FV_AUTH = "COMPANY";
+	}
+	this.fnSetTabpage(this.FV_AUTH);
+};
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnSetTabpage = function(sAuth)
+{
+	if(sAuth == "JAP") {
+		// 순서 중요 3 : 번역회사목록
+		this.tab_TranslationMM.removeTabpage(3);
+	} 
+};
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,916 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="meetMapper">
+	
+	<select id="selectCompanyDocMapList" resultType="java.util.Map">
+		WITH RECURSIVE CTE_DEPT AS (
+			SELECT
+				AA.DEPT_CD,
+				HIPO_DEPT_CD,
+				(SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = AA.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+				AA.DEPT_KORN_NM,
+				AA.DEPT_ENGL_NM,
+				AA.DEPT_ABBR_NM,
+				AA.DEPT_ENGL_ABBR_NM,
+				AA.DEPT_SHOW_NM,
+				AA.DEPT_ORDR,
+				AA.DEPT_YN,
+				AA.DEPT_FLAG_CD,
+				AA.DEPT_LVL,
+				AA.BEFO_DEPT_CD,
+				AA.DEPT_FRDT,
+				AA.DEPT_TODT,
+				CONVERT(AA.DEPT_ORDR, CHAR(100)) AS SORTORDER
+			FROM T_SYTM_DEPT AA
+			WHERE DEPT_LVL = '0'
+			UNION ALL
+			SELECT
+				BB.DEPT_CD,
+				BB.HIPO_DEPT_CD,
+				(SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = BB.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+				BB.DEPT_KORN_NM,
+				BB.DEPT_ENGL_NM,
+				BB.DEPT_ABBR_NM,
+				BB.DEPT_ENGL_ABBR_NM,
+				BB.DEPT_SHOW_NM,
+				BB.DEPT_ORDR,
+				BB.DEPT_YN,
+				BB.DEPT_FLAG_CD,
+				BB.DEPT_LVL,
+				BB.BEFO_DEPT_CD,
+				BB.DEPT_FRDT,
+				BB.DEPT_TODT,
+				CONCAT(CTE_DEPT.SORTORDER, '|', BB.DEPT_ORDR) AS DEPT_ORDER
+			FROM T_SYTM_DEPT BB
+			INNER JOIN CTE_DEPT ON BB.HIPO_DEPT_CD = CTE_DEPT.DEPT_CD
+		)
+		SELECT Z.DEPT_CD, Z.DEPT_KORN_NM, Z.KORN_NM , Z.USER_ID,
+				Z.DEPT_LVL,Z.DEPT_NEW_NAME, Z.EMAIL, Z.CELL_NUMB,  '0' AS CHK, Z.GRPTYPE,
+				CASE 
+					WHEN TITLE IS NULL THEN DEPT_NEW_NAME
+					ELSE TITLE
+				 END AS TITLE,
+				Z.WORK_NAME
+		FROM
+		(
+			SELECT K.DEPT_CD, K.DEPT_KORN_NM, K.HIPO_DEPT_NM, K.HIPO_DEPT_CD, K.KORN_NM , K.SORTORDER, K.WKORDER, K.USER_ID,
+				K.WKDT_CD, K.DEPT_LVL, K.EMAIL, K.CELL_NUMB, K.GRPTYPE,
+				CASE 
+					WHEN K.WKDT_CD = '0050' THEN '' -- 팀원
+					ELSE K.DEPT_KORN_NM
+				END AS DEPT_NEW_NAME,			
+			   CONCAT((SELECT SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM06' AND SSC_CD = K.WKDT_CD), ' ' , K.KORN_NM) AS TITLE,
+			   K.WORK_NAME
+			FROM (
+			
+					SELECT DEPT_CD, DEPT_KORN_NM, HIPO_DEPT_NM, HIPO_DEPT_CD, '' AS KORN_NM, SORTORDER,
+						SORTORDER AS WKORDER, '' AS USER_ID, 'RW' AS USER_FLAG_CD, '' AS WKDT_CD, DEPT_LVL,
+						'' AS EMAIL, '' AS CELL_NUMB, 'G' AS GRPTYPE,
+						'' AS WORK_NAME
+					FROM CTE_DEPT
+					
+					UNION ALL
+					
+					SELECT A.DEPT_CD, A.DEPT_KORN_NM, A.HIPO_DEPT_NM, A.HIPO_DEPT_CD, B.KORN_NM , A.SORTORDER,		
+						CONCAT(A.SORTORDER, ' |', B.WKGD_CD) AS WKORDER, B.USER_ID, B.USER_FLAG_CD,
+						B.WKDT_CD,
+						CASE 
+							WHEN A.DEPT_CD = '1000000' THEN 1
+							ELSE A.DEPT_LVL + 1
+						END AS DEPT_LVL,
+						B.EMAIL, B.CELL_NUMB, 'U' AS GRPTYPE,
+						(SELECT WORK_NAME FROM VW_USERWKNM D WHERE D.USER_ID = B.USER_ID) WORK_NAME
+				
+					FROM CTE_DEPT A
+					RIGHT JOIN T_SYTM_USER B 
+					ON B.DEPT_CD = A.DEPT_CD
+					AND B.USER_FLAG_CD = 'RW'
+					AND B.HOOF_STAT_CD = 'HO'		
+			
+			
+			) K
+			WHERE K.USER_FLAG_CD = 'RW'
+			AND K.DEPT_CD IS NOT NULL
+			ORDER BY K.WKORDER
+		) Z
+	</select>
+	
+	<select id="selectMeetUserList" resultType="java.util.Map">
+		SELECT A.DOC_ID, A.USER_ID, A.FORMER_YN, A.FORMER_ORDER
+			, A.APRV_SEQ, A.COMP_NAME, A.WORK_NAME, A.USER_NAME, A.USER_MAILADDR
+			, A.USER_PHONE, A.USER_REGNO, A.M_STATUS, A.R_STATUS, A.READ_STATUS, A.R_ORDER, A.EDIT_INFO, A.READ_COMMENT
+			, A.PDF_FILE_NM, A.PDF_ORIG_FILE_NM, A.PDF_FILE_PATH_NM, A.MAILUSER_ID
+			, A.MAIL_URL, A.FORMER_ID, A.FORMER_NAME, A.USER_TYPE, A.INPT_ID
+			, DATE_FORMAT(#{A.INPT_DTTM}, '%Y%m%d%H%i%s') AS INPT_DTTM, A.CHGE_ID, A.CHGE_DTTM
+			, (SELECT USER_NAME FROM VW_USERWKNM B WHERE B.USER_ID = A.USER_ID) AS USER_NAME
+			, (SELECT WORK_NAME FROM VW_USERWKNM B WHERE B.USER_ID = A.USER_ID) AS WORK_NAME
+		FROM COM_MTGUSER A
+		WHERE  1 = 1
+		<if test="DOC_ID != null and DOC_ID != ''">
+			AND DOC_ID = #{DOC_ID}
+		</if>		
+	</select>
+	
+	
+	<select id="selectMeetUserAndSignList" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT A.DOC_ID, A.USER_ID, A.FORMER_YN, A.FORMER_ORDER
+			, A.APRV_SEQ, A.COMP_NAME, A.WORK_NAME, A.USER_NAME, A.USER_MAILADDR
+			, A.USER_PHONE, A.USER_REGNO, A.M_STATUS, A.R_STATUS, A.READ_STATUS, A.R_ORDER, A.EDIT_INFO, A.READ_COMMENT
+			, A.PDF_FILE_NM, A.PDF_ORIG_FILE_NM, A.PDF_FILE_PATH_NM, A.MAILUSER_ID
+			, A.MAIL_URL, A.FORMER_ID, A.FORMER_NAME, A.USER_TYPE, A.INPT_ID
+			, DATE_FORMAT(#{A.INPT_DTTM}, '%Y%m%d%H%i%s') AS INPT_DTTM, A.CHGE_ID, A.CHGE_DTTM
+			, (SELECT USER_NAME FROM VW_USERWKNM B WHERE B.USER_ID = A.USER_ID) AS USER_NAME
+			, (SELECT WORK_NAME FROM VW_USERWKNM B WHERE B.USER_ID = A.USER_ID) AS WORK_NAME
+			,
+			CASE 
+				WHEN A.READ_STATUS = 'Z' THEN B.USER_SIGN -- 서명완료
+				ELSE ''
+			END AS USER_SIGN			
+		FROM COM_MTGUSER A
+  	    LEFT JOIN COM_MTGSIGN B ON B.USER_ID = A.USER_ID  
+		WHERE A.DOC_ID = #{DOC_ID}
+	</select>	
+	
+	
+	
+	<!-- 참석자 저장 -->    
+	<insert id="insertMeetUserList" parameterType="java.util.Map">
+		INSERT INTO COM_MTGUSER
+		(
+			  DOC_ID
+			  , USER_ID, FORMER_YN
+			  , FORMER_ORDER, APRV_SEQ, COMP_NAME
+			  , WORK_NAME, USER_NAME, USER_MAILADDR
+			  , USER_PHONE, USER_REGNO, M_STATUS
+			  , R_STATUS, READ_STATUS, R_ORDER, EDIT_INFO, READ_COMMENT
+			  , PDF_FILE_NM, PDF_ORIG_FILE_NM, PDF_FILE_PATH_NM
+			  , MAILUSER_ID, MAIL_URL, FORMER_ID
+			  , FORMER_NAME, USER_TYPE, INPT_ID, INPT_DTTM
+			  , CHGE_ID, CHGE_DTTM
+		)VALUES(
+			  #{DOC_ID}
+			  , #{USER_ID},#{FORMER_YN}
+			  , #{FORMER_ORDER}, #{APRV_SEQ}, #{COMP_NAME}
+			  , #{WORK_NAME}, #{USER_NAME}, #{USER_MAILADDR}
+			  , #{USER_PHONE}, #{USER_REGNO} ,#{M_STATUS}
+			  , #{R_STATUS}, #{READ_STATUS}, #{R_ORDER}, #{EDIT_INFO}, #{READ_COMMENT}
+			  , #{PDF_FILE_NM}, #{PDF_ORIG_FILE_NM}, #{PDF_FILE_PATH_NM}
+			  , #{MAILUSER_ID}, #{MAIL_URL}, #{FORMER_ID}
+			  , #{FORMER_NAME}, #{USER_TYPE}, #{USER_ID_SRV}, NOW()
+			  , #{USER_ID_SRV}, NOW()		
+		)
+		ON 
+		DUPLICATE KEY
+			UPDATE 
+				FORMER_YN=#{FORMER_YN}
+			  , FORMER_ORDER=#{FORMER_ORDER}, APRV_SEQ=#{APRV_SEQ}, COMP_NAME=#{COMP_NAME}
+			  , WORK_NAME=#{WORK_NAME}, USER_NAME=#{USER_NAME}, USER_MAILADDR=#{USER_MAILADDR}
+			  , USER_PHONE=#{USER_PHONE}, USER_REGNO=#{USER_REGNO} ,M_STATUS=#{M_STATUS}
+			  , R_STATUS=#{R_STATUS}, READ_STATUS=#{READ_STATUS}, R_ORDER=#{R_ORDER}, EDIT_INFO=#{EDIT_INFO}
+			  , PDF_FILE_NM=#{PDF_FILE_NM}, PDF_ORIG_FILE_NM=#{PDF_ORIG_FILE_NM}, PDF_FILE_PATH_NM=#{PDF_FILE_PATH_NM}
+			  , MAILUSER_ID=#{MAILUSER_ID}, MAIL_URL=#{MAIL_URL}, FORMER_ID=#{FORMER_ID}
+			  , FORMER_NAME=#{FORMER_NAME}, USER_TYPE=#{USER_TYPE}, CHGE_ID=#{USER_ID_SRV}, CHGE_DTTM=NOW()	
+	</insert>
+	
+	<!--  MAP 사용자 정보 수정 -->   
+	<update id="updateMeetUserResult" parameterType="java.util.Map">
+	
+		UPDATE COM_MTGUSER 
+		SET 
+			R_STATUS 		= #{R_STATUS}
+			, CHGE_ID 		= #{CHGE_ID}
+		WHERE DOC_ID 		= #{DOC_ID}
+		AND  USER_ID 		= #{USER_ID}
+		AND  SEND_SEQ 		= #{SEND_SEQ}
+	</update>	
+	
+	<!-- 참석자 전체 삭제  -->  	
+	<delete id="deleteMeetUserList" parameterType="java.util.Map">
+		DELETE FROM COM_MTGUSER
+		WHERE DOC_ID = #{DOC_ID}
+	</delete>	
+	
+	<select id="selectMailUser" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT USER_ID
+		  FROM COM_MTGUSER
+		WHERE DOC_ID = #{DOC_ID}
+		 AND  MAILUSER_ID = #{MAILUSER_ID}
+		 GROUP BY USER_ID
+	</select>	
+	
+	<select id="selectSignCheck" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT R_STATUS
+		FROM COM_MTGUSER
+		WHERE  DOC_ID = #{DOC_ID}	
+		AND   USER_ID = #{USER_ID}	
+	</select>	
+	
+	<select id="selectUserSign1" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT USER_SIGN
+		FROM COM_MTGUSERSIGN
+		WHERE  USER_ID = #{USER_ID}	
+	</select>
+	
+	<select id="selectUserSign2" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT USER_SIGNIMAGE
+		FROM COM_MTGUSERSIGN
+		WHERE  USER_ID = #{USER_ID}	
+	</select>	
+
+	<!-- 문서그룹 조회 -->
+	<select id="selectDocuTreeList" parameterType="java.util.Map" resultType="java.util.Map">
+		WITH RECURSIVE CTE_DocTree AS (
+		   SELECT
+			   convert(D.DT_ORDR, char(100)) as SortOrder,
+			   D.*
+		   FROM COM_MTGDOCTREE D
+		   WHERE DT_LVL = '0'
+		   UNION ALL
+		   SELECT
+			   CONCAT(CTE_DocTree.SortOrder, '|', E.DT_ORDR) as DT_ORDR,
+			   E.*
+		   FROM COM_MTGDOCTREE E
+		   INNER JOIN CTE_DocTree ON E.HIPO_DT_CD = CTE_DocTree.DT_CD
+		)
+		SELECT *, ST_CD AS SYS_CODE, DT_CD AS BIZ_CODE
+		FROM CTE_DocTree
+		WHERE 1=1
+		  AND DT_YN = '1'
+		ORDER BY CTE_DocTree.DT_ORDR
+	</select>
+
+	<!-- 문서그룹 조회 -->
+	<select id="selectDocTreeOne" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT ST_CD, DT_CD, HIPO_DT_CD, DT_NAME, DT_ORDR, DT_YN, DT_LVL
+				, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM
+				, (SELECT DT_NAME FROM COM_MTGDOCTREE WHERE DT_CD = HIPO_DT_CD) AS HIPO_DT_NAME
+		FROM COM_MTGDOCTREE
+		WHERE 1=1
+		  AND AA.DT_CD = #{SRCH}
+	</select>
+
+	<!-- 문서그룹 추가 -->
+	<insert id="insertDocTree" parameterType="java.util.Map">
+		INSERT INTO COM_MTGDOCTREE
+		(ST_CD, DT_CD, HIPO_DT_CD, DT_NAME, DT_ORDR, DT_YN, DT_LVL, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM)
+		VALUES(
+			#{ST_CD}
+			, #{DT_CD}
+			, #{HIPO_DT_CD}
+			, #{DT_NAME}
+			, #{DT_ORDR}
+			, #{DT_YN}
+			, #{DT_LVL}
+			, #{INPT_ID}
+			, #{INPT_DTTM}
+			, #{CHGE_ID}
+			, #{CHGE_DTTM}
+		)
+	</insert>
+
+	<!-- 문서그룹 변경 -->
+	<update id="updateDocTree" parameterType="java.util.Map">
+
+		UPDATE COM_MTGDOCTREE 
+		SET 
+			HIPO_DT_CD 		= #{HIPO_DT_CD}
+			, DT_NAME 		= #{DT_NAME}
+			, DT_ORDR 		= #{DT_ORDR}
+			, DT_YN 		= #{DT_YN}
+			, DT_LVL 		= #{DT_LVL}
+			, CHGE_ID 		= #{USER_ID_SRV}
+			, CHGE_DTTM 	= NOW()
+		WHERE ST_CD=#{ST_CD}
+		AND   DT_CD=#{DT_CD}
+	</update>
+
+	<!-- 문서그룹 삭제 -->   
+	<delete id="deleteDocTree" parameterType="java.util.Map">
+		DELETE FROM COM_MTGDOCTREE 
+		WHERE ST_CD=#{ST_CD}
+		AND   DT_CD=#{DT_CD}
+	</delete>	
+	
+
+	<!-- 문서조회 --> 
+	<select id="selectMeetList" parameterType="java.util.Map" resultType="java.util.Map"> 
+
+		SELECT 
+			 A.DOC_ID, A.SYS_CODE, A.BIZ_CODE
+			 , A.DOC_TITLE, A.EXPIRE_DATE, A.EDIT_INFO
+			 , A.PDF_PAGE, A.PDF_FILE_NM, A.PDF_ORIG_FILE_NM, A.PDF_FILE_PATH_NM
+			 , A.USED_FLAG, A.MTG_MTR_CN, A.MTG_SEQ, A.MTG_CNT
+			 , A.MTG_DATE, A.MTG_PLACE_CD, A.MTG_BEGIN_TM
+			 , A.MTG_END_TM, A.CLSDR_MTG_AT, A.READNG_DATE
+			 , A.READNG_AT, A.MTG_RESULT_CN, A.MTG_RESULT_TYPE
+			 , A.ETC_MATTER, A.HOST_TYPE, A.HOST_ID
+			 , A.MTG_AT, A.INPT_ID, DATE_FORMAT(A.INPT_DTTM, '%Y%m%d%H%i%s') AS INPT_DTTM
+			 , A.CHGE_ID, A.CHGE_DTTM
+			 , (SELECT USER_NAME FROM VW_USERWKNM B WHERE B.USER_ID = A.INPT_ID) AS USER_NAME
+			 , (SELECT WORK_NAME FROM VW_USERWKNM B WHERE B.USER_ID = A.INPT_ID) AS WORK_NAME		 
+			 , (SELECT USER_NAME FROM VW_USERWKNM B WHERE B.USER_ID = A.HOST_ID) AS HOST_NAME
+			 , (SELECT WORK_NAME FROM VW_USERWKNM B WHERE B.USER_ID = A.HOST_ID) AS HOST_WORK_NAME		 
+		FROM COM_MTGINFO A
+		WHERE 1 = 1
+		<if test="DOC_ID != null and DOC_ID != '' ">
+			AND	A.DOC_ID = #{DOC_ID}
+		</if>
+		<if test="IN_FDATE != null and IN_FDATE != '' and IN_TDATE != null and IN_TDATE != '' ">
+			AND	DATE_FORMAT(A.INPT_DTTM,  '%Y%m%d') BETWEEN #{IN_FDATE} AND #{IN_TDATE}
+		</if>
+		<if test="DOC_TITLE != null and DOC_TITLE != '' ">
+			AND	A.DOC_TITLE LIKE CONCAT('%', #{DOC_TITLE} ,'%')
+		</if>
+		<if test="INPT_ID != null and INPT_ID != '' ">
+			AND	A.INPT_ID LIKE CONCAT('%', #{INPT_ID} ,'%')
+		</if>
+		<if test="BIZ_CODE != null and BIZ_CODE != '' ">
+			AND	A.BIZ_CODE = #{BIZ_CODE}
+		</if>
+		<if test="SYS_CODE != null and SYS_CODE != '' ">
+			AND	A.SYS_CODE = #{SYS_CODE}
+		</if>
+		<if test="DOC_LIST != null and DOC_LIST != '' ">
+			AND A.BIZ_CODE IN ${DOC_LIST}
+		</if>
+		ORDER BY INPT_DTTM DESC
+		<if test="LIMIT != null and LIMIT != '' ">
+			LIMIT ${LIMIT}
+		</if>	
+	</select>
+	
+
+	<!-- 신규 문서 저장 -->    
+	<insert id="insertMeetInfo" parameterType="java.util.Map">
+
+		INSERT INTO COM_MTGINFO
+		(
+			  DOC_ID, SYS_CODE, BIZ_CODE
+			  , DOC_TITLE, EXPIRE_DATE, EDIT_INFO
+			  , PDF_PAGE, PDF_FILE_NM, PDF_ORIG_FILE_NM, PDF_FILE_PATH_NM
+			  , USED_FLAG, MTG_MTR_CN, MTG_SEQ, MTG_CNT
+			  , MTG_DATE, MTG_PLACE_CD, MTG_BEGIN_TM
+			  , MTG_END_TM, CLSDR_MTG_AT, READNG_DATE
+			  , READNG_AT, MTG_RESULT_CN, MTG_RESULT_TYPE
+			  , ETC_MATTER, HOST_TYPE, HOST_ID, MTG_AT
+			  , INPT_ID, INPT_DTTM, CHGE_ID
+			  , CHGE_DTTM
+		)VALUES(
+			  #{DOC_ID}, #{SYS_CODE}, #{BIZ_CODE}
+			  , #{DOC_TITLE}, #{EXPIRE_DATE}, #{EDIT_INFO}
+			  , #{PDF_PAGE}, #{PDF_FILE_NM}, #{PDF_ORIG_FILE_NM}, #{PDF_FILE_PATH_NM}
+			  , #{USED_FLAG}, #{MTG_MTR_CN}, #{MTG_SEQ}, #{MTG_CNT}
+			  , #{MTG_DATE}, #{MTG_PLACE_CD}, #{MTG_BEGIN_TM}
+			  , #{MTG_END_TM}, #{CLSDR_MTG_AT}, #{READNG_DATE}
+			  , #{READNG_AT}, #{MTG_RESULT_CN}, #{MTG_RESULT_TYPE}
+			  , #{ETC_MATTER}, #{HOST_TYPE}, #{HOST_ID}, #{MTG_AT}
+			  , #{USER_ID_SRV}, NOW(), #{USER_ID_SRV}
+			  , NOW()
+			)
+		ON 
+		DUPLICATE KEY
+			UPDATE 
+			  SYS_CODE=#{SYS_CODE}, BIZ_CODE=#{BIZ_CODE}
+			  , DOC_TITLE=#{DOC_TITLE}, EXPIRE_DATE=#{EXPIRE_DATE}, EDIT_INFO=#{EDIT_INFO}
+			  , PDF_PAGE=#{PDF_PAGE}, PDF_FILE_NM=#{PDF_FILE_NM}, PDF_ORIG_FILE_NM=#{PDF_ORIG_FILE_NM}, PDF_FILE_PATH_NM=#{PDF_FILE_PATH_NM}
+			  , USED_FLAG=#{USED_FLAG}, MTG_MTR_CN=#{MTG_MTR_CN}, MTG_SEQ=#{MTG_SEQ}, MTG_CNT=#{MTG_CNT}
+			  , MTG_DATE=#{MTG_DATE}, MTG_PLACE_CD=#{MTG_PLACE_CD}, MTG_BEGIN_TM=#{MTG_BEGIN_TM}
+			  , MTG_END_TM=#{MTG_END_TM}, CLSDR_MTG_AT=#{CLSDR_MTG_AT}, READNG_DATE=#{READNG_DATE}
+			  , READNG_AT=#{READNG_AT}, MTG_RESULT_CN=#{MTG_RESULT_CN}, MTG_RESULT_TYPE=#{MTG_RESULT_TYPE}
+			  , ETC_MATTER=#{ETC_MATTER}, HOST_TYPE=#{HOST_TYPE}, HOST_ID=#{HOST_ID}, MTG_AT=#{MTG_AT}
+			  , CHGE_ID=#{USER_ID_SRV}, CHGE_DTTM=NOW()
+	</insert>
+	
+	<update id="updateMeetInfo" parameterType="java.util.Map">
+		UPDATE COM_MTGINFO
+		SET 
+			  SYS_CODE=#{SYS_CODE}, BIZ_CODE=#{BIZ_CODE}
+			  , DOC_TITLE=#{DOC_TITLE}, EXPIRE_DATE=#{EXPIRE_DATE}, EDIT_INFO=#{EDIT_INFO}
+			  , PDF_PAGE=#{PDF_PAGE}, PDF_FILE_NM=#{PDF_FILE_NM}, PDF_ORIG_FILE_NM=#{PDF_ORIG_FILE_NM}, PDF_FILE_PATH_NM=#{PDF_FILE_PATH_NM}
+			  , USED_FLAG=#{USED_FLAG}, MTG_MTR_CN=#{MTG_MTR_CN}, MTG_SEQ=#{MTG_SEQ}, MTG_CNT=#{MTG_CNT}
+			  , MTG_DATE=#{MTG_DATE}, MTG_PLACE_CD=#{MTG_PLACE_CD}, MTG_BEGIN_TM=#{MTG_BEGIN_TM}
+			  , MTG_END_TM=#{MTG_END_TM}, CLSDR_MTG_AT=#{CLSDR_MTG_AT}, READNG_DATE=#{READNG_DATE}
+			  , READNG_AT=#{READNG_AT}, MTG_RESULT_CN=#{MTG_RESULT_CN}, MTG_RESULT_TYPE=#{MTG_RESULT_TYPE}
+			  , ETC_MATTER=#{ETC_MATTER}, HOST_TYPE=#{HOST_TYPE}, HOST_ID=#{HOST_ID}, MTG_AT=#{MTG_AT}
+			  , CHGE_ID=#{USER_ID_SRV}, CHGE_DTTM=NOW()		
+		WHERE DOC_ID=#{DOC_ID}
+	</update>
+	
+	<update id="updateMeetPageInfo" parameterType="java.util.Map">
+		UPDATE COM_MTGINFO
+		SET 
+			  PDF_PAGE=#{PDF_PAGE}
+		WHERE DOC_ID=#{DOC_ID}
+	</update>	
+	
+	<update id="updateMeetResultInfo" parameterType="java.util.Map">
+		UPDATE COM_MTGINFO
+		SET 
+			 MTG_RESULT_TYPE=#{MTG_RESULT_TYPE}
+		WHERE DOC_ID=#{DOC_ID}
+	</update>	
+
+	<delete id="deleteMeetInfo" parameterType="java.util.Map">
+		DELETE FROM COM_MTGINFO
+		WHERE DOC_ID = #{DOC_ID}
+	</delete>
+	
+	<!-- 문서조회 --> 
+	<select id="selectMeetResultCount" parameterType="java.util.Map" resultType="java.util.Map"> 
+		
+		SELECT A.READ_CNT, B.TOTAL_CNT
+		FROM (
+			SELECT COUNT(*) AS READ_CNT
+			FROM COM_MTGUSER
+			WHERE DOC_ID = #{DOC_ID}
+			AND COMP_NAME IS NULL  
+			AND READ_STATUS = 'Z'
+		) A,
+		(
+			SELECT COUNT(*) AS TOTAL_CNT
+			FROM COM_MTGUSER
+			WHERE DOC_ID = #{DOC_ID}
+			AND  COMP_NAME IS NULL  
+		) B
+	
+	</select>	
+
+	<!-- 발송 HISTORY --> 
+	<select id="selectMeetHistory" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT 
+				A.DOC_ID, A.SEND_SEQ, DATE_FORMAT(A.SEND_DTTM, '%Y%m%d%H%i%s') AS SEND_DTTM
+				, A.DRAWSIGN_FLAG, A.DRAWIMAGE_FLAG
+				, A.REFIMAGE_FLAG, A.SEND_TITLE, A.SEND_MESSAGE
+				, A.SEND_ID, A.EXPIREMAIL_DATE, A.USER_MAILADDR
+				, A.USER_PHONE, A.USER_NAME, A.CERT_TYPE, A.SEND_TYPE
+				, A.SIGN_TYPE
+				, B.SYS_CODE
+				, B.BIZ_CODE 
+				, (SELECT USER_NAME FROM VW_USERWKNM C WHERE C.USER_ID = A.SEND_ID) AS SEND_NAME
+				, (SELECT WORK_NAME FROM VW_USERWKNM C WHERE C.USER_ID = A.SEND_ID) AS SEND_WORK_NAME					
+		  FROM COM_MTGSENDHISTORY A, COM_MTGINFO B
+		WHERE A.DOC_ID = #{DOC_ID}
+		AND   A.DOC_ID = B.DOC_ID
+		<if test="SEND_MAX != null and SEND_MAX != ''">
+			AND A.SEND_SEQ = (SELECT MAX(SEND_SEQ) FROM COM_MTGSENDHISTORY WHERE DOC_ID = #{DOC_ID})
+		</if>	
+	</select>
+
+	<!-- 서명 만료일자 --> 
+	<select id="selectMeetHistoryExpireDate" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT EXPIREMAIL_DATE
+		  FROM COM_MTGSENDHISTORY
+		WHERE DOC_ID = #{DOC_ID}
+		AND SEND_SEQ = #{SEND_SEQ}
+	</select>
+
+	<!-- 발송히스토리 추가 --> 
+	<insert id="insertMeetHistory" parameterType="java.util.Map">
+		INSERT INTO COM_MTGSENDHISTORY
+		(
+			 DOC_ID, SEND_SEQ, SEND_DTTM
+			 , DRAWSIGN_FLAG, DRAWIMAGE_FLAG, REFIMAGE_FLAG
+			 , SEND_TITLE, SEND_MESSAGE, SEND_ID, EXPIREMAIL_DATE
+			 , USER_MAILADDR, USER_PHONE, USER_NAME, CERT_TYPE
+			 , SEND_TYPE, SIGN_TYPE
+		)VALUES(
+			#{DOC_ID}, #{SEND_SEQ}, #{SEND_DTTM}
+			, #{DRAWSIGN_FLAG}, #{DRAWIMAGE_FLAG}, #{REFIMAGE_FLAG}
+			, #{SEND_TITLE}, #{SEND_MESSAGE}, #{SEND_ID}
+			, #{EXPIREMAIL_DATE}, #{USER_MAILADDR}
+			, #{USER_PHONE}, #{USER_NAME}, #{CERT_TYPE}
+			, #{SEND_TYPE}, #{SIGN_TYPE}
+			)
+		ON 
+		DUPLICATE KEY
+			UPDATE 
+			SEND_DTTM=NOW()
+			, DRAWSIGN_FLAG=#{DRAWSIGN_FLAG}, DRAWIMAGE_FLAG=#{DRAWIMAGE_FLAG}, REFIMAGE_FLAG=#{REFIMAGE_FLAG}
+			, SEND_TITLE=#{SEND_TITLE}, SEND_MESSAGE=#{SEND_MESSAGE}, SEND_ID=#{SEND_ID}
+			, EXPIREMAIL_DATE=#{EXPIREMAIL_DATE}, USER_MAILADDR=#{USER_MAILADDR}
+			, USER_PHONE=#{USER_PHONE}, USER_NAME=#{USER_NAME}, CERT_TYPE=#{CERT_TYPE}
+			, SEND_TYPE=#{SEND_TYPE}, SIGN_TYPE=#{SIGN_TYPE}
+	</insert>
+
+	<!-- 발송히스토리 삭제 --> 
+	<delete id="deleteMeetHistory" parameterType="java.util.Map">
+		DELETE FROM COM_MTGSENDHISTORY
+		WHERE DOC_ID = #{DOC_ID}
+		AND  SEND_SEQ = #{SEND_SEQ}
+	</delete>
+
+	<delete id="deleteMeetHistoryAll" parameterType="java.util.Map">
+		DELETE FROM COM_MTGSENDHISTORY
+		WHERE DOC_ID = #{DOC_ID}
+	</delete>	
+	
+
+	<!-- 열람자 조회 --> 
+	<select id="selectMeetReadUserList" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT 
+				A.DOC_ID, A.USER_ID, A.DEPT_GB
+				, (SELECT USER_NAME FROM VW_USERWKNM C WHERE C.USER_ID = A.USER_ID) AS USER_NAME
+				, (SELECT WORK_NAME FROM VW_USERWKNM C WHERE C.USER_ID = A.USER_ID) AS WORK_NAME					
+		  FROM COM_MTGREADUSER A
+		WHERE A.DOC_ID = #{DOC_ID}
+	</select>
+
+	<!-- 열람자 추가 --> 
+	<insert id="insertMeetReadUserInfo" parameterType="java.util.Map">
+		INSERT INTO COM_MTGREADUSER
+		(
+			 DOC_ID, USER_ID, DEPT_GB
+		)VALUES(
+			#{DOC_ID}, #{USER_ID}, #{DEPT_GB}
+			)
+		ON 
+		DUPLICATE KEY
+			UPDATE 
+			DEPT_GB=#{DEPT_GB}
+	</insert>
+
+	<!-- 열람자 삭제 --> 
+	<delete id="deleteMeetReadUserInfo" parameterType="java.util.Map">
+		DELETE FROM COM_MTGREADUSER
+		WHERE DOC_ID = #{DOC_ID}
+	</delete>	
+
+	<!-- 서명자 조회 --> 
+	<select id="selectMeetSignUserList" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT 
+				A.DOC_ID, A.USER_ID, A.SSRESULT_CD, A.SIGN_SEQ, A.SS_COMMENT, A.RECEIVE_DTTM, A.SIGN_DTTM
+				, (SELECT USER_NAME FROM VW_USERWKNM C WHERE C.USER_ID = A.USER_ID) AS USER_NAME
+				, (SELECT WORK_NAME FROM VW_USERWKNM C WHERE C.USER_ID = A.USER_ID) AS WORK_NAME					
+				, (SELECT USER_MAILADDR FROM VW_USERWKNM C WHERE C.USER_ID = A.USER_ID) AS USER_MAILADDR
+				, (SELECT USER_PHONE FROM VW_USERWKNM C WHERE C.USER_ID = A.USER_ID) AS USER_PHONE				
+		  FROM COM_MTGSIGNUSER A
+		WHERE A.DOC_ID = #{DOC_ID}
+	</select>
+
+	<!-- 서명자 추가 --> 
+	<insert id="insertMeetSignUserInfo" parameterType="java.util.Map">
+		INSERT INTO COM_MTGSIGNUSER
+		(
+			 DOC_ID, USER_ID, SSRESULT_CD, SIGN_SEQ, SS_COMMENT, RECEIVE_DTTM, SIGN_DTTM
+		)VALUES(
+			#{DOC_ID}, #{USER_ID}, #{SSRESULT_CD}, #{SIGN_SEQ}, #{SS_COMMENT}, #{RECEIVE_DTTM}, #{SIGN_DTTM}
+			)
+		ON 
+		DUPLICATE KEY
+			UPDATE 
+			SSRESULT_CD=#{SSRESULT_CD}, SIGN_SEQ=#{SIGN_SEQ}, SS_COMMENT=#{SS_COMMENT}
+			, RECEIVE_DTTM=#{RECEIVE_DTTM}, SIGN_DTTM=#{SIGN_DTTM}
+	</insert>
+
+	<!-- 서명자 삭제 --> 
+	<delete id="deleteMeetSignUserInfo" parameterType="java.util.Map">
+		DELETE FROM COM_MTGSIGNUSER
+		WHERE DOC_ID = #{DOC_ID}
+	</delete>	
+	
+	<!-- FORMER 조회 --> 
+	<select id="selectMeetFormerList" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT Z.DOC_ID, Z.USER_ID, Z.FORMER_ID, Z.FORMER_NAME, Z.USER_MAILADDR, Z.USER_PHONE, Z.FORMER_YN
+		FROM (
+			SELECT 
+					A.DOC_ID, A.INPT_ID as USER_ID, A.INPT_ID AS FORMER_ID
+					, (SELECT USER_NAME FROM VW_USERWKNM C WHERE C.USER_ID = A.INPT_ID) AS FORMER_NAME
+					, (SELECT USER_MAILADDR FROM VW_USERWKNM C WHERE C.USER_ID = A.INPT_ID) AS USER_MAILADDR
+					, (SELECT USER_PHONE FROM VW_USERWKNM C WHERE C.USER_ID = A.INPT_ID) AS USER_PHONE
+					, 'Y' AS FORMER_YN, 1 AS FORMER_ORDER				
+			  FROM COM_MTGINFO A
+			WHERE A.DOC_ID = #{DOC_ID}
+			UNION ALL
+			SELECT 
+					A.DOC_ID, A.USER_ID, A.FORMER_ID
+					, A.FORMER_NAME
+					, A.USER_MAILADDR
+					, A.USER_PHONE
+					, 'N' AS FORMER_YN, 2 AS FORMER_ORDER				
+			  FROM COM_MTGUSER A
+			WHERE A.DOC_ID = #{DOC_ID}
+			UNION ALL
+			SELECT 
+					A.DOC_ID, A.USER_ID, CONCAT('FMER_', A.USER_ID) AS FORMER_ID
+					, (SELECT USER_NAME FROM VW_USERWKNM C WHERE C.USER_ID = A.USER_ID) AS FORMER_NAME
+					, (SELECT USER_MAILADDR FROM VW_USERWKNM C WHERE C.USER_ID = A.USER_ID) AS USER_MAILADDR
+					, (SELECT USER_PHONE FROM VW_USERWKNM C WHERE C.USER_ID = A.USER_ID) AS USER_PHONE
+					, 'N' AS FORMER_YN, 3 AS FORMER_ORDER				
+			  FROM COM_MTGSIGNUSER A
+			WHERE A.DOC_ID = #{DOC_ID}
+		) Z
+		
+		ORDER BY FORMER_ORDER
+
+	</select>	
+	
+	<select id="selectMeetTitle" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT DOC_ID, SEND_TITLE , SEND_MESSAGE
+		FROM COM_MTGSENDHISTORY
+		WHERE DOC_ID = #{DOC_ID}
+		AND SEND_SEQ = #{SEND_SEQ}
+	</select>
+	
+	<select id="selectMeetSignType" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT SIGN_TYPE
+		FROM COM_MTGSENDHISTORY
+		WHERE DOC_ID = #{DOC_ID}
+		AND SEND_SEQ = #{SEND_SEQ}
+	</select>
+	
+	<select id="selectMeetSignUserCount" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT COUNT(USER_ID) AS SIGNCNT
+		FROM COM_MTGUSER
+		WHERE DOC_ID = #{DOC_ID}
+		AND R_STATUS = "W"
+		AND R_ORDER = 1
+	</select>	
+	
+	<select id="selectMeetLastSignUserCount" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT COUNT(USER_ID) AS SIGNCNT
+		FROM COM_MTGUSER
+		WHERE DOC_ID = #{DOC_ID}
+		AND M_STATUS = "W"
+		AND R_ORDER > 1
+	</select>		
+
+	<select id="selectMeetNextSignUser" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT A.*, B.SYS_CODE, B.BIZ_CODE, C.SEND_TITLE, C.SEND_MESSAGE, C.EXPIREMAIL_DATE, C.SEND_ID, C.USER_NAME AS SEND_NAME, C.USER_MAILADDR AS SEND_MAIL
+		FROM COM_MTGUSER A, COM_MTGINFO B, COM_MTGSENDHISTORY C
+		WHERE A.DOC_ID = #{DOC_ID}
+		AND A.DOC_ID = B.DOC_ID
+		AND A.DOC_ID = C.DOC_ID
+		AND C.SEND_SEQ = #{SEND_SEQ}
+		AND A.M_STATUS = "W"
+		AND A.R_ORDER > 1
+		ORDER BY A.R_ORDER
+		LIMIT 1
+	</select>		
+	
+	<update id="updateMeetLastSignUser" parameterType="java.util.Map">
+		UPDATE COM_MTGUSER 
+		SET 
+			M_STATUS 		= #{M_STATUS}
+		WHERE DOC_ID 		= #{DOC_ID}
+		AND  USER_ID 		= #{USER_ID}
+	</update>	
+	
+	<select id="selectCompanyInfo" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT SEQ_NO, COM_CODE, COM_NAME, COM_ENGL_NAME, LANG_CD, USE_YN, ADDR_BASIC
+		, ADDR_DTL, COM_IMAGE, COM_IMAGE_WIDTH, COM_IMAGE_HEIGHT, INPT_ID, INPT_IP, INPT_DTTM, CHGE_ID, CHGE_IP, CHGE_DTTM
+		FROM T_SYTM_COMPANY
+		WHERE 1 = 1 
+		<if test="SEQ_NO != null and SEQ_NO != ''">
+		AND SEQ_NO = #{SEQ_NO}
+		</if>		
+		<if test="COM_CODE != null and COM_CODE != ''">
+		AND COM_CODE = #{COM_CODE}
+		</if>		
+	</select>		
+
+	<update id="updateCompanyInfo" parameterType="java.util.Map"> 
+		UPDATE T_SYTM_COMPANY
+		SET COM_CODE=#{COM_CODE}
+		, COM_NAME=#{COM_NAME}
+		, COM_ENGL_NAME=#{COM_ENGL_NAME}
+		, LANG_CD=#{LANG_CD}
+		, USE_YN=#{USE_YN}
+		, ADDR_BASIC=#{ADDR_BASIC}
+		, ADDR_DTL=#{ADDR_DTL}
+		, COM_IMAGE=#{COM_IMAGE}
+		, COM_IMAGE_WIDTH=#{COM_IMAGE_WIDTH}
+		, COM_IMAGE_HEIGHT=#{COM_IMAGE_HEIGHT}
+		, CHGE_ID=#{USER_ID_SRV}
+		, CHGE_IP=#{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM=NOW()
+		WHERE SEQ_NO=#{SEQ_NO}
+	</update>		
+	
+	<insert id="insertCompanyInfo" parameterType="java.util.Map"> 
+		INSERT INTO T_SYTM_COMPANY
+		(COM_CODE, COM_NAME, COM_ENGL_NAME, LANG_CD, USE_YN, ADDR_BASIC, ADDR_DTL, COM_IMAGE, COM_IMAGE_WIDTH, COM_IMAGE_HEIGHT
+		, INPT_ID, INPT_IP, INPT_DTTM, CHGE_ID, CHGE_IP, CHGE_DTTM)
+		VALUES(
+			#{COM_CODE}
+			,#{COM_NAME}
+			,#{COM_ENGL_NAME}
+			,#{LANG_CD}
+			,#{USE_YN}
+			,#{ADDR_BASIC}
+			,#{ADDR_DTL}
+			,#{COM_IMAGE}
+			,#{COM_IMAGE_WIDTH}
+			,#{COM_IMAGE_HEIGHT}
+			,#{USER_ID_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{USER_ID_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+		)
+	</insert>		
+	
+	<!-- 나의열람회의록조회 -->
+	<select id="selectMyMeetList" parameterType="java.util.Map" resultType="java.util.Map">
+		WITH RECURSIVE CTE_DEPT AS (
+			SELECT
+				A.DEPT_CD,
+				A.HIPO_DEPT_CD
+			FROM T_SYTM_DEPT A
+			WHERE A.DEPT_CD = #{DEPT_CD}
+			UNION ALL
+		    SELECT
+		       B.DEPT_CD,
+		       B.HIPO_DEPT_CD
+		   FROM T_SYTM_DEPT B
+		   INNER JOIN CTE_DEPT ON B.DEPT_CD = CTE_Dept.HIPO_DEPT_CD
+		)
+		
+		SELECT 
+			 A.DOC_ID, A.SYS_CODE, A.BIZ_CODE
+			 , A.DOC_TITLE, A.EXPIRE_DATE, A.EDIT_INFO
+			 , A.PDF_PAGE, A.PDF_FILE_NM, A.PDF_ORIG_FILE_NM, A.PDF_FILE_PATH_NM
+			 , A.USED_FLAG, A.MTG_MTR_CN, A.MTG_SEQ, A.MTG_CNT
+			 , A.MTG_DATE, A.MTG_PLACE_CD, A.MTG_BEGIN_TM
+			 , A.MTG_END_TM, A.CLSDR_MTG_AT, A.READNG_DATE
+			 , A.READNG_AT, A.MTG_RESULT_CN, A.MTG_RESULT_TYPE
+			 , A.ETC_MATTER, A.HOST_TYPE, A.HOST_ID
+			 , A.MTG_AT, A.INPT_ID, DATE_FORMAT(A.INPT_DTTM, '%Y%m%d%H%i%s') AS INPT_DTTM
+			 , A.CHGE_ID, A.CHGE_DTTM
+			 , (SELECT USER_NAME FROM VW_USERWKNM V WHERE V.USER_ID = A.INPT_ID) AS USER_NAME
+			 , (SELECT WORK_NAME FROM VW_USERWKNM V WHERE V.USER_ID = A.INPT_ID) AS WORK_NAME		 
+			 , (SELECT USER_NAME FROM VW_USERWKNM V WHERE V.USER_ID = A.HOST_ID) AS HOST_NAME
+			 , (SELECT WORK_NAME FROM VW_USERWKNM V WHERE V.USER_ID = A.HOST_ID) AS HOST_WORK_NAME
+			 , (SELECT SSC_CD_KORN_NM FROM T_SYTM_CODE V WHERE V.SSC_CD = A.MTG_PLACE_CD AND V.HCL_CD = 'SM40') AS PLACE_NAME				
+		FROM COM_MTGINFO A, COM_MTGREADUSER B  
+		WHERE A.DOC_ID = B.DOC_ID 
+		AND (B.USER_ID IN (SELECT DEPT_CD FROM CTE_DEPT) OR B.USER_ID = #{USER_ID_SRV} OR A.INPT_ID = #{USER_ID_SRV})
+		ORDER BY A.INPT_DTTM DESC
+		<if test="LIMIT != null and LIMIT != '' ">
+			LIMIT ${LIMIT}
+		</if>	
+		
+	</select>		
+	
+	<!-- 나의열람회의록조회 페이징 -->
+	<select id="selectMyMeetPageList" parameterType="java.util.Map" resultType="java.util.Map">
+		WITH CTE_MAIN AS (
+			WITH RECURSIVE TMP1 AS (
+				SELECT
+					A.DEPT_CD,
+					A.HIPO_DEPT_CD
+				FROM T_SYTM_DEPT A
+				WHERE A.DEPT_CD = #{DEPT_CD}
+				UNION ALL
+			    SELECT
+			       B.DEPT_CD,
+			       B.HIPO_DEPT_CD
+			   FROM T_SYTM_DEPT B
+			   INNER JOIN TMP1 ON B.DEPT_CD = TMP1.HIPO_DEPT_CD
+			)
+			SELECT 
+				 ROW_NUMBER() over(order by A.INPT_DTTM DESC) AS RBNUM
+				 , A.DOC_ID, A.SYS_CODE, A.BIZ_CODE
+				 , A.DOC_TITLE, A.EXPIRE_DATE, A.EDIT_INFO
+				 , A.PDF_PAGE, A.PDF_FILE_NM, A.PDF_ORIG_FILE_NM, A.PDF_FILE_PATH_NM
+				 , A.USED_FLAG, A.MTG_MTR_CN, A.MTG_SEQ, A.MTG_CNT
+				 , A.MTG_DATE, A.MTG_PLACE_CD, A.MTG_BEGIN_TM
+				 , A.MTG_END_TM, A.CLSDR_MTG_AT, A.READNG_DATE
+				 , A.READNG_AT, A.MTG_RESULT_CN, A.MTG_RESULT_TYPE
+				 , A.ETC_MATTER, A.HOST_TYPE, A.HOST_ID
+				 , A.MTG_AT, A.INPT_ID, DATE_FORMAT(A.INPT_DTTM, '%Y%m%d%H%i%s') AS INPT_DTTM
+				 , A.CHGE_ID, A.CHGE_DTTM
+				 , (SELECT USER_NAME FROM VW_USERWKNM V WHERE V.USER_ID = A.INPT_ID) AS USER_NAME
+				 , (SELECT WORK_NAME FROM VW_USERWKNM V WHERE V.USER_ID = A.INPT_ID) AS WORK_NAME		 
+				 , (SELECT USER_NAME FROM VW_USERWKNM V WHERE V.USER_ID = A.HOST_ID) AS HOST_NAME
+				 , (SELECT WORK_NAME FROM VW_USERWKNM V WHERE V.USER_ID = A.HOST_ID) AS HOST_WORK_NAME
+				 , (SELECT SSC_CD_KORN_NM FROM T_SYTM_CODE V WHERE V.SSC_CD = A.MTG_PLACE_CD AND V.HCL_CD = 'SM40') AS PLACE_NAME	
+				 ,  			
+					CASE 
+						WHEN A.INPT_ID = #{USER_ID_SRV} AND (A.MTG_RESULT_TYPE IS NULL OR A.MTG_RESULT_TYPE = 'R' OR A.MTG_RESULT_TYPE = '') THEN 'Y'
+						ELSE 'N'
+					END AS EDIT_YN			
+				 ,  (SELECT COUNT(*) AS ACNT FROM COM_MTGUSER V WHERE V.DOC_ID = A.DOC_ID AND V.USER_ID = #{USER_ID_SRV} AND V.READ_STATUS IS NULL ) AS ACNT
+			FROM COM_MTGINFO A, COM_MTGREADUSER B  
+			WHERE A.DOC_ID = B.DOC_ID 
+			AND (B.USER_ID IN (SELECT DEPT_CD FROM TMP1) OR B.USER_ID = #{USER_ID_SRV} OR A.INPT_ID = #{USER_ID_SRV})	
+			<if test="IN_FDATE != null and IN_FDATE != '' and IN_TDATE != null and IN_TDATE != '' ">
+				AND	DATE_FORMAT(A.INPT_DTTM,  '%Y%m%d') BETWEEN #{IN_FDATE} AND #{IN_TDATE}
+			</if>
+			<if test="BIZ_CODE != null and BIZ_CODE != '' ">
+				AND	BIZ_CODE = #{BIZ_CODE}
+			</if>
+			<if test="INPT_ID != null and INPT_ID != '' ">
+				AND	INPT_ID = #{INPT_ID}
+			</if>
+			<if test="DOC_TITLE != null and DOC_TITLE != '' ">
+				AND	DOC_TITLE LIKE CONCAT('%', #{DOC_TITLE} ,'%')
+			</if>
+			<if test="MTG_RESULT_TYPE != null and MTG_RESULT_TYPE != '' ">
+				AND	MTG_RESULT_TYPE = #{MTG_RESULT_TYPE}
+			</if>
+		)
+		SELECT *
+		FROM CTE_MAIN
+		WHERE CTE_MAIN.RBNUM BETWEEN #{START_NUM} AND #{END_NUM}
+		ORDER BY RBNUM	
+	</select>
+	
+	<!-- 나의열람회의록조회 페이징 -->
+	<select id="selectMyMeetPageCount" parameterType="java.util.Map" resultType="java.util.Map">
+		WITH CTE_MAIN AS (
+			WITH RECURSIVE TMP1 AS (
+				SELECT
+					A.DEPT_CD,
+					A.HIPO_DEPT_CD
+				FROM T_SYTM_DEPT A
+				WHERE A.DEPT_CD = #{DEPT_CD}
+				UNION ALL
+			    SELECT
+			       B.DEPT_CD,
+			       B.HIPO_DEPT_CD
+			   FROM T_SYTM_DEPT B
+			   INNER JOIN TMP1 ON B.DEPT_CD = TMP1.HIPO_DEPT_CD
+			)
+			SELECT 
+				 ROW_NUMBER() over(order by A.INPT_DTTM DESC) AS RBNUM
+				 , A.DOC_ID, A.SYS_CODE, A.BIZ_CODE		
+			FROM COM_MTGINFO A, COM_MTGREADUSER B  
+			WHERE A.DOC_ID = B.DOC_ID 
+			AND (B.USER_ID IN (SELECT DEPT_CD FROM TMP1) OR B.USER_ID = #{USER_ID_SRV} OR A.INPT_ID = #{USER_ID_SRV})	
+			<if test="IN_FDATE != null and IN_FDATE != '' and IN_TDATE != null and IN_TDATE != '' ">
+				AND	DATE_FORMAT(A.INPT_DTTM,  '%Y%m%d') BETWEEN #{IN_FDATE} AND #{IN_TDATE}
+			</if>
+			<if test="BIZ_CODE != null and BIZ_CODE != '' ">
+				AND	BIZ_CODE = #{BIZ_CODE}
+			</if>
+			<if test="INPT_ID != null and INPT_ID != '' ">
+				AND	INPT_ID = #{INPT_ID}
+			</if>
+			<if test="DOC_TITLE != null and DOC_TITLE != '' ">
+				AND	DOC_TITLE LIKE CONCAT('%', #{DOC_TITLE} ,'%')
+			</if>
+			<if test="MTG_RESULT_TYPE != null and MTG_RESULT_TYPE != '' ">
+				AND	MTG_RESULT_TYPE = #{MTG_RESULT_TYPE}
+			</if>
+		)
+		SELECT COUNT(*) AS TOTALCNT
+		FROM CTE_MAIN
+	</select>		
+	
+	<update id="updateComment" parameterType="java.util.Map"> 
+		UPDATE COM_MTGUSER
+		SET READ_COMMENT=#{READ_COMMENT}
+		, READ_STATUS=#{READ_STATUS}
+		WHERE DOC_ID=#{DOC_ID}
+		AND USER_ID=#{USER_ID}
+	</update>		
+	
+	<update id="updateUserState" parameterType="java.util.Map"> 
+		UPDATE COM_MTGUSER
+		SET READ_STATUS=#{READ_STATUS}
+		WHERE DOC_ID=#{DOC_ID}
+		AND USER_ID=#{USER_ID}
+	</update>		
+	
+	<select id="selectUserSign" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT USER_ID, USER_SIGN
+		FROM COM_MTGSIGN
+		WHERE  USER_ID = #{USER_ID}	
+	</select>
+	
+	<insert id="insertUserSign" parameterType="java.util.Map">
+		INSERT INTO COM_MTGSIGN
+		(
+			 USER_ID, USER_SIGN
+		)VALUES(
+			  #{USER_ID}
+			  , #{USER_SIGN}
+			)
+		ON 
+		DUPLICATE KEY
+			UPDATE 
+			     USER_SIGN		= #{USER_SIGN}
+	</insert>	
+	
+	<select id="selectMyUserInfo" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT U.*, CM.SYS_CODE, CM.BIZ_CODE 
+		FROM COM_MTGUSER U
+		LEFT JOIN COM_MTGINFO CM 
+		ON CM.DOC_ID = U.DOC_ID 		
+		WHERE U.DOC_ID = #{DOC_ID}
+		AND U.USER_ID =  #{USER_ID}
+	</select>	
+	
+	<select id="selectHtmlUserList" parameterType="java.util.Map" resultType="java.util.Map"> 
+		SELECT U.USER_ID, U.USER_NAME, U.WORK_NAME, U.READ_STATUS, CM.USER_SIGN 
+		FROM COM_MTGUSER U
+		LEFT JOIN COM_MTGSIGN CM 
+		ON CM.USER_ID = U.USER_ID 
+		WHERE DOC_ID = #{DOC_ID}
+		ORDER BY USER_NAME 
+	</select>
+	
+</mapper>

@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="TS_StaffTechnicalReg" width="1274" height="506" titletext="기술사항" onload="TS_StaffTechnicalReg_onload">
+    <Layouts>
+      <Layout height="506" mobileorientation="landscape" width="1274">
+        <Static id="stc_GbProjectCareer" taborder="0" cssclass="sta_POP_GroupBg" left="0" top="333" height="32" right="0"/>
+        <Div id="divDetail" taborder="2" text="div00" top="48" width="450" maxheight="" height="330" right="10">
+          <Layouts>
+            <Layout>
+              <Static id="staBg01" taborder="0" left="0" top="0" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle01" taborder="1" text="발령구분" left="0" top="0" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Static id="staBg02" taborder="2" left="0" top="66" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle02" taborder="3" text="발령그룹(본부)" left="0" top="66" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Static id="staBg03" taborder="4" left="0" top="99" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg04" taborder="5" left="0" top="132" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg05" taborder="6" left="0" top="165" height="133" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg13" taborder="7" left="0" top="33" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle03" taborder="8" text="발령부서(팀)" left="0" top="99" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtDeptKorNm" taborder="9" left="145.00" top="104" height="24" cssclass="essential" maxlength="66" imemode="hangul" minwidth="300" maxwidth="" right="10"/>
+              <Static id="staTitle04" taborder="10" text="직급" left="0" top="132" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Static id="staTitle05" taborder="11" text="비고" left="0" top="165" width="141" height="133" cssclass="sta_WF_Label"/>
+              <Static id="staTitle13" taborder="12" text="발령일자" left="0" top="33" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Calendar id="calDeptFrdt" taborder="13" left="145.00" top="38" width="141" height="24" dateformat="yyyy-MM-dd"/>
+              <Combo id="cboDeptFlagCd00" taborder="14" text="cbo00" left="145.00" top="5" height="24" maxwidth="141" minwidth="" width="141" cssclass="essential" innerdataset="ds_APPOINT_TYPE" codecolumn="CODE" datacolumn="CAPTION"/>
+              <Edit id="edtDeptKorNm00" taborder="15" left="145.00" top="71" height="24" cssclass="essential" maxlength="66" imemode="hangul" minwidth="300" maxwidth="" right="10"/>
+              <Combo id="cboDeptFlagCd00_00" taborder="16" text="cbo00" left="145.00" top="137" height="24" maxwidth="141" minwidth="" width="141" cssclass="essential" innerdataset="ds_CD_GRADE_CODE" codecolumn="CODE" datacolumn="CAPTION"/>
+              <TextArea id="txa00" taborder="17" left="145" top="171" width="300" height="121"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_Minus" taborder="4" text="행삭제" top="10" height="28" cssclass="btn_WF_Delete" width="72" right="divDetail:10" onclick="btn_Minus_onclick"/>
+        <Button id="btn_Plus" taborder="3" text="행추가" top="10" width="72" height="28" cssclass="btn_WF_Add" right="btn_Minus:5" onclick="btn_Plus_onclick"/>
+        <Grid id="grd_ProjectCareer" taborder="1" binddataset="dsOutput9" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" top="btn_Plus:10" visible="true" left="10" right="divDetail:10" bottom="10" cellmovingtype="col" autofittype="col" autoupdatetype="comboselect">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="67"/>
+                <Column size="105"/>
+                <Column size="105"/>
+                <Column size="203"/>
+                <Column size="176"/>
+                <Column size="122"/>
+                <Column size="200"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="No." displaytype="text" edittype="text" TL_SEQ="2233"/>
+                <Cell col="1" rowspan="2" text="발령구분" displaytype="text" edittype="text" TL_SEQ="2233"/>
+                <Cell col="2" rowspan="2" text="발령일자" displaytype="text" edittype="text" TL_SEQ="2233"/>
+                <Cell col="3" colspan="3" displaytype="text" edittype="text" text="발령내용" TL_SEQ="2234"/>
+                <Cell col="6" rowspan="2" text="비고" TL_SEQ="32"/>
+                <Cell row="1" col="3" displaytype="text" edittype="text" text="본부" TL_SEQ="2234"/>
+                <Cell row="1" col="4" text="부서"/>
+                <Cell row="1" col="5" text="직급"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="text" editautoselect="true" textAlign="left" expr="currow+1"/>
+                <Cell col="1" edittype="combo" editautoselect="true" textAlign="left" text="bind:APPOINT_CD" displaytype="combotext" combodataset="ds_APPOINT_TYPE" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="2" edittype="date" editautoselect="true" textAlign="left" text="bind:APPOINT_DATE" displaytype="date"/>
+                <Cell col="3" edittype="text" editautoselect="true" editdisplay="edit" text="bind:GROUP_NAME" calendardateformat="yyyy-MM-dd " maskedittype="string" maskeditformat="####-##-##" displaytype="normal"/>
+                <Cell col="4" text="bind:TEAM_NAME" edittype="text" calendardateformat="yyyy-MM-dd " maskedittype="string" maskeditformat="####-##-##" displaytype="normal"/>
+                <Cell col="5" text="bind:WKDT_CD" edittype="combo" calendardateformat="yyyy-MM-dd " maskedittype="string" maskeditformat="####-##-##" displaytype="combotext" combodataset="ds_CD_GRADE_CODE" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="6" text="bind:REMARKS" edittype="text" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_APPOINT_TYPE"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 인력정보등록 (TS_StaffInfoSearch_S01,
+								TS_StaffInfoSearch_S02,
+								TS_StaffInfoSearch_S04,
+								TS_StaffInfoSearch_R01,
+								TS_StaffInfoSearch_R02)
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.09.17
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.dsOutput = null;
+this.dsOutput9 = null;
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.TS_StaffTechnicalReg_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.fnFormInit();
+	this.fnGetCode();
+	
+	this.dsOutput = this.parent.parent.parent.dsOutput;
+	this.dsOutput9 = this.parent.parent.parent.dsOutput9;	
+};
+
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+
+}
+
+this.fnGetCode = function()
+{	
+	this.gfnAddCodeDataset("ds_APPOINT_TYPE" 		,"APPOINT");
+	
+	// 공통코드 조회
+	this.gfnCodeTransaction();
+};
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+this.comm_Click = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
+{	
+
+};
+
+this.btn_Plus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsOutput9.addRow();
+	this.dsOutput9.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+	this.dsOutput9.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));		
+};
+
+this.btn_Minus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.dsOutput9.rowposition < 0) return;
+	this.dsOutput9.deleteRow(this.dsOutput9.rowposition);	
+};
+// 저장 validation
+this.fnValid = function ()
+{
+	for(var i=0,len=this.dsOutput9.rowcount;i<len;i++) {
+		if(this.dsOutput9.getRowType(i) == 2) {
+			if(this.gfnIsNull(this.dsOutput9.getColumn(i, "COMPANY_CD"))) {
+				this.dsOutput9.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+			}
+			if(this.gfnIsNull(this.dsOutput9.getColumn(i, "EMP_NO"))) {
+				this.dsOutput9.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));
+			}			
+		}
+	}
+	
+	// 정합성 체크
+	this.gfnClearValidation(this.dsOutput9);
+	this.gfnSetValidation(this.dsOutput9, "APPOINT_CD", "발령구분"	, "required");
+	this.gfnSetValidation(this.dsOutput9, "APPOINT_DATE", "발령일자"	, "required");
+	this.gfnSetValidation(this.dsOutput9, "GROUP_NAME", "발령본부(그룹)"	, "required");
+	this.gfnSetValidation(this.dsOutput9, "TEAM_NAME", "발령부서(팀)"	, "required");
+	this.gfnSetValidation(this.dsOutput9, "WKDT_CD", "직급"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsOutput9, "U") == false) return false;
+	
+	else return true;
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="divDetail.form.edtDeptCd" propid="value" datasetid="dsList" columnid="DEPT_CD"/>
+      <BindItem id="item1" compid="divDetail.form.edtDeptKorNm" propid="value" datasetid="dsOutput9" columnid="TEAM_NAME"/>
+      <BindItem id="item2" compid="divDetail.form.edtDeptEngNm" propid="value" datasetid="dsList" columnid="DEPT_ENGL_NM"/>
+      <BindItem id="item3" compid="divDetail.form.edtDeptAbbrNm" propid="value" datasetid="dsList" columnid="DEPT_ABBR_NM"/>
+      <BindItem id="item4" compid="divDetail.form.edtDeptEngAbbrNm" propid="value" datasetid="dsList" columnid="DEPT_ENGL_ABBR_NM"/>
+      <BindItem id="item5" compid="divDetail.form.edtDeptShowNm" propid="value" datasetid="dsList" columnid="DEPT_SHOW_NM"/>
+      <BindItem id="item6" compid="divDetail.form.edtDeptSort" propid="value" datasetid="dsList" columnid="DEPT_ORDR"/>
+      <BindItem id="item7" compid="divDetail.form.chkCyberYn" propid="value" datasetid="dsList" columnid="DEPT_YN"/>
+      <BindItem id="item8" compid="divDetail.form.cboDeptFlagCd" propid="value" datasetid="dsList" columnid="DEPT_FLAG_CD"/>
+      <BindItem id="item9" compid="divDetail.form.edtDeptLvl" propid="value" datasetid="dsList" columnid="DEPT_LVL"/>
+      <BindItem id="item10" compid="divDetail.form.edtBefoDeptCd" propid="value" datasetid="dsList" columnid="BEFO_DEPT_CD"/>
+      <BindItem id="item11" compid="divDetail.form.calDeptFrdt" propid="value" datasetid="dsOutput9" columnid="APPOINT_DATE"/>
+      <BindItem id="item12" compid="divDetail.form.calDeeptTodt" propid="value" datasetid="dsList" columnid="DEPT_TODT"/>
+      <BindItem id="item13" compid="divDetail.form.divDept.form.edtCode" propid="value" datasetid="dsList" columnid="HIPO_DEPT_CD"/>
+      <BindItem id="item14" compid="divDetail.form.divDept.form.edtName" propid="value" datasetid="dsList" columnid="HIPO_DEPT_NM"/>
+      <BindItem id="item15" compid="divDetail.form.cboDeptFlagCd00" propid="value" datasetid="dsOutput9" columnid="APPOINT_CD"/>
+      <BindItem id="item16" compid="divDetail.form.edtDeptKorNm00" propid="value" datasetid="dsOutput9" columnid="GROUP_NAME"/>
+      <BindItem id="item17" compid="divDetail.form.cboDeptFlagCd00_00" propid="value" datasetid="dsOutput9" columnid="WKDT_CD"/>
+      <BindItem id="item18" compid="divDetail.form.txa00" propid="value" datasetid="dsOutput9" columnid="REMARKS"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,844 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="codeMgFm" width="1050" height="736" titletext="공통코드관리" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Div id="divSearch" taborder="0" left="0" top="0" height="50" text="Div00" cssclass="div_WF_Search" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staCompany" taborder="5" text="회사구분" left="0" top="12" width="98" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="cboCompany" taborder="6" text="알림" left="staCompany:0" top="12" width="150" height="24" index="1" value="INF" innerdataset="gdsCompany" codecolumn="SSC_CD" datacolumn="SSC_CD_KORN_NM"/>
+              <Static id="staCd" taborder="3" text="대분류코드" cssclass="sta_WF_SchLabel" left="cboCompany:0" top="12" width="98" height="24"/>
+              <Edit id="edtCd" taborder="0" left="staCd:0" top="12" width="111" height="24"/>
+              <Static id="staCdNm" taborder="4" text="대분류코드명" cssclass="sta_WF_SchLabel" left="edtCd:0" top="12" width="110" height="24"/>
+              <Edit id="edtCdNm" taborder="1" left="staCdNm:0" top="12" width="198" height="24"/>
+              <Button id="btnSearch" taborder="2" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle00" taborder="1" text="대분류코드" left="0" width="397" height="43" top="50" cssclass="sta_WF_Title"/>
+        <Grid id="grdMaster" taborder="2" left="0" top="staTitle00:0" binddataset="dsMaster" autoenter="select" width="397" bottom="308" cellsizingtype="col" autofittype="col" uFunction="filter,sort,!colfix,!initial,find" minheight="250" maxheight="">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="70"/>
+                <Column size="220"/>
+                <Column size="40"/>
+              </Columns>
+              <Rows>
+                <Row size="62" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="코드" cssclass="essential"/>
+                <Cell col="1" text="코드명(한글)" cssclass="essential"/>
+                <Cell col="2" text="사용&#13;&#10;여부"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="expr:dataset.getRowType(currow)==2?'editcontrol':'normal'" edittype="expr:dataset.getRowType(currow)==2?'text':'none'" text="bind:HCL_CD" textAlign="center" verticalAlign="middle" editmaxlength="4" editinputtype="english,digit" editinputmode="upper" editimemode="alpha"/>
+                <Cell col="1" displaytype="editcontrol" edittype="text" text="bind:HCL_CD_KORN_NM" textAlign="left" verticalAlign="middle" editmaxlength="30" editimemode="hangul"/>
+                <Cell col="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:USED_YN" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="staTitle01" taborder="3" text="대분류코드 상세" left="0" width="397" height="43" cssclass="sta_WF_SubTitle" top="grdMaster:0"/>
+        <Div id="divMaster" taborder="4" text="div00" left="0" width="397" height="265" top="staTitle01:0">
+          <Layouts>
+            <Layout>
+              <Static id="staBg01" taborder="7" cssclass="sta_WF_LabelBg" left="0" height="34" top="33" right="0"/>
+              <Static id="staBg02" taborder="8" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg01:-1" right="0"/>
+              <Static id="staBg03" taborder="17" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg02:-1" right="0"/>
+              <Static id="staBg00" taborder="6" cssclass="sta_WF_LabelBg" left="0" height="34" top="0" right="0"/>
+              <Static id="staBg04" taborder="9" cssclass="sta_WF_LabelBg" left="0" top="staBg03:-1" right="0" height="100"/>
+              <Static id="staTitle00" taborder="10" text="코드" cssclass="sta_WF_Label" left="0" width="108" height="34" top="0"/>
+              <Static id="staTitle01" taborder="11" text="코드명(한글)" cssclass="sta_WF_Label" left="0" top="staTitle00:-1" width="108" height="34"/>
+              <Static id="staTitle02" taborder="12" text="코드명(영문)" cssclass="sta_WF_Label" left="0" top="staTitle01:-1" width="108" height="34"/>
+              <Static id="staTitle03" taborder="13" text="상위코드" cssclass="sta_WF_Label" left="0" top="staTitle02:-1" width="108" height="34"/>
+              <Static id="staTitle04" taborder="14" text="비고" cssclass="sta_WF_Label" left="0" width="108" top="staTitle03:-1" height="100"/>
+              <Edit id="edtCd" taborder="0" left="112" top="5" height="24" readonly="true" right="5" maxlength="20" inputtype="english,digit,symbol" inputmode="upper" cssclass="essential" imemode="alpha"/>
+              <Edit id="edtCdNm" taborder="1" cssclass="essential" left="112" top="edtCd:9" height="24" maxlength="30" lengthunit="utf8" right="5" imemode="hangul"/>
+              <Edit id="edtCdNmEng" taborder="2" left="112" top="edtCdNm:9" height="24" maxlength="30" lengthunit="utf8" right="5" inputtype="english,number,sign,space,symbol" imemode="alpha"/>
+              <Edit id="edtHiMcaCd" taborder="3" lengthunit="utf8" maxlength="4" cssclass="compulsory" left="112" top="edtCdNmEng:9" height="24" right="5" imemode="alpha"/>
+              <TextArea id="txaRemark" taborder="4" left="112" top="edtHiMcaCd:9" maxlength="1000" lengthunit="utf8" right="5" height="90" imemode="hangul"/>
+              <Static id="staBg05" taborder="15" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg04:-1" right="0" text=""/>
+              <Static id="staTitle05" taborder="16" text="사용여부" cssclass="sta_WF_Label" left="0" top="staTitle04:-1" width="108" height="34"/>
+              <CheckBox id="chkUseYn" taborder="5" left="112" top="txaRemark:9" width="150" height="24" value="true" falsevalue="0" truevalue="1" text=""/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle02" taborder="5" text="소분류코드" left="staTitle00:20" height="43" cssclass="sta_WF_Title" top="divSearch:0" right="20"/>
+        <Div id="divCmmnBtn" taborder="6" top="divSearch:10" width="400" height="28" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnDel" taborder="1" text="행삭제" top="0" height="28" cssclass="btn_WF_Delete" width="72" right="0" onclick="divCmmnBtn_btnDel_onclick"/>
+              <Button id="btnAdd" taborder="0" text="행추가" top="0" width="72" height="28" cssclass="btn_WF_Add" right="btnDel:3" onclick="divCmmnBtn_btnAdd_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdDetail" taborder="7" left="grdMaster:20" top="staTitle02:0" binddataset="dsDetail" right="20" bottom="308" autoenter="select" cellsizingtype="col" autofittype="col" uFunction="filter,sort,!colfix,!initial,find" minheight="250" maxheight="">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="129"/>
+                <Column size="40"/>
+                <Column size="85"/>
+                <Column size="85"/>
+                <Column size="40"/>
+              </Columns>
+              <Rows>
+                <Row size="62" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="코드" cssclass="essential"/>
+                <Cell col="1" text="코드명" cssclass="essential"/>
+                <Cell col="2" text="정렬&#13;&#10;순서" cssclass="essential"/>
+                <Cell col="3" text="그룹1"/>
+                <Cell col="4" text="그룹2"/>
+                <Cell col="5" text="사용&#13;&#10;여부"/>
+              </Band>
+              <Band id="body">
+                <Cell editfilter="alpha,digit" text="bind:SSC_CD" textAlign="left" edittype="text" editmaxlength="8" editinputtype="digit,english" editinputmode="upper" displaytype="editcontrol" editimemode="alpha"/>
+                <Cell col="1" text="bind:SSC_CD_KORN_NM" textAlign="left" verticalAlign="middle" edittype="text" displaytype="editcontrol" editmaxlength="30" editimemode="hangul"/>
+                <Cell col="2" text="bind:SORT_ORDR" displaytype="editcontrol" edittype="text" editmaxlength="2" editinputtype="digit"/>
+                <Cell col="3" text="bind:GRP_CD_1" displaytype="editcontrol" edittype="text" editmaxlength="10" editimemode="alpha"/>
+                <Cell col="4" text="bind:GRP_CD_2" displaytype="editcontrol" edittype="text" editmaxlength="10" editimemode="alpha"/>
+                <Cell col="5" displaytype="checkboxcontrol" edittype="checkbox" text="bind:USED_YN" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="staTitle03" taborder="8" text="소분류코드 상세" left="grdMaster:20" height="43" cssclass="sta_WF_SubTitle" right="20" top="grdDetail:0"/>
+        <Div id="divSub" taborder="9" text="div00" left="divMaster:20" height="265" right="20" top="staTitle03:0">
+          <Layouts>
+            <Layout>
+              <Static id="staBg00" taborder="18" cssclass="sta_WF_LabelBg" left="0" height="34" top="0" right="0"/>
+              <Static id="staBg01" taborder="19" cssclass="sta_WF_LabelBg" left="0" height="34" top="33" right="0"/>
+              <Static id="staBg02" taborder="20" cssclass="sta_WF_LabelBg" left="0" height="34" top="66" right="0"/>
+              <Static id="staBg03" taborder="21" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg02:-1" right="0"/>
+              <Static id="staBg04" taborder="22" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg03:-1" right="0"/>
+              <Static id="staBg05" taborder="23" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg04:-1" right="0"/>
+              <Static id="staBg06" taborder="24" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg05:-1" right="0"/>
+              <Static id="staBg07" taborder="25" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg06:-1" right="0"/>
+              <Static id="staTitle00" taborder="26" text="코드" cssclass="sta_WF_Label" left="0" width="89" height="34" top="0"/>
+              <Static id="staTitle01" taborder="27" text="약어명" cssclass="sta_WF_Label" left="0" width="89" height="34" top="staTitle00:-1"/>
+              <Static id="staTitle02" taborder="28" text="영문명" cssclass="sta_WF_Label" left="0" width="89" height="34" top="staTitle01:-1"/>
+              <Static id="staTitle03" taborder="29" text="그룹1" cssclass="sta_WF_Label" left="0" width="89" height="34" top="staTitle02:-1"/>
+              <Static id="staTitle04" taborder="30" text="그룹4" cssclass="sta_WF_Label" left="0" width="89" height="34" top="staTitle03:-1"/>
+              <Static id="staTitle05" taborder="31" text="그룹7" cssclass="sta_WF_Label" left="0" width="89" height="34" top="staTitle04:-1"/>
+              <Static id="staTitle06" taborder="32" text="이전코드" cssclass="sta_WF_Label" left="0" width="89" height="34" top="staTitle05:-1"/>
+              <Static id="staTitle07" taborder="33" text="비고" cssclass="sta_WF_Label" left="0" width="89" height="34" top="staTitle06:-1"/>
+              <Edit id="edtSoCd" taborder="0" left="93" top="5" width="107" height="24" maxlength="8" lengthunit="utf8" cssclass="essential" inputtype="digit,english" inputmode="upper" imemode="alpha"/>
+              <Static id="staTitle08" taborder="34" text="코드명" cssclass="sta_WF_Label" left="edtSoCd:4" width="89" height="34" top="0"/>
+              <Edit id="edtSoCdNm" taborder="1" left="staTitle08:4" top="5" height="24" cssclass="essential" maxlength="30" lengthunit="utf8" right="5" imemode="hangul"/>
+              <Edit id="edtSoShortCdNm" taborder="2" left="93" top="edtSoCd:9" height="24" maxlength="100" lengthunit="utf8" width="311" inputtype="english,digit,space,symbol" imemode="hangul"/>
+              <Static id="staTitle12" taborder="35" text="영문약어명" cssclass="sta_WF_Label" left="edtSoShortCdNm:4" width="89" height="34" top="33"/>
+              <Edit id="edtSoEngShotNm" taborder="3" left="staTitle12:4" top="edtSoCdNm:9" height="24" maxlength="100" lengthunit="utf8" inputtype="number,english,dot,sign,symbol,space" right="5" imemode="alpha"/>
+              <Edit id="edtSoEngNm" taborder="4" left="staTitle02:4" top="edtSoShortCdNm:9" height="24" maxlength="100" lengthunit="utf8" inputtype="english,symbol,digit,space" width="311" imemode="alpha"/>
+              <Static id="staTitle13" taborder="36" text="정렬순서" cssclass="sta_WF_Label" left="edtSoEngNm:4" width="89" height="34" top="66"/>
+              <Edit id="edtSoDisSeq" taborder="5" left="staTitle13:4" top="edtSoEngShotNm:9" height="24" cssclass="essential" maxlength="5" lengthunit="utf8" inputtype="digit" right="5"/>
+              <Edit id="edtSoGroup1" taborder="6" left="staTitle03:4" top="104" width="107" height="24" maxlength="10" lengthunit="utf8" inputmode="normal" imemode="alpha"/>
+              <Edit id="edtSoGroup4" taborder="9" left="staTitle04:4" top="edtSoGroup1:9" height="24" maxlength="10" lengthunit="utf8" width="107" inputmode="normal" imemode="alpha"/>
+              <Edit id="edtSoGroup7" taborder="12" lengthunit="utf8" maxlength="10" left="staTitle05:4" top="edtSoGroup4:9" height="24" width="107" inputmode="normal" imemode="alpha"/>
+              <Static id="staTitle09" taborder="37" text="그룹2" cssclass="sta_WF_Label" left="edtSoGroup1:4" width="89" height="34" top="99"/>
+              <Static id="staTitle10" taborder="38" text="그룹5" cssclass="sta_WF_Label" left="edtSoGroup4:4" width="89" height="34" top="132"/>
+              <Static id="staTitle11" taborder="39" text="그룹8" cssclass="sta_WF_Label" left="edtSoGroup7:4" width="89" height="34" top="165"/>
+              <Edit id="edtSoGroup2" taborder="7" left="staTitle09:4" top="edtSoEngNm:9" height="24" maxlength="10" lengthunit="utf8" width="107" inputmode="normal" imemode="alpha"/>
+              <Edit id="edtSoGroup5" taborder="10" left="staTitle10:4" top="edtSoGroup2:9" width="107" height="24" maxlength="10" lengthunit="utf8" inputmode="normal" imemode="alpha"/>
+              <Edit id="edtSoGroup8" taborder="13" lengthunit="utf8" maxlength="10" left="staTitle11:4" top="edtSoGroup5:9" width="107" height="24" inputmode="normal" imemode="alpha"/>
+              <Static id="staTitle14" taborder="40" text="그룹3" cssclass="sta_WF_Label" left="edtSoGroup2:4" width="89" height="34" top="99"/>
+              <Static id="staTitle15" taborder="41" text="그룹6" cssclass="sta_WF_Label" left="edtSoGroup5:4" width="89" height="34" top="132"/>
+              <Static id="staTitle16" taborder="42" text="그룹9" cssclass="sta_WF_Label" left="edtSoGroup8:4" width="89" height="34" top="165"/>
+              <Edit id="edtSoGroup3" taborder="8" left="staTitle14:4" top="edtSoDisSeq:9" height="24" maxlength="10" lengthunit="utf8" right="5" inputmode="normal" imemode="alpha"/>
+              <Edit id="edtSoGroup6" taborder="11" lengthunit="utf8" maxlength="10" left="staTitle15:4" top="edtSoGroup3:9" height="24" right="5" inputmode="normal" imemode="alpha"/>
+              <Edit id="edtSoGroup9" taborder="14" lengthunit="utf8" maxlength="10" left="staTitle16:4" top="edtSoGroup6:9" height="24" right="5" inputmode="normal" imemode="alpha"/>
+              <Edit id="edtBeforeScaCd" taborder="15" lengthunit="utf8" maxlength="8" left="staTitle06:4" top="edtSoGroup7:9" width="311" height="24" imemode="alpha"/>
+              <TextArea id="edtRemark" taborder="17" lengthunit="utf8" maxlength="1000" left="staTitle07:4" top="edtBeforeScaCd:9" height="24" right="5" imemode="hangul"/>
+              <Static id="staTitle17" taborder="43" text="사용여부" cssclass="sta_WF_Label" left="edtBeforeScaCd:4" width="89" height="34" top="198"/>
+              <CheckBox id="chkSoUseYn" taborder="16" left="staTitle17:4" top="edtSoGroup9:9" height="24" falsevalue="0" truevalue="1" width="108"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtCd" propid="value" datasetid="dsCond" columnid="HCL_CD"/>
+      <BindItem id="item1" compid="divSearch.form.edtCdNm" propid="value" datasetid="dsCond" columnid="HCL_CD_KORN_NM"/>
+      <BindItem id="item2" compid="divMaster.form.edtCd" propid="value" datasetid="dsMaster" columnid="HCL_CD"/>
+      <BindItem id="item3" compid="divMaster.form.edtCdNm" propid="value" datasetid="dsMaster" columnid="HCL_CD_KORN_NM"/>
+      <BindItem id="item4" compid="divMaster.form.edtCdNmEng" propid="value" datasetid="dsMaster" columnid="HCL_CD_ENGL_NM"/>
+      <BindItem id="item5" compid="divMaster.form.edtHiMcaCd" propid="value" datasetid="dsMaster" columnid="HIPO_HCL_CD"/>
+      <BindItem id="item6" compid="divMaster.form.txaRemark" propid="value" datasetid="dsMaster" columnid="REMK"/>
+      <BindItem id="item7" compid="divMaster.form.chkUseYn" propid="value" datasetid="dsMaster" columnid="USED_YN"/>
+      <BindItem id="item8" compid="divSub.form.edtSoCd" propid="value" datasetid="dsDetail" columnid="SSC_CD"/>
+      <BindItem id="item9" compid="divSub.form.edtSoCdNm" propid="value" datasetid="dsDetail" columnid="SSC_CD_KORN_NM"/>
+      <BindItem id="item10" compid="divSub.form.edtSoShortCdNm" propid="value" datasetid="dsDetail" columnid="ABBR_KORN_NM"/>
+      <BindItem id="item11" compid="divSub.form.edtSoEngShotNm" propid="value" datasetid="dsDetail" columnid="ABBR_ENGL_NM"/>
+      <BindItem id="item12" compid="divSub.form.edtSoEngNm" propid="value" datasetid="dsDetail" columnid="SSC_CD_ENGL_NM"/>
+      <BindItem id="item13" compid="divSub.form.edtSoDisSeq" propid="value" datasetid="dsDetail" columnid="SORT_ORDR"/>
+      <BindItem id="item14" compid="divSub.form.edtSoGroup1" propid="value" datasetid="dsDetail" columnid="GRP_CD_1"/>
+      <BindItem id="item15" compid="divSub.form.edtSoGroup4" propid="value" datasetid="dsDetail" columnid="GRP_CD_4"/>
+      <BindItem id="item16" compid="divSub.form.edtSoGroup7" propid="value" datasetid="dsDetail" columnid="GRP_CD_7"/>
+      <BindItem id="item17" compid="divSub.form.edtSoGroup2" propid="value" datasetid="dsDetail" columnid="GRP_CD_2"/>
+      <BindItem id="item18" compid="divSub.form.edtSoGroup5" propid="value" datasetid="dsDetail" columnid="GRP_CD_5"/>
+      <BindItem id="item19" compid="divSub.form.edtSoGroup8" propid="value" datasetid="dsDetail" columnid="GRP_CD_8"/>
+      <BindItem id="item20" compid="divSub.form.edtSoGroup3" propid="value" datasetid="dsDetail" columnid="GRP_CD_3"/>
+      <BindItem id="item21" compid="divSub.form.edtSoGroup6" propid="value" datasetid="dsDetail" columnid="GRP_CD_6"/>
+      <BindItem id="item22" compid="divSub.form.edtSoGroup9" propid="value" datasetid="dsDetail" columnid="GRP_CD_9"/>
+      <BindItem id="item23" compid="divSub.form.edtBeforeScaCd" propid="value" datasetid="dsDetail" columnid="BEFO_SSC_CD"/>
+      <BindItem id="item24" compid="divSub.form.chkSoUseYn" propid="value" datasetid="dsDetail" columnid="USED_YN"/>
+      <BindItem id="item25" compid="divSub.form.edtRemark" propid="value" datasetid="dsDetail" columnid="REMK"/>
+      <BindItem id="item26" compid="divSearch.form.staCompany" propid="value" datasetid="dsCond" columnid="MSGE_FLAG_CD"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsCond" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="HCL_CD" type="STRING" size="256"/>
+          <Column id="HCL_CD_KORN_NM" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCondsub" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="HCL_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMaster" firefirstcount="0" canrowposchange="dsMaster_canrowposchange" cancolumnchange="dsMaster_cancolumnchange" onrowposchanged="dsMaster_onrowposchanged">
+        <ColumnInfo>
+          <Column id="HCL_CD" type="STRING" size="256"/>
+          <Column id="HCL_CD_KORN_NM" type="STRING" size="256"/>
+          <Column id="HCL_CD_ENGL_NM" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+          <Column id="REMK" type="STRING" size="256"/>
+          <Column id="BEFO_HCL_CD" type="STRING" size="256"/>
+          <Column id="HIPO_HCL_CD" type="STRING" size="256"/>
+          <Column id="HIPO_SSC_CD" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+          <Column id="INPT_DTTM" type="STRING" size="256"/>
+          <Column id="INPT_IP" type="STRING" size="256"/>
+          <Column id="CHGE_ID" type="STRING" size="256"/>
+          <Column id="CHGE_DTTM" type="STRING" size="256"/>
+          <Column id="CHGE_IP" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsMasterCheck" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="HCL_CD" type="STRING" size="256"/>
+          <Column id="HCL_CD_KORN_NM" type="STRING" size="256"/>
+          <Column id="HCL_CD_ENGL_NM" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+          <Column id="REMK" type="STRING" size="256"/>
+          <Column id="BEFO_HCL_CD" type="STRING" size="256"/>
+          <Column id="HIPO_HCL_CD" type="STRING" size="256"/>
+          <Column id="HIPO_SSC_CD" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+          <Column id="INPT_DTTM" type="STRING" size="256"/>
+          <Column id="INPT_IP" type="STRING" size="256"/>
+          <Column id="CHGE_ID" type="STRING" size="256"/>
+          <Column id="CHGE_DTTM" type="STRING" size="256"/>
+          <Column id="CHGE_IP" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsMasterResult"/>
+      <Dataset id="dsDetail" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" cancolumnchange="dsDetail_cancolumnchange">
+        <ColumnInfo>
+          <Column id="SSC_NUMB" type="string" size="1"/>
+          <Column id="HCL_CD" type="string" size="8"/>
+          <Column id="SSC_CD" type="string" size="8"/>
+          <Column id="SSC_CD_KORN_NM" type="string" size="6"/>
+          <Column id="SSC_CD_ENGL_NM" type="string" size="100"/>
+          <Column id="ABBR_KORN_NM" type="string" size="100"/>
+          <Column id="ABBR_ENGL_NM" type="string" size="100"/>
+          <Column id="GRP_CD_1" type="string" size="100"/>
+          <Column id="GRP_CD_2" type="string" size="20"/>
+          <Column id="GRP_CD_3" type="string" size="20"/>
+          <Column id="GRP_CD_4" type="string" size="20"/>
+          <Column id="GRP_CD_5" type="string" size="20"/>
+          <Column id="GRP_CD_6" type="string" size="20"/>
+          <Column id="GRP_CD_7" type="string" size="20"/>
+          <Column id="GRP_CD_8" type="string" size="20"/>
+          <Column id="GRP_CD_9" type="string" size="20"/>
+          <Column id="BEFO_HCL_CD" type="string" size="20"/>
+          <Column id="BEFO_SSC_CD" type="string" size="12"/>
+          <Column id="USED_YN" type="string" size="20"/>
+          <Column id="SORT_ORDR" type="string" size="1"/>
+          <Column id="REMK" type="bigdecimal" size="22" prop=""/>
+          <Column id="INPT_ID" type="string" size="2000" prop=""/>
+          <Column id="INPT_DTTM" type="string" size="20" prop=""/>
+          <Column id="INPT_IP" type="STRING" size="256"/>
+          <Column id="CHGE_ID" type="STRING" size="256"/>
+          <Column id="CHGE_DTTM" type="STRING" size="256"/>
+          <Column id="CHGE_IP" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDetailCheck" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="SSC_NUMB" type="string" size="1"/>
+          <Column id="HCL_CD" type="string" size="8"/>
+          <Column id="SSC_CD" type="string" size="8"/>
+          <Column id="SSC_CD_KORN_NM" type="string" size="6"/>
+          <Column id="SSC_CD_ENGL_NM" type="string" size="100"/>
+          <Column id="ABBR_KORN_NM" type="string" size="100"/>
+          <Column id="ABBR_ENGL_NM" type="string" size="100"/>
+          <Column id="GRP_CD_1" type="string" size="100"/>
+          <Column id="GRP_CD_2" type="string" size="20"/>
+          <Column id="GRP_CD_3" type="string" size="20"/>
+          <Column id="GRP_CD_4" type="string" size="20"/>
+          <Column id="GRP_CD_5" type="string" size="20"/>
+          <Column id="GRP_CD_6" type="string" size="20"/>
+          <Column id="GRP_CD_7" type="string" size="20"/>
+          <Column id="GRP_CD_8" type="string" size="20"/>
+          <Column id="GRP_CD_9" type="string" size="20"/>
+          <Column id="BEFO_HCL_CD" type="string" size="20"/>
+          <Column id="BEFO_SSC_CD" type="string" size="12"/>
+          <Column id="USED_YN" type="string" size="20"/>
+          <Column id="SORT_ORDR" type="string" size="1"/>
+          <Column id="REMK" type="bigdecimal" size="22" prop=""/>
+          <Column id="INPT_ID" type="string" size="2000" prop=""/>
+          <Column id="INPT_DTTM" type="string" size="20" prop=""/>
+          <Column id="INPT_IP" type="STRING" size="256"/>
+          <Column id="CHGE_ID" type="STRING" size="256"/>
+          <Column id="CHGE_DTTM" type="STRING" size="256"/>
+          <Column id="CHGE_IP" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDetailResult"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	codeMgFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/08
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/08			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvRowPositionMain = -1;
+this.fvRowPositionSub  = -1;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	// 버튼 권한 제어
+	this.gfnSetCommBtn(this.divCmmnBtn);
+	
+	var arrComp = [this.divSearch.form.cboCompany];
+	this.gfnSetAuthorityCompany(arrComp);
+	
+	this.dsCond.setColumn(0, "COMPANY_CD", this.gfnGetUserInfo("COMP"));
+	this.dsCondsub.setColumn(0, "COMPANY_CD", this.gfnGetUserInfo("COMP"));
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsMaster)||this.gfnDsIsUpdated(this.dsDetail)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";		//메세지ID
+		var arrArg = [""];							//메세지취환될값 배열[생략가능]
+		var sPopId = "search";						//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";			//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+	
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);	
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	if(this.gfnDsIsUpdated(this.dsDetail)){
+		// {0}을(를) 저장 후 작업을 진행하십시오.
+		this.gfnAlert("msg.err.updata", ["소분류코드"]);
+		return;
+	}
+	
+	var nRow = this.dsMaster.addRow();
+	var compCd = this.dsMaster.getColumn(nRow-1, "COMPANY_CD");
+	if(!compCd) compCd = this.divSearch.form.cboCompany.value;
+	
+	this.dsMaster.setColumn(nRow, "COMPANY_CD", compCd);
+	this.dsMaster.setColumn(nRow, "USED_YN", "1");
+	this.grdMaster.setCellPos(0);
+	this.grdMaster.showEditor(true);
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsMaster.rowcount == 0) {
+		return;
+	}
+
+	// 대분류에 포함된 소분류코드가 존재할 경우
+	if (this.dsDetail.rowcount > 0) {
+		// {0}을/를 삭제하신 후 {1}을/를 삭제하시기 바랍니다.
+		this.gfnAlert("msg.delete.input", ["소분류코드", "대분류코드"]);
+		return;
+	}
+
+	if(this.gfnDsIsUpdated(this.dsDetail)){
+		// {0}을(를) 저장 후 작업을 진행하십시오.
+		this.gfnAlert("msg.err.updata", ["소분류코드"]);
+		return;
+	}
+	
+	this.dsMaster.deleteRow(this.dsMaster.rowposition);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsMaster) == false && this.gfnDsIsUpdated(this.dsDetail) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if( this.fnMasterValid() && this.fnDetailValid()){
+		// 서버 중복 체크
+		this.fnTranCheckCommCode();
+	}
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//master 조회
+this.fnTranSearch = function ()
+{
+	this.dsCond.setColumn(0, "COMPANY_CD", this.divSearch.form.cboCompany.value);
+	// 조회-대분류
+	this.dsMaster.clearData();
+
+	var strSvcId    = "SearchCommCodeList";
+	var strSvcUrl   = "SearchCommCodeList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsMaster=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//sub 조회
+this.fnTranSearchSub = function ()
+{
+	// 조회-소분류
+	this.dsDetail.clearData();
+	this.dsCondsub.setColumn(0, "COMPANY_CD", this.divSearch.form.cboCompany.value);
+	var strSvcId    = "SearchPopCommCodeList";
+	var strSvcUrl   = "SearchPopCommCodeList.do";
+	var inData      = "dsCond=dsCondsub";
+	var outData     = "dsDetail=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveComCode";
+	var strSvcUrl   = "saveComCode.do";
+	var inData      = "dsMaster=dsMaster:U dsDetail=dsDetail:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//서버중복체크
+this.fnTranCheckCommCode = function ()
+{
+	var i;
+	var nAddRow;
+	
+	// dsMaster 신규 데이터 건만 추출한다.
+	this.dsMasterCheck.clearData();
+	for(i = 0; i < this.dsMaster.getRowCount(); i++) {
+		if(this.dsMaster.getRowType(i) == Dataset.ROWTYPE_INSERT) {
+			nAddRow = this.dsMasterCheck.addRow();
+			
+			this.dsMasterCheck.copyRow(nAddRow, this.dsMaster, i);
+		}
+	}
+	
+	//dsDetail 신규 데이터 건만 추출한다.
+	this.dsDetailCheck.clearData();
+	for(i = 0; i < this.dsDetail.getRowCount(); i++) {
+		if(this.dsDetail.getRowType(i) == Dataset.ROWTYPE_INSERT) {
+			nAddRow = this.dsDetailCheck.addRow();
+			
+			this.dsDetailCheck.copyRow(nAddRow, this.dsDetail, i);
+		}
+	}
+	// 신규 데이터가 있는 경우
+	if(this.dsMasterCheck.getRowCount() > 0 || this.dsDetailCheck.getRowCount() > 0) {
+		// 데이터가 중복이 있는 지 체크하는 서비스를 호출한다.
+		var strSvcId    = "checkCommonCode";
+		var strSvcUrl   = "checkCommonCode.do";
+		var inData      = "dsMasterCheck=dsMasterCheck dsDetailCheck=dsDetailCheck";
+		var outData     = "dsMasterResult=dsMasterResult dsDetailResult=dsDetailResult";
+		var strArg      = "";	
+		var callBackFnc = "fnCallback";
+		
+		this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+							strSvcUrl , 	// trabsaction을 요청할 주소
+							inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+							outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+							strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+							callBackFnc); 	// 통신방법 정의 [생략가능]		
+	}else {
+		//저장하시겠습니까?
+		this.gfnAlert("confirm.save", [""], "beforeSaveTran", "fnMsgCallback");
+	}
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "SearchCommCodeList":
+			if(this.fvRowPositionMain>-1) {
+				this.dsMaster.set_rowposition(this.fvRowPositionMain);
+				this.fnSubSearch(); //소분류조회
+			}
+			break;
+		case "SearchPopCommCodeList":
+			if(this.fvRowPositionSub>-1) this.dsDetail.set_rowposition(this.fvRowPositionSub);
+			break;
+		case "checkCommonCode":
+			this.fnAfterCheck();
+			break;
+		case "saveComCode":
+			this.fvRowPositionMain = this.dsMaster.rowposition;
+			if(this.fvRowPositionMain>-1)  this.fnSubSearch(); //소분류조회
+			break;
+		default: break;
+	}
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "search":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.fnTranSearch();
+			break;
+		case "beforeSaveTran":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.fnTranSave();
+			break;
+		case "beforeRowPosChange":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.dsMaster.set_enableevent(false);
+			this.dsMaster.set_rowposition(this.dsMaster.uNewRow);
+			this.fnSubSearch();
+			this.dsMaster.set_enableevent(true);
+			break;
+		case "validHclCd":
+			this.dsMaster.setColumn(this.dsMaster.rowposition, "HCL_CD", "");
+			this.grdMaster.setCellPos(0);
+			this.grdMaster.showEditor(true);
+			break;
+		case "validSscCd":
+			this.dsDetail.setColumn(this.dsDetail.rowposition, "SSC_CD", "");
+			this.grdDetail.setCellPos(0);
+			this.grdDetail.showEditor(true);
+			break;
+		default: break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//소분류 조회 조건 세팅
+this.fnSubSearch = function ()
+{
+	this.dsCondsub.clearData();
+	var nRow = this.dsCondsub.addRow();
+
+	var compCd = this.dsCondsub.getColumn(nRow-1, "COMPANY_CD");
+	if(!compCd) compCd = this.divSearch.form.cboCompany.value;
+	
+	this.dsCondsub.setColumn(nRow, "COMPANY_CD", compCd);
+	if( this.dsMaster.rowcount > 0 ){
+		this.dsCondsub.setColumn(nRow, 'HCL_CD', this.dsMaster.getColumn(this.dsMaster.rowposition, 'HCL_CD'));
+	}else{
+		this.dsCondsub.setColumn(nRow, 'HCL_CD', "");
+	}
+	this.fnTranSearchSub();
+};
+
+//마스터 - validation
+this.fnMasterValid = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsMaster);
+	this.gfnSetValidation(this.dsMaster, "HCL_CD", "대분류 코드"	, "required");
+	this.gfnSetValidation(this.dsMaster, "HCL_CD_KORN_NM", "대분류 코드명(한글)"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.grdMaster, "U") == false) return false;
+	else return true;
+};
+
+//디테일 - validation
+this.fnDetailValid = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsDetail);
+
+	this.gfnSetValidation(this.dsDetail, "SSC_CD", "소분류 코드"	, "required");
+	this.gfnSetValidation(this.dsDetail, "SSC_CD_KORN_NM", "소분류 코드명"	, "required");
+	this.gfnSetValidation(this.dsDetail, "SORT_ORDR", "소분류 정렬순서"	, "required");
+	this.gfnSetValidation(this.dsDetail, "USED_YN", "소분류 사용여부"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.grdDetail, "U") == false) return;
+	else return true;
+};
+
+//아이디중복체크 후
+//아이디 중복 체크
+this.fnAfterCheck = function ()
+{
+	//코드가 존재하는 지 여부 체크
+	var nMasterCnt = this.dsMasterResult.getRowCount();
+	var nDetailCnt = this.dsDetailResult.getRowCount();
+	
+	// 중복되는 건이 없는 경우 저장 서비스 호출
+	if(nMasterCnt == 0 && nDetailCnt==0) {
+		//저장하시겠습니까?
+		this.gfnAlert("confirm.save", [""], "beforeSaveTran", "fnMsgCallback");
+	}
+	else {	
+		var sDupCode="";
+		var sTemp= "";
+		// 중복된 건이 있는 경우 메시지 출력
+		if( nMasterCnt > 0 ){
+			var sDupCode;
+			var sTemp;
+			
+			for(i = 0; i < nMasterCnt; i++) {
+				sTemp = this.dsMasterResult.getColumn(i, "HCL_CD");
+				
+				if(i == 0) {
+					sDupCode = "[" + sTemp;
+				}
+				else {
+					sDupCode += sTemp;
+				}
+				
+				if(i == this.dsMasterResult.getRowCount() - 1) {
+					sDupCode += "]";
+				}
+				else {
+					sDupCode += ",";							
+				}
+			}
+			// 중복된 메시지가 존재합니다.
+			this.gfnAlert("msg.exist.code", ["중복된 대분류코드", sDupCode]);
+			return;
+		}else{
+			for(i = 0; i < nDetailCnt; i++) {
+				sTemp = this.dsDetailResult.getColumn(i, "SSC_CD");
+				
+				if(i == 0) {
+					sDupCode = "[" + sTemp;
+				}
+				else {
+					sDupCode += sTemp;
+				}
+				
+				if(i == this.dsDetailResult.getRowCount() - 1) {
+					sDupCode += "]";
+				}
+				else {
+					sDupCode += ",";							
+				}
+			}
+			// 중복된 메시지가 존재합니다.
+			this.gfnAlert("msg.exist.code", ["중복된 소분류코드", sDupCode]);
+			return;
+		}
+	}
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch(); //조회
+};
+
+//소분류 - 행추가
+this.divCmmnBtn_btnAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.dsMaster.rowcount == 0) {
+		return;
+	}
+
+	if (this.gfnDsIsUpdated(this.dsMaster)) {
+		// {0}을(를) 저장 후 작업을 진행하십시오.
+		this.gfnAlert("msg.err.updata", ["대분류코드"]);
+		return;
+	}
+
+	var nRow = this.dsDetail.addRow();
+	var compCd = this.dsDetail.getColumn(nRow-1, "COMPANY_CD");
+	if(!compCd) compCd = this.divSearch.form.cboCompany.value;
+	
+	this.dsDetail.setColumn(nRow, "COMPANY_CD", compCd);
+	this.dsDetail.setColumn(nRow, 'HCL_CD', this.dsMaster.getColumn(this.dsMaster.rowposition, 'HCL_CD'));
+	this.dsDetail.setColumn(nRow, 'USED_YN', '1');
+	this.grdDetail.setCellPos(0);
+	this.grdDetail.showEditor(true);
+	//this.divSub.form.edtSoCd.setFocus();
+};
+
+//소분류 - 행삭제
+this.divCmmnBtn_btnDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.dsMaster.rowcount == 0 || this.dsDetail.rowcount == 0) {
+		return;
+	}
+
+	if (this.gfnDsIsUpdated(this.dsMaster)) {
+		// {0}을(를) 저장 후 작업을 진행하십시오.
+		this.gfnAlert("msg.err.updata", ["대분류코드"]);
+		return;
+	}
+	
+	this.dsDetail.deleteRow(this.dsDetail.rowposition);
+};
+
+//마스터 - 컬럼제인지
+this.dsMaster_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if( e.columnid=="HCL_CD"){
+		if(this.gfnIsNull(e.newvalue)) return;
+		
+		var nRow = this.dsMaster.findRow("HCL_CD", e.newvalue);
+		if( nRow > -1){
+			this.gfnAlert("msg.exist", ["입력하신 대분류코드"],"validHclCd","fnMsgCallback");
+			return;
+		}
+	}
+};
+
+//마스터 - 로우포스체인지
+this.dsMaster_canrowposchange = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if (e.newrow < 0) {
+		return true;
+	}
+
+	this.dsMaster.uNewRow = e.newrow;
+	this.dsMaster.uOldRow = e.oldrow;
+		
+	// 마스터 row변경전 상세정보 저장유무 확인
+	if (this.gfnDsIsUpdated(this.dsDetail)) {
+		//해당 row의 위치를 이동하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		this.gfnAlert("confirm.before.moveropos", [""], "beforeRowPosChange", "fnMsgCallback");
+		return false;
+	}
+};
+
+//마스터 - 로우포스체인지
+this.dsMaster_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	//공통코드 입력 가능
+	if(this.dsMaster.getRowType(e.newrow) == Dataset.ROWTYPE_INSERT){
+		this.divMaster.form.edtCd.set_readonly(false);
+	}else{
+		this.divMaster.form.edtCd.set_readonly(true);
+	}
+	this.fnSubSearch();
+};
+
+//디테일 - 컬럼체인지
+this.dsDetail_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if (this.gfnDsIsUpdated(this.dsMaster)) {
+		// {0}을(를) 저장 후 작업을 진행하십시오.
+		this.gfnAlert("msg.err.updata", ["대분류코드"]);
+		return;
+	}
+	
+	if( e.columnid=="SSC_CD"){
+		if(this.gfnIsNull(e.newvalue)) return;
+		
+		var nRow = this.dsDetail.findRow("SSC_CD", e.newvalue);
+		if( nRow > -1){
+			this.gfnAlert("msg.exist", ["입력하신 소분류 코드"],"validSscCd","fnMsgCallback");
+			return;
+		}
+	}
+};
+
+]]></Script>
+  </Form>
+</FDL>

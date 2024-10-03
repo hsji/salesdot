@@ -1,0 +1,681 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CE_ProductSearch" width="600" height="575" titletext="영업제품 검색" cssclass="frm_popBg" onload="CE_ProductSearch_onload" font="normal bold 10pt/normal &quot;Arial&quot;">
+    <Layouts>
+      <Layout height="575" mobileorientation="landscape" width="600">
+        <Div id="div_Search" taborder="3" text="" left="20" top="20" height="50" right="20" cssclass="div_WF_Search">
+          <Layouts>
+            <Layout>
+              <Static id="stc_ProductNm" taborder="0" text="분류명" left="4.00" top="12" width="81" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="187"/>
+              <Edit id="edt_Name" taborder="1" left="stc_ProductNm:0.00" top="12" height="24" onkeydown="div_Search_edt_Name_onkeydown" product_cd="" width="165"/>
+              <Static id="st_ContractType" taborder="2" text="계약구분" left="edt_Name:0.00" top="12" width="95" height="24" cssclass="sta_WF_SchLabel" visible="false" TL_SEQ="123"/>
+              <Combo id="cmb_ContractType" taborder="3" left="st_ContractType:0.00" top="12" width="118" height="24" innerdataset="ds_CD_CONTRACT_TYPE" codecolumn="CODE" datacolumn="CAPTION" visible="false" onitemchanged="div_Search_cmb_ContractType_onitemchanged"/>
+              <Button id="btn_Search" taborder="4" text="조회" top="10" width="60" height="28" cssclass="btn_WF_Search" right="10" onclick="div_Search_btn_Search_onclick" TL_SEQ="118"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_Prod" taborder="5" left="20" top="div_Search:10" height="442" right="20">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_List" taborder="0" left="0" top="31" autofittype="col" bottom="0" binddataset="ds_Product" treeinitstatus="expand,all" treeuseexpandkey="true" right="0" oncelldblclick="grd_List_oncelldblclick" onkeydown="grd_List_onkeydown" treeusecheckbox="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="30"/>
+                      <Column size="60"/>
+                      <Column size="600"/>
+                      <Column size="160"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell colspan="2" text="No."/>
+                      <Cell col="2" text="분류명" TL_SEQ="187"/>
+                      <Cell col="3" text="코드" TL_SEQ="263"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="expr:currow == comp.currentrow ? &quot;imagecontrol&quot; : &quot;none&quot;" text="expr:currow == comp.currentrow ? &quot;theme://images/img_check_N.png&quot; : &quot;&quot;"/>
+                      <Cell col="1" expr="currow+1"/>
+                      <Cell col="2" treelevel="bind:PRODUCT_LVL" edittype="tree" displaytype="treeitemcontrol" text="bind:PRODUCT_NAME" textAlign="left" expr="SELECT_FLAG == &quot;1&quot; ? PRODUCT_NAME : &quot;[&quot;+PRODUCT_NAME+&quot;]&quot;" treecheck="bind:CHK"/>
+                      <Cell col="3" text="bind:PRODUCT_CODE" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static07" taborder="1" text="사업 구분 목록" left="0" top="0" width="240" height="26" cssclass="sta_POP_GroupTit" TL_SEQ="264"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="0" left="0" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg" text=""/>
+        <Button id="btn_Cancel" taborder="2" text="닫기" width="70" height="28" cssclass="btn_WF_cancel" right="20" bottom="13" onclick="btn_Cancel_onclick" TL_SEQ="59"/>
+        <Button id="btn_Confirm" taborder="1" text="선택" width="70" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:7" bottom="13" onclick="btn_Confirm_onclick" TL_SEQ="113"/>
+        <Div id="div_LicenseInfo" taborder="4" left="947" top="div_Search:8" text="" bottom="46" visible="false" width="248">
+          <Layouts>
+            <Layout>
+              <Static id="Static01" taborder="0" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" right="0"/>
+              <Static id="Static03" taborder="1" left="0" top="152" height="31" cssclass="sta_POP_GroupBg" right="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_CD_CONTRACT_TYPE"/>
+      <Dataset id="ds_Product" onrowposchanged="ds_Product_onrowposchanged">
+        <ColumnInfo>
+          <Column id="PRODUCT_NAME_SHORT" type="undefined" size="0"/>
+          <Column id="UNIT_COST" type="bigdecimal" size="16"/>
+          <Column id="ROYALTY_TYPE" type="undefined" size="0"/>
+          <Column id="MA_MAIN_PRODUCT_NAME" type="undefined" size="0"/>
+          <Column id="CHK" type="string" size="32"/>
+          <Column id="SELECT_FLAG" type="string" size="32"/>
+          <Column id="GOODS_FLAG" type="string" size="32"/>
+          <Column id="REMARKS" type="undefined" size="0"/>
+          <Column id="NO_PURCHASE_FLAG" type="undefined" size="0"/>
+          <Column id="PRODUCT_LVL" type="int" size="4"/>
+          <Column id="PRODUCT_NAME" type="string" size="32"/>
+          <Column id="P_PRODUCT_CODE" type="undefined" size="0"/>
+          <Column id="PRODUCT_CODE" type="string" size="32"/>
+          <Column id="INSERT_EMP_NO" type="string" size="32"/>
+          <Column id="MA_FLAG" type="string" size="32"/>
+          <Column id="DELETE_FLAG" type="string" size="32"/>
+          <Column id="INSERT_EMP_NM" type="undefined" size="0"/>
+          <Column id="RELATED_COMPANY_CODE" type="undefined" size="0"/>
+          <Column id="RELATED_COMPANY_NAME" type="undefined" size="0"/>
+          <Column id="PRODUCT_ORDR" type="int" size="4"/>
+          <Column id="MAIN_PRODUCT_FLAG" type="string" size="32"/>
+          <Column id="MAIN_PRODUCT_CODE" type="undefined" size="0"/>
+          <Column id="PRODUCT_COMPANY_CODE" type="string" size="32"/>
+          <Column id="INSERT_DATE" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_PrdVersion" desc="제품 버전 055">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CD_PLATFORM_LIST" desc="제품 종류 053" oncolumnchanged="ds_CD_PLATFORM_LIST_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="PLATFORM_LIST" type="string" size="100"/>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="ORD" type="string" size="10"/>
+          <Column id="ISCHECKED" type="string" size="1"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_CD_FUNCTION_LIST" desc="지원 OS 052" oncolumnchanged="ds_CD_FUNCTION_LIST_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="FUNCTION_LIST" type="string" size="100"/>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="ORD" type="string" size="10"/>
+          <Column id="ISCHECKED" type="string" size="1"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_CD_PRODUCT_LIST" desc="제품 라이선스 056">
+        <ColumnInfo>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_LIST" type="string" size="100"/>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="ORD" type="string" size="10"/>
+          <Column id="ISCHECKED" type="string" size="1"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsSelected"/>
+      <Dataset id="ds_ProductRelated"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: xxx
+* 02. 화면명		: xxx
+* 03. 화면설명 		: xxx
+* 04. 작성일   	: 2018.xx.xx
+* 05. 작성자   	: xxx
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+this.arrDsLicCd = [	 this.ds_CD_PRODUCT_LIST
+					,this.ds_CD_PLATFORM_LIST
+					,this.ds_CD_FUNCTION_LIST	];
+this.bUseRelatedProduct		= false;		//연관제품 선택 사용여부
+this.bUseLicenseInfo		= false;		//라이선스 정보 선택 사용여부
+this.bUseOnlyMainProduct	= false;		//메인제품만 보여줄지 여부
+this.bUseMaProduct			= false;		//유지보수 제품 선택 사용 여부
+
+this.sProductCd = "";
+this.sProductCd2 = "";
+this.sProductlist ="";
+this.sPlatformlist ="";
+this.sFunctionlist ="";
+this.sComboContractType = "";
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.CE_ProductSearch_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnInitForm();
+};
+
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.div_Search_btn_Search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSearch();
+};
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+this.btn_Cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+this.btn_Confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnReturnOne(this.ds_Product.rowposition);
+};
+
+this.grd_List_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnReturnOne(this.ds_Product.rowposition);
+};
+
+this.div_Search_edt_Name_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	
+	if(e.keycode == 13)
+	{
+		if (obj.name == "edt_Name") {
+			this.setProductFilter();
+		} else if (obj.name == "edt_Name2"){
+			this.setRelatedProductFilter();
+		}
+	}
+};
+
+
+
+
+
+this.div_Search_cmb_ContractType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.setProductFilter();
+	this.setRelatedProductFilter();
+};
+
+this.grd_List_onkeydown = function(obj:nexacro.Grid,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.fnReturnOne(this.ds_Product.rowposition);
+	}
+};
+
+
+
+this.ds_Product_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(this.bUseLicenseInfo && e.newrow > -1)
+	{
+		// 라이선스 정보 Dataset 초기화 처리
+		for(var i = 0, iL = this.arrDsLicCd.length; i < iL; i++)
+		{
+			this.arrDsLicCd[i].filter("");
+			this.arrDsLicCd[i].reset();
+		}
+
+		
+		var licenseKind = obj.getColumn(e.newrow, "LICENSE_KIND");
+		var mainProdFlag = obj.getColumn(e.newrow, "MAIN_PRODUCT_FLAG");
+		var bLicenseInfoView = true;
+		if (licenseKind == "CRTF")		bLicenseInfoView = false;
+		else if (licenseKind == "MP")	bLicenseInfoView = false;
+		else if ((licenseKind == "XP" || licenseKind == "NP" || licenseKind == "NexacroN")
+				&& mainProdFlag == "1") bLicenseInfoView = false;
+
+		
+		// 라이선스 관련 선택정보가 1개라도 존재
+		if (bLicenseInfoView) {
+			// 라이선스 정보 Dataset Filter 처리
+			
+			var sFilter = "PRODUCT_CODE=='"+obj.getColumn(e.newrow, "PRODUCT_CODE")+"'";
+			for(var i = 0, iL = this.arrDsLicCd.length; i < iL; i++)
+			{
+				this.arrDsLicCd[i].filter(sFilter);
+			}
+			
+			//라이선스정보 선택창 표시
+			this.div_Prod.set_right(260);
+			this.div_ProdRelated.set_right(260);
+			this.div_LicenseInfo.bringToFront();
+			this.div_LicenseInfo.set_visible(true);
+		} else {
+			//라이선스정보 선택창 숨김
+			this.div_Prod.set_right(4);
+			this.div_ProdRelated.set_right(4);
+			this.div_LicenseInfo.set_visible(false);
+		}
+	}
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInitForm = function()
+{
+	//if(this.parent.sContractType == "G" && this.FV_CO_CD == "J02") this.stc_Infor.set_visible(true);
+	
+	if(this.parent.hasOwnProperty("sSubject"))
+	{
+		this.div_Search.form.edt_Name.set_value(this.parent.sSubject);
+	}
+
+	if(this.parent.hasOwnProperty("userelatedproduct"))
+	{
+		this.bUseRelatedProduct = this.parent.userelatedproduct;
+	}
+	if(this.parent.hasOwnProperty("uselicenseinfo"))
+	{
+		this.bUseLicenseInfo = this.parent.uselicenseinfo;
+	}
+	if(this.parent.hasOwnProperty("useonlymainproduct"))
+	{
+		this.bUseOnlyMainProduct = this.parent.useonlymainproduct;
+	}
+	if(this.parent.hasOwnProperty("usemaproduct"))
+	{
+		this.bUseMaProduct = this.parent.usemaproduct;
+	}
+	if(this.parent.hasOwnProperty("sProductCd"))
+	{
+		this.sProductCd = this.parent.sProductCd;
+		this.div_Search.form.edt_Name.product_cd = this.parent.sProductCd;
+		//유지보수 계약에서 팝업시 기본 유지보수로 선택되게 처리
+		if(this.gfnIsEmpty(this.sProductCd) && this.sComboContractType=="M")
+		{
+			this.sProductCd ="M01";
+			this.div_Search.form.edt_Name.product_cd = this.sProductCd;
+		}
+	}
+	if(this.parent.hasOwnProperty("sProductCd2"))
+	{
+		this.sProductCd2 = this.parent.sProductCd2;
+	}
+	if (this.parent.hasOwnProperty("productlist"))
+	{
+		this.sProductlist = this.parent.productlist;
+	}
+	if (this.parent.hasOwnProperty("platformlist"))
+	{
+		this.sPlatformlist = this.parent.platformlist;
+	}
+	if (this.parent.hasOwnProperty("functionlist"))
+	{
+		this.sFunctionlist = this.parent.functionlist;
+	}
+
+	if(this.bUseRelatedProduct)
+	{
+		//상품의경우 연관제품그리드와 사이즈 조절
+		if(this.parent.sContractType.indexOf("G")==0)
+		{
+			this.div_Prod.set_height(220);
+			this.div_ProdRelated.set_top(311);
+			this.div_ProdRelated.set_height(220);
+		} else {
+			this.div_Prod.set_height(148);
+		}
+		
+		this.div_Search.form.edt_Name.set_width(190);
+		this.div_Search.form.stc_ProductNm2.set_visible(true);
+		this.div_Search.form.edt_Name2.set_visible(true);
+		this.div_ProdRelated.set_visible(true);
+	}	
+	
+	this.fnGetCode();
+	
+	
+	if (this.bUseLicenseInfo) {
+		this.fnLicenseInfoSearch();
+	}
+}
+
+this.fnReturnOne = function(row)
+{
+	var ds 					= this.ds_Product;
+	var bIsSelectableRow 	= ds.getColumn(row, "PRODUCT_CODE").length > 2 ? true : false;
+	
+	if(row > -1 && bIsSelectableRow )
+	{
+		var dsReturn = new nexacro.Dataset();
+		dsReturn.assign(ds);
+		dsReturn.clearData();
+		
+		var newrow = dsReturn.addRow();
+		dsReturn.copyRow(newrow, ds, row);
+		//trace("=====================	POPUP START	=====================");
+		//trace(dsReturn.saveXML());
+		//trace("=====================	POPUP END	=====================");
+		this.close(dsReturn.saveJSON());
+	}else{
+		this.gfnAlert('msg.noselect', ['대상']);
+	}
+}
+
+this.setProductFilter = function()
+{
+	var sContractType = this.div_Search.form.cmb_ContractType.value;
+	var sContractTypeLen = sContractType.length;
+	var sProductName = this.div_Search.form.edt_Name.text.toUpperCase();
+	var sFilter = "";
+	sFilter += "( PRODUCT_CODE.substring(0,"+sContractTypeLen+") == '" + sContractType + "'";
+// 	if(	sContractType == "G" )
+// 	{
+// 		sFilter += " || GOODS_FLAG == 1 ";
+// 	}
+	sFilter += " ) ";
+	//sFilter += " && UP_PRODUCT_NAME.indexOf('" + sProductName + "') != -1";
+	
+	
+	if(this.bUseOnlyMainProduct)
+	{
+		sFilter += " && MAIN_PRODUCT_FLAG == '1'";
+	}
+	this.ds_Product.filter(sFilter);
+
+// 	if(this.bUseRelatedProduct)
+// 	{
+// 		if(sContractType== "M")
+// 		{
+// 			//this.ds_ProductRelated.filter("['G', 'P'].indexOf(PRODUCT_CODE.substring(0,1)) != -1");
+// 			this.ds_ProductRelated.filter("PRODUCT_CODE.length == 1 || MA_FLAG == '1'");
+// 		} else if (sContractType== "G") {
+// 			this.ds_ProductRelated.filter("PRODUCT_CODE.substring(0, 1) == 'P'");
+// 		}
+// 	}
+			
+	if( !this.gfnIsEmpty(this.div_Search.form.edt_Name.value) )
+	{
+		this.div_Prod.form.grd_List.setCellProperty("body", 2, "displaytype", "normal");
+	}else{
+		this.div_Prod.form.grd_List.setCellProperty("body", 2, "displaytype", "treeitemcontrol");
+	}
+
+	if(this.hasOwnProperty("opener") && !this.gfnIsEmpty(this.opener))
+	{
+		if(this.opener.name == "COM_Search")
+		{
+			if(this.ds_Product.getCaseCount("SELECT_FLAG=='1'") == 1)
+			{
+				var frow = this.ds_Product.findRow("SELECT_FLAG", "1");
+				if(this.bUseRelatedProduct)
+				{
+					if(this.ds_ProductRelated.getCaseCount("SELECT_FLAG=='1'") == 1)
+					{
+						var fRrow = this.ds_ProductRelated.findRow("SELECT_FLAG", "1");
+						this.ds_ProductRelated.set_rowposition(fRrow);
+						this.fnReturnOne(frow);
+					}
+				}else{
+					this.fnReturnOne(frow);
+				}				
+			}
+		}
+	}
+	
+	if(this.ds_Product.getRowCount() > 0)
+	{
+		this.div_Prod.form.grd_List.setFocus();
+	}else{
+		this.div_Search.form.edt_Name.setFocus();
+	}
+	
+	// 선택된 제품으로 Position 변경 처리
+	if (!this.gfnIsEmpty(this.div_Search.form.edt_Name.product_cd)) {
+		this.div_Search.form.edt_Name.product_cd = "";
+		
+		var nRowIdx = this.ds_Product.findRow("PRODUCT_CODE", this.sProductCd);
+		this.ds_Product.set_rowposition(nRowIdx);
+		
+		nRowIdx = this.ds_ProductRelated.findRow("PRODUCT_CODE", this.sProductCd2);
+		this.ds_ProductRelated.set_rowposition(nRowIdx);
+		
+		
+		// 라이선스 정보 사용시 처리
+// 		if (this.bUseLicenseInfo) {
+// 			this.fnSetLicenseInfo();
+// 		}
+	}
+}
+
+this.setRelatedProductFilter = function()
+{
+	var sFilter = "";
+	var sProductName = this.div_Search.form.edt_Name2.text.toUpperCase();
+	
+	if (!this.gfnIsEmpty(sProductName)) {
+		sFilter = "UP_PRODUCT_NAME.indexOf('" + sProductName + "') != -1";
+		this.ds_ProductRelated.filter(sFilter);
+	}
+}
+
+// License 정보 Set
+this.fnSetLicenseInfo = function ()
+{
+	var arrProdList = this.sProductlist.split(",");
+	var arrPltfList = this.sPlatformlist.split(",");
+	var arrFuncList = this.sFunctionlist.split(",");
+	
+	var objDs;
+	var arrLicenseInfo;
+	
+	
+	// License 정보 세팅 처리
+	for(var i = 0; i < this.arrDsLicCd.length; i++)
+	{
+		objDs = this.arrDsLicCd[i];
+		
+		if (i == 0) {
+			arrLicenseInfo = arrProdList;	// PRODUCT_LIST
+		} else if (i == 1) {
+			arrLicenseInfo = arrPltfList;	// PLATFORM_LIST
+		} else {
+			arrLicenseInfo = arrFuncList;	// FUNCTION_LIST
+		}
+		
+		for ( var j = 0; j < arrLicenseInfo.length; j++ ) {
+			var nFindRow = objDs.findRow("VAL1", arrLicenseInfo[j]);
+			
+			if (nFindRow >= 0) {
+				objDs.setColumn(nFindRow, "ISCHECKED", "1");
+			}
+		}
+	}
+}
+
+// 제품종류, 지원OS All 체크 처리
+this.fnSetAllCheck = function (obj:nexacro.NormalDataset)
+{
+	var nRowCnt = obj.rowcount;
+	// All만 있는 경우는 All 체크처리 이외 세부 항목 All처리
+	if (nRowCnt > 1) {
+		obj.set_enableevent(false);
+		for (var i=0; i<nRowCnt; i++)
+		{
+			if (obj.getColumn(i, "CD_CODE") != "001") {
+				obj.setColumn(i, "ISCHECKED", 1);
+			} else {
+				obj.setColumn(i, "ISCHECKED", 0);
+			}
+		}
+		obj.set_enableevent(true);
+	}
+}
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_CD_CONTRACT_TYPE", "CONTRACT_TYPE"	);
+	// this.gfnAddCodeDataset("ds_CD_PRODUCT_LIST"	, "PRODUCT_LIST"	, false, true	);
+	// this.gfnAddCodeDataset("ds_CD_PLATFORM_LIST", "PLATFORM_LIST"	, false, true	);
+	// this.gfnAddCodeDataset("ds_CD_FUNCTION_LIST", "FUNCTION_LIST"	, false, true	);
+	
+	this.gfnCodeTransaction();
+}
+
+// 라이선스 생성 정보 조회
+this.fnLicenseInfoSearch = function()
+{
+	this.gfnAddOutputDataset("ds_CD_FUNCTION_LIST",	"dsFunOutput");
+	this.gfnAddOutputDataset("ds_CD_PLATFORM_LIST",	"dsPlfOutput");
+	this.gfnAddOutputDataset("ds_CD_PRODUCT_LIST",	"dsPrdtOutput");
+	
+	this.gfnCommonTransaction("LicenseInfo",	"AP_SalesProductMM_S03");
+}
+
+
+
+this.fnSearch = function()
+{	
+ 	this.gfnAddSendParameter("CONTRACT_TYPE", "");
+	this.gfnAddSendParameter("PRODUCT_NAME", this.div_Search.form.edt_Name.value);
+/*	SQL WHERE절이 아닌 setProductFilter()함수에서 필터 하도록 처리 : 연관제품 선택 시 필요
+	this.gfnAddSendParameter("CONTRACT_TYPE", this.div_Search.form.cmb_ContractType.value);
+	this.gfnAddSendParameter("PRODUCT_NAME"	, this.div_Search.form.edt_Name.value);
+	if(this.bUseOnlyMainProduct)
+	{
+		this.gfnAddSendParameter("MAIN_PRODUCT_FLAG"	, "1");
+	}
+*/	
+// 	this.gfnAddOutputDataset("ds_Product"	, "dsOutput");
+// 	this.gfnCommonTransaction("Select"		, "AP_SalesProductMM_S01");
+	
+	this.gfnSetMap("nextCommMapper", "CommProjectSearch", "ds_Product");
+	this.gfnCommonTransaction("Select", "selectNextList.do"/*"AP_SalesProductMM_S01"*/);	
+}
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		return;
+	} else {
+		if(strSvcID=="gfnGetCode") 
+		{
+	
+			if(this.parent.hasOwnProperty("sContractType"))
+			{				
+				if(this.parent.sContractType == "ALL")
+				{
+					this.div_Search.form.st_ContractType.set_visible(true);
+					this.div_Search.form.cmb_ContractType.set_visible(true);
+				} else {
+					this.sComboContractType = this.parent.sContractType;
+					this.div_Search.form.cmb_ContractType.set_value(this.parent.sContractType);
+				}
+				
+				if (this.parent.hasOwnProperty("sComboContractType")) {
+					this.sComboContractType = this.parent.sComboContractType;
+				}				
+				this.div_Search.form.cmb_ContractType.set_value(this.sComboContractType);
+			}
+			
+			if(this.parent.hasOwnProperty("sFilterExpr"))
+			{
+				var sExpr = this.parent.sFilterExpr;
+				this.ds_CD_CONTRACT_TYPE.filter(sExpr);
+			}
+			
+			var nFindRow = this.ds_CD_CONTRACT_TYPE.findRow("CODE", this.sComboContractType);
+			if (nFindRow >= 0) {
+				this.div_Search.form.cmb_ContractType.set_value(this.sComboContractType);
+			} else {
+				this.div_Search.form.cmb_ContractType.set_index(0);
+			}
+			
+			this.fnSearch();
+		} else if(strSvcID=="Select") {
+// 			
+// 			if(this.bUseRelatedProduct)
+// 			{
+// 				this.ds_ProductRelated.assign(this.ds_Product);
+// 			}
+			this.setProductFilter();
+			//this.setRelatedProductFilter();
+		} else if (strSvcID=="LicenseInfo")	{
+			// 
+		} 
+	}
+}
+
+this.ds_CD_PLATFORM_LIST_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	var sCode = obj.getColumn(e.row, "CD_CODE");
+	if (e.columnid == "ISCHECKED") {
+		if ((e.newvalue) && sCode == "001") {
+			this.fnSetAllCheck(obj);
+		}
+	}
+};
+
+this.ds_CD_FUNCTION_LIST_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	var sCode = obj.getColumn(e.row, "CD_CODE");
+	if (e.columnid == "ISCHECKED") {
+		if ((e.newvalue) && sCode == "001") {
+			this.fnSetAllCheck(obj);
+		}
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

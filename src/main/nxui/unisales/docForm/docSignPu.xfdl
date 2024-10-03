@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="docViewPu" width="1000" height="800" titletext="New Form" onload="docViewPu_onload" onbeforeclose="docViewPu_onbeforeclose">
+    <Layouts>
+      <Layout height="800" horizontalgap="0" mobileorientation="landscape" spacing="0px" tabletemplate="1* / 1*" verticalgap="0" width="1000">
+        <WebBrowser id="WebBrowser00" taborder="0" left="0" top="0" right="0" bottom="0"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+* @function docViewPu_onload  <br>
+* description 문서보기
+*/
+this.docViewPu_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.WebBrowser00.set_url(this.getOwnerFrame().pvUrl);
+};
+
+
+this.docViewPu_onbeforeclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
+{
+	this.opener.fnListSearch();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsDocInfo">
+        <ColumnInfo>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="DOC_TITLE" type="string" size="32"/>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="SEND_SEQ" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

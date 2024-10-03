@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CO_StaffInfoMM" width="1290" height="650" titletext="직원정보" cssclass="frm_popBg" onload="CO_StaffInfoMM_onload">
+    <Layouts>
+      <Layout height="650" mobileorientation="landscape" width="1290">
+        <Div id="div_view" taborder="0" text="Div00" left="0" top="35" right="0" url="Technique::TS_StaffInfoMM.xfdl" bottom="33"/>
+        <Static id="stc_BottomFrame" taborder="1" left="1" height="38" right="1" bottom="1" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Cancel" taborder="2" text="닫기" width="60" height="22" cssclass="btn_WF_cancel" right="4" bottom="9" onclick="common_onclick"/>
+        <Button id="btn_Close" taborder="3" top="8" width="15" height="15" right="20" cssclass="btn_POP_Cls" text="" onclick="common_onclick"/>
+        <Static id="st_Title" taborder="4" text="직원정보" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 프로젝트관리
+ * 02. 화면명   : 프로젝트관리(SP_ProjectMM)
+ * 03. 화면설명 : 프로젝트관리
+ * 04. 작성일   : 2018.09.24
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs";
+include "Script::CommUtil.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+  this.FV_EMP_NO;
+  this.FV_EMP_NAME;
+  
+  
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.CO_StaffInfoMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.FV_EMP_NO = this.parent.pvEmpNo;
+	this.FV_EMP_NAME = this.parent.pvEmpName;
+	this.div_view.form.div_Search.form.cmb_SearchType.set_index(0);
+	this.div_view.form.div_Search.form.edt_CompanyName.set_value(this.FV_EMP_NAME);
+	this.div_view.form.fnSearch(this.FV_EMP_NO, this.FV_EMP_NAME);
+};
+ 
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_Cancel": //취소버튼
+		case "btn_Close": // X버튼
+			this.commUtil.popupClose();
+			break;
+	}	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_List"/>
+    </Objects>
+  </Form>
+</FDL>

@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CO_ReportViewer" width="690" height="750" titletext="미리보기" cssclass="frm_popBg" onload="CO_ReportViewer_onload">
+    <Layouts>
+      <Layout height="750" mobileorientation="landscape" width="690">
+        <Button id="btn_close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_close_onclick"/>
+        <UbiReport id="UbiReport" taborder="1" left="8" top="43" right="8" bottom="45" scale="100"/>
+        <Static id="Static03" taborder="2" text="미리보기" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title"/>
+        <Static id="Static00" taborder="3" left="0" height="38" cssclass="sta_POP_BtnBg" bottom="0" right="0"/>
+        <Button id="btn_Close" taborder="4" text="닫기" width="60" height="24" right="8" bottom="7" cssclass="btn_WF_tran" onclick="btn_Close_onclick"/>
+      </Layout>
+      <Layout name="portrait" screenid="Mobile_screen" width="480" height="768" mobileorientation="portrait">
+        <Button id="btn_Close" height="30" width="70" right="4" bottom="4"/>
+        <UbiReport id="UbiReport"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분	: 공통 - 공통
+ * 02. 화면명		: Report 미리보기 (CO_ReportViewer)
+ * 03. 화면설명 	: Report 미리보기 한다.
+ * 04. 작성일   	: 2018.07.30
+ * 05. 작성자   	: 채종한
+ * 06. 수정이력 	:
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ************************************************************************************************/
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::ext_Report.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.fv_arrInDataSet = new Array();
+this.fv_arrParamData = new Array();
+this.fv_rptFileNm = "";
+this.fv_saveFileNm = "";
+
+/************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.CO_ReportViewer_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	fv_rptFileNm = this.parent.pv_rptFileNm;
+	fv_saveFileNm = this.parent.pv_saveFileNm;
+	fv_arrInDataSet = this.parent.pv_inDs;
+	fv_arrParamData = this.parent.pv_paramDt;
+	
+	this.arrInDataSet = fv_arrInDataSet;
+	this.arrParamData = fv_arrParamData;
+	if(!this.gfnIsEmpty(fv_saveFileNm))
+		this.UbiReport.reporttitle = fv_saveFileNm;
+	var scale = "-9998";
+	if(fv_rptFileNm=="ASSET_QR_PRINT.jrf")
+	{
+		this.UbiReport.useplugin = true;// 바코드 출력 시 설정
+		scale = "120";
+	}
+	else if(fv_rptFileNm!="PRINT_REGULARVISIT.jrf" && this.getCurrentLayoutID()=="portrait")
+		scale = "120";
+	this.UbiReport.set_scale(scale);
+	this.gfnOpenReportViewer(this.UbiReport, fv_rptFileNm);
+	
+};
+/************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+this.fnRptCallBack = function()
+{
+	// trace("Report Callback !!");
+}
+
+
+
+
+/************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+ 
+ 
+ 
+ 
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+ this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+    <Objects/>
+  </Form>
+</FDL>

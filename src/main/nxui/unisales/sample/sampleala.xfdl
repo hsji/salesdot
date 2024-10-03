@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="sampleala" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Button id="btn00" taborder="0" text="btn00" left="67" top="47" width="332" height="71" onclick="btn00_onclick"/>
+        <Button id="btn01" taborder="1" text="btn01" left="548" top="80" width="180" height="89" onclick="btn01_onclick"/>
+        <Button id="btn02" taborder="2" text="btn02" left="63" top="151" width="149" height="98" onclick="btn02_onclick"/>
+        <Button id="btn03" taborder="3" text="btn03" left="281" top="152" width="151" height="97" onclick="btn03_onclick"/>
+        <Button id="btn04" taborder="4" text="btn04" left="73" top="295" width="153" height="78" onclick="btn04_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.btn00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var data = [ {COL1: "1", COL2: 10}, {COL1: "2", COL2: 20}, {COL1: "1", COL2: 30} ];
+	var data1 = this.ds00._viewRecords;
+	var res = alasql('SELECT COL1, SUM(COL2) AS COL2 FROM ? GROUP BY COL1', [data]);	
+	console.log(res);
+};
+
+this.btn01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds00.setColumn(1, "COL3", 10);
+	console.log(this.ds00);
+};
+
+this.btn02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var res = alasql('SELECT * FROM ? WHERE COL1 == "b"', [this.ds00]);	
+	console.log(res);	
+};
+
+this.btn03_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var res = alasql('SELECT Column3, COL1, [COL2] FROM ? PIVOT (SUM([COL2]) FOR COL1)', [this.ds00]);	
+// 	var data = [ {COL1: "1", COL2: 10}, {COL1: "2", COL2: 20}, {COL1: "1", COL2: 30} ];
+// 	var res = alasql('UPDATE ? SET COL2 = 20 WHERE COL1 == "1"', data);	
+ 	console.log(res);	
+};
+
+this.btn04_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var res = alasql('SELECT Column3, COL1, [COL2] FROM ? PIVOT (SUM([COL2]) FOR COL1)', [this.ds00], "dstest", this);	
+// 	var data = [ {COL1: "1", COL2: 10}, {COL1: "2", COL2: 20}, {COL1: "1", COL2: 30} ];
+// 	var res = alasql('UPDATE ? SET COL2 = 20 WHERE COL1 == "1"', data);	
+ 	console.log(res);		
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds00">
+        <ColumnInfo>
+          <Column id="COL1" type="STRING" size="256"/>
+          <Column id="COL2" type="INT" size="256"/>
+          <Column id="COL3" type="BIGDECIMAL" size="256"/>
+          <Column id="Column0" type="DATE" size="256"/>
+          <Column id="Column1" type="TIME" size="256"/>
+          <Column id="Column2" type="DATETIME" size="256"/>
+          <Column id="Column3" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="COL1">a</Col>
+            <Col id="COL2">1</Col>
+            <Col id="COL3">3</Col>
+            <Col id="Column0">20240101</Col>
+            <Col id="Column1">081111</Col>
+            <Col id="Column2">20240101010101</Col>
+            <Col id="Column3">서울</Col>
+          </Row>
+          <Row>
+            <Col id="Column3">서울</Col>
+            <Col id="COL1">a</Col>
+            <Col id="COL2">1</Col>
+            <Col id="COL3">1</Col>
+          </Row>
+          <Row>
+            <Col id="Column3">서울</Col>
+            <Col id="COL1">b</Col>
+            <Col id="COL2">1</Col>
+            <Col id="COL3">1</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">a</Col>
+            <Col id="COL2">2</Col>
+            <Col id="COL3">4</Col>
+            <Col id="Column0">20240101</Col>
+            <Col id="Column1">091111</Col>
+            <Col id="Column2">20240101010101</Col>
+            <Col id="Column3">부산</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">b</Col>
+            <Col id="COL2">4</Col>
+            <Col id="COL3">4</Col>
+            <Col id="Column0">20240101</Col>
+            <Col id="Column1">091111</Col>
+            <Col id="Column2">20240101010101</Col>
+            <Col id="Column3">부산</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">b</Col>
+            <Col id="COL2">4</Col>
+            <Col id="COL3">4</Col>
+            <Col id="Column0">20240101</Col>
+            <Col id="Column1">091111</Col>
+            <Col id="Column2">20240101010101</Col>
+            <Col id="Column3">대구</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

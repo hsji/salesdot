@@ -1,0 +1,711 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SS_ContractDetail" width="750" height="700" titletext="계약 상세내용" cssclass="frm_popBg" onload="SS_ContractDetail_onload">
+    <Layouts>
+      <Layout height="700" mobileorientation="landscape" width="750">
+        <Static id="Static00" taborder="17" left="4" top="70" height="184" cssclass="sta_WF_detailLbl03" right="4"/>
+        <Static id="stc_SalesList" taborder="0" cssclass="sta_POP_GroupBg" left="4" top="39" height="31" right="4"/>
+        <Static id="stc_subTitle1" taborder="1" text="계약 기본정보" left="20" top="20" width="120" height="23" cssclass="sta_POP_GroupTit" TL_SEQ="2098"/>
+        <Static id="stc_ClientCode" taborder="2" text="고  객  사" left="8.00" top="stc_SalesList:-15" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="214"/>
+        <Static id="stc_ContractNo" taborder="3" text="프로젝트" left="284.00" top="stc_SalesList:-15" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="119"/>
+        <Static id="stc_ContractName" taborder="4" text="계  약  명" left="284.00" top="stc_ContractNo:4" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="216"/>
+        <Edit id="edt_ContractName01" taborder="11" left="365.00" top="83" height="24" readonly="true" right="20"/>
+        <Static id="stc_SalesEmpNo" taborder="5" text="담당 영업" left="284.00" top="139" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="614"/>
+        <Static id="stc_ClientCode00" taborder="26" text="계  약  처" left="8" top="stc_ClientCode:4" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="215"/>
+        <Static id="stc_SalesEmpNo05" taborder="28" text="영업제품" left="8" top="stc_ClientCode00:4" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="83"/>
+        <Static id="stc_Remark" taborder="6" text="비       고" left="8.00" top="167" width="76" height="70" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="1963"/>
+        <Tab id="tab_Progess" taborder="25" left="20" tabindex="0" scrollbars="autoboth" onchanged="Div03_Tab00_onchanged" height="178" right="20" top="463">
+          <Tabpages>
+            <Tabpage id="tpg_Progess" text="진행사항" TL_SEQ="65">
+              <Layouts>
+                <Layout>
+                  <Static id="Static06" taborder="10" text="" left="90" width="601" cssclass="sta_WF_detailLbl01" bottom="0.00%" top="-2.74%"/>
+                  <Grid id="grd_Date" taborder="0" left="0" top="4" width="96" autofittype="col" bottom="0" binddataset="dsScheduleList">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="80"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="24" band="head"/>
+                          <Row size="24"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell text="일자" TL_SEQ="67"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell text="bind:ISSUE_DATE" edittype="none" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Static id="stc_TypeCode" taborder="1" text="구 분" left="grd_Date:4" top="4" width="40" height="20" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="633"/>
+                  <Combo id="cmb_TypeCode" taborder="5" text="" left="stc_TypeCode:4" top="4" width="93" height="22" innerdataset="ds_cmm_Type" codecolumn="CODE" datacolumn="CAPTION" readonly="true"/>
+                  <Static id="stc_IssueDate" taborder="2" text="일 자" left="cmb_TypeCode:4" top="4" width="50" height="20" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="634"/>
+                  <Static id="stc_ProgressContent" taborder="3" text="내 용" left="grd_Date:4" top="stc_TypeCode:4" width="40" cssclass="sta_WF_DetailTit" textAlign="right" bottom="0" TL_SEQ="2009"/>
+                  <Calendar id="cal_IssueDate" taborder="6" left="stc_IssueDate:4" top="4" width="101" height="22" readonly="true"/>
+                  <Static id="stc_Importance" taborder="4" text="중요도" left="cal_IssueDate:4" top="4" width="50" height="20" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="72"/>
+                  <Combo id="cmb_Importance" taborder="8" text="" left="stc_Importance:4" top="4" width="79" height="22" innerdataset="ds_cmm_Importance" codecolumn="CODE" datacolumn="CAPTION" readonly="true"/>
+                  <TextArea id="txt_ProgressContent" taborder="7" left="stc_ProgressContent:4" top="cmb_Importance:4" readonly="true" bottom="0" right="0"/>
+                  <CheckBox id="chb_MakePublic" taborder="9" text="공개" top="4" width="60" height="22" enable="false" right="0" TL_SEQ="71"/>
+                  <CheckBox id="chb_MakePublic00" taborder="11" text="보고" top="4" height="22" enable="false" right="chb_MakePublic:4" width="60" TL_SEQ="70"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tpg_PersonInCharge" text="담당자" TL_SEQ="66">
+              <Layouts>
+                <Layout>
+                  <Grid id="grd_PersonInCharge" taborder="0" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" left="0" top="0" visible="true" right="0" bottom="0" binddataset="dsAddressbookList">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="48"/>
+                          <Column size="93"/>
+                          <Column size="48"/>
+                          <Column size="48"/>
+                          <Column size="48"/>
+                          <Column size="48"/>
+                          <Column size="48"/>
+                          <Column size="48"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="24" band="head"/>
+                          <Row size="24" band="head"/>
+                          <Row size="24"/>
+                          <Row size="24"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell colspan="2" text="회사" TL_SEQ="73"/>
+                          <Cell col="2" text="부서" TL_SEQ="74"/>
+                          <Cell col="3" text="담당자" TL_SEQ="66"/>
+                          <Cell col="4" text="직급" TL_SEQ="26"/>
+                          <Cell col="5" text="역할" TL_SEQ="75"/>
+                          <Cell col="6" colspan="2" text="핸드폰" TL_SEQ="76"/>
+                          <Cell row="1" text="현황" TL_SEQ="78"/>
+                          <Cell row="1" col="1" text="유선" TL_SEQ="79"/>
+                          <Cell row="1" col="2" colspan="3" text="이메일" TL_SEQ="80"/>
+                          <Cell row="1" col="5" colspan="3" text="비고" TL_SEQ="45"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell colspan="2" text="bind:COMPANY_NAME" textAlign="left"/>
+                          <Cell col="2" text="bind:DEPT_NAME"/>
+                          <Cell col="3" text="bind:EMP_NAME"/>
+                          <Cell col="4" text="bind:GRADE_NAME"/>
+                          <Cell col="5" text="bind:ROLE_NAME"/>
+                          <Cell col="6" colspan="2" text="bind:H_PHONE_NO"/>
+                          <Cell row="1" text="bind:HOLD_OFFICE_NAME"/>
+                          <Cell row="1" col="1" text="bind:O_PHONE_NO"/>
+                          <Cell row="1" col="2" colspan="3" text="bind:EMAIL" textAlign="left"/>
+                          <Cell row="1" col="5" colspan="3" text="bind:REMARKS" textAlign="left"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+        <Button id="btn_Close00" taborder="7" text="닫기" cssclass="btn_WF_cancel" height="28" onclick="btn_Close_onclick" right="20" bottom="10" width="50" tooltiptext="ESC" TL_SEQ="59"/>
+        <Tab id="tab_ContractDet" taborder="30" tabindex="0" left="20" top="Static00:43" height="32" onchanged="tab_ContractDet_onchanged" right="20">
+          <Tabpages>
+            <Tabpage id="tp_ContractProd" text="제품매출" TL_SEQ="1964"/>
+            <Tabpage id="tp_ContractGoods" text="상품매출" TL_SEQ="1965"/>
+            <Tabpage id="tp_ContractSi" text="용역매출" TL_SEQ="2099">
+              <Layouts>
+                <Layout/>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tp_PurchaseContract" text="매입" TL_SEQ="52">
+              <Layouts>
+                <Layout/>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tp_PreSiEmp" text="선투입" TL_SEQ="970">
+              <Layouts>
+                <Layout/>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tp_Tech" text="기술지원" TL_SEQ="652">
+              <Layouts>
+                <Layout/>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+        <Grid id="grd_DetailList" taborder="8" left="20" top="tab_ContractDet:4" height="133" cellsizingtype="col" autofittype="col" right="20" formatid="product" readonly="true" binddataset="dsContractProd">
+          <Formats>
+            <Format id="product">
+              <Columns>
+                <Column size="200"/>
+                <Column size="178"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="항목(제품/상품)" TL_SEQ="2160"/>
+                <Cell col="1" text="예상매출액" TL_SEQ="87"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:PRODUCT_NAME" textAlign="left"/>
+                <Cell col="1" text="bind:CONTRACT_PRICE" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('normal')" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
+              </Band>
+            </Format>
+            <Format id="goods">
+              <Columns>
+                <Column size="200"/>
+                <Column size="178"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="항목(제품/상품)" TL_SEQ="2160"/>
+                <Cell col="1" text="예상매출액" TL_SEQ="87"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:PRODUCT_NAME" textAlign="left"/>
+                <Cell col="1" text="bind:CONTRACT_PRICE" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('normal')" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
+              </Band>
+            </Format>
+            <Format id="si">
+              <Columns>
+                <Column size="90"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="60"/>
+                <Column size="120"/>
+                <Column size="80"/>
+                <Column size="137"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="항목" TL_SEQ="105"/>
+                <Cell col="1" text="등급" TL_SEQ="92"/>
+                <Cell col="2" text="예상단가" TL_SEQ="93"/>
+                <Cell col="3" text="MM" TL_SEQ="96"/>
+                <Cell col="4" text="금액" TL_SEQ="97"/>
+                <Cell col="5" text="근무지역" TL_SEQ="98"/>
+                <Cell col="6" text="비고" TL_SEQ="45"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ROLE_CODE" displaytype="combotext" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="1" text="bind:LEVEL_CODE" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" displaytype="combotext"/>
+                <Cell col="2" text="bind:UNIT_COST" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('normal')" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(UNIT_COST)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
+                <Cell col="3" text="bind:MEN_MONTH"/>
+                <Cell col="4" text="bind:CONTRACT_PRICE" textAlign="right" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" displaytype="expr:comp.parent.gfn_getPriceDisplayType('normal')"/>
+                <Cell col="5" text="bind:AREA_CODE" combodataset="ds_cmm_Area" combocodecol="CODE" combodatacol="CAPTION" displaytype="combotext" textAlign="left"/>
+                <Cell col="6" text="bind:REMARKS" textAlign="left"/>
+              </Band>
+            </Format>
+            <Format id="purchase">
+              <Columns>
+                <Column size="180"/>
+                <Column size="160"/>
+                <Column size="200"/>
+                <Column size="151"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="항목" TL_SEQ="105"/>
+                <Cell col="1" text="예상매입액" TL_SEQ="107"/>
+                <Cell col="2" text="매입처" TL_SEQ="108"/>
+                <Cell col="3" text="판매수수료율" TL_SEQ="1911"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:PRODUCT_NAME" textAlign="left"/>
+                <Cell col="1" text="bind:CONTRACT_PRICE" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('normal')" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
+                <Cell col="2" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:COMMISSION_RATE" textAlign="right"/>
+              </Band>
+            </Format>
+            <Format id="presiemp">
+              <Columns>
+                <Column size="120"/>
+                <Column size="82"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="90"/>
+                <Column size="90"/>
+                <Column size="48"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="소속사" TL_SEQ="783"/>
+                <Cell col="1" text="성명" TL_SEQ="27"/>
+                <Cell col="2" text="등급" TL_SEQ="92"/>
+                <Cell col="3" text="역할" TL_SEQ="75"/>
+                <Cell col="4" text="투입일자" TL_SEQ="784"/>
+                <Cell col="5" text="종료일자" TL_SEQ="95"/>
+                <Cell col="6" text="MM" TL_SEQ="96"/>
+                <Cell col="7" text="계약금액" TL_SEQ="40"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CO_NAME" textAlign="left"/>
+                <Cell col="1" text="bind:EMP_NAME"/>
+                <Cell col="2" displaytype="combotext" text="bind:LEVEL_CODE" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="3" displaytype="combotext" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION" text="bind:ROLE_CODE"/>
+                <Cell col="4" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:START_DATE"/>
+                <Cell col="5" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:END_DATE"/>
+                <Cell col="6" text="bind:MEN_MONTH" displaytype="number"/>
+                <Cell col="7" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" text="bind:CONTRACT_PRICE" textAlign="right" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
+              </Band>
+            </Format>
+            <Format id="Tech">
+              <Columns>
+                <Column size="40"/>
+                <Column size="60"/>
+                <Column size="125"/>
+                <Column size="98"/>
+                <Column size="98"/>
+                <Column size="75"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="NO" TL_SEQ="167"/>
+                <Cell col="1" text="승인상태" TL_SEQ="790"/>
+                <Cell col="2" text="기술지원구분" TL_SEQ="791"/>
+                <Cell col="3" text="작업시작일자" TL_SEQ="792"/>
+                <Cell col="4" text="작업완료일자" TL_SEQ="793"/>
+                <Cell col="5" text="총작업시간" TL_SEQ="794"/>
+                <Cell col="6" text="기술담당자" TL_SEQ="795"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow+1" tooltiptext="bind:WORK_CONTENTS"/>
+                <Cell col="1" displaytype="combotext" combodataset="ds_cmm_ConfirmCd" combocodecol="CODE" combodatacol="CAPTION" text="bind:CONFIRM_CD" tooltiptext="bind:WORK_CONTENTS"/>
+                <Cell col="2" displaytype="combotext" combodataset="ds_cmm_TechType" combocodecol="CODE" combodatacol="CAPTION" text="bind:TECH_TYPE" tooltiptext="bind:WORK_CONTENTS"/>
+                <Cell col="3" displaytype="expr:WORK_START_DATE.length&gt;0?'date':'normal'" calendardateformat="yyyy-MM-dd" text="bind:WORK_START_DATE" tooltiptext="bind:WORK_CONTENTS"/>
+                <Cell col="4" displaytype="expr:WORK_END_DATE.length&gt;0?'date':'normal'" calendardateformat="yyyy-MM-dd" text="bind:WORK_END_DATE" tooltiptext="bind:WORK_CONTENTS"/>
+                <Cell col="5" textAlign="right" displaytype="number" text="bind:WORK_TOTAL_TIME" tooltiptext="bind:WORK_CONTENTS"/>
+                <Cell col="6" text="bind:WORK_EMP_NAM" tooltiptext="bind:WORK_CONTENTS"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Edit id="edt_ContractName" taborder="9" left="89.00" top="stc_SalesList:-15" width="170" height="24" readonly="true"/>
+        <Edit id="edt_ContractName00" taborder="10" left="365.00" top="stc_SalesList:-15" height="24" readonly="true" right="20"/>
+        <Combo id="cmb_SalesEmpNo" taborder="12" text="" left="365.00" top="stc_ContractName:4" width="215" height="24" innerdataset="ds_cmm_SalesStatus" codecolumn="CODE" datacolumn="CAPTION" readonly="true"/>
+        <Edit id="edt_ContractName03" taborder="27" left="89.00" top="edt_ContractName:4" width="170" height="24" readonly="true"/>
+        <Static id="stc_SalesEmpNo00" taborder="13" text="영업상태" left="284.00" top="edt_ContractName03:4" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="84"/>
+        <Calendar id="cal_ContractDate" taborder="14" left="89.00" top="139" width="130" height="24" readonly="true" dateformat="yyyy-MM-dd"/>
+        <Static id="stc_SalesEmpNo02" taborder="15" text="계약예정일" left="8" top="stc_SalesEmpNo05:4" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="64"/>
+        <TextArea id="txt__Remark" taborder="16" left="89.00" top="167" height="70" readonly="true" right="20"/>
+        <Static id="stc_SalesEmpNo01" taborder="18" text="예상매출총액" left="8.00" top="247" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="2159"/>
+        <MaskEdit id="medt_ContractAmt" taborder="19" left="89.00" top="247" width="138" height="24" format="#,##0" readonly="true"/>
+        <Static id="stc_SalesEmpNo03" taborder="21" text="예상매입총액" left="284.00" top="247" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="2181"/>
+        <MaskEdit id="medt_PurchaseAmt" taborder="20" left="365.00" top="247" width="138" height="24" format="#,##0" readonly="true"/>
+        <Static id="stc_SalesEmpNo04" taborder="22" text="순매출" left="8.00" top="278" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="279"/>
+        <MaskEdit id="medt_NetSalesAmt" taborder="23" left="554.00" top="95130" width="138" height="22" format="#,##0" readonly="true"/>
+        <Edit id="edt_ContractName02" taborder="24" left="365.00" top="139" height="24" readonly="true" right="170"/>
+        <Edit id="edt_ContractName04" taborder="29" left="89.00" top="edt_ContractName03:4" width="130" height="24" readonly="true"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 영업관리 - 계약탭 
+ * 02. 화면명   : 계약 상세내용(SS_ContractDetail)
+ * 03. 화면설명 : 영업관리 계약Tab에서 해당 계약에 대한 상세내용을 POPUP을 통해 
+ *				   계약 세부 내용을 확인
+ * 04. 작성일   : 2018.09.07
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommUtil.xjs"
+include "Script::CommTrans.xjs"
+include "Script::CommSystem.xjs"
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+ this.FV_PROJECT_CODE = "";
+ this.FV_CONTRACT_NO = "";
+ this.FV_AUTH_PRICE_MASK = false; 
+ 
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.SS_ContractDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.FV_PROJECT_CODE = this.parent.pvProjectCd;
+	this.FV_CONTRACT_NO = this.parent.pvContractNo;
+	
+	if(!this.gfnIsEmpty(this.parent.pvTabIndx))
+		this.tab_ContractDet.set_tabindex(this.parent.pvTabIndx);
+		
+	this.fnAuthConfig();
+	this.fnGetCode();
+};
+
+// 권한 처리 
+this.fnAuthConfig = function()
+{
+	if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹 처리 권한
+	
+	
+	this.fn_setPriceMasking(this.medt_ContractAmt);
+	this.fn_setPriceMasking(this.medt_PurchaseAmt);
+	this.fn_setPriceMasking(this.medt_NetSalesAmt);
+}
+
+this.fn_setPriceMasking = function (obj)
+{
+	var sContractAmt = obj.value;
+	if (this.gfnIsEmpty(sContractAmt))	sContractAmt = 0;
+	
+	obj.set_type( this.gfn_getPriceMaskEdtType() );
+	obj.set_format( this.gfn_getPriceMaskformat(sContractAmt) );
+}
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+ // 공통코드 조회
+ this.fnGetCode = function()
+ {
+ 	this.gfnAddCodeDataset("ds_cmm_SalesStatus",	"SALES_STATUS"); 	// 영업상태 코드
+	this.gfnAddCodeDataset("ds_cmm_Type",			"TYPE_CODE");		// 일정 구분
+	this.gfnAddCodeDataset("ds_cmm_Importance",		"IMPORTANCE");		// 일정 중요도 코드
+	this.gfnAddCodeDataset("ds_cmm_Role", 			"ROLE_CODE");		// 역할 코드
+	this.gfnAddCodeDataset("ds_cmm_Level",			"LEVEL_CODE");		// 등급 코드
+	this.gfnAddCodeDataset("ds_cmm_Area",			"AREA_CODE");		// 근무지역 코드
+	this.gfnAddCodeDataset("ds_cmm_ConfirmCd",		"CONFIRM_CD");	// 승인상태
+	this.gfnAddCodeDataset("ds_cmm_TechType",		"TECH_TYPE");	// 기술지원구분
+	
+	// 공통코드 조회
+	this.gfnCodeTransaction();
+ }
+ 
+this.fnQueryData = function()
+{
+	// 조건값(Rarameter) 셋팅
+	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PROJECT_CODE);
+	this.gfnAddSendParameter("CONTRACT_NO",		this.FV_CONTRACT_NO);
+	
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("dsList",				"ds_output0");
+	this.gfnAddOutputDataset("dsContractProd",		"ds_output1");
+	this.gfnAddOutputDataset("dsContractSi",		"ds_output2");
+	this.gfnAddOutputDataset("dsContractGoods",		"ds_output3");
+	this.gfnAddOutputDataset("dsPurchaseList",		"ds_output4");
+	this.gfnAddOutputDataset("dsScheduleList",		"ds_output5");
+	this.gfnAddOutputDataset("dsAddressbookList",	"ds_output6");
+	this.gfnAddOutputDataset("dsPreSiEmpList",		"ds_output7");
+	this.gfnAddOutputDataset("dsTechList",			"ds_output8");
+	
+	this.gfnCommonTransaction("SS_ContractDetail_S01", "SS_ContractDetail_S01");
+};
+
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	switch (strSvcID) 
+	{
+		case "gfnGetCode":
+			this.fnQueryData();
+			break;
+		case "SS_ContractDetail_S01":
+			this.fn_setPriceMasking(this.medt_ContractAmt);
+			this.fn_setPriceMasking(this.medt_PurchaseAmt);
+			this.fn_setPriceMasking(this.medt_NetSalesAmt);
+			break;
+	}
+ }
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ 
+ 
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.tab_ContractDet_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChangeEventInfo)
+{
+	this.grd_DetailList.set_enableevent(false);
+	if (e.postindex == 0) {
+		this.grd_DetailList.set_formatid("product");
+		this.grd_DetailList.set_binddataset("dsContractProd");
+	} else if (e.postindex == 1) {
+		this.grd_DetailList.set_formatid("goods");
+		this.grd_DetailList.set_binddataset("dsContractGoods");
+	} else if (e.postindex == 2) {
+		this.grd_DetailList.set_formatid("si");
+		this.grd_DetailList.set_binddataset("dsContractSi");
+	}  else if (e.postindex == 3) {
+		this.grd_DetailList.set_formatid("purchase");
+		this.grd_DetailList.set_binddataset("dsPurchaseList");
+	}  else if (e.postindex == 4) {
+		this.grd_DetailList.set_formatid("presiemp");
+		this.grd_DetailList.set_binddataset("dsPreSiEmpList");
+	}  else if (e.postindex == 5) {
+		this.grd_DetailList.set_formatid("Tech");
+		this.grd_DetailList.set_binddataset("dsTechList");
+	}
+	this.grd_DetailList.set_enableevent(true);
+};
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="cmb_SalesEmpNo" propid="value" datasetid="dsList" columnid="SALES_STATUS"/>
+      <BindItem id="item2" compid="cal_ContractDate" propid="value" datasetid="dsList" columnid="CONTRACT_DATE"/>
+      <BindItem id="item3" compid="txt__Remark" propid="value" datasetid="dsList" columnid="REMARKS"/>
+      <BindItem id="item0" compid="tab_Progess.tpg_Progess.form.cmb_TypeCode" propid="value" datasetid="dsScheduleList" columnid="TYPE_CODE"/>
+      <BindItem id="item4" compid="tab_Progess.tpg_Progess.form.chb_MakePublic" propid="value" datasetid="dsScheduleList" columnid="OPEN_FLAG"/>
+      <BindItem id="item5" compid="tab_Progess.tpg_Progess.form.chb_MakePublic00" propid="value" datasetid="dsScheduleList" columnid="REPORT_FLAG"/>
+      <BindItem id="item6" compid="tab_Progess.tpg_Progess.form.txt_ProgressContent" propid="value" datasetid="dsScheduleList" columnid="CONTENTS"/>
+      <BindItem id="item7" compid="tab_Progess.tpg_Progess.form.cal_IssueDate" propid="value" datasetid="dsScheduleList" columnid="ISSUE_DATE"/>
+      <BindItem id="item8" compid="tab_Progess.tpg_Progess.form.cmb_Importance" propid="value" datasetid="dsScheduleList" columnid="IMPORTANCE"/>
+      <BindItem id="item10" compid="edt_ContractName" propid="value" datasetid="dsList" columnid="CLIENT_NAME"/>
+      <BindItem id="item11" compid="edt_ContractName00" propid="value" datasetid="dsList" columnid="PROJECT_NAME"/>
+      <BindItem id="item12" compid="edt_ContractName03" propid="value" datasetid="dsList" columnid="CONTRACT_MAIN_NAME"/>
+      <BindItem id="item13" compid="edt_ContractName01" propid="value" datasetid="dsList" columnid="CONTRACT_NAME"/>
+      <BindItem id="item9" compid="edt_ContractName04" propid="value" datasetid="dsList" columnid="PRODUCT_NAME"/>
+      <BindItem id="item14" compid="edt_ContractName02" propid="value" datasetid="dsList" columnid="EMP_NAME"/>
+      <BindItem id="item15" compid="medt_ContractAmt" propid="value" datasetid="dsList" columnid="CONTRACT_AMT"/>
+      <BindItem id="item16" compid="medt_PurchaseAmt" propid="value" datasetid="dsList" columnid="PURCHASE_AMT"/>
+      <BindItem id="item17" compid="medt_NetSalesAmt" propid="value" datasetid="dsList" columnid="NET_SALES_AMT"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_cmm_SalesStatus">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Type">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Importance">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Role">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Level">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Area">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="SALES_STATUS" type="string" size="20"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="SALES_EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NAME" type="string" size="255"/>
+          <Column id="CONTRACT_AMT" type="BIGDECIMAL" size="22"/>
+          <Column id="PURCHASE_AMT" type="BIGDECIMAL" size="22"/>
+          <Column id="NET_SALES_AMT" type="BIGDECIMAL" size="22"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractProd">
+        <ColumnInfo>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CRD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="CONTRACT_TYPE" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractSi">
+        <ColumnInfo>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CSD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="ROLE_CODE" type="string" size="20"/>
+          <Column id="LEVEL_CODE" type="string" size="20"/>
+          <Column id="UNIT_COST" type="BIGDECIMAL" size="22"/>
+          <Column id="MEN_MONTH" type="float" size="22"/>
+          <Column id="CONTRACT_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="AREA_CODE" type="string" size="20"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="CONTRACT_TYPE" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractGoods">
+        <ColumnInfo>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CRD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="CONTRACT_TYPE" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPurchaseList">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="PURCHASE_TYPE" type="string" size="20"/>
+          <Column id="PPD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="COMMISSION_RATE" type="float" size="22"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsScheduleList">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="TYPE_CODE" type="string" size="20"/>
+          <Column id="ISSUE_DATE" type="string" size="8"/>
+          <Column id="REPORT_FLAG" type="string" size="1"/>
+          <Column id="IMPORTANCE" type="int" size="11"/>
+          <Column id="OPEN_FLAG" type="string" size="1"/>
+          <Column id="CONTENTS" type="string" size="1073741823"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsAddressbookList">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CA_SEQ" type="bigdecimal" size="20"/>
+          <Column id="COMPANY_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="200"/>
+          <Column id="EMP_NAME" type="string" size="100"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="GRADE_NAME" type="string" size="100"/>
+          <Column id="ROLE_NAME" type="string" size="100"/>
+          <Column id="H_PHONE_NO" type="string" size="30"/>
+          <Column id="O_PHONE_NO" type="string" size="30"/>
+          <Column id="HOLD_OFFICE_NAME" type="string" size="20"/>
+          <Column id="EMAIL" type="string" size="200"/>
+          <Column id="ETAX_FLAG" type="string" size="1"/>
+          <Column id="ORDER_FLAG" type="string" size="1"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPreSiEmpList">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="PSE_SEQ" type="bigdecimal" size="20"/>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NAME" type="string" size="255"/>
+          <Column id="CO_NAME" type="string" size="100"/>
+          <Column id="START_DATE" type="datetime" size="23"/>
+          <Column id="END_PLAN_DATE" type="datetime" size="23"/>
+          <Column id="END_DATE" type="datetime" size="23"/>
+          <Column id="NONRESIDENT_FLAG" type="string" size="1"/>
+          <Column id="FREE_SVC_FLAG" type="string" size="1"/>
+          <Column id="MEN_MONTH" type="float" size="22"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="PURCHASE_CONTRACT_NAME" type="string" size="100"/>
+          <Column id="ROLE_CODE" type="string" size="20"/>
+          <Column id="LEVEL_CODE" type="string" size="20"/>
+          <Column id="UNIT_COST" type="BIGDECIMAL" size="22"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTechList"/>
+      <Dataset id="ds_cmm_ConfirmCd"/>
+      <Dataset id="ds_cmm_TechType"/>
+    </Objects>
+  </Form>
+</FDL>

@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AA_SerialityPopup" width="640" height="250" titletext="신규회차 불러오기" scrolltype="none" onload="AA_SerialityPopup_onload" cssclass="frm_popBg">
+    <Layouts>
+      <Layout>
+        <Button id="btn_Confirm" taborder="0" text="선택" cssclass="btn_WF_tran" height="22" width="60" bottom="-310" right="815" defaultbutton="true" onclick="div_InConfirm_btn_Confirm_onclick"/>
+        <Static id="st_Title" taborder="1" text="신규회차등록" left="8" top="0" width="356" height="35" cssclass="sta_POP_Title"/>
+        <Button id="btn_Close" taborder="2" top="10" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="btn_Close_onclick" escapebutton="true"/>
+        <Div id="div_Seriality" taborder="3" left="4" top="38" text="" height="172" enable="true" cssclass="div_WF_detailBg" right="4">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Title01" taborder="0" text="회차명" left="8" top="8" width="50" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_SmNm" taborder="1" left="stc_Title01:8" top="8" height="22" readonly="false" right="8"/>
+              <Static id="stc_Title02" taborder="2" text="시작일" left="8" top="38" width="50" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Static id="stc_Title03" taborder="3" text="종료일" left="318" top="38" width="50" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Calendar id="cal_StartDt" taborder="4" left="stc_Title02:8" top="38" height="22" right="stc_Title03:8"/>
+              <Calendar id="cal_EndDt" taborder="5" left="stc_Title03:8" top="37" height="22" right="8"/>
+              <Static id="stc_Title04" taborder="6" text="설명" left="8" top="100" width="50" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <TextArea id="ta_Description" taborder="7" left="stc_Title04:8" top="stc_Title03:8" height="90" right="8"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Title02" left="8" top="72" width="64" height="30"/>
+              <Div id="div_Contract" left="80" top="72" height="30" right="4"/>
+              <Static id="stc_Title03" left="8" top="38" width="64" height="30"/>
+              <Edit id="edt_ProjectName" left="80" top="38" height="30" right="4"/>
+              <Edit id="edt_SmNm" left="80" top="4" height="30" right="4"/>
+              <Static id="stc_Title01" height="30" left="8" top="4" width="64"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static01" taborder="4" left="1" top="div_Seriality:4" cssclass="sta_POP_BtnBg" right="1" bottom="0"/>
+        <Button id="btn_OK" taborder="5" text="적용" left="491" top="221" height="22" cssclass="btn_WF_tran" onclick="btn_OK_onclick" width="60"/>
+        <Button id="btn_Cancel" taborder="6" text="닫기" cssclass="btn_WF_cancel" onclick="btn_Close_onclick" top="221" height="22" left="562" width="60"/>
+      </Layout>
+    </Layouts>
+    <InitValue/>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : Admin
+ * 02. 화면명   : 신규회차등록 팝업(Popup) 
+ * 03. 화면설명 : 내부회계관리제도 신규회차등록 팝업
+ * 04. 작성일   : 2021.06.04
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ************************************************************************************************/ 
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+ var strToday = "";
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.AA_SerialityPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	strToday = this.parent.STR_TODAY;
+	//strToday = "20200201";
+	this.fn_SerialityQuery();
+};
+
+/************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.opener.fn_Search(); // 메인 화면 리스트 조회
+	this.close();
+};
+
+//신규회차 적용
+this.btn_OK_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var strCalStartDt = this.div_Seriality.form.cal_StartDt.value;
+	var strCalEndDt = this.div_Seriality.form.cal_EndDt.value;
+	
+	if (!this.fn_Validation()) return;
+	
+	if (!confirm( "신규 회차 처리를 적용 하시겠습니까?"))	return;
+	
+	// 입력용 Input Dataset 세팅 AM_SERIALITY_MASTER
+	this.gfnAddInputDataset("ds_Seriality",	"dsInput");
+	
+	// Output 세팅
+	this.gfnAddOutputDataset("ds_OrgWriterDeptCount", "dsOrgWriterDeptCount");
+	// 공통 Transaction
+	this.gfnCommonTransaction("SerialityMasterInsert", "AA_Seriality_R01");
+};
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+this.fn_SerialityQuery = function()
+{
+	//Parameter 셋팅
+	this.gfnAddSendParameter("TODAY", strToday);
+	
+	// 조회용 Output dataset 세팅 CUR_SERIALITY_SEL
+	this.gfnAddOutputDataset("ds_Seriality", "dsOutput");
+	this.gfnCommonTransaction("GetCurSeriality", "AA_AuditMaster_S01");
+}
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else
+	{
+		if(strSvcID=="GetCurSeriality") 
+		{
+			//trace("ds==>"+this.ds_tmp.saveXML());
+			if (this.ds_Seriality.rowcount<=0)
+			{
+				this.ds_Seriality.addRow();
+				this.div_Seriality.form.edt_SmNm.setFocus();
+				this.st_Title.set_text("신규회차등록");
+			} 
+			else 
+			{
+				this.div_Seriality.form.edt_SmNm.setFocus();
+				this.st_Title.set_text(this.ds_Seriality.getColumn(0, "SM_NM")+"("+this.ds_Seriality.getColumn(0, "SM_SEQ")+"회차)");
+			}
+		}
+		else if(strSvcID == "SerialityMasterInsert")
+		{
+			//trace("ds==>"+this.ds_OrgWriterDeptCount.saveXML());
+			if(this.ds_OrgWriterDeptCount.getColumn(this.ds_OrgWriterDeptCount.rowposition, "ORG_DEPT_COUNT") > 0)
+			{
+				// 등록한 회차 일련번호 
+				var sSmSeq = this.ds_OrgWriterDeptCount.getColumn(this.ds_OrgWriterDeptCount.rowposition, "SM_SEQ");
+				// TP 작성부서 매칭 해주는 팝업 호출
+				var sArgument = 
+				{
+					 STR_SM_SEQ 	 	: sSmSeq
+					 ,STR_EVT_POSITION	: "SerialityPopup"
+				}
+				
+				this.commUtil.popup(this, "WriterDeptPopup", "Admin::AA_WriterDeptPopup.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+			}
+			else
+			{
+				alert("정상적으로 처리 되었습니다.");
+				this.opener.fn_Search(); // 메인 화면 조회 
+				this.commUtil.popupClose("");
+			}
+		}
+	}
+}
+
+//Validation 처리
+this.fn_Validation = function()
+{
+	var strCalStartDt = this.div_Seriality.form.cal_StartDt.value;
+	var strCalEndDt = this.div_Seriality.form.cal_EndDt.value;
+	
+	if (this.gfnIsEmpty(this.div_Seriality.form.edt_SmNm.value))	
+	{
+		alert("회차명을 입력 하세요");
+		return false;
+	}
+	else if (this.gfnIsEmpty(strCalStartDt))
+	{
+		alert("시작일을 입력 하세요");
+		return false;
+	}
+	else if (this.gfnIsEmpty(strCalEndDt))
+	{
+		alert("종료일을 입력 하세요");
+		return false;
+	}
+	else if(strCalStartDt.substring(0, 4) != strCalEndDt.substring(0, 4))
+	{
+		alert("시작일 년도와 종료일 년도가 다릅니다. \n\n회차 적용하기 위해서는 년도가 같아야 합니다.");
+		return false;
+	}
+	else if(strToday.substring(0, 4) < strCalStartDt.substring(0, 4))
+	{
+		alert("신규회차는 현재 년도에만 적용합니다.");
+		return false;
+	}
+	else return true;
+}
+
+//팝업 콜백 함수
+this.fnPopupCallBack = function(popupId, popupArg)
+{
+	popupArg = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(popupArg))
+	{
+		return;
+	}
+	else
+	{
+		switch(popupId)
+		{
+			case "WriterDeptPopup" :
+				var ds = new nexacro.Dataset();
+				ds.loadXML(popupArg);
+				//trace(ds.saveXML());
+				
+				this.opener.fn_Search(); // 메인 화면 조회 
+				this.commUtil.popupClose("");
+				break;
+		}
+	}
+}]]></Script>
+    <Objects>
+      <Dataset id="ds_Seriality">
+        <ColumnInfo>
+          <Column id="SM_SEQ" type="STRING" size="256"/>
+          <Column id="SM_NM" type="STRING" size="256"/>
+          <Column id="START_DT" type="STRING" size="256"/>
+          <Column id="END_DT" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_AdminTran">
+        <ColumnInfo>
+          <Column id="SQL_TYPE" type="STRING" size="256"/>
+          <Column id="SQL_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tmp">
+        <ColumnInfo>
+          <Column id="RESULT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_OrgWriterDeptCount">
+        <ColumnInfo>
+          <Column id="ORG_DEPT_COUNT" type="INT" size="256"/>
+          <Column id="SM_SEQ" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_Seriality.form.edt_SmNm" propid="value" datasetid="ds_Seriality" columnid="SM_NM"/>
+      <BindItem id="item1" compid="div_Seriality.form.cal_StartDt" propid="value" datasetid="ds_Seriality" columnid="START_DT"/>
+      <BindItem id="item2" compid="div_Seriality.form.cal_EndDt" propid="value" datasetid="ds_Seriality" columnid="END_DT"/>
+      <BindItem id="item3" compid="div_Seriality.form.ta_Description" propid="value" datasetid="ds_Seriality" columnid="REMARK"/>
+    </Bind>
+  </Form>
+</FDL>

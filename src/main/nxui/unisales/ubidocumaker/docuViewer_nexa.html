@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+<head>
+    <meta name="_csrf">
+    <meta charset="utf-8">
+    <title>UbiDocuMaker-Viewer</title>
+    <link rel="stylesheet" type="text/css" href="./css/color-picker.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/select2.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/ui/docuViewer.css">
+    <script src="./js/jquery-1.9.1.min.js"></script>
+    <script src="./js/jquery-ui-1.10.3.min.js"></script>
+    <script src="./js/pdf_form/fabric.js"></script>
+    <script src="./js/pdf_form/flatpickr.min.js"></script>
+    <script src="./js/pdf_form/polyfills.js"></script>
+    <script src="./js/pdf_form/polyfillsIE.js"></script>
+    <script src="./js/pdf_form/snap.svg.js"></script>
+    <script src="./js/pdf_form/snap.svg.free_transform.js"></script>
+    <script src="./js/pdf_form/TweenMax.min.js"></script>
+    <script src="./js/pdf_form/select2/select2.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf_viewer.js"></script>
+    <script src="./js/pdf_form/pdfjs/grab-to-pan.js"></script>
+    <script src="./js/pdf_form/dist/polly.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/dist/readermod.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/dist/readermodSass.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/UbiDocuMakerViewer.js"></script>
+    <script src="./js/ui/docuViewer.js"></script>
+	
+	<script type="text/javascript">
+		/* 서비스 경로 설정 */
+		var appUrl = self.location.protocol + '//' + self.location.host;
+		var jsonSaveUrl   = '/ubiDocuJsonSave.do';	// 저장서비스
+		var jsonSearchUrl = '/ubiPDFView.do';		// 조회서비스
+		var jsonUploadUrl = '/ubiFileUpload.do';	// 파일업로드서비스
+		var jsonEditorUrl = '/ubiEditorJson.do';	// 편집정보
+	</script>
+
+	<script type="text/javascript">
+		/* 전역변수 설정 */
+		var uuid = "";	//'uuid_' + Date.now();	// 사용자고유Key
+		var sysCode = 'sys';				// 시스템코드
+		var bizCode = 'biz';				// 업무코드
+		var userId  = 'jihs';				// 사용자코드
+		var docTitle = '';					// 문서제목
+		var signtabShowOption =
+		  {
+			"useDrawSign"	: "true",
+			"useImageSign"	: "true",
+			"useRegSign"	: "true"
+		  };		
+		var userList = [];					// 사용자 정보
+		var dvOptionList = [];				// 필드 정보
+		var jsonUrl = null;
+		var uploadFileName = "";
+		var jsonData = null;
+	</script>		
+	
+    <script type="text/javascript">
+		/* NEXACRO Communication JAVASCRIPT */
+		if (! window.NEXACROHTML) {
+			  window.NEXACROHTML = {};
+		}		
+
+		var pNexacro = null;
+		var bInit = false;
+		var pPDFFileUrl;
+		
+		/*
+		'nexaro webbrowser 호출 여부 체크
+		*/				
+		window.NEXACROHTML.Init = function() {
+			  var loopCnt = 0;
+			  var interval = setInterval(fn = function() {
+			    pNexacro = window.NEXACROWEBBROWSER;
+	      		if(loopCnt >= 10 || pNexacro) {
+		        	bInit = true;
+		    	    clearInterval(interval);
+		    	    
+		    	    if(pNexacro) {
+						window.NEXACROHTML.FireUserNotify({ "EDITTYPE" : "EDIT", "UTYPE" : "INIT", "STATUS" : 0 });
+					}
+		      	}
+			    loopCnt++;
+		  	}, 50);
+		}
+		
+		/*
+		'nexaro에 정보 전달
+		*/				
+		window.NEXACROHTML.FireUserNotify = function(userdata) {
+		    if(bInit == false) {
+		        var loopCnt = 0;
+		        var interval = setInterval(fn = function() {		
+				        if (loopCnt > 10 || bInit) {
+					          clearInterval(interval);
+				        }
+		  		      loopCnt++;
+			      }, 50);
+		  	}
+			var strData = JSON.stringify(userdata);
+			if (pNexacro) 
+			{		
+				pNexacro.on_fire_onusernotify(pNexacro, strData);
+			} 
+			else if (typeof nexacro == "undefined") //windows runtime
+			{			
+				window.document.title = strData;
+			}
+			else if (nexacro) //mobile runtime 
+			{
+				nexacro.fireUserNotify(strData);	
+			} 			
+		}
+		
+		// LOAD됨을 NEXACRO에 알림 
+		window.onload = function() {
+			window.NEXACROHTML.Init();
+		};
+		
+		/*
+		'nexaro에서 문서 호출
+		*/		
+		/**
+		 * @function SetDocInfo 문서정보를 전달한다. <br>
+		 * @param {String} docInfo 		- 문서정보 : JSON String
+		 * @return N/A
+		 */		
+		function SetDocInfo(docInfo) {
+			if(!docInfo || docInfo == "") return;
+			var doc = JSON.parse(docInfo);
+
+			if(doc.id && doc.id != "") uuid = doc.id;
+			if(!uuid) uuid = "";
+			if(doc.title && doc.title != "") docTitle = doc.title;
+			if(doc.sysCode && doc.sysCode != "") sysCode = doc.sysCode;
+			if(doc.bizCode && doc.bizCode != "") bizCode = doc.bizCode;
+			if(doc.userId && doc.userId != "") userId = doc.userId;
+			
+			var sign = doc.signtabShowOption;
+			if(sign) {
+				signtabShowOption.useDrawSign 	= sign.useDrawSign || "true";
+				signtabShowOption.useImageSign 	= sign.useDrawSign || "true";
+				signtabShowOption.useRegSign 	= sign.useDrawSign || "true";
+			}
+		}
+		
+		/**
+		 * @function 문서를 오픈한다. <br>
+		 * @param {String} docInfo 		- 문서정보 : JSON String
+		 * @param {String} fieldInfo 	- 필드정보(기본값, 필드ID) : JSON String
+		 * @param {String} formerInfo 	- 사용자정보 : JSON String
+		 * @return N/A
+		 */		
+		function LoadEditor() {
+		  
+			var pdfUrl = jsonSearchUrl;
+			pdfUrl += ("?uuid=" + uuid + "&sysCode=" + sysCode + "&bizCode=" + bizCode);
+			
+			var jsonUrl = jsonEditorUrl;
+			jsonUrl += ("?uuid=" + uuid + "&sysCode=" + sysCode + "&bizCode=" + bizCode);
+			
+			var imageUrls = [
+				"https://www.ubireport.com/images/logo.jpg",
+				"/ubidocumaker/image/ubistamp01.png",
+				"/ubidocumaker/image/ubistamp02.png",
+			// ... 추가 이미지 URL
+			];			
+			
+			// UbiDocuMakerViewer 초기화 파라미터
+			var udm_param = {
+				"targetId": "udmViewerDiv",
+				"pdfUrl": pdfUrl,
+				"jsonUrl": jsonUrl,
+				"imageUrls": imageUrls,
+			};
+
+			//UbiDocuMakerViewer의 생성자를 호출하여 UbiDocuMakerViewer의 객체 udmViewer를 만듭니다.
+			var udmViewer = new UbiDocuMakerViewer(udm_param);
+
+			//udmViewer.setUDMservletUrl("http://192.168.1.38:5500/");
+			udmViewer.open();			
+		}
+	</script>		
+
+</head>
+<body id="udmViewerDiv">
+<!-- Viewer 화면 dom 들어올 자리 -->
+</body>
+</html>

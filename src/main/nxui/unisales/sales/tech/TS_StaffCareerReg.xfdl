@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="TS_StaffInfoReg" width="1200" height="506" titletext="인력기본정보" onload="TS_StaffInfoReg_onload">
+    <Layouts>
+      <Layout height="506" mobileorientation="landscape" width="1200">
+        <Static id="stc_HireDate" taborder="2" text="경력시작일" left="0" top="20" width="103" height="22" cssclass="sta_WF_SchLabel" TL_SEQ="2199"/>
+        <Calendar id="cal_HireDate" taborder="0" left="stc_HireDate:0" top="20" width="108" height="22" dateformat="yyyy-MM-dd "/>
+        <Static id="stc_HireDateCount" taborder="3" text="경력일수" left="cal_HireDate:10.00" top="20" width="90" height="22" cssclass="sta_WF_SchLabel" TL_SEQ="2201"/>
+        <Edit id="edt_HireDateCount" taborder="1" left="stc_HireDateCount:10" top="20" width="108" height="22"/>
+        <Div id="divCareerInfo" taborder="4" text="div00" left="14" top="44" width="57.833333333333336%" bottom="10">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle01" taborder="0" text="경력사항" left="0" width="179" height="43" top="0" cssclass="sta_WF_Title"/>
+              <Grid id="grd_CareerInfo" taborder="1" binddataset="dsOutput3" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" left="3" visible="true" right="0" top="staTitle01:0" bottom="0" cellmovingtype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="20"/>
+                      <Column size="80"/>
+                      <Column size="200"/>
+                      <Column size="100"/>
+                      <Column size="200"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell colspan="3" text="재직기간" displaytype="text" edittype="text" TL_SEQ="2227"/>
+                      <Cell col="3" displaytype="text" edittype="text" text="재직회사" TL_SEQ="2228"/>
+                      <Cell col="4" text="직위" TL_SEQ="2229"/>
+                      <Cell col="5" text="담당업무" TL_SEQ="2230"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell edittype="date" editautoselect="true" text="bind:START_DATE" displaytype="date" maskedittype="string" maskeditformat="####-##-##"/>
+                      <Cell col="1" text="~"/>
+                      <Cell col="2" text="bind:END_DATE" edittype="date" displaytype="date" maskedittype="string" maskeditformat="####-##-##"/>
+                      <Cell col="3" edittype="text" editautoselect="true" editdisplay="edit" text="bind:COMPANY_NAME" textAlign="left"/>
+                      <Cell col="4" text="bind:GRADE_NAME" edittype="combo" displaytype="combotext" combodataset="ds_CD_GRADE_CODE" combocodecol="CODE" combodatacol="CAPTION"/>
+                      <Cell col="5" text="bind:WORK_PART" edittype="text" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button id="btn_CareerMinus" taborder="3" text="행삭제" top="10" height="28" cssclass="btn_WF_Delete" width="72" right="0" onclick="divCareerInfo_btn_CareerMinus_onclick"/>
+              <Button id="btn_CareerPlus" taborder="2" text="행추가" top="10" width="72" height="28" cssclass="btn_WF_Add" right="btn_CareerMinus:5" onclick="divCareerInfo_btn_CareerPlus_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divCert" taborder="5" text="div00" left="divCareerInfo:10" top="44" bottom="0" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle01_00" taborder="0" text="자격사항" left="0" width="179" height="43" top="0" cssclass="sta_WF_Title"/>
+              <Grid id="grd_CertificateInfo" taborder="1" binddataset="dsOutput8" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" visible="true" top="staTitle01_00:0" right="0" bottom="66" oncellclick="grd_CertificateInfo_oncellclick" oncelldblclick="grd_CertificateInfo_oncelldblclick" left="0">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="113"/>
+                      <Column size="113"/>
+                      <Column size="192"/>
+                      <Column size="48"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="취득년월" TL_SEQ="2205"/>
+                      <Cell col="1" text="종류" TL_SEQ="728"/>
+                      <Cell col="2" text="발행처" TL_SEQ="2206"/>
+                      <Cell col="3" colspan="2" text="파일" TL_SEQ="718"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:LICENSE_DATE" maskedittype="string" maskeditformat="####-##-##" displaytype="date" edittype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="1" text="bind:LICENSE_CODE" displaytype="combotext" edittype="combo" combodataset="ds_CD_LICENSE_TYPE" combocodecol="CODE" combodatacol="CAPTION"/>
+                      <Cell col="2" text="bind:LICENSE_CODE" displaytype="combotext" edittype="none" combodataset="ds_CD_LICENSE_TYPE" combocodecol="CODE" combodatacol="GRP_CD_1"/>
+                      <Cell col="3" text="bind:FILE_NAME" cursor="pointer"/>
+                      <Cell col="4" displaytype="buttoncontrol" edittype="button" text="등록" TL_SEQ="585"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button id="btn_CertificateMinus" taborder="3" text="행삭제" top="7" height="28" cssclass="btn_WF_Delete" width="72" right="0" onclick="divCert_btn_CertificateMinus_onclick"/>
+              <Button id="btn_CertificatePlus" taborder="2" text="행추가" top="7" width="72" height="28" cssclass="btn_WF_Add" right="btn_CertificateMinus:5" onclick="divCert_btn_CertificatePlus_onclick"/>
+              <Div id="div_Attachment01" taborder="4" async="false" SOURCE_CD="EI" SOURCE_SEQ="EMP_NO" USE_NEXT_FILE_TYPE="false" USE_LINK_TYPE="false" USE_MULTI_FILE="false" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="false" BINDDATASET="dsOutput" url="sales::comm/COM_Attachment.xfdl" text="" STATUS_CD="CERTIFICATE" height="26" right="0" bottom="16" formscrolltype="none" formscrollbartype="none none" left="0"/>
+              <Static id="stc_Attachment00" taborder="5" text="소프트웨어 기술자 자격증" width="181" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2203" left="0" bottom="46"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_HireDateCount00" taborder="6" text="등급" left="edt_HireDateCount:0.00" top="20" width="81" height="22" cssclass="sta_WF_SchLabel" TL_SEQ="2201"/>
+        <Combo id="cboLevel" taborder="7" left="stc_HireDateCount00:0" top="20" height="24" onitemchanged="cbo_onitemchange" width="127" innerdataset="ds_CD_LEVEL_CODE" codecolumn="CODE" datacolumn="CAPTION"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 인력정보등록 (TS_StaffInfoSearch_S01,
+								TS_StaffInfoSearch_S02,
+								TS_StaffInfoSearch_S04,
+								TS_StaffInfoSearch_R01,
+								TS_StaffInfoSearch_R02)
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.09.17
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+this.dsOutput = null;
+this.dsOutput3 = null;
+this.dsOutput8 = null;
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.arrCompanyExceptList = ["TOBE"];	//선택되면 안되는 회사 목록 추려야함 ingyu 20181015
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.TS_StaffInfoReg_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용	
+	this.fnGetCode();
+	
+	this.dsOutput = this.parent.parent.parent.dsOutput;
+	this.dsOutput3 = this.parent.parent.parent.dsOutput3;	
+	this.dsOutput8 = this.parent.parent.parent.dsOutput8;	
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{	
+	
+	
+	// 공통코드 조회
+	//this.gfnCodeTransaction();
+};
+
+this.fnsetEditReadonly = function(bRead)
+{	
+	this.gfnCompDisable(this.div_EmpInfo.form, bRead);
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else
+	{
+		if(strSvcID == "gfnGetCode")
+		{
+			
+		}
+		else if(strSvcID == "fnGetEmpCode")
+		{
+			var dsOutput = this._getDatasetObject("dsOutput"); 
+			var form = dsOutput.parent;
+			form.fnSearchSub("SubSelect_Copy", this.dsEmpNo.getColumn(0, "EMP_NO")); //재조회 작업
+		}
+	}
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		case "btn_EducationPlus" : 
+			var ds = this.grd_EducationInfo.getBindDataset();
+			var nRow = ds.addRow();
+			ds.setColumn(nRow, "EMP_NO", this.div_EmpInfo.form.edt_EmpNo.value);
+			ds.setColumn(nRow, "GRADUATE_FLAG", "1");
+			break;
+		case "btn_EducationMinus" : 
+			var ds = this.grd_EducationInfo.getBindDataset();
+			ds.deleteRow(ds.rowposition);
+			break;
+		case "btn_CertificatePlus" : 
+			var ds = this.grd_CertificateInfo.getBindDataset();
+			ds.setColumn(ds.addRow(), "EMP_NO", this.div_EmpInfo.form.edt_EmpNo.value);
+			break;
+		case "btn_CertificateMinus" : 
+			var ds = this.grd_CertificateInfo.getBindDataset();
+			ds.deleteRow(ds.rowposition);
+			break;
+		case "btn_CareerPlus" : 
+			var ds = this.grd_CareerInfo.getBindDataset();
+			ds.setColumn(ds.addRow(), "EMP_NO", this.div_EmpInfo.form.edt_EmpNo.value);
+			break;
+		case "btn_CareerMinus" : 
+			var ds = this.grd_CareerInfo.getBindDataset();
+			ds.deleteRow(ds.rowposition);
+			break;
+		case "btn_EmpNoIssuer" : 
+			this.fnGetEmpCode();
+			break;		
+		case "btn_PostalNumber" : 
+			var objEnv = nexacro.getEnvironment();
+			var svc = objEnv.services["ServiceURL"];
+			this.wb_PostalSearch.set_url(svc.url+"/Service/zip.html");
+			break;
+			
+	}
+};
+
+
+//SC_CompanyReg에서 정보 받은것을 가공할 때 사용.
+this.fnPopupCallBack = function (popupId, popupArg)
+{
+	if(this.gfnIsNull(popupArg) || popupArg == false || popupArg == "false") return;
+	console.log("this.fnPopupCallBack", popupId, popupArg);
+	switch(popupId)
+	{
+		case "TS_StaffInfoMM" :
+			if(!this.gfnIsEmpty(popupArg))
+			{
+				popupArg = popupArg.split("|");
+				console.log(popupArg);
+				this.fnSearchSub("SubSelect", popupArg[0], popupArg[2], popupArg[3], popupArg[4], popupArg[5]);
+				this.div_Search.form.edt_CompanyName.set_value(popupArg[1]);
+			}
+			break;
+		case "CE_CompanySearch_Copy" :
+			var ds = new nexacro.Dataset();
+			ds.loadXML(popupArg);
+			
+			this.G_CompanyName = ds.getColumn(0, "COMPANY_NAME"); //회사명
+			this.G_CompanyCode = ds.getColumn(0, "COMPANY_CODE"); //회사코드
+			
+			this.tab_TechInfo.tpg_SiInfo.form.comm_Click({name:"btn_EmpNoIssuer"}); //사번발급 Logic 수행.
+			break;
+		case "CE_CompanySearch_New" :
+			
+			var ds = new nexacro.Dataset();
+			ds.loadXML(popupArg);
+			
+			this.G_CompanyName = ds.getColumn(0, "COMPANY_NAME"); //회사명
+			this.G_CompanyCode = ds.getColumn(0, "COMPANY_CODE"); //회사코드
+			
+			this.dsOutput.addRow();
+			//회사명
+			this.dsOutput.setColumn(0, "CO_NAME", this.G_CompanyName);
+			//회사코드
+			this.dsOutput.setColumn(0, "CO_CD", this.G_CompanyCode);
+			//FIRE_DATE (default : 공백)
+			this.dsOutput.setColumn(0, "FIRE_DATE", null);
+			//재직여부 (default : 재직)
+			this.dsOutput.setColumn(0, "HOLD_OFFICE", "1");
+			
+			this.tab_TechInfo.tpg_SiInfo.form.comm_Click({name:"btn_EmpNoIssuer"}); //사번발급 Logic 수행.
+			this.div_Search.form.btn_Save.set_enable(true);			//저장
+			
+			break;
+	}
+}
+
+this.grd_CertificateInfo_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(obj.getCellProperty("body",e.cell,"displaytype")=="buttoncontrol")
+	{
+		var ds 	= obj.getBindDataset();
+		var sStatusCd	= ds.getColumn( obj.getDatasetRow(e.row), "LICENSE_CODE");
+		var sEmpNo		= ds.getColumn( obj.getDatasetRow(e.row), "EMP_NO" 		);
+		var nFindrow 	= ds.findRow("LICENSE_CODE", sStatusCd);
+		
+		if(this.gfnIsEmpty(sStatusCd))
+		{
+			this.gfnAlert('msg.check.row',["자격증 종류"]);
+			return;
+		}
+		else if(nFindrow>=0 && nFindrow!=e.row)
+		{
+			this.gfnAlert('msg.exist.code',["자격증 종류"]);
+			return;
+		}
+		else if(!this.gfnIsEmpty(sEmpNo))
+		{	
+			var args = {
+							SOURCE_CD:"EL"
+							,SOURCE_SEQ:sEmpNo
+							,STATUS_CD:sStatusCd
+							,USE_MULTI_FILE:false
+						}	
+			this.commUtil.popupFileMaster(this, args, "fnPopupCallBack");
+		}
+	}
+};
+
+this.grd_CertificateInfo_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(obj.getBindCellIndex("body", "FILE_NAME") == e.cell)
+	{
+		var ds 	= obj.getBindDataset();
+		var sFMSEQ = ds.getColumn(e.row, "FM_SEQ");
+		if(!this.gfnIsEmpty(sFMSEQ))
+			this.gfnFileDownload(sFMSEQ);
+	}
+};
+
+this.btn_ImageReg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var dsOutput = this._getDatasetObject("dsOutput");
+	var strEMP_NO = dsOutput.getColumn(0, "EMP_NO")
+	var args = {
+					SOURCE_CD:"EI"
+				   ,SOURCE_SEQ:strEMP_NO
+				   ,STATUS_CD:"EMP_PHOTO"
+				   ,USE_MULTI_FILE:false
+			   }
+	this.commUtil.popupFileMaster(this, args, "fnPopupCallBack");
+};
+
+this.wb_PostalSearch_onloadcompleted = function(obj:nexacro.WebBrowser,e:nexacro.WebLoadCompEventInfo)
+{
+	this.wb_PostalSearch.callMethod("sample4_execDaumPostcode", "");
+};
+
+this.wb_PostalSearch_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+	var strRtn = e.userdata
+	if(!this.gfnIsEmpty(strRtn))
+	{
+		//초기화
+		this.div_EmpInfo.form.edt_Address2.set_value("");		
+		//값지정
+		this.div_EmpInfo.form.edt_PostNo.set_value(strRtn[0]);
+		this.div_EmpInfo.form.edt_Address.set_value(strRtn[1]);
+	}
+};
+
+// 경력추가
+this.divCareerInfo_btn_CareerPlus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsOutput3.addRow();
+	this.dsOutput3.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+	this.dsOutput3.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));	
+};
+// 경력삭제
+this.divCareerInfo_btn_CareerMinus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.dsOutput3.rowposition < 0) return;
+	this.dsOutput3.deleteRow(this.dsOutput3.rowposition);	
+};
+// 자격추가
+this.divCert_btn_CertificatePlus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsOutput8.addRow();
+	this.dsOutput8.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+	this.dsOutput8.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));	
+};
+// 자격삭제
+this.divCert_btn_CertificateMinus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.dsOutput8.rowposition < 0) return;
+	this.dsOutput8.deleteRow(this.dsOutput8.rowposition);		
+};
+// 저장 validation
+this.fnValid = function ()
+{
+	for(var i=0,len=this.dsOutput3.rowcount;i<len;i++) {
+		if(this.dsOutput3.getRowType(i) == 2) {
+			if(this.gfnIsNull(this.dsOutput3.getColumn(i, "COMPANY_CD"))) {
+				this.dsOutput3.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+			}
+			if(this.gfnIsNull(this.dsOutput3.getColumn(i, "EMP_NO"))) {
+				this.dsOutput3.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));
+			}			
+		}
+	}
+	
+	for(var i=0,len=this.dsOutput8.rowcount;i<len;i++) {
+		if(this.dsOutput8.getRowType(i) == 2) {
+			if(this.gfnIsNull(this.dsOutput8.getColumn(i, "COMPANY_CD"))) {
+				this.dsOutput8.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+			}
+			if(this.gfnIsNull(this.dsOutput8.getColumn(i, "EMP_NO"))) {
+				this.dsOutput8.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));
+			}			
+		}
+	}	
+	
+	// 정합성 체크
+	this.gfnClearValidation(this.dsOutput3);
+	this.gfnSetValidation(this.dsOutput3, "START_DATE", "입사일자"	, "required");
+	this.gfnSetValidation(this.dsOutput3, "END_DATE", "퇴사일자"	, "required");
+	this.gfnSetValidation(this.dsOutput3, "COMPANY_NAME", "회사명"	, "required");
+	this.gfnSetValidation(this.dsOutput3, "GRADE_NAME", "직급명"	, "required");
+	this.gfnSetValidation(this.dsOutput3, "WORK_PART", "담당업무"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsOutput3, "U") == false) return false;
+	
+	// 정합성 체크
+	this.gfnClearValidation(this.dsOutput8);
+	this.gfnSetValidation(this.dsOutput8, "LICENSE_DATE", "자격증 취득일자"	, "required");
+	this.gfnSetValidation(this.dsOutput8, "LICENSE_DATE", "자격증 취득일"	, "required");
+	this.gfnSetValidation(this.dsOutput8, "LICENSE_CODE", "자격증 종류"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsOutput8, "U") == false) return false;
+	
+	else return true;
+};
+]]></Script>
+    <Objects>
+      <FileDownTransfer id="fdtFile" url="svcUrl::fileDownload.do" onerror="fdtFile_onerror" onsuccess="fdtFile_onsuccess"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item20" compid="cal_HireDate" propid="value" datasetid="dsOutput" columnid="WORK_STARTDATE"/>
+      <BindItem id="item26" compid="edt_HireDateCount" propid="value" datasetid="dsOutput" columnid="CAREER_DATE"/>
+      <BindItem id="item9" compid="edt_Address2" propid="value" datasetid="dsOutput" columnid="DETAIL_ADDR"/>
+      <BindItem id="item0" compid="cboLevel" propid="value" datasetid="dsOutput" columnid="WORK_LEVEL_CD"/>
+    </Bind>
+  </Form>
+</FDL>

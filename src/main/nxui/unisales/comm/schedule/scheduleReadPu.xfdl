@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="scheduleReadPu" width="950" height="700" titletext="일정 조회 팝업" onload="scheduleReadPu_onload">
+    <Layouts>
+      <Layout height="700" width="950">
+        <Static id="staScdCDTitle" taborder="0" text="일정 상세" left="25" top="0" height="43" cssclass="sta_WF_Title" fittocontents="width" width="118"/>
+        <Div id="divContents" taborder="2" left="25" top="staScdCDTitle:0" right="25" minheight="600" maxheight="" height="589">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle003" taborder="6" text="작성일" left="449" top="37" width="83" height="38" cssclass="sta_WF_Label" textAlign="left"/>
+              <Static id="staTitle002" taborder="3" text="유형" left="0" top="74" width="83" height="38" cssclass="sta_WF_Label" textAlign="left"/>
+              <Div id="divCont" taborder="0" text="div00" left="0" top="staTitle002:-1" right="0" minheight="400" maxheight="" height="400">
+                <Layouts>
+                  <Layout>
+                    <Static id="staBg00" taborder="0" text="Static02" left="0" top="0" cssclass="sta_WF_LabelBg" right="0" bottom="0"/>
+                    <Static id="staTitle04" taborder="1" text="내용" left="0" top="0" width="83" cssclass="sta_WF_Label" bottom="0" textAlign="left"/>
+                    <WebBrowser id="webEditor" taborder="2" left="staTitle04:4" top="5" right="5" bottom="5" onloadcompleted="divContents_divCont_webEditor_onloadcompleted" onusernotify="divContents_divCont_webEditor_onusernotify"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="staTitle000" taborder="1" text="제목" left="0" top="0" width="83" height="38" cssclass="sta_WF_Label" textAlign="left"/>
+              <Static id="staTitle001" taborder="2" text="작성자" left="0" top="staTitle000:-1" width="83" height="38" cssclass="sta_WF_Label" textAlign="left"/>
+              <Static id="staTitle" taborder="4" left="staTitle000:-1" top="0" height="38" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staInpId" taborder="5" left="staTitle001:-1" top="37" height="38" cssclass="sta_WF_LabelBg" right="450"/>
+              <Static id="staSectCd" taborder="7" left="staTitle002:-1" top="74" height="38" cssclass="sta_WF_LabelBg" right="450"/>
+              <Div id="divFile" taborder="8" text="div00" left="0" right="0" height="79" top="divCont:-1">
+                <Layouts>
+                  <Layout>
+                    <Static id="staBg000" taborder="0" left="0" top="0" cssclass="sta_WF_LabelBg" right="0" usedecorate="true" bottom="0" onclick="divCont_divFile_btnDown_onclick" visible="true" text=""/>
+                    <Static id="staTitle000" taborder="1" text="첨부파일" left="0" top="0" width="83" cssclass="sta_WF_Label" bottom="0"/>
+                    <Grid id="grdFile" taborder="2" left="staTitle000:4" top="5" right="5" bottom="5" binddataset="dsFile" autofittype="col" oncellclick="divCont_divFile_grdFile_oncellclick" cssclass="grd_MF_Notice">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="450"/>
+                            <Column size="100"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="32"/>
+                          </Rows>
+                          <Band id="body">
+                            <Cell text="bind:OTXT_FILE_NM"/>
+                            <Cell col="1" text="다운로드" displaytype="buttoncontrol" edittype="button"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Static id="staCntFile" taborder="3" text="(0건)" left="staTitle000:-83" top="staTitle000:-35" width="83" height="22" fittocontents="none" cssclass="sta_WF_SchLabel"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="staTitle009" taborder="10" text="일정" left="449" top="74" width="83" height="38" cssclass="sta_WF_Label" textAlign="left"/>
+              <Static id="staDate" taborder="9" left="staTitle009:-1" top="74" height="38" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staDate00" taborder="11" left="staTitle003:-1" top="37" height="38" cssclass="sta_WF_LabelBg" right="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staBottom" taborder="1" left="0" top="680" height="20" right="0"/>
+        <Button id="btnMove" taborder="3" text="이동" left="staScdCDTitle:10" top="7" width="50" height="28" onclick="btnMove_onclick" visible="false"/>
+        <Div id="divBtn" taborder="4" text="div00" top="divContents:20" right="25" height="28" width="275">
+          <Layouts>
+            <Layout>
+              <Button id="btnClose" taborder="0" text="닫기" height="28" width="50" fittocontents="width" right="0" top="0" onclick="btnClose_onclick"/>
+              <Button id="btnDelete" taborder="1" text="삭제" height="28" width="69" right="53" top="0" onclick="divBtn_btnDelete_onclick" cssclass="btn_WF_CrudDelete"/>
+              <Button id="btnModi" taborder="2" text="수정" height="28" width="69" right="125" top="0" onclick="divBtn_btnModi_onclick" cssclass="btn_WF_CrudModify"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	scheduleReadPu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/11/19
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/11/19			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvApndYn		= ""; 	//첨부파일 여부
+this.fvTitle		= ""; 	//일정 관리 타이틀
+this.fvScdCd		= ""; 	//일정 관리 코드
+this.fvScdId 		= ""; 	//일정 번호
+this.fvOpenType 	= ""; 	//오픈타입
+this.fvMgrCd		= ""; 	//관리자CD
+this.fvLoginUser 	= ""; 	//로그인유저ID
+this.fvLoginUserEmpNo = ""; //로그인 유저NO
+this.fvDeptCd 		= ""; 	//부서코드
+
+this.fvYyyyMmDd		= "";	//조회하고 있던 날짜
+
+this.fvUpdateYn 	= "";	//업데이트 여부
+this.fvAutnYn    = ""; //게시판관리 삭제,수정 권한 
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.scheduleReadPu_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	this.fvApndYn   = this.getOwnerFrame().pvApndYn; 	//첨부파일유무
+	this.fvTitle    = this.getOwnerFrame().pvTitle; 	//일정 관리 타이틀
+	this.fvScdCd 	= this.getOwnerFrame().pvScdCd; 	//일정 관리 코드
+	this.fvScdId  	= this.getOwnerFrame().pvScdId; 	//일정번호
+	this.fvOpenType = this.getOwnerFrame().pvOpenType; 	//오픈타입
+	this.fvMgrCd	= this.getOwnerFrame().pvMgrCd; 	//관리자
+	this.fvLoginUser = nexacro.getApplication().gdsUser.getColumn(0, "USER_ID");
+	this.fvLoginUserEmpNo = nexacro.getApplication().gdsUser.getColumn(0, "EMP_NO");
+	this.fvDeptCd 	= this.getOwnerFrame().pvDeptCd;
+	this.fvAutnYn   = this.getOwnerFrame().pvAutnYn; //게시판관리 수정,삭제 권한부여 임의 파라미터 추가
+
+	this.fvYyyyMmDd = this.getOwnerFrame().pvYyyyMmDd;	
+	
+	//타이틀설정
+	this.staScdCDTitle.set_text(this.fvTitle+" ");
+	this.resetScroll();
+	
+	//게시물 내용조회
+	this.fnGetContentsTran();	
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+
+
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnGetContentsTran = function()
+{
+	this.dsCond.clearData();
+	var nRow = this.dsCond.addRow();
+	this.dsCond.setColumn(nRow, "SCD_CD", this.fvScdCd);
+	this.dsCond.setColumn(nRow, "SCD_ID", this.fvScdId);
+	
+	var strSvcId    = "searchScheduleContents";
+	var strSvcUrl   = "searchScheduleContents.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList dsFile=dsFile";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+
+//삭제
+this.fnTranDelete = function()
+{
+	var strSvcId    = "delete";
+	var strSvcUrl   = "saveScheduleContents.do";
+	var inData      = "dsList=dsList:A dsUpload=dsUpload";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]	
+}
+
+
+//deleteFile
+this.fnTranDeleteFile = function ()
+{
+	var strSvcId    = "deleteScheduleFile";
+	var strSvcUrl   = "deleteScheduleFile.do";
+	var inData      = "dsUpload=dsFile:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchScheduleContents":
+			this.fnSetFormInit();
+			break;
+		case "delete":
+			this.gfnAlert("msg.delete.success", [], "deleteAfter", "fnMsgCallback");
+			break;
+		case "deleteScheduleFile":
+			break;
+	}
+};
+
+
+//메세지 콜백
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "delete":
+			if(sRtn=="false" || sRtn==false || this.gfnIsNull(sRtn)){
+				return;
+			}
+			// 시작일이 오늘 날짜보다 크면 delete, 작으면 삭제여부 update
+			if(this.dsList.getColumn(0,"START_DAY") > this.gfnGetDate()){
+				this.dsList.setColumn(0,"STATUS","delete:D");
+				//등록된 파일이 있다면 파일도 삭제.
+				if(this.dsFile.getRowCount()>0){
+					this.dsFile.deleteAll();
+					this.fnTranDeleteFile();
+				}
+			}else{
+				this.dsList.setColumn(0,"STATUS","delete:U");
+			}
+			this.fnTranDelete();
+			break;
+		case "deleteAfter":
+			if(sRtn)
+			{
+				if(this.fvOpenType!="searchRead"){
+					this.close(this.fvYyyyMmDd);
+				}else if(this.fvOpenType =="searchRead"){
+					this.close("delete");
+				}
+			}
+			break;
+	}
+};
+
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	switch(sPopupId) {
+		case "updateScd":
+			this.fvUpdateYn="1";
+			this.fnGetContentsTran();
+			break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnSetFormInit = function ()
+{
+
+	// HTML Viewer를 생성
+	var oWeb = this.divContents.form.divCont.form.webEditor;
+	this.gfnCreateHtmlViewer(oWeb);		
+ 
+	// 일자 세팅
+	var sStartDate = this.dsList.getColumn(0, "START_DAY");
+	var sEndDate = this.dsList.getColumn(0,"END_DAY");
+	if(sStartDate == sEndDate){ //시작일자와 종료일자가 같으면 종료되는 시간만 가져오기.
+		sEndDate = this.dsList.getColumn(0,"END_TIME") + ":" + this.dsList.getColumn(0,"END_MINUTES");
+	}else{
+		sEndDate = sEndDate.substr(0,4) + "." + sEndDate.substr(4,2) + "." + sEndDate.substr(6,2) + "(" + this.gfnGetDayKor(sEndDate) + ")" + " ";
+		sEndDate = sEndDate + this.dsList.getColumn(0,"END_TIME") + ":" + this.dsList.getColumn(0,"END_MINUTES");
+	}
+	sStartDate = sStartDate.substr(0,4) + "." + sStartDate.substr(4,2) + "." + sStartDate.substr(6,2) + "(" + this.gfnGetDayKor(sStartDate) + ")" + " ";
+	sStartDate = sStartDate + this.dsList.getColumn(0,"START_TIME") + ":" + this.dsList.getColumn(0,"START_MINUTES");
+	
+	this.divContents.form.staDate.set_text(sStartDate + " ~ " + sEndDate);
+	
+	// 첨부파일 여부
+	if(this.fvApndYn=="0"){
+		this.divContents.form.divFile.set_height(0);
+		this.divContents.form.divCont.set_bottom(0);
+		this.divContents.form.resetScroll();
+	}
+	
+	// 첨부파일 건수
+	this.divContents.form.divFile.form.staCntFile.set_text("(" + this.dsFile.getRowCount()+"건)")
+		
+	// 메인화면에서 조회된 일정 ==> 일정 이동 버튼 활성화
+	if(!this.getOwnerFrame().pvMain){
+		this.btnMove.set_visible(false);
+	}
+	else {
+		this.btnMove.set_visible(true);
+	}
+	
+	// 수정, 삭제 버튼
+	var sInputUser = this.dsList.getColumn(0,"INPT_ID"); // 작성자
+	if(sInputUser==this.fvLoginUser || this.fvMgrCd==this.fvLoginUser || this.fvAutnYn == 'Y'){//작성자 혹은 관리자 일 경우
+		//하단버튼
+		this.divBtn.form.btnModi.set_visible(true);
+		this.divBtn.form.btnDelete.set_visible(true);
+		this.divBtn.form.btnModi.set_width(69);
+		this.divBtn.form.btnDelete.set_width(69);
+	}
+	else if(sInputUser!=this.fvLoginUser || this.fvMgrCd!=this.fvLoginUser){   
+		this.divBtn.form.btnModi.set_visible(false);
+		this.divBtn.form.btnDelete.set_visible(false);
+		this.divBtn.form.btnModi.set_width(0);
+		this.divBtn.form.btnDelete.set_width(0);	
+	}
+	this.divBtn.form.resetScroll();
+};
+
+// 일정 수정 팝업창 호출
+this.fnOpenUpdateScdP = function ()
+{
+	sTitle		= "일정 수정";
+	popupId 	= "updateScd";
+	popupUrl 	= "comm::schedule/schedulePu.xfdl";
+	var oArg   	= {pvApndYn		: this.fvApndYn
+		,pvScdCd		: this.fvScdCd
+		,pvScdId		: this.fvScdId
+		,pvDeptCd		: this.fvDeptCd 
+		,pvTitle		: this.fvTitle
+		,pvMgrCd 		: this.fvMgrCd
+		,pvOpenType	: "update"
+	}; 
+	
+	var oOption 	= {title:sTitle
+					  ,titlebar:true};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup(popupId, popupUrl, oArg, sPopupCallBack, oOption);
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//팝업 닫기
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.fvUpdateYn) {
+		this.close(this.dsList.getColumn(0,"START_DAY"));
+	}else {
+		this.close();
+	}
+};
+
+//웹에디터
+this.divContents_divCont_webEditor_onloadcompleted = function(obj:nexacro.WebBrowser,e:nexacro.WebLoadCompEventInfo)
+{
+	//내용세팅
+	var sContents = this.dsList.getColumn(0, "CNTN");
+	var oWeb = this.divContents.form.divCont.form.webEditor;
+	this.gfnSetHtmlView(oWeb, sContents);
+};
+
+//첨부파일 다운로드
+this.divCont_divFile_grdFile_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//file download
+	if( e.cell == 1){ //다운로드 버튼display
+		var sFileId 	= this.dsFile.getColumn(e.row, "FILE_ID");
+		var sFileNm 	= this.dsFile.getColumn(e.row, "OTXT_FILE_NM");
+		var sSaveFileNm = this.dsFile.getColumn(e.row, "SAVE_FILE_NM");
+		if( !this.gfnIsNull(sFileId)){
+			this.fdtFile.setPostData("saveFileName"	, sSaveFileNm);
+			this.fdtFile.setPostData("orgFileName"	, sFileNm);
+			
+			this.fdtFile.set_downloadfilename(sFileNm)
+			this.fdtFile.download("svcUrl::fileDownload.do");
+		}else{
+			this.gfnAlert("msg.err.nofile");
+			return;
+		}
+	}	
+};
+
+//수정버튼
+this.divBtn_btnModi_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//this.close("rUpdate");
+	
+	// 일정 수정 팝업창 호출
+	this.fnOpenUpdateScdP();
+};
+
+//삭제버튼
+this.divBtn_btnDelete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnAlert("confirm.before.delete",[],"delete", "fnMsgCallback");	
+};
+
+//이동버튼(메인에서 상세 조회 시 이동 버튼 클릭하면 해당 메뉴 오픈)
+this.btnMove_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sMenuId 	= this.dsList.getColumn(0,"MENU_ID");
+	var sStartDay	= this.dsList.getColumn(0,"START_DAY");
+	
+	//레프트Sync
+	var oDs = nexacro.getApplication().gdsMenu;
+	var sModuleCd = oDs.lookup("MENU_ID", sMenuId, "MODULE_CD");
+	
+	var oTopForm = nexacro.getApplication().gvFrmTop.form;
+	var sTopCommBtnId = "TOP_"+oTopForm.dsMenu.lookup("MODULE_CD", sModuleCd, "MENU_ID");
+	var oBtn = oTopForm.divTopBtn.form.components[sTopCommBtnId];
+		oBtn.click();
+		
+	this.gfnOpenMenu(sMenuId, sStartDay);
+	this.close();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="divContents.form.staTitle" propid="text" datasetid="dsList" columnid="TITLE"/>
+      <BindItem id="item1" compid="divContents.form.staInpId" propid="text" datasetid="dsList" columnid="INPT_EMP_NO"/>
+      <BindItem id="item2" compid="divContents.form.staSectCd" propid="text" datasetid="dsList" columnid="SSC_CD_KORN_NM"/>
+      <BindItem id="item3" compid="divContents.form.staDate00" propid="text" datasetid="dsList" columnid="CHGE_DTTM"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="INPT_EMP_NO" type="STRING" size="256"/>
+          <Column id="SSC_CD_KORN_NM" type="STRING" size="256"/>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="SCD_CD" type="STRING" size="256"/>
+          <Column id="SCD_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsFile"/>
+      <FileDownTransfer id="fdtFile" url="svcUrl::fileDownload.do"/>
+    </Objects>
+  </Form>
+</FDL>

@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SC_CompanySearchReg" width="665" height="520" titletext="회사정보 검색" onload="SC_CompanySearchReg_onload" cssclass="frm_popBg">
+    <Layouts>
+      <Layout height="520" mobileorientation="landscape" width="665">
+        <Div id="divSearch1" taborder="1" text="" left="714.00" top="70" height="40" right="-706" cssclass="div_WF_SchList" visible="false">
+          <Layouts>
+            <Layout>
+              <Static id="stc_CompanyName" taborder="0" text="회사명" top="8" width="52" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="9" TL_SEQ="148"/>
+              <Button id="btn_Search" taborder="1" text="조회" cssclass="btn_WF_SchText" onclick="comm_Click" top="8" width="60" height="22" right="139" TL_SEQ="118"/>
+              <Button id="btn_Confirm" taborder="2" text="확인" cssclass="btn_WF_tran" onclick="comm_Click" top="8" width="60" height="22" right="8" TL_SEQ="158"/>
+              <Button id="btn_NewCompany" taborder="3" text="신규" cssclass="btn_WF_tran" onclick="comm_Click" top="8" width="60" height="22" right="73" TL_SEQ="116"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divSearch" taborder="3" left="20" top="20" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle00" taborder="2" text="회사명" left="0" top="12" width="86" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Button id="btnSearch" taborder="1" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="comm_Click"/>
+              <Edit id="edt_CompanyName" taborder="0" left="staTitle00:0.00" top="12" width="269" height="24" onkeydown="divSearch_edt_CompanyName_onkeydown"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_CompanySearch" taborder="0" left="20.00" top="divSearch:10" autofittype="col" binddataset="dsOutput" oncelldblclick="grd_CompanySearch_oncelldblclick" right="20" bottom="50">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="152"/>
+                <Column size="387"/>
+                <Column size="388"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="회사코드" TL_SEQ="147"/>
+                <Cell col="1" text="회사명" TL_SEQ="22536"/>
+                <Cell col="2" text="영문회사명" TL_SEQ="22536"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COMPANY_CODE"/>
+                <Cell col="1" text="bind:COMPANY_NAME"/>
+                <Cell col="2" text="bind:COMPANY_NAME_ENG"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_Cancel" taborder="2" text="닫기" onclick="comm_Click" height="28" width="60" right="20" TL_SEQ="59" bottom="10"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsOutput">
+        <ColumnInfo>
+          <Column id="COMPANY_CODE" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput2">
+        <ColumnInfo>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 회사정보 검색 (SC_CompanySearchReg_S01)
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.08.20
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     2023.11.03       이상원    회사명 일문 검색 추가 및 오류 수정
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.sCompanyName = '';
+this.popupArg = [];
+this.popupArg[0] = '';
+this.popupArg[1] = '';
+
+this.FV_CompanyNm = "";
+this.FV_CompanyNm2 = "";
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.SC_CompanySearchReg_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.FV_CompanyNm = this.parent.pvCompanyName;
+	this.FV_CompanyNm2 = this.parent.pvCompanyName2;
+	
+	trace(this.FV_CompanyNm + " // " + this.FV_CompanyNm2);
+	
+	if(!this.gfnIsEmpty(this.FV_CompanyNm)) //부모창에서 전달받은 회사명 입력
+	{
+		this.divSearch.form.edt_CompanyName.set_value(this.FV_CompanyNm);
+	}
+
+	this.fnSearch();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnSearchPopupClose = function (sType)
+{	
+	//var sLang = nexacro.getApplication().gdsGlobal.getColumn(0, "LANGUAGE");
+	
+	if(sType == "GetCompany") 		// 확인
+	{
+		this.popupArg[0] = this.dsOutput.getColumn(this.dsOutput.rowposition,"COMPANY_NAME");
+		this.popupArg[1] = this.dsOutput.getColumn(this.dsOutput.rowposition,"COMPANY_NAME_ENG");
+		this.popupArg[2] = this.dsOutput.getColumn(this.dsOutput.rowposition,"COMPANY_CODE");
+	} else if (sType == "NewCompany")	// 신규
+	{
+		var bRtn = false;
+		
+		
+		// CompanyName2 1) 유: 현재 상태 유지 2) 무: CompanyName 복사 하여 동일 처리
+		this.popupArg[0] = this.divSearch.form.edt_CompanyName.value;
+		if(!this.gfnIsEmpty(this.parent.pvCompanyName2)) {
+			this.popupArg[1] = this.parent.pvCompanyName2;
+		} else {
+			this.popupArg[1] = this.divSearch.form.edt_CompanyName.value;
+		}
+		
+		
+		if(!this.gfnIsEmpty(this.divSearch.form.edt_CompanyName.value)) {
+			if(this.dsOutput.rowcount == 0) {
+				// 조회된 회사가 없고 신규 회사 등록할 경우
+				bRtn = this.confirm(this.gfnGetTransTxt(22531,"검색된 회사가 없습니다.\n [@1@]로 신규등록을 진행하시겠습니까?",[this.divSearch.form.edt_CompanyName.value]));
+			} else {
+				// 조회된 회사가 있지만 신규 회사 등록할 경우
+				bRtn = this.confirm(this.gfnGetTransTxt(22532,"[@1@]로 신규등록을 진행하시겠습니까?",[this.divSearch.form.edt_CompanyName.value]));
+			}
+		} else { //회사명이 비어있을경우
+			this.alert(this.gfnGetTransTxt(1254,"회사명을 입력하세요."));
+		}
+
+		
+		// validation 체크
+		if(bRtn == false) {
+			return false;
+		}
+	}
+	
+	
+	if(this.gfnIsEmpty(this.popupArg[0])) {
+		this.popupArg[0] = "";	
+	}
+	
+	if(this.gfnIsEmpty(this.popupArg[1])) 	{
+		this.popupArg[1] = "";
+	}
+	this.close(this.popupArg[0]+"|"+this.popupArg[1]+"|"+this.popupArg[2]);
+	//this.commUtil.popupClose(this.popupArg);
+}
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnSearch = function() 
+{		
+	// 조건값 셋팅
+	this.gfnAddSendParameter("COMPANY_NAME", this.divSearch.form.edt_CompanyName.value);
+	
+	// 조회용 Output dataset 세팅
+	//this.gfnAddOutputDataset("dsOutput", "dsOutput");
+	this.gfnSetMap("nextBaseMapper", "PoppupCompany", "dsOutput");
+	this.gfnCommonTransaction("Select", "selectNextList.do"/*"SC_CompanySearchReg_S01"*/, this.grd_CompanySearch);
+};
+
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		if(strSvcID=="Select") 
+		{	
+		}
+	}
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		case "btnSearch" :
+			this.fnSearch();
+			break;
+		case "btn_Confirm" :
+			if(this.dsOutput.rowcount == 0) //검색된 회사명이 있을경우 GetCompany(확인), 없을경우 NewCompany(신규)
+			{
+				this.fnSearchPopupClose("NewCompany");
+			}
+			else
+			{
+				this.fnSearchPopupClose("GetCompany");
+			}
+			break;
+		case "btn_Cancel" :
+			this.commUtil.popupClose("close"); // Cancel, Close 선택시 회사명이 아닌 공백값 전달
+			break;
+		case "btn_Close" : 
+			this.commUtil.popupClose("close");
+			break;
+		case "btn_NewCompany" :
+			this.fnSearchPopupClose("NewCompany");
+			break;
+	}	
+};
+
+this.grd_CompanySearch_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnSearchPopupClose("GetCompany");
+};
+
+this.divSearch_edt_CompanyName_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) 
+	{
+		this.fnSearch();
+	}
+};]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="divSearch.form.edtUserNm" propid="value" datasetid="dsCond" columnid="USER_NM"/>
+    </Bind>
+  </Form>
+</FDL>

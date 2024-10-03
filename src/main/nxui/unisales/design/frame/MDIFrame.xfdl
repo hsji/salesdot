@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="MdiFrame" width="1070" height="42" titletext="MDI" cssclass="frm_MDI_Bg">
+    <Layouts>
+      <Layout height="42" mobileorientation="landscape" width="1070">
+        <Static id="Static00" taborder="1" left="0" right="0" bottom="0" height="1" cssclass="sta_MDI_Line"/>
+        <Button id="btnCloseAll" taborder="0" top="6" width="31" height="31" right="10" tooltiptext="Close All" cssclass="btn_MDI_CloseAll"/>
+        <Button id="btnNexMdi" taborder="2" top="6" width="21" height="31" right="77" onclick="btnNexMdi_onclick" tooltiptext="다음 화면목록으로" cssclass="btn_MDI_Right"/>
+        <Button id="btnPreMdi" taborder="3" top="6" width="21" height="31" right="98" onclick="btnPreMdi_onclick" tooltiptext="이전 화면목록으로" cssclass="btn_MDI_Left"/>
+        <Button id="btn00" taborder="4" left="0" top="0" width="20" height="42" cssclass="btn_MDI_Close"/>
+        <Button id="btn00_00" taborder="5" left="0" top="61" width="20" height="42" cssclass="btn_MDI_Open" visible="false"/>
+        <Button id="btn01" taborder="6" text="탭페이지" left="62" top="0" width="109" height="42" cssclass="btn_MDI_Menu"/>
+        <Button id="btn01_00" taborder="7" text="선택탭페이지" left="171" top="0" width="133" height="42" cssclass="btn_MDI_MenuS"/>
+        <Button id="btn02" taborder="8" left="btn01:-28" top="10" width="22" height="22" cssclass="btn_MDI_TabClose"/>
+        <Button id="btn02_00" taborder="9" left="btn01_00:-28" top="10" width="22" height="22" cssclass="btn_MDI_TabClose"/>
+        <Button id="btn03" taborder="10" top="6" width="31" height="31" cssclass="btn_MDI_List" right="41"/>
+        <Button id="btn00_00_00" taborder="11" top="0" width="42" cssclass="btn_MDI_Home" height="42" left="20"/>
+        <Button id="btn00_00_00_00" taborder="12" top="61" width="42" cssclass="btn_MDI_HomeS" height="42" left="20" visible="false" onclick="btn00_00_00_00_onclick"/>
+        <PopupDiv id="pdiv00" visible="false" left="784" top="42" width="245" height="200" cssclass="pdiv_MDI_Bg">
+          <Layouts>
+            <Layout>
+              <Grid id="grd00" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="ds00" autofittype="col" cssclass="grd_MDI_List">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="28"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:Column0"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.objApp = nexacro.getApplication();
+this.fnLeftMenuAction = function()
+{
+	
+	var sCssClass = "";
+	
+	if(this.objApp.mainframe.HFrameSet00.separatesize == "210,*")
+	{
+		this.objApp.mainframe.HFrameSet00.set_separatesize("0,*");		
+		/*sCssClass = "btn_LF_MenuOpen";*/
+		this.btnLeftMenuShowHide.set_cssclass('btn_LF_MenuOpen');
+		
+	}
+	else
+	{
+		this.objApp.mainframe.HFrameSet00.set_separatesize("210,*");		
+		/*sCssClass = "btn_LF_MenuOpen";*/
+		this.btnLeftMenuShowHide.set_cssclass('btn_LF_MenuClose');
+	}
+}
+
+
+this.btnLeftMenuShowHide_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnLeftMenuAction();
+};
+
+
+
+this.btn00_00_00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds00">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Column0">메뉴</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">메뉴</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">메뉴</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">메뉴</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">메뉴</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

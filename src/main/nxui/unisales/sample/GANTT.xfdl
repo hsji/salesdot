@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="GANTT" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <ChartJS id="ChartJS00" taborder="0" text="ChartJS00" left="30" top="88" width="1157" height="444"/>
+        <Button id="btn00" taborder="1" text="btn00" left="26" top="7" width="172" height="42" onclick="btn00_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.btn00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var chart = this.ChartJS00;
+	var canvas = chart.getCanvas();
+	var cvs = canvas.id;
+	DxChart.reset(canvas);
+
+	// resize 처리 안함.
+	//------------------------------------
+	chart.set_autoresize(false);
+	//------------------------------------
+
+	var gantt = new DxChartGantt({
+		id: cvs,
+		elem : canvas,
+		binddataset : this.ds00,
+		data: 'bind:start=start,bind:end=end,bind:complete=complete,bind:label=label,bind:linewidth=linewidth,bind:color=color,bind:bgcolor=background,bind:link=link',
+		options: {
+			variant: {Value:'month'},
+			margin: { Left:100, Top: 70, Inner : 7},
+			linked: {
+					Use: true,
+					LineColor: '#000000',
+					LineWidth: 1
+			},
+			xaxis: {
+				Use:true,
+				Position: 'top',
+				LabelsCount : 5,
+				DateFormat: 'yyyy-MM-dd',
+
+				WeekList: ['S','M','T','W','T','F','S'],
+				WeeklyTitleFontStyle: 'bold 10px Tahoma',
+				WeeklyTitleColor: '#000000',
+				WeeklySubTitleFontStyle: '10px Tahoma',
+				WeeklySubTitleColor: '#0000ff',
+				WeeklyDateWidth: 20,
+				WeeklySundayColor : '#ff0000',
+				WeeklySundayBackgroundColor : '#eeeeee',
+				WeeklyTitleBackgroundColor: '#ffffff',
+				WeeklySubTitleBackgroundColor: '',
+				WeeklyTitleHeight: 20,
+				WeeklyTitleLineWidth: 2,
+				WeeklyTitleLineColor: '#000000',
+				WeeklySubTitleLineWidth: 1,
+				WeeklySubTitleLineColor: '#777777',
+				WeeklyVLineWidth: 1,
+				WeeklyVLineColor: '#000000',
+				WeeklyVSubLineWidth: 1,
+				WeeklyVSubLineColor: '#dddddd',
+				WeeklyRowHeight: 36,
+				WeeklyHLineWidth: 1,
+				WeeklyHLineColor: '#eeeeee',
+			},
+			labels: {
+				FontStyle: '9px Tahoma',
+				Color: '#000000',
+				Complete: false
+			},
+			tooltips: {
+						Data : '%{label}<br>START: %{start}<br>END: %{end}<br>COMPLETE: %{complete}',
+						DateFormat: 'yyyy-MM-dd',
+						Pointer : false,
+						Css: {
+							fontSize: '10pt',
+							borderRadius : '2px',
+							border : '2px solid #000000',
+							color : 'black',
+							backgroundColor : ['#FFFFFF']
+						}
+					}
+		}
+	});
+	gantt.draw();	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds00">
+        <ColumnInfo>
+          <Column id="label" type="STRING" size="256"/>
+          <Column id="start" type="DATE" size="256"/>
+          <Column id="end" type="DATE" size="256"/>
+          <Column id="complete" type="BIGDECIMAL" size="256"/>
+          <Column id="linewidth" type="BIGDECIMAL" size="256"/>
+          <Column id="color" type="STRING" size="256"/>
+          <Column id="bgcolor" type="STRING" size="256"/>
+          <Column id="link" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="label">Saas Project</Col>
+            <Col id="start">20221128</Col>
+            <Col id="end">20230131</Col>
+            <Col id="complete">30</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+          </Row>
+          <Row>
+            <Col id="label">Server Install</Col>
+            <Col id="start">20221128</Col>
+            <Col id="end">20221223</Col>
+            <Col id="complete">50</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+          </Row>
+          <Row>
+            <Col id="label">Install Apache</Col>
+            <Col id="start">20221128</Col>
+            <Col id="end">20221206</Col>
+            <Col id="complete">100</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#79C680,#8EE997,#79C680)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+            <Col id="link">Install Test</Col>
+          </Row>
+          <Row>
+            <Col id="label">Install Tomcat</Col>
+            <Col id="start">20221207</Col>
+            <Col id="end">20221215</Col>
+            <Col id="complete">70</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#79C680,#8EE997,#79C680)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+            <Col id="link">Install Test</Col>
+          </Row>
+          <Row>
+            <Col id="label">Install DB(MySQL)</Col>
+            <Col id="start">20221207</Col>
+            <Col id="end">20221216</Col>
+            <Col id="complete">30</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#d43346:#d95060:#cf747e:#d95060:#d43346)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+            <Col id="link">Install Test</Col>
+          </Row>
+          <Row>
+            <Col id="label">Install Test</Col>
+            <Col id="start">20221219</Col>
+            <Col id="end">20221223</Col>
+            <Col id="complete">30</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#d43346:#d95060:#cf747e:#d95060:#d43346)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+            <Col id="link">Web Source</Col>
+          </Row>
+          <Row>
+            <Col id="label">Deploy</Col>
+            <Col id="start">20221226</Col>
+            <Col id="end">20230131</Col>
+            <Col id="complete">30</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+          </Row>
+          <Row>
+            <Col id="label">Web Source</Col>
+            <Col id="start">20221226</Col>
+            <Col id="end">20230120</Col>
+            <Col id="complete">10</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+            <Col id="link">Was Souce</Col>
+          </Row>
+          <Row>
+            <Col id="label">Was Souce</Col>
+            <Col id="start">20230123</Col>
+            <Col id="end">20230131</Col>
+            <Col id="complete">10</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

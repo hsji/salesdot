@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Workcomm" width="1030" height="52" titletext="업무공통">
+    <Layouts>
+      <Layout height="52" mobileorientation="landscape" width="1030">
+        <Button id="btn17" taborder="0" top="12" width="30" height="28" cssclass="btn_WF_Help" enable="true" right="0"/>
+        <Button id="btn18" taborder="1" top="12" width="30" height="28" cssclass="btn_WF_Print" enable="true" right="33"/>
+        <Button id="btn19" taborder="2" text="저장" top="12" height="28" width="68" fittocontents="width" cssclass="btn_WF_CrudSave" right="66"/>
+        <Button id="btn15" taborder="3" text="삭제" top="12" height="28" width="69" fittocontents="width" cssclass="btn_WF_CrudDelete" right="137"/>
+        <Button id="btn14" taborder="4" text="추가" top="12" height="28" width="67" fittocontents="width" cssclass="btn_WF_CrudAdd" right="209"/>
+        <Button id="btn06_00" taborder="5" left="0" top="11" width="32" height="31" cssclass="btn_WF_Bookmark"/>
+        <Button id="btn09" taborder="6" left="0" top="75" width="32" height="31" cssclass="btn_WF_BookmarkS" visible="false"/>
+        <Static id="sta00" taborder="7" text="영업&gt;기준관리&gt;&lt;fc v='#000000'&gt;제조공장별월목표&lt;/fc&gt;" left="25" top="4" width="547" height="44" cssclass="sta_WF_Location" usedecorate="true"/>
+        <Button id="btn14_00" taborder="8" text="커스텀" top="12" height="28" width="67" fittocontents="width" cssclass="btn_WF_Custom" right="279"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

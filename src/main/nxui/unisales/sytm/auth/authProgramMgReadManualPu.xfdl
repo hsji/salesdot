@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="authProgramMgReadManualPu" width="950" height="700" titletext="매뉴얼 조회" onload="form_onload">
+    <Layouts>
+      <Layout height="700" mobileorientation="landscape" width="950">
+        <Static id="staManualTitle" taborder="0" text="매뉴얼" left="25" top="0" height="43" cssclass="sta_WF_Title" right="807" fittocontents="width" width="118"/>
+        <Div id="divContents" taborder="1" text="div00" left="25" top="staManualTitle:0" right="25" minheight="589" maxheight="" visible="false" bottom="10">
+          <Layouts>
+            <Layout>
+              <Div id="divCont" taborder="0" text="div00" left="0" top="0" right="0" minheight="350" maxheight="" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Static id="staBg000" taborder="0" left="0" top="0" cssclass="sta_WF_LabelBg" right="0" bottom="0"/>
+                    <WebBrowser id="webEditor" taborder="1" left="5" top="5" right="5" bottom="5" onloadcompleted="divContents_divCont_webEditor_onloadcompleted"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staBottom" taborder="2" left="0" top="680" height="60" right="0"/>
+        <Div id="divBtn00" taborder="3" right="25" width="247" height="28" top="7">
+          <Layouts>
+            <Layout>
+              <Button id="btnClose" taborder="0" text="닫기" height="28" width="50" right="0" onclick="btnClose_onclick" top="0"/>
+              <Button id="btnModi" taborder="1" text="수정" height="28" width="69" right="btnClose:3" top="0" onclick="divBtn_btnModi_onclick" cssclass="btn_WF_CrudModify" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item1" compid="divContents.form.staProId" propid="text" datasetid="dsList" columnid="PRGM_ID"/>
+      <BindItem id="item3" compid="divContents.form.staProNm" propid="text" datasetid="dsList" columnid="PRGM_NM"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="PRGM_ID" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="PRGM_ID" type="STRING" size="256"/>
+          <Column id="PRGM_NM" type="STRING" size="256"/>
+          <Column id="PRGM_HELP" type="STRING" size="400"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[ /**
+*  DevPACK
+*  @FileName 	authProgramMgReadManualPu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2023/08/03
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2023/08/03			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvOpenType 	= "";	//오픈타입
+this.fvButtonAuth 	= "";	//버튼 권한
+this.fvProgId 		= "";	//프로그램 ID
+this.fvProgNm 		= "";	//프로그램 이름
+this.fvMenuNm		= "";   //메뉴 이름
+this.fvCompanyCd  = ""; // 회사코드
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	 
+	this.fvOpenType = this.getOwnerFrame().pvOpenType;  //오픈타입
+	this.fvProgId = this.getOwnerFrame().pvProgId; 		// 프로그램 ID
+	this.fvProgNm = this.getOwnerFrame().pvProgNm; 		// 프로그램 이름
+	this.fvManuNm =	this.getOwnerFrame().pvMenuNm; 		// 메뉴 이름
+	this.fvCompanyCd 	   = this.getOwnerFrame().pvCompanyCd;  	// 회사코드
+	
+	// 메뉴 이름 세팅
+	if(!this.gfnIsNull(this.fvManuNm)) this.staManualTitle.set_text(this.fvManuNm + " ");
+	else this.staManualTitle.set_text(this.fvProgNm + " ");
+	
+	this.resetScroll();
+
+	//게시물 내용조회
+	this.fnGetContentsTran();
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//게시물내용가져오기
+this.fnGetContentsTran = function ()
+{
+	this.dsCond.clearData();
+	var nRow = this.dsCond.addRow();
+	this.dsCond.setColumn(nRow, "COMPANY_CD", this.fvCompanyCd);
+	this.dsCond.setColumn(nRow, "PRGM_ID", this.fvProgId);
+
+	var strSvcId    = "searchManual";
+	var strSvcUrl   = "searchManual.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchManual":
+			this.fnSetFormInit();
+			break;
+		default:
+			break;
+	}
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnSetFormInit = function ()
+{
+	// HTML Viewer를 생성
+	var oWeb = this.divContents.form.divCont.form.webEditor;
+	this.gfnCreateHtmlViewer(oWeb);	
+	this.divContents.set_visible(true);
+	this.divBtn.form.resetScroll();
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//웹에디터
+this.divContents_divCont_webEditor_onloadcompleted = function(obj:nexacro.WebBrowser,e:nexacro.WebLoadCompEventInfo)
+{
+	//내용세팅
+	var sContents = this.dsList.getColumn(0, "PRGM_HELP");
+	var oWeb = this.divContents.form.divCont.form.webEditor;
+	this.gfnSetHtmlView(oWeb, sContents);
+};
+
+//닫기버튼
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+//수정버튼
+this.divBtn_btnModi_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+
+};
+
+//삭제버튼
+this.divBtn_btnDelete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnAlert("confirm.before.delete",[],"delete", "fnMsgCallback");
+};
+]]></Script>
+  </Form>
+</FDL>

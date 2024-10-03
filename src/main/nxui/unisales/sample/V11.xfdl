@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="V11" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Grid id="grd00" taborder="0" left="128" top="148" width="579" height="326" binddataset="ds00" treeinitstatus="expand,all" treeusecheckbox="false" autoenter="none" selecttype="cell">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="227"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="ID"/>
+                <Cell col="1" text="LVL"/>
+                <Cell col="2" text="TXT"/>
+                <Cell col="3" text="Column3"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:TXT" displaytype="treeitemcontrol" edittype="expr:TYPE=='1'?'text':'tree'" treelevel="bind:LVL"/>
+                <Cell col="1" text="bind:LVL" edittype="expr:TYPE=='1'?'text':'none'"/>
+                <Cell col="2" text="bind:TXT"/>
+                <Cell col="3" text="bind:TYPE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds00">
+        <ColumnInfo>
+          <Column id="ID" type="STRING" size="256"/>
+          <Column id="LVL" type="STRING" size="256"/>
+          <Column id="TXT" type="STRING" size="256"/>
+          <Column id="TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="LVL">0</Col>
+            <Col id="TXT">AAA</Col>
+          </Row>
+          <Row>
+            <Col id="LVL">1</Col>
+            <Col id="TXT">BBB</Col>
+            <Col id="TYPE">1</Col>
+          </Row>
+          <Row>
+            <Col id="LVL">1</Col>
+            <Col id="TXT">CCC</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

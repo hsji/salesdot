@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ENV version="2.1">
+  <Environment themeid="theme::devPack" datatyperule="2.0" icon="url('theme::devPack/images/mobiletong.ico')" userfontid="font::NotoSans.xfont" usehttpkeepalive="true" filesecurelevel="all" loadingimage="url('theme::devPack/images/loadingimage.gif')" enableaccessibility="false" checkversion="true">
+    <ScreenDefinition>
+      <Screen id="desktop" type="desktop" themeid="theme::devPack" icon="url('theme::devPack/images/mobiletong.ico')"/>
+    </ScreenDefinition>
+    <Variables>
+      <Variable id="evMessagePopup" initval="true"/>
+      <Variable id="evQuickView" initval="Y"/>
+      <Variable id="evSytmFlagCd" initval="PC"/>
+    </Variables>
+    <Cookies/>
+    <httpheader/>
+  </Environment>
+</ENV>

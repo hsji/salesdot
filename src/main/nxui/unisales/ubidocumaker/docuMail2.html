@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="" xmlns:th="http://www.thymeleaf.org" dir="ltr">
+<head>
+    <meta name="_csrf">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>UbiDocuMaker-Mail</title>
+
+    <link rel="stylesheet" type="text/css" href="./css/ui/docuMail.css">
+    <script src="./js/jquery-1.9.1.min.js"></script>
+
+
+    <script type="text/javascript">
+
+	    var appUrl = self.location.protocol + '//' + self.location.host;
+	
+	    var urlParams = new URL(location.href).searchParams;
+	    var p = urlParams.get('p');
+	    var q = urlParams.get('q');
+	    var r = urlParams.get('r');
+	    var f = urlParams.get('f');
+	    var u = urlParams.get('u');
+	    var sq = urlParams.get('sq');
+	    var sr = urlParams.get('sr');
+
+	    function submitLink() {
+			var shareMail = $('#shareMail').val();
+			if(isEmpty(shareMail)){
+				alert('이메일를 입력하시기 바랍니다.');
+				return;
+			}	
+			checkAuth(shareMail);		
+		}
+	    
+	    function checkAuth(shareMail){
+	    	 var sendData = {'shareMail' : shareMail, 'q' : q };
+	    	 console.log(sendData);
+	    	 $.ajax({
+	    	      type: "post",
+	    	      url: "/docuMailCheck",
+	    	      data: JSON.stringify(sendData),
+	    	      dataType: "json",
+	    	      contentType: 'application/json; charset=utf-8',
+	    	      success: function(data) {
+	    	        console.log(data);
+	    	        if(data){
+	    	        	var url = "./docuViewer.html?p=" + p + "&q=" + q + "&r=" + r + "&f=" + f + "&u=" + u + "&sq=" + sq + "&sr=" + sr;
+                    	location.href = url;
+	    	        }else{
+	    	        	alert("이메일 주소가 잘못되었습니다. 올바른 이메일 주소를 입력해주시기 바랍니다.");
+	    	        }
+	    	      },
+	    	      error: function(jqXHR, textStatus, errorThrown) {
+	    	        console.log(jqXHR);
+	    	        console.log(textStatus);
+	    	        console.log(errorThrown);
+	    	      }
+	    	    });
+	    }
+	    
+	    function isEmpty(text) {
+	    	if (text == ""
+	        	|| text == null
+	        	|| text == undefined
+	        	|| (text != null && typeof text == "object" && !Object
+	        	.keys(text).length)) {
+	        	    return true;
+	        	}
+	        	return false;
+	    }
+    </script>
+</head>
+<body class="lockscreen">
+
+<form method="post" role="form" action="javascript:submitLink();" class="">
+    <div class="email_comfirm-wrapper">
+        <main class="email_comfirm d-none">
+            <div class="m_box">
+                <h1>이메일 확인</h1>
+                <h2>문서보안을 위해 본메일을 수신한 이메일 주소를 입력해 주세요</h2>
+                <input type="text" id="shareMail" name="shareMail" placeholder="이메일주소" autofocus="autofocus"
+                       autocomplete="off">
+                <button id="submitBtn" type="submit">확인</button>
+            </div>
+            <div class="copyrighter">Copyright(C) UbiContent. Co.,Ltd. All Rights Reserved.
+            </div>
+        </main>
+    </div>
+</form>
+  
+</body>
+</html>

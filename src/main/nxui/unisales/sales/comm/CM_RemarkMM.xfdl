@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CM_RemarkMM" width="886" height="564" titletext="내용확인" cssclass="frm_popBg" onload="CM_RemarkMM_onload">
+    <Layouts>
+      <Layout height="564" mobileorientation="landscape" width="886">
+        <Button id="btn_close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_close_onclick"/>
+        <Static id="st_Title" taborder="1" text="비고" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="45"/>
+        <TextArea id="txt_remark" taborder="2" left="8" top="43" right="8" bottom="47" readonly="true"/>
+        <Static id="st_bottom" taborder="3" left="0" height="38" cssclass="sta_POP_BtnBg" bottom="0" right="0"/>
+        <Button id="btn_confirm" taborder="4" text="적용" width="60" height="24" right="76" bottom="7" cssclass="btn_WF_tran" onclick="btn_confirm_onclick" visible="false" TL_SEQ="684"/>
+        <Button id="btn_close00" taborder="5" text="닫기" width="60" height="24" right="8" bottom="7" cssclass="btn_WF_tran" onclick="btn_close_onclick" TL_SEQ="59"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 공통
+ * 02. 화면명   : 비고 확인 CM_RemarkMM
+ * 03. 화면설명 : 비고내용 확인 view 처리
+ * 04. 작성일   : 2019.03.12
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *     
+************************************************************************************************/
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommUtil.xjs";
+include "Script::ext_CommEco.xjs";
+include "Script::CommGrid.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+************************************************************************************************/
+this.FV_TITLE;
+this.FV_CONTENTS;
+this.FV_USE_ENABLE;
+
+
+/************************************************************************************************
+ * FORM 영역
+************************************************************************************************/
+this.CM_RemarkMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//호출한 부모영역의 내용... 
+	if (!this.gfnIsEmpty(this.parent.pvTitle)) {
+		this.FV_TITLE = this.parent.pvTitle;
+	}
+	this.FV_CONTENTS = this.parent.pvContents;
+	this.FV_USE_ENABLE = this.parent.pv_UseEnable;
+	
+	
+	if (this.FV_USE_ENABLE) {
+		this.txt_remark.set_readonly(false);
+		this.btn_confirm.set_visible(true);
+	}
+	
+	this.set_titletext(this.FV_TITLE);
+	this.st_Title.set_text(this.FV_TITLE);
+	this.txt_remark.set_value(this.FV_CONTENTS);
+	
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+};
+
+/************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+
+/************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+// 취소, 닫기버튼
+this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+}
+
+
+this.btn_confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sReturnVal=this.txt_remark.value;
+	if(this.gfnIsEmpty(sReturnVal))
+	{
+		sReturnVal = " ";
+	}
+	
+	this.commUtil.popupClose(sReturnVal);
+};
+]]></Script>
+    <Objects/>
+  </Form>
+</FDL>

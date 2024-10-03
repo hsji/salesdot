@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="TopFrame" width="1280" height="50" titletext="Top">
+    <Layouts>
+      <Layout height="50" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="0" left="0" top="0" right="0" bottom="0" cssclass="sta_TF_Bg"/>
+        <Button id="Button00" taborder="1" top="0" width="39" height="50" right="10" cssclass="btn_TF_Logout" onclick="Button00_onclick"/>
+        <Button id="Button00_00" taborder="2" top="0" width="39" height="50" right="49" cssclass="btn_TF_User"/>
+        <Static id="Static00_00" taborder="3" text="투비소프트" left="0" top="0" height="50" cssclass="sta_TF_Logo" width="210"/>
+        <Button id="btn00" taborder="4" text="첫번쨰메뉴" left="259" top="0" width="120" cssclass="btn_TF_Menu" height="50" fittocontents="width"/>
+        <Button id="btn00_00" taborder="5" text="두번쨰메뉴" left="btn00:0" top="0" width="120" cssclass="btn_TF_Menu" height="50" fittocontents="width"/>
+        <Button id="btn00_00_00" taborder="6" text="선택메뉴" left="btn00_00:0" top="0" width="106" cssclass="btn_TF_MenuS" height="50" fittocontents="width"/>
+        <Button id="btn01" taborder="7" left="234" top="10" width="20" height="30" cssclass="btn_TF_Prev" text=""/>
+        <Button id="btn01_00" taborder="8" left="1162" top="10" width="20" height="30" cssclass="btn_TF_Next" text=""/>
+      </Layout>
+      <Layout name="Layout0" width="500" height="50" mobileorientation="landscape">
+        <Button id="Button00" top="0" width="39" height="50" left="457"/>
+        <Button id="Button00_00" top="127" width="39" height="50" right="43" visible="false"/>
+        <Button id="btn00" left="35" top="0" width="120" height="50"/>
+        <Button id="btn00_00" left="btn00:0" top="0" width="120" height="50"/>
+        <Button id="btn00_00_00" left="btn00_00:0" top="0" width="106" height="50"/>
+        <Button id="btn01" left="10" top="10" width="20" height="30"/>
+        <Static id="Static00_00" visible="false" left="0" top="80" width="210" height="50"/>
+        <Button id="btn01_00" top="10" width="20" height="30" left="418"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_fav">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Column0">마이메뉴001</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">마이메뉴002</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">마이메뉴003</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">마이메뉴004</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">마이메뉴005</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">마이메뉴006</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">마이메뉴007</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">마이메뉴008</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">마이메뉴009</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">마이메뉴010</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/** Favorites popupdiv **/
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+		this.PopupDiv00.trackPopupByComponent(obj, 0, 50)
+};
+]]></Script>
+  </Form>
+</FDL>

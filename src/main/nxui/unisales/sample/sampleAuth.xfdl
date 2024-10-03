@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="sampleAuth" width="1050" height="736" titletext="권한제어 샘플" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <TextArea id="txaGuide" taborder="4" left="0" top="0" height="210" right="20" onchanged="txaGuide_onchanged" value="1. 추가/삭제/저장 공통버튼은 권한이 있는 버튼만 visible 됩니다.&#10;&#10;2. 조회영역의 조회버튼은 조회 권한이 있을때만 enable 됩니다.&#10;&#10;3. 모듈버튼은 this.gfnSetCommBtn(Division 명....) 함수를 통해 &#10;   공통버튼과 동일한 권한으로 제어되며 visible or enable 처리가 가능합니다.(현재는 enable)&#10;&#10;4. 부서, 사용자는 권한의 조회범위에 따라 enable 됩니다.&#10;   - 조회범위가 전체, 사업본부, 그룹일때 enable"/>
+        <Div id="divSearch" taborder="0" left="0" top="txaGuide:0" height="54" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Combo id="Combo01" taborder="3" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="4" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="5" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="6" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="2" text="조회" width="48" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick" height="28" top="12"/>
+              <Static id="staTitle00_00" taborder="7" text="부서" left="0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel"/>
+              <Div id="divDept" taborder="0" text="div00" left="staTitle00_00:00" top="12" width="250" height="24" url="common::cmmDeptSearch.xfdl"/>
+              <Static id="staTitle00_00_00" taborder="8" text="사용자" left="divDept:0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel"/>
+              <Div id="divUser" taborder="1" text="div00" left="staTitle00_00_00:0" top="12" width="250" height="24" url="common::cmmUserSearch.xfdl" uEssential="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle" taborder="1" text="사용자 정보" left="0" top="divSearch:0" width="342" height="43" cssclass="sta_WF_Title"/>
+        <Div id="divCmmnBtn" taborder="2" top="274" width="572" height="28" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnExcelDown" taborder="0" text="엑셀다운로드" top="0" width="119" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" right="0" onclick="divCmmnBtn_btnExcelDown_onclick"/>
+              <Button id="btnExcelUp" taborder="1" text="엑셀업로드" top="0" width="107" height="28" fittocontents="width" cssclass="btn_WF_ExcelUp" right="btnExcelDown:5" onclick="divCmmnBtn_btnExcelUp_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdList" taborder="3" left="0" top="staTitle:0" binddataset="dsList" bottom="0" autofittype="col" right="20">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="37" band="head"/>
+                <Row size="37"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="아이디"/>
+                <Cell col="1" text="성명"/>
+                <Cell col="2" text="부서"/>
+                <Cell col="3" text="비고"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ID" displaytype="expr:dataset.getRowType(currow)=='2'?'editcontrol':'normal'" edittype="expr:dataset.getRowType(currow)=='2'?'text':'none'"/>
+                <Cell col="1" text="bind:NAME" edittype="text" displaytype="editcontrol"/>
+                <Cell col="2" text="bind:DEPARTMENT" edittype="text" displaytype="editcontrol"/>
+                <Cell col="3" text="bind:DESCRIPTION" edittype="text" displaytype="editcontrol"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="SYTM_FLAG_CD" type="STRING" size="256"/>
+          <Column id="FROM_DT" type="STRING" size="256"/>
+          <Column id="TO_DT" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="LOIN_FLAG_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="SYTM_FLAG_CD" type="STRING" size="256"/>
+          <Column id="ALOG_DTTM" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="WKGD_CD" type="STRING" size="256"/>
+          <Column id="LOIN_FLAG_CD" type="STRING" size="256"/>
+          <Column id="BROWSER_CD" type="STRING" size="256"/>
+          <Column id="BROWSER_VERSION" type="STRING" size="256"/>
+          <Column id="OS_CD" type="STRING" size="256"/>
+          <Column id="OS_VERSION" type="STRING" size="256"/>
+          <Column id="SCREEN_SIZE" type="STRING" size="256"/>
+          <Column id="MOB_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item3" compid="divSearch.form.divDept.form.edtCode" propid="value" datasetid="dsCond" columnid="DEPT_CD"/>
+      <BindItem id="item4" compid="divSearch.form.divUser.form.edtUserId" propid="value" datasetid="dsCond" columnid="USER_ID"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	sampleAuth.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2022/09/15
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2022/09/15			TOBESOFT					최초생성
+*******************************************************************************
+*/
+ 
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	// 엑셀 버튼 권한 제어
+	this.gfnSetCommBtn(this.divCmmnBtn);
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnAdd : 추가 / cfnDel : 삭제 / cfnSave : 저장 / cfnPrint : 인쇄 / cfnExecl : 엑셀..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	//TODO..
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	//TODO..
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	//TODO..
+};
+
+//저장
+this.cfnSave = function ()
+{
+	//TODO..
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/]]></Script>
+  </Form>
+</FDL>

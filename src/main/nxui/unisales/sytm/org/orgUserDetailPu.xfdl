@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="orgUserDetailPu" width="750" height="473" titletext="사용자 관리" onload="form_onload">
+    <Layouts>
+      <Layout height="473" mobileorientation="landscape" width="750">
+        <Static id="staTerm" taborder="0" top="0" width="20" cssclass="sta_WF_GSize" visible="false" text="W20" right="0" bottom="0"/>
+        <Static id="staTitle00" taborder="2" text="사용자 상세" left="0" right="20" cssclass="sta_WF_SubTitle" height="47" top="6"/>
+        <Div id="divDetail" taborder="1" text="div00" left="210" height="367" top="staTitle00:0" width="519">
+          <Layouts>
+            <Layout>
+              <Static id="staBg05_00_00_00_00" taborder="35" left="0" top="264" height="93" cssclass="sta_WF_LabelBg" width="518"/>
+              <Static id="staBg05_00_00_00" taborder="29" left="0" top="231" height="34" cssclass="sta_WF_LabelBg" width="518"/>
+              <Static id="staBg05_00_00" taborder="28" left="0" top="198" height="34" cssclass="sta_WF_LabelBg" width="518"/>
+              <Static id="staBg05_00" taborder="27" left="0" top="165" height="34" cssclass="sta_WF_LabelBg" width="518"/>
+              <Static id="staBg01" taborder="10" left="0" top="0" height="34" cssclass="sta_WF_LabelBg" text="" width="518"/>
+              <Static id="staBg02" taborder="11" left="0" top="staBg01:-1" height="34" cssclass="sta_WF_LabelBg" width="518"/>
+              <Static id="staBg03" taborder="12" left="0" top="staBg02:-1" height="34" cssclass="sta_WF_LabelBg" width="518"/>
+              <Static id="staBg04" taborder="13" left="0" top="staBg03:-1" height="34" cssclass="sta_WF_LabelBg" width="518"/>
+              <Static id="staBg05" taborder="14" left="0" top="staBg04:-1" height="34" cssclass="sta_WF_LabelBg" width="518"/>
+              <Static id="staTitle01" taborder="15" text="사용자 ID" left="0" top="0" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtUserId" taborder="0" left="114" top="5" width="130" height="24" cssclass="essential" readonly="true" imemode="alpha" maxlength="20" inputtype="digit,english"/>
+              <Static id="staTitle03" taborder="16" text="사용자명" left="0" top="33" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtUserNm" taborder="2" left="114" top="38" height="24" imemode="hangul" maxlength="30" cssclass="essential" width="130"/>
+              <Static id="staTitle06" taborder="17" text="부서" left="0" top="132" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Static id="staTitle07" taborder="18" text="직원구분" left="258" top="165" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Combo id="cboUserFlagCd" taborder="5" left="372" top="170" width="130" height="24" onitemchanged="cbo_onitemchange"/>
+              <Static id="staTitle08" taborder="19" text="직급" left="0" top="66" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Combo id="cboWkgdCd" taborder="6" left="114" top="71" height="24" onitemchanged="cbo_onitemchange" width="130"/>
+              <Static id="staTitle09" taborder="20" text="직종" left="0" top="165" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Combo id="cboOccuCd" taborder="8" left="114" top="170" height="24" onitemchanged="cbo_onitemchange" width="130"/>
+              <Static id="staTitle14" taborder="21" text="생년월일" left="258" top="198" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Calendar id="calBirDt" taborder="9" left="staTitle14:4" top="203" height="24" width="130"/>
+              <Static id="staTitle16" taborder="22" text="E-Mail" left="0" top="231" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Static id="staTitle15" taborder="23" text="핸드폰번호" left="0" top="99" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Static id="staTitle09_00" taborder="24" text="직책" left="258" top="66" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Combo id="cboWkdtCd" taborder="7" left="372" top="71" height="24" onitemchanged="cbo_onitemchange" width="130"/>
+              <Div id="divDept" taborder="4" text="div00" left="114" top="137" width="281" height="28" url="common::cmmDeptSearch.xfdl" uEssential="true"/>
+              <Static id="staTitle04" taborder="25" text="영문명" left="258" top="33" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtUserNmEng" taborder="3" left="372" top="37" height="24" imemode="alpha" maxlength="30" width="130"/>
+              <Static id="staTitle05" taborder="26" text="사번/ID" left="258" top="0" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtEmpNo" taborder="1" left="372" top="5" width="130" height="24" maxlength="10" inputtype="digit,alpha" cssclass="essential"/>
+              <Static id="staTitle16_00" taborder="30" text="주민등록번호" left="0" top="198" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtEmail01" taborder="31" left="114" top="236" height="24" imemode="alpha" right="119"/>
+              <MaskEdit id="mskRsnNo" taborder="32" left="114" top="203" width="130" height="24" type="string" format="######-#######"/>
+              <MaskEdit id="msk00" taborder="33" left="114" top="104" width="130" height="24" type="string" format="###-####-####"/>
+              <Static id="staTitle16_01" taborder="34" text="주소" left="0" top="264" width="110" height="93" cssclass="sta_WF_Label"/>
+              <Edit id="edtSculZip" taborder="36" left="114" top="268" width="92" height="24" displaynulltext="우편번호" readonly="true"/>
+              <Button id="btnSearchPost" taborder="37" left="210" top="268" width="26" height="24" onclick="btn_searchPost_onclick" cssclass="btn_WF_SearchSmall" background="url('theme://images/btn_WF_Search.png') no-repeat center center"/>
+              <Edit id="edtBasAddr" taborder="38" readonly="true" maxlength="200" cssclass="readonly" left="114" top="298" height="24" displaynulltext="도로명주소" right="10"/>
+              <Edit id="edtDetailAddr" taborder="39" maxlength="200" left="114" top="328" right="80" height="24" displaynulltext="상세주소"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnClose" taborder="4" text="취소" height="28" width="50" right="22" bottom="19" onclick="btnClose_onclick"/>
+        <Button id="btnConfirm" taborder="3" text="저장" height="28" width="50" cssclass="btn_WF_Crud" right="btnClose:3" bottom="19" onclick="btnConfirm_onclick"/>
+        <ImageViewer id="img00" taborder="5" left="12" top="54" width="191" height="256" border="1px solid #dddddd" stretch="fit"/>
+        <FileUpload id="fud00" taborder="6" left="60" top="323" width="80" height="33" itemheight="32" buttonsize="80" buttontext="사진등록" onitemchanged="fud00_onitemchanged"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	orgUserDetailPu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/16
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/16			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드
+	var param = [
+			  {biztype : "Combo", code : "SM04", objid : this.divDetail.form.cboUserFlagCd}							// 직원구분
+			, {biztype : "Combo", code : "SM05", objid : this.divDetail.form.cboWkgdCd}								// 직급코드
+			, {biztype : "Combo", code : "SM06", objid : this.divDetail.form.cboWkdtCd}								// 직책구분
+			, {biztype : "Combo", code : "SM07", objid : this.divDetail.form.cboOccuCd}								// 직종
+	];
+	this.gfnGetCommonCode(param);
+	
+	this.dsCond.setColumn(0, "COMPANY_CD", this.getOwnerFrame().pvCompanyCd);
+	this.dsCond.setColumn(0, "EMP_NO", this.getOwnerFrame().pvEmpNo);
+	
+	this.fnTranSearch();
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	// 저장 하시겠습니까?
+	this.gfnAlert("confirm.save", [""], "save", "fnMsgCallback");
+	return;
+};
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//사용자 목록 조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "searchUserOneInfo";
+	var strSvcUrl   = "searchUserOneInfo.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+
+//사용자 정보 저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveUserInfo";
+	var strSvcUrl   = "saveUserInfo.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchUserOneInfo":
+			break;
+		case "saveUserInfo":
+			this.close();
+			break;
+		default: break;
+	}
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "search":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}
+			this.fnTranSearch();
+			break;
+		case "save":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}
+			this.fnTranSave();
+			break;
+		case "valiEmpNo":
+			this.dsList.setColumn(this.dsList.rowposition, "EMP_NO", "");
+			this.divDetail.form.edtEmpNo.setFocus();
+			break;
+		default:break;
+	}
+};
+
+//엑셀임포트콜백
+this.fnExcelImportCallback = function (sImportId, e)
+{
+	//TODO..
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//정합성체큰
+this.fnFormValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+
+	this.gfnSetValidation(this.dsList, "COMPANY_CD", "회사"	, "required");
+	this.gfnSetValidation(this.dsList, "USER_ID", "사용자ID"	, "required");
+	this.gfnSetValidation(this.dsList, "EMP_NO",  "사번"	    , "required");
+	this.gfnSetValidation(this.dsList, "KORN_NM", "사용자이름(한글)"	, "required");
+	this.gfnSetValidation(this.dsList, "DEPT_CD", "부서"	, "required");
+	
+	this.gfnSetValidation(this.dsList, "BIR_DT"   , "생년월일", "date");
+	this.gfnSetValidation(this.dsList, "REGI_NUMB"   , "주민번호", "isssn");
+	
+	this.gfnSetValidation(this.dsList, "EMAL", "EMail"	, "isemail");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsList, "U") == false) return false;
+	else return true;
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회버튼
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+//사용자아이디
+this.dsList_canrowposchange = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var nStatus = this.dsList.getRowType(e.newrow);
+	if( nStatus == 2 ){
+		this.divDetail.form.edtUserId.set_readonly(false);
+	}else{
+		this.divDetail.form.edtUserId.set_readonly(true);
+	}
+};
+
+//엑셀업로드
+this.divCmmnBtn_btnExcelUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnExcelImport("dsList", "사용자 리스트", "A4:W", "fnExcelImportCallback", "message", "", "A3:W3", this.grdList);
+};
+
+//엑셀템플릿 다운로드
+this.divCmmnBtn_btnExcelTemplate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var fileId = "공통시스템_Template.xlsx";
+	this.gfnDownTempate(fileId);
+};
+
+//엑셀다운로드
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdList, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");
+};
+
+//EMP_NO 중복체크
+this.dsList_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if( e.columnid=="EMP_NO"){
+		if(this.gfnIsNull(e.newvalue)) return;
+		
+		var nRow = obj.findRow("EMP_NO", e.newvalue);
+		if( nRow > -1){
+			this.gfnAlert("msg.exist", ["입력하신 사번"],"valiEmpNo","fnMsgCallback");
+			return;
+		}
+	}
+};
+
+// 사진등록
+this.fud00_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
+{
+	var items = obj._items;
+	var ds = this.dsList;
+	if(items[0] && items[0]._files && items[0]._files[0]) {
+		var reader = new FileReader();
+		reader.readAsDataURL(items[0]._files[0]);
+		reader.onload = function(e) {
+			ds.setColumn(0, "USER_PIC", e.target.result);
+		};	
+	}
+	
+};
+// 저장
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSave();
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+// 주소
+this.btn_searchPost_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnPostSearch(obj);
+};
+
+/**
+ * @description 우편번호 CallBack 함수(선택)
+*/
+this.fnPostCallback = function(sName, aAddr)
+{
+	if (sName == "btnSearchPost") {
+		trace("onusernotify ----------------------------");
+		trace("array[1]=>주소1          ==> " +	aAddr[1] );
+		trace("array[2]=>주소2          ==> " +	aAddr[2] );
+		trace("array[3]=>상세주소      ==> " + aAddr[3] );
+		trace("array[4]=>우편번호      ==> " +	aAddr[4] );
+		trace("-----------------------------------------");
+
+		this.divDetail.form.edtSculZip.set_value(aAddr[4]);	        // 우편번호
+		this.divDetail.form.edtBasAddr.set_value(aAddr[1]+aAddr[2]);	// 주소
+		this.divDetail.form.edtDetailAddr.set_value(aAddr[3]);	    	// 상세 주소
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" canrowposchange="dsList_canrowposchange" cancolumnchange="dsList_cancolumnchange">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="PASSWORD" type="STRING" size="256"/>
+          <Column id="KORN_NM" type="STRING" size="256"/>
+          <Column id="ENGL_NM" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="USER_FLAG_CD" type="STRING" size="256"/>
+          <Column id="WKGD_CD" type="STRING" size="256"/>
+          <Column id="WKDT_CD" type="STRING" size="256"/>
+          <Column id="OCCU_CD" type="STRING" size="256"/>
+          <Column id="CHAG_WORK" type="STRING" size="256"/>
+          <Column id="JOIN_DATE" type="STRING" size="256"/>
+          <Column id="RETR_DATE" type="STRING" size="256"/>
+          <Column id="HOOF_STAT_CD" type="STRING" size="256"/>
+          <Column id="REGI_NUMB" type="STRING" size="256"/>
+          <Column id="BIR_DT" type="STRING" size="256"/>
+          <Column id="CELL_NUMB" type="STRING" size="256"/>
+          <Column id="PHONE1" type="STRING" size="256"/>
+          <Column id="PHONE2" type="STRING" size="256"/>
+          <Column id="PHONE3" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="ZIP_NUMB" type="STRING" size="256"/>
+          <Column id="BASC_ADDR" type="STRING" size="256"/>
+          <Column id="DTL_ADDR" type="STRING" size="256"/>
+          <Column id="Column0" type="STRING" size="256"/>
+          <Column id="USER_PIC" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckUserId">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckResult"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item2" compid="divDetail.form.edtUserId" propid="value" datasetid="dsList" columnid="USER_ID"/>
+      <BindItem id="item4" compid="divDetail.form.edtUserNm" propid="value" datasetid="dsList" columnid="KORN_NM"/>
+      <BindItem id="item8" compid="divDetail.form.cboUserFlagCd" propid="value" datasetid="dsList" columnid="USER_FLAG_CD"/>
+      <BindItem id="item9" compid="divDetail.form.cboWkgdCd" propid="value" datasetid="dsList" columnid="WKGD_CD"/>
+      <BindItem id="item10" compid="divDetail.form.cboWkdtCd" propid="value" datasetid="dsList" columnid="WKDT_CD"/>
+      <BindItem id="item11" compid="divDetail.form.cboOccuCd" propid="value" datasetid="dsList" columnid="OCCU_CD"/>
+      <BindItem id="item14" compid="divDetail.form.calRetrDate" propid="value" datasetid="dsList" columnid="RETR_DATE"/>
+      <BindItem id="item15" compid="divDetail.form.cboHoofStatCd" propid="value" datasetid="dsList" columnid="HOOF_STAT_CD"/>
+      <BindItem id="item16" compid="divDetail.form.calBirDt" propid="value" datasetid="dsList" columnid="BIR_DT"/>
+      <BindItem id="item7" compid="divDetail.form.divDept.form.edtCode" propid="value" datasetid="dsList" columnid="DEPT_CD"/>
+      <BindItem id="item24" compid="divDetail.form.divDept.form.edtName" propid="value" datasetid="dsList" columnid="DEPT_NM"/>
+      <BindItem id="item5" compid="divDetail.form.edtUserNmEng" propid="value" datasetid="dsList" columnid="ENGL_NM"/>
+      <BindItem id="item6" compid="divDetail.form.edtEmpNo" propid="value" datasetid="dsList" columnid="EMP_NO"/>
+      <BindItem id="item26" compid="divDetail.form.cboThemId" propid="value" datasetid="dsList" columnid="THEME_ID"/>
+      <BindItem id="item28" compid="divDetail.form.edtEmail01" propid="value" datasetid="dsList" columnid="EMAIL"/>
+      <BindItem id="item29" compid="divDetail.form.mskRsnNo" propid="value" datasetid="dsList" columnid="REGI_NUMB"/>
+      <BindItem id="item30" compid="img00" propid="image" datasetid="dsList" columnid="USER_PIC"/>
+      <BindItem id="item31" compid="divDetail.form.msk00" propid="value" datasetid="dsList" columnid="CELL_NUMB"/>
+      <BindItem id="item33" compid="divDetail.form.edtSculZip" propid="value" datasetid="dsList" columnid="ZIP_NUMB"/>
+      <BindItem id="item0" compid="divDetail.form.edtBasAddr" propid="value" datasetid="dsList" columnid="BASC_ADDR"/>
+      <BindItem id="item1" compid="divDetail.form.edtDetailAddr" propid="value" datasetid="dsList" columnid="DTL_ADDR"/>
+    </Bind>
+  </Form>
+</FDL>

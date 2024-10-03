@@ -1,0 +1,701 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="memoMagFm" width="1050" height="736" titletext="메모관리" onload="form_onload" cssclass="frm_WF_Frame">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Div id="divSearch" taborder="0" left="0" top="0" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Combo id="Combo01" taborder="1" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="2" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="3" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="4" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="0" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static04_00" taborder="1" top="0" width="20" cssclass="sta_WF_GSize" visible="false" text="W20" right="0" bottom="0"/>
+        <Static id="staTitle01" taborder="3" text="나의 메모장" left="-2" height="43" top="divSearch:0" right="20" cssclass="sta_WF_Title"/>
+        <Grid id="grdList" taborder="2" left="0" top="staTitle01:38" bottom="10" autofittype="col" binddataset="dsList" uFunction="filter,sort,!colfix,!initial,find" width="23.24%" treeusecheckbox="false" treeinitstatus="expand,all" oncelldblclick="grdList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="245"/>
+              </Columns>
+              <Rows>
+                <Row size="32"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="bind:LVL_NAME" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LVL_NO"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divCmmnBtn" taborder="4" text="div00" top="divSearch:10" width="467" height="33" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnExcelDown" taborder="0" text="엑셀다운로드" top="0" width="119" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" left="348" onclick="divCmmnBtn_btnExcelDown_onclick"/>
+              <Button id="btnChangeContents" taborder="1" text="변경" top="0" height="28" left="257" right="btnExcelDown:5" onclick="divCmmnBtn_btnChangeContents_onclick" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divContents" taborder="5" left="grdList:10" top="93" bottom="10" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="sta00_00" taborder="1" text="제목" left="3" top="8" width="62" height="24" cssclass="sta_WF_Dot"/>
+              <WebBrowser id="webEditorContents" taborder="0" left="0" top="40" right="0" border="1px solid #cccccc" onusernotify="webEditor_onusernotify" bottom="0" visible="false"/>
+              <Edit id="edt00" taborder="2" left="75" top="8" height="24" right="0.9800000000000182"/>
+              <WebBrowser id="webViewerContents" taborder="3" left="0" top="40" right="0" border="1px solid #cccccc" bottom="0" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div00" taborder="6" left="2" top="93" width="23.24%" height="42">
+          <Layouts>
+            <Layout>
+              <Button id="btnbottom" taborder="0" top="6" width="22" height="22" right="1" onclick="div00_btnbottom_onclick" cssclass="btn_LF_MoveDown"/>
+              <Button id="btntop" taborder="1" top="6" height="22" right="btnbottom:7" width="22" onclick="div00_btntop_onclick" cssclass="btn_LF_MoveUp"/>
+              <Button id="btnright" taborder="2" top="6" width="22" height="22" right="btntop:7" onclick="div00_btnright_onclick" cssclass="btn_LF_MoveRight"/>
+              <Button id="btnleft" taborder="3" top="6" width="22" height="22" right="btnright:7" onclick="div00_btnleft_onclick" cssclass="btn_LF_MoveLeft"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <PopupDiv id="pdivRename" visible="false" left="1081" top="332" width="239" height="43" background="#ffffff" border="2px solid #cccccc">
+          <Layouts>
+            <Layout>
+              <Edit id="edt00" taborder="0" left="6" top="7" width="154" height="24" onkeydown="pdivRename_edt00_onkeydown"/>
+              <Button id="btnChange" taborder="1" text="변경" top="7" height="24" fittocontents="width" left="168" right="4" onclick="pdivRename_btnChange_onclick"/>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+        <Grid id="grdList00" taborder="7" left="1078" top="108" bottom="488" binddataset="dsList" uFunction="filter,sort,!colfix,!initial,find" width="23.24%" treeusecheckbox="false" treeinitstatus="expand,all" oncelldblclick="grdList_oncelldblclick" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="245"/>
+                <Column size="354"/>
+                <Column size="511"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="LEVEL"/>
+                <Cell col="1" text="TITLE"/>
+                <Cell col="2" text="CONTENTS"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:LVL_NAME" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LVL_NO"/>
+                <Cell col="1" text="bind:MEMO_TITLE"/>
+                <Cell col="2" text="bind:MEMO_CONTENTS"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="SEARCHDATA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged" canrowposchange="dsList_canrowposchange">
+        <ColumnInfo>
+          <Column id="KEYSEQ" type="int" size="4"/>
+          <Column id="LVL_FONT" type="string" size="32"/>
+          <Column id="CHGE_DTTM" type="datetime" size="17"/>
+          <Column id="LVL_COLOR" type="string" size="32"/>
+          <Column id="MEMO_CONTENTS" type="string" size="32"/>
+          <Column id="LVL_NAME" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="LVL_BGCOLOR" type="string" size="32"/>
+          <Column id="MEMO_TITLE" type="string" size="32"/>
+          <Column id="SEQ" type="int" size="4"/>
+          <Column id="LVL_NO" type="int" size="4"/>
+          <Column id="EDITCOL" type="STRING" size="256"/>
+          <Column id="RTYPE" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCmdYn">
+        <ColumnInfo>
+          <Column id="cmdCode" type="STRING" size="256"/>
+          <Column id="cmdNm" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="cmdNm">전체</Col>
+          </Row>
+          <Row>
+            <Col id="cmdCode">1</Col>
+            <Col id="cmdNm">사용</Col>
+          </Row>
+          <Row>
+            <Col id="cmdCode">0</Col>
+            <Col id="cmdNm">미사용</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMaxSeq"/>
+      <Dataset id="dsListCopy"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	memoMagFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/02/15
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/02/15			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvRowPosition = -1;
+this.fvnMaxKeySeq = 0;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+
+	var oWeb1 = this.divContents.form.webViewerContents;
+	this.gfnCreateHtmlViewer(oWeb1);
+
+	var oWeb2 = this.divContents.form.webEditorContents;
+	this.gfnCreateWebEditor(oWeb2);
+	
+	this.cfnSearch();
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";	//메세지ID
+		var arrArg = [""];						//메세지취환될값 배열[생략가능]
+		var sPopId = "search";					//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";		//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+		
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	var nRow = this.dsList.insertRow(this.dsList.rowposition+1);
+	this.dsList.setColumn(nRow,'EDITCOL',"1");
+	this.dsList.setColumn(nRow,'LVL_NO',0);
+	this.dsList.setColumn(nRow,'LVL_NAME',"변경하세요");
+	
+	var nMaxKeySeq = this.dsMaxSeq.getColumn(0, "MAXKEYSEQ");
+	if(!nMaxKeySeq) nMaxKeySeq = 0;
+	this.fvnMaxKeySeq = Math.max(this.fvnMaxKeySeq, nMaxKeySeq);
+	this.fvnMaxKeySeq++;
+	//var nMaxSeq = this.dsMaxSeq.getColumn(0, "MAXSEQ");
+	//if(!nMaxSeq) nMaxSeq = 0;
+	
+	this.dsList.setColumn(nRow,'KEYSEQ',this.fvnMaxKeySeq);
+	
+	this.fnWebEdit(true);
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsList.rowcount == 0) {
+		return;
+	}
+
+	this.dsList.deleteRow(this.dsList.rowposition);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	this.fnResetSeq();
+
+	if(this.fnFormValidation() == false) return;
+	
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if(this.fnFormValidation()){
+		// 저장 하시겠습니까?
+		this.gfnAlert("confirm.save", [""], "saveMsg", "fnMsgCallback");
+		return;
+	}
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	this.dsList.clearData();
+
+	var strSvcId    = "searchMemoList";
+	var strSvcUrl   = "searchMemoList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList dsMaxSeq=dsMaxSeq";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	
+	// Insert, Update
+	var strSvcId    = "saveMemoContents";
+	var strSvcUrl   = "saveMemoContents.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+						
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction callback
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchMemoList":
+			if(this.dsList.rowcount > 0) {
+				this.divCmmnBtn.form.btnChangeContents.set_visible(true);
+			}
+			break;
+		case "saveMemoContents":
+			this.fnTranSearch();
+			break;
+		default:break;
+	}
+};
+
+//message callback
+this.fnMsgCallback = function (sPopupId, sRtn)
+{
+	if( this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+		return;
+	}else{
+		switch(sPopupId) {
+			case "search":
+				this.fnTranSearch();//조회
+				break;
+			case "saveMsg":
+				this.fnTranSave(); //저장
+				break;
+			default:break;
+		}
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnFormValidation = function ()
+{
+	var oWeb2 = this.divContents.form.webEditorContents;
+	if(oWeb2.visible) {
+		var web2Data = oWeb2.callMethod("getData");
+		this.dsList.setColumn(this.dsList.rowposition, "MEMO_CONTENTS", web2Data);
+	}
+	
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+
+	this.gfnSetValidation(this.dsList, "LVL_NAME", "메뉴명", "required");
+	this.gfnSetValidation(this.dsList, "MEMO_TITLE", "제목", "required");
+	this.gfnSetValidation(this.dsList, "MEMO_CONTENTS", "내용"	 , "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsList, "U") == false) return false;
+	else return true;
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.fnWebEdit = function(v) {
+	var oWeb1 = this.divContents.form.webViewerContents;
+	var oWeb2 = this.divContents.form.webEditorContents;
+
+	if(v) {
+		
+		oWeb1.set_visible(false);
+		oWeb2.set_visible(true);
+		
+		oWeb2.callMethod("setData", this.dsList.getColumn(this.dsList.rowposition, "MEMO_CONTENTS"));		
+
+	} else {
+		oWeb1.set_visible(true);
+		oWeb2.set_visible(false);
+	
+		this.gfnSetHtmlView(oWeb1, this.dsList.getColumn(this.dsList.rowposition, "MEMO_CONTENTS"));			
+	}
+};
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.dsList_canrowposchange = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var oWeb2 = this.divContents.form.webEditorContents;
+
+	if(oWeb2.visible == true) {
+		var web2Data = oWeb2.callMethod("getData");
+		this.dsList.setColumn(e.oldrow, "MEMO_CONTENTS", web2Data);
+	}
+};
+
+
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(obj.getRowType(e.newrow) == Dataset.ROWTYPE_INSERT) {
+		this.fnWebEdit(true);
+	} else {
+		this.fnWebEdit(false);
+	}
+		
+};
+
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdList00, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");
+};
+
+this.fnResetSeq = function()
+{
+// 	var oWeb2 = this.divContents.form.webEditorContents;		
+// 	if(oWeb2.visible) {
+// 		var sCntn = this.dsList.getColumn(this.dsList.rowposition, "MEMO_CONTENTS");
+// 		oWeb2.callMethod("setData", sCntn);
+// 	}
+			
+	this.dsList.set_enableevent(false);
+	for(var i=0;i<this.dsList.rowcount;i++) {
+		this.dsList.setColumn(i, "SEQ", i);
+	}
+	this.dsList.set_enableevent(true);
+};
+
+// move left
+this.div00_btnleft_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nDsRow = this.dsList.rowposition;
+	if(nDsRow == 0) return;
+	
+	var nCurLvl = this.dsList.getColumn(nDsRow, "LVL_NO");
+	var nPreLvl = this.dsList.getColumn(nDsRow-1, "LVL_NO");
+	if(nCurLvl == 0) return;	
+	
+	var nTrow = this.grdList.getTreeSiblingRow( nDsRow,-1 , true );
+	if(nTrow >= 0) {
+		this.grdList.setTreeStatus( nTrow, true );
+	}
+	
+	var nFindRow = -1;
+	for(var i=nDsRow+1;i<this.dsList.rowcount;i++) {
+		if(this.dsList.getColumn(i, "LVL_NO") <= nCurLvl) {
+			nFindRow = i;
+			break;
+		}
+	}
+	if(nFindRow < 0) nFindRow = this.dsList.rowcount;
+	nFindRow = nFindRow - 1;
+	
+	for(var i=nDsRow;i<=nFindRow;i++) {
+		this.dsList.setColumn(i, "LVL_NO", this.dsList.getColumn(i, "LVL_NO")-1);
+	}	
+	
+	//this.dsList.setColumn(nDsRow, "LVL_NO", nLvl - 1);
+};
+// move right
+this.div00_btnright_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nDsRow = this.dsList.rowposition;
+	if(nDsRow == 0) return;
+	var nCurLvl = this.dsList.getColumn(nDsRow, "LVL_NO");
+	var nPreLvl = this.dsList.getColumn(nDsRow-1, "LVL_NO");
+	
+	var gap = Math.abs(nCurLvl - nPreLvl);
+	if((nCurLvl <= nPreLvl)/* || gap < 2*/) {
+		var nTrow = this.grdList.getTreeSiblingRow( nDsRow,-1 , true );
+		if(nTrow >= 0) {
+			this.grdList.setTreeStatus( nTrow, true );
+		}
+		
+		var nFindRow = -1;
+		for(var i=nDsRow+1;i<this.dsList.rowcount;i++) {
+			if(this.dsList.getColumn(i, "LVL_NO") <= nCurLvl) {
+				nFindRow = i;
+				break;
+			}
+		}
+		if(nFindRow < 0) nFindRow = this.dsList.rowcount;
+		nFindRow = nFindRow - 1;
+		
+		for(var i=nDsRow;i<=nFindRow;i++) {
+			this.dsList.setColumn(i, "LVL_NO", this.dsList.getColumn(i, "LVL_NO")+1);
+		}
+	}
+};
+
+this.fnMoveTopRows = function(sourceS, sourceE, target) 
+{
+	this.dsListCopy.copyData(this.dsList);
+	this.dsListCopy.clearData();
+	
+	// copy
+	var rtype;
+	for(var i=sourceS;i<=sourceE;i++) {
+		var nRow = this.dsListCopy.addRow();
+		//rtype = this.dsList.getRowType(i);
+		this.dsListCopy.copyRow(nRow, this.dsList, i);
+		//this.dsListCopy.setColumn(nRow, "RTYPE", rtype);
+	}
+	// delete
+	this.dsList.set_enableevent(false);
+	for(var i=sourceE;i>=sourceS;i--) {
+		this.dsList.deleteRow(i);
+	}
+	// insert
+	var nTarget = target - 1;
+	for(var i=this.dsListCopy.rowcount-1;i>=0;i--) {
+		this.dsList.insertRow(target);
+		this.dsList.copyRow(target, this.dsListCopy, i);
+		//rtype = this.dsListCopy.getColumn(i,"RTYPE");
+	}
+	this.dsList.set_enableevent(true);
+	
+	this.dsList_onrowposchanged(this.dsList, { newrow : target});
+};
+
+this.div00_btntop_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nDsRow = this.dsList.rowposition;
+	if(nDsRow == 0) return;
+	
+	var nTrow = this.grdList.getTreeSiblingRow( nDsRow,-1 , true );
+	var nBrow = this.grdList.getTreeSiblingRow( nDsRow, 1 , true );
+
+	if(nTrow < 0) return;
+	if(nBrow < 0) {
+		var lvl = 0;
+		var lvlcurr = this.dsList.getColumn(nDsRow, "LVL_NO");
+		for(var i=nDsRow;i<this.dsList.rowcount;i++) {
+			if(this.dsList.getColumn(i, "LVL_NO") < lvlcurr) {
+				nBrow = i;
+				break;
+			}
+		}
+		if(nBrow < 0) nBrow = this.dsList.rowcount;	
+	}
+	nBrow = nBrow - 1;
+	
+	this.fnMoveTopRows(nDsRow, nBrow, nTrow);
+	
+};
+
+
+this.fnMoveBottomRows = function(sourceS, sourceE, target) 
+{
+	this.dsListCopy.copyData(this.dsList);
+	this.dsListCopy.clearData();
+	
+	// copy
+	var rtype;
+	for(var i=sourceS;i<=sourceE;i++) {
+		var nRow = this.dsListCopy.addRow();
+		this.dsListCopy.copyRow(nRow, this.dsList, i);
+	}
+	// insert
+	this.dsList.set_enableevent(false);
+	var nTarget = target - 1;
+	var nCnt = 0;
+	var nCheck = false;
+	for(var i=this.dsListCopy.rowcount-1;i>=0;i--) {
+		nCheck = false;
+		if(target == (this.dsList.rowcount-1)) {
+			if(nCnt == 0) {
+				nCheck = true;
+			}
+		}
+		if(nCheck == true) {
+			target = this.dsList.addRow();
+		} else {
+			this.dsList.insertRow(target);
+		}
+		this.dsList.copyRow(target, this.dsListCopy, i);
+		nCnt++;
+	}
+	// delete
+	for(var i=sourceE;i>=sourceS;i--) {
+		this.dsList.deleteRow(i);
+	}
+	this.dsList.set_enableevent(true);
+	
+	this.dsList_onrowposchanged(this.dsList, { newrow : target});
+};
+
+
+this.div00_btnbottom_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nDsRow = this.dsList.rowposition;
+	if(nDsRow == this.dsList.rowcount-1) return;
+	
+	var nBrow = this.grdList.getTreeSiblingRow( nDsRow, 1 , true );
+	if(nBrow < 0) return;
+	
+	var nBBrow = this.grdList.getTreeSiblingRow( nBrow, 1 , true );
+	if(nBBrow < 0) {
+		var lvl = 0;
+		var lvlcurr = this.dsList.getColumn(nDsRow, "LVL_NO");
+		for(var i=nBrow;i<this.dsList.rowcount;i++) {
+			if(this.dsList.getColumn(i, "LVL_NO") < lvlcurr) {
+				nBBrow = i;
+				break;
+			}
+		}
+		if(nBBrow < 0) nBBrow = this.dsList.rowcount-1;
+	}
+	nBrow = nBrow - 1;
+	
+	this.fnMoveBottomRows(nDsRow, nBrow, nBBrow);	
+};
+
+
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var rect = obj.getCellRect( e.row, e.cell );
+	this.pdivRename.trackPopupByComponent(obj, rect.left, rect.bottom);
+};
+
+this.pdivRename_btnChange_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var txt = this.pdivRename.form.edt00.value;
+	if(txt) {
+		this.dsList.setColumn(this.dsList.rowposition, "LVL_NAME", txt);
+	}
+	this.pdivRename.closePopup();
+};
+
+this.divCmmnBtn_btnChangeContents_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnWebEdit(true);
+};
+
+this.pdivRename_edt00_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) {
+		this.pdivRename.form.btnChange.click();
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtBoardNm" propid="value" datasetid="dsCond" columnid="SEARCHDATA"/>
+      <BindItem id="item1" compid="divContents.form.edt00" propid="value" datasetid="dsList" columnid="MEMO_TITLE"/>
+    </Bind>
+  </Form>
+</FDL>

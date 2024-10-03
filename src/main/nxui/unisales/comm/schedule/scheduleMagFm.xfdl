@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="scheduleMagFm" width="1050" height="736" titletext="일정설정관리" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Static id="Static04_00" taborder="4" top="0" width="20" cssclass="sta_WF_GSize" visible="false" text="W20" right="0" bottom="0"/>
+        <Static id="staTitle01" taborder="0" text="일정" left="-2" height="43" top="50" right="20" cssclass="sta_WF_Title"/>
+        <Grid id="grdList" taborder="1" left="0" top="93" bottom="110" autofittype="col" binddataset="dsList" right="20" uFunction="filter,sort,!colfix,!initial,find" oncellposchanged="grdList_oncellposchanged">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="94"/>
+                <Column size="250"/>
+                <Column size="110"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="일정마스터코드"/>
+                <Cell col="1" text="일정마스터명"/>
+                <Cell col="2" text="일정공유유형"/>
+                <Cell col="3" text="부서명"/>
+                <Cell col="4" text="파일첨부"/>
+                <Cell col="5" text="사용여부"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SCD_CD" textAlign="center"/>
+                <Cell col="1" text="bind:SCD_NM"/>
+                <Cell col="2" text="bind:SCD_SHARE_CD"/>
+                <Cell col="3" text="bind:DEPT_NM"/>
+                <Cell col="4" text="bind:APND_YN" displaytype="checkboxcontrol"/>
+                <Cell col="5" text="bind:USED_YN" displaytype="checkboxcontrol"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divDetail" taborder="3" left="0" height="67" right="20" formscrollbartype="none none" formscrolltype="none" bottom="0">
+          <Layouts>
+            <Layout>
+              <Static id="staBg01" taborder="7" text="Static02" left="0" top="33" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg00" taborder="8" text="Static02" left="0" top="0" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle00" taborder="9" text="일정마스터코드" left="0" top="0" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtScdCd" taborder="0" left="staTitle00:4" top="5" width="140" height="24" readonly="true" cssclass="essential" maxlength="10" inputtype="digit,english" inputmode="upper" imemode="alpha" onkillfocus="divDetail_edtScdCd_onkillfocus"/>
+              <Static id="staTitle01" taborder="10" text="일정마스터명" left="edtScdCd:4" top="0" width="100" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtScdNm" taborder="1" left="staTitle01:4" top="5" height="24" cssclass="essential" maxlength="40" imemode="hangul" width="216" onkillfocus="divDetail_edtScdNm_onkillfocus"/>
+              <Static id="staTitle03" taborder="12" text="일정공유유형" left="0" top="33" width="110" height="34" cssclass="sta_WF_Label"/>
+              <Combo id="cboScdShareType" taborder="3" text="cbo00" left="staTitle03:4" top="edtScdCd:9" width="140" height="24" onitemchanged="divDetail_cboScdShareType_onitemchanged"/>
+              <Static id="staTitle04" taborder="13" text="모아보기-부서" left="cboScdShareType:4" top="33" width="100" height="34" cssclass="sta_WF_Label"/>
+              <Div id="divDept" taborder="4" left="staTitle04:4" top="38" height="24" url="common::cmmDeptSearch.xfdl" uEssential="true" text="" width="216"/>
+              <Static id="staTitle05" taborder="14" text="파일첨부" left="divDept:4" top="33" width="90" height="34" cssclass="sta_WF_Label"/>
+              <CheckBox id="chkApndYn" taborder="5" text="사용" left="staTitle05:4" top="38" width="62" height="24" value="true" falsevalue="0" truevalue="1"/>
+              <Static id="staTitle06" taborder="15" text="사용여부" left="chkApndYn:80" top="33" width="90" height="34" cssclass="sta_WF_Label"/>
+              <CheckBox id="chkUsedYn" taborder="6" text="사용" left="staTitle06:4" top="38" height="24" value="true" falsevalue="0" truevalue="1" width="62"/>
+              <Static id="staTitle02" taborder="11" text="관리자" left="edtScdNm:4" top="0" width="90" height="34" cssclass="sta_WF_Label"/>
+              <Div id="divUser" taborder="2" text="div00" left="staTitle02:4" top="5" height="24" url="common::cmmUserSearch.xfdl" width="349" uEssential="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle00" taborder="2" text="일정 상세" left="0" height="43" right="20" bottom="67" cssclass="sta_WF_SubTitle"/>
+        <Div id="divSearch" taborder="5" left="0" top="0" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle00" taborder="3" text="일정마스터명" left="0" top="12" width="126" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="Combo01" taborder="4" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="5" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="6" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="7" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="2" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Edit id="edtScdNm" taborder="0" left="staTitle00:0" top="12" width="140" height="24"/>
+              <Static id="staTitle00_00" taborder="8" text="사용여부" left="267" top="12" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="cboYnType" taborder="1" text="cbo00" left="staTitle00_00:0" top="12" width="140" height="24" innerdataset="dsCmdYn" codecolumn="cmdCode" datacolumn="cmdNm"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item1" compid="divDetail.form.edtScdCd" propid="value" datasetid="dsList" columnid="SCD_CD"/>
+      <BindItem id="item2" compid="divDetail.form.edtScdNm" propid="value" datasetid="dsList" columnid="SCD_NM"/>
+      <BindItem id="item3" compid="divDetail.form.cboScdShareType" propid="value" datasetid="dsList" columnid="SCD_SHARE_CD"/>
+      <BindItem id="item6" compid="divDetail.form.chkApndYn" propid="value" datasetid="dsList" columnid="APND_YN"/>
+      <BindItem id="item8" compid="divDetail.form.chkUsedYn" propid="value" datasetid="dsList" columnid="USED_YN"/>
+      <BindItem id="item9" compid="divDetail.form.divUser.form.edtUserId" propid="value" datasetid="dsList" columnid="MGR_ID"/>
+      <BindItem id="item10" compid="divDetail.form.divUser.form.edtName" propid="value" datasetid="dsList" columnid="MGR_NM"/>
+      <BindItem id="item11" compid="divDetail.form.divUser.form.edtCode" propid="value" datasetid="dsList" columnid="MGR_EMP_NO"/>
+      <BindItem id="item4" compid="divDetail.form.divDept.form.edtCode" propid="value" datasetid="dsList" columnid="DEPT_CD"/>
+      <BindItem id="item5" compid="divDetail.form.divDept.form.edtName" propid="value" datasetid="dsList" columnid="DEPT_NM"/>
+      <BindItem id="item0" compid="divSearch.form.edtScdNm" propid="value" datasetid="dsCond" columnid="SCHEDULE_NM"/>
+      <BindItem id="item7" compid="divSearch.form.cboYnType" propid="value" datasetid="dsCond" columnid="USED_YN"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="SCHEDULE_NM" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" canrowposchange="dsList_canrowposchange" onload="dsList_onload">
+        <ColumnInfo>
+          <Column id="SCD_CD" type="STRING" size="256"/>
+          <Column id="SCD_NM" type="STRING" size="256"/>
+          <Column id="SCD_SHARE_CD" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="APND_YN" type="STRING" size="256"/>
+          <Column id="MGR_ID" type="STRING" size="256"/>
+          <Column id="MGR_EMP_NO" type="STRING" size="256"/>
+          <Column id="MGR_NM" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCmdYn">
+        <ColumnInfo>
+          <Column id="cmdCode" type="STRING" size="256"/>
+          <Column id="cmdNm" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="cmdNm">전체</Col>
+          </Row>
+          <Row>
+            <Col id="cmdCode">1</Col>
+            <Col id="cmdNm">사용</Col>
+          </Row>
+          <Row>
+            <Col id="cmdCode">0</Col>
+            <Col id="cmdNm">미사용</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	scheduleMagFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/11/09
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 	2021/11/09   		TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvEmpNo = nexacro.getApplication().gdsUser.getColumn(0,"EMP_NO");
+
+this.fvChildResult	= 0;	// 삭제 전 자식 유무 결과 저장할 변수
+this.fvRow 			= "";	// 부서 정합성 검사 row
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드
+	var param = [{biztype : "Combo", code : "CM02", objid : this.divDetail.form.cboScdShareType}						// 일정 구분 (Detail 영역)
+			  ,  {biztype : "Grid",  code : "CM02", objid : this.grdList, bindcolumn : "SCD_SHARE_CD", edit : "false"}	// grid 메시지 구분
+	];	
+	
+	//공통코드콤보설정
+	this.gfnGetCommonCode(param);
+	
+	this.divSearch.form.cboYnType.set_index(1);
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+// 조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";	//메세지ID
+		var arrArg = [""];						//메세지취환될값 배열[생략가능]
+		var sPopId = "search";					//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";		//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+		
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+
+// 추가
+this.cfnAdd = function ()
+{
+	var nRow = this.dsList.addRow();
+	
+	this.dsList.setColumn(nRow,'APND_YN',1);
+	this.dsList.setColumn(nRow,'USED_YN',1);
+	this.dsList.setColumn(nRow,'SCD_SHARE_CD',"ALL");
+	
+	// 관리자에 본인 id 입력
+    this.divDetail.form.divUser.form.edtCode.set_value(this.fvEmpNo);
+	this.divDetail.form.divUser.form.fnTranUserList();
+
+	this.divDetail.form.edtScdCd.set_readonly(false);
+	this.divDetail.form.edtScdCd.setFocus();
+	
+	// 일정공유유형 DEFAULT가 전체로 설정되어있기 때문에 부서 비활성화.
+	this.divDetail.form.divDept.set_enable(false); 
+};
+
+
+//삭제
+this.cfnDel = function ()
+{
+	if(this.dsList.rowcount == 0)  return;
+
+	var sScdCd = this.dsList.getColumn(this.dsList.rowposition,"SCD_CD");
+	
+	this.fnTranChkChild(this.dsList.rowposition,sScdCd);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+	
+	// 부서 정합성 체크
+	if(!this.fnChkDeptValidation()){
+		this.gfnAlert("msg.err.validator.required", ["부서"]);
+		this.dsList.set_rowposition(this.fvRow);
+		this.divDetail.form.divDept.set_enable(true);
+		this.gfnSetValidationFocus(this.dsList, "DEPT_CD");
+		return;
+	}
+	
+    // 정합성 체크
+	if(this.fnFormValidation()){
+		// 저장 하시겠습니까?
+		this.gfnAlert("confirm.save", [""], "saveMsg", "fnMsgCallback");
+		return;
+	}
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+
+// 조회
+this.fnTranSearch = function()
+{
+	this.dsList.clearData();
+	this.divSearch.form.edtScdNm.set_value(this.gfnTrim(this.divSearch.form.edtScdNm.value));
+	
+	var strSvcId    = "searchScheduleList";
+	var strSvcUrl   = "searchScheduleList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]	
+	
+};
+
+// 삭제 전 자식 유무 확인
+this.fnTranChkChild = function(rowposition, scdCd)
+{
+	var strSvcId    = "selectChildSchedule";
+	var strSvcUrl   = "selectChildSchedule.do";
+	var inData      = "";
+	var outData     = "";
+	var strArg      = "scdCd="+scdCd;
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]		
+};
+
+
+//저장
+this.fnTranSave = function ()
+{
+	this.dsList.set_enableevent(true);
+
+	//Insert, Update
+	var strSvcId    = "saveScheduleMaster";
+	var strSvcUrl   = "saveScheduleMaster.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+						
+};
+
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction callback
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchScheduleList":
+		   this.dsList_onload();
+		   break;
+		case "saveScheduleMaster" :
+		    break;
+		case "selectChildSchedule" :
+		    if(this.fvChildResult == 0){
+			  this.dsList.deleteRow(this.dsList.rowposition);
+			}else{
+			 this.gfnAlert("msg.scd.child");
+			 return;
+			}
+		    break;
+		default: break;
+	}
+};
+
+//message callback
+this.fnMsgCallback = function (sPopupId, sRtn)
+{
+	if( this.gfnIsNull(sRtn)||sRtn=="false"||sRtn == false){
+		return;
+	}else{
+		switch(sPopupId) {
+			case "search":
+				this.fnTranSearch();//조회
+				break;
+			case "saveMsg":
+				this.fnTranSave(); //저장
+				break;
+			default:break;
+		}
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+// 데이터 저장 전 정합성 체크
+this.fnFormValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+
+	this.gfnSetValidation(this.dsList, "SCD_CD", "일정마스터코드", "required");
+	this.gfnSetValidation(this.dsList, "SCD_NM", "일정마스터명", "required");
+	
+	this.gfnSetValidation(this.dsList, "MGR_ID", "관리자", "required");
+
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsList, "U") == false) return false;
+	else return true;
+};
+
+//부서 정합성 체크
+this.fnChkDeptValidation = function()
+{
+	var sDeptCd ="";
+	var sDeptNm ="";
+	for(var i=0; i<this.dsList.rowcount; i++){
+		if(this.dsList.getRowType(i)==2 || this.dsList.getRowType(i)==4){
+			if(this.dsList.getColumn(i,"SCD_SHARE_CD")!='ALL'){
+				if(this.gfnIsNull(this.dsList.getColumn(i, "DEPT_CD"))){
+					this.fvRow = i;
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
+
+// 일정 공유 유형 선택
+this.fnChkScdShareCd = function()
+{
+	if(this.divDetail.form.cboScdShareType.value == 'ALL'){
+		this.divDetail.form.divDept.set_enable(false);
+	}else{
+		this.divDetail.form.divDept.set_enable(true);
+	}	
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+// 일정공유유형에 따라 부서 enable속성 변경
+this.divDetail_cboScdShareType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnChkScdShareCd();
+	if(this.divDetail.form.cboScdShareType.value == 'ALL')
+	{
+		this.divDetail.form.divDept.form.edtCode.set_value("");
+		this.divDetail.form.divDept.form.edtName.set_value("");
+	}
+};
+
+// grid에서 행 선택(마우스, 키보드)
+this.grdList_oncellposchanged = function(obj:nexacro.Grid,e:nexacro.GridSelectEventInfo)
+{
+	this.fnChkScdShareCd(); //부서 활성,비활성
+};
+
+//일정마스터코드 포커스 잃을 때 중복검사 진행
+this.divDetail_edtScdCd_onkillfocus = function(obj:nexacro.Edit,e:nexacro.KillFocusEventInfo)
+{
+	var nRtnRow = this.gfnChkDuplicateData(this.dsList, "SCD_CD");
+	if(nRtnRow >=0){
+		obj.setFocus();
+		this.gfnAlert("msg.scd.scdcd.exist");
+		return false;
+	}	
+};
+
+// 데이터 변경 시 Update 할 때 scd_cd 수정 불가.
+this.dsList_canrowposchange = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var nRowType = obj.getRowType(e.newrow);
+	
+	// Row Type에 따라 일정마스터코드 입력 Component를 제어한다.
+	if(nRowType == Dataset.ROWTYPE_INSERT)
+		this.divDetail.form.edtScdCd.set_readonly(false);
+	else 
+		this.divDetail.form.edtScdCd.set_readonly(true);	
+};
+
+// 조회 후 전체 유형일 경우 부서 비활성화 시키기 위함.
+this.dsList_onload = function(obj:nexacro.NormalDataset,e:nexacro.DSLoadEventInfo)
+{
+	if(this.dsList.getColumn(0, "SCD_SHARE_CD") == 'ALL')
+	{
+		this.divDetail.form.divDept.set_enable(false);
+	}
+};
+
+//일정마스터명 trim
+this.divDetail_edtScdNm_onkillfocus = function(obj:nexacro.Edit,e:nexacro.KillFocusEventInfo)
+{
+	obj.set_value(this.gfnTrim(obj.value));
+};
+]]></Script>
+  </Form>
+</FDL>

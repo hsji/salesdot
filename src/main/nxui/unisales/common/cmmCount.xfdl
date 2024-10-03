@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="cmmCount" width="1280" height="27" titletext="페이징" onload="form_onload" onsize="form_onsize" scrolltype="none" scrollbartype="none none">
+    <Layouts>
+      <Layout height="27" mobileorientation="landscape" width="1280">
+        <Static id="staCount" taborder="0" text="총 &lt;fc v='#3683e2'&gt;0&lt;/fc&gt; 건" left="0" top="0" usedecorate="true" cssclass="sta_WF_Dot" right="0" bottom="0"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	cmmPaging.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2020/12/11
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2020/12/11			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvPageLeft   = 0; 	// div가운데 위치시키기 위한 left값
+this.fvFnCallback = "";	// 조회함수
+this.fvRecords    = 10;	// 목록수
+this.fvPage       = 1;
+this.fvObjGrid;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+};
+
+this.setText = function(cnt)
+{
+	this.staCount.set_text("총 <fc v='#3683e2'>" + cnt + "</fc> 건");
+};
+
+]]></Script>
+  </Form>
+</FDL>

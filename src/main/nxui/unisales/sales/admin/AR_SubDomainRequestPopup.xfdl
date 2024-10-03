@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AR_SubDomainRequestPopup" width="360" height="520" titletext="서브 도메인 신청서 작성" cssclass="frm_popBg" onload="AR_SubDomainRequestPopup_onload">
+    <Layouts>
+      <Layout height="520" mobileorientation="landscape" width="360">
+        <Button id="btn_Close" taborder="0" top="10" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="btn_Close_onclick" escapebutton="true"/>
+        <Static id="stc_PopupBottom" taborder="1" left="0" right="0" cssclass="sta_POP_BtnBg" onclick="stc_PopupBottom_onclick" height="43" bottom="0"/>
+        <Button id="btn_Save" taborder="2" text="저장" height="22" cssclass="btn_WF_tran" right="72" width="55" bottom="8" tabstop="true" onclick="btn_Save_onclick"/>
+        <Button id="btn_ClosePopup" taborder="3" text="닫기" height="22" right="8" width="55" bottom="8" onclick="btn_Close_onclick"/>
+        <Static id="stc_PopupTop" taborder="4" text="서브 도메인 신청서" left="8" top="8" width="122" height="20" cssclass="sta_POP_Title"/>
+        <Div id="div_SubDomain" taborder="5" left="4" top="38" height="435" cssclass="div_WF_detailBg" right="4">
+          <Layouts>
+            <Layout>
+              <Static id="stc_SubDomain" taborder="0" text="서브 도메인" left="10" top="8" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Static id="stc_Domain" taborder="1" text="도메인" left="10" top="40" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_SubDomain" taborder="2" left="stc_SubDomain:8" top="8" height="20" right="8"/>
+              <Combo id="cmb_Domain" taborder="3" left="stc_Domain:8" top="40" height="20" right="8" innerdataset="ds_Domain" codecolumn="DL_SEQ" datacolumn="DOMAIN_NAME"/>
+              <Static id="stc_ServerIp" taborder="4" text="서버(IP)" left="10" top="72" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_ServerIp" taborder="5" left="stc_ServerIp:8" top="72" height="20" right="8" innerdataset="ds_ServerList" codecolumn="SIL_SEQ" datacolumn="SERVER_INFO"/>
+              <Static id="stc_ServerType" taborder="6" text="서버 종류" left="10" top="104" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_ServerType" taborder="7" left="stc_ServerType:8" top="104" height="20" right="8" innerdataset="ds_cmm_ServerType" codecolumn="CODE" datacolumn="CAPTION"/>
+              <Static id="stc_Remarks" taborder="8" text="비고" left="10" top="168" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Grid id="grd_PortList" taborder="11" left="8" right="8" binddataset="ds_Port" autofittype="col" bottom="8" height="100">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="60"/>
+                      <Column size="105"/>
+                      <Column size="75"/>
+                      <Column size="90"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="포트 번호"/>
+                      <Cell col="1" text="프로토콜"/>
+                      <Cell col="2" text="포트포워딩"/>
+                      <Cell col="3" text="신청상태"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:PORT_NUMBER" edittype="normal"/>
+                      <Cell col="1" text="bind:PROTOCOL" edittype="normal"/>
+                      <Cell col="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:LB_FLAG" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                      <Cell col="3" text="bind:REQUEST_STATUS" displaytype="combotext" edittype="readonly" combodataset="ds_cmm_RequestStatus" combocodecol="CODE" combodatacol="CAPTION"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="stc_PortListHeader" taborder="9" left="8" cssclass="sta_POP_GroupBg" right="8" height="30" bottom="grd_PortList:0"/>
+              <Static id="stc_PortList" taborder="10" text="포트" left="13" top="300" height="20" cssclass="sta_POP_GroupTit" width="120"/>
+              <Button id="btn_PortDel" taborder="12" top="303" height="16" cssclass="btn_POP_Del" text="" width="30" right="15" onclick="div_SubDomain_btn_PortDel_onclick"/>
+              <Button id="btn_PortAdd" taborder="13" top="303" height="16" cssclass="btn_POP_Add" right="50" width="30" onclick="div_SubDomain_btn_PortAdd_onclick"/>
+              <Static id="stc_MDept" taborder="14" text="사용부서" left="10" top="136" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Button id="btn_ManageDept" taborder="15" text="선택" left="stc_MDept:8" top="136" width="40" height="20" onclick="div_ServerRequest_btn_ManageDept_onclick"/>
+              <Static id="stc_ManageDept" taborder="16" text="선택 필요" left="btn_ManageDept:8" top="136" height="20" right="8"/>
+              <TextArea id="txt_Remark" taborder="17" left="stc_Remarks:8" right="8" height="79" top="168"/>
+              <Static id="stc_RequestStatus" taborder="18" text="신청 현황" left="10" top="258" width="74" height="20" cssclass="sta_WF_DetailTit" visible="false"/>
+              <Combo id="cmb_RequestStatus" taborder="19" left="stc_RequestStatus:8" top="258" width="250" height="20" innerdataset="ds_cmm_RequestStatus" codecolumn="CODE" datacolumn="CAPTION" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_ServerList">
+        <ColumnInfo>
+          <Column id="SIL_SEQ" type="BIGDECIMAL" size="256"/>
+          <Column id="SERVER_NAME" type="STRING" size="256"/>
+          <Column id="SERVER_NAME_ALIAS" type="STRING" size="256"/>
+          <Column id="PUBLIC_IP" type="STRING" size="256"/>
+          <Column id="PRIVATE_IP" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="1"/>
+          <Column id="FILE_FLAG" type="STRING" size="1"/>
+          <Column id="PLATFORM_TYPE" type="STRING" size="256"/>
+          <Column id="MANAGE_DEPT_CD" type="STRING" size="256"/>
+          <Column id="MAINTENANCE_FLAG" type="STRING" size="1"/>
+          <Column id="SERVER_INFO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Domain">
+        <ColumnInfo>
+          <Column id="DL_SEQ" type="STRING" size="256"/>
+          <Column id="DOMAIN_NAME" type="STRING" size="256"/>
+          <Column id="MANAGE_DEPT_CD" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_SubDomain">
+        <ColumnInfo>
+          <Column id="SDL_SEQ" type="STRING" size="256"/>
+          <Column id="DL_SEQ" type="STRING" size="256"/>
+          <Column id="SIL_SEQ" type="STRING" size="256"/>
+          <Column id="SUB_DOMAIN" type="STRING" size="256"/>
+          <Column id="USE_DEPT_CD" type="STRING" size="256"/>
+          <Column id="USE_DEPT_NM" type="STRING" size="256"/>
+          <Column id="SERVER_TYPE" type="STRING" size="256"/>
+          <Column id="REQUEST_STATUS" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Dept">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="20"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">001</Col>
+            <Col id="CAPTION">정보관리팀</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">002</Col>
+            <Col id="CAPTION">클라우드환경팀</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">003</Col>
+            <Col id="CAPTION">프리세일즈팀</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">004</Col>
+            <Col id="CAPTION">교육팀</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">005</Col>
+            <Col id="CAPTION">일본지원팀</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cmm_ServerType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="20"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Port">
+        <ColumnInfo>
+          <Column id="SPL_SEQ" type="STRING" size="256"/>
+          <Column id="SDL_SEQ" type="STRING" size="256"/>
+          <Column id="PORT_NUMBER" type="STRING" size="256"/>
+          <Column id="PROTOCOL" type="STRING" size="256"/>
+          <Column id="LB_FLAG" type="INT" size="1"/>
+          <Column id="REQUEST_STATUS" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_RequestStatus">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="20"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 
+* 02. 화면명   : 서브 도메인 신청서 작성(AR_SubDomainRequestPopup)
+* 03. 화면설명 : 
+* 04. 작성일   : 2023/12/26
+* 05. 작성자   : 이상원
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AR_SubDomainRequestPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnAddCodeDataset("ds_cmm_ServerType", "SERVER_TYPE");	
+	this.gfnAddCodeDataset("ds_cmm_RequestStatus", "SERVER_REQUEST_STATUS");	
+
+	this.gfnCodeTransaction();
+	
+	this.fnSearchServerList();
+	this.fnSearchDomainList();
+	this.gfnCompInit(obj);	//사용자 Grid
+
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnSearchServerList = function ()
+{
+	this.gfnAddOutputDataset("ds_ServerList","ds_ServerList");
+	
+	this.gfnCommonTransaction("fnSearchServerList", "AR_ServerListMM_S01");
+};
+
+this.fnSearchDomainList = function ()
+{
+	this.gfnAddOutputDataset("ds_Domain","ds_Domain");
+	
+	this.gfnCommonTransaction("fnSearchDomainList", "AR_DomainMM_S01");
+}
+
+this.fnSearchSubDomain = function ()
+{
+	this.gfnAddSendParameter("SDL_SEQ",this.parent.SDL_SEQ);
+	
+	this.gfnAddOutputDataset("ds_SubDomain","ds_SubDomain");
+	this.gfnAddOutputDataset("ds_Port","ds_Port");
+	this.gfnCommonTransaction("fnSearchSubDomain", "AR_SubDomainRequestPopup_S02");
+}
+
+this.fnSaveSubDomain = function ()
+{
+	
+	this.gfnAddInputDataset("ds_SubDomain","ds_SubDomain","A");
+	this.gfnAddInputDataset("ds_Port","ds_Port","A");
+	
+	this.gfnCommonTransaction("fnSaveSubDomain", "AR_SubDomainRequestPopup_R01");
+};
+
+this.portAddRow = function ()
+{
+	var nRow = this.ds_Port.addRow();
+	var nSDL_SEQ = this.ds_SubDomain.getColumn(0,"SDL_SEQ");
+	if(this.gfnIsEmpty(nSDL_SEQ) == false) {
+		this.ds_Port.setColumn(nRow,"SDL_SEQ",nSDL_SEQ);
+	}
+	this.ds_Port.setColumn(nRow,"LB_FLAG","0");
+	this.ds_Port.setColumn(nRow,"REQUEST_STATUS","002");
+	this.ds_Port.setColumn(nRow,"REMARK","");
+};
+
+this.checkAuth = function() {
+	if(this.commUtil.getFormAuthority(343,1) == true) {
+		if(this.gfnIsEmpty(this.parent.SDL_SEQ)){
+			this.stc_PopupTop.set_text("서브 도메인 생성");
+		} else {
+			this.stc_PopupTop.set_text("서브 도메인 관리");
+		}
+		this.div_SubDomain.form.stc_RequestStatus.set_visible(true);
+		this.div_SubDomain.form.cmb_RequestStatus.set_visible(true);
+
+		this.div_SubDomain.form.grd_PortList.setCellProperty( "body", 3, "edittype", "combo");
+	} else {
+		this.div_SubDomain.form.txt_Remark.set_height("119px");
+
+	}
+}
+
+this.fnValidation = function ()
+{
+	var sSubDomain = this.ds_SubDomain.getColumn(0,"SUB_DOMAIN");
+	var sDlSeq = this.ds_SubDomain.getColumn(0,"DL_SEQ");
+	var sSilSeq = this.ds_SubDomain.getColumn(0,"SIL_SEQ");
+	var sDeptCd = this.ds_SubDomain.getColumn(0,"USE_DEPT_CD");
+	var sDeptNm = this.ds_SubDomain.getColumn(0,"USE_DEPT_NM");
+	var nServerType = this.ds_SubDomain.getColumn(0,"SERVER_TYPE");
+	var nRequestStatus = this.ds_SubDomain.getColumn(0,"REQUEST_STATUS");
+	var sRemark = this.ds_SubDomain.getColumn(0,"REMARK");
+	
+	if(this.gfnIsEmpty(sSubDomain) == true) {
+		this.alert("서브도메인은 필수 입력 항목입니다.");
+		return false;
+	} else if(this.gfnIsEmpty(sDlSeq) == true) {
+		this.alert("도메인은 필수 입력 항목입니다.");
+		return false;
+	} else if(this.gfnIsEmpty(sSilSeq) == true) {
+		this.alert("서버(IP)는 필수 입력 항목입니다.");
+		return false;
+	} else if(this.gfnIsEmpty(nServerType) == true) {
+		this.alert("서버종류는 필수 입력 항목입니다.");
+		return false;
+	} else if(this.gfnIsEmpty(sDeptCd) == true || this.gfnIsEmpty(sDeptNm) == true) {
+		this.alert("사용부서는 필수 입력 항목입니다.");
+		return false;
+	} else if(this.gfnIsEmpty(nServerType) == true) {
+		this.alert("서버종류는 필수 입력 항목입니다.");
+		return false;
+	} 
+	
+	if(this.gfnIsEmpty(nRequestStatus) == true) {
+		this.ds_SubDomain.setColumn(0,"REQUEST_STATUS","002");
+	}
+	
+	if(this.gfnIsEmpty(sRemark) == true) {
+		this.ds_SubDomain.setColumn(0,"REMARK","");
+	}
+	
+	for(var i = 0; i < this.ds_Port.rowcount; i++) {
+		var nPortNumber = this.ds_Port.getColumn(i, "PORT_NUMBER");
+		var sProtocol = this.ds_Port.getColumn(i, "PROTOCOL");
+		if(this.gfnIsEmpty(nPortNumber) == true) {
+			this.alert("포트번호는 필수 입력 항목입니다.");
+			return false;
+		} else if(this.gfnIsEmpty(sProtocol) == true) {
+			this.alert("프로토콜은 필수 입력 항목입니다.");
+			return false;
+		}
+		
+	}
+	this.fnSaveSubDomain();
+};
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	switch(strSvcID) {
+	case "gfnGetCode" :
+		this.ds_cmm_RequestStatus.filter("VAL2 == 1");
+		//서버자원관리 화면 권환
+		this.checkAuth();
+		
+		if(this.gfnIsEmpty(this.parent.SDL_SEQ) == true ) {
+			this.ds_SubDomain.clearData();
+			this.ds_SubDomain.addRow();
+			this.ds_Port.clearData();
+			this.ds_SubDomain.setColumn(0,"REQUEST_STATUS","002");
+		} else {
+			this.fnSearchSubDomain();
+		}
+		break;
+	case "fnSearchServerList" :
+
+		break;
+	case "fnSearchDomainList" :
+		break;
+	case "fnSearchSubDomain" :
+		var nDeptName = this.ds_SubDomain.getColumn(0,"USE_DEPT_NM");
+		this.div_SubDomain.form.stc_ManageDept.set_text(nDeptName);
+		break;
+	case "fnSaveSubDomain" :
+			this.commUtil.popupClose("save");
+		break;
+	
+	default:
+		break;
+	}
+
+}
+
+this.fnPopupCallBack = function (popupId, popupArg)
+{	
+	popupArg = this.commUtil.popupReturn();
+	switch(popupId)
+	{
+		case "UseDept_Popup":
+			var ds = new Dataset();
+			ds.loadXML(popupArg.toString(), true);
+			if(ds.rowcount > 0)
+			{
+				var nDeptName = ds.getColumn(0,"DEPT_NM");
+				var nDeptCd = ds.getColumn(0,"DEPT_CD");
+				this.div_SubDomain.form.stc_ManageDept.set_text(nDeptName);
+
+				this.ds_SubDomain.setColumn(0,"USE_DEPT_CD",nDeptCd);
+				this.ds_SubDomain.setColumn(0,"USE_DEPT_NM",nDeptName);
+			}
+			break;
+		default :
+			break;
+	}
+}
+
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.div_ServerRequest_btn_ManageDept_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupOrganization(this, "UseDept_Popup", "fnPopupCallBack", "DEPT", null, "1");
+};
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("cancel");
+};
+
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	this.fnValidation();
+};
+this.div_SubDomain_btn_PortAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.portAddRow();
+};
+
+this.div_SubDomain_btn_PortDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_Port.deleteRow(this.ds_Port.rowposition);
+};
+
+/************************************************************************************************
+* 팝업 TRANSACTION 및 추가 FUNCTION 영역 
+************************************************************************************************/
+
+/************************************************************************************************
+* 팝업 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_SubDomain.form.edt_SubDomain" propid="value" datasetid="ds_SubDomain" columnid="SUB_DOMAIN"/>
+      <BindItem id="item1" compid="div_SubDomain.form.cmb_Domain" propid="value" datasetid="ds_SubDomain" columnid="DL_SEQ"/>
+      <BindItem id="item2" compid="div_SubDomain.form.cmb_ServerIp" propid="value" datasetid="ds_SubDomain" columnid="SIL_SEQ"/>
+      <BindItem id="item3" compid="div_SubDomain.form.cmb_ServerType" propid="value" datasetid="ds_SubDomain" columnid="SERVER_TYPE"/>
+      <BindItem id="item5" compid="div_SubDomain.form.txt_Remark" propid="value" datasetid="ds_SubDomain" columnid="REMARK"/>
+      <BindItem id="item4" compid="div_SubDomain.form.cmb_RequestStatus" propid="value" datasetid="ds_SubDomain" columnid="REQUEST_STATUS"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="nextCommMapper">
+<!--공통 : 파일 조회 -->
+<select id="selectFileList" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT '0' AS CHK
+	     , FP.SOURCE_CD
+	     , FP.SOURCE_SEQ
+	     , FP.STATUS_CD
+	     , FP.FM_SEQ
+	     , FM.FILE_SEQ
+	     , FM.FILE_TYPE
+	     , FM.FILE_NAME
+	     , FM.SAVE_FILE_NAME
+	     , FM.SAVE_PATH
+	     , 'N' AS DEL_FLAG
+	     , '1' AS STATUS
+	     , ( SELECT EMP_NM
+	         FROM T_SYTM_USER
+	         WHERE EMP_NO = FM.INPT_ID
+	        ) AS INSERT_EMP_NAME
+	     , FM.INPT_DTTM
+	     , FP.SHARE_FLAG
+	     , '' AS FILE_STATUS
+	     , '' AS fileid
+	FROM SALES_FILE_MAP FP
+	LEFT JOIN SALES_FILE_MASTER FM ON FP.FM_SEQ = FM.FM_SEQ
+	WHERE 1=1
+	  AND (FP.SOURCE_CD = #{SOURCE_CD} AND FP.SOURCE_SEQ = #{SOURCE_SEQ})
+	<if test="SOURCE_CD != null and SOURCE_CD != '' and 'CL'.equals(SOURCE_CD)">
+	  OR (FP.SOURCE_CD = 'P' AND FP.SOURCE_SEQ IN (
+	  										SELECT PROJECT_CODE
+	                        					FROM SALES_CONTRACT_LIST
+	                        					WHERE CONTRACT_NO = #{SOURCE_SEQ}))
+	</if>
+	<choose>
+	  <when test="STATUS_CD != null and STATUS_CD != ''">
+	    AND FP.STATUS_CD = #{STATUS_CD}
+	  </when>
+	  <otherwise>
+	    AND IFNULL(FP.STATUS_CD, '') != 'INSERT'
+	  </otherwise>
+	</choose>
+	ORDER BY FP.SOURCE_CD, FP.SOURCE_SEQ, FP.STATUS_CD, FP.FM_SEQ
+</select>
+
+<!--공통 : 파일 조회 -->
+<select id="selectFileMap" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT CAST(COUNT(*) AS INTEGER) AS CNT
+	FROM SALES_FILE_MAP
+	WHERE SOURCE_CD = #{SOURCE_CD}
+	AND  SOURCE_SEQ = #{SOURCE_SEQ}
+	AND  STATUS_CD = #{STATUS_CD}
+</select>
+
+<select id="selectFileMasterKey" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT CAST(COUNT(*) AS INTEGER) AS CNT
+	FROM SALES_FILE_MAP
+	WHERE FM_SEQ = #{FM_SEQ}
+	AND SOURCE_CD = #{SOURCE_CD}
+	AND  SOURCE_SEQ = #{SOURCE_SEQ}
+</select>
+
+<select id="selectFileMasterCount" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT CAST(COUNT(*) AS INTEGER) AS CNT
+	FROM SALES_FILE_MASTER
+	WHERE FM_SEQ = #{FM_SEQ}
+</select>
+
+<select id="selectFileMasterBySeq" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+	       FM.FILE_SEQ
+	     , FM.FILE_TYPE
+	     , FM.FILE_NAME
+	     , FM.SAVE_FILE_NAME
+	     , FM.SAVE_PATH	
+	     , FP.SOURCE_CD
+	     , FP.SOURCE_SEQ
+	     , FP.STATUS_CD
+	FROM SALES_FILE_MASTER FM,SALES_FILE_MAP FP
+	WHERE FM.FM_SEQ = #{FM_SEQ}
+	AND   FM.FILE_SEQ = #{FILE_SEQ}
+	AND   FP.FM_SEQ = #{FM_SEQ}
+</select>
+
+<!-- file map 저장 -->
+<insert id="insertMapFile" parameterType="java.util.Map">
+	INSERT INTO SALES_FILE_MAP
+	(
+	SOURCE_CD
+	, SOURCE_SEQ
+	, STATUS_CD
+	, FM_SEQ
+	, DEL_FLAG
+	, SHARE_FLAG
+	, INPT_ID
+	, INPT_IP
+	, INPT_DTTM
+	, CHGE_ID
+	, CHGE_IP
+	, CHGE_DTTM
+	)VALUES(
+	 #{SOURCE_CD}
+	,#{SOURCE_SEQ}
+	,#{STATUS_CD}
+	,#{FM_SEQ}
+	,#{DEL_FLAG}
+	,#{SHARE_FLAG}
+	,#{USER_ID_SRV}
+	,#{USER_CON_IPADDR_SRV}
+	,NOW()
+	,#{USER_ID_SRV}
+	,#{USER_CON_IPADDR_SRV}
+	,NOW()
+	)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		      FM_SEQ = #{FM_SEQ}
+</insert>
+
+<!-- file map 삭제 -->
+<delete id="deleteMapFile" parameterType="java.util.Map">
+	DELETE FROM SALES_FILE_MAP
+	WHERE SOURCE_CD=#{SOURCE_CD} 
+	AND SOURCE_SEQ=#{SOURCE_SEQ} 
+	AND STATUS_CD=#{STATUS_CD}
+</delete>
+
+<delete id="deleteMapFileMasterKey" parameterType="java.util.Map">
+	DELETE FROM SALES_FILE_MAP
+	WHERE SOURCE_CD=#{SOURCE_CD} 
+	AND SOURCE_SEQ=#{SOURCE_SEQ} 
+	AND STATUS_CD=#{STATUS_CD}
+	AND FM_SEQ=#{FM_SEQ}
+</delete>
+
+<!-- file master 저장 -->
+<insert id="insertMasterFile" parameterType="java.util.Map">
+	INSERT INTO SALES_FILE_MASTER
+	(
+	 FM_SEQ
+	, FILE_SEQ
+	, SAVE_FILE_NAME
+	, FILE_NAME
+	, FILE_SIZE
+	, FILE_TYPE
+	, SAVE_PATH
+	, INPT_ID
+	, INPT_IP
+	, INPT_DTTM
+	, CHGE_ID
+	, CHGE_IP
+	, CHGE_DTTM
+	)VALUES(
+	 #{FM_SEQ}
+	,(SELECT COALESCE(MAX(FILE_SEQ),0)+1 FROM SALES_FILE_MASTER F WHERE FM_SEQ = #{FM_SEQ})
+	,#{SAVE_FILE_NAME}
+	,#{FILE_NAME}
+	,#{FILE_SIZE}
+	,#{FILE_TYPE}
+	,#{SAVE_PATH}
+	,#{USER_ID_SRV}
+	,#{USER_CON_IPADDR_SRV}
+	,NOW()
+	,#{USER_ID_SRV}
+	,#{USER_CON_IPADDR_SRV}
+	,NOW()
+	)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		    SAVE_FILE_NAME 			= #{SAVE_FILE_NAME}
+		    , FILE_NAME 			= #{FILE_NAME}
+		    , FILE_SIZE 		= #{FILE_SIZE}
+		    , FILE_TYPE 		= #{FILE_TYPE}
+		    , SAVE_PATH 		= #{SAVE_PATH}
+		    , CHGE_ID 			= #{USER_ID_SRV}
+		    , CHGE_IP			= #{USER_CON_IPADDR_SRV}
+		    , CHGE_DTTM			= NOW()	
+</insert>
+
+<!-- file master 삭제 -->
+<delete id="deleteMasterFile" parameterType="java.util.Map">
+	DELETE FROM SALES_FILE_MASTER
+	WHERE FM_SEQ=#{FM_SEQ} 
+	AND FILE_SEQ=#{FILE_SEQ} 
+</delete>
+
+<!-- 제품공통  RELATED_COMPANY_CODE가 없고  SEARCH_GB : C,P,N,A,CN -->
+<select id="selectProjectSearch1" parameterType="java.util.Map" resultType="java.util.Map">
+	-- ProjectSearch1
+	SELECT  
+	    P.CLIENT_CODE,
+	    CP.COMPANY_NAME AS CLIENT_NAME,
+	    P.PROJECT_CODE,
+	    P.PROJECT_NAME,
+	    CL.CONTRACT_NO,
+	    CL.CONTRACT_TYPE,
+	    <!-- CONCAT(CASE CL.CONTRACT_STATUS WHEN '3' THEN '' ELSE '[AAA]' END, CD.SSC_CD_KORN_NM) AS CONTRACT_TYPE_NAME,  -->
+	    CONCAT('[', CD.SSC_CD_KORN_NM,']') AS CONTRACT_TYPE_NAME, 
+	    CL.CONTRACT_NAME,
+	    CL.CONTRACT_DATE,
+	    CL.SALES_EMP_NO AS BIZ_STAFF,
+	    VE.EMP_NM AS BIZ_STAFF_NAME,
+	    CL.CONTRACT_MAIN,
+	    CM.COMPANY_NAME AS CONTRACT_MAIN_NAME,
+	    CL.PRODUCT_CODE,
+	    PROD.PRODUCT_NAME,
+	    P.CONTRACT_STATUS AS PROJECT_CONTRACT_STATUS,
+	    CL.CONTRACT_STATUS,
+	    CASE
+	        WHEN CL.CO_CD = #{CO_CD} THEN ''
+	        ELSE 'GREEN'
+	    END AS COLOR,
+	    CL.CO_CD
+	FROM    
+	    SALES_PROJECT_LIST P
+	JOIN    
+	    SALES_COMPANY_LIST CP ON CP.COMPANY_CODE = P.CLIENT_CODE AND CP.DELETE_FLAG = '0'
+	JOIN    
+	    SALES_CONTRACT_LIST CL ON CL.PROJECT_CODE = P.PROJECT_CODE AND CL.DELETE_FLAG = '0'
+	    
+	    <choose>
+	        <when test=' All_CO == "ALL" '>
+	            AND CL.CONTRACT_NO IN (
+	                SELECT CL2.CONTRACT_NO
+	                FROM SALES_CONTRACT_LIST CL1
+	                JOIN SALES_CONTRACT_LIST CL2 ON CL2.RELATED_CONTRACT_NO = CL1.CONTRACT_NO
+	                WHERE CL1.CO_CD = #{CO_CD}
+	                UNION
+	                SELECT CL1.CONTRACT_NO
+	                FROM SALES_CONTRACT_LIST CL1
+	                WHERE CL1.CO_CD = #{CO_CD}
+	            )
+	        </when>
+	        <otherwise>
+	            AND CL.CO_CD = #{CO_CD}
+	        </otherwise>
+	    </choose>
+	
+	LEFT JOIN 
+	    SALES_COMPANY_LIST CM ON CM.COMPANY_CODE = CL.CONTRACT_MAIN AND CM.DELETE_FLAG = '0'
+	JOIN    
+	    T_SYTM_USER VE ON CL.SALES_EMP_NO = VE.EMP_NO
+	JOIN    
+	    T_SYTM_CODE CD ON CD.HCL_CD = 'CONTRACT_TYPE' AND CD.SSC_CD = CL.CONTRACT_TYPE
+	JOIN    
+	    T_SYTM_CODE CD1 ON CD1.HCL_CD = 'CONTRACT_STATUS' AND CD1.SSC_CD = CL.CONTRACT_STATUS
+	LEFT JOIN   
+	    SALES_PRODUCT_LIST PROD ON PROD.PRODUCT_CODE = CL.PRODUCT_CODE AND PROD.DELETE_FLAG = '0'
+	WHERE   
+	    P.DELETE_FLAG = '0'
+	
+	-- 매출계약구분 관련 조건 처리
+	<if test="ESTIMATE_FLAG != null and ESTIMATE_FLAG != '' and ESTIMATE_CONTRACT_TYPE != null and ESTIMATE_CONTRACT_TYPE != ''">
+	    <choose>
+	        <when test='ESTIMATE_CONTRACT_TYPE == "MA"'>
+	            AND CL.CONTRACT_TYPE IN ('P','G')
+	        </when>
+	        <when test='ESTIMATE_CONTRACT_TYPE == "UNION_MA"'>
+	            AND CL.CONTRACT_TYPE IN ('M')
+	        </when>
+	    </choose>
+	</if>
+	
+	-- 계약 타입 필터링
+	<if test="ESTIMATE_FLAG != null and ESTIMATE_FLAG != ''">
+	    <choose>
+	        <when test='MULTI_CONTRACT_TYPE_FLAG == "Y"'>
+	            AND CL.CONTRACT_TYPE IN #{CONTRACT_TYPE_LIST}
+	        </when>
+	        <otherwise>
+	            <if test="CONTRACT_TYPE != null and CONTRACT_TYPE != ''">
+	                <choose>
+	                    <when test='CONTRACT_TYPE == "G"'>
+	                        AND (CL.CONTRACT_TYPE = 'G' OR PROD.GOODS_FLAG = '1')
+	                    </when>
+	                    <when test='CONTRACT_TYPE == "S"'>
+	                        AND CL.CONTRACT_TYPE IN ('S','T')
+	                    </when>
+	                    <when test='CONTRACT_TYPE != "G" and CONTRACT_TYPE != "S" and CONTRACT_TYPE != "E"'>
+	                        AND CL.CONTRACT_TYPE = #{CONTRACT_TYPE}
+	                    </when>
+	                </choose>
+	            </if>
+	        </otherwise>
+	    </choose>
+	</if>
+	
+	-- 프로젝트 코드 필터링
+	<if test="PROJECT_CODE != null and PROJECT_CODE != ''">
+	    AND P.PROJECT_CODE = #{PROJECT_CODE}
+	</if>
+	
+	-- 고객 코드 필터링
+	<if test="CLIENT_CODE != null and CLIENT_CODE != ''">
+	    AND P.CLIENT_CODE = #{CLIENT_CODE}
+	</if>
+	
+	-- 검색 조건
+	<if test="SEARCH_GB != null and SEARCH_GB != '' and SEARCH_TEXT != null and SEARCH_TEXT != ''">
+	    <choose>
+	        <when test='SEARCH_GB == "C"'>
+	        	<!--  
+	            AND (REPLACE(REPLACE(REPLACE(REPLACE(CP.COMPANY_NAME, '%','^'), '/','^'), '[','^'), ']','^') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+	            OR REPLACE(REPLACE(REPLACE(REPLACE(CP.TAG, '%','^'), '/','^'), '[','^'), ']','^') LIKE CONCAT('%',#{SEARCH_TEXT},'%'))
+	            -->
+	            -- 고객사
+	            AND (REGEXP_REPLACE(CP.COMPANY_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+	            OR REGEXP_REPLACE(CP.TAG, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%'))
+	        </when>
+	        <when test='SEARCH_GB == "P"'>
+	        	<!--  
+	            AND REPLACE(REPLACE(REPLACE(REPLACE(P.PROJECT_NAME, '%','^'), '/','^'), '[','^'), ']','^') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+	            -->
+	            -- 프로젝트
+	            AND REGEXP_REPLACE(P.PROJECT_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+	        </when>
+	        <when test='SEARCH_GB == "N"'>
+	        	<!-- 
+	            AND REPLACE(REPLACE(REPLACE(REPLACE(CL.CONTRACT_NAME, '%','^'), '/','^'), '[','^'), ']','^') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+	             -->
+	            AND REGEXP_REPLACE(CL.CONTRACT_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+	        </when>
+	        <when test='SEARCH_GB == "A"'>
+	        	<!-- 
+	            AND (REPLACE(REPLACE(REPLACE(REPLACE(CM.COMPANY_NAME, '%','^'), '/','^'), '[','^'), ']','^') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+	            OR REPLACE(REPLACE(REPLACE(REPLACE(CM.TAG, '%','^'), '/','^'), '[','^'), ']','^') CONCAT('%',#{SEARCH_TEXT},'%'))
+	             -->
+	             -- 매출계약처
+	            AND (REGEXP_REPLACE(CM.COMPANY_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+	            OR REGEXP_REPLACE(CM.TAG, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%'))
+	        </when>
+	        <when test='SEARCH_GB == "CN"'>
+	            AND CL.CONTRACT_NO = #{SEARCH_TEXT}
+	        </when>
+	    </choose>
+	</if>
+	
+	-- 계약 상태 필터링
+	<if test="CONTRACT_COMPLETE_TYPE != null and CONTRACT_COMPLETE_TYPE != ''">
+	    <choose>
+	        <when test='CONTRACT_COMPLETE_TYPE == "0"'>
+	            AND CL.CONTRACT_STATUS != '3'
+	        </when>
+	        <when test='CONTRACT_COMPLETE_TYPE == "1"'>
+	            AND CL.CONTRACT_STATUS = '3'
+	        </when>
+	    </choose>
+	</if>
+	
+	ORDER BY CP.COMPANY_NAME, CL.CONTRACT_DATE DESC
+
+</select>
+
+<!-- 제품공통  RELATED_COMPANY_CODE가 없고  SEARCH_GB : M,B,PN -->
+<select id="selectProjectSearch2" parameterType="java.util.Map" resultType="java.util.Map">
+	-- ProjectSearch2
+	SELECT  
+	    P.CLIENT_CODE,
+	    CP.COMPANY_NAME AS CLIENT_NAME,
+	    P.PROJECT_CODE,
+	    P.PROJECT_NAME,
+	    CL.CONTRACT_NO,
+	    PL.CONTRACT_TYPE,
+	    <!-- CONCAT(CASE CL.CONTRACT_STATUS WHEN '3' THEN '' ELSE CONCAT('[', COMM.DBO.GET_TRANS_TXT(@LANGUAGE, 20), '] ') END, CD2.CAPTION) AS CONTRACT_TYPE_NAME, -->
+	    CONCAT('[', CD3.SSC_CD_KORN_NM,']') AS CONTRACT_TYPE_NAME, 	
+	    PL.CONTRACT_NAME,
+	    PL.CONTRACT_DATE,
+	    CL.SALES_EMP_NO AS BIZ_STAFF,
+	    VE.EMP_NM AS BIZ_STAFF_NAME,
+	    PL.CONTRACT_MAIN,
+	    PLCM.COMPANY_NAME AS CONTRACT_MAIN_NAME,
+	    CL.PRODUCT_CODE,
+	    PROD.PRODUCT_NAME,
+	    P.CONTRACT_STATUS AS PROJECT_CONTRACT_STATUS,
+	    PL.CONTRACT_STATUS,
+	    CASE
+	        WHEN CL.CO_CD = #{CO_CD} THEN ''
+	        ELSE 'GREEN'
+	    END AS COLOR,
+	    CL.CO_CD
+	FROM    
+	    SALES_PROJECT_LIST P
+	JOIN    
+	    SALES_COMPANY_LIST CP ON CP.COMPANY_CODE = P.CLIENT_CODE AND CP.DELETE_FLAG = '0'
+	JOIN    
+	    SALES_CONTRACT_LIST CL ON CL.PROJECT_CODE = P.PROJECT_CODE AND CL.DELETE_FLAG = '0'
+	    -- 조건 분기 처리
+	    <choose>
+	        <when test=' All_CO == "ALL" '>
+	            AND CL.CONTRACT_NO IN (
+	                SELECT CL2.CONTRACT_NO
+	                FROM SALES_CONTRACT_LIST CL1
+	                JOIN SALES_CONTRACT_LIST CL2 ON CL2.RELATED_CONTRACT_NO = CL1.CONTRACT_NO
+	                WHERE CL1.CO_CD = 'W01'
+	                UNION
+	                SELECT CL1.CONTRACT_NO
+	                FROM SALSE_CONTRACT_LIST CL1
+	                WHERE CL1.CO_CD = 'W01'
+	            )
+	        </when>
+			<otherwise>
+				 AND CL.CO_CD = #{CO_CD}
+			</otherwise>		
+	    </choose>
+	LEFT JOIN   
+	    SALES_COMPANY_LIST CM ON CM.COMPANY_CODE = CL.CONTRACT_MAIN AND CM.DELETE_FLAG = '0'
+	JOIN    
+	   T_SYTM_USER VE ON CL.SALES_EMP_NO = VE.EMP_NO
+	LEFT JOIN   
+	    SALES_PRODUCT_LIST PROD ON PROD.PRODUCT_CODE = CL.PRODUCT_CODE AND PROD.DELETE_FLAG = '0'
+	JOIN    
+	    SALES_PURCHASE_LIST PL ON CL.CONTRACT_NO = PL.CONTRACT_NO AND PL.DELETE_FLAG = '0'
+	JOIN    
+	    SALES_COMPANY_LIST PLCM ON PL.CONTRACT_MAIN = PLCM.COMPANY_CODE AND PL.DELETE_FLAG = '0'
+	JOIN    
+	    T_SYTM_CODE CD2 ON CD2.HCL_CD = 'CONTRACT_TYPE' AND CD2.SSC_CD = PL.CONTRACT_TYPE
+	JOIN    
+	    T_SYTM_CODE CD3 ON CD3.HCL_CD = 'CONTRACT_STATUS' AND CD3.SSC_CD = PL.CONTRACT_STATUS
+	WHERE   
+	    P.DELETE_FLAG = '0'
+	
+	-- 매출 계약 구분
+	<if test="ESTIMATE_FLAG != null and ESTIMATE_FLAG != '' and ESTIMATE_CONTRACT_TYPE != null and ESTIMATE_CONTRACT_TYPE != ''">
+		<choose>
+			<when test='ESTIMATE_CONTRACT_TYPE == "MA"'>
+				AND CL.CONTRACT_TYPE IN ('P','G')
+			</when>
+			<when test='ESTIMATE_CONTRACT_TYPE == "UNION_MA"'>
+				AND CL.CONTRACT_TYPE IN ('M')
+			</when>
+		</choose>
+	</if>
+	
+	<if test=' (ESTIMATE_FLAG == null or ESTIMATE_FLAG == "") and ESTIMATE_CONTRACT_TYPE != null and ESTIMATE_CONTRACT_TYPE != "" '>
+	    <choose>
+	        <when test=' CONTRACT_TYPE == "S" '>
+	            AND CL.CONTRACT_TYPE IN ('S', 'T')  -- 용역일 경우 컨설팅 서비스 포함
+	        </when>
+	        <when test=' CONTRACT_TYPE != "S" and CONTRACT_TYPE != "" '>
+	            AND CL.CONTRACT_TYPE = #{CONTRACT_TYPE}
+	        </when>
+	    </choose>
+	</if>
+	
+	-- 프로젝트 코드 필터링
+	<if test=" PROJECT_CODE != null and  PROJECT_CODE != ''">
+	    AND P.PROJECT_CODE = #{PROJECT_CODE}
+	</if>
+	
+	-- 고객사 코드 필터링
+	<if test="CLIENT_CODE != null and CLIENT_CODE != ''">
+	    AND P.CLIENT_CODE = #{CLIENT_CODE}
+	</if>
+	
+	<if test="SEARCH_TEXT !=null and SEARCH_TEXT != ''">
+		-- 매입 계약명 필터링
+		<if test=' SEARCH_GB == "M" '>
+			AND REGEXP_REPLACE(PL.CONTRACT_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+		</if>
+		
+		-- 매입 계약처명 필터링
+		<if test=' SEARCH_GB == "B" '>
+			AND (REGEXP_REPLACE(PLCM.COMPANY_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+				 OR REGEXP_REPLACE(PLCM.TAG, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%'))
+		</if>
+		
+		-- 매입 계약 코드 필터링
+		<if test=' SEARCH_GB == "PN" '>
+		    AND PL.CONTRACT_NO_PURCHASE = #{SEARCH_TEXT}
+		</if>
+	</if>
+	
+	-- 계약 상태 필터링 (가계약, 진계약)
+	<if test="CONTRACT_COMPLETE_TYPE != null and CONTRACT_COMPLETE_TYPE != ''">
+		<choose>
+			<when test='CONTRACT_COMPLETE_TYPE == "0"'>
+				AND CL.CONTRACT_STATUS != '3'
+			</when>
+			<when test='CONTRACT_COMPLETE_TYPE == "1"'>
+				AND CL.CONTRACT_STATUS = '3'
+			</when>
+		</choose>
+	</if>
+	ORDER BY CP.COMPANY_NAME, CL.CONTRACT_DATE DESC
+
+</select>
+<!-- 제품공통  RELATED_COMPANY_CODE가 있고  SEARCH_GB : C,P,N,A,CN -->
+<select id="selectProjectSearch3" parameterType="java.util.Map" resultType="java.util.Map">
+	-- ProjectSearch3
+	SELECT  
+	    PL.CLIENT_CODE,
+	    CM.COMPANY_NAME AS CLIENT_NAME,
+	    PL.PROJECT_CODE,
+	    PL.PROJECT_NAME,
+	    CL.CONTRACT_NO,
+	    CL.CONTRACT_TYPE,
+		<!--
+	    CONCAT(CASE CL.CONTRACT_STATUS 
+	        WHEN '3' THEN '' 
+	        ELSE CONCAT('[', COMM.DBO.GET_TRANS_TXT(@LANGUAGE, 20), '] ') 
+	    END, CD.CAPTION) AS CONTRACT_TYPE_NAME,
+		-->
+		CONCAT('[', CD.SSC_CD_KORN_NM,']') AS CONTRACT_TYPE_NAME, 	
+	    CL.CONTRACT_NAME,
+	    CL.CONTRACT_DATE,
+	    CL.SALES_EMP_NO AS BIZ_STAFF,
+	    VE.EMP_NM AS BIZ_STAFF_NAME,
+	    CL.CONTRACT_MAIN,
+	    CM2.COMPANY_NAME AS CONTRACT_MAIN_NAME,
+	    CL.PRODUCT_CODE,
+	    PROD.PRODUCT_NAME,
+	    PL.CONTRACT_STATUS AS PROJECT_CONTRACT_STATUS,
+	    CL.CONTRACT_STATUS,
+		CASE
+			WHEN CL.CO_CD = #{CO_CD} THEN ''
+			ELSE 'GREEN'
+		END AS COLOR,
+	    CL.CO_CD
+	FROM    
+	    SALES_CONTRACT_LIST CL
+	JOIN    
+	    SALES_PROJECT_LIST PL ON PL.PROJECT_CODE = CL.PROJECT_CODE
+	    AND PL.DELETE_FLAG = '0'
+	JOIN    
+	    SALES_COMPANY_LIST CM ON CM.COMPANY_CODE = PL.CLIENT_CODE
+	JOIN    
+	    SALES_COMPANY_LIST CM2 ON CM2.COMPANY_CODE = CL.CONTRACT_MAIN
+	JOIN    
+	    SALES_CONTRACT_PRODUCT CP ON CL.CONTRACT_NO = CP.CONTRACT_NO
+	JOIN   
+	    (SELECT CONTRACT_NO, PRODUCT_CODE 
+	     FROM SALES_CONTRACT_PRODUCT_DETAIL
+	     WHERE DELETE_FLAG = '0' 
+	     GROUP BY CONTRACT_NO, PRODUCT_CODE) CPD 
+	    ON CPD.CONTRACT_NO = CL.CONTRACT_NO
+	JOIN    
+	    SALES_PRODUCT_LIST PD ON PD.PRODUCT_CODE = CPD.PRODUCT_CODE
+	JOIN    
+	    T_SYTM_CODE CD ON CD.HCL_CD = 'CONTRACT_TYPE' AND CD.SSC_CD = CL.CONTRACT_TYPE
+	JOIN    
+	    T_SYTM_CODE CD1 ON CD1.HCL_CD = 'CONTRACT_STATUS' AND CD1.SSC_CD = CL.CONTRACT_STATUS
+	JOIN    
+	    T_SYTM_USER VE ON CL.SALES_EMP_NO = VE.EMP_NO
+	JOIN    
+	    SALES_PRODUCT_LIST PROD ON PROD.PRODUCT_CODE = CPD.PRODUCT_CODE AND PROD.DELETE_FLAG = '0'
+	WHERE   
+	    CL.DELETE_FLAG = '0'
+	AND PROD.RELATED_COMPANY_CODE = #{RELATED_COMPANY_CODE}
+	
+	<if test="SEARCH_TEXT !=null and SEARCH_TEXT != ''">
+		-- 고객명 필터링
+		<if test=' SEARCH_GB == "C" '>
+		    AND (
+				REGEXP_REPLACE(CM.COMPANY_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+		        OR REGEXP_REPLACE(CM.TAG, '[%\/\[\]]','') LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+		    )
+		</if>
+		
+		-- 프로젝트명 필터링
+		<if test=' SEARCH_GB == "P" '>
+		    AND (
+				REGEXP_REPLACE(PL.PROJECT_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+		    )
+		</if>
+		
+		-- 매출계약명 필터링
+		<if test=' SEARCH_GB == "N" '>
+		    AND (
+				REGEXP_REPLACE(CL.CONTRACT_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+		    )
+		</if>
+		
+		-- 매출계약처명 필터링
+		<if test=' SEARCH_GB == "A" '>
+		    AND (
+				REGEXP_REPLACE(CM2.COMPANY_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+				OR REGEXP_REPLACE(CM.TAG, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+		    )
+		</if>
+		
+		-- 매출계약코드 필터링
+		<if test=' SEARCH_GB == "CN" '>
+		    AND CL.CONTRACT_NO = #{SEARCH_TEXT}
+		</if>
+	</if>
+	
+	-- 계약 상태 필터링 (가계약, 진계약)
+	<if test="CONTRACT_COMPLETE_TYPE != null and CONTRACT_COMPLETE_TYPE != ''">
+		<choose>
+			<when test='CONTRACT_COMPLETE_TYPE == "0"'>
+				AND CL.CONTRACT_STATUS != '3'
+			</when>
+			<when test='CONTRACT_COMPLETE_TYPE == "1"'>
+				AND CL.CONTRACT_STATUS = '3'
+			</when>
+		</choose>
+	</if>
+
+</select>
+
+<!-- 제품공통  RELATED_COMPANY_CODE가 있고  SEARCH_GB : M,B,PN -->
+<select id="selectProjectSearch4" parameterType="java.util.Map" resultType="java.util.Map">
+	-- ProjectSearch4
+	SELECT  
+	    PL.CLIENT_CODE,
+	    CM.COMPANY_NAME AS CLIENT_NAME,
+	    PL.PROJECT_CODE,
+	    PL.PROJECT_NAME,
+	    CL.CONTRACT_NO,
+	    PU.CONTRACT_TYPE,
+		<!--
+	    CONCAT(CASE CL.CONTRACT_STATUS 
+	        WHEN '3' THEN '' 
+	        ELSE CONCAT('[', COMM.DBO.GET_TRANS_TXT(@LANGUAGE, 20), '] ') 
+	    END, CD.CAPTION) AS CONTRACT_TYPE_NAME,
+		-->
+		CONCAT('[', CD.SSC_CD_KORN_NM,']') AS CONTRACT_TYPE_NAME, 	
+	    PU.CONTRACT_NAME,
+	    PU.CONTRACT_DATE,
+	    CL.SALES_EMP_NO AS BIZ_STAFF,
+	    VE.EMP_NM AS BIZ_STAFF_NAME,
+	    PU.CONTRACT_MAIN,
+	    CM2.COMPANY_NAME AS CONTRACT_MAIN_NAME,
+	    CL.PRODUCT_CODE,
+	    PROD.PRODUCT_NAME,
+	    PL.CONTRACT_STATUS AS PROJECT_CONTRACT_STATUS,
+	    PU.CONTRACT_STATUS,
+		CASE
+			WHEN CL.CO_CD = #{CO_CD} THEN ''
+			ELSE 'GREEN'
+		END AS COLOR,
+	    CL.CO_CD
+	FROM    
+	    SALES_CONTRACT_LIST CL
+	JOIN    
+	    SALES_PROJECT_LIST PL ON PL.PROJECT_CODE = CL.PROJECT_CODE
+	    AND PL.DELETE_FLAG = '0'
+	JOIN    
+	    SALES_COMPANY_LIST CM ON CM.COMPANY_CODE = PL.CLIENT_CODE
+	JOIN    
+	    SALES_CONTRACT_PRODUCT CP ON CL.CONTRACT_NO = CP.CONTRACT_NO
+	JOIN   
+	    (SELECT CONTRACT_NO, PRODUCT_CODE 
+	     FROM SALES_CONTRACT_PRODUCT_DETAIL
+	     WHERE DELETE_FLAG = '0' 
+	     GROUP BY CONTRACT_NO, PRODUCT_CODE) CPD 
+	    ON CPD.CONTRACT_NO = CL.CONTRACT_NO
+	JOIN    
+	    SALES_PRODUCT_LIST PD ON PD.PRODUCT_CODE = CPD.PRODUCT_CODE
+	JOIN    
+	    SALES_PURCHASE_LIST PU ON PU.CONTRACT_NO = CL.CONTRACT_NO
+	    AND PU.DELETE_FLAG = '0'
+	JOIN    
+	    SALES_COMPANY_LIST CM2 ON CM2.COMPANY_CODE = PU.CONTRACT_MAIN
+	JOIN    
+		 T_SYTM_CODE CD ON CD.HCL_CD = 'CONTRACT_TYPE' AND CD.SSC_CD = CL.CONTRACT_TYPE
+	JOIN    
+		 T_SYTM_CODE CD1 ON CD1.HCL_CD = 'CONTRACT_STATUS' AND CD1.SSC_CD = CL.CONTRACT_STATUS
+	JOIN    
+	    T_SYTM_USER VE ON CL.SALES_EMP_NO = VE.EMP_NO
+	JOIN    
+	    SALES_PRODUCT_LIST PROD ON PROD.PRODUCT_CODE = CPD.PRODUCT_CODE AND PROD.DELETE_FLAG = '0'
+	WHERE   
+	    CL.DELETE_FLAG = '0'
+	 AND PROD.RELATED_COMPANY_CODE = #{RELATED_COMPANY_CODE}
+	
+	<if test="SEARCH_TEXT !=null and SEARCH_TEXT != ''">
+		-- 매입계약명 필터링
+		<if test=' SEARCH_GB == "M" '>
+		    AND (
+		    	REGEXP_REPLACE(PU.CONTRACT_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+		    )
+		</if>
+		
+		-- 매입계약처명 필터링
+		<if test=' SEARCH_GB == "B" '>
+		    AND (
+		    	REGEXP_REPLACE(CM2.COMPANY_NAME, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+		    	OR REGEXP_REPLACE(CM2.TAG, '[%\/\[\]]','') LIKE CONCAT('%',#{SEARCH_TEXT},'%')
+		    )
+		</if>
+	
+		-- 매입계약코드 필터링
+		<if test=' SEARCH_GB == "PN" '>
+		    AND PU.CONTRACT_NO_PURCHASE = #{SEARCH_TEXT}
+		</if>
+	</if>
+	
+	-- 계약 상태 필터링 (가계약, 진계약)
+		<if test="CONTRACT_COMPLETE_TYPE != null and CONTRACT_COMPLETE_TYPE != ''">
+			<choose>
+				<when test='CONTRACT_COMPLETE_TYPE == "0"'>
+					AND CL.CONTRACT_STATUS != '3'
+				</when>
+				<when test='CONTRACT_COMPLETE_TYPE == "1"'>
+					AND CL.CONTRACT_STATUS = '3'
+				</when>
+			</choose>
+		</if>
+
+</select>
+
+<select id="selectCommProjectSearch" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+		P.PRODUCT_CODE,
+		P.PRODUCT_LVL,
+		P.HIPO_PRODUCT_CODE AS P_PRODUCT_CODE,
+		P.PRODUCT_NAME,
+		-- UPPER(P.PRODUCT_NAME) AS UP_PRODUCT_NAME,
+		P.PRODUCT_NAME_SHORT,
+		P.MAIN_PRODUCT_FLAG,
+		P.SELECT_FLAG,
+		P.MA_FLAG,
+		P.GOODS_FLAG,
+		P.UNIT_COST,
+		P.REMARKS,
+		P.DELETE_FLAG,
+		P.PRODUCT_ORDR,
+		P.RELATED_COMPANY_CODE,
+		CM.COMPANY_NAME AS RELATED_COMPANY_NAME,
+		P.NO_PURCHASE_FLAG,
+		P.ROYALTY_TYPE,
+		P.MAIN_PRODUCT_CODE,
+		PL.PRODUCT_NAME AS MA_MAIN_PRODUCT_NAME,
+		P.PRODUCT_COMPANY_CODE,
+		DATE_FORMAT(P.INPT_DTTM, '%Y%m%d') AS INSERT_DATE,
+		P.INPT_ID AS INSERT_EMP_NO,
+		VE.EMP_NM AS INSERT_EMP_NM,
+		<!-- 
+		PLI.LICENSE_KIND,
+		PLI.PRODUCT_CODE_HEXA,
+		PLI.PRODUCT_VERSION,
+		PLI.PLATFORM_LIST,
+		PLI.FUNCTION_LIST,
+		PLI.PRODUCT_LIST,
+		PLI.COMPRESS_FLAG,
+		 -->
+		'0' AS CHK
+	FROM 
+		SALES_PRODUCT_LIST P
+	LEFT JOIN 
+		T_SYTM_USER VE ON P.INPT_ID = VE.EMP_NO
+		AND VE.MAIN_DEPT_FLAG = '1'
+		AND VE.COMPANY_CD = #{SERVER_CO_CD}
+	LEFT JOIN 
+		SALES_COMPANY_LIST CM ON P.RELATED_COMPANY_CODE = CM.COMPANY_CODE
+	LEFT JOIN 
+		T_SYTM_CODE CD ON CD.HCL_CD = 'CONTRACT_TYPE' AND CD.SSC_CD = LEFT(P.PRODUCT_CODE, 2)
+	LEFT JOIN 
+		SALES_PRODUCT_LIST PL ON P.MAIN_PRODUCT_CODE = PL.PRODUCT_CODE
+	LEFT JOIN 
+		T_SYTM_USER VED ON VED.EMP_NO = #{EMP_NO} AND VED.MAIN_DEPT_FLAG = '1' AND P.PRODUCT_COMPANY_CODE LIKE CONCAT('%', VED.COMPANY_CD, '%')
+	WHERE P.DELETE_FLAG = '0'
+		<if test="PRODUCT_CODE != null and PRODUCT_CODE != ''">
+		AND P.PRODUCT_CODE LIKE CONCAT(#{CONTRACT_TYPE}, '%')
+		</if>
+		AND P.PRODUCT_NAME IS NOT NULL
+		<if test="PRODUCT_NAME != null and PRODUCT_NAME != ''">
+			AND (P.PRODUCT_NAME LIKE CONCAT('%', #{PRODUCT_NAME}, '%')
+				OR P.PRODUCT_NAME_SHORT LIKE CONCAT('%', #{PRODUCT_NAME}, '%')
+			)
+		</if>
+		<if test='MAIN_PRODUCT_FLAG != null and MAIN_PRODUCT_FLAG != "" and MAIN_PRODUCT_FLAG == "1" '>
+		 AND P.MAIN_PRODUCT_FLAG = '1'
+		</if>
+	ORDER BY 
+		CD.SORT_ORDR, P.PRODUCT_CODE, P.PRODUCT_ORDR
+
+</select>
+
+</mapper>

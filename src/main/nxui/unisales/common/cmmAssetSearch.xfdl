@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="cmmAssetSearch" width="900" height="24" titletext="자산조회" onload="form_onload" scrolltype="none" scrollbartype="none none">
+    <Layouts>
+      <Layout height="24" width="900">
+        <Static id="sta00" taborder="3" text="구분" left="0" top="0" width="47" bottom="0"/>
+        <Combo id="cboAssetGrp" taborder="4" left="sta00:5" top="0" width="16.89%" enable="false" value="" index="-1" bottom="0"/>
+        <Static id="sta00_00" taborder="5" text="형태" left="cboAssetGrp:22.99000000000001" top="0" width="47" bottom="0"/>
+        <Combo id="cboAssetType" taborder="6" left="sta00_00:5" top="0" width="16.89%" enable="false" value="" index="-1" bottom="0"/>
+        <Static id="sta00_00_00" taborder="7" text="모델" left="cboAssetType:21" top="0" width="47" bottom="0"/>
+        <Edit id="edtVersion" taborder="8" left="sta00_00_00:1" top="0" width="23.78%" enable="false" bottom="0"/>
+        <Edit id="edtUName" taborder="9" left="edtVersion:14.961000000000013" top="0" enable="false" right="30" bottom="0"/>
+        <Edit id="edtAssetCd" taborder="1" left="0" top="42" height="24" visible="false" width="280"/>
+        <Edit id="edtAssetNo" taborder="2" left="360" top="42" height="24" visible="false" width="260"/>
+        <Button id="btnSearch" taborder="0" top="0" width="28" cssclass="btn_WF_EdiSch" onclick="btnSearch_onclick" right="0" bottom="0"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCommonCond">
+        <ColumnInfo>
+          <Column id="SRCH" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCommonList"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	cmmDeptSearch.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/28
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/28			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvSearchScopeCd = "";
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//this.gfnFormOnload(obj,e); //필수함수
+	if( this.parent.uEssential=="true"){
+		this.edtCode.set_cssclass("essential");
+	}
+	
+	//공통코드
+	var param = [ 
+			  {biztype : "Combo", code : "SM23", objid : this.cboAssetGrp}	// 자산 구분
+			, {biztype : "Combo", code : "SM19", objid : this.cboAssetType}	// 자산명
+	];
+
+	this.gfnGetCommonCode(param);		
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	switch(sPopupId) {
+		case "assetListPu":
+			if( !this.gfnIsNull(sRtn) ){
+				console.log(sRtn);
+				var aRtn= sRtn.split("|");
+				this.edtAssetCd.set_value(aRtn[0]);
+				this.edtAssetNo.set_value(aRtn[1]);
+				this.cboAssetGrp.set_value(aRtn[0]);
+				this.cboAssetType.set_value(aRtn[3]);
+				this.edtVersion.set_value(aRtn[4]);
+				this.edtUName.set_value(aRtn[2]);
+			}
+			break;
+		default:break;
+	}
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "nodata":
+			//this.edtCode.set_enableevent(true);
+			this.edtAssetCd.set_value("");
+			this.edtAssetNo.set_value("");
+			this.cboAssetGrp.set_value("");
+			this.cboAssetType.set_value("");
+			this.edtVersion.set_value("");
+			this.edtUName.set_value("");
+			break;	
+		default:break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+
+this.btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sTitle  = "자산 선택";
+	var oArg    = {pvSearchCode:this.edtAssetCd.value, pvSearchNo:this.edtAssetNo.value};
+	var oOption = {title:sTitle
+				,titlebar:true};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup("assetListPu", "sytm::asset/assetListPu.xfdl", oArg, sPopupCallBack, oOption);
+};
+]]></Script>
+  </Form>
+</FDL>

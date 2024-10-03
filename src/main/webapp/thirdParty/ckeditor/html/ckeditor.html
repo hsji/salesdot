@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>CKEditor HTML</title>
+	<script src="../ckeditor.js"></script>
+	<!-- <link href="../samples/sample.css" rel="stylesheet"> -->
+	
+	<script>
+		//Javascript
+		window.addEventListener('resize', function(){
+			if(CKEDITOR && CKEDITOR.instances && CKEDITOR.instances.editor) {
+				var nHeight = window.innerHeight - 20;
+			 	CKEDITOR.instances.editor.resize("100%", nHeight);
+			}
+		});	
+	</script>
+</head>
+<body>
+		<textarea id="editor" name="editor" style="height:100px" >
+		</textarea>
+		<script>
+			CKEDITOR.replace( 'editor', {
+				on: {
+					'instanceReady': function(evt) {
+						var rtn = "instanceReady";
+						var pp = window.NEXACROWEBBROWSER;
+						if (pp) 
+						{		
+							pp.on_fire_onusernotify(pp, rtn);
+						} 
+						else if (typeof nexacro == "undefined") //windows runtime
+						{			
+							window.document.title = rtn;
+						}
+						else if (nexacro) //mobile runtime 
+						{ 		
+							nexacro.fireUserNotify(rtn);	
+						} 
+						
+						var input_name = evt.editor.name;
+						//var parent_height = document.getElementById(input_name).parentElement.offsetHeight;
+						var nHeight = window.innerHeight - 20;
+						evt.editor.resize( '100%', nHeight );
+						//window.NEXACROHTML.FireUserNotify("instanceReady");
+						//CKEDITOR.instances.editor.execCommand('maximize');
+						 //CKEDITOR.instances.editor.resize("100%",255,true);
+						 //CKEDITOR.instances.editor.focus();  
+					}
+				}
+				
+				//filebrowserUploadUrl: ''	// 이미지 업로드 서버 URL 설정 필요
+			});
+			
+			CKEDITOR.on('dialogDefinition', function(evt) {
+				var dialogName = evt.data.name;
+				var dialog = evt.data.definition.dialog;
+				var dialogDefinition = evt.data.definition;
+				
+				dialogDefinition.removeContents('advanced');// 자세히탭 제거
+				dialogDefinition.removeContents('Link');	// 링크탭 제거
+				dialogDefinition.removeContents('Upload');	// 업로드탭 제거
+				if(dialogName == 'image') {
+					//dialogDefinition.dialog.resize( 500, 200 );
+					var infoTab = dialogDefinition.getContents( 'info' );
+				    infoTab.remove( 'txtAlt' ); 
+				    infoTab.remove( 'txtBorder'); 
+				    infoTab.remove( 'txtHSpace'); 
+				    infoTab.remove( 'txtVSpace');
+				} else if(dialogName == 'table') {
+					var infoTab = dialogDefinition.getContents( 'info' );
+					console.log(infoTab);
+					infoTab.remove( 'txtCaption' ); 
+					infoTab.remove( 'txtSummary' );
+				}
+				
+				
+			});
+			
+			function init(nHeight)
+			{
+				//alert(width + "}}" + height);
+				//CKEDITOR.instances.editor.execCommand('maximize');
+				 CKEDITOR.instances.editor.resize("100%",nHeight);
+				 //CKEDITOR.instances.editor.focus();  
+			}
+			
+			function setData(str)
+			{
+				CKEDITOR.instances.editor.setData(str);
+				//CKEDITOR.instances.editor.focus();
+			}
+			
+			function getData()
+			{
+				return CKEDITOR.instances.editor.getData();
+			}
+			
+			function setToobar(str)
+			{
+				CKEDITOR.instances.editor.execCommand(str);
+			}
+			
+		</script>
+</body>
+</html>

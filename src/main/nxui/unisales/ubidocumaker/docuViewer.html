@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+<head>
+    <meta name="_csrf">
+    <meta charset="utf-8">
+    <title>UbiDocuMaker-Viewer</title>
+    <link rel="stylesheet" type="text/css" href="./css/color-picker.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/select2.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/ui/docuViewer.css">
+    <script src="./js/jquery-1.9.1.min.js"></script>
+    <script src="./js/jquery-ui-1.10.3.min.js"></script>
+    <script src="./js/pdf_form/fabric.js"></script>
+    <script src="./js/pdf_form/flatpickr.min.js"></script>
+    <script src="./js/pdf_form/polyfills.js"></script>
+    <script src="./js/pdf_form/polyfillsIE.js"></script>
+    <script src="./js/pdf_form/snap.svg.js"></script>
+    <script src="./js/pdf_form/snap.svg.free_transform.js"></script>
+    <script src="./js/pdf_form/TweenMax.min.js"></script>
+    <script src="./js/pdf_form/select2/select2.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf_viewer.js"></script>
+    <script src="./js/pdf_form/pdfjs/grab-to-pan.js"></script>
+    <script src="./js/pdf_form/dist/polly.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/dist/readermod.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/dist/readermodSass.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/UbiDocuMakerViewer.js"></script>
+    <script src="./js/ui/docuViewer.js"></script>
+    
+	<script type="text/javascript">
+		/* 서비스 경로 설정 */
+		var appUrl = self.location.protocol + '//' + self.location.host;
+		var jsonSaveUrl   = '/ubiDocuPDFSave.do';	// 저장서비스
+		var jsonSearchUrl = '/ubiPDFView.do';		// 조회서비스
+		var jsonEditorUrl = '/ubiEditorJson.do';	// 편집정보
+	</script>
+	
+	    
+    <script type="text/javascript">
+
+      var urlParams = new URL(location.href).searchParams;
+      var uuid = urlParams.get('p');
+	  var s = urlParams.get('s');
+	  var b = urlParams.get('b');      
+      var f = urlParams.get('f');
+      var u = urlParams.get('u');
+	  var e = urlParams.get('e');
+      var q = urlParams.get('q');
+      var r = urlParams.get('r');
+      var sq = urlParams.get('sq');
+      var sr = urlParams.get('sr');
+      var tp = urlParams.get('tp');
+	  var fi = urlParams.get('fi');	// former
+
+      const imageUrls = [
+        "/ubiDocuGetStamp1.do?d=" + uuid + "&u=" + u + "&e=" + e,
+		"/ubiDocuGetStamp2.do?d=" + uuid + "&u=" + u + "&e=" + e
+      ];
+      var regStampJson = '/ubidocumaker/resource/jsonFile/' + uuid + '/regStamp.json';
+      var jsonData = null;
+
+      window.onload = function() {
+
+		var pdfUrl = jsonSearchUrl;
+		pdfUrl += ("?uuid=" + uuid + "&sysCode=" + s + "&bizCode=" + b + "&u=" + u + "&tp=" + tp + "&seq=" + e);
+		var jsonUrl = jsonEditorUrl;
+		jsonUrl += ("?uuid=" + uuid + "&sysCode=" + s + "&bizCode=" + b + "&u=" + u + "&seq=" + e);
+			
+        // UbiDocuMakerViewer 초기화 파라미터
+        var udm_param = {
+          "targetId" : 	"udmViewerDiv",
+          "pdfUrl" : 	pdfUrl,
+          "jsonUrl" : 	jsonUrl,
+          "imageUrls" :	imageUrls
+        };
+
+        //UbiDocuMakerViewer의 생성자를 호출하여 UbiDocuMakerViewer의 객체 udmViewer를 만듭니다.
+        var udmViewer = new UbiDocuMakerViewer(udm_param);
+
+        //udmViewer.setUDMservletUrl("http://192.168.1.38:5500/");
+        udmViewer.open();
+      };
+
+    </script>
+
+</head>
+<body id="udmViewerDiv">
+<!-- Viewer 화면 dom 들어올 자리 -->
+</body>
+</html>

@@ -1,0 +1,696 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AP_SalesProductMM" width="1100" height="642" titletext="영업제품관리" onload="AP_SalesProductMM_onload">
+    <Layouts>
+      <Layout height="642" mobileorientation="landscape" width="1100">
+        <Div id="divSearch" taborder="1" text="" left="0" top="0" height="50" cssclass="div_WF_Search" right="20" formscrollbartype="none none" formscrolltype="none">
+          <Layouts>
+            <Layout>
+              <Static id="staCompany" taborder="3" text="회사구분" left="0" top="12" width="87" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="cboCompany" taborder="4" text="알림" left="staCompany:0" top="12" width="139" height="24" index="1" value="INF" innerdataset="gdsCompany" codecolumn="SSC_CD" datacolumn="SSC_CD_KORN_NM" onitemchanged="divSearch_cboCompany_onitemchanged"/>
+              <Static id="stc_CompanyType" taborder="1" text="제품구분" left="cboCompany:0" top="12" width="90" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="836"/>
+              <Combo id="cmb_SelectType" taborder="2" left="stc_CompanyType:0.00" top="12" width="165" innerdataset="ds_CD_CONTRACT_TYPE" codecolumn="CODE" datacolumn="CAPTION" value="A" index="0" onitemchanged="div_Project_Management_cmb_SelectType_onitemchanged" height="24" TL_FLAG="1"/>
+              <Button id="btn_Search" taborder="0" text="조회" top="10" height="28" onclick="div_Search_btn_Search_onclick" cssclass="btn_WF_Search" right="8" width="48" TL_SEQ="118"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_PROD" taborder="0" left="0" top="divSearch:0" right="20" bottom="0" text="">
+          <Layouts>
+            <Layout>
+              <Div id="divDetail" taborder="1" top="43" width="590" maxheight="" height="535" right="5" boxShadow="3px 3px 5px 0px #cccccc">
+                <Layouts>
+                  <Layout>
+                    <Static id="staBg07" taborder="8" left="0" top="198" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+                    <Static id="staBg06_00" taborder="33" left="0" top="231" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+                    <Static id="staBg01" taborder="1" left="0" top="0" height="34" cssclass="sta_WF_LabelBg" right="0" borderRadius="5px 5px 0px 0px"/>
+                    <Static id="staTitle01" taborder="2" text="제품코드" left="0" top="0" width="141" height="34" cssclass="sta_WF_Label" borderRadius="5px 0px 0px"/>
+                    <Edit id="edtDeptCd" taborder="0" left="staTitle01:5.00" top="5" width="218" height="24" readonly="true" cssclass="essential" maxlength="7" inputtype="digit,english" inputmode="upper" imemode="alpha"/>
+                    <Static id="staBg02" taborder="3" left="0" top="33" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+                    <Static id="staTitle02" taborder="4" text="상위제품코드" left="0" top="33" width="141" height="34" cssclass="sta_WF_Label"/>
+                    <Static id="staBg03" taborder="5" left="0" top="66" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+                    <Static id="staBg04" taborder="6" left="0" top="99" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+                    <Static id="staBg05" taborder="7" left="0" top="132" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+                    <Static id="staBg08" taborder="9" left="0" top="264" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+                    <Static id="staBg10" taborder="10" left="0" top="297" height="100" cssclass="sta_WF_LabelBg" right="0"/>
+                    <Static id="staBg11" taborder="11" left="0" top="396" height="137" cssclass="sta_WF_LabelBg" right="0" borderRadius="0px 0px 5px 5px"/>
+                    <Static id="staTitle03" taborder="12" text="제품명" left="0" top="66" width="141" height="34" cssclass="sta_WF_Label"/>
+                    <Edit id="edtDeptKorNm" taborder="13" left="staTitle03:5" top="71" height="24" cssclass="essential" maxlength="66" imemode="hangul" maxwidth="" right="5"/>
+                    <Static id="staTitle04" taborder="14" text="제품영문명" left="0" top="99" width="141" height="34" cssclass="sta_WF_Label"/>
+                    <Edit id="edtDeptEngNm" taborder="15" left="staTitle04:5" top="104" height="24" maxlength="66" imemode="alpha" right="5" maxwidth=""/>
+                    <Static id="staTitle05" taborder="16" text="단축제품명" left="0" top="132" width="141" height="34" cssclass="sta_WF_Label"/>
+                    <Edit id="edtDeptAbbrNm" taborder="17" left="staTitle05:5" top="137" height="24" maxlength="33" imemode="hangul" right="5" maxwidth=""/>
+                    <Static id="staTitle07" taborder="18" text="관련회사" left="0" top="198" width="141" height="34" cssclass="sta_WF_Label"/>
+                    <Edit id="edtDeptSort00" taborder="36" left="146.00" top="269" height="24" inputtype="digit" width="141" cssclass="essential" minwidth=""/>
+                    <Static id="staTitle08" taborder="19" text="정렬순서" left="edtDeptSort00:23.00" top="264" width="141" height="34" cssclass="sta_WF_Label"/>
+                    <Edit id="edtDeptSort" taborder="20" left="staTitle08:5.00" top="269" height="24" inputtype="digit" width="70" cssclass="essential" minwidth=""/>
+                    <Static id="staTitle10" taborder="21" text="제품구분" left="0" top="297" width="141" height="100" cssclass="sta_WF_Label"/>
+                    <Combo id="cboDeptFlagCd" taborder="22" text="cbo00" left="145.00" top="282" height="89" maxwidth="141" minwidth="" width="0" cssclass="essential"/>
+                    <Static id="staTitle11" taborder="23" text="참고사항" left="0" top="396" width="141" height="137" cssclass="sta_WF_Label" borderRadius="0px 0px 0px 5px"/>
+                    <Div id="divDept" taborder="24" left="staTitle02:5" top="39" height="24" url="sales::comm/COM_ProductSearch.xfdl" right="5" uEssential="true" CONTRACT_TYPE="" COMPANY_CODE=""/>
+                    <Div id="div_RelatedCompany" taborder="25" top="203" height="24" url="sales::comm/COM_Search.xfdl" binddataset="ds_Product" kind="COMPANY" async="false" codecolumn="RELATED_COMPANY_CODE" datacolumn="RELATED_COMPANY_NAME" mode="" left="staTitle07:5.00" formscrolltype="none" formscrollbartype="none none" right="5"/>
+                    <TextArea id="txt_Remarks" taborder="26" top="402" left="staTitle11:5.00" height="125" right="5"/>
+                    <CheckBox id="cb_MainProductFlag" taborder="27" text="메인제품 여부" left="staTitle10:5.00" top="305" width="146" height="24" falsevalue="0" truevalue="1" readonly="false" TL_SEQ="12400"/>
+                    <CheckBox id="cb_SelectFlag" taborder="28" text="영업제품 선택 여부" left="staTitle10:5.00" top="334" width="146" height="24" falsevalue="0" truevalue="1" readonly="false" TL_SEQ="12401"/>
+                    <CheckBox id="cb_MaFlag" taborder="29" text="유지보수 여부" left="staTitle10:5.00" top="365" width="146" height="24" falsevalue="0" truevalue="1" readonly="false" TL_SEQ="12402"/>
+                    <CheckBox id="cb_GoodsFlag" taborder="30" text="상품 여부" left="cb_MainProductFlag:30.00" top="305" width="100" falsevalue="0" truevalue="1" readonly="false" TL_SEQ="12403" height="24"/>
+                    <CheckBox id="cb_NoPurchaseFlag" taborder="31" text="매입미대상" left="cb_SelectFlag:30.00" top="334" width="100" height="24" falsevalue="0" truevalue="1" readonly="false" TL_SEQ="22573"/>
+                    <Static id="staTitle06_00" taborder="32" text="단가" left="0" top="231" width="141" height="34" cssclass="sta_WF_Label"/>
+                    <Edit id="edtDeptEngAbbrNm00" taborder="34" left="staTitle06_00:5.00" top="237" height="24" maxlength="33" imemode="alpha" right="210" maxwidth=""/>
+                    <Static id="staTitle08_00" taborder="35" text="트리레벨" left="0" top="264" width="141" height="34" cssclass="sta_WF_Label"/>
+                    <Static id="staBg07_00" taborder="37" left="0" top="165" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+                    <Static id="staTitle07_00" taborder="38" text="제품회사" left="0" top="165" width="141" height="34" cssclass="sta_WF_Label"/>
+                    <Div id="div_Company" taborder="39" top="170" height="24" url="sales::comm/COM_Search.xfdl" binddataset="ds_Product" kind="COMPANY" async="false" codecolumn="PRODUCT_COMPANY_CODE" datacolumn="PRODUCT_COMPANY_NAME" mode="" left="146.00" formscrolltype="none" formscrollbartype="none none" right="5"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="staTitle01" taborder="3" text="제품목록" left="0" width="340" height="43" top="0" cssclass="sta_WF_Title"/>
+              <Grid id="grd_List" taborder="0" left="0" top="staTitle01:0" autofittype="col" bottom="0" binddataset="ds_Product" treeinitstatus="expand,all" treeuseexpandkey="true" right="divDetail:20" treeusecheckbox="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="62"/>
+                      <Column size="410"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="No."/>
+                      <Cell col="1" text="제품목록"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell expr="currow+1"/>
+                      <Cell col="1" treelevel="bind:PRODUCT_LVL" edittype="tree" displaytype="treeitemcontrol" text="bind:PRODUCT_NAME"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="staTitle01_00" taborder="2" text="제품상세" width="590" height="43" top="0" cssclass="sta_WF_Title" right="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: xxx
+* 02. 화면명		: xxx
+* 03. 화면설명 		: xxx
+* 04. 작성일   	: 2018.xx.xx
+* 05. 작성자   	: xxx
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+this.fvPreComboIdx = 0;
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.AP_SalesProductMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);
+	this.fnInitForm();
+	
+	var arrComp = [this.divSearch.form.cboCompany];
+	this.gfnSetAuthorityCompany(arrComp);
+	this.div_PROD.form.divDetail.form.divDept.form.fnSetCompany(arrComp[0].value);
+	
+};
+
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.ds_Product)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";					//메세지ID
+		var arrArg = [""];										//메세지취환될값 배열[생략가능]
+		var sPopId = "search";									//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";						//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+	
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);
+	}
+	else {
+		this.fnSearch();
+	}
+};
+
+
+//신규
+this.cfnAdd = function ()
+{
+	this.fnAddRow();
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	this.fnDeleteRow();
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.ds_Product) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+	this.fnSave();
+};
+
+this.div_Search_btn_Search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.div_PROD_btn_OrdUp_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnChangeTreeOrder(-1);
+};
+
+this.div_PROD_btn_OrdDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnChangeTreeOrder(+1);
+};
+
+this.div_Search_btn_New_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnAddRow();
+};
+
+this.div_Search_btn_Delete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnDeleteRow();
+};
+
+this.div_Search_btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSave();
+};
+
+this.ds_CD_CONTRACT_TYPE_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fnSearch();
+};
+
+this.ds_Product_onrowsetchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowsetChangeEventInfo)
+{
+// 	var grd = this.div_PROD.form.grd_List;
+// 	
+// 	for(var i = 0, iL = obj.getRowCount(); i < iL; i++)
+// 	{
+// 		obj.setColumn(i, "ORD", i);
+// 	}
+};
+
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInitForm = function()
+{
+	this.fnGetCode();
+}
+
+this.fnAddRow = function()
+{
+	//선택된 제품의 하위레벨에서 마지막순서에 제품을 추가한다.
+	var ds		= this.ds_Product;
+	var currow	= ds.rowposition;
+	var rowType	= ds.getRowType(currow);
+	var productCode 		= ds.getColumn(currow, "PRODUCT_CODE");
+	var productName 		= ds.getColumn(currow, "PRODUCT_NAME");
+	var	productCodeLevel	= ds.getColumn(currow, "PRODUCT_LVL");
+	
+	if(this.gfnIsEmpty(productCode))
+	{
+		productCodeLevel = -1;
+		currow = -1;
+	}
+	
+	ds.insertRow(currow+1);
+	ds.setColumn(currow+1, "COMPANY_CODE"		, this.divSearch.form.cboCompany.value);
+	ds.setColumn(currow+1, "CONTRACT_TYPE"		, this.divSearch.form.cmb_SelectType.value);
+	ds.setColumn(currow+1, "HIPO_PRODUCT_CODE"	, productCode);
+	ds.setColumn(currow+1, "HIPO_PRODUCT_NAME"	, productName);
+	ds.setColumn(currow+1, "PRODUCT_LVL"		, parseInt(productCodeLevel)+1);
+	ds.setColumn(currow+1, "UNIT_COST"			, 0);
+	
+	ds.setColumn(currow+1, "MAIN_PRODUCT_FLAG"	, 0);
+	ds.setColumn(currow+1, "SELECT_FLAG"		, 0);
+	ds.setColumn(currow+1, "MA_FLAG"			, 0);
+	ds.setColumn(currow+1, "GOODS_FLAG"			, 0);
+	
+	if(ds.rowposition == 0) {
+		ds.setColumn(0, "PRODUCT_CODE"	, this.divSearch.form.cmb_SelectType.value);
+		ds.setColumn(0, "PRODUCT_NAME"	, this.divSearch.form.cmb_SelectType.text);
+	}
+		
+	/*한번에 여러제품 추가할 것을 고려해 선택된 로우를 유지*/
+	//ds.set_rowposition(currow+1);
+		
+// 	}else{
+// 		return alert(this.gfnGetTransTxt(1194,"상위제품코드가 없습니다."));
+// 	}
+}
+
+this.fnDeleteRow = function()
+{
+	var ds		= this.ds_Product;
+	var currow	= ds.rowposition;
+	var	productCodeLevel = ds.getColumn(currow, "PRODUCT_LVL");
+	if(productCodeLevel != "0")	//최상위 카테고리는 삭제 불가
+	{
+		var arrDeleteRows = [];
+		arrDeleteRows.push(currow);
+		
+		var	nextRowLevel;
+		for(var i = currow+1, iL = ds.getRowCount(); i < iL; i++)
+		{
+			nextRowLevel = ds.getColumn(i, "PRODUCT_LVL");
+			if(productCodeLevel < nextRowLevel)
+			{
+				arrDeleteRows.push(i);
+			}else{
+				break;
+			}
+		}
+		ds.deleteMultiRows(arrDeleteRows);
+	}
+}
+
+//정합성체큰
+this.fnIsValidSave = function ()
+{
+	var ds = this.ds_Product;
+	for(var i = 0, iL = ds.getRowCount(); i < iL; i++)
+	{
+		if( this.gfnIsEmpty(ds.getColumn(i, "UNIT_COST")) )
+		{
+			ds.setColumn(i, "UNIT_COST", 0);
+		}
+		
+		if( i>0 && this.gfnIsEmpty(ds.getColumn(i, "HIPO_PRODUCT_CODE")) )
+		{
+			this.gfnAlert("msg.err.validator.required",["상위제품코드"]);
+			return;
+		}		
+	}
+	
+	// 정합성 체크
+	this.gfnClearValidation(this.ds_Product);
+
+	this.gfnSetValidation(this.ds_Product, "COMPANY_CODE", "회사코드"	, "required");
+	this.gfnSetValidation(this.ds_Product, "CONTRACT_TYPE", "제품구분"	, "required");
+	//this.gfnSetValidation(this.ds_Product, "PRODUCT_CODE",  "제품코드"	    , "required");
+	this.gfnSetValidation(this.ds_Product, "PRODUCT_NAME", "제품명"	, "required");
+	//this.gfnSetValidation(this.ds_Product, "HIPO_PRODUCT_CODE", "상위제품코드"	, "required");
+	this.gfnSetValidation(this.ds_Product, "PRODUCT_LVL", "트리레벨"	, "required");
+	this.gfnSetValidation(this.ds_Product, "PRODUCT_ORDER", "정렬순서"	, "required");
+	this.gfnSetValidation(this.ds_Product, "PRODUCT_COMPANY_CODE", "제품회사"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.ds_Product, "U") == false) return false;
+	else return true;
+};
+
+/*선택된 row를 입력된 ordOffset 값만큼 이동시킨다.
+이동 불가시에는 무시한다.*/
+this.fnChangeTreeOrder = function(ordOffset)
+{
+	var grd = this.div_PROD.form.grd_List;
+	
+	var ds = this.ds_Product;
+	var rowcnt = ds.getRowCount();
+	var currow = ds.rowposition;
+	
+	var fnGetChildRowSet = function(trow, sign)
+	{
+		var arrRowSet = [];		//옮길대상 array
+		arrRowSet.push(trow);
+		
+		var	curRowLevel = ds.getColumn(currow, "PRODUCT_LVL");
+		var	nextRowLevel;
+		for(var i = trow+1, iL = rowcnt; i < iL; i++)
+		{
+			nextRowLevel = ds.getColumn(i, "PRODUCT_LVL");
+			if(curRowLevel < nextRowLevel)
+			{
+				//arrRowSet.splice(0, 0, i);	//array의 0번째 위치에 i 값 삽입
+				arrRowSet.push(i);	//array의 마지막 위치에 i 값 추가
+			}else{
+				return arrRowSet;
+			}
+		}
+	}
+	
+	if(!grd.isTreeRootRow(currow))
+	{
+		var nextRow = grd.getTreeSiblingRow(currow, ordOffset);
+		if(nextRow != -1)
+		{
+			//grd.setBindDataset();
+			var curRowSet = fnGetChildRowSet(currow);
+			var nextRowSet = fnGetChildRowSet(nextRow);
+			for(var i = 0, iL = curRowSet.length; i < iL; i++)
+			{
+				if(Math.sign(ordOffset) == -1)	//음수:위-1, 양수:아래1
+				{
+					ds.moveRow(currow+i, nextRowSet[0]+i);
+					ds.set_rowposition(nextRow);
+				}else{
+					ds.moveRow(currow, nextRowSet[nextRowSet.length-1]);
+					ds.set_rowposition(currow+nextRowSet.length);
+				}
+			}
+			//grd.setBindDataset(ds);
+		}
+	}	
+}
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_CD_CONTRACT_TYPE"		, "CONTRACT_TYPE", false, false, false);
+	//this.gfnAddCodeDataset("ds_CD_SALES_PRODUCT_TYPE"	, "SALES_PRODUCT_TYPE", false, false, false);
+	//this.gfnAddCodeDataset("ds_CD_ROYALTY_TYPE"	, "ROYALTY_TYPE", false, false, false);
+	this.gfnCodeTransaction();
+	
+	this.divSearch.form.cmb_SelectType.set_index(0);
+}
+
+this.fnSubSidiaryCompanyList = function()
+{
+	this.gfnAddOutputDataset("ds_SubsidiaryCompanyList"	, "dsOutput");
+	this.gfnCommonTransaction("SearchSubSidiaryCompany", "AP_SalesProductMM_S04");
+};
+
+this.fnSearch = function()
+{	
+	var sContractType = this.divSearch.form.cmb_SelectType.value;
+	this.fnSetParentProduct();
+	
+	this.gfnAddSendParameter("COMPANY_CODE"	, this.divSearch.form.cboCompany.value);
+	this.gfnAddSendParameter("CONTRACT_TYPE"	, sContractType);
+	this.gfnAddSendParameter("DELETE_FLAG"	, '0');
+	
+	this.fvPreComboIdx = this.divSearch.form.cmb_SelectType.index;
+	//this.gfnAddOutputDataset("ds_Product"	, "dsOutput");
+	
+	this.gfnSetMap("nextBaseMapper", "ProductTreeList", "ds_Product");
+	
+	this.gfnCommonTransaction("Select", "selectNextList.do"/*"AP_SalesProductMM_S05"*/);
+}
+
+this.fnSave = function()
+{
+	if(this.fnIsValidSave())
+	{
+		this.gfnAddInputDataset("ds_Product"	, "dsInput1");
+		this.gfnSetMap("nextBaseMapper", "ProductList", []);
+		this.gfnCommonTransaction("Save", "saveNextList.do"/*"AP_SalesProductMM_R01"*/);
+	}	
+}
+
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "search":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				this.divSearch.form.cmb_SelectType.set_index(this.fvPreComboIdx);
+				return;
+			}
+			this.fnSearch();
+			break;
+		case "save":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}
+			this.fnTranSave();
+			break;
+		case "valiEmpNo":
+			this.dsList.setColumn(this.dsList.rowposition, "EMP_NO", "");
+			this.divDetail.form.edtEmpNo.setFocus();
+			break;
+		default:break;
+	}
+};
+
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		return;
+	}
+	else 
+	{
+		if(strSvcID=="Select") 
+		{
+		}
+		else if(strSvcID=="Save") 
+		{
+			this.fnSearch();
+		}
+		else if(strSvcID=="gfnGetCode") 
+		{
+			this.fnSubSidiaryCompanyList();
+			//this.fnSearch();
+		}
+		else if(strSvcID=="SearchSubSidiaryCompany") 
+		{
+			this.fnSearch();
+		}
+	}
+}
+
+// Popup 콜백
+this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		this.recentVariant = Variant;
+		switch(sPopupId)
+		{
+			case "popupProductSearch" : // 제품
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				this.recentVariant = ds;
+				var curRow = this.ds_Product.rowposition;
+				this.ds_Product.setColumn(curRow, "MA_MAIN_PRODUCT_CODE", ds.getColumn(0, "PRODUCT_CODE"));
+				this.ds_Product.setColumn(curRow, "MA_MAIN_PRODUCT_NAME", ds.getColumn(0, "PRODUCT_NAME"));
+				this.onchanged();
+			break;
+		}
+	}
+};
+
+this.ds_Product_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	//if (this.commUtil.getFormAuthority(283,1)) {
+// 		this.div_PROD.form.div_Admin.form.cb_MainProductFlag.set_readonly(false);
+// 		this.div_PROD.form.div_Admin.form.cb_SelectFlag.set_readonly(false);
+// 		this.div_PROD.form.div_Admin.form.cb_MaFlag.set_readonly(false);
+// 		this.div_PROD.form.div_Admin.form.cb_NoPurchaseFlag.set_readonly(false);
+// 		
+// 		var bReadonly = true;
+// 		if(obj.getColumn(e.newrow, "PRODUCT_CODE").substr(0,1) =="P")
+// 			 bReadonly = false;
+// 		this.div_PROD.form.div_Admin.form.cb_GoodsFlag.set_readonly(bReadonly);
+	//}
+	
+// 	if(obj.getRowType(e.newrow)  == 2) {
+// 		this.div_PROD.form.divDetail.form.edtDeptCd.set_readonly(false);
+// 	} else {
+// 		this.div_PROD.form.divDetail.form.edtDeptCd.set_readonly(true);
+// 	}
+};
+
+this.div_PROD_btn_MaMainProduct_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var curRow = this.ds_Product.rowposition;
+	var Argument={};
+	Argument.sProductCd = this.ds_Product.getColumn(curRow, "MA_MAIN_PRODUCT_CODE");
+	Argument.sContractType = "ALL";	
+	
+	this.commUtil.popupProductSearch(this, "popupProductSearch", "fnPopupCallBack", Argument);
+};
+
+
+this.setProductCompanyCode = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	var curRow = this.ds_Product.rowposition;
+	var sProductCompanyCode = this.ds_Product.getColumn(curRow, "PRODUCT_COMPANY_CODE");
+	if(this.gfnIsEmpty(sProductCompanyCode)) sProductCompanyCode = "0,0,0";
+	var arrCompanyCode = sProductCompanyCode.split(",");
+	var sCompanyCode = "";
+	
+	if(obj.name == "chk_ProductCoCd_Tobe") {
+		sCompanyCode = "TOBE";
+		if(e.postvalue == "1") {
+			sProductCompanyCode = sCompanyCode + "," + arrCompanyCode[1] + "," + arrCompanyCode[2];
+		} else {
+			sProductCompanyCode = "0" + "," + arrCompanyCode[1] + "," + arrCompanyCode[2];
+		}
+	} else if(obj.name == "chk_ProductCoCd_DxTobe") {
+		sCompanyCode = "WIN";
+		if(e.postvalue == "1") {
+			sProductCompanyCode = arrCompanyCode[0] + "," + sCompanyCode + "," + arrCompanyCode[2];
+		} else {
+			sProductCompanyCode = arrCompanyCode[0] + "," + "0" + "," + arrCompanyCode[2];
+		}
+	} else if(obj.name == "chk_ProductCoCd_TobeJap") {
+		sCompanyCode = "B305";
+		if(e.postvalue == "1") {
+			sProductCompanyCode = arrCompanyCode[0] + "," + arrCompanyCode[1] + "," + sCompanyCode;
+		} else {
+			sProductCompanyCode = arrCompanyCode[0] + "," + arrCompanyCode[1] + "," + "0";
+		}
+	}
+	this.ds_Product.setColumn(curRow, "PRODUCT_COMPANY_CODE", sProductCompanyCode);
+};
+
+this.div_Project_Management_cmb_SelectType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fvPreComboIdx = e.preindex;
+	this.cfnSearch();
+};
+
+
+this.fnSetParentProduct = function()
+{
+	var comcode = this.divSearch.form.cboCompany.value;
+	var ctcode = this.divSearch.form.cmb_SelectType.value;
+	var div = this.div_PROD.form.divDetail.form.divDept;
+	div.COMPANY_CODE = comcode;
+	div.CONTRACT_TYPE = ctcode;
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_CD_CONTRACT_TYPE">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CD_SALES_PRODUCT_TYPE">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Product">
+        <ColumnInfo>
+          <Column id="HIPO_PRODUCT_NAME" type="string" size="32"/>
+          <Column id="PRODUCT_NAME_SHORT" type="string" size="32"/>
+          <Column id="UNIT_COST" type="float" size="8"/>
+          <Column id="PRODUCT_NAME_ENG" type="string" size="32"/>
+          <Column id="ROYALTY_TYPE" type="string" size="32"/>
+          <Column id="SELECT_FLAG" type="string" size="32"/>
+          <Column id="SortOrder" type="string" size="32"/>
+          <Column id="GOODS_FLAG" type="string" size="32"/>
+          <Column id="REMARKS" type="string" size="32"/>
+          <Column id="NO_PURCHASE_FLAG" type="string" size="32"/>
+          <Column id="PRODUCT_NAME" type="string" size="32"/>
+          <Column id="PRODUCT_LVL" type="int" size="4"/>
+          <Column id="PRODUCT_CODE" type="string" size="32"/>
+          <Column id="HIPO_PRODUCT_CODE" type="string" size="32"/>
+          <Column id="CONTRACT_TYPE" type="string" size="32"/>
+          <Column id="MA_FLAG" type="string" size="32"/>
+          <Column id="DELETE_FLAG" type="string" size="32"/>
+          <Column id="RELATED_COMPANY_CODE" type="string" size="32"/>
+          <Column id="COMPANY_CODE" type="string" size="32"/>
+          <Column id="MAIN_PRODUCT_CODE" type="string" size="32"/>
+          <Column id="MAIN_PRODUCT_FLAG" type="string" size="32"/>
+          <Column id="PRODUCT_ORDER" type="INT" size="256"/>
+          <Column id="RELATED_COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="PRODUCT_COMPANY_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_COMPANY_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CD_ROYALTY_TYPE">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_SubsidiaryCompanyList">
+        <ColumnInfo>
+          <Column id="COMPANY_CODE" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item28" compid="div_PROD.form.divDetail.form.edtDeptCd" propid="value" datasetid="ds_Product" columnid="PRODUCT_CODE"/>
+      <BindItem id="item29" compid="div_PROD.form.divDetail.form.edtDeptKorNm" propid="value" datasetid="ds_Product" columnid="PRODUCT_NAME"/>
+      <BindItem id="item30" compid="div_PROD.form.divDetail.form.edtDeptEngNm" propid="value" datasetid="ds_Product" columnid="PRODUCT_NAME_ENG"/>
+      <BindItem id="item31" compid="div_PROD.form.divDetail.form.edtDeptAbbrNm" propid="value" datasetid="ds_Product" columnid="PRODUCT_NAME_SHORT"/>
+      <BindItem id="item32" compid="div_PROD.form.divDetail.form.edtDeptEngAbbrNm" propid="value" datasetid="ds_Product" columnid="PRODUCT_NAME_SHORT2"/>
+      <BindItem id="item33" compid="div_PROD.form.divDetail.form.edtDeptShowNm" propid="value" datasetid="dsList" columnid="DEPT_SHOW_NM"/>
+      <BindItem id="item34" compid="div_PROD.form.divDetail.form.edtDeptSort" propid="value" datasetid="ds_Product" columnid="PRODUCT_ORDER"/>
+      <BindItem id="item43" compid="div_PROD.form.divDetail.form.txt_Remarks" propid="value" datasetid="ds_Product" columnid="REMARKS"/>
+      <BindItem id="item44" compid="div_PROD.form.divDetail.form.cb_MainProductFlag" propid="value" datasetid="ds_Product" columnid="MAIN_PRODUCT_FLAG"/>
+      <BindItem id="item45" compid="div_PROD.form.divDetail.form.cb_SelectFlag" propid="value" datasetid="ds_Product" columnid="SELECT_FLAG"/>
+      <BindItem id="item46" compid="div_PROD.form.divDetail.form.cb_MaFlag" propid="value" datasetid="ds_Product" columnid="MA_FLAG"/>
+      <BindItem id="item47" compid="div_PROD.form.divDetail.form.cb_GoodsFlag" propid="value" datasetid="ds_Product" columnid="GOODS_FLAG"/>
+      <BindItem id="item48" compid="div_PROD.form.divDetail.form.cb_NoPurchaseFlag" propid="value" datasetid="ds_Product" columnid="NO_PURCHASE_FLAG"/>
+      <BindItem id="item76" compid="div_PROD.form.divDetail.form.edtDeptEngAbbrNm00" propid="value" datasetid="ds_Product" columnid="UNIT_COST"/>
+      <BindItem id="item77" compid="div_PROD.form.divDetail.form.edtDeptSort00" propid="value" datasetid="ds_Product" columnid="PRODUCT_LVL"/>
+      <BindItem id="item78" compid="div_PROD.form.divDetail.form.divDept.form.edtCode" propid="value" datasetid="ds_Product" columnid="HIPO_PRODUCT_CODE"/>
+      <BindItem id="item79" compid="div_PROD.form.divDetail.form.divDept.form.edtName" propid="value" datasetid="ds_Product" columnid="HIPO_PRODUCT_NAME"/>
+      <BindItem id="item50" compid="div_PROD.form.divDetail.form.div_Company.form.edtCode" propid="value" datasetid="ds_Product" columnid="PRODUCT_COMPANY_CODE"/>
+      <BindItem id="item51" compid="div_PROD.form.divDetail.form.div_Company.form.edtName" propid="value" datasetid="ds_Product" columnid="PRODUCT_COMPANY_NAME"/>
+      <BindItem id="item80" compid="div_PROD.form.divDetail.form.div_RelatedCompany.form.edtCode" propid="value" datasetid="ds_Product" columnid="RELATED_COMPANY_CODE"/>
+      <BindItem id="item81" compid="div_PROD.form.divDetail.form.div_RelatedCompany.form.edtName" propid="value" datasetid="ds_Product" columnid="RELATED_COMPANY_NAME"/>
+    </Bind>
+  </Form>
+</FDL>

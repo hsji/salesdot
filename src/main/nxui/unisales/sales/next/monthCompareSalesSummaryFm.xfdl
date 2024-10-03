@@ -1,0 +1,646 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="statusOP" width="1200" height="736" titletext="MainFrame" onload="form_onload" onsize="form_onsize" cssclass="frm_WF_Frame" onkeydown="frmMain_onkeydown" ontimer="frmMain_ontimer">
+    <Layouts>
+      <Layout height="736" width="1200">
+        <Div id="divSearch" taborder="0" left="10.00" top="10" height="50" cssclass="div_WF_Search" text="" right="10">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle00" taborder="1" text="기준년도" left="0" top="11" width="101" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="Combo01" taborder="2" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="3" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="4" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="5" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="0" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Calendar id="calMonth" taborder="6" left="staTitle00:0" top="10" width="114" height="27" dateformat="yyyy" editformat="yyyy" type="spin" onspin="divSearch_calMonth_onspin"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdList" taborder="1" left="10" top="100" right="10" bottom="10" binddataset="dsSum">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="118" band="left"/>
+                <Column size="100" band="left"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="158"/>
+                <Column size="150"/>
+                <Column size="150" band="right"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+                <Row size="30"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="년도" TL_SEQ="74"/>
+                <Cell col="1" text="분류" TL_SEQ="74"/>
+                <Cell col="2" text="1월" TL_SEQ="477"/>
+                <Cell col="3" text="2월" TL_SEQ="478"/>
+                <Cell col="4" text="3월" TL_SEQ="479"/>
+                <Cell col="5" text="4월" TL_SEQ="480"/>
+                <Cell col="6" text="5월" TL_SEQ="481"/>
+                <Cell col="7" text="6월" TL_SEQ="482"/>
+                <Cell col="8" text="7월" TL_SEQ="483"/>
+                <Cell col="9" text="8월" TL_SEQ="484"/>
+                <Cell col="10" text="9월" TL_SEQ="485"/>
+                <Cell col="11" text="10월" TL_SEQ="486"/>
+                <Cell col="12" text="11월" TL_SEQ="487"/>
+                <Cell col="13" text="12월" TL_SEQ="488"/>
+                <Cell col="14" text="년합계" TL_SEQ="2288"/>
+              </Band>
+              <Band id="body">
+                <Cell rowspan="2" text="bind:YEAR"/>
+                <Cell col="1" text="실적"/>
+                <Cell col="2" text="bind:CL_01" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="3" text="bind:CL_02" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="4" text="bind:CL_03" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="5" text="bind:CL_04" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="6" text="bind:CL_05" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="7" text="bind:CL_06" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="8" text="bind:CL_07" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="9" text="bind:CL_08" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="10" text="bind:CL_09" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="11" text="bind:CL_10" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="12" textAlign="right" text="bind:CL_11" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="13" text="bind:CL_12" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="14" text="bind:CL_Y" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="1" text="목표"/>
+                <Cell row="1" col="2" text="bind:SG_01" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="3" text="bind:SG_02" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="4" text="bind:SG_03" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="5" text="bind:SG_04" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="6" text="bind:SG_05" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="7" text="bind:SG_06" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="8" text="bind:SG_07" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="9" text="bind:SG_08" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="10" text="bind:SG_09" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="11" text="bind:SG_10" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="12" textAlign="right" text="bind:SG_11" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="13" text="bind:SG_12" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell row="1" col="14" text="bind:SG_Y" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+              </Band>
+              <Band id="summary">
+                <Cell colspan="2" TL_SEQ="437" text="전년대비 실적"/>
+                <Cell col="2" expr="dataset.parent.fnGetData2(&quot;01&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="3" expr="dataset.parent.fnGetData2(&quot;02&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="4" expr="dataset.parent.fnGetData2(&quot;03&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="5" expr="dataset.parent.fnGetData2(&quot;04&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="6" expr="dataset.parent.fnGetData2(&quot;05&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="7" expr="dataset.parent.fnGetData2(&quot;06&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="8" expr="dataset.parent.fnGetData2(&quot;07&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="9" expr="dataset.parent.fnGetData2(&quot;08&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="10" expr="dataset.parent.fnGetData2(&quot;09&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="11" expr="dataset.parent.fnGetData2(&quot;10&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="12" textAlign="right" expr="dataset.parent.fnGetData2(&quot;11&quot;)" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="13" expr="dataset.parent.fnGetData2(&quot;12&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell col="14" expr="dataset.parent.fnGetData2(&quot;Y&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" colspan="2" text="목표대비 실적"/>
+                <Cell row="1" col="2" expr="dataset.parent.fnGetData(&quot;01&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="3" expr="dataset.parent.fnGetData(&quot;02&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="4" expr="dataset.parent.fnGetData(&quot;03&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="5" expr="dataset.parent.fnGetData(&quot;04&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="6" expr="dataset.parent.fnGetData(&quot;05&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="7" expr="dataset.parent.fnGetData(&quot;06&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="8" expr="dataset.parent.fnGetData(&quot;07&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="9" expr="dataset.parent.fnGetData(&quot;08&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="10" expr="dataset.parent.fnGetData(&quot;09&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="11" expr="dataset.parent.fnGetData(&quot;10&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="12" textAlign="right" expr="dataset.parent.fnGetData(&quot;11&quot;)" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="13" expr="dataset.parent.fnGetData(&quot;12&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="1" col="14" expr="dataset.parent.fnGetData(&quot;Y&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnExcelDown" taborder="2" text="엑셀다운로드" top="66" width="119" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" onclick="divCmmnBtn_btnExcelDown_onclick" right="10"/>
+        <Static id="staTitle01" taborder="3" text="영업일(계약일) 기준 매출현황" left="10" width="650" height="45" top="55" cssclass="sta_WF_Title"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	statusVM1.xfdl
+*  @Creator 	
+*  @CreateDate 	
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvCurYear = "";
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj);
+	
+	var date = this.gfnGetDate();
+	this.fvCurYear = date.substr(0,4);
+	this.divSearch.form.calMonth.set_value(this.fvCurYear + "1231");
+	
+	this.staTitle01.set_text(date.substr(0,4) + "년도 영업일(계약일) 기준 매출 비교 현황");
+};
+
+//조회
+this.cfnSearch = function ()
+{
+	this.fnTranSearch();
+};
+
+
+//max size 변경
+this.form_onsize = function(obj:nexacro.Form,e:nexacro.SizeEventInfo)
+{
+
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+this.fnTranSearch = function()
+{
+	this.fvAddTranCnt = 0;
+	
+	this.dsOutput.clearData();
+	this.dsOutput1.clearData();
+	this.dsSum.clearData();
+	
+	this.grdList.set_binddataset("");
+		
+	this.gfnInitNextGlobalDataset(this.dsGlobal);
+	
+	var selDate = this.divSearch.form.calMonth.value;
+	var selYear = selDate.substr(0,4);
+	this.fvCurYear = selYear;
+	this.dsParam2.setColumn(0, "YEAR", selYear);
+	this.dsParam2.applyChange();
+	
+	// https://nextcns.tobesoft.com/FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_SalesMonthly_S01&format=xml&version=xplatform&compress=false HTTP/1.1
+	var strSvcId 	= "month1";
+	var strSvcUrl 	= "nextService.do";
+	var inData 		= "dsGlobal=dsGlobal:A dsParam=dsParam2:A";
+	var outData 	= "dsOutput=dsOutput";
+	var strArg 		= "trxUrl=" + nexacro.wrapQuote("FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_TargetVsResults_S01&format=xml&version=xplatform&compress=false");
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, "fnCallback");
+
+	var preYear = parseInt(selYear) - 1;
+	this.dsParam2.setColumn(0, "YEAR", preYear+"");
+	this.dsParam2.applyChange();
+	
+	// https://nextcns.tobesoft.com/FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_SalesMonthly_S01&format=xml&version=xplatform&compress=false HTTP/1.1
+	var strSvcId 	= "month2";
+	var strSvcUrl 	= "nextService.do";
+	var inData 		= "dsGlobal=dsGlobal:A dsParam=dsParam2:A";
+	var outData 	= "dsOutput1=dsOutput";
+	var strArg 		= "trxUrl=" + nexacro.wrapQuote("FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_TargetVsResults_S01&format=xml&version=xplatform&compress=false");
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, "fnCallback");
+	
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fvAddTranCnt = 0;
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg, oJson)
+{
+	switch(sSvcId) {
+		case "month1":
+			this.fnSum1();
+			this.fvAddTranCnt++;
+			if(this.fvAddTranCnt >= 2) {
+				this.grdList.set_binddataset("dsSum");
+				this.fvAddTranCnt = 0;
+			}
+			break;					
+		case "month2":
+			this.fnSum2();
+			this.fvAddTranCnt++;
+			if(this.fvAddTranCnt >= 2) {
+				this.grdList.set_binddataset("dsSum");
+				this.fvAddTranCnt = 0;
+			}
+			break;					
+		default:
+			break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.fnSum1 = function ()
+{
+	if(this.dsOutput.rowcount == 0) return;
+	
+	var selDate = this.divSearch.form.calMonth.value;
+	var selYear = selDate.substr(0,4);
+	
+	var colname = "", nSum = 0, nAddSum=0;
+	var nRow = this.dsSum.addRow();
+	this.dsSum.setColumn(nRow, "YEAR", selYear);
+	
+	for(var j=1;j<=12;j++) {
+		colname = "CL_" + (j+"").padLeft(2, '0');	// 실적
+		nSum = this.dsOutput.getSum(colname) || 0;
+		nAddSum += nSum;
+		this.dsSum.setColumn(nRow, colname, nSum);
+	}
+	this.dsSum.setColumn(nRow, "CL_Y", nAddSum);
+	
+	nSum = 0, nAddSum = 0;
+	//nRow = this.dsSum.addRow();
+	for(var j=1;j<=12;j++) {
+		colname = "SG_" + (j+"").padLeft(2, '0');	// 목표
+		nSum = this.dsOutput.getSum(colname);
+		nAddSum += nSum;
+		this.dsSum.setColumn(nRow, colname, nSum);
+	}
+	this.dsSum.setColumn(nRow, "SG_Y", nAddSum);
+	
+};
+
+this.fnSum2 = function ()
+{
+	if(this.dsOutput1.rowcount == 0) return;
+	
+	var selDate = this.divSearch.form.calMonth.value;
+	var selYear = selDate.substr(0,4);
+	selYear = (parseInt(selYear)-1) + "";
+	var colname = "", nSum = 0, nAddSum=0;
+	var nRow = this.dsSum.addRow();
+	this.dsSum.setColumn(nRow, "YEAR", selYear);
+	
+	for(var j=1;j<=12;j++) {
+		colname = "CL_" + (j+"").padLeft(2, '0');	// 실적
+		nSum = this.dsOutput1.getSum(colname) || 0;
+		nAddSum += nSum;
+		this.dsSum.setColumn(nRow, colname, nSum);
+	}
+	this.dsSum.setColumn(nRow, "CL_Y", nAddSum);
+	
+	nSum = 0, nAddSum = 0;
+	//nRow = this.dsSum.addRow();
+	for(var j=1;j<=12;j++) {
+		colname = "SG_" + (j+"").padLeft(2, '0');	// 목표
+		nSum = this.dsOutput1.getSum(colname);
+		nAddSum += nSum;
+		this.dsSum.setColumn(nRow, colname, nSum);
+	}
+	this.dsSum.setColumn(nRow, "SG_Y", nAddSum);
+	
+};
+
+// 목대비매출실적
+this.fnGetData = function(val) {
+	var ds = this.dsSum;
+	if(ds.rowcount == 0) return "";
+	var tcol = "SG_" + val;
+	var gcol = "CL_" + val;
+
+	// 전년매출 - 귀차나 sum으로 대충...
+	var preYearSum = ds.getCaseSum("YEAR=='" + this.fvCurYear + "'", tcol);
+	var curYearSum = ds.getCaseSum("YEAR=='" + this.fvCurYear + "'", gcol);
+	if(preYearSum.valueOf() == 0) return "-";
+	
+	return nexacro.round((curYearSum/preYearSum)*100,1) + "%";
+};
+
+// 전년대비매출실적
+this.fnGetData2 = function(val) {
+	var ds = this.dsSum;
+	if(ds.rowcount == 0) return "";
+	//var tcol = "SG_" + val;
+	var gcol = "CL_" + val;
+
+	var preYear = (parseInt(this.fvCurYear) - 1) + "";
+	// 전년매출
+	var preYearSum = ds.getCaseSum("YEAR=='" + preYear + "'", gcol);
+	var curYearSum = ds.getCaseSum("YEAR=='" + this.fvCurYear + "'", gcol);
+	if(preYearSum.valueOf() == 0) return "-";
+	
+	return nexacro.round((curYearSum/preYearSum)*100,1) + "%";
+};
+
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdList, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");	
+};
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+// 구분 변경
+this.divSearch_cboType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.grdList.set_formatid(e.postvalue);
+	this.dsOutput.clearData();
+};
+
+this.divSearch_calMonth_onspin = function(obj:nexacro.Calendar,e:nexacro.CalendarSpinEventInfo)
+{
+	this.dsOutput.clearData();
+	this.dsOutput1.clearData();
+	this.dsSum.clearData();		
+	this.staTitle01.set_text(e.postvalue.substr(0,4) + "년도 영업일(계약일) 기준 매출 비교 현황");
+};
+
+]]></Script>
+    <Objects>
+      <Dataset id="dsParam1">
+        <ColumnInfo>
+          <Column id="TYPE" type="string" size="256"/>
+          <Column id="FORMAT" type="string" size="256"/>
+          <Column id="END_MONTH" type="string" size="256"/>
+          <Column id="DEPT_LEVEL" type="string" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="TYPE">TAX</Col>
+            <Col id="DEPT_LEVEL">1</Col>
+            <Col id="FORMAT">EMP</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsOutput">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="40"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="INDUSTRY" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="120"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CL_01" type="bigdecimal" size="40"/>
+          <Column id="CL_02" type="bigdecimal" size="40"/>
+          <Column id="CL_03" type="bigdecimal" size="40"/>
+          <Column id="CL_04" type="bigdecimal" size="40"/>
+          <Column id="CL_05" type="bigdecimal" size="40"/>
+          <Column id="CL_06" type="bigdecimal" size="40"/>
+          <Column id="CL_07" type="bigdecimal" size="40"/>
+          <Column id="CL_08" type="bigdecimal" size="40"/>
+          <Column id="CL_09" type="bigdecimal" size="40"/>
+          <Column id="CL_10" type="bigdecimal" size="40"/>
+          <Column id="CL_11" type="bigdecimal" size="40"/>
+          <Column id="CL_12" type="bigdecimal" size="40"/>
+          <Column id="CL_H01" type="bigdecimal" size="40"/>
+          <Column id="CL_H02" type="bigdecimal" size="40"/>
+          <Column id="CL_Y" type="bigdecimal" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsItem">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="BUSINESS_TYPE" type="string" size="20"/>
+          <Column id="GOAL" type="bigdecimal" size="20"/>
+          <Column id="RESULT" type="bigdecimal" size="20"/>
+          <Column id="GOAL_Y" type="bigdecimal" size="20"/>
+          <Column id="RESULT_Y" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsGlobal">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NM" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NM" type="string" size="100"/>
+          <Column id="EMAIL" type="string" size="268"/>
+          <Column id="MOBILE" type="string" size="44"/>
+          <Column id="OFFICE" type="string" size="20"/>
+          <Column id="GRADE_CD" type="string" size="30"/>
+          <Column id="GRADE_NM" type="string" size="100"/>
+          <Column id="DUTY_CD" type="string" size="30"/>
+          <Column id="DUTY_NM" type="string" size="100"/>
+          <Column id="EMP_KIND" type="string" size="255"/>
+          <Column id="CO_CD" type="string" size="30"/>
+          <Column id="CO_NM" type="string" size="100"/>
+          <Column id="LOGIN_SYS" type="string" size="10"/>
+          <Column id="LANGUAGE" type="string" size="10"/>
+          <Column id="MODEL_ID" type="string" size="50"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCode">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">EMP</Col>
+            <Col id="NAME">담당자별</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">DEPT</Col>
+            <Col id="NAME">부서별</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">CLIENT</Col>
+            <Col id="NAME">고객사별</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">PROJECT</Col>
+            <Col id="NAME">프로젝트별</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">CONTRACT</Col>
+            <Col id="NAME">계약별</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsOutput1">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="40"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="INDUSTRY" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="120"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CL_01" type="bigdecimal" size="40"/>
+          <Column id="CL_02" type="bigdecimal" size="40"/>
+          <Column id="CL_03" type="bigdecimal" size="40"/>
+          <Column id="CL_04" type="bigdecimal" size="40"/>
+          <Column id="CL_05" type="bigdecimal" size="40"/>
+          <Column id="CL_06" type="bigdecimal" size="40"/>
+          <Column id="CL_07" type="bigdecimal" size="40"/>
+          <Column id="CL_08" type="bigdecimal" size="40"/>
+          <Column id="CL_09" type="bigdecimal" size="40"/>
+          <Column id="CL_10" type="bigdecimal" size="40"/>
+          <Column id="CL_11" type="bigdecimal" size="40"/>
+          <Column id="CL_12" type="bigdecimal" size="40"/>
+          <Column id="CL_H01" type="bigdecimal" size="40"/>
+          <Column id="CL_H02" type="bigdecimal" size="40"/>
+          <Column id="CL_Y" type="bigdecimal" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsParam2">
+        <ColumnInfo>
+          <Column id="KIND" type="string" size="256"/>
+          <Column id="YEAR" type="string" size="256"/>
+          <Column id="DEPT_LEVEL" type="string" size="256"/>
+          <Column id="BUSINESS_TYPE" type="string" size="256"/>
+          <Column id="UNIT" type="string" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DEPT_LEVEL">1</Col>
+            <Col id="UNIT">1</Col>
+            <Col id="KIND">E</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsSum">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="string" size="100"/>
+          <Column id="EMP_NAME" type="string" size="255"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CL_01" type="bigdecimal" size="13"/>
+          <Column id="CL_02" type="bigdecimal" size="13"/>
+          <Column id="CL_03" type="bigdecimal" size="13"/>
+          <Column id="CL_04" type="bigdecimal" size="13"/>
+          <Column id="CL_05" type="bigdecimal" size="13"/>
+          <Column id="CL_06" type="bigdecimal" size="13"/>
+          <Column id="CL_07" type="bigdecimal" size="13"/>
+          <Column id="CL_08" type="bigdecimal" size="13"/>
+          <Column id="CL_09" type="bigdecimal" size="13"/>
+          <Column id="CL_10" type="bigdecimal" size="13"/>
+          <Column id="CL_11" type="bigdecimal" size="13"/>
+          <Column id="CL_12" type="bigdecimal" size="13"/>
+          <Column id="CL_Y" type="bigdecimal" size="13"/>
+          <Column id="SG_01" type="bigdecimal" size="13"/>
+          <Column id="SG_02" type="bigdecimal" size="13"/>
+          <Column id="SG_03" type="bigdecimal" size="13"/>
+          <Column id="SG_04" type="bigdecimal" size="13"/>
+          <Column id="SG_05" type="bigdecimal" size="13"/>
+          <Column id="SG_06" type="bigdecimal" size="13"/>
+          <Column id="SG_07" type="bigdecimal" size="13"/>
+          <Column id="SG_08" type="bigdecimal" size="13"/>
+          <Column id="SG_09" type="bigdecimal" size="13"/>
+          <Column id="SG_10" type="bigdecimal" size="13"/>
+          <Column id="SG_11" type="bigdecimal" size="13"/>
+          <Column id="SG_12" type="bigdecimal" size="13"/>
+          <Column id="SG_Y" type="bigdecimal" size="13"/>
+          <Column id="ORD" type="string" size="10"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="TYPE" type="STRING" size="256"/>
+          <Column id="TYPE_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item6" compid="divSearch.form.cboType" propid="value" datasetid="dsParam1" columnid="FORMAT"/>
+    </Bind>
+  </Form>
+</FDL>

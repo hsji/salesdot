@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AR_ServerDomainRequest" width="1280" height="720" titletext="서버 자원 신청" onload="AR_ServerResourceRequest_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Div id="div_ResourceRequest" taborder="0" left="8" top="8" height="40" cssclass="div_WF_SchList" right="8">
+          <Layouts>
+            <Layout>
+              <Button id="btn_Search" taborder="0" text="조회" top="8" width="60" height="22" right="8" onclick="comm_select_onclick" cssclass="btn_WF_SchText"/>
+              <Button id="btn_Add" taborder="1" text="신규" top="8" height="22" right="btn_Search:8" width="55" cssclass="btn_WF_tran" onclick="div_ResourceRequestMM_btn_Add_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Tab id="tab_ResourceRequest" taborder="1" tabindex="0" left="8" right="8" top="div_ResourceRequest:8" bottom="8" onchanged="tab_ResourceRequest_onchanged">
+          <Tabpages>
+            <Tabpage id="tpg_Server" text="서버" url="Admin::AR_ServerRequest.xfdl"/>
+            <Tabpage id="tpg_SubDomain" text="서브도메인" url="Admin::AR_SubDomainRequest.xfdl"/>
+            <Tabpage id="tpg_SSL" text="SSL 인증서" url="Admin::AR_SslCertList.xfdl"/>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Bind>
+      <BindItem id="item1" compid="div_ResourceRequest.form.cmb_RequestStatus" propid="value" datasetid="ds_Search" columnid="REQUEST_STATUS"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 
+* 02. 화면명   : 서버 자원 요청(AR_ServerResourceRequest)
+* 03. 화면설명 : 
+* 04. 작성일   : 2023/12/26
+* 05. 작성자   : 이상원
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AR_ServerResourceRequest_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	
+};
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{ 
+	{
+		switch(strSvcID) 
+		{
+			case "gfnGetCode":
+				break;
+			default:
+				break;
+		}
+	}
+}
+
+this.fnAuth = function(nTabIndex)
+{
+	if(nTabIndex == 2) {
+		this.div_ResourceRequest.form.btn_Add.set_visible(false);
+	} else {
+		this.div_ResourceRequest.form.btn_Add.set_visible(true);
+	}
+}
+// (팝업화면명) 에서 정보 받은것을 가공할 때 사용.
+this.fnPopupCallBack = function (popupId, popupArg)
+{	
+	popupArg = this.commUtil.popupReturn();
+	
+	switch(popupArg)
+	{
+		case "save" :
+			var nTabIndex = this.tab_ResourceRequest.tabindex;
+			if(nTabIndex == 0) {
+				this.tab_ResourceRequest.tpg_Server.form.fnSearch();
+			} else if(nTabIndex == 1) {
+				this.tab_ResourceRequest.tpg_SubDomain.form.fnSearch();
+			}
+			break;
+		case "close" :
+			break;
+		default:
+			break;
+	}
+}
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+//탭페이지별 신규 등록
+this.div_ResourceRequestMM_btn_Add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nTabIndex = this.tab_ResourceRequest.tabindex;
+	var sArgument = {};
+	if (nTabIndex == 0) {
+		this.commUtil.popup(this, "AR_ServerEstimateRequestPopup", "Admin::AR_ServerEstimateRequestPopup.xfdl", -1, -1, 360, 480, true, false, false, sArgument, "fnPopupCallBack");
+	} else if(nTabIndex == 1) {
+		this.commUtil.popup(this, "AR_SubDomainRequestPopup", "Admin::AR_SubDomainRequestPopup.xfdl", -1, -1, 360, 520, true, false, false, sArgument, "fnPopupCallBack");
+	}
+};
+//탭페이지별 조회
+this.comm_select_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nTabIndex = this.tab_ResourceRequest.tabindex;
+	if(nTabIndex == 0) {
+		this.tab_ResourceRequest.tpg_Server.form.fnSearch();
+	} else if(nTabIndex == 1) {
+		this.tab_ResourceRequest.tpg_SubDomain.form.fnSearch();
+	} else if(nTabIndex == 2) {
+		this.tab_ResourceRequest.tpg_SSL.form.fnSearch();
+	}
+};
+//탭페이지별 조회
+//onload 이후에만 작동하도록 컴포넌트 생성여부 체크
+this.tab_ResourceRequest_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChangeEventInfo)
+{
+	var nTabIndex = this.tab_ResourceRequest.tabindex;
+	this.fnAuth(nTabIndex);
+	if(nTabIndex == 0) {
+		if(this.gfnIsEmpty(this.tab_ResourceRequest.tpg_Server.form.div_ActivateServer) == false) {
+			this.tab_ResourceRequest.tpg_Server.form.fnSearch();
+		}
+	} else if(nTabIndex == 1) {
+		if(this.gfnIsEmpty(this.tab_ResourceRequest.tpg_SubDomain.form.div_SubDomain) == false) {
+			this.tab_ResourceRequest.tpg_SubDomain.form.fnSearch();
+		}
+	} else if(nTabIndex == 2) {		
+		if(this.gfnIsEmpty(this.tab_ResourceRequest.tpg_SSL.form.div_SslCertList) == false) {
+			this.tab_ResourceRequest.tpg_SSL.form.fnSearch();
+		}
+	}
+};
+/************************************************************************************************
+* 팝업 TRANSACTION 및 추가 FUNCTION 영역 
+************************************************************************************************/
+
+/************************************************************************************************
+* 팝업 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/]]></Script>
+  </Form>
+</FDL>

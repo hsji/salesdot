@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hrdMapper">
+
+<!-- 영업정보  -->
+<select id="searchMailContents" resultType="java.util.Map">
+	SELECT SEQ, MAIL_SUBJECT, USER_ID, MAIL_CONTENTS 
+	FROM T_HRD_MAILCONTETNS
+</select>
+
+<select id="searchUserMailList" resultType="java.util.Map">
+	SELECT USER_ID, EMP_NO, EMAIL, EMAILMAIN, KORN_NM, REGI_NUMB
+	FROM T_SYTM_USER
+	WHERE USER_FLAG_CD = 'RW'
+</select>
+
+
+<select id="searchSendMailResultList" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT M.YYYYMM
+		, M.USER_ID
+		, M.SEND_DTTM
+		, M.RESULT
+		, M.RESULT_MSG
+		, U.KORN_NM
+		, (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = U.DEPT_CD) DEPT_NM
+	FROM T_HRD_SALARYSENDMAILRESULT M, T_SYTM_USER U
+	WHERE M.USER_ID = U.USER_ID	
+	<if test="YYYYMM != null and YYYYMM != ''">
+	    AND M.YYYYMM = #{YYYYMM}
+	</if>
+	ORDER BY U.KORN_NM
+</select>
+
+
+<insert id="insertMailContents" parameterType="java.util.Map">
+	INSERT INTO T_HRD_MAILCONTETNS
+	(
+		  SEQ
+		, MAIL_SUBJECT
+		, USER_ID
+		, MAIL_CONTENTS
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM  
+	)VALUES(
+	    #{SEQ}
+	    , #{MAIL_SUBJECT}
+	    , #{USER_ID}
+	    , #{MAIL_CONTENTS}
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+		)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		    MAIL_SUBJECT 	= #{MAIL_SUBJECT}
+		    , USER_ID 		= #{USER_ID}
+		    , MAIL_CONTENTS = #{MAIL_CONTENTS}
+		    , CHGE_ID 		= #{USER_ID_SRV}
+		    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+		    , CHGE_DTTM 	= NOW()
+			
+</insert>
+
+
+<insert id="insertMailResult" parameterType="java.util.Map">
+
+	INSERT INTO T_HRD_SALARYSENDMAILRESULT
+	(
+		  YYYYMM
+		, USER_ID
+		, SEND_DTTM
+		, RESULT
+		, RESULT_MSG
+	)VALUES(
+	    #{YYYYMM}
+	    , #{USER_ID}
+	    ,  NOW()
+	    , #{RESULT}
+	    , #{RESULT_MSG}
+		)
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		    SEND_DTTM 	= NOW()
+		    , RESULT 		= #{RESULT}
+		    , RESULT_MSG = #{RESULT_MSG}
+</insert>
+
+
+<select id="searchWeekWorkList" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT USER_ID
+		, WORK_DATE
+		, WORK_SEQ
+		, WORK_TYPE
+		, WORK_CONTENTS
+		, WORK_TIME
+	FROM T_HRD_WORKDAY
+	WHERE USER_ID = #{USER_ID}
+	AND WORK_DATE BETWEEN #{WORK_FDATE} AND #{WORK_TDATE}
+	ORDER BY WORK_DATE, WORK_TYPE, WORK_SEQ
+</select>
+
+<select id="searchWorkList" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT USER_ID
+		, WORK_DATE
+		, WORK_SEQ
+		, WORK_TYPE
+		, WORK_CONTENTS
+		, WORK_TIME
+	FROM T_HRD_WORKDAY
+	WHERE USER_ID = #{USER_ID}
+	AND WORK_DATE = #{WORK_DATE}	
+	ORDER BY WORK_TYPE, WORK_SEQ
+</select>
+
+<select id="searchPreWorkList" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT USER_ID
+		, DATE_FORMAT(CURDATE(), '%Y%m%d') AS WORK_DATE
+		, WORK_SEQ
+		, WORK_TYPE
+		, WORK_CONTENTS
+		, WORK_TIME
+	FROM T_HRD_WORKDAY
+	WHERE USER_ID = #{USER_ID}
+	AND WORK_DATE = (SELECT MAX(WORK_DATE) FROM T_HRD_WORKDAY where USER_ID = #{USER_ID})	
+	ORDER BY WORK_TYPE, WORK_SEQ
+</select>
+
+
+<select id="searchSplitWorkList" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT USER_ID
+		, WORK_DATE
+		, WORK_SEQ
+		, WORK_TYPE AS WORK_TYPE_T
+		, WORK_CONTENTS AS WORK_CONTENTS
+		, WORK_TIME
+	FROM T_HRD_WORKDAY
+	WHERE USER_ID = #{USER_ID}
+	AND WORK_DATE = #{WORK_DATE}
+	AND WORK_TYPE = 'T'
+	
+	UNION ALL
+	
+	SELECT USER_ID
+		, WORK_DATE
+		, WORK_SEQ
+		, WORK_TYPE
+		, WORK_CONTENTS
+		, WORK_TIME
+	FROM T_HRD_WORKDAY
+	WHERE USER_ID = #{USER_ID}
+	AND WORK_DATE = #{WORK_DATE}
+	AND WORK_TYPE = 'W'	
+	
+		
+	ORDER BY WORK_TYPE, WORK_SEQ
+</select>
+
+
+
+<delete id="deleteWorkList" parameterType="java.util.Map">
+	DELETE FROM T_HRD_WORKDAY
+	WHERE USER_ID = #{USER_ID}
+	AND WORK_DATE = #{WORK_DATE}
+	<if test="WORK_SEQ != null and WORK_SEQ != ''">
+	    AND WORK_SEQ = #{WORK_SEQ}	
+	</if>				
+</delete>
+
+
+<!--  MAP 사용자 정보 수정 -->    
+<update id="updateWorkList" parameterType="java.util.Map">
+	INSERT INTO T_HRD_WORKDAY
+	(USER_ID, WORK_DATE, WORK_SEQ, WORK_TYPE, WORK_CONTENTS, WORK_TIME, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM
+	)VALUES(
+		#{USER_ID}, #{WORK_DATE}, #{WORK_SEQ}, #{WORK_TYPE}, #{WORK_CONTENTS}, #{WORK_TIME}, #{USER_ID_SRV}, NOW(), #{USER_ID_SRV}, NOW()
+	)			
+	ON 
+	DUPLICATE KEY
+		UPDATE 
+		    WORK_TYPE 	= #{WORK_TYPE}
+		    , WORK_CONTENTS 	= #{WORK_CONTENTS}
+		    , WORK_TIME 		= #{WORK_TIME}
+		    , CHGE_ID 		= #{USER_ID_SRV}
+		    , CHGE_DTTM = NOW()
+	WHERE USER_ID 	= #{USER_ID}	
+	AND WORK_DATE = #{WORK_DATE}
+	AND WORK_SEQ = #{WORK_SEQ}
+</update>
+
+<insert id="insertWorkList" parameterType="java.util.Map">
+	INSERT INTO T_HRD_WORKDAY
+	(USER_ID, WORK_DATE, WORK_SEQ, WORK_TYPE, WORK_CONTENTS, WORK_TIME, INPT_ID, INPT_DTTM, CHGE_ID, CHGE_DTTM)
+	VALUES(
+		#{USER_ID}, #{WORK_DATE}, #{WORK_SEQ}, #{WORK_TYPE}, #{WORK_CONTENTS}, #{WORK_TIME}, #{USER_ID_SRV}, NOW(), #{USER_ID_SRV}, NOW()
+		)		
+</insert>
+
+</mapper>

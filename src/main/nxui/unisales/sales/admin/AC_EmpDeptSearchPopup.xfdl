@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AC_EmpDeptSearchPopup" width="650" height="640" titletext="New Form" cssclass="frm_popBg" onload="AC_EmpDeptSearchPopup_onload">
+    <Layouts>
+      <Layout height="640" mobileorientation="landscape" width="650">
+        <Button id="btn_close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="common_onclick" escapebutton="true"/>
+        <Static id="st_Title" taborder="1" text="부서 (직원) 선택" left="10" top="0" width="186" height="35" cssclass="sta_POP_Title"/>
+        <Div id="div_Search" taborder="2" text="" left="4" top="39" height="40" right="4" cssclass="div_WF_SchList">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Name" taborder="2" text="성명" left="116" top="8" width="44" height="22" cssclass="sta_WF_DetailTit" textAlign="right"/>
+              <Edit id="edt_Name" taborder="0" left="166" top="8" height="22" onkeydown="div_Search_edt_Name_onkeydown" width="152"/>
+              <Button id="btn_Search" taborder="1" text="조회" top="7" width="60" height="24" cssclass="btn_WF_SchText" right="8" onclick="common_onclick"/>
+              <Radio id="rd_Kind" taborder="3" left="14" top="9" width="101" height="22" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" rowcount="1" index="1" text="직원" value="EMP" onitemchanged="div_Search_rd_Kind_onitemchanged">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">DEPT</Col>
+                      <Col id="datacolumn">부서</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">EMP</Col>
+                      <Col id="datacolumn">직원</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Name" height="30" left="196" top="4" width="44"/>
+              <Edit id="edt_Name" height="30" left="244" top="4" width="140"/>
+              <Button id="btn_Search" height="30" top="3" width="70" right="4"/>
+              <Edit id="edt_CompanyName" height="30" left="52" top="4" width="140"/>
+              <Static id="stc_Name00" height="30" left="4" top="4" width="44"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static06" taborder="3" left="4" top="87" height="31" cssclass="sta_POP_GroupBg" right="4"/>
+        <Grid id="grd_list" taborder="4" left="4" top="118" width="243" binddataset="ds_department" autofittype="col" treeinitstatus="expand,all" treeusecheckbox="true" oncelldblclick="grd_list_oncelldblclick" bottom="44">
+          <Formats>
+            <Format id="EMP">
+              <Columns>
+                <Column size="242"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="bind:DEPT_NM" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEV" treecheck="bind:ISCHECKED" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+              </Band>
+            </Format>
+            <Format id="DEPT">
+              <Columns>
+                <Column size="48"/>
+                <Column size="195"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:ISCHECKED"/>
+                <Cell col="1" text="bind:DEPT_NM" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEV" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Emp" taborder="5" left="250" top="118" right="4" binddataset="ds_employee" autofittype="col" height="260" oncelldblclick="grd_Emp_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="60"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="부서"/>
+                <Cell col="1" text="이름"/>
+                <Cell col="2" text="직급"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DEPT_NM" textAlign="left"/>
+                <Cell col="1" text="bind:EMP_NM"/>
+                <Cell col="2" text="bind:CAPTION"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Selected" taborder="6" left="250" top="378" right="4" autofittype="col" formatid="default" binddataset="ds_Selected" bottom="44" oncelldblclick="grd_Selected_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="60"/>
+                <Column size="180"/>
+                <Column size="100"/>
+                <Column size="53"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="타입"/>
+                <Cell col="1" text="부서"/>
+                <Cell col="2" text="이름"/>
+                <Cell col="3" text="USE"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="combotext" text="bind:AU_TYPE" combodataset="ds_type" combocodecol="code" combodatacol="value"/>
+                <Cell col="1" text="bind:DEPT_NM"/>
+                <Cell col="2" text="bind:EMP_NM"/>
+                <Cell col="3" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0" text="bind:USE_FLAG"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_BottomFrame" taborder="7" left="1" height="38" right="1" bottom="1" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Save" taborder="8" text="저장" width="60" height="22" cssclass="btn_WF_tran" right="74" bottom="11" onclick="common_onclick"/>
+        <Button id="btn_Cancel" taborder="9" text="닫기" width="60" height="22" cssclass="btn_WF_cancel" right="6" bottom="11" onclick="common_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: xxx
+* 02. 화면명		: xxx
+* 03. 화면설명 		: xxx
+* 04. 작성일   	: 2018.xx.xx
+* 05. 작성자   	: xxx
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.sEmpName = "";
+this.FV_TITLE;
+this.FV_SAL_SEQ;
+
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.AC_EmpDeptSearchPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);	//	사용자 Grid
+	this.fn_InitDisplay();
+	
+	this.fn_DeptQueryData();
+	this.fn_QueryData();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fn_InitDisplay = function ()
+{
+	//this.grd_Emp.set_height(0);
+	//this.div_Search.form.stc_Name.set_text("부서명");
+	
+	this.FV_TITLE =  this.parent.pvTitle;
+	this.FV_SAL_SEQ =  this.parent.pvSalseq;
+	
+	if (this.gfnIsEmpty(this.FV_TITLE)) {	
+		this.FV_TITLE = "부서 (직원) 선택";
+	}
+	this.st_Title.set_text(this.FV_TITLE);
+}
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 조회
+this.fn_QueryData = function()
+{
+	this.gfnAddSendParameter("SAL_SEQ", this.FV_SAL_SEQ);
+	this.gfnAddOutputDataset("ds_Selected",  "ds_selected");
+	this.gfnCommonTransaction("AccountUser", "AC_EmpDeptSearchPopup_S01");
+}
+
+
+// 부서조회
+this.fn_DeptQueryData = function()
+{
+	this.gfnAddSendParameter("TYPE","1");
+	this.gfnAddSendParameter("EMP_KIND", "T");
+	this.gfnAddSendParameter("HOLD_OFFICE", "1");
+	this.gfnAddOutputDataset("ds_department",  "ds_department");
+	this.gfnCommonTransaction("DeptQuery", "CO_Organization_S01");
+}
+
+// 직원 조회
+this.fn_EmpQueryData = function()
+{
+	this.gfnAddSendParameter("TYPE", "2");
+	this.gfnAddSendParameter("EMP_KIND", "T");
+	this.gfnAddSendParameter("HOLD_OFFICE", "1");
+	
+	this.gfnAddOutputDataset("ds_employee",  "ds_employee");
+	this.gfnCommonTransaction("EmpData", "CO_Organization_S01");
+};
+
+// 저장
+this.fn_SaveData = function()
+{
+	this.gfnAddInputDataset ("ds_Selected",	"ds_selected");
+	this.gfnCommonTransaction("SaveData", "AC_EmpDeptSearchPopup_R01");
+	
+}
+
+ // 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	switch (strSvcID) 
+	{
+		case "DeptQuery" : 
+			this.fn_EmpQueryData();
+			break;
+		case "EmpData" :
+			var sDeptCd = this.ds_department.getColumn(this.ds_department.rowposition, "DEPT_CD");
+			this.fn_EmpFilter(sDeptCd);
+			break;
+		case "AccountUser" :
+			break;
+		case "SaveData" :
+			break;
+	}
+};
+
+this.fn_EmpFilter = function(dept_cd)
+{
+	this.ds_employee.set_enableevent(false);
+	this.ds_employee.filter("");
+	this.ds_employee.filter("DEPT_CD == '"+dept_cd+"'");
+	this.ds_employee.set_enableevent(true);
+}
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	 	switch(obj.name) {
+			case "btn_Search" :
+				this.fn_DeptQueryData();
+				this.fn_QueryData();
+				break;
+			case "btn_Save" : // 저장
+				this.fn_SaveData();
+				break;
+			case "btn_close": case "btn_Cancel":
+				//this.close();
+				this.commUtil.popupClose("OK");
+				break;
+	 	}
+};
+
+this.div_Search_rd_Kind_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	if (e.postvalue == "DEPT") {
+		this.grd_Emp.set_height(0);
+		this.grd_Selected.set_top(118);
+		this.div_Search.form.stc_Name.set_text("부서명");
+		//this.fn_DeptQueryData();
+	} else {
+		this.grd_Emp.set_height(260);
+		this.grd_Selected.set_top(378);
+		this.div_Search.form.stc_Name.set_text("성명");
+		//this.fn_EmpQueryData();
+	}	
+};
+
+this.ds_department_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if (this.div_Search.form.rd_Kind.value == "EMP") {
+		this.fn_EmpFilter(obj.getColumn(e.newrow, "DEPT_CD"));
+	}
+};
+
+this.grd_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if (this.div_Search.form.rd_Kind.value == "DEPT") {
+		var sDeptCd = this.ds_department.getColumn(e.row, "DEPT_CD");
+		var sDeptNm = this.ds_department.getColumn(e.row, "DEPT_NM");
+		
+		if (this.fn_getDuplicat("1", sDeptCd)) {
+			var nAddRow = this.ds_Selected.addRow();
+			
+			this.ds_Selected.setColumn(nAddRow, "SAL_SEQ", this.FV_SAL_SEQ);
+			this.ds_Selected.setColumn(nAddRow, "AU_TYPE", "1");
+			this.ds_Selected.setColumn(nAddRow, "AU_CODE", sDeptCd);
+			this.ds_Selected.setColumn(nAddRow, "DEPT_CD", sDeptCd);
+			this.ds_Selected.setColumn(nAddRow, "DEPT_NM", sDeptNm);
+			this.ds_Selected.setColumn(nAddRow, "USE_FLAG", "1");
+		}
+	}
+};
+
+this.grd_Emp_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var sEmpCd = this.ds_employee.getColumn(e.row, "EMP_NO");
+	
+	if (this.fn_getDuplicat("2", sEmpCd)) {
+		var nAddRow = this.ds_Selected.addRow();
+		this.ds_Selected.setColumn(nAddRow, "SAL_SEQ", this.FV_SAL_SEQ);
+		this.ds_Selected.setColumn(nAddRow, "AU_TYPE", "2");
+		this.ds_Selected.setColumn(nAddRow, "AU_CODE", this.ds_employee.getColumn(e.row, "EMP_NO"));
+		this.ds_Selected.setColumn(nAddRow, "EMP_NO", this.ds_employee.getColumn(e.row, "EMP_NO"));
+		this.ds_Selected.setColumn(nAddRow, "EMP_NM", this.ds_employee.getColumn(e.row, "EMP_NM"));
+		this.ds_Selected.setColumn(nAddRow, "DEPT_CD", this.ds_employee.getColumn(e.row, "DEPT_CD"));
+		this.ds_Selected.setColumn(nAddRow, "DEPT_NM", this.ds_employee.getColumn(e.row, "DEPT_NM"));
+		this.ds_Selected.setColumn(nAddRow, "USE_FLAG", "1");
+	}
+};
+
+
+this.grd_Selected_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.ds_Selected.deleteRow(this.ds_Selected.rowposition);
+};
+
+
+this.fn_getDuplicat = function(stype, code)
+{
+	var sColId = "";
+	var bRtnVal = false;
+	if (stype == "1")	sColId = "DEPT_CD";		//	Dept
+	else				sColId = "EMP_NO";		// Emp
+	
+	var nFindRow = this.ds_Selected.findRow(sColId, code);
+	
+	if (nFindRow >= 0)	bRtnVal = false;
+	else				bRtnVal = true;
+	return bRtnVal;
+}
+
+
+this.div_Search_edt_Name_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) {
+		
+		//this.fnSearchEmp(this.div_Search.form.cmb_Condition.value, this.div_Search.form.edt_Search.value); 
+		var objDs;
+		var sColId;
+		var sWord = obj.text;
+		if (this.div_Search.form.rd_Kind.value == "DEPT") {
+			objDs = this.ds_department;
+			sColId = "DEPT_NM";
+			var nFindRow = objDs.findRow(sColId, sWord);
+			objDs.set_rowposition(nFindRow);
+		} else {
+			objDs = this.ds_employee;
+			sColId = "EMP_NM";
+			objDs.filter(sColId + ".toString().toUpperCase().indexOf('" + (sWord).toUpperCase() + "') >=0");
+			objDs.set_rowposition(0);
+			this.fnTreeOpen(objDs.getColumn(0, "DEPT_CD"));
+		}
+	}
+};
+
+
+
+
+
+//사원정보를 받아와서 해당 Tree nod를 open해준다.
+this.fnTreeOpen = function(deptCD)
+{	
+	var objGrid = this.grd_list;
+	var objDs 	= this.ds_department;
+	var nRow 	= this.ds_department.findRow("DEPT_CD", deptCD);
+	var nPos 	= 3; //DEPT_CD Index를 의미
+ 
+	objGrid.set_treeinitstatus("collapse,null");
+	
+	for(var i = 1 ; i <= objDs.getColumn(nRow, "LEV"); i++)
+	{
+		objGrid.setTreeStatus(objGrid.getTreeRow(objDs.findRow("DEPT_CD", deptCD.substr(0, nPos))), true); 
+		nPos += 2;
+		//처음에 0인덱스부터 3글자까지 자르고 계속해서 2인덱스씩 증가하면서 setTreeStatus를 탄다.
+		//ex) H02 -> (주)투비소프트 / H0202 -> 경영관리본부 /  H020206 -> 경영관리그룹
+	}
+	
+ 	objDs.set_rowposition(nRow);
+}
+]]></Script>
+    <Objects>
+      <Dataset id="ds_department" onrowposchanged="ds_department_onrowposchanged">
+        <ColumnInfo>
+          <Column id="ISCHECKED" type="STRING" size="255"/>
+          <Column id="DEPT_CD" type="STRING" size="30"/>
+          <Column id="DEPT_NM" type="STRING" size="100"/>
+          <Column id="USE_YN" type="STRING" size="10"/>
+          <Column id="LEV" type="STRING" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_employee">
+        <ColumnInfo>
+          <Column id="ISCHECKED" type="STRING" size="255"/>
+          <Column id="EMP_KIND" type="STRING" size="256"/>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="EMP_NM" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="255"/>
+          <Column id="GRADE_CD" type="STRING" size="255"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="DUTY_CD" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="PHOTO_NM" type="STRING" size="256"/>
+          <Column id="H_PHONE_NO" type="STRING" size="256"/>
+          <Column id="O_PHONE_NO" type="STRING" size="256"/>
+          <Column id="FIRE_DATE" type="STRING" size="256"/>
+          <Column id="HOLD_OFFICE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Selected">
+        <ColumnInfo>
+          <Column id="AU_SEQ" type="bigdecimal" size="20"/>
+          <Column id="SAL_SEQ" type="bigdecimal" size="20"/>
+          <Column id="AU_TYPE" type="string" size="1"/>
+          <Column id="AU_CODE" type="string" size="200"/>
+          <Column id="DEPT_CD" type="string" size="30"/>
+          <Column id="DEPT_NM" type="string" size="100"/>
+          <Column id="EMP_NO" type="string" size="100"/>
+          <Column id="EMP_NM" type="string" size="255"/>
+          <Column id="DELETE_FLAG" type="string" size="10"/>
+          <Column id="USE_FLAG" type="string" size="1"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_type">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="value" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">1</Col>
+            <Col id="value">DEPT</Col>
+          </Row>
+          <Row>
+            <Col id="value">EMP</Col>
+            <Col id="code">2</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

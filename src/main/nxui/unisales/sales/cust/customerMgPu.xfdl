@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="customerMgFm" width="460" height="500" titletext="공통코드관리" onload="form_onload">
+    <Layouts>
+      <Layout height="500" mobileorientation="landscape" width="460">
+        <Div id="divSearch" taborder="0" left="20" top="20" height="50" text="Div00" cssclass="div_WF_Search" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staCdNm" taborder="2" text="고객명" cssclass="sta_WF_SchLabel" left="0" top="12" width="110" height="24"/>
+              <Edit id="edtCdNm" taborder="0" left="staCdNm:0" top="12" width="160" height="24"/>
+              <Button id="btnSearch" taborder="1" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdMaster" taborder="1" left="20" top="divSearch:10" binddataset="dsList" autoenter="select" bottom="48" cellsizingtype="col" autofittype="col" uFunction="filter,sort,!colfix,!initial,find" minheight="250" maxheight="" right="20" oncelldblclick="grdMaster_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="104"/>
+                <Column size="308"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="고객코드"/>
+                <Cell col="1" text="고객명"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CLIENT_CODE"/>
+                <Cell col="1" text="bind:CLIENT_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnClose" taborder="3" text="취소" height="28" width="50" fittocontents="width" right="20" bottom="10" onclick="btnClose_onclick"/>
+        <Button id="btnOk" taborder="2" text="확인" height="28" width="50" fittocontents="width" cssclass="btn_WF_Crud" right="btnClose:5" bottom="10" onclick="btnOk_onclick"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item8" compid="divSearch.form.edtCd" propid="value" datasetid="dsCond" columnid="CLIENT_CODE"/>
+      <BindItem id="item0" compid="divSearch.form.edtCdNm" propid="value" datasetid="dsCond" columnid="CLIENT_NAME"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsCond" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" firefirstcount="0" oncolumnchanged="dsList_oncolumnchanged" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="ADDR_DTL" type="string" size="32"/>
+          <Column id="TELP_NUMB" type="string" size="32"/>
+          <Column id="SEQ_NO" type="int" size="4"/>
+          <Column id="CLIENT_CODE" type="string" size="32"/>
+          <Column id="CLIENT_PIC" type="string" size="32"/>
+          <Column id="CLIENT_NAME" type="string" size="32"/>
+          <Column id="ZIP_NUMB" type="string" size="32"/>
+          <Column id="ADDR_BASIC" type="string" size="32"/>
+          <Column id="HOME_URL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	customerMgFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/08
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/08			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvRowPositionMain = -1;
+this.fvRowPositionSub  = -1;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	var sCustomerCd  = this.getOwnerFrame().pvCustomerCd;
+	this.pTargetComp  = this.getOwnerFrame().pvComp;
+	this.divSearch.form.edtCdNm.set_value(sCustomerCd);
+	this.fnTranSearch();
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//master 조회
+this.fnTranSearch = function ()
+{
+	// 조회-대분류
+	this.dsList.clearData();
+
+	var strSvcId    = "searchCustomerList";
+	var strSvcUrl   = "searchCustomerList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchCustomerList":
+			break;
+		default: break;
+	}
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnTranSearch(); //조회
+};
+
+this.grdMaster_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnClose();
+};
+
+this.fnClose = function() {
+	if(this.dsList.rowposition >= 0) {
+		if(this.opener["fnCallBackCustomer"]) {
+			var custCode = this.dsList.getColumn(this.dsList.rowposition, "CLIENT_CODE");
+			var custName = this.dsList.getColumn(this.dsList.rowposition, "CLIENT_NAME");
+			this.opener["fnCallBackCustomer"](custCode, custName);
+		}
+	}
+	this.close();
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+this.btnOk_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnClose();
+};
+]]></Script>
+  </Form>
+</FDL>

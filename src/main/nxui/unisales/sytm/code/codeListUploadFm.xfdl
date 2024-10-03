@@ -1,0 +1,443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="codeListUploadFm" width="1050" height="736" titletext="공통코드관리(엑셀업로드용)" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Div id="divSearch" taborder="0" left="0" top="0" height="50" text="Div00" cssclass="div_WF_Search" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnSearch" taborder="0" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Combo id="cboCompany" taborder="1" text="알림" left="98" top="12" width="150" height="24" index="1" value="INF" innerdataset="gdsCompany" codecolumn="SSC_CD" datacolumn="SSC_CD_KORN_NM"/>
+              <Static id="staTitle01" taborder="2" text="회사구분" left="0" top="12" width="98" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle00" taborder="1" text="대분류코드" left="0" width="96" height="43" top="50" cssclass="sta_WF_Title"/>
+        <Grid id="grdCodeGubun" taborder="2" left="0" top="staTitle00:0" width="44%" bottom="0" binddataset="dsCodeGubun">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="80"/>
+                <Column size="200"/>
+                <Column size="100"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="회사코드" cssclass="essential"/>
+                <Cell col="1" text="대분류코드" cssclass="essential"/>
+                <Cell col="2" text="한글명" cssclass="essential"/>
+                <Cell col="3" text="영문명"/>
+                <Cell col="4" text="사용여부"/>
+                <Cell col="5" text="비고"/>
+                <Cell col="6" text="과거대분류코드"/>
+                <Cell col="7" text="상위대분류코드"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COMPANY_CD" displaytype="expr:dataset.getRowType(currow)==2?'editcontrol':'normal'" edittype="expr:dataset.getRowType(currow)==2?'text':'none'" editmaxlength="4" editimemode="alpha" editinputtype="alpha,digit" suppress="1"/>
+                <Cell col="1" text="bind:HCL_CD" displaytype="expr:dataset.getRowType(currow)==2?'editcontrol':'normal'" edittype="expr:dataset.getRowType(currow)==2?'text':'none'" editmaxlength="4" editimemode="alpha" editinputtype="alpha,digit"/>
+                <Cell col="2" text="bind:HCL_CD_KORN_NM" displaytype="editcontrol" edittype="text" editimemode="hangul" editmaxlength="50"/>
+                <Cell col="3" text="bind:HCL_CD_ENGL_NM" displaytype="editcontrol" edittype="text" editmaxlength="50" editimemode="alpha"/>
+                <Cell col="4" text="bind:USED_YN" displaytype="checkboxcontrol" edittype="checkbox" editmaxlength="1"/>
+                <Cell col="5" text="bind:REMK" displaytype="editcontrol" edittype="text" editmaxlength="1000"/>
+                <Cell col="6" text="bind:BEFO_HCL_CD" displaytype="editcontrol" edittype="text" editmaxlength="4" editimemode="alpha" editinputtype="alpha,digit"/>
+                <Cell col="7" text="bind:HIPO_HCL_CD" displaytype="editcontrol" edittype="text" editmaxlength="4" editimemode="alpha" editinputtype="alpha,digit"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="staTitle01" taborder="3" text="소분류코드" left="grdCodeGubun:20" width="96" height="43" top="50" cssclass="sta_WF_Title"/>
+        <Grid id="grdCode" taborder="4" left="grdCodeGubun:20" top="staTitle01:0" right="20" bottom="0" binddataset="dsCode">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="180"/>
+                <Column size="180"/>
+                <Column size="180"/>
+                <Column size="180"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="200"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="회사코드" cssclass="essential"/>
+                <Cell col="1" text="공통코드번호" cssclass="essential"/>
+                <Cell col="2" text="공통코드" cssclass="essential"/>
+                <Cell col="3" text="대분류코드" cssclass="essential"/>
+                <Cell col="4" text="한글명" cssclass="essential"/>
+                <Cell col="5" text="영문명"/>
+                <Cell col="6" text="약어한글명"/>
+                <Cell col="7" text="약어영문명"/>
+                <Cell col="8" text="그룹코드1"/>
+                <Cell col="9" text="그룹코드2"/>
+                <Cell col="10" text="그룹코드3"/>
+                <Cell col="11" text="그룹코드4"/>
+                <Cell col="12" text="그룹코드5"/>
+                <Cell col="13" text="그룹코드6"/>
+                <Cell col="14" text="그룹코드7"/>
+                <Cell col="15" text="그룹코드8"/>
+                <Cell col="16" text="그룹코드9"/>
+                <Cell col="17" text="과거공통코드"/>
+                <Cell col="18" text="사용여부"/>
+                <Cell col="19" text="정렬순서"/>
+                <Cell col="20" text="비고"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COMPANY_CD" suppress="1"/>
+                <Cell col="1" expr="expr:dataset.getRowType(currow)==2?'자동생성':SSC_NUMB"/>
+                <Cell col="2" text="bind:SSC_CD" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="3" text="bind:HCL_CD" editmaxlength="4" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="4" text="bind:SSC_CD_KORN_NM" editimemode="hangul" editmaxlength="50" displaytype="editcontrol" edittype="text"/>
+                <Cell col="5" text="bind:SSC_CD_ENGL_NM" editimemode="alpha" editmaxlength="50" displaytype="editcontrol" edittype="text"/>
+                <Cell col="6" text="bind:ABBR_KORN_NM" editimemode="alpha" editmaxlength="30" displaytype="editcontrol" edittype="text"/>
+                <Cell col="7" text="bind:ABBR_ENGL_NM" editimemode="alpha" editmaxlength="30" displaytype="editcontrol" edittype="text"/>
+                <Cell col="8" text="bind:GRP_CD_1" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="9" text="bind:GRP_CD_2" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="10" text="bind:GRP_CD_3" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="11" text="bind:GRP_CD_4" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="12" text="bind:GRP_CD_5" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="13" text="bind:GRP_CD_6" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="14" text="bind:GRP_CD_7" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="15" text="bind:GRP_CD_8" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="16" text="bind:GRP_CD_9" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="17" text="bind:BEFO_SSC_CD" editmaxlength="8" editinputtype="alpha,digit" editimemode="alpha" displaytype="editcontrol" edittype="text"/>
+                <Cell col="18" text="bind:USED_YN" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="19" text="bind:SORT_ORDR" editmaxlength="5" editinputtype="digit" displaytype="editcontrol" edittype="text"/>
+                <Cell col="20" text="bind:REMK" editmaxlength="1000" displaytype="editcontrol" edittype="text"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divCmmnBtnCode" taborder="5" text="div00" top="60" height="33" left="staTitle01:0" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnExcelDown" taborder="0" text="엑셀다운" top="0" width="95" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" right="0" onclick="divCmmnBtnCode_btnExcelDown_onclick"/>
+              <Button id="btnExcelTemplate" taborder="1" text="업로드템플릿다운" top="0" height="28" fittocontents="width" cssclass="btn_WF_TempSave" right="btnExcelDown:3" width="143" onclick="divCmmnBtnCode_btnExcelTemplate_onclick"/>
+              <Button id="btnExcelUpload" taborder="2" text="엑셀업로드" top="0" height="28" fittocontents="width" cssclass="btn_WF_ExcelUp" right="btnExcelTemplate:3" width="107" onclick="divCmmnBtnCode_btnExcelUpload_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divCmmnBtnCodeGubun" taborder="6" text="div00" top="60" height="33" left="staTitle00:0" right="staTitle01:20">
+          <Layouts>
+            <Layout>
+              <Button id="btnExcelDown" taborder="0" text="엑셀다운" top="0" width="95" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" right="0" onclick="divCmmnBtnCodeGubun_btnExcelDown_onclick"/>
+              <Button id="btnExcelTemplate" taborder="1" text="업로드템플릿다운" top="0" height="28" fittocontents="width" cssclass="btn_WF_TempSave" right="btnExcelDown:3" width="143" onclick="divCmmnBtnCodeGubun_btnExcelTemplate_onclick"/>
+              <Button id="btnExcelUpload" taborder="2" text="엑셀업로드" top="0" height="28" fittocontents="width" cssclass="btn_WF_ExcelUp" right="btnExcelTemplate:3" width="107" onclick="divCmmnBtnCodeGubun_btnExcelUpload_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	codeListUploadFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/07/05
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/07/05			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	// 버튼 권한 제어
+	this.gfnSetCommBtn(this.divCmmnBtnCodeGubun, this.divCmmnBtnCode);	
+	
+	var arrComp = [this.divSearch.form.cboCompany];
+	this.gfnSetAuthorityCompany(arrComp);	
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsCodeGubun)||this.gfnDsIsUpdated(this.dsCode)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";		//메세지ID
+		var arrArg = [""];							//메세지취환될값 배열[생략가능]
+		var sPopId = "search";						//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";			//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+	
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);	
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsCodeGubun) == false && this.gfnDsIsUpdated(this.dsCode) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+	
+	// validation 체크 후
+	if (this.fnFormValidation()) {
+		// 서버 중복 체크
+		this.fnTranSave();
+	}
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	//TODO..
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	//TODO..
+};
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	// 조회-대분류
+	this.dsCodeGubun.clearData();
+	this.dsCode.clearData();
+	
+	var strSvcId    = "selectCommonCodeAll";
+	var strSvcUrl   = "selectCommonCodeAll.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsCodeGubun=dsCodeGubun dsCode=dsCode";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveCommonCodeAll";
+	var strSvcUrl   = "saveCommonCodeAll.do";
+	var inData      = "dsCodeGubun=dsCodeGubun dsCode=dsCode";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "selectCommonCodeAll":
+			break;
+		case "saveCommonCodeAll":
+			this.fnTranSearch();
+			break;
+	}
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "search":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.fnTranSearch();
+			break;
+	}
+};
+
+//엑셀임포트
+this.fnExcelImportCallback = function (sImportId, e)
+{
+	switch(sImportId) {
+		case "codeGubun":
+		case "commonCode":
+			break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//정합성체크 (필수값만)
+this.fnFormValidation = function ()
+{
+	if(this.gfnDsIsUpdated(this.dsCodeGubun)){
+		// 정합성 체크
+		this.gfnClearValidation(this.dsCodeGubun);
+
+		this.gfnSetValidation(this.dsCodeGubun, "HCL_CD", "대분류코드"	, "required");
+		this.gfnSetValidation(this.dsCodeGubun, "HCL_CD_KORN_NM", "한글명"	, "required");
+		
+		// Dataset의 변경된 Row Validation check
+		if (this.gfnValidation(this.grdCodeGubun, "U") == false) return false;
+	}
+	
+	if(this.gfnDsIsUpdated(this.dsCode)){
+		// 정합성 체크
+		this.gfnClearValidation(this.dsCode);
+
+		this.gfnSetValidation(this.dsCode, "SSC_CD", "공통코드"	, "required");
+		this.gfnSetValidation(this.dsCode, "HCL_CD", "대분류코드"	, "required");
+		this.gfnSetValidation(this.dsCode, "SSC_CD_KORN_NM", "한글명"	, "required");
+		
+		// Dataset의 변경된 Row Validation check
+		if (this.gfnValidation(this.grdCode, "U") == false) return false;
+	}
+	
+	return true;
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+//대분류 엑셀업로드
+this.divCmmnBtnCodeGubun_btnExcelUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnExcelImport("dsCodeGubun", "공통코드 대분류 리스트", "A4:G", "fnExcelImportCallback", "codeGubun", "", "A3:G3", this.grdCodeGubun);
+};
+//대분류 엑셀템플릿다운로드
+this.divCmmnBtnCodeGubun_btnExcelTemplate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var fileId = "공통시스템_Template.xlsx";
+	this.gfnDownTempate(fileId);
+};
+//대분류 엑셀다운
+this.divCmmnBtnCodeGubun_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle00.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdCodeGubun, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");
+};
+//소분류 엑셀업로드
+this.divCmmnBtnCode_btnExcelUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnExcelImport("dsCode", "공통코드 소분류 리스트", "A4:T", "fnExcelImportCallback", "commonCode", "", "A3:T3", this.grdCode);
+};
+//소분류 엑셀템플릿 다운로드
+this.divCmmnBtnCode_btnExcelTemplate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var fileId = "공통시스템_Template.xlsx";
+	this.gfnDownTempate(fileId);
+};
+//소분류 엑셀다운
+this.divCmmnBtnCode_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdCode, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCodeGubun">
+        <ColumnInfo>
+          <Column id="HCL_CD" type="STRING" size="256"/>
+          <Column id="HCL_CD_KORN_NM" type="STRING" size="256"/>
+          <Column id="HCL_CD_ENGL_NM" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+          <Column id="REMK" type="STRING" size="256"/>
+          <Column id="BEFO_HCL_CD" type="STRING" size="256"/>
+          <Column id="HIPO_HCL_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCode">
+        <ColumnInfo>
+          <Column id="SSC_NUMB" type="STRING" size="256"/>
+          <Column id="SSC_CD" type="STRING" size="256"/>
+          <Column id="HCL_CD" type="STRING" size="256"/>
+          <Column id="SSC_CD_KORN_NM" type="STRING" size="256"/>
+          <Column id="SSC_CD_ENGL_NM" type="STRING" size="256"/>
+          <Column id="ABBR_KORN_NM" type="STRING" size="256"/>
+          <Column id="ABBR_ENGL_NM" type="STRING" size="256"/>
+          <Column id="GRP_CD_1" type="STRING" size="256"/>
+          <Column id="GRP_CD_2" type="STRING" size="256"/>
+          <Column id="GRP_CD_3" type="STRING" size="256"/>
+          <Column id="GRP_CD_4" type="STRING" size="256"/>
+          <Column id="GRP_CD_5" type="STRING" size="256"/>
+          <Column id="GRP_CD_6" type="STRING" size="256"/>
+          <Column id="GRP_CD_7" type="STRING" size="256"/>
+          <Column id="GRP_CD_8" type="STRING" size="256"/>
+          <Column id="GRP_CD_9" type="STRING" size="256"/>
+          <Column id="BEFO_SSC_CD" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+          <Column id="SORT_ORDR" type="STRING" size="256"/>
+          <Column id="REMK" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.cboCompany" propid="value" datasetid="dsCond" columnid="COMPANY_CD"/>
+    </Bind>
+  </Form>
+</FDL>

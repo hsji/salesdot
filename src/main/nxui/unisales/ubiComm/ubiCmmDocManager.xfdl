@@ -1,0 +1,505 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ubiCmmDocManager" width="1280" height="736" titletext="문서그룹관리" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1280">
+        <Div id="divSearch" taborder="0" left="10" top="10" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle00" taborder="3" text="문서그룹코드" left="0" top="12" width="116" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="Combo01" taborder="4" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="5" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="6" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="7" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="2" text="조회" top="10" width="66" height="28" cssclass="btn_WF_Search" right="10" onclick="divSearch_btnSearch_onclick"/>
+              <Edit id="edtMsgCd" taborder="0" left="staTitle00:0.00" top="11" width="140" height="27" onkeyup="divSearch_edtMsgCd_onkeyup"/>
+              <Static id="staTitle02" taborder="8" text="문서그룹명" left="edtMsgCd:0.00" top="12" width="106" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Edit id="edtMsgTxt" taborder="1" left="staTitle02:0.00" top="11" width="140" height="27" onkeyup="divSearch_edtMsgTxt_onkeyup"/>
+              <Static id="staTitle03" taborder="9" text="사용여부" left="edtMsgTxt:0.00" top="12" width="92" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="cboUseYN" taborder="10" left="staTitle03:0.00" top="11" width="80" height="27" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" text="예" value="1">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="datacolumn">- 전체 - </Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">예</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">0</Col>
+                      <Col id="datacolumn">아니오</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Button id="btnSave" taborder="11" text="저장" top="10" width="72" height="28" cssclass="btn_WF_CrudSave" right="btnSearch:19" onclick="btnSave_onclick"/>
+              <Button id="btnDelete" taborder="12" text="삭제" top="10" width="72" height="28" cssclass="btn_WF_CrudDelete" right="btnSave:5" onclick="divSearch_btnDelete_onclick"/>
+              <Button id="btnAdd" taborder="13" text="추가" top="10" width="72" height="28" cssclass="btn_WF_CrudAdd" right="btnDelete:5" onclick="divSearch_btnAdd_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle00" taborder="1" text="문서 그룹 상세" top="divSearch:0" height="43" cssclass="sta_WF_SubTitle" right="20" width="450"/>
+        <Div id="divDetail" taborder="2" text="div00" top="staTitle00:0" right="20" width="450" bottom="10" minheight="463" maxheight="">
+          <Layouts>
+            <Layout>
+              <Static id="staBg01" taborder="1" left="0" top="0" height="42" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle01" taborder="2" text="그룹코드" left="0" top="0" width="141" height="42" cssclass="sta_WF_Label"/>
+              <Edit id="edtDtCd" taborder="0" left="145.00" top="6" width="141" height="28" readonly="true" cssclass="essential" maxlength="7" inputtype="digit,english" inputmode="upper" imemode="alpha"/>
+              <Static id="staBg02" taborder="3" left="0" top="41" height="42" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle02" taborder="4" text="상위그룹코드" left="0" top="41" width="141" height="42" cssclass="sta_WF_Label"/>
+              <Static id="staBg03" taborder="5" left="0" top="82" height="42" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg08" taborder="6" left="0" top="123" height="42" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg09" taborder="7" left="0" top="164" height="42" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg11" taborder="8" left="0" top="205" height="42" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle03" taborder="9" text="그룹명" left="0" top="82" width="141" height="42" cssclass="sta_WF_Label"/>
+              <Edit id="edtDtName" taborder="10" left="145.00" top="89" height="28" cssclass="essential" maxlength="66" imemode="hangul" maxwidth="" right="5"/>
+              <Static id="staTitle08" taborder="11" text="정렬순서" left="0" top="123" width="141" height="42" cssclass="sta_WF_Label"/>
+              <Edit id="edtDtSort" taborder="12" left="145.00" top="130" height="28" inputtype="digit" width="141" cssclass="essential" minwidth=""/>
+              <Static id="staTitle09" taborder="13" text="사용여부" left="0" top="164" width="141" height="42" cssclass="sta_WF_Label"/>
+              <CheckBox id="chkCyberYn" taborder="14" text="사용" left="145.00" top="171" width="61" height="28" value="true" falsevalue="0" truevalue="1"/>
+              <Static id="staTitle11" taborder="15" text="그룹레벨" left="0" top="205" width="141" height="42" cssclass="sta_WF_Label"/>
+              <Edit id="edtDtLvl" taborder="16" left="145.00" top="212" height="28" width="141" inputtype="digit" cssclass="essential"/>
+              <Div id="divDocTree" taborder="17" left="145.00" top="47" height="28" url="ubiComm::ubiCmmDocSearch.xfdl" right="5" uEssential="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdList" taborder="3" left="10" top="103" bottom="10" binddataset="dsList" autofittype="col" treeinitstatus="expand,all" treeusecheckbox="false" uFunction="!filter,!sort,!colfix,!initial" right="divDetail:20">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="432"/>
+                <Column size="129"/>
+                <Column size="129"/>
+                <Column size="67"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="문서그룹"/>
+                <Cell col="1" text="그룹코드"/>
+                <Cell col="2" text="상위그룹코드"/>
+                <Cell col="3" text="정렬순서"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DT_NAME" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:DT_LVL"/>
+                <Cell col="1" text="bind:DT_CD" textAlign="center"/>
+                <Cell col="2" text="bind:HIPO_DT_CD" textAlign="center"/>
+                <Cell col="3" text="bind:DT_ORDR" textAlign="right"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divCmmnBtn" taborder="4" text="div00" top="divSearch:9" width="430" height="28" right="staTitle00:20">
+          <Layouts>
+            <Layout>
+              <Button id="btnExcelDown" taborder="0" text="엑셀다운로드" top="0" width="119" fittocontents="width" cssclass="btn_WF_ExcelSave" onclick="divCmmnBtn_btnExcelDown_onclick" right="0" bottom="0"/>
+              <Button id="btnExcelUpload" taborder="1" text="엑셀업로드" top="0" fittocontents="width" cssclass="btn_WF_ExcelUp" right="btnExcelDown:3" width="107" onclick="divCmmnBtn_btnExcelUpload_onclick" bottom="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle01" taborder="5" text="문서 그룹" left="10" top="60" height="43" cssclass="sta_WF_Title" right="divCmmnBtn:0"/>
+        <Edit id="edtHipoDeptCd" taborder="6" left="1311.00" top="90" height="24" maxwidth="141" minwidth="" maxlength="8" width="141" cssclass="essential" onkeyup="divDetail_edtHipoDeptCd_onkeyup" visible="false"/>
+        <Button id="btnSearch" taborder="7" left="1428.00" top="90" width="24" height="24" cssclass="btn_WF_EdiSch" onclick="divDetail_btnSearch_onclick" visible="false"/>
+        <Edit id="edt00" taborder="8" left="1455.00" top="90" height="24" maxlength="66" readonly="true" minwidth="156" maxwidth="" right="-561" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtMsgCd" propid="value" datasetid="dsCond" columnid="DT_CD"/>
+      <BindItem id="item1" compid="divSearch.form.edtMsgTxt" propid="value" datasetid="dsCond" columnid="DT_NAME"/>
+      <BindItem id="item2" compid="divDetail.form.edtDtCd" propid="value" datasetid="dsList" columnid="DT_CD"/>
+      <BindItem id="item14" compid="divDetail.form.edtDtName" propid="value" datasetid="dsList" columnid="DT_NAME"/>
+      <BindItem id="item11" compid="divDetail.form.edtDtSort" propid="value" datasetid="dsList" columnid="DT_ORDR"/>
+      <BindItem id="item12" compid="divDetail.form.edtDtLvl" propid="value" datasetid="dsList" columnid="DT_LVL"/>
+      <BindItem id="item17" compid="divDetail.form.divDocTree.form.edtCode" propid="value" datasetid="dsList" columnid="HIPO_DT_CD"/>
+      <BindItem id="item18" compid="divDetail.form.divDocTree.form.edtName" propid="value" datasetid="dsList" columnid="HIPO_DT_NAME"/>
+      <BindItem id="item19" compid="divSearch.form.cboUseYN" propid="value" datasetid="dsCond" columnid="USED_YN"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="DT_CD" type="STRING" size="256"/>
+          <Column id="DT_NAME" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" canrowposchange="dsList_canrowposchange" cancolumnchange="dsList_cancolumnchange">
+        <ColumnInfo>
+          <Column id="DT_YN" type="string" size="32"/>
+          <Column id="DT_LVL" type="int" size="4"/>
+          <Column id="DT_NAME" type="string" size="32"/>
+          <Column id="HIPO_DT_CD" type="string" size="32"/>
+          <Column id="SortOrder" type="string" size="32"/>
+          <Column id="CHGE_ID" type="string" size="32"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="HIPO_DT_NAME" type="undefined" size="0"/>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="DT_ORDR" type="int" size="4"/>
+          <Column id="INPT_ID" type="string" size="32"/>
+          <Column id="DT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckDept">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	ubiCmmDocManager.xfdl
+*  @Creator 	DXTOBE
+*  @CreateDate 	2024/03/12
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2024/03/12			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	// 기본 - 사용
+	this.divSearch.form.cboUseYN.set_index(1);
+	
+	this.cfnSearch();
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";			//메세지ID
+		var arrArg = [""];								//메세지취환될값 배열[생략가능]
+		var sPopId = "search";							//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";				//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	var nowRow = this.dsList.rowposition;
+	var nLvl = this.dsList.getColumn(nowRow, "DT_LVL");
+	var sDtCode = this.dsList.getColumn(nowRow, "DT_CD");
+	var sDtName = this.dsList.getColumn(nowRow, "DT_NAME"); 
+	
+	var nRow = this.dsList.insertRow(nowRow+1);
+
+	this.dsList.setColumn(nRow, "HIPO_DT_CD", sDtCode);
+	this.divDetail.form.divDocTree.form.edtName.set_value(sDtName);
+	this.dsList.setColumn(nRow, "DT_YN", "1");
+	this.dsList.setColumn(nRow, "DT_LVL", nLvl+1);
+
+	this.divDetail.form.edtDtCd.setFocus();
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if(this.fnFormValidation()){
+		// 자료를 저장하시겠습니까?
+		this.gfnAlert("confirm.save", [""], "saveMsg", "fnMsgCallback");
+		return;
+	}
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsList.rowcount == 0){
+		return;
+	}
+	if(this.dsList.rowposition == 0) {
+		this.gfnAlert("msg.err.nodelete", [""]);
+		return;
+	}
+
+	if(this.fnCheckDelete()){
+		this.dsList.deleteRow(this.dsList.rowposition);
+	}else{
+		this.gfnAlert("msg.err.delete.child");
+		return;
+	}
+};
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "searchDocuTree";
+	var strSvcUrl   = "searchDocuTree.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveDocTree";
+	var strSvcUrl   = "saveDocTree.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc);	 // 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchDocuTree":
+			break;
+		case "saveDocTree":
+			this.fnTranSearch();
+			break;
+		default :
+	}
+};
+
+//message callback
+this.fnMsgCallback = function (sPopupId, sRtn)
+{
+	if( sPopupId == "saveMsg"){
+		if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+			return;
+		}
+		this.fnTranSave();
+	}else if (sPopupId == "search"){
+		if( this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+			return;
+		}
+		this.fnTranSearch();
+	}else if( sPopupId=="validCode"){
+		this.divDetail.form.edtDtCd.set_value("");
+		this.divDetail.form.edtDtCd.setFocus();
+	}
+};
+
+//excel import
+this.fnExcelImportCallback = function (sImportId, e)
+{
+	//TODO..
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnFormValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+
+	this.gfnSetValidation(this.dsList, "DT_CD"	 , "문서그룹코드"		, "required");
+	this.gfnSetValidation(this.dsList, "HIPO_DT_CD", "문서 상위그룹코드"	, "required");
+	this.gfnSetValidation(this.dsList, "DT_NAME", "문서그룹명"	, "required");
+	this.gfnSetValidation(this.dsList, "DT_LVL",     "문서그룹레벨"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsList, "U") == false) return false;
+	else return true;
+};
+
+//삭제 가능여부체크
+this.fnCheckDelete = function ()
+{
+	this.dsCheckDept.clearData();
+	this.dsCheckDept.copyData(this.dsList);
+	
+	var nCurRow= this.dsList.rowposition;
+	this.dsCheckDept.filter("HIPO_DT_CD=='"+this.dsList.getColumn(nCurRow,"DT_CD")+"'");
+	var nRowCount = this.dsCheckDept.getRowCount();
+	if( nRowCount > 0){
+		return false;
+	}
+	return true;
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdList, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");
+};
+
+this.divCmmnBtn_btnExcelUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnExcelImport("dsList", "문서그룹 리스트", "A4:D", "fnExcelImportCallback", "message", "", "A3:D3", this.grdList);
+};
+
+this.dsList_canrowposchange = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var nRow = e.newrow; 
+	if( obj.getRowType(nRow) == 2){
+		this.divDetail.form.edtDtCd.set_readonly(false);
+	}else{
+		this.divDetail.form.edtDtCd.set_readonly(true);
+	}
+};
+
+this.dsList_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if( e.columnid=="DT_CD"){
+		if(this.gfnIsNull(e.newvalue)) return;
+		
+		var nRow = obj.findRow("DT_CD", e.newvalue);
+		if( nRow > -1){
+			this.gfnAlert("msg.exist", ["입력하신 문서그룹코드"], "validCode","fnMsgCallback");
+			return;
+		}
+	}
+};
+
+// ADD
+this.divSearch_btnAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnAdd();
+};
+
+
+
+this.divSearch_btnDelete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnDel();
+};
+
+this.btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSave();
+};
+
+this.divSearch_edtMsgTxt_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) this.cfnSearch();
+};
+
+this.divSearch_edtMsgCd_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) this.cfnSearch();
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmMdi" width="1070" height="42" titletext="MdiFrame" onsize="form_onsize" cssclass="frm_MDI_Bg" onload="form_onload" onclick="frmMdi_onclick">
+    <Layouts>
+      <Layout height="42" width="1070">
+        <Static id="Static00" taborder="1" left="0" right="0" bottom="0" height="1" cssclass="sta_MDI_Line"/>
+        <Button id="btnLeftMenuShowHide" taborder="2" top="0" width="20" cssclass="btn_MDI_Open" onclick="btnLeftMenuShowHide_onclick" left="0" text="" height="42"/>
+        <Button id="btnHome" taborder="7" top="0" width="42" cssclass="btn_MDI_Home" height="42" left="btnLeftMenuShowHide:0" onclick="btnHome_onclick" text=""/>
+        <Button id="btnVoc" taborder="8" top="6" width="23" height="31" right="10" onclick="btnVoc_onclick" tooltiptext="VOC등록" cssclass="btn_MDI_Voc"/>
+        <Button id="btnCloseAll" taborder="6" top="6" width="23" height="31" right="btnVoc:0" tooltiptext="전체닫기" cssclass="btn_MDI_CloseAll" onclick="btnCloseAll_onclick"/>
+        <Static id="sta00" taborder="13" top="15" width="1" height="14" cssclass="sta_MDI_Line" right="btnCloseAll:5"/>
+        <Button id="btn04" taborder="12" top="6" height="31" cssclass="btn_MDI_Horizontal" right="sta00:5" width="23"/>
+        <Button id="btn03" taborder="11" top="6" width="23" height="31" cssclass="btn_MDI_Vertical" right="btn04:0"/>
+        <Button id="btn02" taborder="10" top="6" width="23" height="29" cssclass="btn_MDI_Restore" right="btn03:0"/>
+        <Button id="btn01" taborder="9" top="6" width="23" height="31" cssclass="btn_MDI_Max" right="btn02:0"/>
+        <Static id="sta00_00" taborder="14" top="15" width="1" height="14" cssclass="sta_MDI_Line" right="btn01:5"/>
+        <Button id="btnList" taborder="3" top="6" width="23" height="31" right="sta00_00:5" tooltiptext="열린메뉴" cssclass="btn_MDI_List" onclick="btnList_onclick" text=""/>
+        <Button id="btnNexMdi" taborder="4" top="6" width="18" height="31" right="btnList:0" onclick="btnNexMdi_onclick" tooltiptext="다음 화면목록으로" cssclass="btn_MDI_Right"/>
+        <Button id="btnPreMdi" taborder="5" top="6" width="18" height="31" right="btnNexMdi:0" onclick="btnPreMdi_onclick" tooltiptext="이전 화면목록으로" cssclass="btn_MDI_Left"/>
+        <Div id="divTab" taborder="0" left="btnHome:0" top="0" right="btnPreMdi:5" text="" formscrollbartype="none none" formscrolltype="none" height="42" onlbuttonup="divTab_onlbuttonup" ondragmove="divTab_ondragmove">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <PopupDiv id="pdvOpenMenu" visible="false" left="790" top="42" width="245" height="200" cssclass="pdiv_MDI_Bg">
+          <Layouts>
+            <Layout>
+              <Grid id="grdOpenMenu" taborder="0" left="0" top="0" right="0" bottom="0" autofittype="col" binddataset="gdsOpenMenu" oncellclick="pdvOpenMenu_grdOpenMenu_oncellclick" cssclass="grd_MDI_List">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="28"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:MENU_NM" tooltiptext="bind:MENU_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+        <PopupDiv id="pdvContextMenu" visible="false" left="140" top="42" width="180" height="48" cssclass="grd_MDI_List" onpopup="pdvContextMenu_onpopup">
+          <Layouts>
+            <Layout>
+              <Grid id="grdContextMenu" taborder="0" cssclass="grd_MDI_List" bottom="0" left="0" top="0" right="0" binddataset="dsContextMenu" autofittype="col" oncellclick="pdvContextMenu_grdContextMenu_oncellclick" onsetfocus="pdvContextMenu_grdContextMenu_onsetfocus">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:name"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[]]></Script>
+    <Objects>
+      <Dataset id="dsTab">
+        <ColumnInfo>
+          <Column id="tabId" type="STRING" size="256"/>
+          <Column id="title" type="STRING" size="256"/>
+          <Column id="winId" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContextMenu">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">0</Col>
+            <Col id="name">Close All But This</Col>
+          </Row>
+          <Row>
+            <Col id="code">1</Col>
+            <Col id="name">Close Tabs to the Right</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsTabTemp">
+        <ColumnInfo>
+          <Column id="tabId" type="STRING" size="256"/>
+          <Column id="title" type="STRING" size="256"/>
+          <Column id="winId" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsGdsOpenMenuTemp">
+        <ColumnInfo>
+          <Column id="WIN_ID" type="STRING" size="256"/>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+          <Column id="MENU_NM" type="STRING" size="256"/>
+          <Column id="MENU_URL" type="STRING" size="256"/>
+          <Column id="PRGM_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

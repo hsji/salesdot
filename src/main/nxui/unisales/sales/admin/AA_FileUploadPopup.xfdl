@@ -1,0 +1,653 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AA_FileUploadPopup" width="667" height="500" titletext="파일업로드" cssclass="frm_popBg" onload="AA_FileUploadPopup_onload">
+    <Layouts>
+      <Layout height="500" mobileorientation="landscape" width="667">
+        <Button id="btn_Close" taborder="0" top="8" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="comm_Click" text="" escapebutton="true"/>
+        <Div id="div_File" taborder="4" left="4" text="" enable="true" height="182" top="274" cssclass="div_WF_detailBg" formscrollbartype="none" right="4">
+          <Layouts>
+            <Layout>
+              <Static id="Static02" taborder="0" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" right="0"/>
+              <Static id="stc_title04" taborder="1" text="첨부파일" left="13" top="8" width="122" height="15" cssclass="sta_POP_GroupTit"/>
+              <Grid id="grd_AttachList" taborder="2" left="0" top="29" binddataset="ds_AttachMaster" right="0" bottom="0" autofittype="col" oncellclick="div_File_grd_AttachList_oncellclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="108"/>
+                      <Column size="412"/>
+                      <Column size="48"/>
+                      <Column size="48"/>
+                      <Column size="120"/>
+                      <Column size="108"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="첨부구분"/>
+                      <Cell col="1" colspan="3" text="파일명"/>
+                      <Cell col="4" text="등록일"/>
+                      <Cell col="5" text="등록자"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:ATTACH_KIND" displaytype="combotext" combodataset="ds_AttachKind" combodatacol="CAPTION" combocodecol="CODE" edittype="normal"/>
+                      <Cell col="1" text="bind:FILE_NAME" displaytype="text" edittype="expr:dataset.getColumn(currow, &quot;ATTACH_KIND&quot;)=='1'?'none':'text'" textAlign="left"/>
+                      <Cell col="2" displaytype="expr:dataset.getColumn(currow, &quot;ATTACH_KIND&quot;) == 1 ? 'buttoncontrol' : 'none'" edittype="button" text="수정"/>
+                      <Cell col="3" displaytype="buttoncontrol" background="#ffffff" edittype="button" text="다운"/>
+                      <Cell col="4" text="bind:INSERT_DATE"/>
+                      <Cell col="5" text="bind:INSERT_EMPNO"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Project_Name02" left="8" top="141" width="64" height="30" text="담당자"/>
+              <Static id="stc_Contract_Date00" top="39" height="30" right="100" width="60" text="요청일"/>
+              <MaskEdit id="msk_DtRequest" top="39" height="30" width="92" right="4"/>
+              <Static id="stc_Project_Name03" top="73" width="60" height="30" right="100"/>
+              <Edit id="edt_EmpReg" top="73" width="92" height="30" right="4"/>
+              <TextArea id="ta_ReqContents" left="81" top="175" right="4" bottom="4"/>
+              <Static id="stc_Contract_Date04" left="8" top="244" width="64" height="22"/>
+              <Combo id="cmb_EmpList" left="81" top="141" height="30" right="30"/>
+              <Static id="stc_VoucherNo" top="107" width="60" height="30" right="100" text="바우처"/>
+              <Edit id="edt_VoucherNo" top="107" width="66" height="30" right="30"/>
+              <Div id="div_EmpRequest" left="81" top="141" height="30" right="4"/>
+              <Button id="btn_PopupVoucherNo" top="107" width="26" height="30" right="4"/>
+              <Static id="Static05" left="8" top="107" width="64" height="30" textAlign="right"/>
+              <Combo id="cmb_MinTo" left="253" top="107" width="42" height="30"/>
+              <Combo id="cmb_HourTo" left="211" top="107" width="42" height="30"/>
+              <Calendar id="cal_DtTo" left="81" top="107" width="130" height="30"/>
+              <Edit id="edt_ProductName" left="81" top="39" height="30" width="214"/>
+              <Calendar id="cal_DtFrom" width="130" left="81" top="73" height="30"/>
+              <Combo id="cmb_MinFrom" left="253" top="73" width="42" height="30"/>
+              <Combo id="cmb_HourFrom" left="211" top="73" width="42" height="30"/>
+              <Static id="stc_Contract_Date" height="30" left="8" top="73" width="64"/>
+              <Static id="stc_Contract_Date01" height="30" left="8" top="39" width="64"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_BottomFrame" taborder="1" left="2" height="35" right="1" cssclass="sta_POP_BtnBg" onclick="stc_BottomFrame_onclick" top="div_File:8"/>
+        <Static id="Static00" taborder="2" left="8" top="5" width="182" height="22" color="white" cssclass="sta_POP_Title " text="내부회계관리제도 결과등록"/>
+        <Div id="div_TestStep" taborder="3" left="4" text="" enable="true" height="182" top="38" cssclass="div_WF_detailBg" formscrollbartype="none" right="4">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_List" taborder="0" left="0" top="30" treeinitstatus="expand,all" treeusecheckbox="false" right="0" bottom="0" cellsizingtype="col" oncelldblclick="div_TestStep_grd_TestStep_oncelldblclick" binddataset="ds_TestStep" autofittype="col" extendsizetype="row">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="571"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="57"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="일련번호"/>
+                      <Cell col="1" text="테스트 절차"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow + 1"/>
+                      <Cell col="1" text="bind:TEST_STEP_DESC" textAlign="left" wordWrap="char"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static01" taborder="1" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" right="0"/>
+              <Static id="stc_title01" taborder="2" text="테스트 절차" left="13" top="7" width="122" height="15" cssclass="sta_POP_GroupTit"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Project_Name02" left="8" top="141" width="64" height="30" text="담당자"/>
+              <Static id="stc_Contract_Date00" top="39" height="30" right="100" width="60" text="요청일"/>
+              <MaskEdit id="msk_DtRequest" top="39" height="30" width="92" right="4"/>
+              <Static id="stc_Project_Name03" top="73" width="60" height="30" right="100"/>
+              <Edit id="edt_EmpReg" top="73" width="92" height="30" right="4"/>
+              <TextArea id="ta_ReqContents" left="81" top="175" right="4" bottom="4"/>
+              <Static id="stc_Contract_Date04" left="8" top="244" width="64" height="22"/>
+              <Combo id="cmb_EmpList" left="81" top="141" height="30" right="30"/>
+              <Static id="stc_VoucherNo" top="107" width="60" height="30" right="100" text="바우처"/>
+              <Edit id="edt_VoucherNo" top="107" width="66" height="30" right="30"/>
+              <Div id="div_EmpRequest" left="81" top="141" height="30" right="4"/>
+              <Button id="btn_PopupVoucherNo" top="107" width="26" height="30" right="4"/>
+              <Static id="Static05" left="8" top="107" width="64" height="30" textAlign="right"/>
+              <Combo id="cmb_MinTo" left="253" top="107" width="42" height="30"/>
+              <Combo id="cmb_HourTo" left="211" top="107" width="42" height="30"/>
+              <Calendar id="cal_DtTo" left="81" top="107" width="130" height="30"/>
+              <Edit id="edt_ProductName" left="81" top="39" height="30" width="214"/>
+              <Calendar id="cal_DtFrom" width="130" left="81" top="73" height="30"/>
+              <Combo id="cmb_MinFrom" left="253" top="73" width="42" height="30"/>
+              <Combo id="cmb_HourFrom" left="211" top="73" width="42" height="30"/>
+              <Static id="stc_Contract_Date" height="30" left="8" top="73" width="64"/>
+              <Static id="stc_Contract_Date01" height="30" left="8" top="39" width="64"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_KindFile" taborder="5" left="4" text="" enable="true" height="42" top="228" cssclass="div_WF_detailBg" formscrollbartype="none" right="4">
+          <Layouts>
+            <Layout>
+              <Static id="stc_title03" taborder="0" text="첨부구분" left="290" top="8" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_AttachKind" taborder="1" left="stc_title03:8" top="8" width="185" height="22" innerdataset="ds_AttachKind" datacolumn="CAPTION" codecolumn="CODE"/>
+              <Static id="stc_title02" taborder="2" text="증빙고유번호" left="8" top="8" width="84" height="22" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_ProofSerialNum" taborder="3" left="stc_title02:8" top="8" width="185" height="22" readonly="true"/>
+              <Button id="btn_FileDel" taborder="5" left="613" top="11" width="30" height="16" cssclass="btn_POP_Del" onclick="div_KindFile_btn_FileDel_onclick" text=""/>
+              <Button id="btn_FileAdd" taborder="4" left="575" top="11" height="16" cssclass="btn_POP_Add" right="btn_FileDel:8" onclick="div_KindFile_btn_FileAdd_onclick"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Project_Name02" left="8" top="141" width="64" height="30" text="담당자"/>
+              <Static id="stc_Contract_Date00" top="39" height="30" right="100" width="60" text="요청일"/>
+              <MaskEdit id="msk_DtRequest" top="39" height="30" width="92" right="4"/>
+              <Static id="stc_Project_Name03" top="73" width="60" height="30" right="100"/>
+              <Edit id="edt_EmpReg" top="73" width="92" height="30" right="4"/>
+              <TextArea id="ta_ReqContents" left="81" top="175" right="4" bottom="4"/>
+              <Static id="stc_Contract_Date04" left="8" top="244" width="64" height="22"/>
+              <Combo id="cmb_EmpList" left="81" top="141" height="30" right="30"/>
+              <Static id="stc_VoucherNo" top="107" width="60" height="30" right="100" text="바우처"/>
+              <Edit id="edt_VoucherNo" top="107" width="66" height="30" right="30"/>
+              <Div id="div_EmpRequest" left="81" top="141" height="30" right="4"/>
+              <Button id="btn_PopupVoucherNo" top="107" width="26" height="30" right="4"/>
+              <Static id="Static05" left="8" top="107" width="64" height="30" textAlign="right"/>
+              <Combo id="cmb_MinTo" left="253" top="107" width="42" height="30"/>
+              <Combo id="cmb_HourTo" left="211" top="107" width="42" height="30"/>
+              <Calendar id="cal_DtTo" left="81" top="107" width="130" height="30"/>
+              <Edit id="edt_ProductName" left="81" top="39" height="30" width="214"/>
+              <Calendar id="cal_DtFrom" width="130" left="81" top="73" height="30"/>
+              <Combo id="cmb_MinFrom" left="253" top="73" width="42" height="30"/>
+              <Combo id="cmb_HourFrom" left="211" top="73" width="42" height="30"/>
+              <Static id="stc_Contract_Date" height="30" left="8" top="73" width="64"/>
+              <Static id="stc_Contract_Date01" height="30" left="8" top="39" width="64"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_Save" taborder="6" text="저장" left="505" top="470" height="22" cssclass="btn_WF_tran" width="65" onclick="btn_Save_onclick"/>
+        <Button id="btn_Cancel" taborder="7" text="닫기" left="589" top="470" width="65" height="22" cssclass="btn_WF_cancel" onclick="comm_Click"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 내부회계관리제도 - 파일업로드
+* 02. 화면명   : 파일업로드(AA_FileUploadPopup)
+* 03. 화면설명 : 파일업로드
+* 04. 작성일   : 2021.06.17
+* 05. 작성자   : 박종언
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+var strSMSeq;			// 회차
+var strAuditSeq;		// 문서번호
+var nRTSeq;				// ds_Result 일련번호 RT_SEQ
+var strProofSerialNum;	// ds_Result 샘플명
+var strRTSSeq;			// ds_Test_Step RTS_SEQ
+
+//첨부파일 사용 변수
+var strSourceType = "AAM";
+var strDefaultCode;
+var objVFList = new Array();
+var bSaveFlag = false;
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AA_FileUploadPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	strSMSeq = this.parent.strSMSeq;
+	strAuditSeq = this.parent.strAuditSeq;
+	nRTSeq = this.parent.nRTSeq
+	strProofSerialNum = this.parent.strProofSerialNum;
+	
+	this.div_KindFile.form.edt_ProofSerialNum.set_value(strProofSerialNum);
+	this.fn_CodeData();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else
+	{
+		if(strSvcID=="gfnGetCode") {
+			this.div_KindFile.form.cmb_AttachKind.set_index(0);
+			this.fn_QueryData();
+		}
+		else if(strSvcID=="Search") {
+			if (this.ds_TestStep.rowcount == 1)
+			{
+				this.fn_QueryDataDetail( this.ds_TestStep.getColumn(0, "TS_SEQ") );
+			}
+		}
+		else if(strSvcID=="Detail_Search") {
+			for ( var i = 0; i<this.ds_AttachMaster.rowcount; i++)
+			{
+				var strAttchKind = this.ds_AttachMaster.getColumn(i, "ATTACH_KIND");
+				if(strAttchKind == "2") 
+				{
+					this.div_File.form.grd_AttachList.mergeCell(1, 2, i, i);
+					
+				}
+			}
+		}
+		else if(strSvcID=="AM_ATTACH_MASTER_Save")
+		{
+			this.fn_QueryDataDetail( this.ds_TestStep.getColumn(this.ds_TestStep.rowposition, "TS_SEQ") );
+		}
+		else if(strSvcID == "AttachMasterSeq_Search")
+		{
+			var strAAMSseq = this.ds_AttachMasterSeq.getColumn(0, "AAM_SEQ");
+			this.fn_uploadEvt(strAAMSseq);
+		}
+	}
+};
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 01 공통코드 조회
+this.fn_CodeData = function()
+{
+	// 조회용 Output Dataset 셋팅
+	this.gfnAddCodeDataset("ds_AttachKind", "ATTACH_KIND");   			// 첨부구분
+	
+	// 공통 Transaction
+	this.gfnCodeTransaction(); // 공통 코드 조회
+};
+
+// 02 ds_TestStep 조회
+this.fn_QueryData = function()
+{
+	// Parameter 셋팅
+ 	this.gfnAddSendParameter("SM_SEQ",		strSMSeq);
+ 	this.gfnAddSendParameter("AUDIT_SEQ",	strAuditSeq);
+ 	
+	/* 조회용 Output Dataset 셋팅 
+		AM_TEST_STEP_SEL
+	*/
+	this.gfnAddOutputDataset("ds_TestStep"	, "dsTsOutput");
+	
+	// 공통 Transaction
+	this.gfnCommonTransaction("Search", "AA_FileUpload_S01");
+};
+
+//03. Detail 조회
+this.fn_QueryDataDetail = function( strRTS_SEQ )
+{
+	//RTS_SEQ 저장 
+	strRTSSeq = strRTS_SEQ;
+	
+	// Parameter 셋팅
+ 	this.gfnAddSendParameter("SM_SEQ",		strSMSeq);
+	this.gfnAddSendParameter("AUDIT_SEQ",	strAuditSeq);
+	this.gfnAddSendParameter("RT_SEQ",		nRTSeq);
+	this.gfnAddSendParameter("RTS_SEQ",		strRTS_SEQ);
+	
+	/* 
+		조회용 Output Dataset 셋팅 
+		1. AM_ATTACH_MASTER_SEL
+		2. AM_FILE_MASTER_SEL 
+	*/
+	this.gfnAddOutputDataset("ds_AttachMaster", "dsAttachMasterOutput");
+	this.gfnAddOutputDataset("ds_FileList", 	"dsFileListOutput");
+	
+	// 공통 Transaction
+	this.gfnCommonTransaction("Detail_Search", "AA_FileUpload_S02");
+};
+
+// 첨부파일인 겨우 SOURCE_CODE에 넣을 AAM_SEQ 값 가져오기
+this.fn_getAAMSseq = function()
+{
+	// 조회용 Output Dataset 셋팅 AM_ATTACH_MASTER_SEQ_SEL
+	this.gfnAddOutputDataset("ds_AttachMasterSeq", "dsAttachMasterOutput");
+
+	// 공통 Transaction
+	this.gfnCommonTransaction("AttachMasterSeq_Search", "AA_FileUpload_S05");
+};
+
+// 멀티 업로드 팝업 실행 
+this.fn_uploadEvtMulti = function()
+{
+	var args = {
+					SOURCE_TYPE:"AAM"
+					,SOURCE_CODE:null		// SOURCE_CODE는 등록하는데 필수 값이지만 멀티 업로드이므로 추후 넣어 주기로 함
+					,USE_MULTI_FILE:true
+					,SM_SEQ:strSMSeq		// 회차
+					,AUDIT_SEQ:strAuditSeq	// 문서번호
+					,RT_SEQ:nRTSeq			// ds_Result 일련번호 RT_SEQ
+					,RTS_SEQ:this.ds_TestStep.getColumn(this.ds_TestStep.rowposition, "TS_SEQ") // ds_Test_Step 번호
+					,AAM_MULTI:true
+				}	
+	this.commUtil.popupAceFileMaster(this, args, "fnPopupCallBack");
+};
+
+// 업로드 팝업 실행 
+this.fn_uploadEvt = function(strAAMSseq)
+{
+	var args = {
+					SOURCE_TYPE:"AAM"
+					,SOURCE_CODE:strAAMSseq
+					,USE_MULTI_FILE:false
+					,AAM_MULTI:false
+				}	
+	this.commUtil.popupAceFileMaster(this, args, "fnPopupCallBack");
+};
+
+// 전자결재 filter 해서 가져가는 거 해야 함
+this.fn_AttachMasterSave = function( strAttachKind )
+{
+	// 저장용 Input Dataset 셋팅 AM_ATTACH_MASTER
+	if( strAttachKind == "2" )
+	{
+		this.ds_AttachMaster.filter("ATTACH_KIND='2'");
+	} 
+	this.gfnAddInputDataset("ds_AttachMaster", "dsAttachMasterInput");
+	this.ds_AttachMaster.filter("");
+	
+	// 공통 Transaction
+	this.gfnCommonTransaction("AM_ATTACH_MASTER_Save", "AA_FileUpload_R03");
+};
+
+// CF_AceFileMM 저장 클릭 시 AM_Attach_Master 자동 저장 
+this.fn_AttachMasterInsert = function( strAAMSeq, strFileName )
+{
+	var nRow2 = this.ds_AttachMaster.addRow();
+	this.ds_AttachMaster.setColumn(nRow2, "AAM_SEQ", 		strAAMSeq);
+	this.ds_AttachMaster.setColumn(nRow2, "SM_SEQ", 		strSMSeq);
+	this.ds_AttachMaster.setColumn(nRow2, "AUDIT_SEQ",	strAuditSeq);
+	this.ds_AttachMaster.setColumn(nRow2, "RT_SEQ",		nRTSeq);
+	this.ds_AttachMaster.setColumn(nRow2, "RTS_SEQ",		this.ds_TestStep.getColumn(this.ds_TestStep.rowposition, "TS_SEQ"));
+	this.ds_AttachMaster.setColumn(nRow2, "ATTACH_KIND",	"1");
+	this.ds_AttachMaster.setColumn(nRow2, "FILE_NAME",	strFileName);
+	
+	//trace("ds_AttachMaster==>"+this.ds_AttachMaster.saveXML());
+	// AM_Attach_Master 저장 
+	this.fn_AttachMasterSave( this.ds_AttachMaster.getColumn(nRow2, "ATTACH_KIND") );
+};
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		case "btn_Close" : 
+			this.opener.fn_QueryData(); // 메인 화면 조회 
+			this.commUtil.popupClose("");
+			break;
+		case "btn_Cancel" :
+			this.opener.fn_QueryData(); // 메인 화면 조회 
+			this.commUtil.popupClose("");
+			break;
+	}
+};
+
+//ds_TestStep ROW 변경 시
+this.ds_TestStep_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fn_QueryDataDetail( this.ds_TestStep.getColumn( e.newrow, "TS_SEQ") );
+};
+
+//파일 추가
+this.div_KindFile_btn_FileAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// ATTACH_KIND 1 : 첨부파일 , 2 : 전자결재
+	if (this.div_KindFile.form.cmb_AttachKind.value == "1")
+    {
+		this.fn_uploadEvtMulti();
+	}
+	else
+	{
+		var nRow = this.ds_AttachMaster.addRow();
+		this.div_File.form.grd_AttachList.mergeCell(1, 2, nRow, nRow);
+		this.ds_AttachMaster.setColumn(nRow, "SM_SEQ", 		strSMSeq);
+		this.ds_AttachMaster.setColumn(nRow, "AUDIT_SEQ",	strAuditSeq);
+		this.ds_AttachMaster.setColumn(nRow, "RT_SEQ",		nRTSeq);
+		this.ds_AttachMaster.setColumn(nRow, "RTS_SEQ",		this.ds_TestStep.getColumn(this.ds_TestStep.rowposition, "TS_SEQ"));
+		this.ds_AttachMaster.setColumn(nRow, "ATTACH_KIND",	"2");
+	}
+};
+
+// 파일 삭제
+this.div_KindFile_btn_FileDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(confirm("["+this.ds_AttachMaster.getColumn(this.ds_AttachMaster.rowposition, "FILE_NAME")+"] 파일을 삭제하시겠습니까?"))
+	{
+		var nRow = this.ds_AttachMaster.rowposition;
+		var strFileNm = this.ds_AttachMaster.getColumn(nRow, "FILE_NAME");
+		var nFindRow = this.ds_AttachMaster.findRow("FILE_NAME",  strFileNm);
+		
+		//trace( "nRow:["+nRow+"] "+ ds_AttachMaster.getColumn(nRow, "FILE_NAME") +"///" +objVFList.length);
+		
+
+		if (nFindRow>=0)
+		{
+			// 첨부파일
+			if(this.ds_AttachMaster.getColumn(nFindRow, "ATTACH_KIND") == 1)
+			{
+				this.ds_AttachMaster.deleteRow(this.ds_AttachMaster.rowposition);
+				
+				var nAddRow = this.ds_FileDelete.addRow();
+				this.ds_FileDelete.copyRow(nAddRow, this.ds_FileList, nFindRow);
+				this.ds_FileList.deleteRow(nFindRow);
+				
+				this.gfnAddInputDataset("ds_FileDelete", "ds_FileDelete", "A");
+				var strSvcID = "AM_ATTACH_MASTER_Save";
+				var strModelNm = "AA_FileUpload_R02";
+				this.gfnCommonTransaction(strSvcID, strModelNm, "");
+			}
+			else // 전자결재 문서 
+			{
+				this.ds_AttachMaster.deleteRow(this.ds_AttachMaster.rowposition);
+				this.ds_FileList.deleteRow(nFindRow);
+			}
+		}
+	}
+};
+
+// 전자결재 시 ATTACH_NUMBER(전자결재 파일명)
+this.ds_AttachMaster_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if (e.columnid == "FILE_NAME")
+	{
+		if (this.ds_AttachMaster.getColumn(e.row, "ATTACH_KIND") == "2")
+		{
+			this.ds_AttachMaster.setColumn(e.row, "ATTACH_NUMBER", e.newvalue);
+		}		
+	}
+};
+
+// 저장
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	bSaveFlag = true;
+	this.fn_AttachMasterSave( "2" );
+};
+
+
+// 셀 버튼 등록, 다운 버튼 클릭 이벤트
+this.div_File_grd_AttachList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var ds 	= obj.getBindDataset();
+	if(e.cell == 2) 
+	{
+		var strCode	= ds.getColumn( obj.getDatasetRow(e.row), "SOURCE_CODE");
+		this.fn_uploadEvt(strCode);
+	}
+	else if(e.cell == 3)
+	{
+		// 첨부파일 다운 버튼 클릭
+		if(ds.getColumn(e.row, "ATTACH_KIND") == "1")
+		{
+			var nSeq = ds.getColumn( obj.getDatasetRow(e.row), "FM_SEQ");
+			this.gfnAceFileDownload(nSeq);
+		}
+		// 전자결재문서 다운 버튼 클릭
+		else
+		{
+			var strDocCd = this.ds_AttachMaster.getColumn(e.row, "DOC_CD");
+			var strDocId = this.ds_AttachMaster.getColumn(e.row, "DOC_ID");
+			var strFormId = this.ds_AttachMaster.getColumn(e.row, "FORM_ID");
+			
+			if (this.gfnIsEmpty(strFormId))
+			{
+				// 구문서
+				system.execBrowser("http://gw.tobesoft.com/Ea/EADocPop/EAAppDocMigPop/?ace_auth=1&doc_id="+strDocId);
+			}
+			else
+			{
+				// 신문서
+				system.execBrowser("http://gw.tobesoft.com/Ea/EADocPop/EAAppDocViewPop/?doc_auth=0&doc_id="+strDocId+"&form_id="+strFormId);
+			}
+		}
+	}
+};
+
+/*
+	주석 처리 되어 있는 로직
+*/
+function ds_AttachMaster_onrowposchanged(obj:Dataset, e:DSRowPosChangeEventInfo)
+{
+	/*
+	// 작성자만 삭제권한을 가짐
+	if(gds_UserInfo.getColumn(0, "EMP_NO")==obj.getColumn(e.newrow, "INSERT_EMPNO") ||
+		obj.getColumn(e.newrow, "INSERT_EMPNO")==undefined)
+	{
+		btn_FileDel.enable = true;
+		//btn_Auth.enable = true;
+	}
+	else
+	{
+		btn_FileDel.enable = false;
+		//btn_Auth.enable = false;
+	}
+	*/
+}
+
+
+this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		//this.recentVariant = Variant;
+		switch(Variant)
+		{
+			case "close":
+				this.fn_QueryDataDetail( this.ds_TestStep.getColumn(this.ds_TestStep.rowposition, "TS_SEQ") );
+			break;
+			case "deleteAll":
+				this.fn_QueryDataDetail( this.ds_TestStep.getColumn(this.ds_TestStep.rowposition, "TS_SEQ") );
+			break;
+		}
+	}
+}]]></Script>
+    <Objects>
+      <Dataset id="ds_FileList">
+        <ColumnInfo>
+          <Column id="FM_SEQ" type="STRING" size="256"/>
+          <Column id="SOURCE_TYPE" type="STRING" size="256"/>
+          <Column id="SOURCE_CODE" type="STRING" size="256"/>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+          <Column id="DESCRIPTION" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="LIFECYCLE_CODE" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMPNO" type="STRING" size="256"/>
+          <Column id="INSERT_DEPT" type="STRING" size="256"/>
+          <Column id="AUTH_KIND" type="STRING" size="256"/>
+          <Column id="AUTH_GROUP" type="STRING" size="256"/>
+          <Column id="FILE_PATH" type="STRING" size="256"/>
+          <Column id="FILE_SIZE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_TestStep" onrowposchanged="ds_TestStep_onrowposchanged">
+        <ColumnInfo>
+          <Column id="SM_SEQ" type="STRING" size="256"/>
+          <Column id="AUDIT_SEQ" type="STRING" size="256"/>
+          <Column id="TS_SEQ" type="STRING" size="256"/>
+          <Column id="TEST_STEP_DESC" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_AttachMaster" oncolumnchanged="ds_AttachMaster_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="AAM_SEQ" type="STRING" size="256"/>
+          <Column id="SM_SEQ" type="STRING" size="256"/>
+          <Column id="AUDIT_SEQ" type="STRING" size="256"/>
+          <Column id="RT_SEQ" type="STRING" size="256"/>
+          <Column id="RTS_SEQ" type="STRING" size="256"/>
+          <Column id="ATTACH_KIND" type="STRING" size="256"/>
+          <Column id="ATTACH_NUMBER" type="STRING" size="256"/>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMPNO" type="STRING" size="256"/>
+          <Column id="SOURCE_TYPE" type="STRING" size="256"/>
+          <Column id="SOURCE_CODE" type="STRING" size="256"/>
+          <Column id="FM_SEQ" type="STRING" size="256"/>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="DOC_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <FileDialog id="fd_FileDialog" filter="All(*.*)|*.*|" defaultextension="false" onclose="fd_FileDialog_onclose"/>
+      <Dataset id="ds_AttachKind">
+        <ColumnInfo>
+          <Column id="CM_CODE" type="STRING" size="256"/>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="DESCRIPTION" type="STRING" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="VAL1" type="STRING" size="256"/>
+          <Column id="VAL2" type="STRING" size="256"/>
+          <Column id="VAL3" type="STRING" size="256"/>
+          <Column id="VAL4" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_AttachMasterSeq">
+        <ColumnInfo>
+          <Column id="AAM_SEQ" type="STRING" size="256"/>
+          <Column id="ATTACH_KIND" type="STRING" size="256"/>
+          <Column id="ATTACH_NUMBER" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_FileDelete">
+        <ColumnInfo>
+          <Column id="FM_SEQ" type="STRING" size="256"/>
+          <Column id="SOURCE_TYPE" type="STRING" size="256"/>
+          <Column id="SOURCE_CODE" type="STRING" size="256"/>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+          <Column id="DESCRIPTION" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="LIFECYCLE_CODE" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMPNO" type="STRING" size="256"/>
+          <Column id="INSERT_DEPT" type="STRING" size="256"/>
+          <Column id="AUTH_KIND" type="STRING" size="256"/>
+          <Column id="AUTH_GROUP" type="STRING" size="256"/>
+          <Column id="FILE_PATH" type="STRING" size="256"/>
+          <Column id="FILE_SIZE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

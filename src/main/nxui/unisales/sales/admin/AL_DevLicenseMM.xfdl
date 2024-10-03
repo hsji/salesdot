@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AL_DevLicenseMM" width="1360" height="560" titletext="개발라이선스" onload="AL_DevLicenseMM_onload">
+    <Layouts>
+      <Layout height="560" mobileorientation="landscape" width="1360">
+        <Div id="div_Search" taborder="0" text="" left="8" top="8" cssclass="div_WF_SchList" right="8" height="40" formscrollbartype="none none" formscrolltype="none">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Year" taborder="0" text="조회년월" left="18" top="8" width="58" height="22" cssclass="sta_WF_DetailTit" textAlign="right"/>
+              <Div id="div_Search_yyyyMM" taborder="1" left="stc_Year:8" top="8" width="145" height="22" url="Common::COM_yyyyMM.xfdl" user_onchanged="fnSearch"/>
+              <Button id="btn_Search" taborder="2" text="조회" top="8" width="60" height="22" right="8" cssclass="btn_WF_SchText" onclick="div_Search_btn_Search_onclick"/>
+              <Button id="btn_Save" taborder="3" text="개발라이선스 생성" top="8" height="22" cssclass="btn_WF_tran" right="btn_Search:4" width="120" onclick="div_Search_btn_Save_onclick"/>
+              <Static id="stc_Year00" taborder="6" text="제품" left="div_Search_yyyyMM:16" top="8" width="58" height="22" cssclass="sta_WF_DetailTit" textAlign="right"/>
+              <Combo id="cb_Product" taborder="4" text="Combo00" left="stc_Year00:8" top="8" width="150" height="22" innerdataset="dsProduct" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="fnSearch"/>
+              <Static id="stc_Year00_00" taborder="7" text="언어" left="cb_Product:16" top="8" width="58" height="22" cssclass="sta_WF_DetailTit" textAlign="right"/>
+              <Combo id="cb_Lnaguge" taborder="5" text="Combo01" left="stc_Year00_00:8" top="8" width="150" height="22" innerdataset="dsLanguage" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="fnSearch"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_Main" taborder="1" left="8" top="div_Search:4" width="300" height="266" binddataset="dsMain" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="50"/>
+                <Column size="60"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="년월"/>
+                <Cell col="2" text="언어"/>
+                <Cell col="3" text="제품"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DLI_SEQ"/>
+                <Cell col="1" text="bind:YYYYMM" displaytype="mask" maskeditformat="####/##" maskedittype="string"/>
+                <Cell col="2" text="bind:LANGUAGE_CODE" combodataset="dsLanguage" combodatacol="CAPTION" combocodecol="CODE" displaytype="combotext"/>
+                <Cell col="3" text="bind:PRODUCT_CODE" displaytype="combotext" combodataset="dsProduct" combodatacol="CAPTION" combocodecol="CODE" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Sub" taborder="2" left="8" top="grd_Main:4" right="8" bottom="8" binddataset="dsSub" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="52"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="60"/>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="60"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="DLL_SEQ"/>
+                <Cell col="1" text="접속매체"/>
+                <Cell col="2" text="제품"/>
+                <Cell col="3" text="언어"/>
+                <Cell col="4" text="등록종류"/>
+                <Cell col="5" text="성명"/>
+                <Cell col="6" text="Email"/>
+                <Cell col="7" text="회사"/>
+                <Cell col="8" text="발급횟수"/>
+                <Cell col="9" text="발급일"/>
+                <Cell col="10" text="Email동의"/>
+                <Cell col="11" text="회사정보동의"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DLL_SEQ"/>
+                <Cell col="1" text="bind:CONNECT_TYPE_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:PRODUCT_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:LANGUAGE"/>
+                <Cell col="4" text="bind:REG_KIND_NAME"/>
+                <Cell col="5" text="bind:CUSTOMER_NM"/>
+                <Cell col="6" text="bind:EMAIL" textAlign="left"/>
+                <Cell col="7" text="bind:COMPANY_NM" textAlign="left"/>
+                <Cell col="8" text="bind:CONNECT_CNT"/>
+                <Cell col="9" text="bind:REQUEST_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="10" text="bind:NAME_EMAIL_AGREED" displaytype="checkboxcontrol"/>
+                <Cell col="11" text="bind:DEPARTMENT_AGREED" displaytype="checkboxcontrol"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_SalesProd1" taborder="5" text="개발라이선스키(TOOL)" left="grd_Main:4" top="div_Search:4" width="150" height="22" visible="true" cssclass="sta_POP_GroupTit"/>
+        <Edit id="edt_LicKey" taborder="4" left="stc_SalesProd1:4" top="div_Search:4" height="22" right="262"/>
+        <Div id="div_Attachment" taborder="6" top="div_Search:4" height="266" async="false" url="Common::COM_Attachment.xfdl" SOURCE_CD="LIC_DLI" SOURCE_SEQ="DLI_SEQ" USE_NEXT_FILE_TYPE="false" USE_LINK_TYPE="false" USE_MULTI_FILE="true" OPEN_ADD_DIALOG="false" DELETE_ALL="false" BINDDATASET="dsMain" right="8" width="280" USE_READONLY="true"/>
+        <TextArea id="ta_Contents" taborder="3" left="grd_Main:4" top="edt_LicKey:4" height="240" right="div_Attachment:4"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsMain" onrowposchanged="dsMain_onrowposchanged">
+        <ColumnInfo>
+          <Column id="DLI_SEQ" type="bigdecimal" size="20"/>
+          <Column id="YYYYMM" type="string" size="8"/>
+          <Column id="PRODUCT_CODE" type="string" size="40"/>
+          <Column id="DEV_LICENSE_KEY" type="string" size="255"/>
+          <Column id="LANGUAGE_CODE" type="string" size="80"/>
+          <Column id="CONTENTS" type="string" size="1073741823"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsLanguage">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CAPTION">전체</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">국내용</Col>
+            <Col id="CODE">KOR</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">해외용</Col>
+            <Col id="CODE">ENG</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">CNM</Col>
+            <Col id="CAPTION">중국용</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsProduct">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSub">
+        <ColumnInfo>
+          <Column id="DLL_SEQ" type="bigdecimal" size="20"/>
+          <Column id="CONNECT_TYPE_NAME" type="string" size="100"/>
+          <Column id="REG_KIND_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="LANGUAGE" type="string" size="100"/>
+          <Column id="EMAIL" type="string" size="50"/>
+          <Column id="CUSTOMER_NM" type="string" size="200"/>
+          <Column id="COMPANY_NM" type="string" size="200"/>
+          <Column id="CONNECT_CNT" type="int" size="11"/>
+          <Column id="REQUEST_DATE" type="datetime" size="23"/>
+          <Column id="CONNECT_TYPE" type="string" size="40"/>
+          <Column id="PRODUCT_CODE" type="string" size="40"/>
+          <Column id="LANGUAGE_CODE" type="string" size="40"/>
+          <Column id="USER_ID" type="string" size="50"/>
+          <Column id="REG_KIND" type="string" size="40"/>
+          <Column id="DEPARTMENT_AGREED" type="int" size="11"/>
+          <Column id="NAME_EMAIL_AGREED" type="int" size="11"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsMaxMonth"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 
+* 03. 화면설명 : 
+* 04. 작성일   : 
+* 05. 작성자   : 
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AL_DevLicenseMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //Grid 공통함수 호출
+	this.fnFormInit();
+};
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+	if(nexacro.getApplication().id=="ACEp")
+		this.parent.parent.stc_FormTitle.set_text(this.titletext);
+		
+	if (!this.commUtil.getAuthority(80))
+	{
+		this.grd_Main.set_bottom(8);
+		this.ta_Contents.set_bottom(8);
+		this.div_Attachment.set_bottom(8);
+		this.grd_Sub.set_visible(false);
+		this.div_Search.form.btn_Save.set_visible(false);
+	}
+	
+	var date = new Date();
+	var strMonth = this.gfnGetDateMaskFormatString(date, "yyyyMM");
+	this.div_Search.form.div_Search_yyyyMM.setYYYYMM(strMonth);
+	this.fnGetCode();			// 공통코드
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+ // 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddOutputDataset("dsProduct",	"dsOutput1");
+	this.gfnAddOutputDataset("dsMaxMonth",	"dsOutput2");
+	this.gfnCommonTransaction("gfnGetCode",	"AL_DevLicenseMM_S03");//, this.grd_Main);
+}
+ 
+this.fnSearch = function()
+{	
+	if(this.div_Search.form.div_Search_yyyyMM.getYYYYMM()<'202101')
+	{
+		alert("2021년 이후만 조회 가능합니다.");
+		this.div_Search.form.div_Search_yyyyMM.setYYYYMM('202101');
+		return;
+	}
+	if(!this.commUtil.getAuthority(80) && this.div_Search.form.div_Search_yyyyMM.getYYYYMM()>this.dsMaxMonth.getColumn(0,"YYYYMM"))
+	{
+		alert("데이터가 존재하지 않습니다.");
+		this.div_Search.form.div_Search_yyyyMM.setYYYYMM(this.dsMaxMonth.getColumn(0,"YYYYMM"));
+		return;
+	}
+	
+	this.gfnAddSendParameter("YYYYMM", this.div_Search.form.div_Search_yyyyMM.getYYYYMM());
+	this.gfnAddSendParameter("PRODUCT_CODE", this.div_Search.form.cb_Product.value);
+	this.gfnAddSendParameter("LANGUAGE_CODE", this.div_Search.form.cb_Lnaguge.value);
+	this.gfnAddOutputDataset("dsMain", "dsOutput");
+	var objGrid = new Array();
+	objGrid[0] = this.grd_Main;
+	objGrid[1] = this.grd_Sub;
+	
+	this.gfnCommonTransaction("Select", "AL_DevLicenseMM_S01", objGrid);
+};
+
+this.fnSearchSub = function(strYYYYMM, strProductCode, strLang)
+{	
+	if(this.commUtil.getAuthority(80))
+	{
+		this.gfnAddSendParameter("YYYYMM", strYYYYMM);
+		this.gfnAddSendParameter("PRODUCT_CODE", strProductCode);
+		this.gfnAddSendParameter("LANGUAGE_CODE", strLang);
+		this.gfnAddOutputDataset("dsSub", "dsOutput");
+		this.gfnCommonTransaction("SelectSub", "AL_DevLicenseMM_S02", this.grd_Sub);
+	}
+};
+
+this.fnSave = function()
+{
+	this.gfnAddSendParameter("YYYYMM", this.div_Search.form.div_Search_yyyyMM.getYYYYMM());
+ 	this.gfnCommonTransaction("Save",	"AL_DevLicenseMM_R01");
+};
+
+this.fnCallBack = function (strSvcId, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode<0) {
+		this.alert("["+nErrorCode+"] "+strErrorMsg);
+		return;
+	}
+	switch (strSvcId) 
+	{
+		case "gfnGetCode":
+			this.div_Search.form.cb_Product.set_index(0);
+			this.div_Search.form.cb_Lnaguge.set_index(1);
+			this.fnSearch();
+			break;
+		case "Select":
+			if(this.dsMain.getRowCount()>0)
+				this.div_Search.form.btn_Save.set_enable(false);
+			else 
+				this.div_Search.form.btn_Save.set_enable(true);
+			break;
+		case "Save":
+			this.fnSearch();
+			break;
+	}
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.div_Search_btn_Search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSearch();
+};
+
+this.dsMain_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var strYYYYMM = obj.getColumn(e.newrow, "YYYYMM");
+	var strProductCode = obj.getColumn(e.newrow, "PRODUCT_CODE");
+	var strLang = obj.getColumn(e.newrow, "LANGUAGE_CODE");
+	this.fnSearchSub(strYYYYMM, strProductCode, strLang)
+};
+
+this.div_Search_btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSave();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="edt_LicKey" propid="value" datasetid="dsMain" columnid="DEV_LICENSE_KEY"/>
+      <BindItem id="item0" compid="ta_Contents" propid="value" datasetid="dsMain" columnid="CONTENTS"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,561 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="orgDeptMgFm" width="1050" height="736" titletext="부서관리" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Div id="divSearch" taborder="0" left="0" top="0" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staCompany" taborder="11" text="회사구분" left="0" top="12" width="87" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="cboCompany" taborder="12" text="알림" left="staCompany:0" top="12" width="139" height="24" index="1" value="INF" innerdataset="gdsCompany" codecolumn="SSC_CD" datacolumn="SSC_CD_KORN_NM" onitemchanged="divSearch_cboCompany_onitemchanged"/>
+              <Static id="staTitle00" taborder="3" text="부서코드" left="cboCompany:0" top="12" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="Combo01" taborder="4" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="5" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="6" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="7" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="2" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Edit id="edtMsgCd" taborder="0" left="staTitle00:0" top="12" width="140" height="24"/>
+              <Static id="staTitle02" taborder="8" text="부서명" left="edtMsgCd:0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Edit id="edtMsgTxt" taborder="1" left="staTitle02:0" top="12" width="140" height="24"/>
+              <Static id="staTitle03" taborder="9" text="사용" left="edtMsgTxt:0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="cboUseYN" taborder="10" left="staTitle03:0" top="12" width="80" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" text="예" value="1">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="datacolumn">- 전체 - </Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">예</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">0</Col>
+                      <Col id="datacolumn">아니오</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static04_00" taborder="1" top="0" width="20" cssclass="sta_WF_GSize" visible="false" text="W20" right="0" bottom="0"/>
+        <Static id="staTitle00" taborder="2" text="부서 상세" top="divSearch:0" height="43" cssclass="sta_WF_SubTitle" right="20" width="450"/>
+        <Div id="divDetail" taborder="3" text="div00" top="staTitle00:0" right="20" width="450" bottom="0" minheight="463" maxheight="">
+          <Layouts>
+            <Layout>
+              <Static id="staBg11_00" taborder="43" left="0" top="363" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg01" taborder="1" left="0" top="0" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle01" taborder="2" text="부서코드" left="0" top="0" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtDeptCd" taborder="0" left="145" top="5" width="141" height="24" readonly="true" cssclass="essential" maxlength="7" inputtype="digit,english" inputmode="upper" imemode="alpha"/>
+              <Static id="staBg02" taborder="3" left="0" top="33" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle02" taborder="4" text="상위부서코드" left="0" top="33" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Static id="staBg03" taborder="5" left="0" top="66" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg04" taborder="6" left="0" top="99" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg05" taborder="7" left="0" top="132" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg06" taborder="8" left="0" top="165" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg07" taborder="9" left="0" top="198" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg08" taborder="10" left="0" top="231" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg09" taborder="11" left="0" top="264" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg10" taborder="12" left="0" top="297" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg11" taborder="13" left="0" top="330" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg12" taborder="14" left="0" top="396" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg13" taborder="15" left="0" top="429" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg14" taborder="16" left="0" top="462" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle03" taborder="17" text="부서한글명" left="0" top="66" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtDeptKorNm" taborder="18" left="145" top="71" height="24" cssclass="essential" maxlength="66" imemode="hangul" minwidth="300" maxwidth="" right="5"/>
+              <Static id="staTitle04" taborder="19" text="부서영문명" left="0" top="99" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtDeptEngNm" taborder="20" left="145" top="104" height="24" maxwidth="300" minwidth="300" maxlength="66" imemode="alpha" right="5"/>
+              <Static id="staTitle05" taborder="21" text="부서 약어명" left="0" top="132" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtDeptAbbrNm" taborder="22" left="145" top="137" height="24" maxlength="33" imemode="hangul" right="5" minwidth="300" maxwidth=""/>
+              <Static id="staTitle06" taborder="23" text="부서영문약어명" left="0" top="165" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtDeptEngAbbrNm" taborder="24" left="145" top="170" height="24" maxwidth="300" minwidth="300" maxlength="33" imemode="alpha" right="5"/>
+              <Static id="staTitle07" taborder="25" text="부서표시명" left="0" top="198" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtDeptShowNm" taborder="26" left="145" top="203" height="24" right="5" minwidth="300" maxwidth=""/>
+              <Static id="staTitle08" taborder="27" text="정렬순서" left="0" top="231" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtDeptSort" taborder="28" left="145" top="236" height="24" inputtype="digit" maxwidth="141" minwidth="141" width="141" cssclass="essential"/>
+              <Static id="staTitle09" taborder="29" text="사용여부" left="0" top="264" width="141" height="34" cssclass="sta_WF_Label"/>
+              <CheckBox id="chkCyberYn" taborder="30" text="사용" left="145" top="269" width="61" height="24" value="true" falsevalue="0" truevalue="1"/>
+              <Static id="staTitle10" taborder="31" text="부서구분" left="0" top="297" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Combo id="cboDeptFlagCd" taborder="32" text="cbo00" left="145" top="302" height="24" maxwidth="141" minwidth="" width="141" cssclass="essential"/>
+              <Static id="staTitle11" taborder="33" text="부서레벨" left="0" top="330" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtDeptLvl" taborder="34" left="145" top="335" height="24" width="141" inputtype="digit" cssclass="essential"/>
+              <Static id="staTitle12" taborder="35" text="이전부서코드" left="0" top="396" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtBefoDeptCd" taborder="36" left="145.00" top="401" height="24" maxwidth="141" minwidth="" width="141"/>
+              <Static id="staTitle13" taborder="37" text="부서시작일자" left="0" top="429" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Calendar id="calDeptFrdt" taborder="38" left="145.00" top="434" width="141" height="24" dateformat="yyyy-MM-dd"/>
+              <Static id="staTitle14" taborder="39" text="부서종료일자" left="0" top="462" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Calendar id="calDeeptTodt" taborder="40" left="145.00" top="467" height="24" dateformat="yyyy-MM-dd" maxwidth="141" minwidth="" width="141"/>
+              <Div id="divDept" taborder="41" left="145" top="39" height="24" url="common::cmmDeptSearch.xfdl" right="5" uEssential="true"/>
+              <Static id="staTitle11_00" taborder="42" text="직종구분" left="0" top="363" width="141" height="34" cssclass="sta_WF_Label"/>
+              <Combo id="cboDeptType" taborder="44" text="cbo00" left="145.00" top="368" height="24" maxwidth="141" minwidth="" width="141" cssclass="essential"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdList" taborder="4" left="0" top="93" bottom="0" binddataset="dsList" autofittype="col" treeinitstatus="expand,all" treeusecheckbox="false" uFunction="!filter,!sort,!colfix,!initial" right="divDetail:20">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="400"/>
+                <Column size="115"/>
+                <Column size="67"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="부서명"/>
+                <Cell col="1" text="부서코드"/>
+                <Cell col="2" text="정렬순서"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DEPT_KORN_NM" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:DEPT_LVL"/>
+                <Cell col="1" text="bind:DEPT_CD" textAlign="center"/>
+                <Cell col="2" text="bind:DEPT_ORDR" textAlign="right"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divCmmnBtn" taborder="5" text="div00" top="divSearch:9" width="430" height="28" right="staTitle00:20">
+          <Layouts>
+            <Layout>
+              <Button id="btnExcelDown" taborder="0" text="엑셀다운로드" top="0" width="119" fittocontents="width" cssclass="btn_WF_ExcelSave" onclick="divCmmnBtn_btnExcelDown_onclick" right="0" bottom="0"/>
+              <Button id="btnExcelTemplate" taborder="1" text="업로드템플릿 다운로드" top="0" height="28" fittocontents="width" cssclass="btn_WF_TempSave" right="btnExcelDown:3" width="171" onclick="divCmmnBtn_btnExcelTemplate_onclick"/>
+              <Button id="btnExcelUpload" taborder="2" text="엑셀업로드" top="0" fittocontents="width" cssclass="btn_WF_ExcelUp" right="btnExcelTemplate:3" width="107" onclick="divCmmnBtn_btnExcelUpload_onclick" bottom="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle01" taborder="6" text="부서" left="0" top="50" height="43" cssclass="sta_WF_Title" right="divCmmnBtn:0"/>
+        <Edit id="edtHipoDeptCd" taborder="7" left="1061" top="80" height="24" maxwidth="141" minwidth="" maxlength="8" width="141" cssclass="essential" onkeyup="divDetail_edtHipoDeptCd_onkeyup" visible="false"/>
+        <Button id="btnSearch" taborder="8" left="1178" top="80" width="24" height="24" cssclass="btn_WF_EdiSch" onclick="divDetail_btnSearch_onclick" visible="false"/>
+        <Edit id="edt00" taborder="9" left="1205" top="80" height="24" maxlength="66" readonly="true" minwidth="156" maxwidth="" right="-311" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtMsgCd" propid="value" datasetid="dsCond" columnid="DEPT_CD"/>
+      <BindItem id="item1" compid="divSearch.form.edtMsgTxt" propid="value" datasetid="dsCond" columnid="DEPT_NM"/>
+      <BindItem id="item2" compid="divDetail.form.edtDeptCd" propid="value" datasetid="dsList" columnid="DEPT_CD"/>
+      <BindItem id="item14" compid="divDetail.form.edtDeptKorNm" propid="value" datasetid="dsList" columnid="DEPT_KORN_NM"/>
+      <BindItem id="item15" compid="divDetail.form.edtDeptEngNm" propid="value" datasetid="dsList" columnid="DEPT_ENGL_NM"/>
+      <BindItem id="item4" compid="divDetail.form.edtDeptAbbrNm" propid="value" datasetid="dsList" columnid="DEPT_ABBR_NM"/>
+      <BindItem id="item5" compid="divDetail.form.edtDeptEngAbbrNm" propid="value" datasetid="dsList" columnid="DEPT_ENGL_ABBR_NM"/>
+      <BindItem id="item10" compid="divDetail.form.edtDeptShowNm" propid="value" datasetid="dsList" columnid="DEPT_SHOW_NM"/>
+      <BindItem id="item11" compid="divDetail.form.edtDeptSort" propid="value" datasetid="dsList" columnid="DEPT_ORDR"/>
+      <BindItem id="item6" compid="divDetail.form.chkCyberYn" propid="value" datasetid="dsList" columnid="DEPT_YN"/>
+      <BindItem id="item7" compid="divDetail.form.cboDeptFlagCd" propid="value" datasetid="dsList" columnid="DEPT_FLAG_CD"/>
+      <BindItem id="item12" compid="divDetail.form.edtDeptLvl" propid="value" datasetid="dsList" columnid="DEPT_LVL"/>
+      <BindItem id="item13" compid="divDetail.form.edtBefoDeptCd" propid="value" datasetid="dsList" columnid="BEFO_DEPT_CD"/>
+      <BindItem id="item8" compid="divDetail.form.calDeptFrdt" propid="value" datasetid="dsList" columnid="DEPT_FRDT"/>
+      <BindItem id="item9" compid="divDetail.form.calDeeptTodt" propid="value" datasetid="dsList" columnid="DEPT_TODT"/>
+      <BindItem id="item3" compid="edtHipoDeptCd" propid="value" datasetid="dsList" columnid="HIPO_DEPT_CD"/>
+      <BindItem id="item16" compid="edt00" propid="value" datasetid="dsList" columnid="HIPO_DEPT_NM"/>
+      <BindItem id="item17" compid="divDetail.form.divDept.form.edtCode" propid="value" datasetid="dsList" columnid="HIPO_DEPT_CD"/>
+      <BindItem id="item18" compid="divDetail.form.divDept.form.edtName" propid="value" datasetid="dsList" columnid="HIPO_DEPT_NM"/>
+      <BindItem id="item19" compid="divSearch.form.cboUseYN" propid="value" datasetid="dsCond" columnid="USED_YN"/>
+      <BindItem id="item20" compid="divSearch.form.cboCompany" propid="value" datasetid="dsCond" columnid="COMPANY_CD"/>
+      <BindItem id="item21" compid="divDetail.form.cboDeptType" propid="value" datasetid="dsList" columnid="BUSINESS_TYPE"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" canrowposchange="dsList_canrowposchange" cancolumnchange="dsList_cancolumnchange">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="HIPO_DEPT_CD" type="STRING" size="256"/>
+          <Column id="HIPO_DEPT_NM" type="STRING" size="256"/>
+          <Column id="DEPT_KORN_NM" type="STRING" size="256"/>
+          <Column id="DEPT_ENGL_NM" type="STRING" size="256"/>
+          <Column id="DEPT_ABBR_NM" type="STRING" size="256"/>
+          <Column id="DEPT_ENGL_ABBR_NM" type="STRING" size="256"/>
+          <Column id="DEPT_SHOW_NM" type="STRING" size="256"/>
+          <Column id="DEPT_ORDR" type="STRING" size="256"/>
+          <Column id="DEPT_YN" type="STRING" size="256"/>
+          <Column id="DEPT_FLAG_CD" type="STRING" size="256"/>
+          <Column id="DEPT_LVL" type="STRING" size="256"/>
+          <Column id="BEFO_DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_FRDT" type="STRING" size="256"/>
+          <Column id="DEPT_TODT" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+          <Column id="INPT_DTTM" type="STRING" size="256"/>
+          <Column id="INPT_IP" type="STRING" size="256"/>
+          <Column id="CHGE_ID" type="STRING" size="256"/>
+          <Column id="CHGE_DTTM" type="STRING" size="256"/>
+          <Column id="CHGE_IP" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="BUSINESS_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckDept">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	orgDeptMgFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/02/02
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/02/02			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드
+	var param = [
+			  {biztype : "Combo", code : "SM03", objid : this.divDetail.form.cboDeptFlagCd}									//부서구분
+			, {biztype : "Combo", code : "DEPT_TYPE", objid : this.divDetail.form.cboDeptType}								//직종구분
+			, {biztype : "Grid",  code : "SM03", objid : this.grdList, bindcolumn : "DEPT_FLAG_CD", edit : "false"}	// grid 부서구분
+			, {biztype : "Grid",  code : "SM13", objid : this.grdList, bindcolumn : "DEPT_YN", edit : "false"}	// grid 여부코드
+	];
+	this.gfnGetCommonCode(param);	
+	
+	var arrComp = [this.divSearch.form.cboCompany];
+	this.gfnSetAuthorityCompany(arrComp);
+	this.divDetail.form.divDept.form.fnSetCompany(arrComp[0].value);
+	
+	
+	//2022.03.03 사용여부 조회 조건 INDEX 설정
+	this.divSearch.form.cboUseYN.set_index(1);
+	
+	// 버튼 권한 제어
+	this.gfnSetCommBtn(this.divCmmnBtn);
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";			//메세지ID
+		var arrArg = [""];								//메세지취환될값 배열[생략가능]
+		var sPopId = "search";							//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";				//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	var nowRow = this.dsList.rowposition;
+	var nLvl = this.dsList.getColumn(nowRow, "DEPT_LVL");
+	var sDeptCode = this.dsList.getColumn(nowRow, "DEPT_CD");
+	var sDeptName = this.dsList.getColumn(nowRow, "DEPT_KORN_NM"); 
+	
+	var nRow = this.dsList.insertRow(nowRow+1);
+
+	this.dsList.setColumn(nRow, "COMPANY_CD", this.divSearch.form.cboCompany.value);
+	this.dsList.setColumn(nRow, "HIPO_DEPT_CD", sDeptCode);
+	this.divDetail.form.divDept.form.edtName.set_value(sDeptName);
+	this.dsList.setColumn(nRow, "DEPT_YN", "1");
+	this.dsList.setColumn(nRow, "DEPT_LVL", nLvl+1);
+	this.dsList.setColumn(nRow, "DEPT_FRDT", this.gfnGetDate());
+	this.dsList.setColumn(nRow, "DEPT_TODT", "99991231");
+
+	this.divDetail.form.edtDeptCd.setFocus();
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if(this.fnFormValidation()){
+		// 자료를 저장하시겠습니까?
+		this.gfnAlert("confirm.save", [""], "saveMsg", "fnMsgCallback");
+		return;
+	}
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsList.rowcount == 0){
+		return;
+	}
+
+	if(this.fnCheckDelete()){
+		this.dsList.deleteRow(this.dsList.rowposition);
+	}else{
+		this.gfnAlert("msg.err.delete.child");
+		return;
+	}
+};
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "selectDeptList";
+	var strSvcUrl   = "selectDeptList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveDeptInfo";
+	var strSvcUrl   = "saveDeptInfo.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc);	 // 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "selectDeptList":
+		case "saveDeptInfo":
+			break;
+	}
+};
+
+//message callback
+this.fnMsgCallback = function (sPopupId, sRtn)
+{
+	if( sPopupId == "saveMsg"){
+		if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+			return;
+		}
+		this.fnTranSave();
+	}else if (sPopupId == "search"){
+		if( this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+			return;
+		}
+		this.fnTranSearch();
+	}else if( sPopupId=="validCode"){
+		this.divDetail.form.edtDeptCd.set_value("");
+		this.divDetail.form.edtDeptCd.setFocus();
+	}
+};
+
+//excel import
+this.fnExcelImportCallback = function (sImportId, e)
+{
+	//TODO..
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnFormValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+
+	this.gfnSetValidation(this.dsList, "COMPANY_CD"	 , "회사"		, "required");
+	this.gfnSetValidation(this.dsList, "DEPT_CD"	 , "부서코드"		, "required");
+	this.gfnSetValidation(this.dsList, "HIPO_DEPT_CD", "상위부서코드"	, "required");
+	this.gfnSetValidation(this.dsList, "DEPT_KORN_NM", "부서한글명"	, "required");
+	
+	this.gfnSetValidation(this.dsList, "DEPT_FLAG_CD", "정렬순서"	, "required");
+	this.gfnSetValidation(this.dsList, "DEPT_FLAG_CD", "부서구분"	, "required");
+	this.gfnSetValidation(this.dsList, "DEPT_LVL",     "부서레벨"	, "required");
+	this.gfnSetValidation(this.dsList, "DEPT_LVL",     "부서레벨"	, "required");
+	
+	this.gfnSetValidation(this.dsList, "DEPT_FRDT"	 , "부서시작일자"	, "date");
+	this.gfnSetValidation(this.dsList, "DEPT_TODT"	 , "부서종료일자"	, "date");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsList, "U") == false) return false;
+	else return true;
+};
+
+//삭제 가능여부체크
+this.fnCheckDelete = function ()
+{
+	this.dsCheckDept.clearData();
+	this.dsCheckDept.copyData(this.dsList);
+	
+	var nCurRow= this.dsList.rowposition;
+	this.dsCheckDept.filter("HIPO_DEPT_CD=='"+this.dsList.getColumn(nCurRow,"DEPT_CD")+"'");
+	var nRowCount = this.dsCheckDept.getRowCount();
+	if( nRowCount > 0){
+		return false;
+	}
+	return true;
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdList, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");
+};
+
+this.divCmmnBtn_btnExcelUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnExcelImport("dsList", "부서 리스트", "A4:O", "fnExcelImportCallback", "message", "", "A3:O3", this.grdList);
+};
+
+this.dsList_canrowposchange = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var nRow = e.newrow; 
+	if( obj.getRowType(nRow) == 2){
+		this.divDetail.form.edtDeptCd.set_readonly(false);
+	}else{
+		this.divDetail.form.edtDeptCd.set_readonly(true);
+	}
+};
+
+this.dsList_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if( e.columnid=="DEPT_CD"){
+		if(this.gfnIsNull(e.newvalue)) return;
+		
+		var nRow = obj.findRow("DEPT_CD", e.newvalue);
+		if( nRow > -1){
+			this.gfnAlert("msg.exist", ["입력하신 부서코드"], "validCode","fnMsgCallback");
+			return;
+		}
+	}
+};
+
+//엑셀템플릿 다운로드
+this.divCmmnBtn_btnExcelTemplate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var fileId = "공통시스템_Template.xlsx";
+	this.gfnDownTempate(fileId);
+};
+
+this.divSearch_cboCompany_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.divDetail.form.divDept.form.fnSetCompany(obj.value);
+};
+]]></Script>
+  </Form>
+</FDL>

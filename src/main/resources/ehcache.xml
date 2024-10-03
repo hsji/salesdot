@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!-- CacheManager에 의해 관리되는 캐시의 메모리를 300M로 제한 --> 
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" 
+		maxBytesLocalHeap="300M" 
+		updateCheck="false"> 
+	
+	<!-- 임시저장 경로를 설정 --> 
+	<diskStore path="java.io.tmpdir" /> 
+	
+	<!-- Cache에 저장할 레퍼런스의 최대값을 100000으로 지정, maxDepthExceededBehavior = "continue" : 초과 된 최대 깊이에 대해 경고하지만 크기가 조정 된 요소를 계속 탐색 maxDepthExceededBehavior = "abort" : 순회를 중지하고 부분적으로 계산 된 크기를 즉시 반환 --> 
+	<sizeOfPolicy maxDepth="1000000" maxDepthExceededBehavior="continue" /> 
+	
+	<!-- 캐시 정의 --> 
+	<!-- name : 캐시의 이름이다. @Cacheable("캐시의 이름") 와 일치시켜줘야한다. 
+	diskExpiryThreadIntervalSeconds : 디스크에 저장된 캐시들에 대해 만료된 항목을 제거하기 위한 스레드를 실행할 주기 설정 
+	diskSpoolBufferSizeMB : 디스크 캐시에 쓰기 모드로 들어갈 때 사용될 비동기 모드의 스폴 버퍼 크기 설정 (OutOfMemory 발생시 수치 낮추도록 함) 
+	diskPersistent : VM이 재기동할 때 캐싱된 객체를 계속 유지할지 여부 
+	eternal : 한번 캐시하면 영원히 유지할 것인지의 여부
+	maxElementsInMemory : 메모리에 캐싱될 최대 객체 수 
+	maxEntriesLocalHeap : 힙메모리 최대량
+	overflowToDisk : 메모리저장공간이 부족할때 Disk 사용여부 
+	memoryStoreEvictionPolicy : 최대 개수에 도달할 때, 제거 알고리즘 
+		- FIFO : 먼저 저장된 데이터를 우선 삭제 
+		- LFU : 데이터의 이용 빈도 수를 기준으로 이용 빈도가 가장 낮은 것부터 삭제 
+		- LRU : 데이터의 접근 시점을 기준으로 최근 접근 시점이 오래된 데이터부터 삭제 
+	overflowToDisk : maxElementsInMemory이 옴계량에 가까우면 오버플로우되는 객체들을 디스크에 저장할지 결정 
+	timeToIdleSeconds : 다음 시간동안 유휴상태 후 갱신할지 결정 (데이터가 지정된 시간(초단위)동안 재호출되지 않으면 휘발됨) 
+	timeToLiveSeconds : 한번 저장된 데이터의 최대 저장 유지 시간(초단위) 
+	maxBytesLocalHeap : 최대 로컬 힙메모리 사용량 설정 (사용 시 maxEntriesLocalHeap 사용 불가) 
+	maxBytesLocalDisk : maxBytesLocalHeap에 설정된 캐시 사용 이후 디스크 스토리지 한계 설정
+	--> 
+	
+	<!-- default Cache 설정 (반드시 선언해야 하는 Cache) -->
+	<defaultCache eternal="false" 
+				maxEntriesLocalHeap="100000" 
+				maxEntriesLocalDisk="100000" 
+				overflowToDisk="false" 
+				diskPersistent="false" 
+				timeToIdleSeconds="1800" 
+				diskExpiryThreadIntervalSeconds="120" 
+				memoryStoreEvictionPolicy="LRU"> 
+	</defaultCache> 
+	
+	<!-- 사용하고자 하는 캐시 별 설정 --> 
+	<cache name="cmmnCdList" 
+			eternal="false" 
+			timeToIdleSeconds="1800" 
+			memoryStoreEvictionPolicy="LFU" > 
+	</cache>
+	<cache name="cmmnMsgList" 
+			eternal="false" 
+			timeToIdleSeconds="1800" 
+			memoryStoreEvictionPolicy="LFU" > 
+	</cache>
+</ehcache>
+

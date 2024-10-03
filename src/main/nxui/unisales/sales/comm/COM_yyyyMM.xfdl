@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="COM_yyyyMM" width="140" height="24" onload="COM_yyyyMM_onload">
+    <Layouts>
+      <Layout height="24" mobileorientation="landscape" width="140">
+        <Button id="btn_PreMonth" taborder="1" cssclass="btn_WF_prev" left="13" top="0" width="13" onclick="setPreMonth" tooltiptext="go to last month" bottom="0"/>
+        <MaskEdit id="medt_yyyyMM" taborder="2" left="btn_PreMonth:3.00" top="0" width="62" height="24" format="####-##" value="201801" type="string" textAlign="center" canchange="medt_yyyyMM_canchange" border="0px none" padding="0px 2px"/>
+        <PopupDiv id="pop_SelectMM" visible="false" left="31.00" top="29" width="180" height="177" border="1px solid #c8c8c8" background="white" oncloseup="pop_SelectMM_oncloseup">
+          <Layouts>
+            <Layout>
+              <Static id="staBg" taborder="13" left="0" top="0" cssclass="sta_WF_GBg01" right="0" bottom="0"/>
+              <Button id="btn_1" taborder="1" left="6" top="41" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal01"/>
+              <Button id="btn_2" taborder="2" left="btn_1:2.00" top="41" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal02"/>
+              <Button id="btn_3" taborder="3" left="btn_2:2.00" top="41" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal03"/>
+              <Button id="btn_4" taborder="4" left="btn_3:2.00" top="41" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal04"/>
+              <Button id="btn_5" taborder="5" left="6" top="btn_1:2" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal05"/>
+              <Button id="btn_6" taborder="6" left="btn_5:2.00" top="btn_2:2" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal06"/>
+              <Button id="btn_7" taborder="7" left="btn_6:2.00" top="btn_3:2" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal07"/>
+              <Button id="btn_8" taborder="8" left="btn_7:2.00" top="btn_4:2" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal08"/>
+              <Button id="btn_9" taborder="9" left="6" top="btn_5:2" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal09"/>
+              <Button id="btn_10" taborder="10" left="btn_9:2.00" top="btn_6:2" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal10"/>
+              <Button id="btn_11" taborder="11" left="btn_10:2.00" top="btn_7:2" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal11"/>
+              <Button id="btn_12" taborder="12" left="btn_11:2.00" top="btn_8:2" width="40" height="40" onclick="comm_btn_mm" textAlign="center" verticalAlign="middle" cssclass="btn_WF_Cal12"/>
+              <Spin id="spin_Year" taborder="0" left="6" top="6" width="82" height="30" value="2018" min="2000" max="10000" onchanged="spin_Year_onchanged" onspin="pop_SelectMM_spin_Year_onspin" font="bold 14px/normal &quot;noto&quot;,&quot;Malgun Gothic&quot;,&quot;Arial&quot;"/>
+            </Layout>
+            <Layout name="portrait">
+              <Spin id="spin_Year" height="30" left="4" top="4" width="80"/>
+              <Button id="btn_1" left="4" top="38" width="40" height="36"/>
+              <Button id="btn_2" left="46" top="38" width="40" height="36"/>
+              <Button id="btn_3" left="88" top="38" width="40" height="36"/>
+              <Button id="btn_4" left="130" top="38" width="40" height="36"/>
+              <Button id="btn_5" left="4" top="76" width="40" height="36"/>
+              <Button id="btn_6" left="46" top="76" width="40" height="36"/>
+              <Button id="btn_7" left="88" top="76" width="40" height="36"/>
+              <Button id="btn_8" left="130" top="76" width="40" height="36"/>
+              <Button id="btn_9" left="4" top="114" width="40" height="36"/>
+              <Button id="btn_10" left="46" top="114" width="40" height="36"/>
+              <Button id="btn_11" left="88" top="114" width="40" height="36"/>
+              <Button id="btn_12" left="130" top="114" width="40" height="36"/>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+        <Button id="btn_NextMonth" taborder="3" cssclass="btn_WF_next" left="medt_yyyyMM:2" top="0" width="13" onclick="setNextMonth" tooltiptext="go to next month" bottom="0"/>
+        <Button id="btn_PreYear" taborder="0" cssclass="btn_WF_prev2" left="0" top="0" width="13" onclick="setPreYear" tooltiptext="go to last year" bottom="0"/>
+        <Button id="btn_NextYear" taborder="4" cssclass="btn_WF_next2" left="btn_NextMonth:0" top="0" width="13" onclick="setNextYear" tooltiptext="go to next year" bottom="0"/>
+        <Button id="btn_SelectPopMM" taborder="5" cssclass="btn_WF_SchOpen" left="btn_NextYear:4" top="0" width="13" onclick="btn_SelectPopMM_onclick" tooltiptext="select month" bottom="0"/>
+      </Layout>
+      <Layout name="portrait" screenid="Mobile_screen" width="224" height="30" mobileorientation="portrait">
+        <PopupDiv id="pop_SelectMM" left="48" top="31" width="176" height="156"/>
+        <Button id="btn_PreYear" width="30" left="0" top="0" height="30"/>
+        <Button id="btn_PreMonth" width="30" left="30" top="0" height="30"/>
+        <MaskEdit id="medt_yyyyMM" left="60" top="0" width="74" height="30"/>
+        <Button id="btn_NextMonth" left="134" top="0" width="30" height="30"/>
+        <Button id="btn_NextYear" left="164" top="0" width="30" height="30"/>
+        <Button id="btn_SelectPopMM" left="194" top="0" width="30" height="30"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.today;
+this.yyyy;
+this.mm;
+this.popdiv;
+
+this.yyyyPre;
+this.mmPre;
+this.pForm;
+this.pComp;
+this.pEventForm;
+this.pEventComp;
+
+this.validYear = {
+					 min:"2000"
+					,max:((new Date()).getFullYear()+5).toString()
+				 };											//년 4자리 (1900~2018:최신년도) : 미래 설정가능여부 판단필요. (10년까지?)
+this.validMonths = [  "01", "02", "03", "04", "05", "06" ,"07", "08", "09", "10", "11", "12" ];	//월 2자리 (01~12)
+
+this.COM_yyyyMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{	
+	//스크롤바 제거
+	this.set_scrollbartype("none none");
+	
+	this.today = new Date();
+	this.pop_SelectMM.form.spin_Year.set_max(this.validYear.max);
+	
+	this.popdiv = this.pop_SelectMM;
+	this.popdiv.parentOrg = this;
+	
+	this.pForm = this.parent.parent;		//Form.Div.this(현위치)
+	this.pEventForm = this.pForm;			//Form.Div.this(현위치)
+	
+	this.pComp = this.parent;				//Div.this(현위치)
+	this.pEventComp = this.pComp;			//Div.this(현위치)
+	
+	if( this.pComp.name == "div_yyyyMM_From" 
+	 || this.pComp.name == "div_yyyyMM_To" )
+	{
+		this.pForm = this.parent.parent.parent.parent;		//Form.Div.Form.Div.this(현위치)
+		this.pComp = this.parent.parent.parent;				//Div.Form.Div.this(현위치)		
+	}
+	
+	this.removeChild( this.popdiv.name );
+	//this.pForm.addChild(this.gfnGetUniqueId(this.popdiv.name), this.popdiv);
+	
+	this.getOwnerFrame().getForm().addChild(this.gfnGetUniqueId(this.popdiv.name), this.popdiv);
+	
+// 	if(nexacro.getApplication().id=="ACEp")
+// 		//this.getOwnerFrame().addChild(this.gfnGetUniqueId(this.popdiv.name), this.popdiv);
+// 		this.getOwnerFrame().getForm().addChild(this.gfnGetUniqueId(this.popdiv.name), this.popdiv);
+// 	else
+// 		nexacro.getApplication().getActiveForm().addChild(this.gfnGetUniqueId(this.popdiv.name), this.popdiv);
+	
+	var pThis = this;
+	this.pEventComp.getYear = function()	{	return pThis.yyyy;			}
+	this.pEventComp.getMonth = function()	{	return pThis.mm;			}
+	this.pEventComp.getYYYYMM = function()	{	return pThis.yyyy+pThis.mm;	}
+	
+	this.pEventComp.setYear = function(v)	
+	{
+		if(pThis.isValidYear(v))
+		{
+			pThis.today.setYear(v);
+			pThis.updateDate();
+			return true;
+		}
+		return false;
+	}
+	this.pEventComp.setMonth = function(v)	
+	{	
+		if(pThis.isValidMonth(v))
+		{
+			pThis.today.setMonth(parseInt(v)-1);// v:01~12 -> setMonth:0~11 int형 입력
+			pThis.updateDate();
+			return true;
+		}
+		return false;		
+	}
+	this.pEventComp.setYYYYMM = function(v)	
+	{	
+		if(!pThis.isValidValue(v))
+		{
+			return false;
+		}
+		var year = v.substring(0,4);
+		var month = v.substring(4,6);
+		pThis.today.setYear(year);
+		pThis.today.setMonth(month-1);
+		
+		pThis.updateDate();
+	
+		return true;
+	}
+
+	this.updateDate();
+};
+
+this.updateDate = function()
+{	
+	this.yyyyPre = this.yyyy;
+	this.mmPre = this.mm;
+	
+	this.yyyy = this.today.getFullYear();
+	this.yyyy = this.yyyy.toString();
+	this.mm = this.today.getMonth()+1;	
+	this.mm = this.mm.toString().padLeft(2, "0");
+	
+	this.medt_yyyyMM.set_value(this.yyyy+this.mm);
+	this.popdiv.form.spin_Year.set_value(this.yyyy);
+}
+
+this.setNextYear = function()	
+{
+	if(this.isValidYear(this.yyyy+1))
+	{
+		this.today.addYear(1);		
+		this.updateDate();
+		this.onchanged();
+	}	
+}
+this.setPreYear = function()
+{
+	if(this.isValidYear(this.yyyy-1))
+	{
+		this.today.addYear(-1);
+		this.updateDate();
+		this.onchanged();
+	}
+}
+this.setNextMonth = function()	
+{
+	this.today.addMonth(1);
+	this.updateDate();
+	this.onchanged();
+}
+this.setPreMonth = function()
+{
+	this.today.addMonth(-1);
+	this.updateDate();
+	this.onchanged();
+}
+
+this.btn_SelectPopMM_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nXpos = 31;	// 29
+	var nYpos = 24;
+// 	if(nexacro.getApplication().id=="ACEp")
+// 		nYpos = 20;
+		
+	this.popdiv.trackPopupByComponent(this, nXpos, nYpos, null, null, "onchanged");
+};
+
+this.comm_btn_mm = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var mm = obj.name.split("_")[1];
+	var pForm = obj.parent.parent.parentOrg;
+	pForm.today.setMonth(mm-1);
+	
+	pForm.updateDate();
+	this.popdiv.closePopup();
+};
+
+this.isValidValue = function(val)
+{
+	//사용자가 직접입력한 경우 유효성 체크
+	if(this.gfnIsEmpty(val) || val.length != 6)	//총 6자리
+	{
+		return false;
+	}
+						
+	var year = val.substring(0,4);
+	var month = val.substring(4,6);
+	
+	if( this.isValidYear(year) && this.isValidMonth(month) )
+	{
+		return true;
+	}else{
+		return false;
+	}
+}
+
+this.isValidYear = function(year)
+{
+	if( this.validYear.min <= year && this.validYear.max >= year )
+	{
+		return true;
+	}else{
+		return false;
+	}
+}
+this.isValidMonth = function(month)
+{
+	if( this.validMonths.indexOf(month) != -1 )
+	{
+		return true;
+	}else{
+		return false;
+	}
+}
+
+this.medt_yyyyMM_canchange = function(obj:nexacro.MaskEdit,e:nexacro.ChangeEventInfo)
+{
+	if(!this.isValidValue(e.postvalue))
+	{
+		return false;
+	}
+	var year = e.postvalue.substring(0,4);
+	var month = e.postvalue.substring(4,6);
+	this.today.setYear(year);
+	this.today.setMonth(month-1);
+	
+	this.updateDate();
+	
+	this.onchanged();
+};
+
+this.spin_Year_onchanged = function(obj:nexacro.Spin,e:nexacro.ChangeEventInfo)
+{
+	if(!this.isValidYear(e.postvalue))
+	{
+		return false;
+	}
+	this.today.setYear(e.postvalue);
+	
+	this.updateDate();
+};
+
+
+this.pop_SelectMM_spin_Year_onspin = function(obj:nexacro.Spin,e:nexacro.SpinEventInfo)
+{
+	if(!this.isValidYear(e.postvalue))
+	{
+		return false;
+	}
+	this.today.setYear(e.postvalue);
+	
+	this.updateDate();
+};
+
+this.onchanged = function()
+{
+	if(this.pEventComp.hasOwnProperty("user_onchanged"))
+	{
+		var event = this.pEventComp.user_onchanged;
+		if(!this.gfnIsEmpty(event))
+		{
+			var ep = {
+						 prevalue:this.yyyyPre + this.mmPre
+						,newvalue:this.yyyy + this.mm
+					}
+			
+			var f = this.pEventForm;	
+			var fe;
+			/*상위로 올라가면서 event fn 찾기*/
+			for (f; (f != null); f = f.parent)
+			{
+				if (event in f)
+				{
+					/*event fn이 존재한다면 호출*/
+					f[event].call(f, this.pEventComp, ep);
+					break;
+				}
+			}
+		}		
+	}	
+}
+
+this.pop_SelectMM_oncloseup = function(obj:nexacro.PopupDiv,e:nexacro.EventInfo)
+{
+	this.onchanged();
+};
+]]></Script>
+  </Form>
+</FDL>

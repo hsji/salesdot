@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AH_DevList" width="1280" height="720" titletext="체험판 다운로드/라이선스" onload="AH_DevList_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Div id="div_Search" taborder="0" left="8" top="8" height="40" cssclass="div_WF_SchList" right="24" text="">
+          <Layouts>
+            <Layout>
+              <Static id="stc_CategoryCode" taborder="1" text="년월" left="8" top="9" width="58" height="22" cssclass="sta_WF_DetailTit"/>
+              <Button id="btn_Excel" taborder="2" text="Excel" top="9" height="22" cssclass="btn_WF_Excel" width="68" right="8" onclick="common_onclick"/>
+              <Button id="btn_Search" taborder="0" text="조회" top="9" width="58" height="22" cssclass="btn_WF_SchText" right="btn_Excel:8" onclick="common_onclick"/>
+              <Div id="div_Search_yyyyMM" taborder="3" left="74" top="9" width="145" height="22" url="Common::COM_yyyyMM.xfdl" user_onchanged="fnSearch"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_DevList" taborder="1" left="8" top="56" right="8" bottom="8" binddataset="ds_DevList" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="150"/>
+                <Column size="200"/>
+                <Column size="120"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="요청구분"/>
+                <Cell col="1" text="제품"/>
+                <Cell col="2" text="다운로드 페이지"/>
+                <Cell col="3" text="요청 이메일"/>
+                <Cell col="4" text="신청자"/>
+                <Cell col="5" text="신청자 회사"/>
+                <Cell col="6" text="누적 다운로드 횟수"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:KIND" textAlign="left"/>
+                <Cell col="1" text="bind:PRODUCT_NM" textAlign="left"/>
+                <Cell col="2" text="bind:LANGUAGE_NM"/>
+                <Cell col="3" text="bind:REQ_EMAIL" textAlign="left"/>
+                <Cell col="4" text="bind:CUSTOMER_NM"/>
+                <Cell col="5" text="bind:COMPANY_NM" textAlign="left"/>
+                <Cell col="6" text="bind:CONNECT_CNT"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_DevList">
+        <ColumnInfo>
+          <Column id="KIND" type="STRING" size="256"/>
+          <Column id="PRODUCT_CD" type="STRING" size="256"/>
+          <Column id="PRODUCT_NM" type="STRING" size="256"/>
+          <Column id="LANGUAGE_NM" type="STRING" size="256"/>
+          <Column id="REQ_EMAIL" type="STRING" size="256"/>
+          <Column id="CUSTOMER_NM" type="STRING" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+          <Column id="CONNECT_CNT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 홈페이지관리
+ * 02. 화면명   : 체험판 다운로드/라이선스 탭페이지(AH_DevList)
+ * 03. 화면설명 : 체험판 다운로드/라이선스 탭페이지 ( 대상 제품 : 넥사크로N, 엑스플랫폼9.2)
+ * 04. 작성일   : 2023.05.03
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.AH_DevList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+};
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+// 조회
+this.fnSearch = function()
+{
+	var sYYYYMM = this.div_Search.form.div_Search_yyyyMM.getYYYYMM();
+	
+	this.gfnAddSendParameter("YYYYMM", sYYYYMM);
+	
+	this.gfnAddOutputDataset("ds_DevList", "dsOutput");	
+	this.gfnCommonTransaction("Search_DevList", "AH_DevList_S01", this.grd_DevList);
+};
+
+// 엑셀
+this.fnExcel = function()
+{
+	var objGrd = this.grd_DevList;
+	
+	var sFileNm = "홈페이지 내 체험판다운/라이선스 신청자 DB 목록";
+	var sYYYYMM = this.div_Search.form.div_Search_yyyyMM.getYYYYMM();
+	sFileNm += "(" + sYYYYMM.substring(0,4) + "-" + sYYYYMM.substring(4,6) + ")";
+	
+	this.gfn_excelExport(this, objGrd, sFileNm);
+};
+
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{	
+		case "btn_Search":	// 조회
+			this.fnSearch();
+			break;
+		case "btn_Excel":	// 엑셀
+			this.fnExcel();
+			break;
+	}
+};]]></Script>
+  </Form>
+</FDL>

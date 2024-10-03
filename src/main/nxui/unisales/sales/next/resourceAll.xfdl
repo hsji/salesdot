@@ -1,0 +1,760 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="statusOP" width="1080" height="736" titletext="MainFrame" onload="form_onload" onsize="form_onsize" cssclass="frm_WF_Frame" onkeydown="frmMain_onkeydown" ontimer="frmMain_ontimer">
+    <Layouts>
+      <Layout height="736" width="1080">
+        <Static id="sta00" taborder="0" text="인력 투입 현황" left="0" top="0" width="329" height="43" cssclass="sta_WF_Title"/>
+        <Static id="staCon2_00_00_00" taborder="1" text="기준월" cssclass="sta_POP_PopTitle02" top="8" width="56" height="23" right="127" visible="false"/>
+        <Calendar id="cal00" taborder="2" top="8" width="107" height="21" dateformat="yyyy-MM" editformat="yyyy-MM" right="13" visible="false"/>
+        <Div id="divDeviceDesc" taborder="3" text="div00" left="5" top="1014" width="372" height="366" border="2px solid #7c7c7c" visible="false" cssclass="div_MF_part" background="#ffffff">
+          <Layouts>
+            <Layout>
+              <Static id="sta_dum00_00_00_00_00_00" taborder="28" left="1.36%" top="309" height="34" cssclass="sta_MF_detailL" maxwidth="" right="10"/>
+              <Static id="sta_dum00_00_00_00_00" taborder="26" left="2.45%" top="276" height="34" cssclass="sta_MF_detailL" maxwidth="" right="10"/>
+              <Static id="sta_state01_00" taborder="22" left="102" top="111" height="34" cssclass="sta_MF_detailL" right="10" maxwidth=""/>
+              <Static id="sta_state01" taborder="11" left="102" top="78" height="34" cssclass="sta_MF_detailL" right="10" maxwidth=""/>
+              <Static id="sta_state00_00_00_00_01" taborder="13" left="102" top="45" height="34" cssclass="sta_MF_detailL" right="10" maxwidth=""/>
+              <Static id="sta_dum00" taborder="15" left="2.72%" top="144" height="34" cssclass="sta_MF_detailL" maxwidth="" right="10"/>
+              <Static id="sta_dum00_00" taborder="16" left="2.45%" top="177" height="34" cssclass="sta_MF_detailL" maxwidth="" right="10"/>
+              <Static id="sta_dum00_00_00" taborder="17" left="2.99%" top="210" height="34" cssclass="sta_MF_detailL" maxwidth="" right="10"/>
+              <Static id="sta_dum00_00_00_00" taborder="18" left="2.72%" top="243" height="34" cssclass="sta_MF_detailL" maxwidth="" right="10"/>
+              <Static id="sta_state" taborder="14" left="9" top="5" height="34" cssclass="sta_MF_title" right="10"/>
+              <Static id="sta02_00_00" taborder="0" text="제품" left="10" top="112" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00" taborder="1" left="114" top="118" height="21" cssclass="sta_WF_LabelBg" right="31" maxwidth=""/>
+              <Static id="sta02_00_00_00" taborder="2" text="등급" left="10" top="145" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00_00" taborder="3" left="114" top="150" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth=""/>
+              <Static id="sta02_00_00_00_00" taborder="4" text="역할" left="10" top="178" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00_00_00" taborder="5" left="114" top="183" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth=""/>
+              <Static id="sta02_00_00_00_00_00" taborder="6" text="프로젝트명" left="10" top="211" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00_00_00_00" taborder="7" left="114" top="216" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth=""/>
+              <Static id="sta02_00_00_00_00_00_00" taborder="8" text="기간" left="10" top="244" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00_00_00_00_00" taborder="9" left="114" top="250" height="21" cssclass="sta_WF_LabelBg" right="31" maxwidth=""/>
+              <Static id="sta02_00_01" taborder="10" text="회사구분" left="10" top="79" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta02_00_00_00_00_00_01" taborder="12" text="업체명" left="10" top="46" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00_01" taborder="19" left="114" top="52" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth=""/>
+              <Static id="sta_state00_01_00" taborder="20" left="114" top="84" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth=""/>
+              <Static id="sta_state00_01_00_00" taborder="21" left="114" top="118" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth=""/>
+              <Button id="btn00" taborder="23" text="Close" top="8" width="56" height="25" right="14" onclick="divAdaptor_btn00_onclick"/>
+              <Static id="sta_state00_00_00_00_02" taborder="24" left="114" top="250" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth=""/>
+              <Static id="sta02_00_00_00_00_00_00_00" taborder="25" text="월단가" left="10" top="277" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta02_00_00_00_00_00_00_00_00" taborder="27" text="투입단가" left="10" top="310" width="91" height="33" cssclass="sta_MF_detail"/>
+              <MaskEdit id="msk00" taborder="29" left="109" top="284" width="227" height="22" format="#,###"/>
+              <MaskEdit id="msk00_00" taborder="30" left="109" top="314" width="227" height="22" format="#,###"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <ChartJS id="ChartJS_vm" taborder="4" top="sta00:0" text="ChartJS00" left="0" right="20" bottom="10" border="1px solid #dddddd"/>
+        <PopupDiv id="pdiv00" visible="false" left="557" top="903" width="394" height="363" background="#ffffff" border="2px solid #dddddd" text="">
+          <Layouts>
+            <Layout>
+              <Static id="sta02_00_00" taborder="0" text="제품" left="10" top="111" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00" taborder="1" left="114" top="117" height="21" cssclass="sta_WF_LabelBg" right="31" maxwidth=""/>
+              <Static id="sta02_00_00_00" taborder="2" text="등급" left="10" top="144" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00_00" taborder="3" left="114" top="149" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth="" enable="false"/>
+              <Static id="sta02_00_00_00_00" taborder="4" text="역할" left="10" top="177" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00_00_00" taborder="5" left="114" top="182" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth="" enable="false"/>
+              <Static id="sta02_00_00_00_00_00" taborder="6" text="프로젝트명" left="10" top="210" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00_00_00_00" taborder="7" left="114" top="215" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth="" enable="false"/>
+              <Static id="sta02_00_00_00_00_00_00" taborder="8" text="기간" left="10" top="243" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00_00_00_00_00" taborder="9" left="114" top="249" height="21" cssclass="sta_WF_LabelBg" right="31" maxwidth=""/>
+              <Static id="sta02_00_01" taborder="10" text="회사구분" left="10" top="78" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta02_00_00_00_00_00_01" taborder="11" text="업체명" left="10" top="45" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta_state00_01" taborder="12" left="114" top="51" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth="" enable="false"/>
+              <Static id="sta_state00_01_00" taborder="13" left="114" top="83" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth="" enable="false"/>
+              <Static id="sta_state00_01_00_00" taborder="14" left="114" top="117" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth="" enable="false"/>
+              <Static id="sta_state00_00_00_00_02" taborder="15" left="114" top="249" height="21" cssclass="sta_WF_LabelBg" right="21" maxwidth="" enable="false"/>
+              <Static id="sta02_00_00_00_00_00_00_00" taborder="16" text="월단가" left="10" top="276" width="91" height="33" cssclass="sta_MF_detail"/>
+              <Static id="sta02_00_00_00_00_00_00_00_00" taborder="17" text="투입단가" left="10" top="309" width="91" height="33" cssclass="sta_MF_detail"/>
+              <MaskEdit id="msk00" taborder="18" left="114" top="283" width="227" height="22" format="#,###" enable="false"/>
+              <MaskEdit id="msk00_00" taborder="19" left="114" top="313" width="227" height="22" format="#,###" enable="false"/>
+              <Static id="sta_state01" taborder="20" left="9" top="5" height="34" cssclass="sta_MF_title" right="32"/>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	statusVM1.xfdl
+*  @Creator 	
+*  @CreateDate 	
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj);
+	this.cal00.set_value(this.gfnGetDate("day").substr(0,8));
+	this.fnGetData();	// onsize에서 처리됨.
+};
+
+// 전체 DATA 가져오기
+this.fnGetData = function()
+{
+	this.fnGetMan();
+};
+
+
+//max size 변경
+this.form_onsize = function(obj:nexacro.Form,e:nexacro.SizeEventInfo)
+{
+
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+/**
+ * 구성도 서비스 호출
+ * @return N/A
+ */
+this.fvGoalCnt = 0;
+this.fnGetMan = function()
+{
+	this.gfnInitNextGlobalDataset(this.dsGlobal);
+	
+	// POST http://next.tobesoft.com/FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=SR_SalesResultAnalysis_S03&format=xml&version=xplatform&compress=false HTTP/1.1
+	var year = this.gfnGetDate("year");
+	var preyear = (parseInt(year) - 1) + "";
+	this.dsParam1.setColumn(0, "OTHERCO_FLAG", "0");
+	this.dsParam1.setColumn(0, "DATE_OPTION", "1");
+	this.dsParam1.setColumn(0, "PCM", "0");
+	this.dsParam1.setColumn(0, "IEL", "0");
+	this.dsParam1.setColumn(0, "EMPLOYEE", "1");
+	this.dsParam1.setColumn(0, "YEAR_CONTRACT", "1");
+	this.dsParam1.setColumn(0, "CORPORATE", "1");
+	this.dsParam1.setColumn(0, "FREELANCER", "1");
+	//this.dsParam1.setColumn(0, "BUSINESS_TYPE", "U");
+	
+	var dt = new Date();
+	var objDate = new nexacro.Date(dt.getFullYear(), dt.getMonth, 1);
+	var nMs = objDate.addMonth(-12);
+
+	this.dsParam1.setColumn(0, "STARTDATE", objDate.getFullYear() + "01");
+	this.dsParam1.setColumn(0, "ENDDATE", this.cal00.value.substr(0,6));
+	
+	var strSvcId 	= "man";
+	var strSvcUrl 	= "nextService.do";
+	var inData 		= "dsGlobal=dsGlobal:A dsParam=dsParam1:A";
+	var outData 	= "dsOutput1=dsOutput";
+	var strArg 		= "jobCode=" + nexacro.wrapQuote("next");
+	strArg 			+= " trxCode=" + nexacro.wrapQuote("month");
+	strArg 			+= " trxUrl=" + nexacro.wrapQuote("FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=TS_StaffInputList_S01&format=xml&version=xplatform&compress=false");
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, "fnCallback");
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fv_industrycnt = 0;
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg, oJson)
+{
+	switch(sSvcId) {
+		case "man":
+			console.log(this.dsOutput1.saveXML());
+			this.fnMonthChart();
+			break;			
+		default:
+			break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+// Goal
+this.fnGetDate = function(s)
+{
+	var y = s.substr(0,4);
+	var m = parseInt(s.substr(4,2));
+	var d = parseInt(s.substr(6,2));
+	return new Date(y, m, d);
+};
+this.fnGetDate2 = function(s)
+{
+	var y = s.substr(0,4);
+	var m = s.substr(4,2);
+	var d = s.substr(6,2);
+	return y + "/" + m + "/" + d;
+};
+
+this.fnAddMonth = function(s, v)
+{
+	s = s + "";
+	var y = s.substr(0,4);
+	var m = parseInt(s.substr(4,2));
+	var d = parseInt(s.substr(6,2));
+	var x = new Date(y, m, d);
+	return x.addMonth(v);
+};
+
+this._fnSetDate = function(cDate, i, nRow)
+{
+	var s = this.dsOutput1.getColumn(i, "START_DATE");
+	var e = this.dsOutput1.getColumn(i, "END_DATE");
+	var s_r = s;
+
+	var complete = 0;
+	var diff2 = this.gfnGetDiffDate(s_r, cDate);
+	if(cDate < s_r) {
+		complete = 0;
+	} else if(cDate > e) {
+		complete = 100;
+	} else {
+		var diff1 = this.gfnGetDiffDate(s_r, e);
+		complete = parseInt((diff2/diff1)*100);
+	}
+	if(diff2 > 365) {
+		this.dsChart.setColumn(nRow, "start",this.gfnAddDate(cDate, -365));
+	} else {
+		this.dsChart.setColumn(nRow, "start", s);
+	}
+	this.dsChart.setColumn(nRow, "org_start", s_r);
+	this.dsChart.setColumn(nRow, "end", e);
+	this.dsChart.setColumn(nRow, "complete", complete);
+};
+
+this.fnMonthChart = function()
+{
+	var chart = this.ChartJS_vm;
+	var canvas = chart.getCanvas();
+	var cvs = canvas.id;
+	DxChart.reset(canvas);
+
+	// resize 처리 안함.
+	chart.set_autoresize(false);
+	//------------------------------------
+	var cDate = this.gfnGetDate("date");
+	this.dsChart.clearData();
+	this.dsChart.set_enableevent(false);
+
+	for(var i=0,len=this.dsOutput1.rowcount;i<len;i++) {
+		var nRow = this.dsChart.addRow();
+		this.dsChart.setColumn(nRow, "label", this.dsOutput1.getColumn(i, "EMP_NAME") + " - " + this.dsOutput1.getColumn(i, "CLIENT_NAME"));
+		this._fnSetDate(cDate, i, nRow);
+		this.dsChart.setColumn(nRow, "linewidth", 0);
+		this.dsChart.setColumn(nRow, "color", "linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)");
+		this.dsChart.setColumn(nRow, "bgcolor", "#D1EBF6");
+		this.dsChart.setColumn(nRow, "link", "");
+	}
+	this.dsChart.set_enableevent(true);
+
+   var gantt = new DxChartGantt({
+		id: cvs,
+		elem : canvas,
+		binddataset : this.dsChart,
+		data: 'bind:start=start,bind:end=end,bind:complete=complete,bind:label=label,bind:linewidth=linewidth,bind:color=color,bind:bgcolor=background,bind:link=link',
+		options: {
+			variant: {Value:'month'},
+			margin: { Left:100, Top: 70, Inner : 7},
+			linked: {
+					Use: true,
+					LineColor: '#000000',
+					LineWidth: 1
+			},
+			xaxis: {
+				Use:true,
+				Position: 'top',
+				LabelsCount : 5,
+				DateFormat: 'yyyy-MM-dd',
+
+				WeekList: ['','','','','','',''],
+				WeeklyTitleFontStyle: 'bold 10px noto,Tahoma',
+				WeeklyTitleColor: '#000000',
+				WeeklySubTitleFontStyle: '10px noto,Tahoma',
+				WeeklySubTitleColor: '#0000ff',
+				WeeklyDateWidth: 2,
+				WeeklySundayColor : '#ff0000',
+				WeeklySundayBackgroundColor : '#eeeeee',
+				WeeklyTitleBackgroundColor: '#99ffcc',
+				WeeklySubTitleBackgroundColor: '',
+				WeeklyTitleHeight: 30,
+				WeeklySubTitleHeight: 0,
+				WeeklyTitleLineWidth: 2,
+				WeeklyTitleLineColor: '#000000',
+				WeeklySubTitleLineWidth: 1,
+				WeeklySubTitleLineColor: '#777777',
+				WeeklyVLineWidth: 1,
+				WeeklyVLineColor: '#000000',
+				WeeklyVSubLineWidth: 1,
+				WeeklyVSubLineColor: '#dddddd',
+				WeeklyRowHeight: 36,
+				WeeklyHLineWidth: 1,
+				WeeklyHLineColor: '#eeeeee',
+			},
+			labels: {
+				FontStyle: 'bold 9px noto,Tahoma',
+				Color: '#000000',
+				Complete: false
+			},
+			tooltips: {
+						Data : '%{label}<br>START: %{start}<br>END: %{end}<br>COMPLETE: %{complete}',
+						DateFormat: 'yyyy-MM-dd',
+						Pointer : false,
+						Css: {
+							fontSize: '10pt',
+							borderRadius : '2px',
+							border : '2px solid #000000',
+							color : 'black',
+							backgroundColor : ['#FFFFFF']
+						}
+					}
+		}
+	});
+	var pThis = this;
+	gantt.on("onclick", function(e1, e2) {
+		console.log(e2);
+		if(!e2 || e2.dataset == undefined) return;
+		pThis.fnDetailPop(e2.sequentialIndex, e2);
+	});
+	gantt.draw();
+
+};
+
+this.fnDetailPop = function (idx, properties)
+{
+	var div = this.pdiv00.form;
+	if(this.dsOutput1.getColumn(idx, "PURCHASE_TYPE_NAME")) {
+		div.sta_state01.set_text(this.dsOutput1.getColumn(idx, "EMP_NAME") + " (" + this.dsOutput1.getColumn(idx, "PURCHASE_TYPE_NAME") + ")");
+	} else {
+		div.sta_state01.set_text(this.dsOutput1.getColumn(idx, "EMP_NAME"));
+	}
+	div.sta_state00_01.set_text(this.dsOutput1.getColumn(idx, "EMP_CO_NAME"));
+	div.sta_state00_01_00.set_text(this.dsOutput1.getColumn(idx, "CO_KIND"));
+	div.sta_state00_01_00_00.set_text(this.dsOutput1.getColumn(idx, "PRODUCT_NAME"));
+	div.sta_state00_00.set_text(this.dsOutput1.getColumn(idx, "LEVEL_NAME"));
+	div.sta_state00_00_00.set_text(this.dsOutput1.getColumn(idx, "ROLE_NAME"));
+	div.sta_state00_00_00_00.set_text(this.dsOutput1.getColumn(idx, "PROJECT_NAME"));
+	div.msk00.set_value(this.dsOutput1.getColumn(idx, "UNIT_COST"));
+	div.msk00_00.set_value(this.dsOutput1.getColumn(idx, "CON_UNIT_COST"));
+	
+	var dt = this.fnGetDate2(this.dsOutput1.getColumn(idx, "START_DATE")) + " - " + this.fnGetDate2(this.dsOutput1.getColumn(idx, "END_DATE"))
+	div.sta_state00_00_00_00_02.set_text(dt);
+	
+	var x = properties.x;
+	var y = properties.y;
+	if(this.ChartJS_vm.form.vscrollbar) {
+		y = y - this.ChartJS_vm.form.vscrollbar.pos; 
+	}
+	if(this.ChartJS_vm.form.hscrollbar) {
+		x = x - this.ChartJS_vm.form.hscrollbar.pos; 
+	}
+	x = x - 20;
+	
+	this.pdiv00.trackPopup(x,y,400,363,null, false);
+	
+// 	this.divDeviceDesc.set_left(x);
+// 	this.divDeviceDesc.set_top(y);	
+// 	this.divDeviceDesc.set_visible(true);
+// 	this.divDeviceDesc.getElement().handle.style.zIndex  = 350;
+};
+
+//main div 가운데정렬
+this.fnDivMainResize = function ()
+{
+// 	var nLeft = nexacro.round((this.getOffsetWidth() - this.divMain.getOffsetWidth() ) /2);
+// 	var nTop = nexacro.round((this.getOffsetHeight() - this.divMain.getOffsetHeight() ) /2);
+// 	
+// 	if( nLeft < this.nDivMainTerm ) nLeft = this.nDivMainTerm; 
+// 	if( nTop < this.nDivMainTerm ) nTop = this.nDivMainTerm;
+// 	
+// 	this.divMain.move(nLeft, nTop);
+	this.resetScroll();
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+
+this.frmMain_onkeydown = function(obj:nexacro.Form,e:nexacro.KeyEventInfo)
+{
+
+};
+
+this.frmMain_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+	this.fnGetData();
+	//this.reload();
+};
+
+this.divChart00_ChartJS_cpu_onmouseleave = function(obj:nexacro.Static,e:nexacro.MouseEventInfo)
+{
+
+};
+
+
+this.divAdaptor_btn00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.divDeviceDesc.set_visible(false);
+	this.resetScroll();
+};
+
+
+this.cbo_type03_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnGetItem(obj.value);
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCodeStatus">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">1</Col>
+            <Col id="name">회사</Col>
+          </Row>
+          <Row>
+            <Col id="code">2</Col>
+            <Col id="name">부분</Col>
+          </Row>
+          <Row>
+            <Col id="code">3</Col>
+            <Col id="name">본부</Col>
+          </Row>
+          <Row>
+            <Col id="code">4</Col>
+            <Col id="name">그룹</Col>
+          </Row>
+          <Row>
+            <Col id="code">5</Col>
+            <Col id="name">팀</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsParam1">
+        <ColumnInfo>
+          <Column id="OTHERCO_FLAG" type="string" size="256"/>
+          <Column id="PROJECT_NAME" type="string" size="256"/>
+          <Column id="COMPANY_NAME" type="string" size="256"/>
+          <Column id="DATE_OPTION" type="string" size="256"/>
+          <Column id="PCM" type="string" size="256"/>
+          <Column id="IEL" type="string" size="256"/>
+          <Column id="EMPLOYEE" type="string" size="256"/>
+          <Column id="YEAR_CONTRACT" type="string" size="256"/>
+          <Column id="CORPORATE" type="string" size="256"/>
+          <Column id="FREELANCER" type="string" size="256"/>
+          <Column id="DEVELOPER" type="string" size="256"/>
+          <Column id="LEVEL" type="string" size="256"/>
+          <Column id="ROLE" type="string" size="256"/>
+          <Column id="PRODUCT" type="string" size="256"/>
+          <Column id="STARTDATE" type="string" size="256"/>
+          <Column id="ENDDATE" type="string" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsOutput1">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CO_CD" type="string" size="60"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="60"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="PSE_SEQ" type="bigdecimal" size="20"/>
+          <Column id="FREE_SVC_FLAG" type="string" size="1"/>
+          <Column id="FREE_KIND" type="string" size="4"/>
+          <Column id="LEVEL_CODE" type="string" size="20"/>
+          <Column id="LEVEL_NAME" type="string" size="100"/>
+          <Column id="ROLE_CODE" type="string" size="20"/>
+          <Column id="ROLE_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="EMP_NO" type="string" size="100"/>
+          <Column id="EMP_NAME" type="string" size="255"/>
+          <Column id="CO_KIND" type="string" size="6"/>
+          <Column id="EMP_CO_CD" type="string" size="60"/>
+          <Column id="EMP_CO_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="PURCHASE_TYPE" type="string" size="20"/>
+          <Column id="PURCHASE_TYPE_NAME" type="string" size="100"/>
+          <Column id="START_DATE" type="string" size="8"/>
+          <Column id="END_PLAN_DATE" type="string" size="8"/>
+          <Column id="END_DATE" type="string" size="8"/>
+          <Column id="P_START_DATE" type="string" size="8"/>
+          <Column id="P_END_DATE" type="string" size="8"/>
+          <Column id="INSERT_EMP_NO" type="string" size="60"/>
+          <Column id="INSERT_EMP_NAME" type="string" size="255"/>
+          <Column id="RSSC_REMARKS" type="string" size="1073741823"/>
+          <Column id="PSE_REMARKS" type="string" size="1073741823"/>
+          <Column id="COLOR" type="string" size="4"/>
+          <Column id="COLOR2" type="string" size="255"/>
+          <Column id="UNIT_COST" type="bigdecimal" size="20"/>
+          <Column id="EXPENSE" type="bigdecimal" size="20"/>
+          <Column id="CON_UNIT_COST" type="bigdecimal" size="20"/>
+          <Column id="NONRESIDENT_FLAG" type="string" size="1"/>
+          <Column id="MEN_MONTH" type="bigdecimal" size="8"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsItemMon"/>
+      <Dataset id="dsOutput1_00">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="BUSINESS_TYPE" type="string" size="20"/>
+          <Column id="GOAL" type="bigdecimal" size="20"/>
+          <Column id="RESULT" type="bigdecimal" size="20"/>
+          <Column id="GOAL_Y" type="bigdecimal" size="20"/>
+          <Column id="RESULT_Y" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsItem">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="BUSINESS_TYPE" type="string" size="20"/>
+          <Column id="GOAL" type="bigdecimal" size="20"/>
+          <Column id="RESULT" type="bigdecimal" size="20"/>
+          <Column id="GOAL_Y" type="bigdecimal" size="20"/>
+          <Column id="RESULT_Y" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput2">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="40"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="INDUSTRY" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="120"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CL_01" type="bigdecimal" size="40"/>
+          <Column id="CL_02" type="bigdecimal" size="40"/>
+          <Column id="CL_03" type="bigdecimal" size="40"/>
+          <Column id="CL_04" type="bigdecimal" size="40"/>
+          <Column id="CL_05" type="bigdecimal" size="40"/>
+          <Column id="CL_06" type="bigdecimal" size="40"/>
+          <Column id="CL_07" type="bigdecimal" size="40"/>
+          <Column id="CL_08" type="bigdecimal" size="40"/>
+          <Column id="CL_09" type="bigdecimal" size="40"/>
+          <Column id="CL_10" type="bigdecimal" size="40"/>
+          <Column id="CL_11" type="bigdecimal" size="40"/>
+          <Column id="CL_12" type="bigdecimal" size="40"/>
+          <Column id="CL_H01" type="bigdecimal" size="40"/>
+          <Column id="CL_H02" type="bigdecimal" size="40"/>
+          <Column id="CL_Y" type="bigdecimal" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput2_Copy">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="40"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="INDUSTRY" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="120"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CL_01" type="bigdecimal" size="40"/>
+          <Column id="CL_02" type="bigdecimal" size="40"/>
+          <Column id="CL_03" type="bigdecimal" size="40"/>
+          <Column id="CL_04" type="bigdecimal" size="40"/>
+          <Column id="CL_05" type="bigdecimal" size="40"/>
+          <Column id="CL_06" type="bigdecimal" size="40"/>
+          <Column id="CL_07" type="bigdecimal" size="40"/>
+          <Column id="CL_08" type="bigdecimal" size="40"/>
+          <Column id="CL_09" type="bigdecimal" size="40"/>
+          <Column id="CL_10" type="bigdecimal" size="40"/>
+          <Column id="CL_11" type="bigdecimal" size="40"/>
+          <Column id="CL_12" type="bigdecimal" size="40"/>
+          <Column id="CL_H01" type="bigdecimal" size="40"/>
+          <Column id="CL_H02" type="bigdecimal" size="40"/>
+          <Column id="CL_Y" type="bigdecimal" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput3">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="40"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="INDUSTRY" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="120"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CL_01" type="bigdecimal" size="40"/>
+          <Column id="CL_02" type="bigdecimal" size="40"/>
+          <Column id="CL_03" type="bigdecimal" size="40"/>
+          <Column id="CL_04" type="bigdecimal" size="40"/>
+          <Column id="CL_05" type="bigdecimal" size="40"/>
+          <Column id="CL_06" type="bigdecimal" size="40"/>
+          <Column id="CL_07" type="bigdecimal" size="40"/>
+          <Column id="CL_08" type="bigdecimal" size="40"/>
+          <Column id="CL_09" type="bigdecimal" size="40"/>
+          <Column id="CL_10" type="bigdecimal" size="40"/>
+          <Column id="CL_11" type="bigdecimal" size="40"/>
+          <Column id="CL_12" type="bigdecimal" size="40"/>
+          <Column id="CL_H01" type="bigdecimal" size="40"/>
+          <Column id="CL_H02" type="bigdecimal" size="40"/>
+          <Column id="CL_Y" type="bigdecimal" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsGlobal">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NM" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NM" type="string" size="100"/>
+          <Column id="EMAIL" type="string" size="268"/>
+          <Column id="MOBILE" type="string" size="44"/>
+          <Column id="OFFICE" type="string" size="20"/>
+          <Column id="GRADE_CD" type="string" size="30"/>
+          <Column id="GRADE_NM" type="string" size="100"/>
+          <Column id="DUTY_CD" type="string" size="30"/>
+          <Column id="DUTY_NM" type="string" size="100"/>
+          <Column id="EMP_KIND" type="string" size="255"/>
+          <Column id="CO_CD" type="string" size="30"/>
+          <Column id="CO_NM" type="string" size="100"/>
+          <Column id="LOGIN_SYS" type="string" size="10"/>
+          <Column id="LANGUAGE" type="string" size="10"/>
+          <Column id="MODEL_ID" type="string" size="50"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsChart">
+        <ColumnInfo>
+          <Column id="label" type="STRING" size="256"/>
+          <Column id="start" type="DATE" size="256"/>
+          <Column id="end" type="DATE" size="256"/>
+          <Column id="complete" type="BIGDECIMAL" size="256"/>
+          <Column id="linewidth" type="BIGDECIMAL" size="256"/>
+          <Column id="color" type="STRING" size="256"/>
+          <Column id="bgcolor" type="STRING" size="256"/>
+          <Column id="link" type="STRING" size="256"/>
+          <Column id="org_start" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="label">Saas Project</Col>
+            <Col id="start">20221128</Col>
+            <Col id="end">20230131</Col>
+            <Col id="complete">30</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+          </Row>
+          <Row>
+            <Col id="label">Server Install</Col>
+            <Col id="start">20221128</Col>
+            <Col id="end">20221223</Col>
+            <Col id="complete">50</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+          </Row>
+          <Row>
+            <Col id="label">Install Apache</Col>
+            <Col id="start">20221128</Col>
+            <Col id="end">20221206</Col>
+            <Col id="complete">100</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#79C680,#8EE997,#79C680)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+            <Col id="link">Install Test</Col>
+          </Row>
+          <Row>
+            <Col id="label">Install Tomcat</Col>
+            <Col id="start">20221207</Col>
+            <Col id="end">20221215</Col>
+            <Col id="complete">70</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#79C680,#8EE997,#79C680)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+            <Col id="link">Install Test</Col>
+          </Row>
+          <Row>
+            <Col id="label">Install DB(MySQL)</Col>
+            <Col id="start">20221207</Col>
+            <Col id="end">20221216</Col>
+            <Col id="complete">30</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#d43346:#d95060:#cf747e:#d95060:#d43346)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+            <Col id="link">Install Test</Col>
+          </Row>
+          <Row>
+            <Col id="label">Install Test</Col>
+            <Col id="start">20221219</Col>
+            <Col id="end">20221223</Col>
+            <Col id="complete">30</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#d43346:#d95060:#cf747e:#d95060:#d43346)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+            <Col id="link">Web Source</Col>
+          </Row>
+          <Row>
+            <Col id="label">Deploy</Col>
+            <Col id="start">20221226</Col>
+            <Col id="end">20230131</Col>
+            <Col id="complete">30</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+          </Row>
+          <Row>
+            <Col id="label">Web Source</Col>
+            <Col id="start">20221226</Col>
+            <Col id="end">20230120</Col>
+            <Col id="complete">10</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+            <Col id="link">Was Souce</Col>
+          </Row>
+          <Row>
+            <Col id="label">Was Souce</Col>
+            <Col id="start">20230123</Col>
+            <Col id="end">20230131</Col>
+            <Col id="complete">10</Col>
+            <Col id="linewidth">0</Col>
+            <Col id="color">linear-gradient(to bottom,#1D4E82:#2C69B8:#67A0E1:#2C69B8:#1D4E82)</Col>
+            <Col id="bgcolor">#D1EBF6</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

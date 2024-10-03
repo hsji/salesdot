@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="salesScheduleMgFm" width="870" height="610" titletext="공통코드관리" onload="form_onload">
+    <Layouts>
+      <Layout height="610" mobileorientation="landscape" width="870">
+        <Edit id="edtCustomer" taborder="3" left="149" top="60" width="161" height="24" cssclass="essential" uUse="false" onkeyup="edtCode_onkeyup"/>
+        <Static id="Static00" taborder="0" text="프로젝트" left="25" top="5" height="43" cssclass="sta_WF_Title" right="284"/>
+        <Static id="sta00" taborder="1" text="고객명" left="30" top="60" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Button id="btnSearchCustomer" taborder="2" left="281" top="60" width="28" height="24" cssclass="btn_WF_EdiSch" onclick="btnSearchCustomer_onclick"/>
+        <Static id="sta00_00" taborder="4" text="프로젝트명" left="313" top="58" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtProject" taborder="5" left="433" top="60" height="24" cssclass="essential" right="25"/>
+        <Static id="sta00_01" taborder="6" text="담당자명" left="30" top="92" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtUserNmEng" taborder="7" left="149" top="92" height="24" imemode="alpha" maxlength="30" width="161"/>
+        <Static id="sta00_01_00" taborder="8" text="전화번호" left="313" top="92" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <MaskEdit id="msk00" taborder="9" left="433" top="92" width="130" height="24" type="string" format="###-####-####" oninput="msk00_oninput"/>
+        <Static id="sta00_01_00_00" taborder="10" text="휴대전화번호" left="593" top="92" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <MaskEdit id="msk00_00" taborder="11" left="713" top="92" height="25" type="string" format="###-####-####" right="25"/>
+        <Static id="sta00_01_01" taborder="12" text="이메일" left="30" top="125" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtUserNmEng00" taborder="13" left="149" top="125" height="24" imemode="alpha" width="270"/>
+        <Static id="sta00_01_01_00" taborder="14" text="URL" left="30" top="158" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtUserNmEng00_00" taborder="15" left="149" top="158" height="24" imemode="alpha" width="414"/>
+        <Div id="divUser2" taborder="16" left="149" top="192" width="242" height="24" url="common::cmmUserSearch.xfdl" uEssential="true" cssclass="essential" enable="true"/>
+        <Static id="sta00_01_01_01" taborder="17" text="담당영업" left="30" top="191" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Static id="sta00_01_01_01_00" taborder="18" text="프로젝트구분" left="593" top="155" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Combo id="cboProjectCd" taborder="19" text="cbo00" left="713" top="155" height="24" cssclass="essential" right="25"/>
+        <Static id="sta00_01_01_01_00_00" taborder="20" text="활동상태" left="593" top="188" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Combo id="cboStatus" taborder="21" text="cbo00" left="713" top="188" height="24" cssclass="essential" right="25"/>
+        <WebBrowser id="webEditor" taborder="22" left="150" top="226" right="25" bottom="50" onloadcompleted="divContents_divCont_webEditor_onloadcompleted" onusernotify="divContents_divCont_webEditor_onusernotify" border="1px solid #cccccc"/>
+        <TextArea id="txa00" taborder="23" left="92" top="320" width="28" height="40" visible="false"/>
+        <Static id="sta00_01_01_01_01" taborder="24" text="비고" left="30" top="226" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Button id="btnSave" taborder="25" text="저장" height="28" width="68" fittocontents="width" right="74" top="570" onclick="divButton_btnSave_onclick" cssclass="btn_WF_CrudSave"/>
+        <Button id="btnClose" taborder="26" text="닫기" height="28" width="50" fittocontents="width" right="20" top="570" onclick="divButton_btnClose_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" firefirstcount="0" oncolumnchanged="dsList_oncolumnchanged" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="PRJT_CODE" type="string" size="32"/>
+          <Column id="SALES_USER" type="string" size="32"/>
+          <Column id="CLIENT_NAME" type="string" size="32"/>
+          <Column id="USER_EMAIL" type="string" size="32"/>
+          <Column id="REF_URL" type="string" size="32"/>
+          <Column id="USER_NAME" type="string" size="32"/>
+          <Column id="USER_TEL" type="string" size="32"/>
+          <Column id="KORN_NM" type="string" size="32"/>
+          <Column id="CLIENT_CODE" type="string" size="32"/>
+          <Column id="SALES_TYPE_CODE" type="string" size="32"/>
+          <Column id="REMK" type="string" size="32"/>
+          <Column id="PRJT_NAME" type="string" size="32"/>
+          <Column id="USER_CELL" type="string" size="32"/>
+          <Column id="SALES_STATUS" type="string" size="32"/>
+          <Column id="SALES_USER_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	salesScheduleMgFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/08
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/08			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvRowPositionMain = -1;
+this.fvRowPositionSub  = -1;
+this.pType;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드
+	var param = [
+			  {biztype : "Combo", code : "SM28", objid : this.cboProjectCd}							// 프로젝트구분
+			 , {biztype : "Combo", code : "SM29", objid : this.cboStatus}							// 활동상태
+	];
+	this.pType = this.getOwnerFrame().pType;
+	
+	if(this.pType == "add") {
+		this.dsList.addRow();
+		
+		this.dsList.setColumn(0, "SALES_USER",	this.gfnGetUserInfo("EMP_NO"));
+		this.dsList.setColumn(0, "SALES_USER_NM",	this.gfnGetUserInfo("KORN_NM"));
+	} else if(this.pType == "update") {
+		this.dsList.addRow();
+		this.dsList.copyRow(0, this.opener.dsList, this.getOwnerFrame().pRow);
+		this.btnSearchCustomer.set_enable(false);
+		this.edtCustomer.set_enable(false);
+		this.fnSetTelMask();
+		this.dsList.applyChange();
+	} else {
+		alert("error================");
+		this.close();
+	}
+	this.gfnGetCommonCode(param);
+	
+
+	var oWeb = this.webEditor;
+	this.gfnCreateWebEditor(oWeb);	
+	
+};
+
+this.afterCommCodeLoad = function() {
+	if(this.pType == "add") {
+		this.cboStatus.set_value("100");	// 푸로젝트인지
+		this.cboStatus.set_enable(false);
+	}
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";		//메세지ID
+		var arrArg = [""];							//메세지취환될값 배열[생략가능]
+		var sPopId = "search";						//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";			//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+	
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);	
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	var nRow = this.dsList.addRow();
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsList.rowcount == 0) {
+		return;
+	}
+	this.dsList.deleteRow(this.dsList.rowposition);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if(this.fnValid()){
+		this.gfnAlert("confirm.save", [""], "save", "fnMsgCallback");
+	}
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//master 조회
+this.fnTranSearch = function ()
+{
+	// 조회-대분류
+	this.dsList.clearData();
+
+	var strSvcId    = "searchCustomerList";
+	var strSvcUrl   = "searchCustomerList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	var sCont = "";
+	if(this.webEditor.visible){
+		sCont = this.webEditor.callMethod("getData");	
+	}
+	this.dsList.setColumn(0, "REMK", sCont);
+	
+	var strSvcId    = "saveProjectInfo";
+	var strSvcUrl   = "saveProjectInfo.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchCustomerList":
+			break;
+		case "saveProjectInfo":
+			this.opener.fnTranSearch();
+			this.close();
+			break;
+		default: break;
+	}
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "save":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.fnTranSave();
+			break;
+		default: break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//디테일 - validation
+this.fnValid = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+
+	this.gfnSetValidation(this.dsList, "CLIENT_CODE", "고객 코드"	, "required");
+	this.gfnSetValidation(this.dsList, "CLIENT_NAME", "고객명"	, "required");
+	this.gfnSetValidation(this.dsList, "PRJT_NAME", "프로젝트명"	, "required");
+	this.gfnSetValidation(this.dsList, "SALES_TYPE_CODE", "프로젝트 구분"	, "required");
+	this.gfnSetValidation(this.dsList, "SALES_STATUS", "활동상태"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsList, "U") == false) return false;
+	else return true;
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch(); //조회
+};
+
+this.fnSetTelMask = function(flag) {
+	var tel = this.dsList.getColumn(this.dsList.rowposition, "USER_TEL");
+	var mask = "###-####-####";
+	if(tel) {
+		tel = nexacro.replaceAll(tel," ","");
+		if(tel && tel.length > 0) {
+			if(tel.length == 9) {
+				mask = "##-###-####";
+			} else if(tel.length == 10) {
+				if(tel.substr(0,2) == "02") {
+					mask = "##-###-####";
+				} else {
+					mask = "###-###-####";
+				}
+			}
+		}
+	}
+	
+	this.msk00.set_format(mask);
+	
+	if(flag) {
+		this.dsList.setColumn(this.dsList.rowposition, "USER_TEL", tel);
+	}
+};
+
+this.msk00_oninput = function(obj:nexacro.MaskEdit,e:nexacro.InputEventInfo)
+{
+	obj.set_format("###-####-####");
+};
+
+this.dsList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "USER_TEL") {
+		this.fnSetTelMask(true);
+	}
+};
+
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(this.dsList.getRowType(e.newrow) == Dataset.ROWTYPE_INSERT){
+		this.msk00.set_format("###-####-####");
+	}else{
+		this.fnSetTelMask();
+	}
+};
+
+// 고객조회
+this.btnSearchCustomer_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sTitle  = "고객선택";
+	var oArg    = {};
+	var oOption = {title:sTitle
+				,titlebar:true};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup("orgUserListPu", "sales::cust/customerMgPu.xfdl", oArg, sPopupCallBack, oOption);
+	
+};
+
+this.fnCallBackCustomer = function(custCode, custNm) 
+{
+	this.dsList.setColumn(0, "CLIENT_CODE", custCode);
+	this.dsList.setColumn(0, "CLIENT_NAME", custNm);
+};
+
+this.divContents_divCont_webEditor_onloadcompleted = function(obj:nexacro.WebBrowser,e:nexacro.WebLoadCompEventInfo)
+{
+	
+};
+
+this.divContents_divCont_webEditor_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+	if (e.userdata=="instanceReady" && !this.isLoad){
+		obj.callMethod("init", obj.getOffsetHeight()-20);
+		this.isLoad=true;
+		var sCntn = this.dsList.getColumn(0, "REMK");
+		if(!this.gfnIsNull(sCntn)){
+			this.webEditor.callMethod("setData", sCntn);
+		}
+	}	
+};
+
+this.divButton_btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.fnValid() == false) return;
+	
+	this.fnTranSave();
+};
+
+this.divButton_btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="edtCustomer" propid="value" datasetid="dsList" columnid="CLIENT_NAME"/>
+      <BindItem id="item1" compid="edtProject" propid="value" datasetid="dsList" columnid="PRJT_NAME"/>
+      <BindItem id="item2" compid="edtUserNmEng" propid="value" datasetid="dsList" columnid="USER_NAME"/>
+      <BindItem id="item3" compid="msk00" propid="value" datasetid="dsList" columnid="USER_TEL"/>
+      <BindItem id="item4" compid="msk00_00" propid="value" datasetid="dsList" columnid="USER_CELL"/>
+      <BindItem id="item5" compid="edtUserNmEng00" propid="value" datasetid="dsList" columnid="USER_EMAIL"/>
+      <BindItem id="item6" compid="edtUserNmEng00_00" propid="value" datasetid="dsList" columnid="REF_URL"/>
+      <BindItem id="item7" compid="cboProjectCd" propid="value" datasetid="dsList" columnid="SALES_TYPE_CODE"/>
+      <BindItem id="item8" compid="cboStatus" propid="value" datasetid="dsList" columnid="SALES_STATUS"/>
+      <BindItem id="item40" compid="divUser2.form.edtCode" propid="value" datasetid="dsList" columnid="SALES_USER"/>
+      <BindItem id="item41" compid="divUser2.form.edtName" propid="value" datasetid="dsList" columnid="SALES_USER_NM"/>
+    </Bind>
+  </Form>
+</FDL>

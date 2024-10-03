@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="" xmlns:th="http://www.thymeleaf.org" dir="ltr">
+<head>
+    <meta name="_csrf">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>UbiDocuMaker-Editor</title>
+    <link rel="stylesheet" type="text/css" href="./css/color-picker.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/select2.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/ui/docuEditor.css">
+
+    <script src="./js/jquery-1.9.1.min.js"></script>
+    <script src="./js/pdf_form/flatpickr.min.js"></script>
+    <script src="./js/pdf_form/polyfills.js"></script>
+    <script src="./js/pdf_form/polyfillsIE.js"></script>
+    <script src="./js/pdf_form/snap.svg.js"></script>
+    <script src="./js/pdf_form/snap.svg.free_transform.js"></script>
+    <script src="./js/pdf_form/select2/select2.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf_viewer.js"></script>
+    <script src="./js/pdf_form/pdfjs/grab-to-pan.js"></script>
+    <script src="./js/pdf_form/dist/polly.bundle.js"></script>
+    <script src="./js/pdf_form/dist/templatemod.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/dist/templatemodSass.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/UbiDocuMakerEditor.js"></script>
+    
+    <script type="text/javascript">
+		/* NEXACRO Communication JAVASCRIPT */
+		if (! window.NEXACROHTML) {
+			  window.NEXACROHTML = {};
+		}		
+
+		var pNexacro = null;
+		var bInit = false;
+		var pPDFFileUrl;
+		
+		/*
+		'nexaro webbrowser 호출 여부 체크
+		*/				
+		window.NEXACROHTML.Init = function() {
+			  var loopCnt = 0;
+			  var interval = setInterval(fn = function() {
+			    pNexacro = window.NEXACROWEBBROWSER;
+	      		if(loopCnt >= 10 || pNexacro) {
+		        	bInit = true;
+		    	    clearInterval(interval);
+		    	    
+		    	    if(pNexacro) {
+						window.NEXACROHTML.FireUserNotify({ "EDITTYPE" : "EDIT", "UTYPE" : "INIT", "STATUS" : 0 });
+					}
+		      	}
+			    loopCnt++;
+		  	}, 50);
+		}
+		
+		/*
+		'nexaro에 정보 전달
+		*/				
+		window.NEXACROHTML.FireUserNotify = function(userdata) {
+		    if(bInit == false) {
+		        var loopCnt = 0;
+		        var interval = setInterval(fn = function() {		
+				        if (loopCnt > 10 || bInit) {
+					          clearInterval(interval);
+				        }
+		  		      loopCnt++;
+			      }, 50);
+		  	}
+			var strData = JSON.stringify(userdata);
+			if (pNexacro) 
+			{		
+				pNexacro.on_fire_onusernotify(pNexacro, strData);
+			} 
+			else if (typeof nexacro == "undefined") //windows runtime
+			{			
+				window.document.title = strData;
+			}
+			else if (nexacro) //mobile runtime 
+			{
+				nexacro.fireUserNotify(strData);	
+			} 			
+		}
+		
+		// LOAD됨을 NEXACRO에 알림 
+		window.onload = function() {
+			window.NEXACROHTML.Init();
+		};
+		
+		/*
+		'nexaro에서 문서 호출
+		*/		
+		function openDoc(pdfFileName, dataFileName, strPdfInfo) {
+		
+			var appUrl = self.location.protocol + '//' + self.location.host;
+			pPDFFileUrl  	= appUrl + '/resource/orgPdf/' 	+ pdfFileName;		//원본pdf
+			var jsonDataUrl = appUrl + '/resource/jsonFile/'+ dataFileName;	//원본json
+      			
+			var pInfo 		= JSON.parse(strPdfInfo);
+			var userInfo 	= pInfo.userInfo   || []; 		//참여자정보
+			var fieldInfo 	= pInfo.fieldInfo  || [];
+			var signOption 	= pInfo.signOption || {'useDrawSign': 'true', 'useImageSign': 'true', 'useRegSign': 'true'};
+			
+			var jsonData = null;
+			
+			//pdf 파일 읽는 라이브러리 경로 지정.
+			pdfjsLib.GlobalWorkerOptions.workerSrc = './js/pdf_form/pdfjs/pdf.worker.min.js';
+			
+			//UbiDocuMaker의 ROOT DOM지정
+			let DOM = document.querySelector('body div ');
+			
+			//텍스트 프로퍼티 js파일 지정.
+			templatemod.changeTranslatorFileLocation('./js/pdf_form/i18n/');
+			
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', jsonDataUrl, true);
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			
+			xhr.onreadystatechange = function() {
+			
+			  if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 404)) {
+				if (xhr.status === 200) {
+				  try {
+					jsonData = JSON.parse(xhr.responseText);
+			
+					if (jsonData.pdfFileUrl != undefined && jsonData.pdfFileUrl != '')
+					  pPDFFileUrl = jsonData.pdfFileUrl;
+				  } catch (e) {}
+				} else if (xhr.status === 404) {
+				}
+			
+				/* UbiDocuMaker Editor 시작 함수
+			
+				인자1. ROOT dom
+				인자2. PDF경로
+				인자3. 서명 참여자 정보 (displayUserName: 참여자이름 , userUUID: 참여자 고유값 , isFormer: N(=참여자)
+				인자4. 필드 정보 (사용X)
+				인자5. 서명아이템(sign) 등록된서명 탭 보임/안보임 옵션 데이터
+				인자6. 초기 JSON 데이터(null이면 필드 그리지 X)
+				 */
+				templatemod.initDocument(DOM, pPDFFileUrl, userInfo, fieldInfo, signOption, jsonData);
+				window.NEXACROHTML.FireUserNotify({ "EDITTYPE" : "EDIT", "UTYPE" : "LOAD", "STATUS" : xhr.status, "PDFFILE" : pPDFFileUrl });
+			  }
+			};
+			xhr.send(null);
+			return templatemod;
+		};
+		
+		/*
+		'편집 내용 저장' 버튼
+		*/
+		function jsonSave() {
+			window.NEXACROHTML.FireUserNotify({ "EDITTYPE" : "EDIT", "UTYPE" : "SAVE", "STATUS" : 0 });
+		};
+		
+		/*
+		'편집 내용 저장시 nexacro에서 호출 하는 함수
+		*/
+		function getJsonData() {
+			console.log("%%%%==================================================");	
+			console.log("%%%%==================================================", templatemod);
+			console.log("%%%%==================================================", templatemod.getJsonData());
+        	var jsonData = JSON.parse(templatemod.getJsonData());
+        	jsonData.pdfFileUrl = pPdfUrl;		
+        	console.log("%%%%", JSON.stringify(jsonData));	
+			return JSON.stringify(jsonData);
+		}
+		
+		/*
+		'편집 버튼 VISIBLE 처리
+		*/
+		function arrangeButton(objData) {
+			var elem;
+			var pData = JSON.parse(objData);
+			pData = pData.btn;
+			var arrId = ["labelFieldTool", "textFieldTool",  "multilineFieldTool", "imageFieldTool", "signFieldTool",
+						 "checkFieldTool", "radioFieldTool", "comboFieldTool",     "dateFieldTool",  "numberFieldTool"];
+			for(var i=0,len=pData.length;i<len;i++) {
+				elem = document.getElementById(arrId[i]);
+				if(pData[i] == true) {
+					elem.style.visibility = "visible";
+				} else {
+					elem.style.visibility = "hidden";
+				}
+			}
+		};
+		
+		/*
+		'TITLE
+		*/
+		function setTitle(title) {
+			var elem = document.querySelector("MAIN-TITLE");
+			if(elem) {
+				elem.innerHTML = "<span>" + title + "</span>";
+			}
+		};		
+		
+	</script>	
+</head>
+<body>
+<div id="udmEditorDiv" style="width: 100%; height: 100%;">
+    <!-- Editor 화면 dom 들어올 자리 -->
+</div>
+</body>
+</html>

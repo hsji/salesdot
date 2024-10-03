@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XCSS version="1.1">
+  <CSSData><![CDATA[/***********************************************************************/
+/***** PROJECT NAME : 투비소프트 템플릿			********/
+/***** CREATION DATES : 2020. 12				********/
+/***** DRAFTER : TOBESOFT 					********/
+/***** DISTRIBUTION DATE : 					********/
+/***** 1st AMENDER : 						********/
+/***** 1st MODIFICATION DATE : 					********/
+/***********************************************************************/
+/***** TitleBarControl *****/
+.TitleBarControl,
+.TitleBarControl[status=deactivate],.TitleBarControl[status=disabled]
+{
+	background 		: #3A3C43;
+}
+.TitleBarControl .titleicon,
+.TitleBarControl .titleicon[status=mouseover],.TitleBarControl .titleicon[status=deactivate],
+.TitleBarControl .titleicon[status=disabled]
+{
+	-nexa-padding 		: 0px 0px 0px 16px;
+	color 			: #ffffff;
+	font 			: bold 14px "Malgun Gothic";
+}
+.TitleBarControl .minbutton,
+.TitleBarControl .minbutton[status=focused],.TitleBarControl .minbutton[userstatus=selected],
+.TitleBarControl .minbutton[status=deactivate]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_Min.png");
+}
+.TitleBarControl .minbutton[status=mouseover],.TitleBarControl .minbutton[userstatus=pushed]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_MinO.png");
+}
+.TitleBarControl .minbutton[status=disabled]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_MinD.png");
+}
+.TitleBarControl .maxbutton,
+.TitleBarControl .maxbutton[status=focused],.TitleBarControl .maxbutton[userstatus=selected],
+.TitleBarControl .maxbutton[status=deactivate]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_MaxO.png");
+}
+.TitleBarControl .maxbutton[status=mouseover],.TitleBarControl .maxbutton[userstatus=pushed]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_Max.png");
+}
+.TitleBarControl .maxbutton[status=disabled]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_MaxD.png");
+}
+.TitleBarControl .normalbutton,
+.TitleBarControl .normalbutton[status=focused],.TitleBarControl .normalbutton[userstatus=selected],
+.TitleBarControl .normalbutton[status=deactivate]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_Normal.png");
+}
+.TitleBarControl .normalbutton[status=mouseover],.TitleBarControl .normalbutton[userstatus=pushed]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_NormalO.png");
+}
+.TitleBarControl .normalbutton[status=disabled]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_NormalD.png");
+}
+.TitleBarControl .closebutton,
+.TitleBarControl .closebutton[status=focused],.TitleBarControl .closebutton[userstatus=selected],
+.TitleBarControl .closebutton[status=deactivate]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_Close.png");
+}
+.TitleBarControl .closebutton[status=mouseover],.TitleBarControl .closebutton[userstatus=pushed]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_CloseO.png");
+}
+.TitleBarControl .closebutton[status=disabled]
+{
+	-nexa-icon 		: URL("theme://images/tib_WF_CloseD.png");
+}
+/***** DatePickerControl *****/
+.DatePickerControl
+{
+	-nexa-border 		: 1px solid #646982;
+	background 		: #ffffff;
+}
+.DatePickerControl .head
+{
+	background 		: #ffffff;
+	color 			: #333333;
+	font 			: bold 14px "Malgun Gothic";
+}
+.DatePickerControl .head .prevbutton,
+.DatePickerControl .head .prevbutton[status=focused]
+{
+	-nexa-icon 		: URL("theme://images/cal_WF_PreBtn.png");
+}
+.DatePickerControl .head .prevbutton[status=mouseover],.DatePickerControl .head .prevbutton[userstatus=pushed],
+.DatePickerControl .head .prevbutton[userstatus=selected]
+{
+	-nexa-icon 		: URL("theme://images/cal_WF_PreBtnO.png");
+}
+.DatePickerControl .head .prevbutton[status=disabled]
+{
+	-nexa-icon 		: URL("theme://images/cal_WF_PreBtnD.png");
+}
+.DatePickerControl .head .nextbutton,
+.DatePickerControl .head .nextbutton[status=focused]
+{
+	-nexa-icon 		: URL("theme://images/cal_WF_NxtBtn.png");
+}
+.DatePickerControl .head .nextbutton[status=mouseover],.DatePickerControl .head .nextbutton[userstatus=pushed],
+.DatePickerControl .head .nextbutton[userstatus=selected]
+{
+	-nexa-icon 		: URL("theme://images/cal_WF_NxtBtnO.png");
+}
+.DatePickerControl .head .nextbutton[status=disabled]
+{
+	-nexa-icon 		: URL("theme://images/cal_WF_NxtBtnD.png");
+}
+.DatePickerControl .head .yearstatic
+{
+	font 			: bold 14px "Malgun Gothic";
+}
+.DatePickerControl .body
+{
+	background 		: #ffffff;
+}
+.DatePickerControl .body .weekband
+{
+	background 		: #f7f8fa;
+}
+.DatePickerControl .body .weekitem
+{
+	color 			: #666666;
+}
+.DatePickerControl .body .weekitem[userstatus=saturday]
+{
+	color 			: #239cf0;
+}
+.DatePickerControl .body .weekitem[userstatus=sunday]
+{
+	color 			: #ee5555;
+}
+.DatePickerControl .body .dayitem
+{
+	color 			: #333333;
+}
+.DatePickerControl .body .dayitem[status=mouseover]
+{
+	background 		: #e4f0fe;
+}
+.DatePickerControl .body .dayitem[userstatus=selected]
+{
+	background 		: #38c2d8;
+	color 			: #ffffff;
+	font 			: bold 13px "Malgun Gothic";
+}
+.DatePickerControl .body .dayitem[userstatus=day]
+{
+	color 			: #333333;
+}
+.DatePickerControl .body .dayitem[userstatus=today]
+{
+	background 		: #3683e2;
+	color 			: #ffffff;
+	font 			: bold 13px "Malgun Gothic";
+}
+.DatePickerControl .body .dayitem[userstatus=saturday]
+{
+	color 			: #239cf0;
+}
+.DatePickerControl .body .dayitem[userstatus=sunday]
+{
+	color 			: #ee5555;
+}
+.DatePickerControl .body .dayitem[userstatus=trailingday]
+{
+	color 			: #aaaaaa;
+}]]></CSSData>
+  <Predefines/>
+</XCSS>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="" xmlns:th="http://www.thymeleaf.org" dir="ltr">
+<head>
+    <meta name="_csrf">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>UbiDocuMaker-Editor</title>
+    <link rel="stylesheet" type="text/css" href="./css/color-picker.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/select2.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/ui/docuEditor.css">
+
+    <script src="./js/jquery-1.9.1.min.js"></script>
+    <script src="./js/pdf_form/flatpickr.min.js"></script>
+    <script src="./js/pdf_form/polyfills.js"></script>
+    <script src="./js/pdf_form/polyfillsIE.js"></script>
+    <script src="./js/pdf_form/snap.svg.js"></script>
+    <script src="./js/pdf_form/snap.svg.free_transform.js"></script>
+    <script src="./js/pdf_form/select2/select2.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf_viewer.js"></script>
+    <script src="./js/pdf_form/pdfjs/grab-to-pan.js"></script>
+    <script src="./js/pdf_form/dist/polly.bundle.js"></script>
+    <script src="./js/pdf_form/dist/templatemod.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/dist/templatemodSass.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/UbiDocuMakerEditor.js"></script>
+<!--    <script src="./js/ui/docuEditor.js"></script>-->
+
+    <script type="text/javascript">
+
+      var appUrl = self.location.protocol + '//' + self.location.host;
+      var urlParams = new URL(location.href).searchParams;
+      var uploadFileName = urlParams.get('uploadFileName');
+      var jsonSaveUrl = '/docuJsonSave';//API
+      var uuid = 'uuid_' + Date.now();//사용자고유Key
+      var biz_no = '';//업무코드
+      
+      var pOpen = false; //FileUpload 화면 보임 여부
+      var pLoad = false; //불러오기 여부
+
+      var urlParams = new URL(location.href).searchParams;
+      if(!isEmpty(urlParams.get('uuid'))) {
+    	  uuid = urlParams.get('uuid');
+    	  pOpen = true;
+      }
+      if(!isEmpty(urlParams.get('uu'))) {
+    	  pLoad = true;
+      }
+      
+      //var pdfUrl = appUrl + '/pdfView?uploadFileName=' + uploadFileName;//원본pdf
+      var pdfUrl = appUrl + '/pdfView?uuid=' + uuid;//원본pdf
+      var jsonUrl = null;//원본json
+
+      var jsonData = null;
+      var mailStep = false;
+
+      let userList = [
+        {
+          'displayUserName': '수신자',
+          'userUUID': uuid,
+          'isFormer': 'N'
+        }
+      ];
+      
+      userList = [
+          {
+              "displayUserName": "작성자",
+              "userAddr": "서울",
+              "userUUID": "16af08b3-c7a5-4ff5-905c-2f2514541b0d",
+              "email": "test1@email.com",
+              "isFormer": "Y"
+          },
+          {
+              "displayUserName": "참여자",
+              "userAddr": "서울",
+              "userUUID": uuid,
+              "email": "test2@email.com",
+              "isFormer": "N"
+          }, 
+      ];
+
+      let signtabShowOption =
+          {
+            "useDrawSign": "true",
+            "useImageSign": "true",
+            "useRegSign": "true"
+          };
+
+      // UbiDocuMakerEditor 초기화 파라미터
+      var udm_param = {
+        "targetId": "udmEditorDiv",
+        "pdfUrl": pdfUrl,
+        "jsonUrl": jsonUrl,
+        "userList": userList,
+        "signtabShowOption": signtabShowOption
+      };
+
+
+
+      window.onload = function() {
+
+        //UbiDocuMakerEditor의 생성자를 호출하여 UbiDocuMakerEditor 객체 udmEditor를 만듭니다.
+        var udmEditor = new UbiDocuMakerEditor(udm_param);
+
+        udmEditor.open();
+
+        // udmEditor.open()가 실행된 후에 추가적인 스크립트 파일을 로드합니다.
+        var docuEditorScript = document.createElement('script');
+        docuEditorScript.src = './js/ui/docuEditor.js';
+        document.head.appendChild(docuEditorScript);
+      };
+
+    </script>
+</head>
+<body>
+<div id="udmEditorDiv" style="width: 100%; height: 100%;">
+    <!-- Editor 화면 dom 들어올 자리 -->
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+<head>
+    <meta name="_csrf">
+    <meta charset="utf-8">
+    <title>UbiDocuMaker-Viewer</title>
+    <link rel="stylesheet" type="text/css" href="./css/color-picker.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/select2.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/ui/docuViewer.css">
+    <script src="./js/jquery-1.9.1.min.js"></script>
+    <script src="./js/jquery-ui-1.10.3.min.js"></script>
+    <script src="./js/pdf_form/fabric.js"></script>
+    <script src="./js/pdf_form/flatpickr.min.js"></script>
+    <script src="./js/pdf_form/polyfills.js"></script>
+    <script src="./js/pdf_form/polyfillsIE.js"></script>
+    <script src="./js/pdf_form/snap.svg.js"></script>
+    <script src="./js/pdf_form/snap.svg.free_transform.js"></script>
+    <script src="./js/pdf_form/TweenMax.min.js"></script>
+    <script src="./js/pdf_form/select2/select2.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf_viewer.js"></script>
+    <script src="./js/pdf_form/pdfjs/grab-to-pan.js"></script>
+    <script src="./js/pdf_form/dist/polly.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/dist/readermod.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/dist/readermodSass.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/UbiDocuMakerViewer.js"></script>
+    <script src="./js/ui/docuViewer.js"></script>
+    <script type="text/javascript">
+
+      var urlParams = new URL(location.href).searchParams;
+      var uuid = urlParams.get('p');
+      var f = urlParams.get('f');
+      var u = urlParams.get('u');
+      var q = urlParams.get('q');
+      var r = urlParams.get('r');
+      var sq = urlParams.get('sq');
+      var sr = urlParams.get('sr');
+
+      var appUrl = self.location.protocol + '//' + self.location.host;
+
+      var pdfUrl = appUrl + '/pdfView?uuid=' + f;
+      if(!isEmpty(u)) {
+    	  pdfUrl = pdfUrl + '&u=' + u;
+     }
+      var jsonUrl = appUrl + '/ubidocumaker/resource/jsonFile/' + uuid + '/edit.json';
+      var pdfSaveUrl = '/docuPdfSave';//API
+      const imageUrls = [
+        "https://www.ubireport.com/images/logo.jpg",
+        "/ubidocumaker/image/ubistamp01.png",
+        "/ubidocumaker/image/ubistamp02.png",
+        // ... 추가 이미지 URL
+      ];
+      var regStampJson = '/ubidocumaker/resource/jsonFile/' + uuid + '/regStamp.json';
+      var jsonData = null;
+
+      window.onload = function() {
+
+        // UbiDocuMakerViewer 초기화 파라미터
+        var udm_param = {
+          "targetId": "udmViewerDiv",
+          "pdfUrl": pdfUrl,
+          "jsonUrl": jsonUrl,
+          "imageUrls": imageUrls,
+        };
+
+        //UbiDocuMakerViewer의 생성자를 호출하여 UbiDocuMakerViewer의 객체 udmViewer를 만듭니다.
+        var udmViewer = new UbiDocuMakerViewer(udm_param);
+
+        //udmViewer.setUDMservletUrl("http://192.168.1.38:5500/");
+        udmViewer.open();
+      };
+
+    </script>
+
+</head>
+<body id="udmViewerDiv">
+<!-- Viewer 화면 dom 들어올 자리 -->
+</body>
+</html>

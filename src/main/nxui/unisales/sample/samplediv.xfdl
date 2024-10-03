@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="samplediv" width="1280" height="800" titletext="New Form" onvscroll="samplediv_onvscroll" onload="samplediv_onload">
+    <Layouts>
+      <Layout height="800" width="1280">
+        <Button id="btn00" taborder="1" text="btn00" left="67" top="127" width="1095" height="415"/>
+        <Button id="btn00_00" taborder="2" text="btn00" left="70" top="570" width="1095" height="415"/>
+        <Button id="btn00_00_00" taborder="3" text="btn00" left="75" top="1010" width="1095" height="415"/>
+        <Button id="btn00_00_00_00" taborder="4" text="btn00" left="75" top="1480" width="1095" height="415"/>
+        <Button id="btn00_00_00_00_00" taborder="5" text="btn00" left="75" top="1950" width="1095" height="415"/>
+        <Button id="btn00_00_00_00_00_00" taborder="6" text="btn00" left="75" top="2410" width="1095" height="415"/>
+        <Button id="btn00_00_00_00_00_00_00" taborder="7" text="btn00" left="73" top="2883" width="1095" height="415"/>
+        <Div id="div00" taborder="0" text="div00" left="0" top="0" height="50" right="0" url="frame::frmTop.xfdl"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.samplediv_onvscroll = function(obj:nexacro.Form,e:nexacro.ScrollEventInfo)
+{
+	console.log(e);
+	console.log(this);
+	console.log(this.div00);
+
+};
+
+this.samplediv_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+
+	
+ 	var div = this.div00._control_element.handle;
+	div.style.position = "fixed";
+	console.log(div);
+// 	console.log(div);
+// 	div.addEventListener("wheel", zoom);
+// 	div.onscroll = zoom;	
+};
+]]></Script>
+  </Form>
+</FDL>

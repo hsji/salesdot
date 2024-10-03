@@ -1,0 +1,1046 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="statusOP" width="1080" height="1210" titletext="MainFrame" onload="form_onload" onsize="form_onsize" cssclass="frm_WF_Frame" onkeydown="frmMain_onkeydown" ontimer="frmMain_ontimer">
+    <Layouts>
+      <Layout height="1210" width="1080">
+        <Div id="divChart" taborder="0" left="0.65%" top="39" cssclass="div_MF_part" height="321" right="10">
+          <Layouts>
+            <Layout>
+              <ChartJS id="ChartJS_vm" taborder="1" top="10" text="ChartJS00" left="10" right="10" bottom="10" onmouseleave="divChart00_ChartJS_cpu_onmouseleave"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta00" taborder="1" text="월별 매출 현황" left="10" top="9" width="329" height="30" cssclass="sta_WF_SchLabel"/>
+        <Static id="sta00_00" taborder="2" text="항목별 월 매출 현황" left="10" top="366" width="329" height="30" cssclass="sta_WF_SchLabel"/>
+        <Div id="divChart00" taborder="3" left="0.56%" top="398" cssclass="div_MF_part" height="312" right="10">
+          <Layouts>
+            <Layout>
+              <ChartJS id="ChartJS_vm" taborder="1" top="10" text="ChartJS00" left="10" right="10" bottom="10" onmouseleave="divChart00_ChartJS_cpu_onmouseleave"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta00_00_00" taborder="4" text="업종별 월 매출 현황" left="10" top="716" width="329" height="30" cssclass="sta_WF_SchLabel"/>
+        <Div id="divChart00_00" taborder="5" left="0.28%" top="748" cssclass="div_MF_part" height="392" right="10">
+          <Layouts>
+            <Layout>
+              <ChartJS id="ChartJS_vm" taborder="1" top="10" text="ChartJS00" left="10" right="10" bottom="10" onmouseleave="divChart00_ChartJS_cpu_onmouseleave"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	statusVM1.xfdl
+*  @Creator 	
+*  @CreateDate 	
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj);
+	this.fnGetData();	// onsize에서 처리됨.
+};
+
+// 전체 DATA 가져오기
+this.fnGetData = function()
+{
+	this.fnGetMonth();
+	this.fnGetIndustry();
+};
+
+
+//max size 변경
+this.form_onsize = function(obj:nexacro.Form,e:nexacro.SizeEventInfo)
+{
+
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+/**
+ * 구성도 서비스 호출
+ * @return N/A
+ */
+this.fvGoalCnt = 0;
+this.fnGetMonth = function()
+{
+	this.gfnInitNextGlobalDataset(this.dsGlobal);
+	
+	// POST http://next.tobesoft.com/FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=SR_SalesResultAnalysis_S03&format=xml&version=xplatform&compress=false HTTP/1.1
+	var year = this.gfnGetDate("year");
+	var preyear = (parseInt(year) - 1) + "";
+	this.dsParam1.setColumn(0, "YEAR", year);
+	this.dsParam1.setColumn(0, "PRE_YEAR", preyear);
+	this.dsParam1.setColumn(0, "START_MM", "01");
+	this.dsParam1.setColumn(0, "END_MM", "12");
+	//this.dsParam1.setColumn(0, "BUSINESS_TYPE", "U");
+	this.dsParam1.setColumn(0, "BUSINESS_TYPE", null);
+	this.dsParam1.setColumn(0, "CONTRACT_TYPE", "S");
+	
+	var strSvcId 	= "month";
+	var strSvcUrl 	= "nextService.do";
+	var inData 		= "dsGlobal=dsGlobal:A dsParam=dsParam1:A";
+	var outData 	= "dsOutput1=dsOutput";
+	var strArg 		= "jobCode=" + nexacro.wrapQuote("next");
+	strArg 			+= " trxCode=" + nexacro.wrapQuote("month");
+	strArg 			+= " trxUrl=" + nexacro.wrapQuote("FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=SR_SalesResultAnalysis_S03&format=xml&version=xplatform&compress=false");
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, "fnCallback");
+};
+
+this.fnGetIndustry = function()
+{
+	//POST http://next.tobesoft.com/FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_TargetVsResults_S01&format=xml&version=xplatform&compress=false HTTP/1.1
+	var year = this.gfnGetDate("year");
+	var preyear = (parseInt(year) - 1) + "";	
+	this.dsParam1.setColumn(0, "YEAR", preyear);
+	this.dsParam1.setColumn(0, "TYPE", "CONTRACT");
+	this.dsParam1.setColumn(0, "FORMAT", "CLIENT");
+	this.dsParam1.setColumn(0, "DEPT_LEVEL", "1");
+	this.dsParam1.setColumn(0, "END_MONTH", preyear + "12");
+	
+	var strSvcId 	= "salesman";
+	var strSvcUrl 	= "nextService.do";
+	var inData 		= "dsGlobal=dsGlobal:A dsParam=dsParam1:A";
+	var outData 	= "dsOutput2=dsOutput";
+	var strArg 		= "jobCode=" + nexacro.wrapQuote("next");
+	strArg 			+= " trxCode=" + nexacro.wrapQuote("salesman");
+	strArg 			+= " trxUrl=" + nexacro.wrapQuote("FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_SalesMonthly_S01&format=xml&version=xplatform&compress=false");
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, "fnCallback");
+
+	this.dsParam1.setColumn(0, "YEAR", year);
+	this.dsParam1.setColumn(0, "TYPE", "CONTRACT");
+	this.dsParam1.setColumn(0, "FORMAT", "CLIENT");
+	this.dsParam1.setColumn(0, "DEPT_LEVEL", "1");
+	this.dsParam1.setColumn(0, "END_MONTH", year + "12");
+	
+	var strSvcId 	= "salesmancur";
+	var strSvcUrl 	= "nextService.do";
+	var inData 		= "dsGlobal=dsGlobal:A dsParam=dsParam1:A";
+	var outData 	= "dsOutput3=dsOutput";
+	var strArg 		= "jobCode=" + nexacro.wrapQuote("next");
+	strArg 			+= " trxCode=" + nexacro.wrapQuote("salesmancur");
+	strArg 			+= " trxUrl=" + nexacro.wrapQuote("FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_SalesMonthly_S01&format=xml&version=xplatform&compress=false");
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, "fnCallback");
+
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fv_industrycnt = 0;
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg, oJson)
+{
+	switch(sSvcId) {
+		case "month":
+			this.fnMonthChart();
+			this.fnSetOp();
+			this.fnDOp(this.divChart00.form.ChartJS_vm, this.fvOp, this.fvOpName, this.fvMax, 480);
+			break;			
+		case "salesman":
+		case "salesmancur":
+			this.fv_industrycnt++;
+			if(this.fv_industrycnt >=2) {
+				this.fv_industrycnt = 0;
+				this.fnIndustryList();
+			}		
+			break;					
+		default:
+			break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+// Goal
+this.fnMonthChart = function()
+{
+	var chart = this.divChart.form.ChartJS_vm;
+	var canvas = chart.getCanvas();
+	var cvs = canvas.id;
+	DxChart.reset(canvas);
+
+	var arrData = [];
+	var label = [];
+	var labelsInbarSpecificSum = [];
+	var mon = "";
+	var amt, goal, preamt, pregoal;
+	for(var i=1;i<=12;i++) {
+	
+		mon = (i+"").padLeft(2,"0") + "월";
+
+		//goal = this.dsOutput1.getSum("GOAL_AMOUNT");
+		amt = this.dsOutput1.getCaseSum("MM=='" + mon + "'", "RESULT_AMOUNT").valueOf();
+		//pregoal = this.dsOutput1.getSum("PRE_GOAL_AMOUNT");
+		preamt = this.dsOutput1.getCaseSum("MM=='" + mon + "'", "PRE_RESULT_AMOUNT").valueOf();
+		arrData[i-1] = [preamt.formatWon(), amt.formatWon()];
+		labelsInbarSpecificSum.push(preamt.formatWon()+"억");
+		labelsInbarSpecificSum.push(amt.formatWon()+"억");
+		label[i-1] = (i + "월");
+	}
+	
+	var year = this.gfnGetDate("year");
+	var preyear = (parseInt(year) - 1) + "";
+	
+	var arrColor2 = ["#4cabf4","#fbdd15"];
+	
+	var nW = this.divChart.getOffsetWidth() - 10;
+	var nChartLeft = chart.getOffsetLeft();
+	
+    var options = {
+                backgroundGrid: false,
+                xaxisLabels: label,
+                //colors: arrColor2,
+                shadowUse: true,
+				shadowStyle: '3 0 0 #aaaaaa',
+                colorsStroke: 'rgba(0,0,0,0)',
+				marginTop:             5,
+				marginBottom:          20,
+				marginLeft:            30,
+				marginRight:           5,
+				marginInner : 30,
+				corners : 'round',
+				labelsIngraph : labelsInbarSpecificSum,
+				yaxisLabelsCount : 1,
+				yaxisLabelsFontStyle : '9px noto',
+				xaxisLabelsFontStyle : '9px noto',
+				xaxisColor : this.gfnChartColor("axis"),
+				xaxisLabelsColor :this.gfnChartColor("axislabel"),
+				yaxisLabelsColor :this.gfnChartColor("axislabel"),
+				labelsIngraphFontStyle: '8px noto',
+				labelsIngraphColor: this.gfnChartColor("axislabel"),
+				labelsIngraphBold : true,
+				yaxisUse : true,
+				title : '',
+                marginInnerGrouped: 1,
+				keyData: 					[preyear+"년", year+"년"],
+						keyTextFontStyle : '10px noto',
+						keyPosition: 'margin',
+						keyLabelsFontStyle: 'bold 10px noto',	
+						keyPositionX : 			chart.getOffsetWidth() - 230,
+						keyPositionY : 			20,
+						keyLabelsColor : this.gfnChartColor("axislabel"),
+				tooltipsData: '',
+				tooltipsFormattedKeyLabels: ['작년 : ','올해 : '],
+				//tooltipsFormattedKeyColors : arrColor2,
+				tooltipsEvent: 'mousemove'	
+            };
+	tooltips = [];
+	for(var i=0,len=arrData.length;i<len;i++) {
+		var a = arrData[i];
+		if(!a) a = [0,0];
+		tooltips.push('<span style="font-size: 9pt;">' + label[i] + '</span>%{key}');
+		tooltips.push('<span style="font-size: 9pt;">' + label[i] + '</span>%{key}');
+	}
+	if(arrData.length == 0) {
+		options.backgroundImageX = oChart.getOffsetWidth()/2 - 30;
+		options.backgroundImageY = oChart.getOffsetHeight()/2 - 10;
+		options.backgroundImage = './images/grd_NODATA.png';
+		options.backgroundImageStretch = false;
+	} else {
+		options.backgroundImage = null;
+	}
+	
+	options.tooltips = tooltips;
+    var nodechart = new DxChartBar({
+            id: cvs,
+			elem : canvas,
+            data: arrData,
+            options: options
+         }).draw();
+};
+
+this.fvOp = [];
+this.fvOpName = {};
+this.fvMax = 0;
+this.fnSetOp = function() {
+	this.fvOp = [];
+	this.fvOpName = {};
+	this.fvMax = 0;	
+	
+	var rowcnt = this.dsOutput1.rowcount;
+	var CAPTION, MM, nMM;
+	var objData, objDatamm, objDataval;
+	var val1, val2;
+	
+	var year = this.gfnGetDate("year");
+	var preyear = (parseInt(year) - 1) + "";
+	
+	for(var i=0;i<rowcnt;i++) {
+		CAPTION = this.dsOutput1.getColumn(i, "CAPTION");
+		if(this.fvOp.indexOf(CAPTION)<0) {
+			this.fvOp.push(CAPTION);
+			this.fvOpName[CAPTION] = {"mm" : [], "val" : []};
+		}
+		MM = this.dsOutput1.getColumn(i, "MM");
+		nMM = parseInt(MM.replace("월", ""));
+		objData = this.fvOpName[CAPTION];
+		objDatamm = objData.mm;
+		objDataval = objData.val;
+		val1 = this.dsOutput1.getColumn(i, "PRE_RESULT_AMOUNT").valueOf();
+		val2 = this.dsOutput1.getColumn(i, "RESULT_AMOUNT").valueOf();
+		
+		objData.mm[nMM-1] = val1.formatWon();
+		objData.mm[nMM+11] = val2.formatWon();
+		objData.val[nMM-1] = preyear + "/" + nMM;
+		objData.val[nMM+11] = year + "/" + nMM;
+		
+		this.fvMax = Math.max(this.fvMax, val1.formatWon(), val2.formatWon());
+	}
+};
+
+this.fnDOp = function(chart, fvOp, fvOpName, fvMax, sMargin) {
+	var colorlist = ['#e76630','#4cabf4','#fbdd15','#ec4c7e','#b643e0','#3c4ae0','#32ec66','#e69733','#e76630'];
+	var data = [];
+	var tooltip = [];
+	var sName,val;
+	var xaxislabel = [];
+	var keys = [];
+	var colors = [];
+	for(var i=0;i<fvOp.length;i++) {
+		sName = fvOp[i];
+		data.push(fvOpName[sName].mm);
+		val = fvOpName[sName].val;
+		for(var j=0;j<val.length;j++) {
+			tooltip.push('<i>' + sName + ' ' + val[j] + ':</i><br /><br />' + fvOpName[sName].mm[j] + "<br />" + "%{key}");
+			if(i == 0) {
+				if(j%2==1) {
+					xaxislabel.push(val[j]);
+				} else {
+					xaxislabel.push("");
+				}
+			}
+		}
+		keys.push(sName);
+		colors.push(colorlist[i]);
+	}
+
+	var canvas = chart.getCanvas();
+	var cvs = canvas.id;
+	DxChart.reset(canvas);
+
+    var Line =  new DxChartLine({
+            id: cvs,
+			elem : canvas,
+            data: data,
+            options: {
+				keyData: 					keys,
+						keyTextSize : 10,
+						keyPosition: 'margin',
+						keyLabelsFontStyle: 'bold 10px noto',	
+						keyPositionX : 			chart.getOffsetWidth() - sMargin,
+						keyPositionY : 			20,
+						keyLabelsColor : this.gfnChartColor("axislabel"),			
+                lineWidth: 2,
+                backgroundGridVlines: false,
+                backgroundGridBorder: false,
+                backgroundGridHlinesCount: 4,
+                xaxisUse: false,
+                yaxisUse: false,
+                yaxisScaleMax: parseInt(fvMax) + 1,
+                yaxisScaleMin: 0,
+                yaxisLabelsCount: 4,
+				tickmarksStyle: 'filledcircle',
+				tickmarksSize: 3,				
+                //tickmarksStyle: true,
+                shadowUse: false,
+                marginRight: 50,
+                marginTop: 50,
+                marginLeft: 50,
+                colors: colors,
+                tooltipsData: tooltip,
+                highlightStyle: 'halo',
+                xaxisLabels: xaxislabel,
+				xaxisLabelsColor: this.gfnChartColor("axislabel"),
+				xaxisLabelsSize : 8,		
+				yaxisLabelsColor: this.gfnChartColor("axislabel"),
+				yxisLabelsSize : 8,					
+                tooltipsPointer: true,
+                //tooltipsPositionStatic: false,
+				tooltipsFormattedKeyLabels : keys,
+				//tooltipsFormattedKeyColors : colors,
+                tooltipsCss: {
+                    backgroundColor:'white',
+                    color:          'black',                
+                    textAlign:      'left',
+                    border:         '2px solid blue'
+                }
+            }
+        }).draw();
+	
+};
+
+this.fnIndustryList = function() {
+	this.dsOutput2_Copy.clearData();
+	this.dsOutput2_Copy.addColumn("YEAR", "string", 10);
+
+	var year = this.gfnGetDate("year");
+	var preyear = (parseInt(year) - 1) + "";	
+	
+	// 작년
+	this.dsOutput2_Copy.set_enableevent(false);
+	this.dsOutput2.set_keystring("S:+INDUSTRY");
+	var INDUSTRY, svINDUSTRY, nRow, val,mon;
+	for(var i=0,len=this.dsOutput2.rowcount;i<len;i++) {
+		INDUSTRY = this.dsOutput2.getColumn(i, "INDUSTRY");
+		if(INDUSTRY != svINDUSTRY) {
+			nRow = this.dsOutput2_Copy.addRow();
+			this.dsOutput2_Copy.setColumn(nRow, "INDUSTRY", INDUSTRY);
+			this.dsOutput2_Copy.setColumn(nRow, "YEAR", preyear);
+		}
+		for(var j=1;j<=12;j++) {
+			mon = (j+"").padLeft(2, "0");
+			colName = "CL_" + mon;
+			val = this.dsOutput2_Copy.getColumn(nRow, colName);
+			if(!val) val = 0;
+			this.dsOutput2_Copy.setColumn(nRow, colName, val + this.dsOutput2.getColumn(i, colName));
+		}
+		svINDUSTRY = INDUSTRY;
+	}
+	svINDUSTRY = "";
+	this.dsOutput3.set_keystring("S:+INDUSTRY");
+	for(var i=0,len=this.dsOutput3.rowcount;i<len;i++) {
+		INDUSTRY = this.dsOutput3.getColumn(i, "INDUSTRY");
+		if(INDUSTRY != svINDUSTRY) {
+			nRow = this.dsOutput2_Copy.addRow();
+			this.dsOutput2_Copy.setColumn(nRow, "INDUSTRY", INDUSTRY);
+			this.dsOutput2_Copy.setColumn(nRow, "YEAR", year);
+		}
+		for(var j=1;j<=12;j++) {
+			mon = (j+"").padLeft(2, "0");
+			colName = "CL_" + mon;
+			val = this.dsOutput2_Copy.getColumn(nRow, colName);
+			if(!val) val = 0;
+			this.dsOutput2_Copy.setColumn(nRow, colName, val + this.dsOutput3.getColumn(i, colName));
+		}
+		svINDUSTRY = INDUSTRY;
+	}
+	this.dsOutput2_Copy.set_enableevent(true);
+	var a = this.fnSetOp2();
+	this.fnDOp(this.divChart00_00.form.ChartJS_vm, a[0], a[1], a[2], 800);
+};
+
+this.fnSetOp2 = function() {
+	var rowcnt = this.dsOutput2_Copy.rowcount;
+	var CAPTION;
+	var objData;
+	var val1;
+	
+	var fvOp2 = [];
+	var fvOpName2 = {};
+	var fvMax2 = 0;	
+	
+	var year = this.gfnGetDate("year");
+	var preyear = (parseInt(year) - 1) + "";
+	var mon, colName;
+	var addval = 0;
+	for(var i=0;i<rowcnt;i++) {
+		CAPTION = this.dsOutput2_Copy.getColumn(i, "INDUSTRY");
+		if(fvOp2.indexOf(CAPTION)<0) {
+			fvOp2.push(CAPTION);
+			fvOpName2[CAPTION] = {"mm" : [], "val" : []};
+		}
+		if(this.dsOutput2_Copy.getColumn(i, "YEAR") == year) addval = 12;
+		else addval = 0;
+		objData = fvOpName2[CAPTION];
+		for(var j=1;j<=12;j++) {
+			mon = (j+"").padLeft(2, "0");
+			colName = "CL_" + mon;		
+			val1 = this.dsOutput2_Copy.getColumn(i, colName).valueOf();
+			objData.mm[j + addval - 1] = val1.formatWon();
+			objData.val[j + addval - 1] = this.dsOutput2_Copy.getColumn(i, "YEAR") + "/" + j;
+			fvMax2 = Math.max(fvMax2, val1.formatWon());
+		}
+	}
+	return [fvOp2, fvOpName2, fvMax2];
+};
+
+this.fnSales = function() {
+
+	//--------------------------------------------------------------------
+	// CPU
+	//--------------------------------------------------------------------
+	var len = 5;
+	var rowcount = this.dsOutput1.rowcount-1;
+	var chartdatas = [];
+	var labels = [];
+	var tooltips = [];
+	var nMax = 0;	
+	var name, used;
+
+	var svlabel;
+	for(var i=0; i<len; i++) {
+		if(i>rowcount) {
+			chartdatas.push(0);
+			labels.push("");
+			tooltips.push("");
+		} else {
+			name = this.dsOutput1.getColumn(i, "TYPE_NM");
+			used = nexacro.toNumber(this.dsOutput1.getColumn(i, valCol).valueOf().toFixed(2));
+			used = used.formatWon();
+			chartdatas.push(used);
+			labels.push(name);
+			tooltips.push('<b>' + name + '</b>%{key}');
+			nMax = Math.max(nMax, used);		
+			
+			svlabel = this.fnResourceTop5Status(i, this.dsOutput1.getColumn(i, "TYPE"), valCol);
+		}
+	}
+	
+	var canvas = chart.getCanvas();
+	var cvs = canvas.id;
+	DxChart.reset(canvas);
+	
+	var nH = chart.getOffsetHeight() - 60;
+	var nOneGap = (nH / labels.length) * 0.3;
+	
+	nMax = nMax + 5;
+	var data1dummy = [];
+ 	for(var i=0;i<chartdatas.length;i++) {
+ 		data1dummy.push(nMax);
+ 	}
+	this.gfnTop5Chart(chart, chartdatas, data1dummy, labels, tooltips, nMax, "억");
+	
+	var oTgtDiv;
+	if(valCol == "PRE_RESULT_Y") {
+		oTgtDiv = this.divChart01_00;
+	} else {
+		oTgtDiv = this.divChart01;
+	}
+	
+	var param = {
+				xaxisUse : true,
+				shadowUse: false,
+				xaxisLabels: svlabel,		
+				marginBottom: 40,
+				marginLeft: 0,
+				marginRight: 0,
+				marginTop: 0,
+				filledUse: false,
+				xaxisTickmarks : true,
+				tooltips : ''
+	};		
+	var options = this.gfnGetRChartOption("line", "fill1", param);
+	var oChart = oTgtDiv.form["ChartJS_cpu6"];
+	var canvas = oChart.getCanvas();
+	var oDiv = oChart.getDiv();
+	var oDivId = oDiv.id;
+	var cvs = canvas.id;	
+	if(oDiv.__svg__) {
+		var svg = oDiv.__svg__;
+		RGraph.SVG.reset(svg);
+		oDiv.__svg__ = null;
+	}
+	var dummydatas 	= [];
+	var myChart = new DxChartLine({
+            id: cvs,
+			elem : canvas,
+		data: dummydatas,
+		options: options
+	}).draw();			
+};
+
+
+// resource CPU - 금일통계
+this.fnResourceTop5Status = function (idx, type, valCol)
+{
+	this.dsItemMon.filter("CD_CODE=='" + type + "'");
+
+
+	var arrTarget, oTgtDiv, tgtCol;
+	if(valCol == "PRE_RESULT_Y") {
+		oTgtDiv = this.divChart01_00;
+		tgtCol  = "PRE_RESULT_AMOUNT";
+	} else {
+		oTgtDiv 	= this.divChart01;
+		tgtCol  = "RESULT_AMOUNT";
+	}
+	var rowcnt = this.dsItemMon.rowcount;
+	var len = 5;
+	
+	var obj, objCpus, objCpu, oSub;
+	var date = new Date();
+	
+	var chartdatas 	= [];
+	var dummydatas 	= [];
+	var labels 		= [];
+	var tooltips 	= [];
+	var nDivCnt 	= 0;
+	var colors_fill = this.gfnChartSeriesColorArray("0.4");
+	var colors 		= this.gfnChartSeriesColorArrayNew();
+	var colorsHexa 	= this.gfnChartSeriesColorArrayHexa();
+	var nMax 		= 0;
+	var name 		= "";
+
+	var oChart = oTgtDiv.form["ChartJS_cpu" + (idx+1)];
+	var canvas = oChart.getCanvas();
+	var cvs = canvas.id;
+	var amt;
+	for(var i=0; i<len; i++) {
+		name = this.dsItemMon.getColumn(i, "CAPTION");
+		if(i>0 && (i%3==0)) {
+			labels.push(this.dsItemMon.getColumn(i, "MM"));
+		} else {
+			labels.push("");
+		}
+		amt = this.dsItemMon.getColumn(i, tgtCol);
+		if(!amt) amt = 0;
+		else amt = amt.valueOf().formatWon();
+		
+		nMax = Math.max(nMax, amt);
+		
+		chartdatas.push(amt);
+		tooltips.push('<b>' + name  + '</b><br/>'+this.dsItemMon.getColumn(i, "MM")+'%{key}');
+	}
+
+	nMax = nMax + 2;
+	var param = {
+				//backgroundColor : colors_fill[i], 
+				shadowUse: false,
+				xaxisUse: false,
+				xaxisLabels: labels,	
+				yaxisUse: false,
+				yaxisScaleMax : nMax,
+				marginBottom: 0,
+				marginLeft: 0,
+				marginRight: 0,
+				marginTop: 0,
+				tooltipsData : tooltips,
+				lineWidth: 2,
+				tooltipsFormattedUnitsPost : "억",
+				tooltipsFormattedKeyColors : [colorsHexa[idx]],
+				title : '',
+				titleY : 15,
+				titleSize : 8,
+				colors: [colors[idx],'transparent']
+	};
+	var options = this.gfnGetRChartOption("line", "fill1", param);
+	// CPU
+	var oChart = oTgtDiv.form["ChartJS_cpu" + (idx+1)];
+	//oChart.set_border("1px solid " + colors[i]);
+	var canvas = oChart.getCanvas();
+	var cvs = canvas.id;
+
+	var myChart = new RGraph.SVG.Line({
+            id: cvs,
+			elem : canvas,
+		data: chartdatas,
+		options: options
+	}).draw();		
+
+	return labels;
+};
+
+
+//main div 가운데정렬
+this.fnDivMainResize = function ()
+{
+// 	var nLeft = nexacro.round((this.getOffsetWidth() - this.divMain.getOffsetWidth() ) /2);
+// 	var nTop = nexacro.round((this.getOffsetHeight() - this.divMain.getOffsetHeight() ) /2);
+// 	
+// 	if( nLeft < this.nDivMainTerm ) nLeft = this.nDivMainTerm; 
+// 	if( nTop < this.nDivMainTerm ) nTop = this.nDivMainTerm;
+// 	
+// 	this.divMain.move(nLeft, nTop);
+	this.resetScroll();
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+
+this.frmMain_onkeydown = function(obj:nexacro.Form,e:nexacro.KeyEventInfo)
+{
+};
+
+this.frmMain_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+	this.fnGetData();
+	//this.reload();
+};
+
+this.divChart00_ChartJS_cpu_onmouseleave = function(obj:nexacro.Static,e:nexacro.MouseEventInfo)
+{
+
+};
+
+this.cbo_type01_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var v1 = this.cbo_type01.value;
+	var v2 = this.cbo_type02.value;
+	var v3 = this.cbo_type03.value;
+	var filterstr = "";
+	if(v1 != "all") {
+		filterstr = "(root_code=='" + v1 + "')";
+	}
+	if(v2 != "all") {
+		if(filterstr != "") filterstr += "&&";
+		filterstr += "(parent_code=='" + v2 + "')";
+	}
+	if(v3 != "all") {
+		if(filterstr != "") filterstr += "&&";
+		filterstr += "(state_code=='" + v3 + "')";
+	}
+	this.dsVMs.filter(filterstr);
+	
+	if(obj.name == "cbo_type01") {
+		if(v1 == "all") {
+			this.dsCodeHost.filter("");
+			this.cbo_type02.set_index(0);
+		} else {
+			this.dsCodeHost.filter("(code=='all')||(pcode=='" + v1 + "')");
+		}
+	}
+	this.dsVMs.set_rowposition(0);
+	this.dsVMs.set_rowposition(-1);
+};
+
+this.fvDivShowCnt = 0;
+
+// Adaptor data set
+this.fnCalcAdaptor = function(row) {
+	this.dsVMAdapter.clearData();
+	this.dsVMAdapter.set_enableevent(false);
+	var adapters = this.dsVMs.getColumn(row, "adapters");
+	
+	var oAdapters = JSON.parse(adapters);
+	var nRow, adapter;
+	for(var i=0,len=oAdapters.length;i<len;i++) {
+		adapter = oAdapters[i];
+		console.log(adapter);
+		nRow = this.dsVMAdapter.addRow();
+		this.dsVMAdapter.setColumn(nRow, "connected", adapter.connected);
+		this.dsVMAdapter.setColumn(nRow, "gateway", adapter.gateway);
+		this.dsVMAdapter.setColumn(nRow, "ip", adapter.ip);
+		this.dsVMAdapter.setColumn(nRow, "mac", adapter.mac);
+		this.dsVMAdapter.setColumn(nRow, "name", adapter.name);
+		this.dsVMAdapter.setColumn(nRow, "state_code", adapter.state_code);
+		this.dsVMAdapter.setColumn(nRow, "index_num", adapter.index_num);
+		this.dsVMAdapter.setColumn(nRow, "subnet_mask", adapter.subnet_mask);
+	}
+	this.dsVMAdapter.set_rowposition(0);
+	this.dsVMAdapter.set_enableevent(true);
+	this.divAdaptor.form.sta00.set_text("      " + this.dsVMs.getColumn(row, "name"));
+};
+
+
+// Storage data set
+this.fnCalcStorage = function(row) {
+	this.dsVMStorage.clearData();
+	this.dsVMStorage.set_enableevent(false);
+	var storages = this.dsVMs.getColumn(row, "storage");
+	
+	var oStorage = JSON.parse(storages);
+	var nRow, storage;
+	for(var i=0,len=oStorage.length;i<len;i++) {
+		storage = oStorage[i];
+		nRow = this.dsVMStorage.addRow();
+		this.dsVMStorage.setColumn(nRow, "disk_total", storage.disk_total);
+		this.dsVMStorage.setColumn(nRow, "disk_usage", storage.disk_usage);
+		this.dsVMStorage.setColumn(nRow, "disk_used", storage.disk_used);
+		this.dsVMStorage.setColumn(nRow, "fs", storage.fs);
+		if(storage.volumes && storage.volumes[0]) {
+			this.dsVMStorage.setColumn(nRow, "name", storage.name + " ["+ storage.volumes[0].name + "]");
+		} else {
+			this.dsVMStorage.setColumn(nRow, "name", storage.name);
+		}
+		this.dsVMStorage.setColumn(nRow, "state_code", storage.state_code);
+		this.dsVMStorage.setColumn(nRow, "type_code", storage.type_code);
+	}
+	
+	this.dsVMStorage.set_enableevent(true);
+	this.dsVMStorage.set_rowposition(0);
+};
+
+
+// Disk data set
+this.fnCalcDisk = function(row) {
+	this.dsVMDisk.clearData();
+	this.dsVMDisk.set_enableevent(false);
+	var disks = this.dsVMs.getColumn(row, "disk");
+	
+	var oDisks = JSON.parse(disks);
+	var nRow, disk;
+	for(var i=0,len=oDisks.length;i<len;i++) {
+		disk = oDisks[i];
+		nRow = this.dsVMDisk.addRow();
+		this.dsVMDisk.setColumn(nRow, "provisioning", disk.provisioning);
+		this.dsVMDisk.setColumn(nRow, "size_gb", disk.size_gb);
+		this.dsVMDisk.setColumn(nRow, "name", disk.name);
+	}	
+	this.dsVMDisk.set_enableevent(true);
+	this.dsVMDisk.set_rowposition(0);
+};
+// adaptor , storage
+this.grd00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col == 6) {	// adaptors
+		this.fnCalcAdaptor(e.row);
+		this.fnCalcStorage(e.row);
+		this.fnCalcDisk(e.row);
+		//var h = this.getOffsetHeight();
+		this.divAdaptor.setOffsetTop(this.div00.getOffsetTop() - (this.divAdaptor.getOffsetHeight()/2));
+		this.divAdaptor.set_visible(true);
+		this.resetScroll();
+	}
+};
+
+this.divAdaptor_btn00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.divAdaptor.set_visible(false);
+	this.resetScroll();
+};
+
+
+this.btnexcel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objGrid = this.div00.form.grd00; 
+	
+	//var name = this.dsNodesCopy.getColumn(this.dsNodesCopy.rowposition, "name");
+	var sSheetName = "nodelist" + "!A1";  
+
+	var sFileName = "nodelist.xlsx";
+	this.gfnExportExcelJS(objGrid, sSheetName, sFileName);		
+};
+
+this.grd00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var ds = obj.getBindDataset();
+	var title = ds.getColumn(e.row, "name") + " Detail";
+	var code = ds.getColumn(e.row, "code");
+	var type_code = ds.getColumn(e.row, "type_code");
+	this.gfnOpenVMPopup(title, code, type_code);		
+};
+
+this.cbo_type03_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnGetItem(obj.value);
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCodeStatus">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">1</Col>
+            <Col id="name">회사</Col>
+          </Row>
+          <Row>
+            <Col id="code">2</Col>
+            <Col id="name">부분</Col>
+          </Row>
+          <Row>
+            <Col id="code">3</Col>
+            <Col id="name">본부</Col>
+          </Row>
+          <Row>
+            <Col id="code">4</Col>
+            <Col id="name">그룹</Col>
+          </Row>
+          <Row>
+            <Col id="code">5</Col>
+            <Col id="name">팀</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsParam1">
+        <ColumnInfo>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="PRE_YEAR" type="STRING" size="256"/>
+          <Column id="START_MM" type="STRING" size="256"/>
+          <Column id="END_MM" type="STRING" size="256"/>
+          <Column id="BUSINESS_TYPE" type="STRING" size="256"/>
+          <Column id="PRE_YEAR2" type="STRING" size="256"/>
+          <Column id="DEPT_LEVEL" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="PRICE" type="STRING" size="256"/>
+          <Column id="KIND" type="STRING" size="256"/>
+          <Column id="UNIT" type="STRING" size="256"/>
+          <Column id="TYPE" type="STRING" size="256"/>
+          <Column id="FORMAT" type="STRING" size="256"/>
+          <Column id="END_MONTH" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsOutput1">
+        <ColumnInfo>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="MM" type="string" size="2"/>
+          <Column id="GOAL_AMOUNT" type="bigdecimal" size="20"/>
+          <Column id="RESULT_AMOUNT" type="bigdecimal" size="20"/>
+          <Column id="PRE_GOAL_AMOUNT" type="bigdecimal" size="20"/>
+          <Column id="PRE_RESULT_AMOUNT" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsItemMon"/>
+      <Dataset id="dsOutput1_00">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="BUSINESS_TYPE" type="string" size="20"/>
+          <Column id="GOAL" type="bigdecimal" size="20"/>
+          <Column id="RESULT" type="bigdecimal" size="20"/>
+          <Column id="GOAL_Y" type="bigdecimal" size="20"/>
+          <Column id="RESULT_Y" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsItem">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="BUSINESS_TYPE" type="string" size="20"/>
+          <Column id="GOAL" type="bigdecimal" size="20"/>
+          <Column id="RESULT" type="bigdecimal" size="20"/>
+          <Column id="GOAL_Y" type="bigdecimal" size="20"/>
+          <Column id="RESULT_Y" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput2">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="40"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="INDUSTRY" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="120"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CL_01" type="bigdecimal" size="40"/>
+          <Column id="CL_02" type="bigdecimal" size="40"/>
+          <Column id="CL_03" type="bigdecimal" size="40"/>
+          <Column id="CL_04" type="bigdecimal" size="40"/>
+          <Column id="CL_05" type="bigdecimal" size="40"/>
+          <Column id="CL_06" type="bigdecimal" size="40"/>
+          <Column id="CL_07" type="bigdecimal" size="40"/>
+          <Column id="CL_08" type="bigdecimal" size="40"/>
+          <Column id="CL_09" type="bigdecimal" size="40"/>
+          <Column id="CL_10" type="bigdecimal" size="40"/>
+          <Column id="CL_11" type="bigdecimal" size="40"/>
+          <Column id="CL_12" type="bigdecimal" size="40"/>
+          <Column id="CL_H01" type="bigdecimal" size="40"/>
+          <Column id="CL_H02" type="bigdecimal" size="40"/>
+          <Column id="CL_Y" type="bigdecimal" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput2_Copy">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="40"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="INDUSTRY" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="120"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CL_01" type="bigdecimal" size="40"/>
+          <Column id="CL_02" type="bigdecimal" size="40"/>
+          <Column id="CL_03" type="bigdecimal" size="40"/>
+          <Column id="CL_04" type="bigdecimal" size="40"/>
+          <Column id="CL_05" type="bigdecimal" size="40"/>
+          <Column id="CL_06" type="bigdecimal" size="40"/>
+          <Column id="CL_07" type="bigdecimal" size="40"/>
+          <Column id="CL_08" type="bigdecimal" size="40"/>
+          <Column id="CL_09" type="bigdecimal" size="40"/>
+          <Column id="CL_10" type="bigdecimal" size="40"/>
+          <Column id="CL_11" type="bigdecimal" size="40"/>
+          <Column id="CL_12" type="bigdecimal" size="40"/>
+          <Column id="CL_H01" type="bigdecimal" size="40"/>
+          <Column id="CL_H02" type="bigdecimal" size="40"/>
+          <Column id="CL_Y" type="bigdecimal" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput3">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="40"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="INDUSTRY" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="120"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CL_01" type="bigdecimal" size="40"/>
+          <Column id="CL_02" type="bigdecimal" size="40"/>
+          <Column id="CL_03" type="bigdecimal" size="40"/>
+          <Column id="CL_04" type="bigdecimal" size="40"/>
+          <Column id="CL_05" type="bigdecimal" size="40"/>
+          <Column id="CL_06" type="bigdecimal" size="40"/>
+          <Column id="CL_07" type="bigdecimal" size="40"/>
+          <Column id="CL_08" type="bigdecimal" size="40"/>
+          <Column id="CL_09" type="bigdecimal" size="40"/>
+          <Column id="CL_10" type="bigdecimal" size="40"/>
+          <Column id="CL_11" type="bigdecimal" size="40"/>
+          <Column id="CL_12" type="bigdecimal" size="40"/>
+          <Column id="CL_H01" type="bigdecimal" size="40"/>
+          <Column id="CL_H02" type="bigdecimal" size="40"/>
+          <Column id="CL_Y" type="bigdecimal" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsGlobal">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NM" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NM" type="string" size="100"/>
+          <Column id="EMAIL" type="string" size="268"/>
+          <Column id="MOBILE" type="string" size="44"/>
+          <Column id="OFFICE" type="string" size="20"/>
+          <Column id="GRADE_CD" type="string" size="30"/>
+          <Column id="GRADE_NM" type="string" size="100"/>
+          <Column id="DUTY_CD" type="string" size="30"/>
+          <Column id="DUTY_NM" type="string" size="100"/>
+          <Column id="EMP_KIND" type="string" size="255"/>
+          <Column id="CO_CD" type="string" size="30"/>
+          <Column id="CO_NM" type="string" size="100"/>
+          <Column id="LOGIN_SYS" type="string" size="10"/>
+          <Column id="LANGUAGE" type="string" size="10"/>
+          <Column id="MODEL_ID" type="string" size="50"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

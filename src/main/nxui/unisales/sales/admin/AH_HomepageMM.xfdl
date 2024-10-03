@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AH_HomepageMM" width="1280" height="720" titletext="홈페이지관리" onload="AH_HomepageMM_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Tab id="tab_HomepageMM" taborder="0" tabindex="0" left="8" top="8" right="8" bottom="8">
+          <Tabpages>
+            <Tabpage id="tpg_BoardList" text="게시판" url="Admin::AH_BoardList.xfdl"/>
+            <Tabpage id="tpg_QuestionList" text="문의" url="Admin::AH_QuestionList.xfdl"/>
+            <Tabpage id="tpg_QuestionManagerList" text="문의담당자" url="Admin::AH_QuestionManagerList.xfdl"/>
+            <Tabpage id="tpg_Dev" text="체험판다운/라이선스" url="Admin::AH_DevList.xfdl"/>
+            <Tabpage id="tpg_MenuList" text="메뉴관리" url="Admin::AH_MenuList.xfdl"/>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 홈페이지관리
+ * 02. 화면명   : 홈페이지관리(AH_HomepageMM)
+ * 03. 화면설명 : 홈페이지관리
+ * 04. 작성일   : 2022.09.13
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_WebEditor.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_AUTH = "";
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.AH_HomepageMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnAuthConfig();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+//권한처리
+this.fnAuthConfig = function()
+{
+	if (this.commUtil.getFormAuthority(325,1)) /*	전체 권한	*/
+	{	
+		this.FV_AUTH = "ALL";
+	}
+	else if (this.commUtil.getFormAuthority(325,4)) /*	공시/IR/PR 권한	- 마케팅팀 권한 중복(2,4)으로 인해 순서변경처리*/
+	{	
+		this.FV_AUTH = "IR";
+	}
+	else if (this.commUtil.getFormAuthority(325,2)) /*	사업전략팀 권한	*/
+	{	
+		this.FV_AUTH = "BS";
+	}
+	else if (this.commUtil.getFormAuthority(325,3)) /*	회계 권한	*/
+	{	
+		this.FV_AUTH = "ACT";
+	}
+	else if (this.commUtil.getFormAuthority(325,5)) /*	인사총무팀 권한	*/
+	{	
+		this.FV_AUTH = "HR";
+	}
+	this.fnSetTabpage(this.FV_AUTH);
+};
+
+this.fnSetTabpage = function(sAuth)
+{
+	if(sAuth != "ALL") {
+		// 순서 중요 3 : 메뉴관리
+		this.tab_HomepageMM.removeTabpage(4);
+	}
+	if(sAuth != "ALL" && sAuth != "BS" && sAuth != "IR") {
+		// 순서 중요 3 : 체험판 다운로드/라이선스  2 : 문의담당자 1 : 문의
+		this.tab_HomepageMM.removeTabpage(3);
+		this.tab_HomepageMM.removeTabpage(2);
+		this.tab_HomepageMM.removeTabpage(1);
+	} 
+	
+};
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+]]></Script>
+  </Form>
+</FDL>

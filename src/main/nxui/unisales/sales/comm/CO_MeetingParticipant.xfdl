@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CO_MeetingParticipant" width="313" height="488" titletext="New Form">
+    <Layouts>
+      <Layout height="488" mobileorientation="landscape" width="313">
+        <Static id="stc_GbDetailInfoText" taborder="0" text="상세정보" left="-910" width="928" height="15" cssclass="sta_POP_GroupTit" bottom="57"/>
+        <Static id="stc_GbDetailInfo" taborder="1" left="0" height="31" cssclass="sta_POP_GroupBg" text="" top="1" right="1"/>
+        <Static id="stc_GbDetailInfoText00" taborder="2" text="주최자" left="11" width="112" height="15" cssclass="sta_POP_GroupTit" top="9"/>
+        <Static id="stc_GbDetailInfo00" taborder="3" left="0" height="31" cssclass="sta_POP_GroupBg" text="" top="71" right="1"/>
+        <Static id="stc_GbDetailInfoText01" taborder="4" text="참석자" left="11" width="112" height="15" cssclass="sta_POP_GroupTit" top="80"/>
+        <Grid id="grd_host" taborder="5" left="0" top="32" right="1" autofittype="col" binddataset="ds_cc" bottom="stc_GbDetailInfo00:0" autosizingtype="none">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="36"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="bind:EMP_NM"/>
+                <Cell col="1" text="bind:DEPT_NM"/>
+                <Cell col="2" text="bind:CAPTION"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_guest" taborder="6" left="0" height="386" right="1" binddataset="ds_bcc" top="stc_GbDetailInfo00:0" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="bind:EMP_NM"/>
+                <Cell col="1" text="bind:DEPT_NM"/>
+                <Cell col="2" text="bind:CAPTION"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분	: 공통 - 공통
+ * 02. 화면명		: 조직도 - 회의참석자 (CO_MeetingParticipant)
+ * 03. 화면설명	: 조직도(Organization)화면에서 div_list 에 연결되는 화면 -  회의 참석자 선택
+ * 04. 작성일		: 2021.11.11
+ * 05. 작성자		: 박종언
+ * 06. 수정이력	:
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *     
+************************************************************************************************/
+
+/************************************************************************************************
+ * FORM 영역
+************************************************************************************************/
+this.CO_MeetingParticipant_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+}
+
+/************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.grd_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	var objDs = this.lookup(obj.binddataset);
+	
+	objDs.deleteRow(e.row);
+}]]></Script>
+    <Objects/>
+  </Form>
+</FDL>

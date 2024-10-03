@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CO_EmailAddress" width="313" height="479" titletext="New Form" onload="CO_EmailAddress_onload">
+    <Layouts>
+      <Layout height="479" mobileorientation="landscape" width="313">
+        <Static id="stc_GbHiddenReference" taborder="0" left="0" height="31" cssclass="sta_POP_GroupBg" text="" top="334" right="0"/>
+        <Static id="stc_GbDetailInfoText" taborder="1" text="상세정보" left="-910" width="928" height="15" cssclass="sta_POP_GroupTit" bottom="57"/>
+        <Static id="stc_GbReceiver" taborder="2" left="0" height="31" cssclass="sta_POP_GroupBg" text="" top="0" right="0"/>
+        <Static id="stc_GbReceiverText" taborder="3" text="받는사람" left="11" width="112" height="15" cssclass="sta_POP_GroupTit" top="9"/>
+        <Static id="stc_GbReference" taborder="4" height="31" cssclass="sta_POP_GroupBg" text="" top="183" left="0" right="0"/>
+        <Static id="stc_GbReferenceText" taborder="5" text="참조" left="11" width="112" height="15" cssclass="sta_POP_GroupTit" top="192"/>
+        <Static id="stc_GbHiddenReferenceText" taborder="6" text="숨은참조" left="11" width="112" height="15" cssclass="sta_POP_GroupTit" top="343"/>
+        <Grid id="grd_To" taborder="7" left="0" top="32" autofittype="col" binddataset="ds_to" oncelldblclick="grd_oncelldblclick" height="153" right="0" cellmovingtype="col" cellsizingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="86"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="이름"/>
+                <Cell col="1" text="이메일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:EMP_NM"/>
+                <Cell col="1" text="bind:EMAIL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Cc" taborder="8" left="0" top="214" right="0" autofittype="col" binddataset="ds_cc" oncelldblclick="grd_oncelldblclick" height="121" cellmovingtype="col" cellsizingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="86"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="이름"/>
+                <Cell col="1" text="이메일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:EMP_NM"/>
+                <Cell col="1" text="bind:EMAIL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Bcc" taborder="9" left="0" right="0" autofittype="col" binddataset="ds_bcc" oncelldblclick="grd_oncelldblclick" top="363" height="116" cellmovingtype="col" cellsizingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="86"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="이름"/>
+                <Cell col="1" text="이메일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:EMP_NM"/>
+                <Cell col="1" text="bind:EMAIL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[include "Script::CommGrid.xjs"; 
+
+this.CO_EmailAddress_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+};
+
+this.grd_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var objDs = this.lookup(obj.binddataset);
+	objDs.deleteRow(e.row);
+};
+
+
+
+
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="SC_CompanyBizStaffSearchMM" width="968" height="608" titletext="New Form" cssclass="frm_popBg" onload="SC_CompanyBizStaffSearchMM_onload">
+    <Layouts>
+      <Layout height="608" mobileorientation="landscape" width="968">
+        <Static id="stc_BottomFrame" taborder="0" left="1" height="38" right="2" bottom="2" cssclass="sta_POP_BtnBg" text=""/>
+        <Button id="btn_Exit" taborder="1" text="닫기" cssclass="btn_WF_tran" onclick="comm_Click" top="576" left="899" width="60" height="22"/>
+        <Button id="btn_Close" taborder="2" top="9" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="comm_Click" escapebutton="true"/>
+        <Grid id="grd_CompanyBizStaffSearch01" taborder="3" left="5" top="40" width="245" height="524" autofittype="col" binddataset="dsOutput" oncellclick="grd_CompanyBizStaffSearch01_oncellclick" cellsizingtype="col" cellmovingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="186"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="NO"/>
+                <Cell col="1" text="담당영업"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow + 1"/>
+                <Cell col="1" text="bind:EMP_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_CompanyBizStaffSearch02" taborder="4" left="257" top="40" width="706" height="524" autofittype="col" binddataset="dsOutput2" oncelldblclick="grd_CompanyBizStaffSearch02_oncelldblclick" cellsizingtype="col" cellmovingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="81"/>
+                <Column size="81"/>
+                <Column size="102"/>
+                <Column size="185"/>
+                <Column size="93"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="고객사"/>
+                <Cell col="1" text="계약처"/>
+                <Cell col="2" text="계약번호"/>
+                <Cell col="3" text="계약명"/>
+                <Cell col="4" text="계약일"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:CLIENT_FLAG"/>
+                <Cell col="1" displaytype="checkboxcontrol" edittype="checkbox" text="bind:COMPANY_FLAG"/>
+                <Cell col="2" text="bind:CONTRACT_NO"/>
+                <Cell col="3" text="bind:CONTRACT_NAME"/>
+                <Cell col="4" text="bind:CONTRACT_DATE" displaytype="mask" maskedittype="string" maskeditformat="####-##-##"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00" taborder="5" text="담당영업사원" left="8" top="5" width="120" height="22" color="white" cssclass="sta_POP_Title "/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsOutput" onrowposchanged="dsOutput_onrowposchanged">
+        <ColumnInfo>
+          <Column id="EMP_NAME" type="STRING" size="255"/>
+          <Column id="HOLD_OFFICE_FLAG" type="STRING" size="255"/>
+          <Column id="EMP_NO" type="STRING" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput2">
+        <ColumnInfo>
+          <Column id="EMP_NAME" type="STRING" size="255"/>
+          <Column id="EMP_NO" type="STRING" size="255"/>
+          <Column id="HOLD_OFFICE_FLAG" type="STRING" size="255"/>
+          <Column id="CLIENT_FLAG" type="STRING" size="255"/>
+          <Column id="COMPANY_FLAG" type="STRING" size="255"/>
+          <Column id="CONTRACT_NO" type="STRING" size="255"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="255"/>
+          <Column id="CONTRACT_DATE" type="STRING" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 담당영업사원등록 (SC_CompanyBizStaffSearchMM_S01,
+									 SC_CompanyBizStaffSearchMM_R01)
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.08.20
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.SC_CompanyBizStaffSearchMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.fnSearch();
+	this.fnSearch2();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnSearch = function()
+{	
+	//조건값 셋팅
+	this.gfnAddSendParameter("COMPANY_CODE", this.parent.COMPANY_CODE);
+	
+	//조회용 Output Dataset 세팅
+	this.gfnAddOutputDataset("dsOutput", "dsOutput3");
+	this.gfnCommonTransaction("Select", "SC_CompanyReg_S01", this.grd_CompanyBizStaffSearch01);
+};
+
+this.fnSearch2 = function()
+{
+	//조건값 셋팅
+	this.gfnAddSendParameter("COMPANY_CODE", this.parent.COMPANY_CODE);
+	
+	//조회용 Output Dataset 세팅
+	this.gfnAddOutputDataset("dsOutput2", "dsOutput");
+	this.gfnCommonTransaction("Select2", "SC_CompanyBizStaffSearchReg_S01", this.grd_CompanyBizStaffSearch02);
+};
+
+
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		if(strSvcID == "Select")
+		{
+			var strFilter = this.dsOutput.getColumn(0, "EMP_NO");
+			this.dsOutput2.filter("EMP_NO == '" + strFilter + "'");
+		}
+		else if(strSvcID == "Select2")
+		{
+		
+		}
+	}
+};
+
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) 
+	{
+		case "btn_Close" : 
+			this.close();
+			break;
+		case "btn_Exit" :
+			this.close();
+			break;
+	}
+};
+
+this.dsOutput_onrowposchanged = function(obj:nexacro.NormalDataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.dsOutput2.filter("");
+	var strFilter = this.dsOutput.getColumn(this.dsOutput.rowposition, "EMP_NO");
+	this.dsOutput2.filter("EMP_NO == '" + strFilter + "'");
+};
+
+this.grd_CompanyBizStaffSearch02_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var sArgument = {"COMPANY_CODE" : this.parent.COMPANY_CODE};
+	this.commUtil.popup(this, "ProjectMM", "Sales::SP_ProjectMM.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+};
+
+this.fnPopupCallBack = function (popupId, popupArg)
+{
+	switch(popupId)
+	{
+		case "ProjectMM" : 
+			break;
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

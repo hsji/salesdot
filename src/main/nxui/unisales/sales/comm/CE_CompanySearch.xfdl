@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CE_CompanySearch" width="830" height="712" titletext="회사검색" cssclass="frm_popBg" onload="CE_CompanySearch_onload">
+    <Layouts>
+      <Layout height="712" mobileorientation="landscape" width="830">
+        <Div id="div_search" taborder="1" text="" left="20" top="20" height="50" right="20" cssclass="div_WF_Search">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Name" taborder="0" text="회사명" top="12" width="83" height="24" cssclass="sta_WF_SchLabel" left="0" TL_SEQ="32"/>
+              <Edit id="edt_Name" taborder="1" left="stc_Name:0.00" top="12" height="24" right="370" onkeydown="div_search_edt_Name_onkeydown"/>
+              <Button id="btn_Search" taborder="2" text="조회" top="10" width="60" height="28" cssclass="btn_WF_Search" right="8" onclick="comm_Click" TL_SEQ="118"/>
+            </Layout>
+            <Layout name="portrait">
+              <Radio id="rdo_Search" left="76" top="4" width="216" height="30"/>
+              <Static id="stc_Search" height="30" left="12" top="4" width="48"/>
+              <Button id="btn_Search" height="30" top="4" width="80" right="4"/>
+              <Edit id="edt_Name" height="30" left="76" top="43" right="4"/>
+              <Static id="stc_Name" height="30" left="12" top="43" width="48"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_CompanySerachList" taborder="0" left="20.00" binddataset="dsOutput" autofittype="col" right="20" top="div_search:10" bottom="278" oncelldblclick="grd_CompanySerachList_oncelldblclick" onkeydown="grd_CompanySerachList_onkeydown" formatid="default">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="175"/>
+                <Column size="486"/>
+                <Column size="126"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="회사코드" TL_SEQ="147"/>
+                <Cell col="1" text="회사명" TL_SEQ="148"/>
+                <Cell col="2" text="회사상태" TL_SEQ="149"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COMPANY_CODE"/>
+                <Cell col="1" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:COMPANY_STATE" displaytype="combotext" combodataset="ds_CD_COMPANY_STATE" combocodecol="CODE" combodatacol="CAPTION"/>
+              </Band>
+            </Format>
+            <Format id="mobile">
+              <Columns>
+                <Column size="100"/>
+                <Column size="200"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="회사코드" TL_SEQ="147"/>
+                <Cell col="1" text="회사명" TL_SEQ="148"/>
+                <Cell col="2" text="회사상태" TL_SEQ="149"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COMPANY_CODE"/>
+                <Cell col="1" text="bind:COMPANY_NAME"/>
+                <Cell col="2" text="bind:COMPANY_STATE" displaytype="combotext" combodataset="ds_CD_COMPANY_STATE" combocodecol="CODE" combodatacol="CAPTION"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnClose" taborder="2" text="닫기" height="28" width="50" right="20" bottom="10" onclick="btnClose_onclick"/>
+        <Button id="btn_CompReg" taborder="3" text="신규등록" height="28" width="82" cssclass="btn_WF_Crud" right="btnClose:5" bottom="10" onclick="btnConfirm_onclick" visible="false"/>
+        <Div id="div_CompanyReg00" taborder="4" left="20.00" right="20" top="444" border="1px solid #dddddd" cssclass="div_WF_detailBg" height="218" enable="false">
+          <Layouts>
+            <Layout>
+              <Static id="stc_CorporateRegistrationNumber" taborder="0" text="사업자등록번호" top="44" width="100" height="24" cssclass="sta_WF_DetailTit" left="0" TL_SEQ="837"/>
+              <Edit id="edt_CorporateRegistrationNumber" taborder="1" left="stc_CorporateRegistrationNumber:10.00" top="44" width="155" height="24" enable="true" readonly="false"/>
+              <Static id="stc_CorperateRegistrationNumber" taborder="2" text="법인등록번호" top="44" width="100" height="24" cssclass="sta_WF_DetailTit" textAlign="right" left="edt_CorporateRegistrationNumber:0.00" TL_SEQ="847"/>
+              <Edit id="edt_CorperateRegistrationNumber" taborder="3" left="stc_CorperateRegistrationNumber:10.00" top="44" width="165" height="24" readonly="false"/>
+              <Static id="stc_Telephone" taborder="5" text="전화번호" top="44" width="84" height="24" cssclass="sta_WF_DetailTit" textAlign="right" left="edt_CorperateRegistrationNumber:0.00" TL_SEQ="545"/>
+              <Edit id="edt_Telephone" taborder="4" left="stc_Telephone:10.00" top="44" height="24" right="10" readonly="false"/>
+              <Static id="stc_Remark" taborder="6" text="비고" top="76" width="100" height="59" cssclass="sta_WF_DetailTit" textAlign="right" left="0" TL_SEQ="45"/>
+              <TextArea id="txt_Remark" taborder="7" top="76" height="59" left="110.00" right="10" readonly="false"/>
+              <Static id="stc_CompanyType" taborder="8" text="회사구분" top="11" width="100" height="24" cssclass="sta_WF_DetailTit" textAlign="right" left="0.00" TL_SEQ="836"/>
+              <CheckBox id="chb_ClientCompany" taborder="9" text="고객사" left="111.00" top="11" width="71" height="24" falsevalue="0" truevalue="1" TL_SEQ="32"/>
+              <CheckBox id="chb_PlaceOfContract" taborder="10" text="계약처" left="183.00" top="11" width="61" height="24" falsevalue="0" truevalue="1" TL_SEQ="34"/>
+              <CheckBox id="chb_FakeCode" taborder="11" text="가코드" left="262.00" top="11" width="61" height="24" falsevalue="0" truevalue="1" TL_SEQ="841"/>
+              <CheckBox id="chb_BlackList" taborder="12" text="블랙리스트" left="341.00" top="11" width="85" height="24" falsevalue="0" truevalue="1" TL_SEQ="842"/>
+              <CheckBox id="chb_DISP" taborder="13" text="DISP" left="436.00" top="11" width="61" height="24" falsevalue="0" truevalue="1" TL_SEQ="843"/>
+              <CheckBox id="chb_TURNKEY" taborder="14" text="원청턴키" left="500.00" top="11" width="77" height="24" falsevalue="0" truevalue="1" TL_SEQ="858"/>
+              <CheckBox id="chb_SubsidiaryCompany" taborder="15" text="자회사여부" left="580.00" top="11" width="87" height="24" falsevalue="0" truevalue="1" TL_SEQ="22837"/>
+              <TextArea id="txt_Remark00" taborder="16" top="136" height="35" left="110.00" right="10" readonly="false"/>
+              <TextArea id="txt_Remark00_00" taborder="17" top="172" height="35" left="110.00" right="10" readonly="false"/>
+              <Static id="stc_Remark00" taborder="18" text="계약비고" top="136" width="100" height="35" cssclass="sta_WF_DetailTit" textAlign="right" left="0" TL_SEQ="45"/>
+              <Static id="stc_Remark00_00" taborder="19" text="구매비고" top="172" width="100" height="35" cssclass="sta_WF_DetailTit" textAlign="right" left="0" TL_SEQ="45"/>
+            </Layout>
+            <Layout name="portrait"/>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsOutput">
+        <ColumnInfo>
+          <Column id="BLACKLIST_FLAG" type="string" size="32"/>
+          <Column id="PURCHASE_REMARKS" type="undefined" size="0"/>
+          <Column id="COMPANY_NAME_ENG" type="undefined" size="0"/>
+          <Column id="CONTRACT_REMARKS" type="undefined" size="0"/>
+          <Column id="REMARKS" type="undefined" size="0"/>
+          <Column id="PHONE_NO" type="undefined" size="0"/>
+          <Column id="SUBSIDIARY_COMPANY_FLAG" type="undefined" size="0"/>
+          <Column id="CORPORATE_REG_NO" type="undefined" size="0"/>
+          <Column id="COMPANY_NAME" type="string" size="32"/>
+          <Column id="TURNKEY_FLAG" type="string" size="32"/>
+          <Column id="CLIENT_FLAG" type="string" size="32"/>
+          <Column id="TMP_FLAG" type="string" size="32"/>
+          <Column id="COMPANY_FLAG" type="string" size="32"/>
+          <Column id="COMPANY_CODE" type="string" size="32"/>
+          <Column id="COMPANY_STATE" type="undefined" size="0"/>
+          <Column id="COMPANY_REG_NO" type="undefined" size="0"/>
+          <Column id="SI_VIEW_FLAG" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CD_PARTNER_KIND"/>
+      <Dataset id="ds_CD_COMPANY_STATE"/>
+      <Dataset id="ds_CD_CL_ADD_SCORE1"/>
+      <Dataset id="ds_CD_CL_ADD_SCORE2"/>
+      <Dataset id="ds_CD_CL_ADD_SCORE3"/>
+      <Dataset id="ds_CD_CL_EXCEPTION_CODE"/>
+      <Dataset id="ds_CD_SEARCH">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="CAPTION_ENG" type="STRING" size="256"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">고객사검색</Col>
+            <Col id="CAPTION_JAP">顧客社検索</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">2</Col>
+            <Col id="CAPTION">협력사검색</Col>
+            <Col id="CAPTION_JAP">パートナー社検索</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 공통 - 공통
+* 02. 화면명		: 고객사, 협력사 검색 (CE_CompanySearch_S01)
+* 03. 화면설명 	: 
+* 04. 작성일   	: 2018.08.13
+* 05. 작성자   	: 안주환
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.SEARCH_MODE;	// 1:고객사, 2:협력사
+this.FV_AUTO_SEARCH;
+//this.FV_CO_CD = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.CE_CompanySearch_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+	
+	this.SEARCH_MODE = this.parent.pvMode;  //검색조건
+	this.FV_AUTO_SEARCH = this.parent.autoSearch;	//자동조회 처리
+// 	
+// 	if (!this.gfnIsEmpty(this.SEARCH_MODE))
+// 	{
+// 		if (this.SEARCH_MODE == "1") {
+// 			this.st_Title.set_text(this.gfnGetTransTxt(153, "고객사 검색"));
+// 			this.div_search.form.stc_Name.set_text(this.gfnGetTransTxt(32, "고객사"));
+// 		} else if (this.SEARCH_MODE == "2") {
+// 			this.st_Title.set_text(this.gfnGetTransTxt(154, "협력사 검색"));
+// 			this.div_search.form.stc_Name.set_text(this.gfnGetTransTxt(1133, "협력사"));
+// 		}
+// 		this.div_search.form.rdo_Search.set_enableevent(false);
+// 		this.div_search.form.rdo_Search.set_value(this.SEARCH_MODE);
+// 		this.div_search.form.rdo_Search.set_enable(false);
+// 		this.div_search.form.rdo_Search.set_enableevent(true);
+// 	}	
+	
+	if(this.parent.sSubject)
+	{
+		this.div_search.form.edt_Name.set_value(this.parent.sSubject);
+		//this.fnSearch();
+	}
+	
+	// 회사 신규등록 버튼 활성화 User Property
+	if (this.parent.compReg == "true") {
+		this.div_CompanyReg.form.btn_CompReg.set_visible(true);
+	}		
+	if(this.parent.hasOwnProperty("CompanyName"))
+	{
+		if(this.parent.CompanyName == "Optionchange")
+		{
+			this.div_search.form.rdo_Search.set_value(2);
+		}
+		else
+		{
+			this.div_search.form.edt_Name.set_value(this.parent.CompanyName);
+			if(!this.gfnIsEmpty(this.parent.ProjectName))
+			{
+				this.fnSearch();
+				return;
+			}
+		}
+	}
+
+	if(this.parent.sSubject && !this.gfnIsNull(this.parent.sSubject))
+	{
+		this.fnSearch();
+	}
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+// this.div_search_rdo_Search_onitemchanged = function(obj:nexacro.Radio, e:nexacro.ItemChangeEventInfo)
+// {
+// 	var code = this.div_search.form.rdo_Search.value;
+// 
+// 	if(code == "1") {
+// 		this.div_search.form.stc_Name.set_text(this.gfnGetTransTxt(32, "고객사"));
+// 	}
+// 	else if(code == "2"){
+// 		this.div_search.form.stc_Name.set_text(this.gfnGetTransTxt(1133, "협력사"));
+// 	}
+// 	this.fnSearch();
+// };
+
+this.fnReturnOne = function(row)
+{
+	this.close(this.dsOutput.getColumn(row, "COMPANY_CODE") + "|" + this.dsOutput.getColumn(row, "COMPANY_NAME"));
+}
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_CD_PARTNER_KIND" 		,"PARTNER_KIND");
+// 	this.gfnAddCodeDataset("ds_CD_COMPANY_STATE"		,"COMPANY_STATE");
+// 	this.gfnAddCodeDataset("ds_CD_CL_EXCEPTION_CODE"	,"CL_EXCEPTION_CODE");
+// 
+// 	this.gfnAddCodeDataset("ds_CD_CL_ADD_SCORE1"		,"CL_ADD_SCORE1");
+// 	this.gfnAddCodeDataset("ds_CD_CL_ADD_SCORE2"		,"CL_ADD_SCORE2");
+// 	this.gfnAddCodeDataset("ds_CD_CL_ADD_SCORE3"		,"CL_ADD_SCORE3");
+
+	// 공통코드 조회
+	this.gfnCodeTransaction();
+};
+
+this.fnSearch = function() 
+{
+	// 조건값 셋팅
+	this.gfnAddSendParameter("COMPANY_NAME", this.div_search.form.edt_Name.value);
+	
+	// 조회용 Output dataset 세팅
+	//this.gfnAddOutputDataset("dsOutput", "dsOutput");
+	this.gfnSetMap("nextBaseMapper", "DetailPopupCompany", "dsOutput");
+	this.gfnCommonTransaction("Select", "selectNextList.do"/*"CE_CompanySearch_S01"*/, this.grd_CompanySerachList);
+}
+
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) {
+		return;
+	}
+	else {
+		if(strSvcID=="gfnGetCode")
+		{
+			if(!this.gfnIsEmpty(this.div_search.form.edt_Name.value)) {
+				this.fnSearch();
+			}
+		}
+		else if(strSvcID=="Select") {	
+			var nRowCnt = this.dsOutput.getRowCount();
+			if(nRowCnt > 0)
+			{
+				this.grd_CompanySerachList.setFocus();
+			}else{
+				this.div_search.form.edt_Name.setFocus();
+			}
+			
+			if(this.hasOwnProperty("opener") && !this.gfnIsEmpty(this.opener))
+			{
+				if(this.opener.name == "COM_Search")
+				{
+					if(nRowCnt == 1)
+					{
+						if (this.FV_AUTO_SEARCH == "true") {
+							this.fnReturnOne(0);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		case "btn_Search" :
+			if(this.gfnIsEmpty(this.div_search.form.edt_Name.value))
+			{	
+				this.gfnAlert('msg.err.validator.input',['검색할 회사명']);
+				this.div_search.form.edt_Name.setFocus();
+				return;
+			}		
+			this.fnSearch();
+			break;
+		case "btn_Close" : 
+			this.close(); 
+			break;
+	}
+};
+
+this.div_search_edt_Name_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) {
+		if(this.gfnIsEmpty(this.div_search.form.edt_Name.value))
+		{	
+			this.gfnAlert('msg.err.validator.input',['검색할 회사명']);
+			this.div_search.form.edt_Name.setFocus();
+		}
+		else
+		{
+			this.fnSearch();
+		}
+	}
+};
+
+this.grd_CompanySerachList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnReturnOne(e.row);
+};
+
+this.grd_CompanySerachList_onkeydown = function(obj:nexacro.Grid,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) 
+	{
+		this.fnReturnOne(obj.currentrow);
+	}
+};
+
+this.div_CompanyReg_btn_CompReg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sTmpCompReg = true;
+	if(this.FV_CO_CD == "J02") sTmpCompReg = false;
+	
+	var sArgument = {COMPANY_CODE : "", TMP_COMP_REG : sTmpCompReg};
+	this.commUtil.popup(this, "CompanyRegIns", "Sales::SC_CompanyReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+};
+
+// Popup 콜백
+this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		this.recentVariant = Variant;
+		switch(sPopupId)
+		{
+			case "CompanyReg" :  //고객사
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				this.recentVariant = ds;
+				
+				
+				if(!this.gfnIsEmpty(ds.getColumn(0, "COMPANY_NAME")))
+				{
+					this.div_search.form.edt_Name.set_value(ds.getColumn(0, "COMPANY_NAME"));
+					this.fnSearch();
+				}
+			break;
+		}
+	}
+}
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_CompanyReg00.form.chb_ClientCompany" propid="value" datasetid="dsOutput" columnid="CLIENT_FLAG"/>
+      <BindItem id="item1" compid="div_CompanyReg00.form.chb_PlaceOfContract" propid="value" datasetid="dsOutput" columnid="COMPANY_FLAG"/>
+      <BindItem id="item2" compid="div_CompanyReg00.form.chb_FakeCode" propid="value" datasetid="dsOutput" columnid="TMP_FLAG"/>
+      <BindItem id="item3" compid="div_CompanyReg00.form.chb_BlackList" propid="value" datasetid="dsOutput" columnid="BLACKLIST_FLAG"/>
+      <BindItem id="item4" compid="div_CompanyReg00.form.chb_DISP" propid="value" datasetid="dsOutput" columnid="SI_VIEW_FLAG"/>
+      <BindItem id="item5" compid="div_CompanyReg00.form.chb_TURNKEY" propid="value" datasetid="dsOutput" columnid="TURNKEY_FLAG"/>
+      <BindItem id="item6" compid="div_CompanyReg00.form.chb_SubsidiaryCompany" propid="value" datasetid="dsOutput" columnid="SUBSIDIARY_COMPANY_FLAG"/>
+      <BindItem id="item7" compid="div_CompanyReg00.form.edt_CorporateRegistrationNumber" propid="value" datasetid="dsOutput" columnid="COMPANY_REG_NO"/>
+      <BindItem id="item8" compid="div_CompanyReg00.form.edt_CorperateRegistrationNumber" propid="value" datasetid="dsOutput" columnid="CORPORATE_REG_NO"/>
+      <BindItem id="item9" compid="div_CompanyReg00.form.edt_Telephone" propid="value" datasetid="dsOutput" columnid="PHONE_NO"/>
+      <BindItem id="item10" compid="div_CompanyReg00.form.txt_Remark" propid="value" datasetid="dsOutput" columnid="REMARKS"/>
+      <BindItem id="item11" compid="div_CompanyReg00.form.txt_Remark00" propid="value" datasetid="dsOutput" columnid="CONTRACT_REMARKS"/>
+      <BindItem id="item12" compid="div_CompanyReg00.form.txt_Remark00_00" propid="value" datasetid="dsOutput" columnid="PURCHASE_REMARKS"/>
+    </Bind>
+  </Form>
+</FDL>

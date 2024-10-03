@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="orgDeptMgFm" width="1050" height="736" titletext="부서관리" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Static id="staTitle01" taborder="1" text="DXTOBE 조직도" left="0" top="0" height="43" cssclass="sta_WF_Title" right="850"/>
+        <ChartJS id="ChartJS00" taborder="0" text="ChartJS00" left="0" top="staTitle01:0" right="20" bottom="10"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" canrowposchange="dsList_canrowposchange" cancolumnchange="dsList_cancolumnchange">
+        <ColumnInfo>
+          <Column id="TXTCOLOR" type="string" size="32"/>
+          <Column id="USER_PIC" type="string" size="32"/>
+          <Column id="WKORDER" type="string" size="32"/>
+          <Column id="WKDT_CD" type="string" size="32"/>
+          <Column id="BGCOLOR" type="string" size="32"/>
+          <Column id="HIPO_EMPNO" type="string" size="32"/>
+          <Column id="FONTSTYLE" type="string" size="32"/>
+          <Column id="DEPT_CD" type="string" size="32"/>
+          <Column id="UID" type="string" size="32"/>
+          <Column id="DEPT_KORN_NM" type="string" size="32"/>
+          <Column id="SORTORDER" type="string" size="32"/>
+          <Column id="KORN_NM" type="string" size="32"/>
+          <Column id="HIPO_DEPT_NM" type="undefined" size="0"/>
+          <Column id="EMP_NO" type="string" size="32"/>
+          <Column id="TITLE" type="string" size="32"/>
+          <Column id="LEAF_YN" type="string" size="32"/>
+          <Column id="HIPO_DEPT_CD" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckDept">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	orgDeptMgFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/02/02
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/02/02			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	this.cfnSearch();
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	this.fnTranSearch();
+};
+
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "selectCompanyMapList";
+	var strSvcUrl   = "selectCompanyMapList.do";
+	var inData      = "";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "selectCompanyMapList":
+			this.fnDraw();
+			break;
+		default:
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnDraw = function ()
+{
+	var chart = this.ChartJS00;
+	var canvas = chart.getCanvas();
+	var cvs = canvas.id;
+	DxChart.reset(canvas);
+    var org = new DxChartOrg({
+        id: cvs,
+		elem : canvas, 
+		binddataset : this.dsList,
+        idColumn: 'UID',
+        parentIdColumn: 'HIPO_EMPNO',
+		bgColorColumn : 'BGCOLOR',
+		textColorColumn: 'TXTCOLOR,TXTCOLOR',
+		imageUrlColumn	: 'USER_PIC',
+		textColumn: 'DEPT_NEW_NAME,TITLE',
+		leafGroupColumn	: 'LEAF_YN',
+		textFontColumn  : 'FONTSTYLE',
+		metaColumn : 'METACNT',
+        options: {
+			scale : { Auto : true },
+			tree: {	Template : 'rect' },
+			item: {
+					FontStyle 		: "11px noto",
+					DefaultWidth : 200,
+					GroupGapSize : 15,
+					GroupFullDraw : true,
+					BoxStyle : 'roundrect', 
+					RectRatio : 0.36,
+					MetaColor : '#4D468D',
+					MetaFont : 'bold 12px noto',
+					NodeGapSize : 10,
+					DefaultWidth : 140,
+					DefaultHeight : 50,
+					ImageVMargin : 0,
+					ImageHMargin : -10,
+					ImageSize : 60,
+					ImageStyle : 'arc',
+					TextHAlign		: 'center',
+					ExpandWidth : 6,
+					ExpandShow : false,
+					ExpandBackgroundColor : '#5B5B98',
+					ExpandLineColor : '#ffffff',
+					ExpandLineWidth : 2,
+					ExpandIconColor : '#ffffff'
+				}
+        }
+	});
+	org.draw();
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmSiteMap" width="1280" height="720" titletext="사이트맵" onload="form_onload" onsize="form_onsize">
+    <Layouts>
+      <Layout height="2350" width="1280">
+        <Div id="divSiteMap" taborder="1" left="0" top="0" cssclass="div_MF_MegaMenu" right="0" bottom="0" url="frame::frmSiteMapDiv.xfdl"/>
+        <Button id="btnClose" taborder="0" top="25" width="40" height="40" cssclass="btn_MF_Close" right="30" onclick="divSiteMap_btnClose_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[ /**
+*  SGI
+*  @FileName 	frmMegaMenu.xfdl 
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2023.03.28
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+*  date          		Modifier                Description
+*******************************************************************************
+* 2023.03.28			TOBESOFT				MegaMenu
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{	
+	// 온로드 시 메가메뉴 호출
+	this.divSiteMap.form.fnGridSetMenu(this.getOwnerFrame().pvCnt);
+};
+
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+
+/**
+ * @description 메가메뉴 닫기 클릭 이벤트
+ */
+this.divSiteMap_btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnClosePopup();
+};
+]]></Script>
+    <Objects/>
+  </Form>
+</FDL>

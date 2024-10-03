@@ -1,0 +1,41 @@
+﻿{
+	"name": "devPackModule",
+	"moduletype": "component",
+	"version": "1.0",
+	"minnexacroversion": "",
+	"description": "DevPackModule 배포 프로젝트",
+	"license": "",
+	"objInfo": [	
+    "devPackModule/_metainfo_/MultiUserCombo.info",
+    "devPackModule/_metainfo_/DaumPostCode.info",
+    "devPackModule/_metainfo_/JusoPostCode.info",
+    "devPackModule/_metainfo_/WeekCalendar.info",
+	"devPackModule/_metainfo_/WeekByMonthCalendar.info",
+    "devPackModule/_metainfo_/MonthCalendar.info",
+    "devPackModule/_metainfo_/PeriodCalendar.info",
+    "devPackModule/_metainfo_/FromToCalendar.info"
+	],
+	"scripts": [
+    "devPackModule/devPackModule.js"
+	],
+	"scriptsfilter": [
+
+	],
+	"designscripts": [
+    "devPackModule/DesigndevPackModule.js"
+	],
+	"help": "",	
+	"xcss": "devPackModule/_xcss_/devPackModule.xcss",
+	"images": "devPackModule/_images_/",	
+	"licensefiles": "",
+	"icons": "",
+	"userfolder": [
+
+	],
+	"installinfo": {
+
+	},
+	"contentseditor": [
+
+	]
+}

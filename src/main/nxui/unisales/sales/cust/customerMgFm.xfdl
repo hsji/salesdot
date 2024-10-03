@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="customerMgFm" width="1050" height="736" titletext="공통코드관리" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Div id="divSearch" taborder="0" left="0" top="0" height="50" text="Div00" cssclass="div_WF_Search" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staCd" taborder="3" text="고객코드" cssclass="sta_WF_SchLabel" left="0" top="12" width="98" height="24"/>
+              <Edit id="edtCd" taborder="0" left="staCd:0" top="12" width="111" height="24"/>
+              <Static id="staCdNm" taborder="4" text="고객명" cssclass="sta_WF_SchLabel" left="edtCd:0" top="12" width="110" height="24"/>
+              <Edit id="edtCdNm" taborder="1" left="staCdNm:0" top="12" width="198" height="24"/>
+              <Button id="btnSearch" taborder="2" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle00" taborder="1" text="고객리스트" left="0" width="397" height="43" top="50" cssclass="sta_WF_Title"/>
+        <Grid id="grdMaster" taborder="2" left="0" top="staTitle00:0" binddataset="dsList" autoenter="select" bottom="218" cellsizingtype="col" autofittype="col" uFunction="filter,sort,!colfix,!initial,find" minheight="250" maxheight="" right="20">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="81"/>
+                <Column size="104"/>
+                <Column size="135"/>
+                <Column size="151"/>
+                <Column size="564"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="순번"/>
+                <Cell col="1" text="고객코드"/>
+                <Cell col="2" text="고객명"/>
+                <Cell col="3" text="대표전화"/>
+                <Cell col="4" text="주소"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SEQ_NO"/>
+                <Cell col="1" text="bind:CLIENT_CODE"/>
+                <Cell col="2" text="bind:CLIENT_NAME"/>
+                <Cell col="3" text="bind:TELP_NUMB" displaytype="mask" maskedittype="string" maskeditformat="expr:comp.parent.fnSetTelGridMask(TELP_NUMB)"/>
+                <Cell col="4" expr="ADDR_BASIC &amp;&amp; ADDR_DTL?ADDR_BASIC + ' ' + ADDR_DTL:''"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="staTitle01" taborder="3" text="고객 상세" left="0" width="397" height="43" cssclass="sta_WF_SubTitle" top="grdMaster:0"/>
+        <Div id="divDetail" taborder="4" text="div00" left="0" top="staTitle01:5" height="170" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staBg06_01_00_00_00_00" taborder="18" left="0" top="0" height="133" cssclass="sta_WF_LabelBg" right="0" text=""/>
+              <Static id="staBg06_01_00_00_00" taborder="17" left="460" top="99" height="34" cssclass="sta_WF_LabelBg" right="0" text=""/>
+              <Static id="staBg06_01_00_00" taborder="13" left="460" top="66" height="34" cssclass="sta_WF_LabelBg" right="0" text=""/>
+              <Static id="staBg06_01_00" taborder="11" left="460" top="33" height="34" cssclass="sta_WF_LabelBg" right="0" text=""/>
+              <Static id="staBg06_01" taborder="10" left="460" top="0" height="34" cssclass="sta_WF_LabelBg" right="0" text=""/>
+              <Static id="staBg06" taborder="2" left="0" top="132" height="34" cssclass="sta_WF_LabelBg" right="0" text=""/>
+              <Static id="staTitle17" taborder="0" text="주소" left="0" top="132" width="90" height="34" cssclass="sta_WF_Label"/>
+              <JusoPostCode id="jPostAddr" taborder="1" left="95" top="137" height="24" right="5"/>
+              <ImageViewer id="img00" taborder="3" left="112" top="8" width="199" height="120" border="1px solid #dddddd" stretch="fit"/>
+              <FileUpload id="fud00" taborder="4" left="321" top="51" width="80" height="33" itemheight="32" buttonsize="80" buttontext="사진등록" onitemchanged="fud00_onitemchanged"/>
+              <Static id="staTitle17_00" taborder="5" text="CI" left="0" top="0" width="90" height="133" cssclass="sta_WF_Label"/>
+              <Static id="staTitle05" taborder="6" text="고객코드" left="460" top="0" width="90" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtEmpNo" taborder="7" left="555" top="6" width="105" height="24" maxlength="10" inputtype="digit,alpha" cssclass="essential"/>
+              <Static id="staTitle05_00" taborder="8" text="고객명" left="460" top="33" width="90" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtEmpNo00" taborder="9" left="555" top="38" width="275" height="24" maxlength="10" cssclass="essential"/>
+              <Static id="staTitle05_00_00" taborder="12" text="대표전화" left="460" top="66" width="90" height="34" cssclass="sta_WF_Label"/>
+              <MaskEdit id="msk00" taborder="14" left="555" top="71" width="155" height="24" type="string" format="###-####-####" oninput="divDetail_msk00_oninput"/>
+              <Static id="staTitle05_00_01" taborder="15" text="URL" left="460" top="99" width="90" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtEmpNo00_00" taborder="16" left="555" top="104" width="445" height="24" maxlength="10" cssclass="essential"/>
+              <Static id="staTitle05_01" taborder="19" text="업종구분" left="740" top="66" width="90" height="34" cssclass="sta_WF_Label"/>
+              <Combo id="cboType" taborder="20" left="840" top="71" width="160" height="24" onitemchanged="cbo_onitemchange"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divCmmnBtn" taborder="5" text="div00" top="60" width="467" height="33" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnExcelDown" taborder="0" text="엑셀다운로드" top="0" width="119" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" left="348" onclick="divCmmnBtn_btnExcelDown_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item8" compid="divSearch.form.edtCd" propid="value" datasetid="dsCond" columnid="CLIENT_CODE"/>
+      <BindItem id="item0" compid="divSearch.form.edtCdNm" propid="value" datasetid="dsCond" columnid="CLIENT_NAME"/>
+      <BindItem id="item1" compid="divDetail.form.img00" propid="text" datasetid="dsList" columnid="CLIENT_PIC"/>
+      <BindItem id="item2" compid="divDetail.form.edtEmpNo" propid="value" datasetid="dsList" columnid="CLIENT_CODE"/>
+      <BindItem id="item3" compid="divDetail.form.edtEmpNo00" propid="value" datasetid="dsList" columnid="CLIENT_NAME"/>
+      <BindItem id="item4" compid="divDetail.form.msk00" propid="value" datasetid="dsList" columnid="TELP_NUMB"/>
+      <BindItem id="item21" compid="divDetail.form.jPostAddr.form.edtSculZip" propid="value" datasetid="dsList" columnid="ZIP_NUMB"/>
+      <BindItem id="item22" compid="divDetail.form.jPostAddr.form.edtBasAddr" propid="value" datasetid="dsList" columnid="ADDR_BASIC"/>
+      <BindItem id="item23" compid="divDetail.form.jPostAddr.form.edtDetailAddr" propid="value" datasetid="dsList" columnid="ADDR_DTL"/>
+      <BindItem id="item5" compid="divDetail.form.edtEmpNo00_00" propid="value" datasetid="dsList" columnid="HOME_URL"/>
+      <BindItem id="item6" compid="divDetail.form.edtEmpNo01" propid="value" datasetid="dsList" columnid="CLIENT_CODE"/>
+      <BindItem id="item7" compid="divDetail.form.cboType" propid="value" datasetid="dsList" columnid="CLIENT_TYPE"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsCond" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" firefirstcount="0" oncolumnchanged="dsList_oncolumnchanged" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="ADDR_DTL" type="string" size="32"/>
+          <Column id="TELP_NUMB" type="string" size="32"/>
+          <Column id="SEQ_NO" type="int" size="4"/>
+          <Column id="CLIENT_CODE" type="string" size="32"/>
+          <Column id="CLIENT_PIC" type="string" size="32"/>
+          <Column id="CLIENT_NAME" type="string" size="32"/>
+          <Column id="ZIP_NUMB" type="string" size="32"/>
+          <Column id="ADDR_BASIC" type="string" size="32"/>
+          <Column id="HOME_URL" type="STRING" size="256"/>
+          <Column id="CLIENT_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	customerMgFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/08
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/08			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvRowPositionMain = -1;
+this.fvRowPositionSub  = -1;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드
+	var param = [
+			  {biztype : "Combo", code : "SM27", objid : this.divDetail.form.cboType}							// 업종
+	];
+	this.gfnGetCommonCode(param);
+	
+	// 버튼 권한 제어
+	this.gfnSetCommBtn(this.divCmmnBtn);
+	
+	var sUrl = nexacro.getEnvironment().services['svcUrl'].url;
+	this.divDetail.form.jPostAddr.set_jspUrl(sUrl + "thirdParty/post/PostCall.jsp");	
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";		//메세지ID
+		var arrArg = [""];							//메세지취환될값 배열[생략가능]
+		var sPopId = "search";						//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";			//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+	
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);	
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	var nRow = this.dsList.addRow();
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsList.rowcount == 0) {
+		return;
+	}
+	this.dsList.deleteRow(this.dsList.rowposition);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false && this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if(this.fnValid()){
+		this.gfnAlert("confirm.save", [""], "save", "fnMsgCallback");
+	}
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//master 조회
+this.fnTranSearch = function ()
+{
+	// 조회-대분류
+	this.dsList.clearData();
+
+	var strSvcId    = "searchCustomerList";
+	var strSvcUrl   = "searchCustomerList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveCustomerInfo";
+	var strSvcUrl   = "saveCustomerInfo.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchCustomerList":
+			break;
+		case "saveCustomerInfo":
+			this.fnTranSearch();
+			break;
+		default: break;
+	}
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "save":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.fnTranSave();
+			break;
+		default: break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//디테일 - validation
+this.fnValid = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+
+	this.gfnSetValidation(this.dsList, "CLIENT_CODE", "고객 코드"	, "required");
+	this.gfnSetValidation(this.dsList, "CLIENT_NAME", "고객명"	, "required");
+	this.gfnSetValidation(this.dsList, "CLIENT_TYPE", "업종구분"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.grdMaster, "U") == false) return;
+	else return true;
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch(); //조회
+};
+
+this.fnSetTelGridMask = function(tel) {
+	var mask = "###-####-####";
+	if(tel) {
+		if(tel.length == 9) {
+			mask = "##-###-####";
+		} else if(tel.length == 10) {
+			if(tel.substr(0,2) == "02") {
+				mask = "##-###-####";
+			} else {
+				mask = "###-###-####";
+			}
+		}
+	} else {
+		mask = "";
+	}
+	
+	return mask;
+};
+
+this.fnSetTelMask = function(flag) {
+	var tel = this.dsList.getColumn(this.dsList.rowposition, "TELP_NUMB");
+	var mask = "###-####-####";
+	if(tel) {
+		tel = nexacro.replaceAll(tel," ","");
+		if(tel && tel.length > 0) {
+			if(tel.length == 9) {
+				mask = "##-###-####";
+			} else if(tel.length == 10) {
+				if(tel.substr(0,2) == "02") {
+					mask = "##-###-####";
+				} else {
+					mask = "###-###-####";
+				}
+			}
+		}
+	}
+	
+	this.divDetail.form.msk00.set_format(mask);
+	
+	if(flag) {
+		this.dsList.setColumn(this.dsList.rowposition, "TELP_NUMB", tel);
+	}
+};
+
+this.divDetail_msk00_oninput = function(obj:nexacro.MaskEdit,e:nexacro.InputEventInfo)
+{
+	obj.set_format("###-####-####");
+};
+
+this.dsList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "TELP_NUMB") {
+		this.fnSetTelMask(true);
+	}
+};
+
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(this.dsList.getRowType(e.newrow) == Dataset.ROWTYPE_INSERT){
+		this.divDetail.form.msk00.set_format("###-####-####");
+	}else{
+		this.fnSetTelMask();
+	}
+};
+
+this.fud00_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
+{
+	var items = obj._items;
+	var ds = this.dsList;
+	if(items[0] && items[0]._files && items[0]._files[0]) {
+		var reader = new FileReader();
+		reader.readAsDataURL(items[0]._files[0]);
+		reader.onload = function(e) {
+			ds.setColumn(0, "CLIENT_PIC", e.target.result);
+		};	
+	}	
+};
+
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle00.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdMaster, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");	
+};
+]]></Script>
+  </Form>
+</FDL>

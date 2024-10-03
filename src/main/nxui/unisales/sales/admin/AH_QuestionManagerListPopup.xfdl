@@ -1,0 +1,319 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AH_QuestionManagerListPopup" width="500" height="250" titletext="문의담당자 상세" cssclass="frm_popBg" onload="AH_QuestionManagerListPopup_onload">
+    <Layouts>
+      <Layout height="250" mobileorientation="landscape" width="500">
+        <Button id="btn_close" taborder="0" top="10" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="common_onclick" escapebutton="true"/>
+        <Static id="st_Title" taborder="1" text="문의담당자 상세" left="10" top="0" width="186" height="35" cssclass="sta_POP_Title"/>
+        <Static id="stc_BottomFrame" taborder="5" left="0" cssclass="sta_POP_BtnBg" right="0" text="" height="46" bottom="0"/>
+        <Div id="div_QuestionManager" taborder="2" left="8" top="74" cssclass="div_WF_detailBg" right="8" text="" bottom="stc_BottomFrame:8">
+          <Layouts>
+            <Layout>
+              <Static id="stc_CategoryCode" taborder="0" text="질문유형" left="8" top="18" width="78" height="22" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_CategoryCode" taborder="1" left="94" top="18" height="22" innerdataset="ds_cmm_CategoryCode" codecolumn="CODE" datacolumn="CAPTION" readonly="false" right="8"/>
+              <Static id="stc_ManagerEmail" taborder="2" text="담당자이메일" left="8" top="48" width="78" height="22" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_ManagerEmail" taborder="3" left="94" top="48" height="22" readonly="false" right="8"/>
+              <Static id="stc_EmpNo" taborder="4" text="문의담당자" left="8" top="78" width="78" height="22" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_EmpNo" taborder="5" left="94" top="78" width="358" height="22" visible="true" readonly="true"/>
+              <Button id="btn_EmpPopup" taborder="6" left="edt_EmpNo:0" top="78" width="22" height="22" onclick="common_onclick" cssclass="btn_WF_Sch" visible="true"/>
+              <Button id="btn_DeleteEmp" taborder="7" left="434" top="79" width="18" height="18" cssclass="tab_MDI_MdiTabCls" onclick="common_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_BasicInfo" taborder="3" left="8" top="43" height="31" cssclass="sta_POP_GroupBg" text="" right="8"/>
+        <Static id="stc_BasicInfoTitle" taborder="4" text="정보" left="16" top="51" width="122" height="15" cssclass="sta_POP_GroupTit"/>
+        <Button id="btn_Cancel" taborder="6" text="닫기" width="60" height="22" cssclass="btn_WF_cancel" right="8" onclick="common_onclick" bottom="12"/>
+        <Button id="btn_Save" taborder="7" text="저장" width="60" height="22" cssclass="btn_WF_tran" right="77" bottom="12" onclick="common_onclick"/>
+        <Button id="btn_Del" taborder="8" text="삭제" width="60" height="22" cssclass="btn_WF_tran" right="145" bottom="12" onclick="common_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 홈페이지관리
+ * 02. 화면명   : 문의담당자 상세팝업(AH_QuestionManagerListPopup)
+ * 03. 화면설명 : 문의담당자 상세
+ * 04. 작성일   : 2022.09.13
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_WebEditor.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_QML_SEQ;
+this.FV_MODE;
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.AH_QuestionManagerListPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);	//	사용자 Grid
+	this.fnFormInit();
+	this.fnGetCode();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+	var sTitle = this.st_Title.text;
+	this.FV_QML_SEQ =  this.parent.pvQmlSeq;
+	this.FV_MODE =  this.parent.pvMode;
+	
+	if (this.FV_MODE == "I") {	
+		sTitle = "문의담당자 등록";
+	}
+	this.st_Title.set_text(sTitle);
+};
+
+this.fnSetButtonControl = function()
+{
+	var curRow = this.ds_QuestionManager.rowposition;
+	var sEmpNo = this.ds_QuestionManager.getColumn(curRow, "EMP_NO");
+	
+	if(!this.gfnIsEmpty(sEmpNo)) this.div_QuestionManager.form.btn_DeleteEmp.set_visible(true);
+	else this.div_QuestionManager.form.btn_DeleteEmp.set_visible(false);
+};
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_CategoryCode",	"CATEGORY_CODE");		// 질문유형
+	this.gfnCodeTransaction();
+};
+
+// 조회
+this.fnQueryData = function()
+{
+	this.gfnAddSendParameter("QML_SEQ", this.FV_QML_SEQ);
+	this.gfnAddOutputDataset("ds_QuestionManager", "dsOutput");	
+	this.gfnCommonTransaction("Search", "AH_QuestionManagerList_S01");
+};
+
+this.fnEmpPopup = function()
+{
+	this.commUtil.popupOrganization(this, "popOrganization", "fnPopupCallBack", "EMP"); 
+};
+
+// 문의 담당자 삭제
+this.fnClearEmp = function(bEmail)
+{
+	var curRow = this.ds_QuestionManager.rowposition;
+	this.ds_QuestionManager.setColumn(curRow, "EMP_NO", null);
+	this.ds_QuestionManager.setColumn(curRow, "EMP_NM", null);
+	if(bEmail) this.ds_QuestionManager.setColumn(curRow, "MANAGER_EMAIL", null);
+	
+	this.fnSetButtonControl();
+};
+
+// 체크 사항
+this.fnValidation = function()
+{
+	var curRow = this.ds_QuestionManager.rowposition;
+	
+	/*
+		공통 체크 항목 : 담당자 이메일( 질문유형은 default 값으로 지정 되어서 체크 X )
+	*/
+	if(this.gfnIsEmpty(this.ds_QuestionManager.getColumn(curRow, "MANAGER_EMAIL"))) { alert("담당자 이메일은 필수 입력 항목입니다."); this.div_QuestionManager.form.edt_ManagerEmail.setFocus(); return false;}
+	return true;
+};
+
+// 기존 문의담당자 존재 여부 확인
+this.fnDuplicateCheckData = function()
+{
+	var curRow = this.ds_QuestionManager.rowposition;
+	var sCategoryCode =  this.ds_QuestionManager.getColumn(curRow, "CATEGORY_CODE");
+	var sManagerEmail =  this.ds_QuestionManager.getColumn(curRow, "MANAGER_EMAIL");
+	
+	this.gfnAddSendParameter("CATEGORY_CODE", sCategoryCode);
+	this.gfnAddSendParameter("MANAGER_EMAIL", sManagerEmail);
+	this.gfnAddOutputDataset("ds_Rtn", "dsOutput");	
+	this.gfnCommonTransaction("DuplicateCheckData", "AH_QuestionManagerList_S02");
+};
+
+// 저장
+this.fnSaveData = function(sMode)
+{
+	var strSvcID = "SaveData";
+	if(sMode == "Delete") 
+	{
+		this.ds_QuestionManager.deleteRow(this.ds_QuestionManager.rowposition);
+		strSvcID = "Delete";
+	}
+	this.gfnAddInputDataset ("ds_QuestionManager",	"ds_QuestionManager");
+	this.gfnCommonTransaction(strSvcID, "AH_QuestionManagerList_R01");
+};
+
+ // 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	switch (strSvcID) 
+	{
+		case "gfnGetCode" :
+			if (this.FV_MODE == "I") {
+				var nRow = this.ds_QuestionManager.addRow();
+				this.div_QuestionManager.form.cmb_CategoryCode.set_index(0);
+				this.fnSetButtonControl();
+			} else {
+				this.fnQueryData();
+			}
+			break;
+		case "Search" : 
+			this.fnSetButtonControl();
+			break;
+			
+		case "Delete" :
+			alert("삭제 되었습니다.");
+			this.commUtil.popupClose("Delete");
+			break;
+			
+		case "SaveData" :
+			alert("저장 되었습니다.");
+			break;
+		
+		case "DuplicateCheckData" :
+			var sCnt = this.ds_Rtn.getColumn(0, "CNT");
+			if(sCnt == 0)
+			{
+				this.fnSaveData("Save");
+			}
+			else
+			{
+				alert("이미 문의 담당자가 존재 합니다.");
+			}
+			break;
+	}
+};
+
+// 팝업 콜백
+this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		switch(sPopupId)
+		{
+			case "popupSearchEmp" : // 문의담당자 선택(btn_EmpPopupTmp 팝업 나중에 삭제)
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				
+				if(ds.rowcount > 0)
+				{
+					var curRow = this.ds_QuestionManager.rowposition;
+					this.ds_QuestionManager.setColumn(curRow, "EMP_NO", ds.getColumn(0, "EMP_NO"));
+					this.ds_QuestionManager.setColumn(curRow, "EMP_NM", ds.getColumn(0, "EMP_NM"));
+					this.ds_QuestionManager.setColumn(curRow, "MANAGER_EMAIL", ds.getColumn(0, "EMAIL"));
+					
+					this.fnSetButtonControl();
+				}
+			break;
+			
+			case "popOrganization" : // 문의담당자 선택
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				
+				if(ds.rowcount > 0)
+				{
+					var curRow = this.ds_QuestionManager.rowposition;
+					this.ds_QuestionManager.setColumn(curRow, "EMP_NO", ds.getColumn(0, "EMP_NO"));
+					this.ds_QuestionManager.setColumn(curRow, "EMP_NM", ds.getColumn(0, "EMP_NM"));
+					this.ds_QuestionManager.setColumn(curRow, "MANAGER_EMAIL", ds.getColumn(0, "EMAIL"));
+					
+					this.fnSetButtonControl();
+				}
+			break;
+		}
+	}
+};
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_Save" : // 저장
+			if(this.fnValidation()) this.fnDuplicateCheckData();
+			break;
+		
+		case "btn_close": case "btn_Cancel":
+			//this.close();
+			this.commUtil.popupClose("close");
+			break;
+			
+		case "btn_Del":
+			if(this.confirm("해당 문의 담당자를 삭제 하시겠습니까?")) this.fnSaveData("Delete");
+			break;
+			
+		case "btn_EmpPopup":
+			this.fnEmpPopup();
+			break;
+		
+		case "btn_DeleteEmp":
+			var sEmpNo = this.ds_QuestionManager.getColumn(this.ds_QuestionManager.rowposition, "EMP_NO");
+			if(!this.gfnIsEmpty(sEmpNo))
+			{
+				var bEmail = this.confirm("담당자이메일도 삭제 하시겠습니까?");
+				this.fnClearEmp(bEmail);
+			}
+			break;
+	}
+};]]></Script>
+    <Objects>
+      <Dataset id="ds_cmm_CategoryCode">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_QuestionManager">
+        <ColumnInfo>
+          <Column id="QML_SEQ" type="STRING" size="256"/>
+          <Column id="CATEGORY_CODE" type="STRING" size="256"/>
+          <Column id="CATEGORY_NM" type="STRING" size="256"/>
+          <Column id="MANAGER_EMAIL" type="STRING" size="256"/>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="EMP_NM" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NM" type="STRING" size="256"/>
+          <Column id="UPDATE_DATE" type="STRING" size="256"/>
+          <Column id="UPDATE_EMP_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Rtn">
+        <ColumnInfo>
+          <Column id="CNT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_QuestionManager.form.cmb_CategoryCode" propid="value" datasetid="ds_QuestionManager" columnid="CATEGORY_CODE"/>
+      <BindItem id="item1" compid="div_QuestionManager.form.edt_ManagerEmail" propid="value" datasetid="ds_QuestionManager" columnid="MANAGER_EMAIL"/>
+      <BindItem id="item2" compid="div_QuestionManager.form.edt_EmpNo" propid="value" datasetid="ds_QuestionManager" columnid="EMP_NM"/>
+    </Bind>
+  </Form>
+</FDL>

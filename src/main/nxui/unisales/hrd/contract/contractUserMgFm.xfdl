@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="orgUserMgFm" width="1050" height="736" titletext="사용자 관리" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Static id="staTerm" taborder="0" top="0" width="20" cssclass="sta_WF_GSize" visible="false" text="W20" right="0" bottom="0"/>
+        <Div id="divSearch" taborder="1" left="0" top="0" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnSearch" taborder="0" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Static id="staTitle02" taborder="1" text="사용자명" left="195" top="12" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <Edit id="edtUserNm" taborder="2" left="staTitle02:0" top="12" width="118" height="24"/>
+              <Static id="staTitle02_00" taborder="3" text="기준년도" left="0" top="12" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <Calendar id="cal00" taborder="4" left="102" top="12" width="88" height="24" dateformat="yyyy" editformat="yyyy" showmonthspin="false" showyearspin="true" type="spin"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle01" taborder="2" text="사용자" left="0" width="64" height="43" top="divSearch:0" cssclass="sta_WF_Title"/>
+        <Div id="divCmmnBtn" taborder="3" text="div00" top="60" width="580" height="33" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnExcelDown" taborder="0" text="엑셀다운로드" top="0" width="119" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" onclick="divCmmnBtn_btnExcelDown_onclick" right="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdList" taborder="4" left="0" top="staTitle01:0" right="20" bottom="246" binddataset="dsList" autofittype="col" autoenter="select" uFunction="filter,sort,!colfix,!initial,find" minheight="250" maxheight="" oncelldblclick="grdList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="110"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="사용자 ID"/>
+                <Cell col="1" text="사번/ID"/>
+                <Cell col="2" text="사용자명"/>
+                <Cell col="3" text="부서"/>
+                <Cell col="4" text="직원구분"/>
+                <Cell col="5" text="직급"/>
+                <Cell col="6" text="직책"/>
+                <Cell col="7" text="직종"/>
+                <Cell col="8" text="담당업무"/>
+                <Cell col="9" text="재직상태"/>
+                <Cell col="10" text="테마"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:USER_ID" displaytype="normal" edittype="none"/>
+                <Cell col="1" text="bind:EMP_NO" edittype="none" editimemode="hangul" editmaxlength="10" displaytype="normal"/>
+                <Cell col="2" text="bind:KORN_NM" displaytype="normal" edittype="none" editinputtype="digit"/>
+                <Cell col="3" text="bind:DEPT_NM" edittype="none" combodataset="dsDept" combodatacol="DEPT_KORN_NM" combocodecol="DEPT_CD"/>
+                <Cell col="4" text="bind:USER_FLAG_CD" edittype="none"/>
+                <Cell col="5" text="bind:WKGD_CD" edittype="none"/>
+                <Cell col="6" text="bind:WKDT_CD" edittype="none"/>
+                <Cell col="7" text="bind:OCCU_CD" edittype="none"/>
+                <Cell col="8" text="bind:CHAG_WORK" displaytype="normal" edittype="none"/>
+                <Cell col="9" text="bind:HOOF_STAT_CD" edittype="none"/>
+                <Cell col="10" text="bind:THEME_ID"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	orgUserMgFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/16
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/16			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드
+	var param = [
+			  {biztype : "Combo", code : "SM04", objid : this.divDetail.form.cboUserFlagCd}							// 직원구분
+			, {biztype : "Combo", code : "SM05", objid : this.divDetail.form.cboWkgdCd}								// 직급코드
+			, {biztype : "Combo", code : "SM06", objid : this.divDetail.form.cboWkdtCd}								// 직책구분
+			, {biztype : "Combo", code : "SM07", objid : this.divDetail.form.cboOccuCd}								// 직종
+			, {biztype : "Combo", code : "SM08", objid : this.divDetail.form.cboHoofStatCd}							// 재직상태
+			, {biztype : "Combo", code : "SM14", objid : this.divDetail.form.cboThemId}								// 테마
+			, {biztype : "Grid",  code : "SM04", objid : this.grdList, bindcolumn : "USER_FLAG_CD", edit : "false"}	// grid 직원구분
+			, {biztype : "Grid",  code : "SM05", objid : this.grdList, bindcolumn : "WKGD_CD", edit : "false"}		// grid 직급코드
+			, {biztype : "Grid",  code : "SM06", objid : this.grdList, bindcolumn : "WKDT_CD", edit : "false"}		// grid 직책코드
+			, {biztype : "Grid",  code : "SM07", objid : this.grdList, bindcolumn : "OCCU_CD", edit : "false"}		// grid 직종코드
+			, {biztype : "Grid",  code : "SM08", objid : this.grdList, bindcolumn : "HOOF_STAT_CD", edit : "false"}	// grid 재직상태
+			, {biztype : "Grid",  code : "SM14", objid : this.grdList, bindcolumn : "THEME_ID", edit : "false"}		// grid 테마			
+			// 2022.03.03  재직상태 조회 조건 추가
+			, {biztype : "Combo", code : "SM08", selecttype : "A", objid : this.divSearch.form.cboHoofStat}			// 재직상태
+			, {biztype : "Combo", code : "SM04", selecttype : "A", objid : this.divSearch.form.cboUserFlagCd}								// 직원구분
+	];
+	this.gfnGetCommonCode(param);
+	
+	//주소찾기
+//	var url = this.gfnGetServerUrl() + "devPack/thirdParty/post/PostCall.jsp";
+	var sUrl = nexacro.getEnvironment().services['svcUrl'].url;
+// 	if (url.indexOf("localhost") > -1) {
+// 		url = "http://127.0.0.1:9093/devPack/thirdParty/post/PostCall.jsp";
+// 	}
+	this.divDetail.form.jPostAddr.set_jspUrl(sUrl + "thirdParty/post/PostCall.jsp");
+	
+	//2022.03.03 재직상태 조회 조건 INDEX 설정
+	this.divSearch.form.cboHoofStat.set_index(1);
+	
+	// 버튼 권한 제어
+	this.gfnSetCommBtn(this.divCmmnBtn);
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";					//메세지ID
+		var arrArg = [""];										//메세지취환될값 배열[생략가능]
+		var sPopId = "search";									//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";						//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+	
+		// 변경된 정보가 있습니다.\n저장 하시겠습니까?
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);
+	}
+	else {
+		this.fnTranSearch();
+	}
+};
+
+
+//신규
+this.cfnAdd = function ()
+{
+	var nRow = this.dsList.addRow();
+	
+	this.dsList.setColumn(nRow, "JOIN_DATE", this.gfnGetDate());
+	//this.dsList.setColumn(nRow, "RETR_DATE", "99991231");
+	this.dsList.setColumn(nRow, "HOOF_STAT_CD", "HO");
+	this.dsList.setColumn(nRow, "USER_FLAG_CD", "RW");
+	this.dsList.setColumn(nRow, "WKGD_CD", "0080");
+	this.dsList.setColumn(nRow, "WKDT_CD", "0050");
+	
+	this.dsList.setColumn(nRow, "USER_ID", this.gfnLPad(""+(nexacro.toNumber(this.dsList.getMaxNF("USER_ID"))+1),"0",10));
+	this.divDetail.form.edtEmpNo.setFocus();
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsList.rowcount == 0) return;
+
+	this.dsList.deleteRow(this.dsList.rowposition);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if(this.fnFormValidation()){
+		this.fnCheckUserId();
+	}
+};
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//사용자 목록 조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "searchUserInfo";
+	var strSvcUrl   = "searchUserInfo.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//사용자아이디 중복체크
+this.fnTranCheckUserId = function ()
+{
+	// 데이터가 중복이 있는 지 체크하는 서비스를 호출한다.
+	var strSvcId    = "checkUserId";
+	var strSvcUrl   = "checkUserId.do";
+	var inData      = "dsCheckUserId=dsCheckUserId";
+	var outData     = "dsCheckResult=dsCheckResult";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]	
+};
+
+//사용자 정보 저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveUserInfo";
+	var strSvcUrl   = "saveUserInfo.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchUserInfo":
+		case "saveUserInfo":
+			break;
+		case "checkUserId":
+			this.fnAfterCheck();
+			break;
+		default: break;
+	}
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "search":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}
+			this.fnTranSearch();
+			break;
+		case "save":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}
+			this.fnTranSave();
+			break;
+		case "valiEmpNo":
+			this.dsList.setColumn(this.dsList.rowposition, "EMP_NO", "");
+			this.divDetail.form.edtEmpNo.setFocus();
+			break;
+		default:break;
+	}
+};
+
+//엑셀임포트콜백
+this.fnExcelImportCallback = function (sImportId, e)
+{
+	//TODO..
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//정합성체큰
+this.fnFormValidation = function ()
+{
+	for(var i=0;i<this.dsList.rowcount;i++) {
+		if(this.dsList.getRowType(i) == Dataset.ROWTYPE_INSERT) {
+			if(!this.dsList.getColumn(i, "PASSWORD")) {
+				this.dsList.set_rowposition(i);
+				this.gfnAlert("msg.err.validator.required", ["비밀번호","6"],"");
+				return;
+			}
+		}
+	}
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+
+	this.gfnSetValidation(this.dsList, "USER_ID", "사용자ID"	, "required");
+	this.gfnSetValidation(this.dsList, "EMP_NO",  "사번"	    , "required");
+	//this.gfnSetValidation(this.dsList, "PASSWORD", "비밀번호"	, "required");
+	this.gfnSetValidation(this.dsList, "KORN_NM", "사용자이름(한글)"	, "required");
+	this.gfnSetValidation(this.dsList, "DEPT_CD", "부서"	, "required");
+	this.gfnSetValidation(this.dsList, "HOOF_STAT_CD", "재직상태"	, "required");
+	
+	this.gfnSetValidation(this.dsList, "JOIN_DATE", "입사일자", "date");
+	this.gfnSetValidation(this.dsList, "RETR_DATE", "퇴사일자", "date");
+	this.gfnSetValidation(this.dsList, "BIR_DT"   , "생년월일", "date");
+	
+	this.gfnSetValidation(this.dsList, "EMAL", "EMail"	, "isemail");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsList, "U") == false) return false;
+	else return true;
+};
+
+//아이디중복체크
+this.fnCheckUserId = function ()
+{
+	var i;
+	var nAddRow;
+	
+	// dsList에서 신규 데이터 건만 추출한다.
+	this.dsCheckUserId.clearData();
+	for(i = 0; i < this.dsList.getRowCount(); i++) {
+		if(this.dsList.getRowType(i) == Dataset.ROWTYPE_INSERT) {
+			nAddRow = this.dsCheckUserId.addRow();
+			
+			this.dsCheckUserId.copyRow(nAddRow, this.dsList, i);
+		}
+	}
+	
+	if(this.dsCheckUserId.getRowCount() > 0) {
+		// 신규 데이터가 있는 경우
+		this.fnTranCheckUserId();	
+	}else {
+		// 저장 하시겠습니까?
+		this.gfnAlert("confirm.save", [""], "save", "fnMsgCallback");
+		return;
+	}
+};
+
+
+//아이디 중복체크 후 
+this.fnAfterCheck = function ()
+{
+	// 메시지 코드가 존재하는 지 여부 체크
+	var nCnt = this.dsCheckResult.getRowCount();
+	
+	if(nCnt == 0) {
+		// 중복되는 건이 없는 경우 저장 서비스 호출
+		this.gfnAlert("confirm.save", [""], "save", "fnMsgCallback");
+	}else {	
+		// 중복된 건이 있는 경우 메시지 출력
+		var sDupCode;
+		var sTemp;
+		
+		for(i = 0; i < nCnt; i++) {
+			sTemp = this.dsCheckResult.getColumn(i, "USER_ID");
+			
+			if(i == 0) {
+				sDupCode = "[" + sTemp;
+			}
+			else {
+				sDupCode += sTemp;
+			}
+			
+			if(i == this.dsCheckResult.getRowCount() - 1) {
+				sDupCode += "]";
+			}
+			else {
+				sDupCode += ",";							
+			}
+		}
+		// 중복된 메시지가 존재합니다.
+		this.gfnAlert("msg.exist.code", ["중복된 사용자ID", sDupCode]);
+		return;
+	}
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회버튼
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+//사용자아이디
+this.dsList_canrowposchange = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var nStatus = this.dsList.getRowType(e.newrow);
+	if( nStatus == 2 ){
+		this.divDetail.form.edtUserId.set_readonly(false);
+	}else{
+		this.divDetail.form.edtUserId.set_readonly(true);
+	}
+};
+
+//엑셀업로드
+this.divCmmnBtn_btnExcelUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnExcelImport("dsList", "사용자 리스트", "A4:W", "fnExcelImportCallback", "message", "", "A3:W3", this.grdList);
+};
+
+//엑셀템플릿 다운로드
+this.divCmmnBtn_btnExcelTemplate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var fileId = "공통시스템_Template.xlsx";
+	this.gfnDownTempate(fileId);
+};
+
+//엑셀다운로드
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdList, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");
+};
+
+//EMP_NO 중복체크
+this.dsList_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if( e.columnid=="EMP_NO"){
+		if(this.gfnIsNull(e.newvalue)) return;
+		
+		var nRow = obj.findRow("EMP_NO", e.newvalue);
+		if( nRow > -1){
+			this.gfnAlert("msg.exist", ["입력하신 사번"],"valiEmpNo","fnMsgCallback");
+			return;
+		}
+	}
+};
+
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(this.dsList.getRowType(this.dsList.rowposition) == Dataset.ROWTYPE_INSERT) {
+		this.gfnAlert("msg.err.updateafter", [],"insertPre","fnMsgCallback");
+		return;
+	}
+	var sTitle = "사용자상세";
+	var oArg   = {pvEmpNo : this.dsList.getColumn(this.dsList.rowposition, "EMP_NO")};
+	var oOption = {title:sTitle
+				,titlebar:true};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup("orgUserDetail", "sytm::org/orgUserDetailPu.xfdl", oArg, sPopupCallBack, oOption);		
+};
+
+// 비밀번호 변경
+this.divDetail_edtPassword_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	var pswd = obj.value;
+	var shaObj = new jsSHA("SHA-256", "TEXT");
+	shaObj.update(pswd);
+	var hash = shaObj.getHash("HEX");	
+
+	this.dsList.setColumn(this.dsList.rowposition, "PASSWORD", this.gfnEncData(hash));	
+};
+
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.divDetail.form.edtPassword.set_value(this.dsList.getColumn(this.dsList.rowposition, "PASSWORD"));	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="HOOF_STAT_CD" type="STRING" size="256"/>
+          <Column id="USER_FLAG_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" canrowposchange="dsList_canrowposchange" cancolumnchange="dsList_cancolumnchange" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="PASSWORD" type="STRING" size="256"/>
+          <Column id="KORN_NM" type="STRING" size="256"/>
+          <Column id="ENGL_NM" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="USER_FLAG_CD" type="STRING" size="256"/>
+          <Column id="WKGD_CD" type="STRING" size="256"/>
+          <Column id="WKDT_CD" type="STRING" size="256"/>
+          <Column id="OCCU_CD" type="STRING" size="256"/>
+          <Column id="CHAG_WORK" type="STRING" size="256"/>
+          <Column id="JOIN_DATE" type="STRING" size="256"/>
+          <Column id="RETR_DATE" type="STRING" size="256"/>
+          <Column id="HOOF_STAT_CD" type="STRING" size="256"/>
+          <Column id="REGI_NUMB" type="STRING" size="256"/>
+          <Column id="BIR_DT" type="STRING" size="256"/>
+          <Column id="CELL_NUMB" type="STRING" size="256"/>
+          <Column id="PHONE1" type="STRING" size="256"/>
+          <Column id="PHONE2" type="STRING" size="256"/>
+          <Column id="PHONE3" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="ZIP_NUMB" type="STRING" size="256"/>
+          <Column id="BASC_ADDR" type="STRING" size="256"/>
+          <Column id="DTL_ADDR" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckUserId">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckResult"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtUserId" propid="value" datasetid="dsCond" columnid="USER_ID"/>
+      <BindItem id="item1" compid="divSearch.form.edtEmpNo" propid="value" datasetid="dsCond" columnid="EMP_NO"/>
+      <BindItem id="item25" compid="divSearch.form.edtUserNm" propid="value" datasetid="dsCond" columnid="USER_NM"/>
+      <BindItem id="item27" compid="divSearch.form.cboHoofStat" propid="value" datasetid="dsCond" columnid="HOOF_STAT_CD"/>
+      <BindItem id="item3" compid="divSearch.form.cboUserFlagCd" propid="value" datasetid="dsCond" columnid="USER_FLAG_CD"/>
+    </Bind>
+  </Form>
+</FDL>

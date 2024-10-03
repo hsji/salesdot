@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="TS_StaffInfoReg" width="1200" height="530" titletext="인력기본정보" onload="TS_StaffInfoReg_onload">
+    <Layouts>
+      <Layout height="530" mobileorientation="landscape" width="1200">
+        <Static id="stc_ResultGrade" taborder="2" text="최종학력" left="0" top="21" width="99" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="2200"/>
+        <Combo id="cmb_ResultGrade" taborder="0" text="" left="stc_ResultGrade:10" top="21" width="128" height="24" innerdataset="ds_CD_LAST_SCHOOL_CAREER" codecolumn="CODE" datacolumn="CAPTION"/>
+        <Static id="stc_GBAttachment00" taborder="3" cssclass="sta_POP_GroupBg" text="" width="506" height="29" right="0" bottom="24"/>
+        <Static id="stc_GbEducationInfo" taborder="4" cssclass="sta_POP_GroupBg" left="30" top="48" height="32" right="480"/>
+        <Grid id="grd_EducationInfo" taborder="1" binddataset="dsOutput2" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" top="64" visible="true" left="20.00" right="20" cellmovingtype="col" bottom="20">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="20"/>
+                <Column size="80"/>
+                <Column size="165"/>
+                <Column size="212"/>
+                <Column size="80"/>
+                <Column size="250"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell colspan="3" text="기간" displaytype="text" edittype="text" TL_SEQ="28"/>
+                <Cell col="3" displaytype="text" edittype="text" text="학교명" TL_SEQ="2222"/>
+                <Cell col="4" text="과명" TL_SEQ="2223"/>
+                <Cell col="5" text="졸업,수료" TL_SEQ="2224"/>
+                <Cell col="6" text="소재지" TL_SEQ="2225"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="date" editautoselect="true" text="bind:START_DATE" displaytype="date" maskedittype="string" maskeditformat="####-##-##"/>
+                <Cell col="1" text="~"/>
+                <Cell col="2" text="bind:END_DATE" displaytype="date" edittype="date" maskedittype="string" maskeditformat="####-##-##"/>
+                <Cell col="3" edittype="text" editautoselect="true" editdisplay="edit" text="bind:SCHOOL_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:SUBJECT_NAME" edittype="text" textAlign="left"/>
+                <Cell col="5" text="bind:GRADUATE_FLAG" displaytype="combotext" combodataset="ds_CD_GRADUATION_FLAG" combocodecol="CODE" combodatacol="CAPTION" edittype="combo" TL_FLAG="1"/>
+                <Cell col="6" text="bind:PLACE_NAME" edittype="text" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_ResultGrade00" taborder="6" text="졸업증명서" left="cmb_ResultGrade:10" top="21" width="103" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="2200"/>
+        <Div id="div_Attachment00_00" taborder="5" async="false" SOURCE_CD="EI" SOURCE_SEQ="EMP_NO" USE_NEXT_FILE_TYPE="false" USE_LINK_TYPE="false" USE_MULTI_FILE="false" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="false" STATUS_CD="GRADUATION" BINDDATASET="dsOutput" url="sales::comm/COM_Attachment.xfdl" width="440" height="26" text="" formscrollbartype="none none" formscrolltype="none" left="stc_ResultGrade00:10.00" top="21"/>
+        <Button id="btn_EducationMinus" taborder="8" text="행삭제" top="20" height="28" cssclass="btn_WF_Delete" width="72" right="20" onclick="btn_EducationMinus_onclick"/>
+        <Button id="btn_EducationPlus" taborder="7" text="행추가" top="20" width="72" height="28" cssclass="btn_WF_Add" right="btn_EducationMinus:5" onclick="btn_EducationPlus_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 인력정보등록 (TS_StaffInfoSearch_S01,
+								TS_StaffInfoSearch_S02,
+								TS_StaffInfoSearch_S04,
+								TS_StaffInfoSearch_R01,
+								TS_StaffInfoSearch_R02)
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.09.17
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.arrCompanyExceptList = ["TOBE"];	//선택되면 안되는 회사 목록 추려야함 ingyu 20181015
+this.dsOutput = null;
+this.dsOutput2 = null;
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.TS_StaffInfoReg_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용	
+	this.fnGetCode();
+	
+	this.dsOutput = this.parent.parent.parent.dsOutput;
+	this.dsOutput2 = this.parent.parent.parent.dsOutput2;
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{	
+// 	this.gfnAddCodeDataset("ds_CD_GRADE_CODE"			,"CM0002");	
+// 	this.gfnAddCodeDataset("ds_CD_DUTY_CODE"			,"CM0003");
+// 	this.gfnAddCodeDataset("ds_CD_HOLD_OFFICE"			,"CM0009");
+	this.gfnAddCodeDataset("ds_CD_LEVEL_CODE" 			,"LEVEL_CODE");
+	this.gfnAddCodeDataset("ds_CD_LAST_SCHOOL_CAREER"	,"SCOOLCAREER");
+	this.gfnAddCodeDataset("ds_CD_LICENSE_TYPE" 		,"FILE_EL");
+	
+	// 공통코드 조회
+	this.gfnCodeTransaction();
+};
+
+this.fnsetEditReadonly = function(bRead)
+{	
+	this.gfnCompDisable(this.div_EmpInfo.form, bRead);
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+
+this.fnGetEmpCode = function()
+{
+// 	var dsOutput = this._getDatasetObject("dsOutput"); //parent의 Dataset에 접근하기 위해 사용한다.
+// 
+// 	this.gfnAddSendParameter("CO_CD", dsOutput.getColumn(0, "CO_CD"));
+// 	
+// 	this.gfnAddOutputDataset("dsEmpNo", "dsNewEmpNo");
+// 	this.gfnCommonTransaction("fnGetEmpCode", "TS_StaffInfoSearch_S04");
+};
+
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		//alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else
+	{
+		if(strSvcID == "gfnGetCode")
+		{
+			
+		}
+		else if(strSvcID == "fnGetEmpCode")
+		{
+		}
+	}
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+};
+
+// 추가
+this.btn_EducationPlus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsOutput2.addRow();
+	this.dsOutput2.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+	this.dsOutput2.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));
+};
+
+// 삭제
+this.btn_EducationMinus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.dsOutput2.rowposition < 0) return;
+	this.dsOutput2.deleteRow(this.dsOutput2.rowposition);
+};
+// 저장 validation
+this.fnValid = function ()
+{
+	for(var i=0,len=this.dsOutput2.rowcount;i<len;i++) {
+		if(this.dsOutput2.getRowType(i) == 2) {
+			if(this.gfnIsNull(this.dsOutput2.getColumn(i, "COMPANY_CD"))) {
+				this.dsOutput2.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+			}
+			if(this.gfnIsNull(this.dsOutput2.getColumn(i, "EMP_NO"))) {
+				this.dsOutput2.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));
+			}			
+		}
+	}
+	
+	// 정합성 체크
+	this.gfnClearValidation(this.dsOutput2);
+	this.gfnSetValidation(this.dsOutput2, "START_DATE", "입학일자"	, "required");
+	this.gfnSetValidation(this.dsOutput2, "END_DATE", "졸업(수료)일자"	, "required");
+	this.gfnSetValidation(this.dsOutput2, "SCHOOL_NAME", "학교명"	, "required");
+	this.gfnSetValidation(this.dsOutput2, "SUBJECT_NAME", "과명"	, "required");
+	this.gfnSetValidation(this.dsOutput2, "GRADUATE_FLAG", "졸업여부"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsOutput2, "U") == false) return false;
+	else return true;
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_CD_LAST_SCHOOL_CAREER"/>
+      <Dataset id="ds_CD_LEVEL_CODE"/>
+      <Dataset id="ds_CD_LICENSE_TYPE"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item19" compid="cmb_ResultGrade" propid="value" datasetid="dsOutput" columnid="EDU_LEVEL_CD"/>
+      <BindItem id="item9" compid="edt_Address2" propid="value" datasetid="dsOutput" columnid="DETAIL_ADDR"/>
+      <BindItem id="item1" compid="divDetail.form.edtUserNmEng" propid="value" datasetid="dsList" columnid="ENGL_NM"/>
+    </Bind>
+  </Form>
+</FDL>

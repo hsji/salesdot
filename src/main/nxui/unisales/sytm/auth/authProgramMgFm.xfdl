@@ -1,0 +1,676 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="authProgramMgPu" width="1250" height="736" titletext="프로그램 관리" cssclass="frm_WF_Frame" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1250">
+        <Static id="staTerm" taborder="0" top="0" width="20" cssclass="sta_WF_GSize" visible="false" text="W20" right="0" bottom="0"/>
+        <Div id="divSearch" taborder="1" left="0" top="0" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staCompany" taborder="13" text="회사구분" left="0" top="12" width="87" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="cboCompany" taborder="14" text="알림" left="staCompany:0" top="12" width="139" height="24" index="1" value="INF" innerdataset="gdsCompany" codecolumn="SSC_CD" datacolumn="SSC_CD_KORN_NM"/>
+              <Static id="staTitle03" taborder="10" text="모듈" left="cboCompany:0" top="12" width="62" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="cboModuleCd" taborder="0" text="cbo00" left="staTitle03:0" top="12" width="140" height="24"/>
+              <Static id="staTitle00" taborder="5" text="프로그램ID" left="cboModuleCd:0" top="12" width="98" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="Combo01" taborder="6" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="7" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="8" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="9" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="4" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Edit id="edtProgId" taborder="1" left="staTitle00:0" top="12" width="140" height="24"/>
+              <Static id="staTitle01" taborder="11" text="프로그램명" left="edtProgId:0" top="12" width="98" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Edit id="edtProgNm" taborder="2" left="staTitle01:0" top="12" width="140" height="24"/>
+              <Static id="staTitle02" taborder="12" text="프로그램유형" left="edtProgNm:0" top="12" width="110" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="cboProgType" taborder="3" text="cbo00" left="staTitle02:0" top="12" width="140" height="24"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle01" taborder="2" text="프로그램 " left="0" width="86" height="43" top="divSearch:0" cssclass="sta_WF_Title"/>
+        <Grid id="grdList" taborder="3" left="0" top="staTitle01:0" right="20" bottom="210" binddataset="dsList" autofittype="col" minheight="250" maxheight="" oncelldblclick="grdList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="101"/>
+                <Column size="80"/>
+                <Column size="220"/>
+                <Column size="70"/>
+                <Column size="220"/>
+                <Column size="50" band="right"/>
+                <Column size="50" band="right"/>
+                <Column size="50" band="right"/>
+                <Column size="50" band="right"/>
+                <Column size="50" band="right"/>
+                <Column size="50" band="right"/>
+                <Column size="50" band="right"/>
+                <Column size="50" band="right"/>
+                <Column size="55" band="right"/>
+                <Column size="50" band="right"/>
+              </Columns>
+              <Rows>
+                <Row size="31" band="head"/>
+                <Row size="31" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="프로그램 ID"/>
+                <Cell col="1" rowspan="2" text="모듈"/>
+                <Cell col="2" rowspan="2" text="프로그램 명"/>
+                <Cell col="3" rowspan="2" text="프로그램&#13;&#10;유형"/>
+                <Cell col="4" rowspan="2" text="프로그램 경로"/>
+                <Cell col="5" rowspan="2" text="사용&#13;&#10;여부" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="6" colspan="7" text="프로그램 기능" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="13" rowspan="2" text="추가버튼&#13;&#10;유무" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="14" rowspan="2" text="매뉴얼&#13;&#10; 여부"/>
+                <Cell row="1" col="6" text="조회" autosizecol="none" controlautosizingtype="none"/>
+                <Cell row="1" col="7" text="추가" autosizecol="none" controlautosizingtype="none"/>
+                <Cell row="1" col="8" text="삭제" autosizecol="none" controlautosizingtype="none"/>
+                <Cell row="1" col="9" text="저장" autosizecol="none" controlautosizingtype="none"/>
+                <Cell row="1" col="10" text="출력" autosizecol="none" controlautosizingtype="none"/>
+                <Cell row="1" col="11" text="엑셀" autosizecol="none" controlautosizingtype="none"/>
+                <Cell row="1" col="12" text="초기화" autosizecol="none" controlautosizingtype="none"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:PRGM_ID"/>
+                <Cell col="1" text="bind:MODULE_CD"/>
+                <Cell col="2" text="bind:PRGM_NM" tooltiptext="bind:PRGM_NM"/>
+                <Cell col="3" text="bind:PRGM_TYPE_CD"/>
+                <Cell col="4" text="bind:PRGM_PATH" tooltiptext="bind:PRGM_PATH"/>
+                <Cell col="5" text="bind:USED_YN" displaytype="checkboxcontrol" edittype="checkbox" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="6" text="bind:INQR_BTTN_USED_YN" displaytype="checkboxcontrol" edittype="checkbox" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="7" text="bind:ANEW_BTTN_USED_YN" displaytype="checkboxcontrol" edittype="checkbox" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="8" text="bind:DELE_BTTN_USED_YN" displaytype="checkboxcontrol" edittype="checkbox" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="9" text="bind:SAVE_BTTN_USED_YN" displaytype="checkboxcontrol" edittype="checkbox" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="10" text="bind:PRNT_BTTN_USED_YN" displaytype="checkboxcontrol" edittype="checkbox" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="11" text="bind:EXCL_BTTN_USED_YN" displaytype="checkboxcontrol" edittype="checkbox" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="12" displaytype="checkboxcontrol" edittype="checkbox" text="bind:INIT_BTTN_USED_YN" autosizecol="none" controlautosizingtype="none"/>
+                <Cell col="13" displaytype="combotext" edittype="none" combodataset="dsYn" combodatacol="name" combocodecol="code" autosizecol="none" controlautosizingtype="none" text="bind:ADD_BTN_YN"/>
+                <Cell col="14" text="bind:HELP_FLAG" displaytype="text"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divCmmnBtn" taborder="4" text="div00" top="divSearch:10" width="720" height="33" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnAddBtnMg" taborder="0" text="추가버튼관리" top="0" width="98" height="28" fittocontents="width" right="101" onclick="divCmmnBtn_btnAddBtnMg_onclick" visible="true"/>
+              <Button id="btnExcel" taborder="1" text="엑셀다운로드" top="0" width="119" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" right="btnAddBtnMg:3" onclick="divCmmnBtn_btnExcel_onclick"/>
+              <Button id="btnExcelTemplate" taborder="2" text="업로드템플릿 다운로드" top="0" height="28" fittocontents="width" cssclass="btn_WF_TempSave" right="btnExcel:3" width="171" onclick="divCmmnBtn_btnExcelTemplate_onclick"/>
+              <Button id="btnExcelUpload" taborder="3" text="엑셀업로드" top="0" fittocontents="width" cssclass="btn_WF_ExcelUp" right="btnExcelTemplate:3" width="107" onclick="divCmmnBtn_btnExcelUpload_onclick" height="28"/>
+              <Button id="btnManual" taborder="4" text="매뉴얼 관리" top="0" width="98" height="28" fittocontents="width" visible="true" left="btnAddBtnMg:3" onclick="divCmmnBtn_btnManual_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle00" taborder="6" text="프로그램 상세" left="0" height="43" right="20" cssclass="sta_WF_SubTitle" top="grdList:0"/>
+        <Div id="divDetail" taborder="5" text="div00" left="0" height="167" right="20" top="staTitle00:0">
+          <Layouts>
+            <Layout>
+              <Static id="staBg01" taborder="0" left="0" top="0" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg02" taborder="1" left="0" top="33" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg03" taborder="2" left="0" top="66" height="34" cssclass="sta_WF_LabelBg" right="0" text=""/>
+              <Static id="staBg04" taborder="3" left="0" top="99" height="68" cssclass="sta_WF_LabelBg" right="0" text=""/>
+              <Static id="staTitle01" taborder="4" text="프로그램 ID" left="0" top="0" width="108" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtProgId" taborder="5" left="112" top="5" width="141" height="24" cssclass="essential" maxlength="10" inputtype="digit,english" inputmode="upper" imemode="alpha"/>
+              <Static id="staTitle01_00" taborder="6" text="모듈" left="257" top="0" width="108" height="34" cssclass="sta_WF_Label"/>
+              <Combo id="cboModuleCd" taborder="7" text="cbo00" left="369" top="5" width="141" height="24" cssclass="essential"/>
+              <Static id="staTitle02" taborder="8" text="프로그램 명" left="514" top="0" width="108" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtProgNm" taborder="9" left="626" top="5" width="141" height="24" cssclass="essential" maxlength="66" imemode="hangul"/>
+              <Static id="staTitle03" taborder="10" text="프로그램 유형" left="771" top="0" width="108" height="34" cssclass="sta_WF_Label"/>
+              <Combo id="cboProgType" taborder="11" text="cbo00" left="883" top="5" height="24" width="141"/>
+              <Static id="staTitle05" taborder="12" text="프로그램 경로" left="0" top="33" width="108" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtProgPath" taborder="13" left="112" top="edtProgId:9" width="398" height="24" cssclass="essential" maxlength="100" inputtype="digit,english,space,symbol,sign,dot" imemode="alpha"/>
+              <Static id="staTitle07" taborder="14" text="프로그램 설명" left="514" top="33" width="108" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtProgDesc" taborder="15" left="626" top="38" height="24" maxlength="150" imemode="hangul" right="5"/>
+              <Static id="staTitle04" taborder="16" text="사용여부" left="0" top="66" width="108" height="34" cssclass="sta_WF_Label"/>
+              <CheckBox id="chkUseYn" taborder="17" text="사용" left="112" top="71" height="24" value="true" width="61" falsevalue="0" truevalue="1"/>
+              <Static id="staTitle08" taborder="18" text="프로그램 기능" left="257" top="66" width="108" height="34" cssclass="sta_WF_Label"/>
+              <CheckBox id="chkSearchYn" taborder="19" text="조회" left="369" top="71" height="24" value="true" width="61" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chkNewYn" taborder="20" text="추가" left="chkSearchYn:1" top="71" height="24" value="true" width="61" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chkDelYn" taborder="21" text="삭제" left="chkNewYn:1" top="71" height="24" value="true" width="61" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chkSaveYn" taborder="22" text="저장" left="chkDelYn:1" top="71" height="24" value="true" width="61" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chkPrintYn" taborder="23" text="출력" left="chkSaveYn:1" top="71" height="24" value="true" width="61" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chkExcelYn" taborder="24" text="엑셀" left="chkPrintYn:1" top="71" height="24" value="true" width="61" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chkInitYn" taborder="25" text="초기화" left="chkExcelYn:1" top="71" height="24" value="true" width="74" falsevalue="0" truevalue="1"/>
+              <Static id="staTitle09" taborder="26" text="비고" left="0" top="99" width="108" height="68" cssclass="sta_WF_Label"/>
+              <TextArea id="txtRemk" taborder="27" left="staTitle09:4" top="chkSaveYn:9" right="5" maxlength="1000" imemode="hangul" height="58"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged" cancolumnchange="dsList_cancolumnchange">
+        <ColumnInfo>
+          <Column id="PRGM_ID" type="string" size="10"/>
+          <Column id="MODULE_CD" type="STRING" size="256"/>
+          <Column id="PRGM_NM" type="string" size="100"/>
+          <Column id="PRGM_TYPE_CD" type="string" size="3"/>
+          <Column id="PRGM_EXPL" type="string" size="500"/>
+          <Column id="PRGM_PATH" type="string" size="200"/>
+          <Column id="USED_YN" type="string" size="1"/>
+          <Column id="ANEW_BTTN_USED_YN" type="string" size="1"/>
+          <Column id="INQR_BTTN_USED_YN" type="string" size="1"/>
+          <Column id="DELE_BTTN_USED_YN" type="string" size="1"/>
+          <Column id="SAVE_BTTN_USED_YN" type="string" size="1"/>
+          <Column id="PRNT_BTTN_USED_YN" type="string" size="1"/>
+          <Column id="EXCL_BTTN_USED_YN" type="string" size="1"/>
+          <Column id="INIT_BTTN_USED_YN" type="STRING" size="256"/>
+          <Column id="REMK" type="string" size="4000"/>
+          <Column id="ADD_BTN_YN" type="STRING" size="256"/>
+          <Column id="PRGM_HELP" type="STRING" size="256"/>
+          <Column id="HELP_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="PRGM_ID" type="STRING" size="10"/>
+          <Column id="PRGM_NM" type="STRING" size="100"/>
+          <Column id="PRGM_TYPE_CD" type="STRING" size="3"/>
+          <Column id="MODULE_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="PRGM_TYPE_CD"/>
+            <Col id="PRGM_NM"/>
+            <Col id="PRGM_ID"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsYn">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">1</Col>
+            <Col id="name">Y</Col>
+          </Row>
+          <Row>
+            <Col id="code">0</Col>
+            <Col id="name"/>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divDetail.form.edtProgId" propid="value" datasetid="dsList" columnid="PRGM_ID"/>
+      <BindItem id="item5" compid="divDetail.form.cboModuleCd" propid="value" datasetid="dsList" columnid="MODULE_CD"/>
+      <BindItem id="item1" compid="divDetail.form.edtProgNm" propid="value" datasetid="dsList" columnid="PRGM_NM"/>
+      <BindItem id="item2" compid="divDetail.form.cboProgType" propid="value" datasetid="dsList" columnid="PRGM_TYPE_CD"/>
+      <BindItem id="item4" compid="divDetail.form.edtProgPath" propid="value" datasetid="dsList" columnid="PRGM_PATH"/>
+      <BindItem id="item6" compid="divDetail.form.edtProgDesc" propid="value" datasetid="dsList" columnid="PRGM_EXPL"/>
+      <BindItem id="item3" compid="divDetail.form.chkUseYn" propid="value" datasetid="dsList" columnid="USED_YN"/>
+      <BindItem id="item7" compid="divDetail.form.chkSearchYn" propid="value" datasetid="dsList" columnid="INQR_BTTN_USED_YN"/>
+      <BindItem id="item8" compid="divDetail.form.chkNewYn" propid="value" datasetid="dsList" columnid="ANEW_BTTN_USED_YN"/>
+      <BindItem id="item9" compid="divDetail.form.chkDelYn" propid="value" datasetid="dsList" columnid="DELE_BTTN_USED_YN"/>
+      <BindItem id="item10" compid="divDetail.form.chkSaveYn" propid="value" datasetid="dsList" columnid="SAVE_BTTN_USED_YN"/>
+      <BindItem id="item11" compid="divDetail.form.chkPrintYn" propid="value" datasetid="dsList" columnid="PRNT_BTTN_USED_YN"/>
+      <BindItem id="item12" compid="divDetail.form.chkExcelYn" propid="value" datasetid="dsList" columnid="EXCL_BTTN_USED_YN"/>
+      <BindItem id="item13" compid="divDetail.form.chkInitYn" propid="value" datasetid="dsList" columnid="INIT_BTTN_USED_YN"/>
+      <BindItem id="item14" compid="divDetail.form.txtRemk" propid="value" datasetid="dsList" columnid="REMK"/>
+      <BindItem id="item15" compid="divSearch.form.edtProgId" propid="value" datasetid="dsCond" columnid="PRGM_ID"/>
+      <BindItem id="item18" compid="divSearch.form.cboModuleCd" propid="value" datasetid="dsCond" columnid="MODULE_CD"/>
+      <BindItem id="item16" compid="divSearch.form.edtProgNm" propid="value" datasetid="dsCond" columnid="PRGM_NM"/>
+      <BindItem id="item17" compid="divSearch.form.cboProgType" propid="value" datasetid="dsCond" columnid="PRGM_TYPE_CD"/>
+      <BindItem id="item19" compid="divSearch.form.cboCompany" propid="value" datasetid="dsCond" columnid="COMPANY_CD"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	authProgramMgPu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/03/23
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/03/23			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+//this.fvRowPosition = -1;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드조회
+	var param = [ {biztype : "Combo", code : "SM10", selecttype : "A", objid : this.divSearch.form.cboProgType}			// 프로그램 유형
+				 ,{biztype : "Combo", code : "SM01", selecttype : "A", objid : this.divSearch.form.cboModuleCd}			// 모듈구분
+				 ,{biztype : "Combo", code : "SM10", objid : this.divDetail.form.cboProgType}							// 입력항목 프로그램 유형
+				 ,{biztype : "Combo", code : "SM01", objid : this.divDetail.form.cboModuleCd}							// 입력항목 모듈구분
+				 ,{biztype : "Grid",  code : "SM10", objid : this.grdList, bindcolumn : "PRGM_TYPE_CD", edit : "false"}	// grid 프로그램 유형
+				 ,{biztype : "Grid",  code : "SM01", objid : this.grdList, bindcolumn : "MODULE_CD", 	edit : "false"}	// grid 프로그램 유형
+	];
+	this.gfnGetCommonCode(param);	
+	
+	// 버튼 권한 제어
+	this.gfnSetCommBtn(this.divCmmnBtn);
+	
+	var arrComp = [this.divSearch.form.cboCompany];
+	this.gfnSetAuthorityCompany(arrComp);	
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		// 변경된 정보가 있습니다.\n저장 하시겠습니까?
+		var sMsgId = "confirm.before.search";		//메세지ID
+		var arrArg = [""];							//메세지취환될값 배열[생략가능]
+		var sPopId = "search";						//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";			//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+	
+		// 변경된 정보가 있습니다.\n저장 하시겠습니까?
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	//초기값 세팅
+	var nRow = this.dsList.addRow();
+	var compCd = this.dsList.getColumn(nRow-1, "COMPANY_CD");
+	if(!compCd) compCd = this.divSearch.form.cboCompany.value;
+	this.dsList.setColumn(nRow, "COMPANY_CD", compCd);
+	
+	this.dsList.setColumn(nRow,'PRGM_ID'		  ,"");
+	this.dsList.setColumn(nRow,'MODULE_CD'		  ,"");
+	this.dsList.setColumn(nRow,'PRGM_NM'		  ,"");
+	this.dsList.setColumn(nRow,'PRGM_TYPE_CD'	  ,"F");
+	this.dsList.setColumn(nRow,'PRGM_EXPL'		  ,"");
+	this.dsList.setColumn(nRow,'PRGM_PATH'		  ,"");
+	this.dsList.setColumn(nRow,'USED_YN'		  ,"1");
+	this.dsList.setColumn(nRow,'ANEW_BTTN_USED_YN',"0");
+	this.dsList.setColumn(nRow,'INQR_BTTN_USED_YN',"0");
+	this.dsList.setColumn(nRow,'DELE_BTTN_USED_YN',"0");
+	this.dsList.setColumn(nRow,'SAVE_BTTN_USED_YN',"0");
+	this.dsList.setColumn(nRow,'PRNT_BTTN_USED_YN',"0");
+	this.dsList.setColumn(nRow,'EXCL_BTTN_USED_YN',"0");
+	this.dsList.setColumn(nRow,'INIT_BTTN_USED_YN',"0");
+	this.dsList.setColumn(nRow,'REMK'			  ,"");
+	
+	this.divDetail.form.edtProgId.setFocus();
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsList.rowcount == 0){
+		return;
+	}
+	
+	this.dsList.deleteRow(this.dsList.rowposition);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+	
+	if(this.fnValidation()){	
+		// 자료를 저장하시겠습니까?
+		this.gfnAlert("confirm.save", [""], "saveProg", "fnMsgCallback");
+		return;
+	}
+};
+
+//추가버튼 테스트
+this.cfnbtnAddBtnMg = function ()
+{
+	if( this.dsList.getRowCount()==0){
+		return;
+	}
+	
+	var nRow = this.dsList.rowposition;
+	var nRowType = this.dsList.getRowType(nRow);
+	if( nRowType == 2 ){
+		this.gfnAlert("msg.err.updateafter"); // 변경된 내역을 저장 후 작업하세요.
+		return;
+	}
+	
+	var sProgId = this.dsList.getColumn(nRow, "PRGM_ID");
+	var sProgNm = this.dsList.getColumn(nRow, "PRGM_NM");
+	var sTitle = "추가버튼 관리";
+	var oArg   = { pvCompanyCd:this.dsList.getColumn(nRow, "COMPANY_CD")
+					,pvProgId:sProgId
+				  ,pvProgNm:sProgNm};
+	var oOption = {title:sTitle
+				,titlebar:true};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup("bizProgramMgPopup", "sytm::auth/authProgramMgPu.xfdl", oArg, sPopupCallBack, oOption);
+};
+
+
+
+// 매뉴얼 팝업 open
+this.fnbtnManual = function() 
+{
+	var sPopupId = "manualUpdatePopup";
+	
+	// 열려있는 팝업 닫기
+	this.gfnCloseToOpenPopup(sPopupId);
+
+	if( this.dsList.getRowCount()==0){
+		return;
+	}
+	
+	var nRow = this.dsList.rowposition;
+	var nRowType = this.dsList.getRowType(nRow);
+	if( nRowType == 2 ){
+		this.gfnAlert("msg.err.updateafter"); // 변경된 내역을 저장 후 작업하세요.
+		return;
+	}
+	
+	var sProgId = this.dsList.getColumn(nRow, "PRGM_ID");
+	var sProgNm = this.dsList.getColumn(nRow, "PRGM_NM");
+	var sManualFlag = this.dsList.getColumn(nRow, "HELP_FLAG");
+	
+	var sTitle = "매뉴얼 관리";
+	var oArg   = {pvCompanyCd:this.dsList.getColumn(nRow, "COMPANY_CD")
+					,pvProgId:sProgId
+				  ,pvProgNm:sProgNm
+				 };
+				 
+	if(sManualFlag == "Y") oArg['pvOpenType'] = "update";
+	
+	var sPopupCallBack = "fnPopupCallback";
+	var sUrl = "sytm::auth/authProgramMgUpdateManualPu.xfdl";
+	
+	var oOption = {title:sTitle
+				,titlebar:true
+				,width:1000
+				,height:800
+				,popuptype:"modeless"
+				};
+				
+	this.gfnOpenPopup(sPopupId, sUrl, oArg, sPopupCallBack, oOption);
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회 transaction
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "searchProgramList";
+	var strSvcUrl   = "searchProgramList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장 transaction
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveProgramList";
+	var strSvcUrl   = "saveProgramList.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchProgramList":
+		case "saveProgramList":
+			break;
+		default: break;
+	}
+};
+
+//popup callback
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	//TODO..
+	switch(sPopupId) 
+	{
+		case "manualUpdatePopup" :
+			if(sRtn == "close") break;
+			this.fnTranSearch();
+			break;
+		default :
+			break;
+	}
+};
+
+//message callback
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "search":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}
+			this.fnTranSearch();
+			break;
+		case "saveProg":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}
+			this.fnTranSave();
+			break;
+		case "validCode":
+			this.divDetail.form.edtProgId.set_value("");
+			this.divDetail.form.edtProgId.setFocus();
+			break;
+		default:break;
+	}
+};
+
+//엑셀 임포트 콜백
+this.fnExcelImportCallback = function (sImportId, e)
+{
+	//TODO..
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+
+	this.gfnSetValidation(this.dsList, "PRGM_ID"	 , "프로그램ID"		, "required");
+	this.gfnSetValidation(this.dsList, "MODULE_CD"	 , "모듈"				, "required");
+	this.gfnSetValidation(this.dsList, "PRGM_NM"	 , "프로그램명"		, "required");
+	this.gfnSetValidation(this.dsList, "PRGM_PATH"	 , "프로그램경로"		, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsList, "U") == false) {
+		return false;
+	}else{
+		return true;
+	}
+};
+
+
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+// 조회버튼 클릭
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+// 추가버튼 관리 버튼 클릭
+this.divCmmnBtn_btnAddBtnMg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnbtnAddBtnMg();
+};
+
+// 매뉴얼 관리 버튼 클릭
+this.divCmmnBtn_btnManual_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnbtnManual();
+};
+
+//엑셀다운로드
+this.divCmmnBtn_btnExcel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdList, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");
+};
+
+//업로드 템플릿 다운로드
+this.divCmmnBtn_btnExcelTemplate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var fileId = "공통시스템_Template.xlsx";
+	this.gfnDownTempate(fileId);
+};
+
+//엑셀업로드
+this.divCmmnBtn_btnExcelUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnExcelImport("dsList", "프로그램 리스트", "A4:O", "fnExcelImportCallback", "program", "", "A3:O3", this.grdList);
+};
+
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(obj.getRowType(e.newrow)==Dataset.ROWTYPE_INSERT){
+		this.divDetail.form.edtProgId.set_readonly(false);
+	}else{
+		this.divDetail.form.edtProgId.set_readonly(true);
+	}
+};
+
+
+this.dsList_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if( e.columnid=="PRGM_ID"){
+		if(this.gfnIsNull(e.newvalue)) return;
+		
+		var nRow = obj.findRow("PRGM_ID", e.newvalue);
+		if( nRow > -1){
+			this.gfnAlert("msg.exist", ["입력하신 프로그램아이디"], "validCode","fnMsgCallback");
+			return;
+		}
+	}
+};
+
+// Grid 더블클릭시
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// bind된 칼럼명
+	var sColumn = this.gfnGetBindColName(obj, e.col);
+	
+	switch(sColumn) {
+	// 추가버튼
+	case "ADD_BTN_YN" :
+		this.cfnbtnAddBtnMg();
+		break;
+	// 매뉴얼	
+	case "HELP_FLAG" :
+		this.fnbtnManual();
+		break;
+	default:
+	}
+};]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="authMenuMapper">
+
+<!-- mySQL  -->
+
+<!-- 메뉴 목록 조회 -->
+<select id="searchMenuList" parameterType="java.util.Map" resultType="java.util.Map">
+	WITH RECURSIVE TREE_MAIN AS 
+	(   
+		SELECT  /* searchMenuList */
+				MENU.COMPANY_CD AS COMPANY_CD
+				,MENU.MENU_LVL AS LEVL     /* 메뉴레벨 */
+				,MENU.SYTM_FLAG_CD  AS SYTM_FLAG_CD  /* 시스템구분코드 */
+				,MENU.MENU_ID       AS MENU_ID       /* 메뉴ID */
+				,MENU.MODULE_CD 	   AS MODULE_CD
+				,MENU.HIPO_MENU_ID  AS HIPO_MENU_ID  /* 상위메뉴ID */
+				,MENU.PRGM_ID       AS PRGM_ID       /* 프로그램ID */
+				,(SELECT PRGM_NM FROM T_SYTM_PRGM WHERE PRGM_ID = MENU.PRGM_ID) AS PRGM_NM
+				,MENU.MENU_NM       AS MENU_NM       /* 메뉴명 */
+				,MENU.MENU_ENGL_NM  AS MENU_ENGL_NM  /* 메뉴영문명 */
+				,MENU.MENU_WHLE_NM  AS MENU_WHLE_NM  /* 메뉴전체명 */
+				,MENU.MENU_ORDR     AS MENU_ORDR     /* 메뉴순서 */
+				,MENU.USED_YN       AS USED_YN       /* 사용여부 */
+				,MENU.REMK          AS REMK          /* 비고 */
+				,MENU.PARM          AS PARM          /* 파라미터 */
+				,MENU.MENU_FLAG_CD  AS MENU_FLAG_CD  /* 메뉴구분코드 */  					       
+				,CONCAT('[' , MENU.MENU_ID , '] ' , MENU.MENU_NM) AS HIPO_KOR_NM          /* 상위메뉴 한글명 */
+ 				,CONCAT('[' , MENU.MENU_ID , '] ' , MENU.MENU_ENGL_NM) AS HIPO_ENGL_NM    /* 상위메뉴 영문명 */
+				,MENU.MENU_LVL AS MENU_LVL				
+				,CAST(RIGHT(CONCAT('00', CAST(MENU.MENU_ORDR AS CHAR(255))), 3) AS CHAR(255)) AS MENU_SORT	/* MENU 정렬 */
+  				,CAST(MENU.MENU_NM AS CHAR(255)) AS MENU_PATH
+		FROM T_SYTM_MENU MENU	
+		WHERE HIPO_MENU_ID = '0000000000' 
+		AND   COMPANY_CD = #{COMPANY_CD}
+		UNION ALL
+		SELECT  MENU.COMPANY_CD AS COMPANY_CD
+				,MENU.MENU_LVL AS LEVL     /* 메뉴레벨 */
+				,MENU.SYTM_FLAG_CD  AS SYTM_FLAG_CD  /* 시스템구분코드 */
+				,MENU.MENU_ID       AS MENU_ID       /* 메뉴ID */
+				,MENU.MODULE_CD 	   AS MODULE_CD
+				,MENU.HIPO_MENU_ID  AS HIPO_MENU_ID  /* 상위메뉴ID */
+				,MENU.PRGM_ID       AS PRGM_ID       /* 프로그램ID */
+				,(SELECT PRGM_NM FROM T_SYTM_PRGM WHERE PRGM_ID = MENU.PRGM_ID) AS PRGM_NM
+				,MENU.MENU_NM       AS MENU_NM       /* 메뉴명 */
+				,MENU.MENU_ENGL_NM  AS MENU_ENGL_NM  /* 메뉴영문명 */
+				,MENU.MENU_WHLE_NM  AS MENU_WHLE_NM  /* 메뉴전체명 */
+				,MENU.MENU_ORDR     AS MENU_ORDR     /* 메뉴순서 */
+				,MENU.USED_YN       AS USED_YN       /* 사용여부 */
+				,MENU.REMK          AS REMK          /* 비고 */
+				,MENU.PARM          AS PARM          /* 파라미터 */
+				,MENU.MENU_FLAG_CD  AS MENU_FLAG_CD  /* 메뉴구분코드 */  					       
+				,CONCAT('[' , MENU.MENU_ID , '] ' , MENU.MENU_NM) AS HIPO_KOR_NM          /* 상위메뉴 한글명 */
+ 				,CONCAT('[' , MENU.MENU_ID , '] ' , MENU.MENU_ENGL_NM) AS HIPO_ENGL_NM    /* 상위메뉴 영문명 */
+				,MENU.MENU_LVL AS MENU_LVL
+				,CONCAT(CAST(tm.MENU_SORT AS CHAR(255)),'|',CAST(RIGHT(CONCAT('00', CAST(MENU.MENU_ORDR AS CHAR(255))), 3) AS CHAR(255))) AS MENU_SORT
+  				,CONCAT(tm.MENU_PATH , ' > ', MENU.MENU_NM ) AS MENU_PATH
+		FROM T_SYTM_MENU MENU	
+       INNER JOIN TREE_MAIN tm
+		  	   ON tm.MENU_ID=MENU.HIPO_MENU_ID
+		  	   AND tm.COMPANY_CD = #{COMPANY_CD}
+	)
+	SELECT *
+	  FROM TREE_MAIN
+	WHERE 1=1
+	    AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+	<if test="MENU_NM != null and MENU_NM != '' ">
+	    AND ((MENU_NM LIKE CONCAT('%', #{MENU_NM}, '%')) OR (MENU_ENGL_NM like CONCAT('%', #{MENU_NM}, '%')))
+	</if>
+	<if test="USED_YN != null and USED_YN != '' ">
+	    AND USED_YN LIKE  #{USED_YN}
+	</if>
+	<if test="MENU_ID != null and MENU_ID != '' ">
+	    AND MENU_ID LIKE CONCAT('%', #{MENU_ID}, '%')
+	</if>
+	<if test="MODULE_CD != null and MODULE_CD != '' ">
+		AND MODULE_CD LIKE #{MODULE_CD}
+	</if>
+	ORDER BY  MENU_SORT
+</select>
+ 
+ <!--  신규 메뉴 정보 저장 -->
+ <insert id="insertMenuList" parameterType="java.util.Map">   
+	INSERT INTO T_SYTM_MENU 
+	(
+	    COMPANY_CD
+	    , SYTM_FLAG_CD
+	    , MENU_ID 
+	    , MODULE_CD
+	    , PRGM_ID 
+	    , MENU_NM 
+	    , MENU_ENGL_NM 
+	    , MENU_WHLE_NM 
+	    , HIPO_MENU_ID 
+	    , MENU_ORDR 
+	    , USED_YN 
+	    , MENU_FLAG_CD 
+	    , REMK 
+	    , PARM 
+	    , INPT_ID 
+	    , INPT_IP 
+	    , INPT_DTTM 
+	    , CHGE_ID 
+	    , CHGE_IP 
+	    , CHGE_DTTM 
+	    , MENU_LVL
+	) VALUES (
+		#{COMPANY_CD}
+	    , #{SYTM_FLAG_CD} 
+	    , #{MENU_ID}
+	    , #{MODULE_CD}
+	    , #{PRGM_ID} 
+	    , #{MENU_NM} 
+	    , #{MENU_ENGL_NM} 
+	    , #{MENU_WHLE_NM} 
+	    , #{HIPO_MENU_ID} 
+	    , #{MENU_ORDR} 
+	    , #{USED_YN} 
+	    , #{MENU_FLAG_CD}
+	    , #{REMK} 
+	    , #{PARM} 
+	    , #{USER_ID_SRV} 
+	    , #{USER_CON_IPADDR_SRV} 
+	    , NOW() 
+	    , #{USER_ID_SRV} 
+	    , #{USER_CON_IPADDR_SRV} 
+	    , NOW() 
+	    , #{MENU_LVL}
+	)
+ </insert>
+ 
+  
+<!--  메뉴 정보 수정  -->
+ <update id="updateMenuList" parameterType="java.util.Map">
+ 
+	    UPDATE T_SYTM_MENU   /* updateMenuList */
+	    SET 
+	         MODULE_CD    	= #{MODULE_CD}
+	        ,PRGM_ID        = #{PRGM_ID}
+	        ,MENU_NM        = #{MENU_NM}
+	        ,MENU_ENGL_NM   = #{MENU_ENGL_NM}
+	        ,MENU_WHLE_NM   = #{MENU_WHLE_NM}
+	        ,HIPO_MENU_ID   = #{HIPO_MENU_ID}
+	        ,MENU_ORDR      = #{MENU_ORDR}
+	        ,USED_YN        = #{USED_YN}
+	        ,MENU_FLAG_CD   = #{MENU_FLAG_CD}
+	        ,REMK           = #{REMK}
+	        ,PARM           = #{PARM}
+	        ,CHGE_ID        = #{USER_ID_SRV}
+	        ,CHGE_IP        = #{USER_CON_IPADDR_SRV}
+	        ,CHGE_DTTM      = NOW()
+	        ,MENU_LVL 		= #{MENU_LVL}
+	    WHERE SYTM_FLAG_CD  = #{SYTM_FLAG_CD}
+	      AND MENU_ID       = #{MENU_ID}
+	      AND COMPANY_CD    = #{COMPANY_CD}
+	     
+</update>
+
+<!-- 메뉴삭제 -->
+<delete id="deleteMenuList" parameterType="java.util.Map">
+	DELETE FROM /* deleteMenuList */
+	    T_SYTM_MENU 
+	WHERE 
+	      SYTM_FLAG_CD  = #{SYTM_FLAG_CD}
+	  AND MENU_ID       = #{MENU_ID}
+	  AND COMPANY_CD    = #{COMPANY_CD}	      	          
+</delete>
+
+<!--  MAP 마이메뉴 조회 -->
+<select id="searchMyMenu" parameterType="com.unisales.util.UserInfo" resultType="java.util.Map">
+	SELECT MM.COMPANY_CD
+	    , MM.SYTM_FLAG_CD
+	    , MM.MENU_ID    
+	    , MM.USER_ID
+	    , MM.SORT_ORDR 
+	    , SM.MENU_NM
+	    , SM.MENU_ENGL_NM AS MENU_NM_EN
+	    , SM.MODULE_CD
+	    , SM.PRGM_ID
+	    , PR.PRGM_PATH   
+	FROM T_SYTM_MYMENU MM
+		INNER JOIN T_SYTM_MENU SM
+			ON MM.MENU_ID = SM.MENU_ID 
+		INNER JOIN T_SYTM_PRGM PR
+			ON SM.PRGM_ID = PR.PRGM_ID
+	WHERE 1=1
+		AND MM.USER_ID = #{strUserId}
+	    AND MM.SYTM_FLAG_CD = #{strUserConSysFlag}
+	    AND MM.COMPANY_CD   = #{strCompanyCd}
+	ORDER BY MM.SORT_ORDR      
+</select>
+    
+<!--  MAP 마이메뉴 추가 -->
+<insert id="insertMyMenu" parameterType="java.util.Map">
+	INSERT INTO T_SYTM_MYMENU (
+	    COMPANY_CD
+	    , SYTM_FLAG_CD
+		, USER_ID
+		, MENU_ID
+		, SORT_ORDR
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM
+	) VALUES (
+		#{COMPANY_CD}
+		, #{SYTM_FLAG_CD}
+		, #{USER_ID_SRV}
+		, #{MENU_ID}
+		, (SELECT A.SORT_ORDR FROM(SELECT COALESCE(MAX(SORT_ORDR),0)+1 AS SORT_ORDR FROM T_SYTM_MYMENU WHERE SYTM_FLAG_CD = #{SYTM_FLAG_CD} AND USER_ID = #{USER_ID_SRV}) A)
+		, #{USER_ID_SRV}
+		, #{USER_CON_IPADDR_SRV}
+		, NOW()
+		, #{USER_ID_SRV}
+		, #{USER_CON_IPADDR_SRV}
+		, NOW()
+	)
+</insert>
+
+<!--  메뉴 정보 수정  -->
+ <update id="updateMyMenu" parameterType="java.util.Map">
+	    UPDATE T_SYTM_MYMENU 
+	    SET 
+	         SORT_ORDR    	= #{SORT_ORDR}
+	        ,CHGE_ID        = #{USER_ID_SRV}
+	        ,CHGE_IP        = #{USER_CON_IPADDR_SRV}
+	        ,CHGE_DTTM      = NOW()
+	    WHERE SYTM_FLAG_CD  = #{SYTM_FLAG_CD_SRV}
+	      AND USER_ID       = #{USER_ID_SRV}
+	      AND MENU_ID       = #{MENU_ID}
+	      AND COMPANY_CD    = #{COMPANY_CD}	 
+</update>
+
+<!--  MAP 마이메뉴 삭제 -->   
+<delete id="deleteMyMenu" parameterType="java.util.Map">
+	DELETE FROM T_SYTM_MYMENU 
+	WHERE USER_ID 		= #{USER_ID_SRV}
+	   AND SYTM_FLAG_CD = #{SYTM_FLAG_CD_SRV}
+	   AND MENU_ID 		= #{MENU_ID}
+	   AND COMPANY_CD    = #{COMPANY_CD}	
+</delete> 
+</mapper>

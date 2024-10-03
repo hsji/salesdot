@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="scheduleMapper">
+
+
+<!--mySQL  -->
+
+
+<!-- ******************************************************일정 관리******************************************************************** -->
+<!-- 일정 관리 정보 조회 -->
+<select id="searchScheduleList" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT
+	SM.SCD_CD
+	, SM.SCD_NM
+	, SM.SCD_SHARE_CD
+	, SM.DEPT_CD
+    , DP.DEPT_KORN_NM AS DEPT_NM
+	, SM.APND_YN
+	, SM.MGR_ID
+	, US.EMP_NO AS MGR_EMP_NO
+	, US.KORN_NM AS MGR_NM
+	, SM.USED_YN
+FROM T_COMM_SCD_MASTER SM
+	LEFT JOIN T_SYTM_USER US ON US.USER_ID = SM.MGR_ID
+	LEFT JOIN T_SYTM_DEPT DP ON DP.DEPT_CD = SM.DEPT_CD
+WHERE 1=1
+  <if test="SCHEDULE_NM != null and SCHEDULE_NM != ''">
+      AND (UPPER(SM.SCD_NM) like CONCAT('%' , UPPER(#{SCHEDULE_NM}) , '%')
+      OR LOWER(SM.SCD_NM) like CONCAT('%' , LOWER(#{SCHEDULE_NM}) , '%' ))
+  </if>
+  <if test="SCD_CD != null and SCD_CD != ''">
+      AND SM.SCD_CD = #{SCD_CD}
+  </if>
+    <if test="USED_YN != null and USED_YN != ''">
+      AND SM.USED_YN = #{USED_YN}
+  </if>
+  ORDER BY SM.SCD_SHARE_CD, SM.SCD_CD, SM.SCD_NM
+</select>
+
+
+
+
+<!-- 일정 관리 추가 -->
+<insert id="insertScheduleMaster" parameterType="java.util.Map">
+INSERT INTO T_COMM_SCD_MASTER(
+	SCD_CD
+	,SCD_NM
+	,SCD_SHARE_CD
+	,DEPT_CD
+	,APND_YN
+	,MGR_ID
+	,USED_YN
+	,INPT_ID
+	,INPT_IP
+	,INPT_DTTM
+	,CHGE_ID
+	,CHGE_IP
+	,CHGE_DTTM
+)VALUES(
+	#{SCD_CD}
+	,#{SCD_NM}
+	,#{SCD_SHARE_CD}
+	,#{DEPT_CD}
+	,#{APND_YN}
+	,#{MGR_ID}
+	,#{USED_YN}
+	, #{USER_ID_SRV}
+	, #{USER_CON_IPADDR_SRV}
+	, NOW()
+	, #{USER_ID_SRV}
+	, #{USER_CON_IPADDR_SRV}
+	, NOW()
+)
+</insert>
+
+
+
+<!-- 일정 관리 삭제 -->
+ <delete id="deleteScheduleMaster" parameterType="java.util.Map">
+DELETE FROM T_COMM_SCD_MASTER
+WHERE SCD_CD =#{SCD_CD}
+</delete>
+
+
+<!-- 일정 관리 수정-->
+<update id="updateScheduleMaster" parameterType="java.util.Map">
+UPDATE T_COMM_SCD_MASTER 
+SET 
+	SCD_NM = #{SCD_NM}
+   , SCD_SHARE_CD =#{SCD_SHARE_CD}
+   , DEPT_CD = #{DEPT_CD}
+   , APND_YN = #{APND_YN}
+   , MGR_ID = #{MGR_ID}
+   , USED_YN = #{USED_YN}
+   , CHGE_ID = #{USER_ID_SRV}
+   , CHGE_IP = #{USER_CON_IPADDR_SRV}
+   , CHGE_DTTM = NOW()
+WHERE SCD_CD = #{SCD_CD}
+</update>
+
+
+<!-- 일정 관리 삭제 전 자식 유무 확인  -->
+<select id="selectChildSchedule" parameterType="String" resultType="_int">
+SELECT COUNT(*)
+FROM T_COMM_SCD_MASTER M
+	  RIGHT OUTER JOIN T_COMM_SCD S
+ON M.SCD_CD = S.SCD_CD
+WHERE M.SCD_CD = #{scdCd}
+</select>
+
+
+
+<!-- ************************************************ 일정  ********************************************************** -->
+<!-- 달력 그리기  -->
+<select id="getMonthDate" parameterType="java.util.Map" resultType="java.util.Map">
+WITH RECURSIVE CTE_Dates AS (
+	SELECT
+		 DATE_SUB(CAST(FirstDay as DATE), INTERVAL DAYOFWEEK(CAST(FirstDay AS DATE))-1 DAY) AS StartDate
+		,DATE_SUB(CAST(LastDay as DATE), INTERVAL DAYOFWEEK(CAST(LastDay AS DATE))-7 DAY) AS EndDate
+	FROM 
+	(
+		SELECT 
+				 DATE_FORMAT(CAST(CONCAT(LEFT(#{YYYYMM}, 4), RIGHT(#{YYYYMM}, 2), '01') AS DATE), '%Y%m%d') AS FirstDay
+ 				,DATE_FORMAT(LAST_DAY(CAST(CONCAT(LEFT(#{YYYYMM}, 4), RIGHT(#{YYYYMM}, 2), '01') AS DATE)), '%Y%m%d') AS LastDay
+	) AS T
+	UNION ALL
+	SELECT
+		DATE_ADD(StartDate, INTERVAL 1 DAY),
+		EndDate
+	FROM
+		CTE_Dates
+   WHERE StartDate <![CDATA[<]]> EndDate
+)
+	SELECT 
+		MIN(CASE WHEN DAYOFWEEK(StartDate) = 1 THEN DATE_FORMAT(StartDate, '%Y%m%d') END) AS SUN,
+		MIN(CASE WHEN DAYOFWEEK(StartDate) = 2 THEN DATE_FORMAT(StartDate, '%Y%m%d') END) AS MON,
+		MIN(CASE WHEN DAYOFWEEK(StartDate) = 3 THEN DATE_FORMAT(StartDate, '%Y%m%d') END) AS TUE,
+		MIN(CASE WHEN DAYOFWEEK(StartDate) = 4 THEN DATE_FORMAT(StartDate, '%Y%m%d') END) AS WED,
+		MIN(CASE WHEN DAYOFWEEK(StartDate) = 5 THEN DATE_FORMAT(StartDate, '%Y%m%d') END) AS THU,
+		MIN(CASE WHEN DAYOFWEEK(StartDate) = 6 THEN DATE_FORMAT(StartDate, '%Y%m%d') END) AS FRI,
+		MIN(CASE WHEN DAYOFWEEK(StartDate) = 7 THEN DATE_FORMAT(StartDate, '%Y%m%d') END) AS SAT
+  	  FROM CTE_Dates
+  GROUP BY WEEK(StartDate)
+  ORDER BY WEEK(StartDate)
+</select>
+
+
+<!-- 해당월 일정만 조회 (캘린더 전체 화면) - 일정 모아보기 -->
+<select id="getMySchedule" parameterType="java.util.Map" resultType="java.util.Map">
+WITH t1 AS (
+    SELECT DISTINCT CAST(DATE_FORMAT(CAST(CASE WHEN CAST(START_DAY AS DATE) <![CDATA[<]]> CAST(FIRST_DATE AS DATETIME) THEN FIRST_DATE ELSE START_DAY END AS DATE), '%Y%m%d') AS CHAR) AS CAL_DATE_ORG,
+        SCD_NM,
+        SCD_CD,
+        SCD_ID,
+        SCD_SECT_CD,
+        TITLE,
+        START_DAY,
+        START_TIME,
+        START_MINUTES,
+        END_DAY,
+        END_TIME,
+        END_MINUTES,
+        FILE_ID,
+        INPT_ID,
+        INPT_IP,
+        INPT_DTTM,
+        CHGE_ID,
+        CHGE_IP,
+        CHGE_DTTM,
+        FIRST_DATE,
+        LAST_DATE
+    FROM (
+        SELECT M.SCD_NM,
+            C.SCD_CD,
+            C.SCD_ID,
+            C.SCD_SECT_CD,
+            C.TITLE,
+            C.START_DAY,
+            C.START_TIME,
+            C.START_MINUTES,
+            C.END_DAY,
+            C.END_TIME,
+            C.END_MINUTES,
+            C.FILE_ID,
+            C.INPT_ID,
+            C.INPT_IP,
+            C.INPT_DTTM,
+            C.CHGE_ID,
+            C.CHGE_IP,
+            C.CHGE_DTTM,
+            V.FIRST_DATE,
+            V.LAST_DATE
+        FROM T_COMM_SCD_MASTER M
+        JOIN T_COMM_SCD C ON M.SCD_CD = C.SCD_CD
+        JOIN (
+			SELECT DATE_FORMAT(cast(STR_TO_DATE(CONCAT(YEARWEEK(DATE_FORMAT(CONCAT(CAST(#{YYYYMM} AS CHAR(6)), '01'), '%Y-%m-%d'), 0), 'Sunday'), '%X%V %W') AS DATETIME), '%Y%m%d') AS FIRST_DATE ,
+				   DATE_FORMAT(cast(STR_TO_DATE(CONCAT(YEARWEEK(DATE_FORMAT(LAST_DAY(CONCAT(CAST(#{YYYYMM} AS CHAR(6)), '01')), '%Y-%m-%d'), 0), 'Saturday'), '%X%V %W') AS DATETIME), '%Y%m%d') AS LAST_DATE 
+        ) V ON 1 = 1
+        WHERE M.USED_YN = '1'
+            AND M.SCD_CD IN (
+                SELECT S.SCD_CD
+                FROM T_COMM_SCD_MASTER S
+                WHERE S.SCD_SHARE_CD = 'ALL'
+                    AND S.USED_YN = '1'
+                UNION
+                SELECT S.SCD_CD
+                FROM T_COMM_SCD_MASTER S
+                WHERE S.SCD_SHARE_CD = 'DPT'
+                    AND S.USED_YN = '1'
+                    AND S.DEPT_CD IN (
+                        SELECT D.DEPT_CD
+                        FROM T_SYTM_DEPT D
+                        WHERE D.DEPT_CD = #{DEPT_CD}
+                        UNION ALL
+                        SELECT D.DEPT_CD
+                        FROM T_SYTM_DEPT D
+                        <choose>
+					    <when test="srchGubun == 'up'">
+					      JOIN T_SYTM_DEPT P ON D.DEPT_CD = P.HIPO_DEPT_CD
+					    </when>
+					    <when test="srchGubun == 'down'">
+					      JOIN T_SYTM_DEPT P ON D.HIPO_DEPT_CD = P.DEPT_CD 
+					    </when>
+					    <otherwise>
+					      JOIN T_SYTM_DEPT P ON D.HIPO_DEPT_CD = P.DEPT_CD 
+					    </otherwise>	
+					  </choose>
+                        WHERE P.DEPT_CD = #{DEPT_CD}
+                    )
+            )
+            AND C.DEL_YN = '0'
+            AND CAST(C.START_DAY AS DATE)  <![CDATA[<=]]>  CAST(V.LAST_DATE AS DATE)
+            AND CAST(C.END_DAY AS DATE) <![CDATA[>=]]> CAST(V.FIRST_DATE AS  DATE)
+    ) SUB_SCD ),
+    
+SCD_CTE AS ( 
+		WITH RECURSIVE t2 AS 
+(
+SELECT
+	DATE_FORMAT(CAST(t1.CAL_DATE_ORG AS DATE), '%Y%m%d') AS CAL_DATE,
+	t1.*
+FROM
+	t1
+UNION ALL
+SELECT
+	DATE_FORMAT(DATE_ADD(t2.CAL_DATE, INTERVAL 1 DAY), '%Y%m%d') AS CAL_DATE2,
+	t1.*
+FROM
+	t1
+INNER JOIN t2 ON (t2.SCD_ID = t1.SCD_ID) AND (t2.CAL_DATE <![CDATA[<]]> cast(t1.END_DAY AS DATE)) )
+SELECT
+	*
+FROM
+	t2 )
+SELECT
+	CAL_DATE,
+	SCD_NM,
+	SCD_CD,
+	SCD_ID,
+	SCD_SECT_CD,
+	SSC_CD_KORN_NM,
+	TITLE,
+	START_DAY,
+	START_TIME,
+	START_MINUTES,
+	END_DAY,
+	END_TIME,
+	END_MINUTES,
+	FILE_ID,
+	SCD_CTE.INPT_ID,
+	SCD_CTE.INPT_IP,
+	SCD_CTE.INPT_DTTM,
+	SCD_CTE.CHGE_ID,
+	SCD_CTE.CHGE_IP,
+	SCD_CTE.CHGE_DTTM,
+	FIRST_DATE,
+	LAST_DATE,
+	CONCAT(U.KORN_NM , '(' , U.EMP_NO , ')') as INPT_EMP_NO
+FROM
+	SCD_CTE
+JOIN T_SYTM_CODE S on
+	SCD_SECT_CD = S.SSC_CD
+JOIN T_SYTM_USER U ON
+	SCD_CTE.INPT_ID = U.USER_ID
+WHERE
+	CAST(CAL_DATE AS DATE) <![CDATA[>=]]> CAST(FIRST_DATE AS DATE)
+	AND CAST(CAL_DATE AS DATE) <![CDATA[<=]]> CAST(LAST_DATE AS DATE)
+ORDER BY
+	CAL_DATE,
+	START_DAY,
+	END_DAY DESC,
+	START_TIME,
+	START_MINUTES,
+	INPT_DTTM
+</select>
+
+
+<!--해당월 일정만 조회 (캘린더 전체 화면) - 원하는 부서의 일정(SCD_CD)만-->
+<select id="getSchedule" parameterType="java.util.Map" resultType="java.util.Map">
+WITH t1 AS (
+	SELECT
+		DISTINCT CAST(DATE_FORMAT(CAST(CASE WHEN CAST(START_DAY as DATE) <![CDATA[<]]> CAST(FIRST_DATE as DATETIME) THEN FIRST_DATE ELSE START_DAY end as DATE), '%Y%m%d') AS CHAR) AS CAL_DATE_ORG,
+		SCD_NM,
+		SCD_CD,
+		SCD_ID,
+		SCD_SECT_CD,
+		TITLE,
+		START_DAY,
+		START_TIME,
+		START_MINUTES,
+		END_DAY,
+		END_TIME,
+		END_MINUTES,
+		FILE_ID,
+		INPT_ID,
+		INPT_IP,
+		INPT_DTTM,
+		CHGE_ID,
+		CHGE_IP,
+		CHGE_DTTM,
+		FIRST_DATE,
+		LAST_DATE
+	FROM
+		(
+		SELECT
+			M.SCD_NM,
+			C.SCD_CD,
+			C.SCD_ID,
+			C.SCD_SECT_CD,
+			C.TITLE,
+			C.START_DAY,
+			C.START_TIME,
+			C.START_MINUTES,
+			C.END_DAY,
+			C.END_TIME,
+			C.END_MINUTES,
+			C.FILE_ID,
+			C.INPT_ID,
+			C.INPT_IP,
+			C.INPT_DTTM,
+			C.CHGE_ID,
+			C.CHGE_IP,
+			C.CHGE_DTTM,
+			V.FIRST_DATE,
+			V.LAST_DATE
+		FROM
+			T_COMM_SCD_MASTER M
+		JOIN T_COMM_SCD C ON
+			M.SCD_CD = C.SCD_CD
+		JOIN (
+			SELECT
+			    DATE_FORMAT(CAST(STR_TO_DATE(CONCAT(YEARWEEK(DATE_FORMAT(CONCAT(CAST(#{YYYYMM} AS CHAR(6)), '01'), '%Y-%m-%d'), 0), 'Sunday'), '%X%V %W')AS DATETIME), '%Y%m%d') as FIRST_DATE ,
+			    DATE_FORMAT(CAST(STR_TO_DATE(CONCAT(YEARWEEK(DATE_FORMAT(LAST_DAY(CONCAT(CAST(#{YYYYMM} AS CHAR(6)), '01')), '%Y-%m-%d'), 0), 'Saturday'), '%X%V %W')AS DATETIME), '%Y%m%d') as LAST_DATE
+ ) V ON
+			1 = 1
+		WHERE
+			M.SCD_CD = C.SCD_CD
+			AND M.USED_YN = '1'
+			AND M.SCD_CD = #{SCD_CD}
+			AND C.DEL_YN = '0'
+			AND CAST(C.START_DAY as DATE) <![CDATA[<=]]> CAST(V.LAST_DATE as DATE)
+			AND CAST(C.END_DAY as DATE) <![CDATA[>=]]> CAST(V.FIRST_DATE as DATE) 
+	) SUB_SCD 
+), SCD_CTE AS (
+	WITH RECURSIVE t2 AS(
+		SELECT 
+			DATE_FORMAT(CAST(t1.CAL_DATE_ORG AS DATE), '%Y%m%d') AS CAL_DATE,
+			t1.*
+		FROM t1
+	 	UNION ALL
+		SELECT 
+			DATE_FORMAT(DATE_ADD(t2.CAL_DATE, INTERVAL 1 DAY),'%Y%m%d') AS CAL_DATE2,
+			t1.*
+		FROM t1 INNER JOIN t2 on (t2.SCD_ID = t1.SCD_ID) AND (t2.CAL_DATE <![CDATA[<]]> CAST(t1.END_DAY AS DATE))
+	) select * FROM t2
+) SELECT
+	CAL_DATE,
+	SCD_NM,
+	SCD_CD,
+	SCD_ID,
+	SCD_SECT_CD,
+	SSC_CD_KORN_NM,
+	TITLE,
+	START_DAY,
+	START_TIME,
+	START_MINUTES,
+	END_DAY,
+	END_TIME,
+	END_MINUTES,
+	FILE_ID,
+	SCD_CTE.INPT_ID,
+	SCD_CTE.INPT_IP,
+	SCD_CTE.INPT_DTTM,
+	SCD_CTE.CHGE_ID,
+	SCD_CTE.CHGE_IP,
+	SCD_CTE.CHGE_DTTM,
+	FIRST_DATE,
+	LAST_DATE,
+	CONCAT(U.KORN_NM , '(' , U.EMP_NO , ')') AS INPT_EMP_NO
+FROM
+	SCD_CTE
+JOIN T_SYTM_CODE S ON
+	SCD_SECT_CD = S.SSC_CD
+JOIN T_SYTM_USER U ON
+	SCD_CTE.INPT_ID = U.USER_ID
+WHERE
+	CAST(CAL_DATE as DATE) <![CDATA[>=]]> CAST(FIRST_DATE as DATE)
+	AND CAST(CAL_DATE as DATE) <![CDATA[<=]]> CAST(LAST_DATE as DATE)
+ORDER BY
+	CAL_DATE,
+	START_DAY,
+	END_DAY DESC,
+	START_TIME,
+	START_MINUTES,
+	INPT_DTTM
+</select>
+
+<!-- 해당일 일정만 조회 - 권한 있는 일정 전체 (모아보기) -->
+<select id="sectMyOneDay" parameterType="java.util.Map" resultType="java.util.Map">
+WITH RECURSIVE CTE_DEPT AS (
+    SELECT
+        DEPT_CD,
+        HIPO_DEPT_CD,
+        DEPT_LVL
+    FROM
+        T_SYTM_DEPT
+    WHERE
+        DEPT_CD = #{DEPT_CD}
+    UNION ALL
+    SELECT
+        D.DEPT_CD,
+        D.HIPO_DEPT_CD,
+        D.DEPT_LVL
+    FROM
+        T_SYTM_DEPT D
+    INNER JOIN CTE_DEPT C ON 
+    	<choose>
+		    <when test="srchGubun == 'up'">
+	    	D.HIPO_DEPT_CD = C.DEPT_CD
+	    	</when>
+	    	<when test="srchGubun == 'down'">
+	    	D.DEPT_CD = C.HIPO_DEPT_CD
+	    	</when>
+	    	<otherwise>
+	    	D.DEPT_CD = C.HIPO_DEPT_CD
+	    	</otherwise>																	    
+		  </choose>
+)
+SELECT
+    C.SCD_CD,
+    M.SCD_NM,
+    C.SCD_ID,
+    C.SCD_SECT_CD,
+    S.SSC_CD_KORN_NM,
+    C.TITLE,
+    C.START_DAY,
+    C.START_TIME,
+    C.START_MINUTES,
+    C.END_DAY,
+    C.END_TIME,
+    C.END_MINUTES,
+    C.FILE_ID,
+    C.INPT_ID,
+    C.INPT_IP,
+    C.INPT_DTTM,
+    C.CHGE_ID,
+    C.CHGE_IP,
+    C.CHGE_DTTM,
+    CONCAT(U.KORN_NM , '(' , U.EMP_NO , ')') AS INPT_EMP_NO
+FROM
+    (SELECT
+        SCD_CD,
+        SCD_ID,
+        SCD_SECT_CD,
+        TITLE,
+        START_DAY,
+        START_TIME,
+        START_MINUTES,
+        END_DAY,
+        END_TIME,
+        END_MINUTES,
+        FILE_ID,
+        INPT_ID,
+        INPT_IP,
+        INPT_DTTM,
+        CHGE_ID,
+        CHGE_IP,
+        CHGE_DTTM
+    FROM
+        T_COMM_SCD
+    WHERE
+        START_DAY <![CDATA[<=]]> #{SECTDATE}
+        AND END_DAY >= #{SECTDATE}
+        AND SCD_CD IN (
+            SELECT
+                M.SCD_CD
+            FROM
+                T_COMM_SCD_MASTER M
+            WHERE
+                M.SCD_SHARE_CD = 'ALL'
+                AND M.USED_YN = '1'
+            UNION
+            SELECT
+                M.SCD_CD
+            FROM
+                T_COMM_SCD_MASTER M
+            WHERE
+                M.SCD_SHARE_CD = 'DPT'
+                AND M.DEPT_CD IN (
+                    SELECT
+                        DEPT_CD
+                    FROM
+                        CTE_DEPT
+                )
+        )
+        AND DEL_YN = '0'
+    ) C
+JOIN
+    T_COMM_SCD_MASTER M ON C.SCD_CD = M.SCD_CD
+JOIN
+    T_SYTM_CODE S ON C.SCD_SECT_CD = S.SSC_CD
+JOIN
+    T_SYTM_USER U ON C.INPT_ID = U.USER_ID
+WHERE
+    S.HCL_CD = 'CM03'
+ORDER BY C.START_DAY, C.END_DAY DESC, C.START_TIME, C.START_MINUTES, C.INPT_DTTM
+</select>
+
+<!-- 해당일 일정만 조회 - 원하는 일정(SCD_CD)만 (선택한 부서)-->
+<select id="sectOneDay" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT  C.SCD_CD
+      , M.SCD_NM
+      , C.SCD_ID
+      , C.SCD_SECT_CD
+      , S.SSC_CD_KORN_NM
+      , C.TITLE
+      , C.START_DAY
+      , C.START_TIME
+      , C.START_MINUTES
+      , C.END_DAY
+      , C.END_TIME
+      , C.END_MINUTES
+      , C.FILE_ID
+      , C.INPT_ID
+      , C.INPT_IP
+      , C.INPT_DTTM
+      , C.CHGE_ID
+      , C.CHGE_IP
+      , C.CHGE_DTTM
+      , CONCAT(U.KORN_NM , '(' , U.EMP_NO , ')') AS INPT_EMP_NO      -- 작성자 이름(작성자 아이디)
+   FROM (SELECT  SCD_CD
+               , SCD_ID
+               , SCD_SECT_CD
+               , TITLE
+               , START_DAY
+               , START_TIME
+               , START_MINUTES
+               , END_DAY
+               , END_TIME
+               , END_MINUTES
+               , FILE_ID
+               , INPT_ID
+               , INPT_IP
+               , INPT_DTTM
+               , CHGE_ID
+               , CHGE_IP
+               , CHGE_DTTM
+            FROM  T_COMM_SCD
+            WHERE START_DAY  <![CDATA[<=]]>   #{SECTDATE}
+              AND END_DAY    >=   #{SECTDATE}
+              AND SCD_CD      =  #{SCD_CD} 
+              AND DEL_YN      =  '0'
+        
+        ) C
+      , T_COMM_SCD_MASTER M
+      , T_SYTM_CODE S
+      , T_SYTM_USER U
+   WHERE M.SCD_CD       =  #{SCD_CD} 
+     AND M.USED_YN      =  '1'
+     AND M.SCD_CD       =  C.SCD_CD
+     AND S.HCL_CD       =  'CM03'
+     AND C.SCD_SECT_CD  =  S.SSC_CD
+     AND C.INPT_ID		=  U.USER_ID
+   ORDER BY C.START_DAY, C.END_DAY DESC, C.START_TIME, C.START_MINUTES, C.INPT_DTTM
+</select>
+
+
+<!-- ******************************************************일정 팝업******************************************************************** -->
+
+
+<!-- 로그인 사용자가 사용할 수 있는(권한 있는) 일정(일정코드) 목록   + 첨부파일 여부 컬럼 추가-->
+<select id="selectScdNm" parameterType="java.util.Map" resultType="java.util.Map">
+WITH RECURSIVE DeptHierarchy AS (
+  SELECT DEPT_CD
+  FROM T_SYTM_DEPT
+  WHERE DEPT_CD = #{DEPT_CD}
+  UNION ALL
+  SELECT D.DEPT_CD
+  FROM T_SYTM_DEPT D
+  JOIN DeptHierarchy DH ON D.HIPO_DEPT_CD = DH.DEPT_CD
+)
+SELECT
+  S.SCD_CD,
+  S.SCD_NM,
+  S.SCD_SHARE_CD,
+  S.DEPT_CD,
+  S.MGR_ID,
+  S.APND_YN
+FROM T_COMM_SCD_MASTER S
+WHERE S.SCD_SHARE_CD = 'ALL'
+  AND S.USED_YN = '1'
+UNION
+SELECT
+  S.SCD_CD,
+  S.SCD_NM,
+  S.SCD_SHARE_CD,
+  S.DEPT_CD,
+  S.MGR_ID,
+  S.APND_YN
+FROM T_COMM_SCD_MASTER S
+WHERE S.SCD_SHARE_CD = 'DPT'
+  AND S.USED_YN = '1'
+  AND S.DEPT_CD IN (
+    SELECT DEPT_CD
+    FROM DeptHierarchy
+  );
+
+
+</select>
+
+<!-- 일정 정보 추가 -->
+<insert id="insertScheduleContents" parameterType="java.util.Map">
+INSERT INTO T_COMM_SCD
+   (
+        SCD_CD                -- 일정코드
+      , SCD_ID                -- 일정ID (시퀀스 : S_COMM_SCD)
+      , SCD_SECT_CD           -- 일정유형코드 : CM03
+      , TITLE                 -- 제목
+      , START_DAY             -- 시작일 YYYYMMDD
+      , START_TIME            -- 시작시간 (00, 01, 02, .... 21, 22, 23)
+      , START_MINUTES         -- 시작분 (00, 10, 20, 30, 40, 50)
+      , END_DAY               -- 종료일 YYYYMMDD
+      , END_TIME              -- 종료시간 (00, 01, 02, .... 21, 22, 23)
+      , END_MINUTES           -- 종료분 (00, 10, 20, 30, 40, 50)
+      , CNTN                  -- 내용
+      , FILE_ID               -- 파일ID
+      , DEL_YN                -- 삭제여부
+      , INPT_ID               -- 입력ID
+      , INPT_IP               -- 입력IP
+      , INPT_DTTM             -- 입력일시
+      , CHGE_ID               -- 수정ID
+      , CHGE_IP               -- 수정IP
+      , CHGE_DTTM             -- 수정일시
+   )
+   VALUES
+   (
+        #{SCD_CD}              -- 일정코드
+      , nextval('S_COMM_SCD')   -- 일정ID (시퀀스 : S_COMM_SCD)
+      , #{SCD_SECT_CD}          -- 일정유형코드 : CM03
+      , #{TITLE}                -- 제목
+      , #{START_DAY}            -- 시작일 YYYYMMDD
+      , #{START_TIME}           -- 시작시간 (00, 01, 02, .... 21, 22, 23)
+      , #{START_MINUTES}        -- 시작분 (00, 10, 20, 30, 40, 50)
+      , #{END_DAY}              -- 종료일 YYYYMMDD
+      , #{END_TIME}             -- 종료시간 (00, 01, 02, .... 21, 22, 23)
+      , #{END_MINUTES}          -- 종료분 (00, 10, 20, 30, 40, 50)
+      , #{CNTN}                 -- 내용
+      , #{FILE_ID}              -- 파일ID
+      , #{DEL_YN}              -- 삭제여부
+      , #{INPT_ID}              -- 입력ID
+      , #{USER_CON_IPADDR_SRV}            -- 입력IP
+      , NOW()               -- 입력일시
+      , #{CHGE_ID}              -- 수정ID
+      , #{USER_CON_IPADDR_SRV}            -- 수정IP
+      , NOW()               -- 수정일시
+    )
+</insert>
+
+
+<!-- 일정 상세 조회 , 선택한 일정 한건 조회-->
+<select id="searchScheduleContents" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT     SCD_CD          -- 일정코드
+         , SCD_ID          -- 일정ID (시퀀스 : S_COMM_SCD)
+         , SCD_SECT_CD     -- 일정유형코드 : CM03
+         , C.SSC_CD_KORN_NM -- 일정유형코드 한글
+         , TITLE           -- 제목
+         , START_DAY       -- 시작일 YYYYMMDD
+         , START_TIME      -- 시작시간 (00, 01, 02, .... 21, 22, 23)
+         , START_MINUTES   -- 시작분 (00, 10, 20, 30, 40, 50)
+         , END_DAY         -- 종료일 YYYYMMDD
+         , END_TIME        -- 종료시간 (00, 01, 02, .... 21, 22, 23)
+         , END_MINUTES     -- 종료분 (00, 10, 20, 30, 40, 50)
+         , CNTN            -- 내용
+         , FILE_ID         -- 파일ID
+         , DEL_YN          -- 삭제여부
+         , CONCAT(U.KORN_NM , '(' , U.EMP_NO , ')') AS INPT_EMP_NO      -- 작성자 이름(작성자 아이디)
+         , S.INPT_ID         -- 입력ID
+         , S.INPT_IP         -- 입력IP
+         , S.INPT_DTTM       -- 입력일시
+         , S.CHGE_ID         -- 수정ID
+         , S.CHGE_IP         -- 수정IP
+         , DATE_FORMAT(CAST(S.CHGE_DTTM AS CHAR(19)),'%Y-%m-%d %H:%i:%s') AS CHGE_DTTM -- 수정일시
+         , '' AS STATUS
+         , M.MENU_ID
+   FROM T_COMM_SCD S
+        ,T_SYTM_CODE C
+        ,T_SYTM_USER U
+        ,T_SYTM_MENU M
+   WHERE S.SCD_CD   = #{SCD_CD}
+     AND S.SCD_ID   = #{SCD_ID}
+     AND C.SSC_CD 	= S.SCD_SECT_CD
+     AND S.INPT_ID 	= U.USER_ID
+     AND M.PRGM_ID  = 'P000000080'
+     AND M.PARM     = #{SCD_CD}
+</select>
+
+
+<!-- 조회한 1건 삭제 - 시작일이 현재 날짜보다 작을 경우 삭제여부 update -->
+<update id="deleteUScheduleContents" parameterType="java.util.Map">
+UPDATE T_COMM_SCD
+SET 
+	DEL_YN 			= '1'
+	,CHGE_ID        = #{USER_ID_SRV}
+	,CHGE_DTTM      = NOW()
+	,CHGE_IP        = #{USER_CON_IPADDR_SRV}
+WHERE SCD_CD		= #{SCD_CD}
+	AND SCD_ID      = #{SCD_ID}
+</update>
+
+<!-- 조회한 1건 삭제 - 시작일이 현재 날짜보다 클 경우 delete -->
+<delete id="deleteDScheduleContents" parameterType="java.util.Map">
+DELETE FROM T_COMM_SCD
+WHERE SCD_CD       = #{SCD_CD}
+	AND SCD_ID     = #{SCD_ID}
+</delete>
+
+
+<!-- 조회한 1건 수정 -->
+<update id="updateScheduleContents">
+UPDATE T_COMM_SCD
+	SET SCD_SECT_CD     = #{SCD_SECT_CD}
+      , TITLE           = #{TITLE}
+      , START_DAY       = #{START_DAY}
+      , START_TIME      = #{START_TIME}
+      , START_MINUTES   = #{START_MINUTES}
+      , END_DAY         = #{END_DAY}
+      , END_TIME        = #{END_TIME}
+      , END_MINUTES     = #{END_MINUTES}
+      , CNTN            = #{CNTN}
+      , FILE_ID         = #{FILE_ID}
+      , DEL_YN          = #{DEL_YN}
+      , CHGE_ID         = #{CHGE_ID}
+      , CHGE_IP         = #{CHGE_IP}
+      , CHGE_DTTM       = NOW()
+   WHERE SCD_CD         = #{SCD_CD}
+     AND SCD_ID         = #{SCD_ID}
+</update>
+
+
+<!-- ******************************************************일정 파일 관련******************************************************************** -->
+<!-- 파일 추가 -->
+<insert id="saveScheduleFileInsert" parameterType="java.util.Map">
+INSERT INTO T_COMM_SCD_FILE
+(
+	FILE_ID
+	, FILE_SEQ
+	, SAVE_FILE_NM
+	, OTXT_FILE_NM
+	, FILE_SIZE
+	, FILE_TYPE
+	, FILE_PATH_NM
+	, INPT_ID
+	, INPT_DTTM
+	, INPT_IP
+	, CHGE_ID
+	, CHGE_DTTM
+	, CHGE_IP
+)VALUES(
+	#{FILE_ID}
+	, (SELECT COALESCE(MAX(FILE_SEQ),0)+1 FROM T_COMM_SCD_FILE WHERE FILE_ID = #{FILE_ID})
+	, #{SAVE_FILE_NM}
+	, #{OTXT_FILE_NM}
+	, #{FILE_SIZE}
+	, #{FILE_TYPE}
+	, #{FILE_PATH_NM}
+	, #{USER_ID_SRV}
+	, NOW()
+	, #{USER_CON_IPADDR_SRV}
+	, #{USER_ID_SRV}
+	, NOW()
+	, #{USER_CON_IPADDR_SRV}
+)
+</insert>
+
+<!-- 선택한 일정 파일 조회  -->
+<select id="searchScheduleFiles" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT 
+	S.FILE_ID
+	, FILE_SEQ
+	, SAVE_FILE_NM
+	, OTXT_FILE_NM
+	, FILE_SIZE
+	, FILE_TYPE
+	, FILE_PATH_NM
+	, F.INPT_ID
+	, F.INPT_DTTM
+	, F.INPT_IP
+FROM T_COMM_SCD S
+	,T_COMM_SCD_FILE F
+WHERE SCD_CD = #{SCD_CD}
+	AND SCD_ID = #{SCD_ID}
+	AND S.FILE_ID = F.FILE_ID
+</select>
+
+<!--첨부된 파일 삭제  -->
+<delete id="deleteScheduleFile" parameterType="java.util.Map">
+DELETE FROM T_COMM_SCD_FILE
+WHERE FILE_ID 	 = #{FILE_ID}
+	AND FILE_SEQ = #{FILE_SEQ}
+</delete>
+
+
+<!-- ******************************************************일정 검색 관련******************************************************************** -->
+<!-- 일정 검색 -->
+<select id="searchScdData" parameterType="java.util.Map" resultType="java.util.Map">
+WITH RECURSIVE DeptHierarchy AS (
+    SELECT DEPT_CD
+    FROM T_SYTM_DEPT
+    WHERE DEPT_CD = #{DEPT_CD}
+    UNION ALL
+    SELECT D.DEPT_CD
+    FROM T_SYTM_DEPT D
+    JOIN DeptHierarchy DH ON DH.DEPT_CD = D.HIPO_DEPT_CD
+)
+SELECT
+    RUNMB,
+    SCD_NM,
+    SCD_CD,
+    SCD_ID,
+    SCD_SECT_CD,
+    TITLE,
+    START_DAY,
+    START_TIME,
+    START_MINUTES,
+    END_DAY,
+    END_TIME,
+    END_MINUTES,
+    FILE_ID,
+    INPT_ID,
+    INPT_IP,
+    INPT_DTTM,
+    SSC_CD_KORN_NM,
+    DEPT_CD,
+    INPT_EMP_NO
+FROM (
+    SELECT
+        ROW_NUMBER() OVER (ORDER BY RNUM) AS RUNMB,
+        RNUM,
+        SCD_NM,
+        SCD_CD,
+        SCD_ID,
+        SCD_SECT_CD,
+        TITLE,
+        START_DAY,
+        START_TIME,
+        START_MINUTES,
+        END_DAY,
+        END_TIME,
+        END_MINUTES,
+        FILE_ID,
+        INPT_ID,
+        INPT_IP,
+        INPT_DTTM,
+        SSC_CD_KORN_NM,
+        DEPT_CD,
+        INPT_EMP_NO
+    FROM (
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY C.SCD_CD, C.START_DAY, C.START_TIME, C.START_MINUTES, C.END_DAY, C.END_TIME, C.END_MINUTES, C.INPT_DTTM) AS RNUM,
+            M.SCD_NM,
+            C.SCD_CD,
+            C.SCD_ID,
+            C.SCD_SECT_CD,
+            C.TITLE,
+            C.START_DAY,
+            C.START_TIME,
+            C.START_MINUTES,
+            C.END_DAY,
+            C.END_TIME,
+            C.END_MINUTES,
+            C.FILE_ID,
+            C.INPT_ID,
+            C.INPT_IP,
+            C.INPT_DTTM,
+            S.SSC_CD_KORN_NM,
+            U.DEPT_CD,
+            CONCAT(U.KORN_NM , '(' , U.EMP_NO , ')') AS INPT_EMP_NO
+        FROM
+            T_COMM_SCD_MASTER M
+            INNER JOIN T_COMM_SCD C ON M.SCD_CD = C.SCD_CD
+            INNER JOIN T_SYTM_CODE S ON C.SCD_SECT_CD = S.SSC_CD
+            INNER JOIN T_SYTM_USER U ON C.INPT_ID = U.USER_ID
+        WHERE
+            M.USED_YN = '1'
+            <if test="SCD_CD != null and SCD_CD != '' ">
+            AND C.SCD_CD  = #{SCD_CD}
+            </if>
+            <if test="DEPT_CD != null and DEPT_CD != '' ">
+            AND M.SCD_CD IN (
+                SELECT
+                    S.SCD_CD
+                FROM
+                    T_COMM_SCD_MASTER S
+                WHERE
+                    S.SCD_SHARE_CD = 'ALL'
+                    AND S.USED_YN = '1'
+                UNION
+                SELECT
+                    S.SCD_CD
+                FROM
+                    T_COMM_SCD_MASTER S
+                WHERE
+                    S.SCD_SHARE_CD = 'DPT'
+                    AND S.USED_YN = '1'
+                    AND S.DEPT_CD IN (
+                        SELECT
+                            D.DEPT_CD
+                        FROM
+                            DeptHierarchy D
+                    )
+            )
+            </if>
+            AND C.DEL_YN = '0'
+            AND C.START_DAY <![CDATA[<=]]>   #{TO_DATE}
+            AND C.END_DAY >= #{FROM_DATE} 
+            AND C.INPT_ID     = U.USER_ID
+            AND C.SCD_SECT_CD = S.SSC_CD 
+			<if test="SEARCH_GUBUN != null and SEARCH_GUBUN != '' ">
+				<if test="SEARCH_GUBUN == '01'">
+					<if test="SEARCH_COND != null and SEARCH_COND != '' ">
+					AND  UPPER(C.TITLE) LIKE CONCAT('%' , UPPER(#{SEARCH_COND}) , '%')
+					</if>
+				</if>
+				<if test="SEARCH_GUBUN == '02'">
+					<if test="SEARCH_COND != null and SEARCH_COND != '' "> 
+					AND INSTR(REGEXP_REPLACE(UPPER(C.CNTN),<![CDATA['<[^>]*>|\&([^;])*;']]>, ''),  UPPER(#{SEARCH_COND})) > 0 
+					</if>
+				</if>
+				<if test="SEARCH_GUBUN == '03'">
+                     <if test="SEARCH_COND != null and SEARCH_COND != '' ">
+                     AND U.KORN_NM LIKE CONCAT('%' , #{SEARCH_COND} , '%') 
+                     </if>
+                </if>
+			</if> 
+			<if test="SECTCD != null and SECTCD != ''">
+				<if test="SECTCD != 'ALL'">
+					AND C.SCD_SECT_CD = #{SECTCD}
+				</if>
+			</if>
+        ) AA
+    ) BB
+<if test="END_NUM != null and END_NUM != '' ">
+	WHERE BB.RNUM BETWEEN #{START_NUM} AND #{END_NUM}
+</if>
+ORDER BY START_DAY, END_DAY DESC, START_TIME, END_TIME , START_MINUTES, END_MINUTES, INPT_DTTM  
+</select>
+
+<!--일정 수 카운트  -->
+<select id="searchScheduleListCnt" parameterType="java.util.Map" resultType="java.util.Map">
+WITH RECURSIVE CTE AS (
+    SELECT D.DEPT_CD
+    , D.HIPO_DEPT_CD
+    FROM T_SYTM_DEPT D
+    WHERE D.DEPT_CD = #{DEPT_CD} 
+    UNION ALL
+    SELECT D.DEPT_CD
+    , D.HIPO_DEPT_CD
+    FROM T_SYTM_DEPT D
+    INNER JOIN CTE ON CTE.DEPT_CD = D.HIPO_DEPT_CD
+)
+SELECT 
+  COUNT(*) AS TOTALCNT
+  FROM
+    (SELECT 
+        ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS RNUM
+        ,AA.*
+         FROM 
+            (SELECT M.SCD_NM
+                    , C.SCD_CD
+                    , C.SCD_ID
+                    , C.SCD_SECT_CD
+                    , C.TITLE
+                    , C.START_DAY
+                    , C.START_TIME
+                    , C.START_MINUTES
+                    , C.END_DAY
+                    , C.END_TIME
+                    , C.END_MINUTES
+                    , C.FILE_ID
+                    , C.INPT_ID
+                    , C.INPT_IP
+                    , C.INPT_DTTM
+                    , S.SSC_CD_KORN_NM
+                    , CONCAT(U.KORN_NM , '(' , U.EMP_NO , ')') AS INPT_EMP_NO
+                FROM  T_COMM_SCD_MASTER M
+                    , T_COMM_SCD C
+                    , T_SYTM_CODE S
+                    , T_SYTM_USER U
+                WHERE M.SCD_CD  = C.SCD_CD           
+                 AND M.USED_YN = '1'
+                 <if test="SCD_CD != null and SCD_CD != '' ">
+                 AND M.SCD_CD = #{SCD_CD}
+                 </if>
+                 <if test="DEPT_CD != null and DEPT_CD != '' ">
+                 AND M.SCD_CD IN ( SELECT S.SCD_CD
+                                       FROM T_COMM_SCD_MASTER S
+                                       WHERE S.SCD_SHARE_CD = 'ALL'
+                                            AND S.USED_YN      = '1'
+                                    UNION
+                                    SELECT S.SCD_CD
+                                        FROM T_COMM_SCD_MASTER S
+                                        WHERE S.SCD_SHARE_CD = 'DPT'
+                                            AND S.DEPT_CD IN (SELECT DEPT_CD
+                                                                FROM CTE
+                                                                )
+                                    )
+                 </if> 
+                 AND C.DEL_YN    =    '0'
+                 AND C.START_DAY  <![CDATA[<=]]>   #{TO_DATE}
+                 AND C.END_DAY    >=  #{FROM_DATE}       
+                 AND C.INPT_ID     = U.USER_ID
+                 AND C.SCD_SECT_CD = S.SSC_CD
+				<if test="SEARCH_GUBUN != null and SEARCH_GUBUN != '' ">
+                    <if test="SEARCH_GUBUN == '01'">
+                        <if test="SEARCH_COND != null and SEARCH_COND != '' ">
+                        AND  UPPER(C.TITLE) LIKE CONCAT('%' , UPPER(#{SEARCH_COND}) , '%') 
+                        </if>
+                    </if>
+                    <if test="SEARCH_GUBUN == '02'">
+                        <if test="SEARCH_COND != null and SEARCH_COND != '' ">
+                        AND INSTR(REGEXP_REPLACE(UPPER(C.CNTN),<![CDATA['<[^>]*>|\&([^;])*;']]>, ''),  UPPER(#{SEARCH_COND})) > 0 
+                        </if>
+                    </if>
+                </if> 
+                <if test="SECTCD != null and SECTCD != ''">
+                    <if test="SECTCD != 'ALL'">
+                        AND C.SCD_SECT_CD = #{SECTCD}
+                    </if>
+                </if>		 
+              )AA	
+     )BB
+</select>
+
+
+
+</mapper>

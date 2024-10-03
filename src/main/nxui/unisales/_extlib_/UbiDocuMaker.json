@@ -1,0 +1,35 @@
+﻿{
+	"name": "UbiDocuMaker",
+	"moduletype": "component",
+	"version": "1.0",
+	"minnexacroversion": "",
+	"description": "UbiDocuMaker 배포 프로젝트",
+	"license": "",
+	"objInfo": [	
+    "UbiDocuMaker/_metainfo_/CommonInfo.info",
+    "UbiDocuMaker/_metainfo_/UbiDocuMaker.info"
+	],
+	"scripts": [
+    "UbiDocuMaker/UbiDocuMaker.js"
+	],
+	"scriptsfilter": [
+
+	],
+	"designscripts": [
+    "UbiDocuMaker/DesignUbiDocuMaker.js"
+	],
+	"help": "",	
+	"xcss": "UbiDocuMaker/_xcss_/UbiDocuMaker.xcss",
+	"images": "UbiDocuMaker/_images_/",	
+	"licensefiles": "",
+	"icons": "UbiDocuMaker/_icons_/",
+	"userfolder": [
+
+	],
+	"installinfo": {
+
+	},
+	"contentseditor": [
+
+	]
+}

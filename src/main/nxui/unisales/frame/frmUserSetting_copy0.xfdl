@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmUserSetting" width="320" height="230" titletext="사용자설정 팝업" onload="form_onload">
+    <Layouts>
+      <Layout height="230" mobileorientation="landscape" width="320">
+        <Div id="divTheme" taborder="4" left="30" top="62" height="100" width="260">
+          <Layouts>
+            <Layout>
+              <Static id="sta00" taborder="0" left="30" top="8" width="75" height="55" cssclass="sta_WF_Light"/>
+              <Static id="sta00_00" taborder="1" left="151" top="8" width="75" height="55" cssclass="sta_WF_Dark"/>
+              <Radio id="rdoTheme" taborder="2" left="27" top="67" width="231" height="21" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" value="0" text="라이트모드" index="0" onitemchanged="div00_rdo00_onitemchanged">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">0</Col>
+                      <Col id="datacolumn">라이트모드</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">다크모드</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divPassword" taborder="5" left="330" height="100" visible="false" width="260" top="62">
+          <Layouts>
+            <Layout>
+              <Static id="staCur01" taborder="0" left="0" height="34" cssclass="sta_WF_LabelBg" right="0" top="0"/>
+              <Edit id="edtCurPassword" taborder="1" left="125" height="24" password="true" right="5" top="5"/>
+              <Static id="staNew01" taborder="2" left="0" cssclass="sta_WF_LabelBg" text="" right="0" height="34" top="staCur01:-1"/>
+              <Static id="staCur" taborder="8" text="현재 비밀번호" left="-4" width="125" height="34" cssclass="sta_WF_Label" top="0"/>
+              <Edit id="edtNewPassword" taborder="4" left="125" height="24" password="true" right="5" top="staCur01:4"/>
+              <Static id="staNew" taborder="3" text="새 비밀번호" left="-4" cssclass="sta_WF_Label" height="34" right="139" top="staCur:-1"/>
+              <Static id="staConfirm01" taborder="5" left="0" height="34" cssclass="sta_WF_LabelBg" right="0" onclick="divPassword_sta03_00_00_onclick" top="staNew01:-1"/>
+              <Static id="staConfirm" taborder="6" text="새 비밀번호 확인" left="-4" cssclass="sta_WF_Label" width="125" height="34" top="staNew:-1"/>
+              <Edit id="edtConfirmPassword" taborder="7" left="125" password="true" right="5" height="24" top="staNew01:4"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnConfirm" taborder="0" text="저장" height="28" width="50" fittocontents="width" cssclass="btn_WF_Crud" right="25" onclick="btnConfirm_onclick" bottom="20"/>
+        <Button id="btnClose" taborder="1" text="취소" height="28" width="50" fittocontents="width" right="78" onclick="btnClose_onclick" bottom="20"/>
+        <Button id="btnTheme" taborder="2" text="테마 설정" left="30" top="20" width="130" height="32" cssclass="btn_WF_TabS" onclick="btnTheme_onclick"/>
+        <Button id="btnPassword" taborder="3" text="비밀번호 변경" top="20" width="130" height="32" cssclass="btn_WF_Tab" left="160" onclick="btnPassword_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsTheme" canrowposchange="dsList_canrowposchange" cancolumnchange="dsList_cancolumnchange">
+        <ColumnInfo>
+          <Column id="PASSWORD" type="STRING" size="256"/>
+          <Column id="THEME_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="CUR_PASSWORD" type="STRING" size="256"/>
+          <Column id="NEW_PASSWORD" type="STRING" size="256"/>
+          <Column id="CONFIRM_PASSWORD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CONFIRM_PASSWORD"/>
+            <Col id="NEW_PASSWORD"/>
+            <Col id="CUR_PASSWORD"/>
+            <Col id="USER_ID"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsUser" canrowposchange="dsList_canrowposchange" cancolumnchange="dsList_cancolumnchange">
+        <ColumnInfo>
+          <Column id="PASSWORD" type="STRING" size="256"/>
+          <Column id="THEME_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	frmUserSetting.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/01/05
+*  @Desction    팝업연결용 화면
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/01/05			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.objApp = nexacro.getApplication();
+ 
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//로그인 프레임에서 로그인 시 사이즈 함수 호출
+	if(this.parent.parent.name == "frmLogin")
+	{
+		this.fnSize();
+	}
+	// 초기화
+	this.fnInit();
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+/**
+ * @description 사용자 검색
+*/
+this.fnSearch = function()
+{
+	var strSvcId    = "searchUserSetting";
+	var strSvcUrl   = "searchUserSetting.do";
+	var inData      = "";
+	var outData     = "dsTheme=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+}
+
+/**
+ * @description 마이메뉴 저장 트랜잭션
+ */
+this.fnSaveUserSetting = function()
+{
+	var sThemeId = this.divTheme.form.rdoTheme.value;
+	if(sThemeId == 0){
+		this.dsTheme.setColumn(0,"THEME_ID", "01");
+	}else{
+		this.dsTheme.setColumn(0,"THEME_ID", "02");
+	}
+	// 테마 설정 저장
+	var sSvcId   	= "saveUserSetting";
+	var sSvcUrl   	= "saveUserSetting.do";
+	var sInData     = "dsList=dsTheme:U";
+	var sOutData    = "";
+	var sArg      	= "";	
+	var sCallBackFnc = "fnCallback";
+	
+	this.gfnTransaction(sSvcId , 		// transaction을 구분하기 위한 svc id값
+						sSvcUrl , 		// trabsaction을 요청할 주소
+						sInData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						sOutData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						sArg, 			// 입력갑스로 보낼 arguments, strFormData="20120607"
+						sCallBackFnc);  // 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchUserSetting":
+			//trace(this.dsTheme.saveXML());
+			var sThemeId = this.dsTheme.getColumn(0,"THEME_ID");
+			if(!this.gfnIsNull(sThemeId)){
+				if(sThemeId == "02"){
+					this.divTheme.form.rdoTheme.set_value(1);
+					nexacro.loadStyle("xcssrc::darkMode.xcss");
+				}else{
+					this.divTheme.form.rdoTheme.set_value(0);
+					nexacro.loadStyle("xcssrc::lightMode.xcss");
+				}
+			}
+			break;
+		case "saveUserSetting":
+			if(this.divTheme.form.rdoTheme.value == "1"){
+				nexacro.loadStyle("xcssrc::darkMode.xcss");
+			}else{
+				nexacro.loadStyle("xcssrc::lightMode.xcss");
+			}
+
+			this.close();
+			break;
+		case "saveUserPassword":
+			if(this.dsUser.rowcount == 1) {
+			// 로그인 페이지 일 때 정합성 조건을 만족하게 비밀번호 변경 시 메인페이지로 이동
+				if(this.parent.parent.name == "frmLogin")
+				{
+					this.gfnAlert("msg.save.success", "", "successLogin", "fnMsgCallback");				
+				}
+				else
+				{
+					this.gfnAlert("msg.save.success", "", "saveUserPassword", "fnMsgCallback");				
+				}
+			} else {
+				this.gfnAlert("msg.err.validator.password.check", "", "", "fnMsgCallback");				
+			}
+			break;
+		default: break;
+	}
+};
+
+/**
+ * @description 메세지 콜백
+*/
+this.fnMsgCallback = function (sMsgId, sVal)
+{
+	switch (sMsgId) 
+	{
+		case "confirm.general" :
+			if (sVal == true)
+			{		
+				// 마이메뉴 저장 트랜잭션 호출
+				this.fnSaveUserSetting();
+			} 
+			break;
+		case "successLogin" :
+			this.gfnClosePopup("OK");
+			break;	
+		case "saveUserPassword" :
+			this.gfnClosePopup();
+			break;			
+		default:
+			break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+/**
+ * @description 초기화
+*/
+this.fnInit = function()
+{
+	//this.dsCond.clearData();
+	//var nRow = this.dsCond.addRow();
+	this.dsCond.setColumn(0, "USER_ID"		, this.objApp.gdsUser.getColumn(0, "USER_ID"));
+	//this.dsCond.setColumn(nRow, "CUR_PASSWORD"	, this.objApp.gdsUser.getColumn(0, "CUR_PASSWORD"));
+    this.fnSearch();
+}
+
+/**
+ * @description 비밀번호 저장
+*/
+this.fnSavePassword = function()
+{
+	this.dsCond.setColumn(0, "USER_ID"		, "");
+	var pswd = this.divPassword.form.edtCurPassword.value;	// CURR
+	var shaObj = new jsSHA("SHA-256", "TEXT");
+	shaObj.update(pswd);
+	var hash = shaObj.getHash("HEX");	
+	this.dsCond.setColumn(0, "CUR_PASSWORD", this.gfnEncData(hash));
+
+	pswd = this.divPassword.form.edtNewPassword.value;	// CURR
+	var shaObj2 = new jsSHA("SHA-256", "TEXT");
+	shaObj2.update(pswd);
+	var hash2 = shaObj2.getHash("HEX");	
+	this.dsCond.setColumn(0, "NEW_PASSWORD", this.gfnEncData(hash2));
+
+	var strSvcId    = "saveUserPassword";
+	var strSvcUrl   = "saveUserPassword.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsUser=dsUser";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc);   // 통신방법 정의 [생략가능]
+}
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+/**
+ * @description 취소 버튼 클릭 이벤트
+*/
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnClosePopup();
+};
+
+/**
+ * @description 확인 버튼 클릭 이벤트
+*/
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.divTheme.visible){
+		if (this.gfnDsIsUpdated(this.dsTheme) == false) {
+			// 저장할 데이터가 없습니다.
+			this.gfnAlert("msg.save.nochange");
+			return;
+		}
+		var sMsgId = "confirm.general";
+		var sPopId = sMsgId;
+		var sCallback = "fnMsgCallback";
+		var arrArg = ["테마 설정을 저장하시겠습니까?"];
+		
+		// 해당 메뉴를 즐겨찾기 목록에서 삭제하시겠습니까?
+		this.gfnAlert(sMsgId, arrArg, sPopId, sCallback);	
+	}else{
+		if(this.gfnValidationField(this.divPassword.form.edtCurPassword, "현재 비밀번호", "required", "", true, true) == false) {
+			return;
+		}
+		if(this.gfnValidationField(this.divPassword.form.edtNewPassword, "변경 비밀번호", "required", "", true, true) == false) {
+			return;
+		}
+		if(this.gfnValidationField(this.divPassword.form.edtNewPassword, "변경 비밀번호", "minlength", 6, true, true) == false) {
+			return;
+		}
+		// 새 비밀번호 != 새 비밀번호 확인이 다르면
+		if (this.divPassword.form.edtNewPassword.value != this.divPassword.form.edtConfirmPassword.value) {
+			// 변경하고자 하는 비밀번호가 다릅니다.\n다시 입력해 주세요.
+			this.gfnAlert("msg.err.validator.password.chnge.dfrnt");
+			this.divPassword.form.edtConfirmPassword.setFocus();
+			return;
+		}
+		
+		this.fnSavePassword();
+	}
+};
+
+/**
+ * @description 그리드셀 더블클릭 이벤트
+*/
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var nRow = this.dsGrid.rowposition;
+	
+	var sId = this.dsGrid.getColumn(nRow, "ID");
+	var sName = this.dsGrid.getColumn(nRow, "NAME");
+	
+	var rtnValue = {
+	     rtnId:sId
+		,rtnName:sName
+	}
+		
+	this.gfnClosePopup(JSON.stringify(rtnValue));
+};
+
+/**
+ * @description 조회 버튼 클릭 이벤트
+*/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 사용자 검색
+	this.fnSearch();
+};
+
+/**
+ * @description 검색 엔터키 이벤트
+*/
+this.divSearch_edtName_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	// 엔터키일 경우
+	if (e.keycode == 13)
+	{
+		// 사용자 검색
+		this.fnSearch();
+	}
+};
+
+this.div00_rdo00_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	var sThemeId = "";
+	if(e.postvalue == "0"){
+		sThemeId = "01";
+	}else{
+		sThemeId = "02";
+	}
+	this.dsTheme.setColumn(0, "THEME_ID", sThemeId);
+};
+
+this.btnTheme_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.btnTheme.set_cssclass("btn_WF_TabS");
+	this.btnPassword.set_cssclass("btn_WF_Tab");
+	this.divTheme.set_visible(true);
+	this.divPassword.set_visible(false);
+};
+
+this.btnPassword_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.btnTheme.set_cssclass("btn_WF_Tab");
+	this.btnPassword.set_cssclass("btn_WF_TabS");
+	this.divTheme.set_visible(false);
+	this.divPassword.set_left(30);
+	this.divPassword.set_visible(true);	
+};
+
+//로그인 페이지 시 사이즈 고정값 지정
+this.fnSize = function ()
+{
+	this.btnTheme.set_visible(false); 
+	this.divTheme.set_visible(false); 
+	this.btnPassword.set_visible(false);
+	this.divPassword.set_visible(true);
+	this.divPassword.set_left(30);
+	this.divPassword.set_top(18);
+	this.parent.form.set_height(180);
+};
+
+	
+]]></Script>
+  </Form>
+</FDL>

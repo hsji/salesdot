@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="salesScheduleMgFm" width="470" height="150" titletext="공통코드관리" onload="form_onload">
+    <Layouts>
+      <Layout height="150" mobileorientation="landscape" width="470">
+        <Static id="Static00" taborder="0" text="메일 정보" left="25" top="5" height="43" cssclass="sta_WF_Title" right="284"/>
+        <Static id="sta00_01_01_00" taborder="1" text="이메일 PASSWORD" left="7" top="58" width="189" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtPassword" taborder="2" left="206" top="58" height="24" imemode="alpha" width="251" password="true"/>
+        <Button id="btnSave" taborder="3" text="저장" height="28" width="68" fittocontents="width" right="69" top="100" onclick="divButton_btnSave_onclick" cssclass="btn_WF_CrudSave"/>
+        <Button id="btnClose" taborder="4" text="닫기" height="28" width="50" fittocontents="width" right="15" top="100" onclick="divButton_btnClose_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsDetailCond" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="PRJT_CODE" type="STRING" size="256"/>
+          <Column id="PRJT_NAME" type="STRING" size="256"/>
+          <Column id="SCHD_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMailContents" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="MAIL_SUBJECT" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="MAIL_CONTENTS" type="string" size="32"/>
+          <Column id="USER_EMAIL" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	salaryMailContentsPuFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/08
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/08			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvRowPositionMain = -1;
+this.fvRowPositionSub  = -1;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+ 
+	var sPwd = nexacro.getPrivateProfile("salaryEmailPassword");
+	if(sPwd){
+		this.edtPassword.set_value(sPwd);
+	}
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	//this.fnTranSearch();
+};
+
+//저장
+this.cfnSave = function ()
+{
+
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//저장
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+};
+
+this.divButton_btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	nexacro.setPrivateProfile("salaryEmailPassword",this.edtPassword.value);
+	this.close();
+};
+
+this.divButton_btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="edtPassword" propid="value" datasetid="dsMailContents" columnid="MAIL_SUBJECT"/>
+    </Bind>
+  </Form>
+</FDL>

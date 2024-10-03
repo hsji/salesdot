@@ -1,0 +1,598 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="assetMgFm" width="1050" height="736" titletext="공통코드관리" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Div id="divSearch" taborder="0" left="0" top="0" height="50" text="Div00" cssclass="div_WF_Search" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staCd" taborder="1" text="자산구분" cssclass="sta_WF_SchLabel" left="0" top="12" width="98" height="24"/>
+              <Combo id="cboAssetGrp" taborder="3" text="cbo00" left="staCd:0" top="12" width="165" height="24" onitemchanged="divSearch_cboAssetGrp_onitemchanged"/>
+              <Static id="staCdNm" taborder="2" text="자산명" cssclass="sta_WF_SchLabel" left="cboAssetGrp:10" top="12" width="110" height="24"/>
+              <Button id="btnSearch" taborder="0" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Combo id="cboAssetType" taborder="4" text="cbo00" left="staCdNm:20" top="12" width="165" height="24"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle00" taborder="1" text="자산관리" left="0" width="397" height="43" top="50" cssclass="sta_WF_Title"/>
+        <Grid id="grdMaster" taborder="2" left="0" top="staTitle00:0" binddataset="dsList" autoenter="select" bottom="346" cellsizingtype="col" uFunction="filter,sort,!colfix,!initial,find" minheight="250" maxheight="" right="20">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="147" band="left"/>
+                <Column size="73" band="left"/>
+                <Column size="123" band="left"/>
+                <Column size="116"/>
+                <Column size="160"/>
+                <Column size="132"/>
+                <Column size="132"/>
+                <Column size="147"/>
+                <Column size="147"/>
+                <Column size="123"/>
+                <Column size="123"/>
+                <Column size="126"/>
+                <Column size="126"/>
+                <Column size="126"/>
+                <Column size="126"/>
+                <Column size="126"/>
+                <Column size="126"/>
+                <Column size="126"/>
+                <Column size="126"/>
+                <Column size="126"/>
+                <Column size="96"/>
+                <Column size="228"/>
+                <Column size="400"/>
+                <Column size="400"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구분"/>
+                <Cell col="1" text="순번"/>
+                <Cell col="2" text="자산번호"/>
+                <Cell col="3" text="형태"/>
+                <Cell col="4" text="버전"/>
+                <Cell col="5" text="사용자(사번)"/>
+                <Cell col="6" text="사용자"/>
+                <Cell col="7" text="관리팀"/>
+                <Cell col="8" text="관리팀(코드)"/>
+                <Cell col="9" text="관리자"/>
+                <Cell col="10" text="관리자(사번)"/>
+                <Cell col="11" text="사용목적"/>
+                <Cell col="12" text="위치"/>
+                <Cell col="13" text="구매일"/>
+                <Cell col="14" text="OS"/>
+                <Cell col="15" text="규격"/>
+                <Cell col="16" text="CPU"/>
+                <Cell col="17" text="MEMORY"/>
+                <Cell col="18" text="HDD"/>
+                <Cell col="19" text="SERIAL"/>
+                <Cell col="20" text="사용여부"/>
+                <Cell col="21" text="제조사"/>
+                <Cell col="22" text="자산 설명"/>
+                <Cell col="23" text="비고"/>
+                <Cell col="24" text="RANGE_TYPE"/>
+                <Cell col="25" text="P_DATE"/>
+                <Cell col="26" text="RELATION"/>
+                <Cell col="27" text="SERIAL_NO"/>
+                <Cell col="28" text="POS_CD"/>
+                <Cell col="29" text="I_DATE"/>
+                <Cell col="30" text="IP_ADDR"/>
+                <Cell col="31" text="MEM_TYPE"/>
+                <Cell col="32" text="M_STATUS"/>
+                <Cell col="33" text="PRODUCT_CD"/>
+                <Cell col="34" text="ASSET_SIZE"/>
+                <Cell col="35" text="HDD_TYPE"/>
+                <Cell col="36" text="CPU_TYPE"/>
+                <Cell col="37" text="OWNNER"/>
+                <Cell col="38" text="관리팀"/>
+                <Cell col="39" text="관리자"/>
+                <Cell col="40" text="OS_TYPE"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ASSET_CD" suppress="1"/>
+                <Cell col="1" text="bind:ASSET_NO"/>
+                <Cell col="2" expr="ASSET_CD &amp;&amp; ASSET_NO?ASSET_CD + '-' + (ASSET_NO+'').padLeft(3,'0'):''"/>
+                <Cell col="3" text="bind:ASSET_TYPE"/>
+                <Cell col="4" text="bind:ASSET_VERSION"/>
+                <Cell col="5" text="bind:OWNNER"/>
+                <Cell col="6" text="bind:OWNNER_NAME"/>
+                <Cell col="7" text="bind:DEPT_NAME"/>
+                <Cell col="8" text="bind:MANAGETEAM_CD"/>
+                <Cell col="9" text="bind:MANAGER_NAME"/>
+                <Cell col="10" text="bind:MANAGER"/>
+                <Cell col="11" text="bind:REASON_CD"/>
+                <Cell col="12" text="bind:POSITION_CD"/>
+                <Cell col="13" text="bind:I_DATE" displaytype="date"/>
+                <Cell col="14" text="bind:OS_TYPE"/>
+                <Cell col="15" text="bind:ASSET_SIZE"/>
+                <Cell col="16" text="bind:CPU_TYPE"/>
+                <Cell col="17" text="bind:MEM_TYPE"/>
+                <Cell col="18" text="bind:HDD_TYPE"/>
+                <Cell col="19" text="bind:SERIAL_NO"/>
+                <Cell col="20" text="bind:USE_YN"/>
+                <Cell col="21" text="bind:PRODUCT_CD"/>
+                <Cell col="22" text="bind:TITLE"/>
+                <Cell col="23" text="bind:REMARK"/>
+                <Cell col="24" text="bind:REASON_CD"/>
+                <Cell col="25" text="bind:P_DATE"/>
+                <Cell col="26" text="bind:RELATION_ASSET"/>
+                <Cell col="27" text="bind:SERIAL_NO"/>
+                <Cell col="28" text="bind:POSITION_CD"/>
+                <Cell col="29" text="bind:I_DATE"/>
+                <Cell col="30" text="bind:IP_ADDR"/>
+                <Cell col="31" text="bind:MEM_TYPE"/>
+                <Cell col="32" text="bind:ASSET_STATUS_CD"/>
+                <Cell col="33" text="bind:PRODUCT_CD"/>
+                <Cell col="34" text="bind:ASSET_SIZE"/>
+                <Cell col="35" text="bind:HDD_TYPE"/>
+                <Cell col="36" text="bind:CPU_TYPE"/>
+                <Cell col="37" text="bind:OWNNER"/>
+                <Cell col="38" text="bind:MANAGETEAM_CD"/>
+                <Cell col="39" text="bind:MANAGER"/>
+                <Cell col="40" text="bind:OS_TYPE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="staTitle01" taborder="3" text="자산 상세" left="0" width="397" height="43" cssclass="sta_WF_SubTitle" top="grdMaster:0"/>
+        <Div id="divCmmnBtn" taborder="4" top="divSearch:10" width="400" height="28" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnExcel" taborder="1" text="엑셀다운" top="0" width="95" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" right="0" onclick="divCmmnBtn_btnExcel_onclick"/>
+              <Button id="btnExcelUpload" taborder="0" text="엑셀업로드" top="0" fittocontents="width" cssclass="btn_WF_ExcelUp" right="btnExcel:5" width="107" onclick="divCmmnBtn_btnExcelUpload_onclick" height="28"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle03" taborder="5" text="소분류코드 상세" left="grdMaster:20" height="43" cssclass="sta_WF_SubTitle" right="20" top="428"/>
+        <Div id="divSub" taborder="6" text="div00" left="0" height="298" right="20" top="staTitle01:0">
+          <Layouts>
+            <Layout>
+              <Static id="staBg07_00" taborder="51" cssclass="sta_WF_LabelBg" left="0" height="34" top="264" right="0"/>
+              <Static id="staBg07" taborder="13" cssclass="sta_WF_LabelBg" left="0" height="34" top="231" right="0"/>
+              <Static id="staBg00" taborder="6" cssclass="sta_WF_LabelBg" left="0" height="34" top="0" right="0"/>
+              <Static id="staBg01" taborder="7" cssclass="sta_WF_LabelBg" left="0" height="34" top="33" right="0"/>
+              <Static id="staBg02" taborder="8" cssclass="sta_WF_LabelBg" left="0" height="34" top="66" right="0"/>
+              <Static id="staBg03" taborder="9" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg02:-1" right="0"/>
+              <Static id="staBg04" taborder="10" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg03:-1" right="0"/>
+              <Static id="staBg05" taborder="11" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg04:-1" right="0"/>
+              <Static id="staBg06" taborder="12" cssclass="sta_WF_LabelBg" left="0" height="34" top="staBg05:-1" right="0"/>
+              <Static id="staTitle00" taborder="14" text="구분" cssclass="sta_WF_Label" left="0" width="90" height="34" top="0"/>
+              <Static id="staTitle01" taborder="15" text="형태" cssclass="sta_WF_Label" left="0" width="90" height="34" top="staTitle00:-1"/>
+              <Static id="staTitle02" taborder="16" text="제조사" cssclass="sta_WF_Label" left="340" width="90" height="34" top="staTitle01:-1"/>
+              <Static id="staTitle03" taborder="17" text="소유자" cssclass="sta_WF_Label" left="0" width="90" height="34" top="staTitle02:-1"/>
+              <Static id="staTitle05" taborder="18" cssclass="sta_WF_Label" left="0" width="90" height="34" top="165" text="구매일"/>
+              <Static id="staTitle06" taborder="19" text="자산설명" cssclass="sta_WF_Label" left="0" width="90" height="34" top="231"/>
+              <Static id="staTitle07" taborder="20" text="비고" cssclass="sta_WF_Label" left="0" width="90" height="34" top="264"/>
+              <Combo id="cboAssetCd" taborder="28" left="staTitle00:4" top="5" width="242" height="25" value="" index="-1" cssclass="essential"/>
+              <Static id="staTitle08" taborder="21" text="자산순번" cssclass="sta_WF_Label" left="cboAssetCd:4" width="90" height="34" top="0"/>
+              <Edit id="edtSoCdNm" taborder="0" left="staTitle08:4" top="5" height="24" cssclass="essential" maxlength="30" lengthunit="utf8" imemode="hangul" enable="false" width="76"/>
+              <Static id="staTitle12" taborder="22" text="모델(버전)" cssclass="sta_WF_Label" left="340" width="90" height="34" top="33"/>
+              <Static id="staTitle10" taborder="23" text="CPU" cssclass="sta_WF_Label" left="0" width="90" height="34" top="198"/>
+              <Static id="staTitle11" taborder="24" text="제조일" cssclass="sta_WF_Label" left="340" width="90" height="34" top="165"/>
+              <Edit id="edtSoGroup5" taborder="1" left="staTitle10:4" top="203" height="24" maxlength="30" lengthunit="utf8" inputmode="normal" imemode="alpha" width="242"/>
+              <Static id="staTitle15" taborder="25" text="MEMORY" cssclass="sta_WF_Label" left="340" width="90" height="34" top="198"/>
+              <Static id="staTitle16" taborder="26" text="시리얼번호" cssclass="sta_WF_Label" left="680" width="90" height="34" top="132"/>
+              <Edit id="edtSoGroup6" taborder="2" lengthunit="utf8" left="staTitle15:3" top="203" height="24" inputmode="normal" imemode="alpha" width="242" maxlength="30"/>
+              <Edit id="edtSoGroup9" taborder="3" lengthunit="utf8" maxlength="50" left="staTitle16:4" top="137" height="24" right="5" inputmode="normal" imemode="alpha"/>
+              <Edit id="edtBeforeScaCd" taborder="4" lengthunit="utf8" left="staTitle06:4" top="236" height="24" imemode="alpha" right="5"/>
+              <Static id="staTitle17" taborder="27" text="사용여부" cssclass="sta_WF_Label" left="0" width="90" height="34" top="132"/>
+              <CheckBox id="chkSoUseYn" taborder="5" left="94" top="137" height="24" falsevalue="0" truevalue="1" width="108"/>
+              <Static id="staTitle08_00" taborder="29" text="OS" cssclass="sta_WF_Label" left="680" width="90" height="34" top="0"/>
+              <Edit id="edtAssetName" taborder="30" left="512" top="5" height="24" cssclass="essential" maxlength="30" lengthunit="utf8" enable="false" width="164"/>
+              <Combo id="cboAssetType" taborder="31" left="staTitle01:4" top="37" width="242" height="25" value="" index="-1" cssclass="essential"/>
+              <Div id="divUser" taborder="32" left="staTitle03:4" top="104" width="242" height="24" url="common::cmmUserSearch.xfdl" text="" uEssential="true"/>
+              <Static id="staTitle08_01" taborder="33" text="관리자" cssclass="sta_WF_Label" left="340" width="90" height="34" top="99"/>
+              <Div id="divUser2" taborder="34" left="staTitle08_01:4" top="104" width="242" height="24" url="common::cmmUserSearch.xfdl" uEssential="true"/>
+              <Static id="staTitle08_01_00" taborder="35" text="관리팀" cssclass="sta_WF_Label" left="680" width="90" height="34" top="99"/>
+              <Div id="divDept" taborder="36" text="div00" left="staTitle08_01_00:5" top="105" height="28" url="common::cmmDeptSearch.xfdl" uEssential="true" width="24.17%"/>
+              <Edit id="edtVersion" taborder="49" lengthunit="utf8" maxlength="30" left="staTitle12:4" top="38" height="24" inputmode="normal" imemode="alpha" width="242" cssclass="essential"/>
+              <Static id="staTitle01_00" taborder="37" text="위치" cssclass="sta_WF_Label" left="edtVersion:4" width="90" height="34" top="33"/>
+              <Combo id="cboPosition" taborder="38" text="cbo00" left="staTitle01_00:5" top="38" width="249" height="25" cssclass="essential"/>
+              <Static id="staTitle04_00" taborder="39" text="사용목적" cssclass="sta_WF_Label" left="0" width="90" height="34" top="66"/>
+              <Combo id="cboReason" taborder="40" left="staTitle04_00:4" top="70" width="242" height="25" value="" index="-1"/>
+              <Static id="staTitle15_00" taborder="41" text="HDD" cssclass="sta_WF_Label" left="680" width="90" height="34" top="198"/>
+              <Edit id="edtSoGroup6_00" taborder="42" lengthunit="utf8" maxlength="30" left="staTitle15_00:4" top="203" height="24" inputmode="normal" imemode="alpha" width="251"/>
+              <Static id="staTitle15_00_00" taborder="43" text="규격(크기)" cssclass="sta_WF_Label" left="680" width="90" height="34" top="165"/>
+              <Edit id="edtSoGroup6_00_00" taborder="44" lengthunit="utf8" maxlength="30" left="staTitle15_00_00:4" top="170" height="24" inputmode="normal" imemode="alpha" width="251"/>
+              <Combo id="cboProduct" taborder="45" left="staTitle02:4" top="70" width="242" height="25" value="" index="-1"/>
+              <Static id="staTitle02_00" taborder="46" text="관련장비" cssclass="sta_WF_Label" left="680" width="90" height="34" top="66"/>
+              <Calendar id="cal00" taborder="47" left="94" top="169" width="126" height="25" cssclass="essential"/>
+              <Calendar id="cal00_00" taborder="48" left="434" top="169" width="126" height="25"/>
+              <Edit id="edtVersion00" taborder="50" lengthunit="utf8" maxlength="50" left="staTitle02_00:5" top="71" height="24" inputmode="normal" imemode="alpha" right="6"/>
+              <Static id="staTitle08_01_01" taborder="52" text="상태" cssclass="sta_WF_Label" left="340" width="90" height="34" top="132"/>
+              <Combo id="cboSatus" taborder="53" left="434" top="137" width="242" height="25" value="" index="-1"/>
+              <Edit id="edtBeforeScaCd00" taborder="54" lengthunit="utf8" left="94" top="269" height="24" imemode="alpha" right="5"/>
+              <Edit id="edtVersion01" taborder="55" lengthunit="utf8" maxlength="30" left="staTitle08_00:5" top="5" height="24" inputmode="normal" imemode="alpha" width="249"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtCd" propid="value" datasetid="dsCond" columnid="HCL_CD"/>
+      <BindItem id="item1" compid="divSearch.form.edtCdNm" propid="value" datasetid="dsCond" columnid="HCL_CD_KORN_NM"/>
+      <BindItem id="item9" compid="divSub.form.edtSoCdNm" propid="value" datasetid="dsList" columnid="ASSET_NO"/>
+      <BindItem id="item15" compid="divSub.form.edtSoGroup4" propid="value" datasetid="dsList" columnid="M_CNT"/>
+      <BindItem id="item18" compid="divSub.form.edtSoGroup5" propid="value" datasetid="dsList" columnid="CPU_TYPE"/>
+      <BindItem id="item21" compid="divSub.form.edtSoGroup6" propid="value" datasetid="dsList" columnid="MEM_TYPE"/>
+      <BindItem id="item22" compid="divSub.form.edtSoGroup9" propid="value" datasetid="dsList" columnid="SERIAL_NO"/>
+      <BindItem id="item23" compid="divSub.form.edtBeforeScaCd" propid="value" datasetid="dsList" columnid="TITLE"/>
+      <BindItem id="item24" compid="divSub.form.chkSoUseYn" propid="value" datasetid="dsList" columnid="USE_YN"/>
+      <BindItem id="item25" compid="divSub.form.edtRemark" propid="value" datasetid="dsList" columnid="REMARK"/>
+      <BindItem id="item26" compid="divSearch.form.cboAssetGrp" propid="value" datasetid="dsCond" columnid="ASSET_CD"/>
+      <BindItem id="item27" compid="divSearch.form.cboAssetType" propid="value" datasetid="dsCond" columnid="ASSET_TYPE"/>
+      <BindItem id="item7" compid="divSub.form.edtSoGroup6_00" propid="value" datasetid="dsList" columnid="HDD_TYPE"/>
+      <BindItem id="item28" compid="divSub.form.edtSoGroup6_00_00" propid="value" datasetid="dsList" columnid="ASSET_SIZE"/>
+      <BindItem id="item29" compid="divSub.form.cal00_00" propid="value" datasetid="dsList" columnid="P_DATE"/>
+      <BindItem id="item30" compid="divSub.form.cal00" propid="value" datasetid="dsList" columnid="I_DATE"/>
+      <BindItem id="item31" compid="divSub.form.cbo00_00_02_00_00" propid="value" datasetid="dsList" columnid="DEGREE_LVL"/>
+      <BindItem id="item32" compid="divSub.form.cboProduct" propid="value" datasetid="dsList" columnid="PRODUCT_CD"/>
+      <BindItem id="item33" compid="divSub.form.cboReason" propid="value" datasetid="dsList" columnid="REASON_CD"/>
+      <BindItem id="item34" compid="divSub.form.cboAssetType" propid="value" datasetid="dsList" columnid="ASSET_TYPE"/>
+      <BindItem id="item35" compid="divSub.form.cboAssetCd" propid="value" datasetid="dsList" columnid="ASSET_CD"/>
+      <BindItem id="item36" compid="divSub.form.cbo00_00_00" propid="value" datasetid="dsList" columnid="ASSET_DETAIL_TYPE"/>
+      <BindItem id="item37" compid="divSub.form.cboPosition" propid="value" datasetid="dsList" columnid="POSITION_CD"/>
+      <BindItem id="item38" compid="divSub.form.divDept.form.edtCode" propid="value" datasetid="dsList" columnid="MANAGETEAM_CD"/>
+      <BindItem id="item39" compid="divSub.form.divUser.form.edtCode" propid="value" datasetid="dsList" columnid="OWNNER"/>
+      <BindItem id="item40" compid="divSub.form.divUser2.form.edtCode" propid="value" datasetid="dsList" columnid="MANAGER"/>
+      <BindItem id="item8" compid="divSub.form.edtVersion" propid="value" datasetid="dsList" columnid="ASSET_VERSION"/>
+      <BindItem id="item10" compid="divSub.form.edtVersion00" propid="value" datasetid="dsList" columnid="RELATION_ASSET"/>
+      <BindItem id="item11" compid="divSub.form.cboSatus" propid="value" datasetid="dsList" columnid="ASSET_STATUS_CD"/>
+      <BindItem id="item48" compid="divSub.form.divDept.form.edtName" propid="value" datasetid="dsList" columnid="DEPT_NAME"/>
+      <BindItem id="item49" compid="divSub.form.divUser.form.edtName" propid="value" datasetid="dsList" columnid="OWNNER_NAME"/>
+      <BindItem id="item50" compid="divSub.form.divUser2.form.edtName" propid="value" datasetid="dsList" columnid="MANAGER_NAME"/>
+      <BindItem id="item2" compid="divSub.form.edtBeforeScaCd00" propid="value" datasetid="dsList" columnid="REMARK"/>
+      <BindItem id="item3" compid="divSub.form.edtVersion01" propid="value" datasetid="dsList" columnid="OS_TYPE"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsCond" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="ASSET_CD" type="STRING" size="256"/>
+          <Column id="ASSET_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" firefirstcount="0" onrowposchanged="dsList_onrowposchanged" oncolumnchanged="dsList_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="ASSET_STATUS_CD" type="string" size="32"/>
+          <Column id="P_DATE" type="string" size="32"/>
+          <Column id="REASON_CD" type="string" size="32"/>
+          <Column id="SERIAL_NO" type="string" size="32"/>
+          <Column id="POSITION_CD" type="string" size="32"/>
+          <Column id="OWNNER" type="string" size="32"/>
+          <Column id="I_DATE" type="string" size="32"/>
+          <Column id="IP_ADDR" type="string" size="32"/>
+          <Column id="MEM_TYPE" type="string" size="32"/>
+          <Column id="M_STATUS" type="string" size="32"/>
+          <Column id="DEGREE_LVL" type="string" size="32"/>
+          <Column id="ASSET_SIZE" type="string" size="32"/>
+          <Column id="ASSET_CD" type="string" size="32"/>
+          <Column id="ASSET_NO" type="int" size="4"/>
+          <Column id="ASSET_TYPE" type="string" size="32"/>
+          <Column id="MANAGETEAM_CD" type="string" size="32"/>
+          <Column id="MANAGER" type="string" size="32"/>
+          <Column id="HDD_TYPE" type="string" size="32"/>
+          <Column id="TITLE" type="string" size="32"/>
+          <Column id="REMARK" type="string" size="32"/>
+          <Column id="M_CNT" type="int" size="4"/>
+          <Column id="CPU_TYPE" type="string" size="32"/>
+          <Column id="ASSET_VERSION" type="string" size="32"/>
+          <Column id="PRODUCT_CD" type="STRING" size="256"/>
+          <Column id="RELATION_ASSET" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+          <Column id="MANAGER_NAME" type="STRING" size="256"/>
+          <Column id="OWNNER_NAME" type="STRING" size="256"/>
+          <Column id="DEPT_NAME" type="STRING" size="256"/>
+          <Column id="OS_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	assetMgFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/08
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/08			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvRowPositionMain = -1;
+this.fvRowPositionSub  = -1;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드
+	var param = [ 
+			  {biztype : "Combo", code : "SM23", selecttype : "A", objid : this.divSearch.form.cboAssetGrp}	// 자산 구분
+			, {biztype : "Combo", code : "SM19", selecttype : "A", objid : this.divSearch.form.cboAssetType}	// 자산명
+			, {biztype : "Grid",  code : "SM23", objid : this.grdMaster, bindcolumn : "ASSET_CD", edit : "false"}	// 자산구분코드
+			, {biztype : "Grid",  code : "SM19", objid : this.grdMaster, bindcolumn : "ASSET_TYPE", edit : "false"}	// 자산형태
+			, {biztype : "Grid",  code : "SM24", objid : this.grdMaster, bindcolumn : "POSITION_CD", edit : "false"}	// 위치
+			, {biztype : "Grid",  code : "SM22", objid : this.grdMaster, bindcolumn : "REASON_CD", edit : "false"}	// 위치
+			, {biztype : "Grid",  code : "SM25", objid : this.grdMaster, bindcolumn : "PRODUCT_CD", edit : "false"}	// 위치
+			, {biztype : "Combo", code : "SM23", objid : this.divSub.form.cboAssetCd}	// 자산구분
+			, {biztype : "Combo", code : "SM19", objid : this.divSub.form.cboAssetType}	// 자산명
+			, {biztype : "Combo", code : "SM24", objid : this.divSub.form.cboPosition}	// 위치
+			, {biztype : "Combo", code : "SM22", objid : this.divSub.form.cboReason}	// 목적
+			, {biztype : "Combo", code : "SM25", objid : this.divSub.form.cboProduct}	// 제조사
+			, {biztype : "Combo", code : "SM21", objid : this.divSub.form.cboSatus}	// STATUS
+	];
+
+	this.gfnGetCommonCode(param);		
+	
+	// 버튼 권한 제어
+	this.gfnSetCommBtn(this.divCmmnBtn);
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";		//메세지ID
+		var arrArg = [""];							//메세지취환될값 배열[생략가능]
+		var sPopId = "search";						//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";			//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+	
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);	
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	var nRow = this.dsList.addRow();
+	this.dsList.setColumn(nRow, "USE_YN", "1");
+	this.dsList.setColumn(nRow, "ASSET_STATUS_CD", "100");	// 상태
+	
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsList.rowcount == 0) {
+		return;
+	}
+	
+	this.dsList.deleteRow(this.dsList.rowposition);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if( this.fnMasterValid()){
+		this.gfnAlert("confirm.save", [""], "beforeSaveTran", "fnMsgCallback");
+	}
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//master 조회
+this.fnTranSearch = function ()
+{
+	// 조회-대분류
+	this.dsList.clearData();	
+
+	var strSvcId    = "SearchAssetList";
+	var strSvcUrl   = "SearchAssetList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveAssetList";
+	var strSvcUrl   = "saveAssetList.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "SearchAssetList":
+			break;
+		case "saveAssetList":
+			this.fnTranSearch();
+			break;
+		default: break;
+	}
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "search":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.fnTranSearch();
+			break;
+		case "beforeSaveTran":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.fnTranSave();
+			break;
+		case "beforeRowPosChange":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.dsMaster.set_enableevent(false);
+			this.dsMaster.set_rowposition(this.dsMaster.uNewRow);
+			this.fnSubSearch();
+			this.dsMaster.set_enableevent(true);
+			break;
+		case "validHclCd":
+			this.dsMaster.setColumn(this.dsMaster.rowposition, "HCL_CD", "");
+			this.grdMaster.setCellPos(0);
+			this.grdMaster.showEditor(true);
+			break;
+		case "validSscCd":
+			this.dsDetail.setColumn(this.dsDetail.rowposition, "SSC_CD", "");
+			this.grdDetail.setCellPos(0);
+			this.grdDetail.showEditor(true);
+			break;
+		default: break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//마스터 - validation
+this.fnMasterValid = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+	this.gfnSetValidation(this.dsList, "ASSET_CD", "자산구분"	, "required");
+	this.gfnSetValidation(this.dsList, "ASSET_TYPE", "자산형태"	, "required");
+	this.gfnSetValidation(this.dsList, "ASSET_VERSION", "자산버전"	, "required");
+	this.gfnSetValidation(this.dsList, "POSITION_CD", "자산위치"	, "required");
+	this.gfnSetValidation(this.dsList, "REASON_CD", "자산위치"	, "required");
+	this.gfnSetValidation(this.dsList, "OWNNER", "소유자"	, "required");
+	this.gfnSetValidation(this.dsList, "MANAGER", "관리자"	, "required");
+	this.gfnSetValidation(this.dsList, "MANAGETEAM_CD", "관리팀"	, "required");
+	this.gfnSetValidation(this.dsList, "I_DATE", "구매일"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsList, "U") == false) return false;
+	else return true;
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch(); //조회
+};
+
+//마스터 - 로우포스체인지
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(obj.getRowType() != Dataset.ROWTYPE_INSERT) {
+		var cd = obj.getColumn(obj.rowposition, "ASSET_CD");
+		var no = obj.getColumn(obj.rowposition, "ASSET_NO");
+		
+		this.divSub.form.edtAssetName.set_value(cd + "-" + (no+"").padLeft(3, "0"));
+		
+		if(obj.getRowType() == Dataset.ROWTYPE_NORMAL) {
+			this.divSub.form.divUser.form.edtName.set_value(obj.getColumn(obj.rowposition, "OWNNER_NAME"));
+			this.divSub.form.divUser2.form.edtName.set_value(obj.getColumn(obj.rowposition, "MANAGER_NAME"));
+			this.divSub.form.divDept.form.edtName.set_value(obj.getColumn(obj.rowposition, "DEPT_NAME"));
+		}
+	}
+};
+
+this.divCmmnBtn_btnExcel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle00.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdMaster, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "", true);	
+};
+
+this.divCmmnBtn_btnExcelUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnExcelImport("dsList", "자산관리", "A4:W", "fnExcelImportCallback", "asset", "", "A3:W3", this.grdMaster);
+};
+
+this.dsList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "ASSET_CD") { 
+		var inds = this[this.divSub.form.cboAssetType.innerdataset];
+		inds.filter("GRP_CD_1 == '" + e.newvalue + "'");
+	}
+};
+// 조회조건 변경
+this.divSearch_cboAssetGrp_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var inds = this[this.divSearch.form.cboAssetType.innerdataset];
+
+	if(obj.value && obj.value != "") {
+		inds.filter("GRP_CD_1 == '" + obj.value + "'");	
+	} else {
+		inds.filter("");	
+	}
+	this.divSearch.form.cboAssetType.set_index(0);
+};
+]]></Script>
+  </Form>
+</FDL>

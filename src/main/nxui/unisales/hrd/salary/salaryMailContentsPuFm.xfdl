@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="salesScheduleMgFm" width="870" height="490" titletext="공통코드관리" onload="form_onload">
+    <Layouts>
+      <Layout height="490" mobileorientation="landscape" width="870">
+        <Static id="Static00" taborder="0" text="메일 Contents 저장" left="25" top="5" height="43" cssclass="sta_WF_Title" right="284"/>
+        <Static id="sta00_01_01_00" taborder="1" text="SUBJECT" left="30" top="58" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtSubject" taborder="2" left="149" top="58" height="24" imemode="alpha" right="20"/>
+        <WebBrowser id="webEditor" taborder="3" left="150" top="124" right="20" border="1px solid #cccccc" onusernotify="webEditor_onusernotify" height="311"/>
+        <TextArea id="txa00" taborder="4" left="92" top="370" width="28" height="40" visible="false"/>
+        <Static id="sta00_01_01_01_01" taborder="5" text="BODY" left="30" top="124" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Button id="btnSave" taborder="6" text="저장" height="28" width="68" fittocontents="width" right="74" top="446" onclick="divButton_btnSave_onclick" cssclass="btn_WF_CrudSave"/>
+        <Button id="btnClose" taborder="7" text="닫기" height="28" width="50" fittocontents="width" right="20" top="446" onclick="divButton_btnClose_onclick"/>
+        <Static id="sta00_01_01_00_00" taborder="8" text="발송자" left="30" top="90" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtUserNm" taborder="9" left="149" top="90" height="24" imemode="alpha" maxlength="30" right="565" enable="false"/>
+        <Static id="sta00_01_01_00_00_00" taborder="10" text="발송자 EMAIL" left="320" top="90" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtUserEmail" taborder="11" left="439" top="90" height="24" imemode="alpha" maxlength="30" right="160" enable="false"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsDetailCond" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="PRJT_CODE" type="STRING" size="256"/>
+          <Column id="PRJT_NAME" type="STRING" size="256"/>
+          <Column id="SCHD_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMailContents" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="MAIL_SUBJECT" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="MAIL_CONTENTS" type="string" size="32"/>
+          <Column id="USER_EMAIL" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	salaryMailContentsPuFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/08
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/08			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvRowPositionMain = -1;
+this.fvRowPositionSub  = -1;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	var oWeb = this.webEditor;
+	this.gfnCreateWebEditor(oWeb);	
+	
+	this.dsMailContents.copyData(this.opener.dsMailContents);
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	//this.fnTranSearch();
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false && this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if(this.fnValid()){
+		this.gfnAlert("confirm.save", [""], "save", "fnMsgCallback");
+	}
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveMailContents";
+	var strSvcUrl   = "saveMailContents.do";
+	var inData      = "dsMailContents=dsMailContents:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "saveMailContents":
+			this.opener.dsMailContents.copyData(this.dsMailContents);
+			this.close();
+			break;
+		default: break;
+	}
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "save":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.fnTranSave();
+			break;
+		default: break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch(); //조회
+};
+
+this.divButton_btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sCont = "";
+	sCont = this.webEditor.callMethod("getData");	
+	this.dsMailContents.setColumn(0, "MAIL_CONTENTS", sCont);
+	
+	// 정합성 체크
+	this.gfnClearValidation(this.dsMailContents);
+
+	this.gfnSetValidation(this.dsMailContents, "MAIL_SUBJECT" , "SUBJECT"	, "required");
+	this.gfnSetValidation(this.dsMailContents, "USER_ID" , "사용자"	, "required");
+	this.gfnSetValidation(this.dsMailContents, "MAIL_CONTENTS" , "BODY"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsMailContents, "U") == false) return false;
+	
+	if(!this.gfnDsIsUpdated(this.dsMailContents)){
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}else{
+		this.fnTranSave();
+	}
+};
+
+this.divButton_btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+this.webEditor_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+	if (e.userdata=="instanceReady" && !this.isLoad){
+		obj.callMethod("init", obj.getOffsetHeight()-20);
+		this.isLoad=true;
+		var sCntn = this.dsMailContents.getColumn(0, "MAIL_CONTENTS");
+		if(!this.gfnIsNull(sCntn)){
+			this.webEditor.callMethod("setData", sCntn);
+		}
+	}		
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="edtSubject" propid="value" datasetid="dsMailContents" columnid="MAIL_SUBJECT"/>
+      <BindItem id="item1" compid="edtUserNm" propid="value" datasetid="dsMailContents" columnid="USER_NAME"/>
+      <BindItem id="item2" compid="edtUserEmail" propid="value" datasetid="dsMailContents" columnid="USER_EMAIL"/>
+    </Bind>
+  </Form>
+</FDL>

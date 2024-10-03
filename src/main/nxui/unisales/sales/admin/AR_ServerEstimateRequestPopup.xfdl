@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AR_ServerEstimateRequestPopup" width="360" height="480" titletext="서버 견적 신청서" cssclass="frm_popBg" onload="AR_ServerEstimateRequestPopup_onload">
+    <Layouts>
+      <Layout height="480" mobileorientation="landscape" width="360">
+        <Div id="div_ServerEstimateRequest" taborder="5" left="4" top="38" height="395" cssclass="div_WF_detailBg" right="4">
+          <Layouts>
+            <Layout>
+              <Static id="stc_OS" taborder="14" text="운영체제" left="10" top="98" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Static id="stc_ServerName" taborder="15" text="서버명" left="10" top="8" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Static id="stc_ServerAlias" taborder="16" text="서버 ALIAS" left="10" top="38" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Static id="stc_Platform" taborder="17" text="플랫폼" left="10" top="68" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Static id="stc_CPU" taborder="18" text="CPU" left="10" top="128" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Static id="stc_RAM" taborder="19" text="RAM" left="10" top="158" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Static id="stc_Disk_1" taborder="20" text="디스크 1" left="10" top="188" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Static id="stc_Disk_2" taborder="21" text="디스크 2" left="10" top="218" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_ServerName" taborder="0" left="stc_ServerName:8" top="8" height="20" right="8"/>
+              <Static id="stc_MDept" taborder="22" text="관리부서" left="10" top="278" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_ServerAlias" taborder="1" left="stc_ServerAlias:8" top="38" height="20" right="8"/>
+              <Combo id="cmb_Platform" taborder="2" left="stc_Platform:8" top="68" height="20" right="8" innerdataset="ds_cmm_Platform" codecolumn="CODE" datacolumn="CAPTION" index="-1"/>
+              <Combo id="cmb_OS" taborder="3" left="stc_OS:8" top="98" height="20" right="8" innerdataset="ds_cmm_Os" codecolumn="CODE" datacolumn="CAPTION"/>
+              <MaskEdit id="medt_CPU" taborder="4" left="stc_CPU:8" top="128" height="20" right="8" postfixtext=" Core" displaynulltext="단위 : Core"/>
+              <MaskEdit id="medt_Ram" taborder="5" left="stc_RAM:8" top="158" height="20" displaynulltext="단위 : GB" right="8" postfixtext=" GB"/>
+              <Combo id="cmb_Disk_Type_1" taborder="6" left="stc_Disk_1:8" top="188" height="20" innerdataset="ds_cmm_Disk" codecolumn="CODE" datacolumn="CAPTION" width="121"/>
+              <Combo id="cmb_Disk_Type_2" taborder="8" top="218" height="20" innerdataset="ds_cmm_Disk" codecolumn="CODE" datacolumn="CAPTION" text="" width="121" left="stc_Disk_2:8"/>
+              <MaskEdit id="medt_Disk_Volume_1" taborder="7" top="188" height="20" displaynulltext="단위 : GB" postfixtext=" GB" width="121" left="cmb_Disk_Type_1:8"/>
+              <MaskEdit id="medt_Disk_Volume_2" taborder="9" top="218" height="20" postfixtext=" GB" displaynulltext="단위 : GB" width="121" left="cmb_Disk_Type_2:8"/>
+              <Static id="stc_Remarks" taborder="23" text="비고" left="10" top="308" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <TextArea id="txt_Remarks" taborder="13" left="stc_Remarks:8" top="308" bottom="8" right="8"/>
+              <Button id="btn_ManageDept" taborder="12" text="선택" left="stc_MDept:8" top="278" width="40" height="20" onclick="div_ServerEstimateRequest_btn_ManageDept_onclick"/>
+              <Static id="stc_ManageDept" taborder="24" text="선택 필요" left="btn_ManageDept:8" top="278" height="20" right="8"/>
+              <Static id="stc_Disk_3" taborder="25" text="디스크 3" left="10" top="248" width="74" height="20" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_Disk_Type_3" taborder="10" top="248" height="20" innerdataset="ds_cmm_Disk" codecolumn="CODE" datacolumn="CAPTION" text="" width="121" left="stc_Disk_3:8"/>
+              <MaskEdit id="medt_Disk_Volume_3" taborder="11" top="248" height="20" postfixtext=" GB" displaynulltext="단위 : GB" width="121" left="cmb_Disk_Type_3:8"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_PopupBottom" taborder="0" left="0" right="0" cssclass="sta_POP_BtnBg" onclick="stc_PopupBottom_onclick" top="div_ServerEstimateRequest:4" bottom="0"/>
+        <Static id="stc_PopupTop" taborder="1" text="서버 견적 신청서 작성" left="8" top="8" width="141" height="20" cssclass="sta_POP_Title"/>
+        <Button id="btn_ClosePopup" taborder="2" text="닫기" height="22" right="8" width="55" bottom="8" onclick="btn_Close_onclick"/>
+        <Button id="btn_Save" taborder="3" text="저장" height="22" cssclass="btn_WF_tran" right="72" width="55" bottom="8" tabstop="true" onclick="btn_Save_onclick"/>
+        <Button id="btn_Close" taborder="4" top="10" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="btn_Close_onclick" escapebutton="true"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_ServerEstimate">
+        <ColumnInfo>
+          <Column id="SRL_SEQ" type="STRING" size="256"/>
+          <Column id="SERVER_NAME" type="STRING" size="256"/>
+          <Column id="SERVER_NAME_ALIAS" type="STRING" size="256"/>
+          <Column id="PLATFORM_TYPE" type="STRING" size="256"/>
+          <Column id="OS" type="STRING" size="256"/>
+          <Column id="CPU" type="STRING" size="256"/>
+          <Column id="RAM" type="STRING" size="256"/>
+          <Column id="DISK_TYPE_1" type="STRING" size="256"/>
+          <Column id="DISK_VOLUME_1" type="STRING" size="256"/>
+          <Column id="DISK_TYPE_2" type="STRING" size="256"/>
+          <Column id="DISK_VOLUME_2" type="STRING" size="256"/>
+          <Column id="DISK_TYPE_3" type="STRING" size="256"/>
+          <Column id="DISK_VOLUME_3" type="STRING" size="256"/>
+          <Column id="MONTHLY_PAYMENT" type="STRING" size="256"/>
+          <Column id="APPROVAL_DOC" type="STRING" size="256"/>
+          <Column id="MANAGE_DEPT_CD" type="STRING" size="256"/>
+          <Column id="MANAGE_DEPT_NM" type="STRING" size="256"/>
+          <Column id="REQUEST_STATUS" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Platform"/>
+      <Dataset id="ds_cmm_Os"/>
+      <Dataset id="ds_cmm_Disk"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 
+* 02. 화면명   : 서버 견적 신청(AR_ServerEstimateRequestPopup)
+* 03. 화면설명 : 
+* 04. 작성일   : 2023/12/26
+* 05. 작성자   : 이상원
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AR_ServerEstimateRequestPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnAddCodeDataset("ds_cmm_Platform", "SERVER_PLATFORM_TYPE");
+	this.gfnAddCodeDataset("ds_cmm_Os", "SERVER_OS_TYPE");
+	this.gfnAddCodeDataset("ds_cmm_Disk", "SERVER_DISK_TYPE");
+	
+	this.gfnCodeTransaction();
+	this.gfnCompInit(obj);	//사용자 Grid
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+//this.gfnIsEmpty(this.parent.SRL_SEQ) = true 신규/ false 수정
+this.fnFormInit = function ()
+{
+	this.ds_cmm_Platform.filter("VAL1 == '1'");
+	if(this.gfnIsEmpty(this.parent.SRL_SEQ) == true) {
+		this.ds_ServerEstimate.clearData();
+		this.ds_ServerEstimate.addRow();
+		this.div_ServerEstimateRequest.form.cmb_Platform.set_index(0);
+		this.div_ServerEstimateRequest.form.cmb_OS.set_index(0);
+		this.div_ServerEstimateRequest.form.cmb_Disk_Type_1.set_index(0);
+		this.div_ServerEstimateRequest.form.cmb_Disk_Type_2.set_index(0);
+		this.div_ServerEstimateRequest.form.cmb_Disk_Type_3.set_index(0);
+	} else {
+		this.stc_PopupTop.set_text("서버 견적 신청서 수정");
+		this.fnSearchEstimateRequest();
+	}
+};
+
+//서버 견적서 조회
+this.fnSearchEstimateRequest = function () {
+	this.gfnAddSendParameter("SRL_SEQ",this.parent.SRL_SEQ);
+	
+	this.gfnAddOutputDataset("ds_ServerEstimate","ds_ServerRequest");
+	
+	this.gfnCommonTransaction("fnSearchEstimateRequest", "AR_ServerRequest_S01");
+}
+
+//서버 견적서 저장
+this.fnSaveEstimateRequest = function ()
+{
+	if(this.fnValidation() == false) {
+		return;
+	}
+	//신규 견적서 일 경우 신청현황을 견적 대기로 설정
+	if(this.gfnIsEmpty(this.parent.SRL_SEQ) == true) {
+		this.ds_ServerEstimate.setColumn(0,"REQUEST_STATUS","001");
+	}
+	
+	this.gfnAddInputDataset("ds_ServerEstimate","ds_ServerRequest","U");
+	
+	this.gfnCommonTransaction("fnSaveEstimateRequest", "AR_ServerRequest_R01");
+};
+
+this.fnValidation = function ()
+{
+	var sServerName = this.ds_ServerEstimate.getColumn(0,"SERVER_NAME");
+	var sServerNameAlias = this.ds_ServerEstimate.getColumn(0,"SERVER_NAME_ALIAS");
+	var nPlatformType = this.ds_ServerEstimate.getColumn(0,"PLATFORM_TYPE");
+	var nOs = this.ds_ServerEstimate.getColumn(0,"OS");
+	var nCpu = this.ds_ServerEstimate.getColumn(0,"CPU");
+	var nRam = this.ds_ServerEstimate.getColumn(0,"RAM");
+	var nDisk_Type_1 = this.ds_ServerEstimate.getColumn(0,"DISK_TYPE_1");
+	var nDisk_Volume_1 = this.ds_ServerEstimate.getColumn(0,"DISK_VOLUME_1");
+	var nDisk_Type_2 = this.ds_ServerEstimate.getColumn(0,"DISK_TYPE_2");
+	var nDisk_Volume_2 = this.ds_ServerEstimate.getColumn(0,"DISK_VOLUME_2");
+	var nDisk_Type_3 = this.ds_ServerEstimate.getColumn(0,"DISK_TYPE_3");
+	var nDisk_Volume_3 = this.ds_ServerEstimate.getColumn(0,"DISK_VOLUME_3");
+	var nMonthlyPayment = this.ds_ServerEstimate.getColumn(0,"MONTHLY_PAYMENT");
+	var sApprovalDoc = this.ds_ServerEstimate.getColumn(0,"APPROVAL_DOC");
+	var sManageDeptCd = this.ds_ServerEstimate.getColumn(0,"MANAGE_DEPT_CD");
+	var sManageDeptNm = this.ds_ServerEstimate.getColumn(0,"MANAGE_DEPT_NM");
+	var nRequestStatus = this.ds_ServerEstimate.getColumn(0,"REQUEST_STATUS");
+	var sRemark = this.ds_ServerEstimate.getColumn(0,"REMARK");
+	
+	if(this.gfnIsEmpty(sServerName) == true) {
+		this.alert("서버명을 입력해주세요.");
+		return false;
+	} else if(this.gfnIsEmpty(sServerNameAlias) == true) {
+		this.alert("서버 ALIAS을 입력해주세요.");
+		return false;
+	} else if(this.gfnIsEmpty(nPlatformType) == true) {
+		this.alert("플랫폼을 선택해주세요.");
+		return false;
+	} else if(this.gfnIsEmpty(nOs) == true) {
+		this.alert("OS를 선택해주세요.");
+		return false;
+	} else if(this.gfnIsEmpty(nCpu) == true) {
+		this.alert("CPU를 입력해주세요.");
+		return false;
+	} else if(this.gfnIsEmpty(nRam) == true) {
+		this.alert("RAM을 입력해주세요.");
+		return false;
+	} else if(this.gfnIsEmpty(nDisk_Type_1) == true) {
+		this.alert("디스크1의 종류를 선택해주세요.");
+		return false;
+	} else if(this.gfnIsEmpty(nDisk_Volume_1) == true) {
+		this.alert("디스크1의 용량을 입력해주세요.");
+		return false;
+	} else if(this.gfnIsEmpty(sManageDeptCd) == true || this.gfnIsEmpty(sManageDeptNm) == true) {
+		this.alert("관리부서를 선택해주세요.");
+		return false;
+	}
+
+//필수값 컬럼이 아닌 경우 값이 없으면 기본값으로 설정
+	if(this.gfnIsEmpty(nDisk_Type_2) == true) {
+		this.ds_ServerEstimate.setColumn(0,"DISK_TYPE_2","003");
+	}
+	if(this.gfnIsEmpty(nDisk_Volume_2) == true) {
+		this.ds_ServerEstimate.setColumn(0,"DISK_VOLUME_2","0");
+	}
+	if(this.gfnIsEmpty(nDisk_Type_3) == true) {
+		this.ds_ServerEstimate.setColumn(0,"DISK_TYPE_3","003");
+	}
+	if(this.gfnIsEmpty(nDisk_Volume_3) == true) {
+		this.ds_ServerEstimate.setColumn(0,"DISK_VOLUME_3","0");
+	}
+	if(this.gfnIsEmpty(nMonthlyPayment) == true) {
+		this.ds_ServerEstimate.setColumn(0,"MONTHLY_PAYMENT","0");
+	}
+	if(this.gfnIsEmpty(sApprovalDoc) == true) {
+		this.ds_ServerEstimate.setColumn(0,"APPROVAL_DOC","");
+	}
+	if(this.gfnIsEmpty(nRequestStatus) == true) {
+		this.ds_ServerEstimate.setColumn(0,"REQUEST_STATUS","001");
+	}
+	if(this.gfnIsEmpty(sRemark) == true) {
+		this.ds_ServerEstimate.setColumn(0,"REMARK","");
+	}
+	return true;
+};
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	switch(strSvcID) {
+	case "gfnGetCode" :
+		this.fnFormInit();
+		break;
+	case "fnSearchEstimateRequest":
+		//관리부서 설정
+		var sDeptNm = this.ds_ServerEstimate.getColumn(0,"MANAGE_DEPT_NM");
+		this.div_ServerEstimateRequest.form.stc_ManageDept.set_text(sDeptNm);
+		break;
+	case "fnSaveEstimateRequest" : 
+		this.commUtil.popupClose("save");
+		break;
+	default:
+		break;
+	}
+};
+
+//관리부서 선택
+this.fnPopupCallBack = function (popupId, popupArg)
+{	
+	popupArg = this.commUtil.popupReturn();
+	trace(popupArg);
+	switch(popupId)
+	{
+		case "ManageDept_Popup":
+			var ds = new Dataset();
+			ds.loadXML(popupArg.toString(), true);
+			if(ds.rowcount > 0)
+			{
+				var nDeptCd = ds.getColumn(0,"DEPT_CD");
+				var nDeptName = ds.getColumn(0,"DEPT_NM");
+				this.div_ServerEstimateRequest.form.stc_ManageDept.set_text(nDeptName);
+				this.ds_ServerEstimate.setColumn(0,"MANAGE_DEPT_CD",nDeptCd);
+				this.ds_ServerEstimate.setColumn(0,"MANAGE_DEPT_NM",nDeptName);
+			}
+			break;
+		default :
+			break;
+	}
+}
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("cancel");
+};
+
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSaveEstimateRequest();
+};
+
+this.div_ServerEstimateRequest_btn_ManageDept_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupOrganization(this, "ManageDept_Popup", "fnPopupCallBack", "DEPT", null, "1");
+};
+/************************************************************************************************
+* 팝업 TRANSACTION 및 추가 FUNCTION 영역 
+************************************************************************************************/
+
+/************************************************************************************************
+* 팝업 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_ServerEstimateRequest.form.edt_ServerName" propid="value" datasetid="ds_ServerEstimate" columnid="SERVER_NAME"/>
+      <BindItem id="item1" compid="div_ServerEstimateRequest.form.edt_ServerAlias" propid="value" datasetid="ds_ServerEstimate" columnid="SERVER_NAME_ALIAS"/>
+      <BindItem id="item2" compid="div_ServerEstimateRequest.form.cmb_Platform" propid="value" datasetid="ds_ServerEstimate" columnid="PLATFORM_TYPE"/>
+      <BindItem id="item3" compid="div_ServerEstimateRequest.form.cmb_OS" propid="value" datasetid="ds_ServerEstimate" columnid="OS"/>
+      <BindItem id="item4" compid="div_ServerEstimateRequest.form.medt_CPU" propid="value" datasetid="ds_ServerEstimate" columnid="CPU"/>
+      <BindItem id="item5" compid="div_ServerEstimateRequest.form.medt_Ram" propid="value" datasetid="ds_ServerEstimate" columnid="RAM"/>
+      <BindItem id="item6" compid="div_ServerEstimateRequest.form.cmb_Disk_Type_1" propid="value" datasetid="ds_ServerEstimate" columnid="DISK_TYPE_1"/>
+      <BindItem id="item7" compid="div_ServerEstimateRequest.form.medt_Disk_Volume_1" propid="value" datasetid="ds_ServerEstimate" columnid="DISK_VOLUME_1"/>
+      <BindItem id="item8" compid="div_ServerEstimateRequest.form.cmb_Disk_Type_2" propid="value" datasetid="ds_ServerEstimate" columnid="DISK_TYPE_2"/>
+      <BindItem id="item9" compid="div_ServerEstimateRequest.form.medt_Disk_Volume_2" propid="value" datasetid="ds_ServerEstimate" columnid="DISK_VOLUME_2"/>
+      <BindItem id="item10" compid="div_ServerEstimateRequest.form.cmb_Disk_Type_3" propid="value" datasetid="ds_ServerEstimate" columnid="DISK_TYPE_3"/>
+      <BindItem id="item11" compid="div_ServerEstimateRequest.form.medt_Disk_Volume_3" propid="value" datasetid="ds_ServerEstimate" columnid="DISK_VOLUME_3"/>
+      <BindItem id="item12" compid="div_ServerEstimateRequest.form.txt_Remarks" propid="value" datasetid="ds_ServerEstimate" columnid="REMARK"/>
+    </Bind>
+  </Form>
+</FDL>

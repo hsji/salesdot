@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="sampleDynamicTab" width="1050" height="736" titletext="Tabpage 동적 생성" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Tab id="tabMain" taborder="2" tabindex="0" left="0" top="43" right="20" bottom="0" showextrabutton="true" onextrabuttonclick="tabMain_onextrabuttonclick" ondrop="tabMain_ondrop" ondrag="tabMain_ondrag">
+          <Tabpages>
+            <Tabpage id="Tabpage1" text="Tabpage1" url="sample::sampleDynamicTabLink.xfdl"/>
+          </Tabpages>
+        </Tab>
+        <Button id="btnAddTabpage" taborder="1" text="TabPage생성" width="94" fittocontents="width" right="20" onclick="btnAddTabpage_onclick" height="28" bottom="tabMain:5"/>
+        <Button id="btnDelTabpage" taborder="0" text="TabPage 삭제" top="10" width="98" height="28" fittocontents="width" right="btnAddTabpage:3" onclick="btnDelTabpage_onclick"/>
+        <Static id="Static00" taborder="6" text="탭페이지" left="0" top="0" width="200" height="43" cssclass="sta_WF_Title"/>
+        <Button id="btnAddTabpageM" taborder="3" text="특정위치에 Tabpage  생성" top="10" width="165" height="28" fittocontents="width" right="btnDelTabpage:3" onclick="btnAddTabpageM_onclick"/>
+        <Button id="btnTabpageMove" taborder="4" text="현재탭을 제일앞으로 이동" top="10" width="166" height="28" fittocontents="width" right="btnAddTabpageM:3" onclick="btnTabpageMove_onclick"/>
+        <Static id="Static04_00" taborder="5" top="0" width="20" cssclass="sta_WF_GSize" visible="false" text="W20" right="0" bottom="20"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	sampleDynamicTab.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2020/12/14
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2020/12/14			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnGetMaxCnt = function ()
+{
+	var nMax = -1;
+	for( var i=0; i<this.tabMain.getTabpageCount(); i++){
+		var sCompaId = parseInt(this.tabMain.tabpages[i].id.replace("Tabpage",""));
+		if( sCompaId > nMax) nMax = sCompaId;
+	}
+	return nMax;
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.btnAddTabpage_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nMax = this.fnGetMaxCnt() + 1;
+	var sNewId = "Tabpage"+nMax;
+	var nIndex = this.tabMain.insertTabpage(sNewId, -1); 
+	if (nIndex > -1) this.tabMain.tabpages[nIndex].set_url("sample::sampleDynamicTabLink.xfdl");
+};
+
+this.btnDelTabpage_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.tabMain.removeTabpage(this.tabMain.tabindex);
+};
+
+this.btnAddTabpageM_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nMax = this.fnGetMaxCnt() + 1;
+	var sNewId = "Tabpage"+nMax;
+	
+	var nIndex = this.tabMain.insertTabpage(sNewId, 1);
+	if (nIndex > -1) this.tabMain.tabpages[nIndex].set_url("sample::sampleDynamicTabLink.xfdl");
+};
+
+this.tabMain_onextrabuttonclick = function(obj:nexacro.Tab,e:nexacro.TabMouseEventInfo)
+{
+	var nIdx = e.index;
+	this.tabMain.removeTabpage(nIdx);
+};
+
+this.btnTabpageMove_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nIdx = this.tabMain.tabindex;
+	this.tabMain.moveTabpage(nIdx, 0);
+};
+
+//drag & drop으로 index변경
+this.tabMain_ondrop = function(obj:nexacro.Tab,e:nexacro.DragEventInfo)
+{
+	var nEndIdx = this.tabMain.getIndex(e.clientx, e.clienty);
+	var nStartIdx = e.userdata;
+	if( nEndIdx == -1 ){
+		nEndIdx = this.tabMain.getTabpageCount() -1;
+	}
+	this.tabMain.moveTabpage(nStartIdx, nEndIdx);
+};
+
+this.tabMain_ondrag = function(obj:nexacro.Tab,e:nexacro.DragEventInfo)
+{
+	var nStartIdx = this.tabMain.getIndex(e.canvasx, e.canvasy);
+	e.set_userdata(nStartIdx);
+	return true;
+};
+]]></Script>
+  </Form>
+</FDL>

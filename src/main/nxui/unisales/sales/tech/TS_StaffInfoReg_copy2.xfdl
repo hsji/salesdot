@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="TS_StaffInfoReg" width="1274" height="506" titletext="인력기본정보" onload="TS_StaffInfoReg_onload">
+    <Layouts>
+      <Layout height="506" mobileorientation="landscape" width="1274">
+        <Static id="stc_StaffInfoReg" taborder="12" cssclass="sta_WF_detailBg" text="" left="0" right="0" height="190" top="4"/>
+        <Static id="stc_RegisterNumber" taborder="13" text="주민등록번호" left="1032" top="43" width="75" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2259"/>
+        <Static id="stc_Rank" taborder="14" text="등급" left="1032" top="13" width="75" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="92"/>
+        <Static id="stc_HireDate" taborder="15" text="경력시작일" left="1032" top="103" width="75" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2199"/>
+        <Static id="stc_ResultGrade" taborder="16" text="최종학력" left="1032" top="163" width="75" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2200"/>
+        <Static id="stc_HireDateCount" taborder="17" text="경력일수" left="1032" top="133" width="75" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2201"/>
+        <Static id="stc_ArmyType" taborder="18" text="병역관계" left="1032" top="73" width="75" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2202"/>
+        <Combo id="cmb_Rank" taborder="1" text="" left="stc_Rank:10" top="13" height="22" innerdataset="ds_CD_LEVEL_CODE" codecolumn="CODE" datacolumn="CAPTION" width="108"/>
+        <Calendar id="cal_HireDate" taborder="4" left="1117" top="103" width="108" height="22" dateformat="yyyy-MM-dd "/>
+        <Combo id="cmb_ResultGrade" taborder="6" text="" left="1117" top="163" width="108" height="22" innerdataset="ds_CD_LAST_SCHOOL_CAREER" codecolumn="CODE" datacolumn="CAPTION"/>
+        <Radio id="rdo_ArmyType" taborder="3" left="1117" top="73" width="108" height="22" innerdataset="ds_ArmyType" codecolumn="CODE" datacolumn="CAPTION" direction="vertical" rowcount="1" TL_FLAG="1" text="미필" value="0"/>
+        <MaskEdit id="medt_RegisterNumber" taborder="2" left="1117" top="43" width="116" height="22" type="string" format="######-#######" textAlign="left"/>
+        <Edit id="edt_HireDateCount" taborder="5" left="1117" top="133" width="108" height="22"/>
+        <Div id="div_Attachment01" taborder="11" async="false" SOURCE_CD="EI" SOURCE_SEQ="EMP_NO" USE_NEXT_FILE_TYPE="false" USE_LINK_TYPE="false" USE_MULTI_FILE="false" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="false" BINDDATASET="dsOutput" url="Common::COM_Attachment.xfdl" text="" STATUS_CD="CERTIFICATE" height="26" width="506" right="0" bottom="0" formscrolltype="none" formscrollbartype="none none"/>
+        <Static id="stc_GBAttachment00" taborder="19" cssclass="sta_POP_GroupBg" text="" width="506" height="29" right="0" bottom="24"/>
+        <Static id="stc_Attachment00" taborder="20" text="소프트웨어 기술자 자격증" width="166" height="16" visible="true" cssclass="sta_POP_GroupTit" right="331" bottom="31" TL_SEQ="2203"/>
+        <Div id="div_Attachment00" taborder="10" async="false" SOURCE_CD="EI" SOURCE_SEQ="EMP_NO" USE_NEXT_FILE_TYPE="false" USE_LINK_TYPE="false" USE_MULTI_FILE="false" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="false" STATUS_CD="GRADUATION" BINDDATASET="dsOutput" url="Common::COM_Attachment.xfdl" width="506" height="26" right="0" bottom="56" text="" formscrollbartype="none none" formscrolltype="none"/>
+        <Static id="stc_GBAttachment" taborder="21" cssclass="sta_POP_GroupBg" width="506" height="29" right="0" bottom="81"/>
+        <Static id="stc_Attachment" taborder="22" text="졸업증명서" width="94" height="16" visible="true" cssclass="sta_POP_GroupTit" right="403" bottom="89" TL_SEQ="2204"/>
+        <Grid id="grd_CertificateInfo" taborder="9" binddataset="dsOutput8" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" visible="true" top="231" width="506" right="0" bottom="170" oncellclick="grd_CertificateInfo_oncellclick" oncelldblclick="grd_CertificateInfo_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="113"/>
+                <Column size="113"/>
+                <Column size="192"/>
+                <Column size="48"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="취득년월" TL_SEQ="2205"/>
+                <Cell col="1" text="종류" TL_SEQ="728"/>
+                <Cell col="2" text="발행처" TL_SEQ="2206"/>
+                <Cell col="3" colspan="2" text="파일" TL_SEQ="718"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:LICENSE_DATE" maskedittype="string" maskeditformat="####-##-##" displaytype="date" edittype="date" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="1" text="bind:LICENSE_CODE" displaytype="combotext" edittype="combo" combodataset="ds_CD_LICENSE_TYPE" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="2" text="bind:LICENSE_CODE" displaytype="combotext" edittype="none" combodataset="ds_CD_LICENSE_TYPE" combocodecol="CODE" combodatacol="VAL1"/>
+                <Cell col="3" text="bind:FILE_NAME" cursor="pointer"/>
+                <Cell col="4" displaytype="buttoncontrol" edittype="button" text="등록" TL_SEQ="585"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_GbCertificateInfo" taborder="23" cssclass="sta_POP_GroupBg" top="198" text="" width="506" height="32" right="0"/>
+        <Static id="stc_CertificateInfo" taborder="24" text="자격사항" top="206" width="94" height="16" visible="true" cssclass="sta_POP_GroupTit" right="398" TL_SEQ="2207"/>
+        <Div id="div_EmpInfo" taborder="0" text="Div01" left="144" top="9" width="888" height="177" background="transparent">
+          <Layouts>
+            <Layout>
+              <Radio id="rdo_Married" taborder="12" left="773" top="64" width="108" height="22" innerdataset="ds_Married" codecolumn="CODE" datacolumn="CAPTION" direction="vertical" readonly="false" rowcount="1" TL_FLAG="1" text="미혼" value="0"/>
+              <Static id="stc_Married" taborder="20" text="결혼여부" left="711" top="64" width="48" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2208"/>
+              <Edit id="edt_EmpNo" taborder="4" top="34" width="130" height="22" text="수정불가" left="91" onkeydown="div_ClientList_edt_ClientName_onkeydown" readonly="false"/>
+              <Static id="stc_EmpNo" taborder="21" text="사번" left="36" top="34" width="47" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2192"/>
+              <Edit id="edt_PostNo" taborder="15" top="94" width="109" height="22" text="수정불가" left="91" onkeydown="div_ClientList_edt_ClientName_onkeydown" readonly="false"/>
+              <Static id="stc_PostNo" taborder="22" text="우편번호" left="35" top="94" width="48" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="838"/>
+              <Static id="stc_DayOfEmployment" taborder="23" text="입사일자" left="321" top="34" width="83" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2209"/>
+              <Calendar id="cal_DayOfEmployment" taborder="5" left="411" top="34" width="108" height="22" dateformat="yyyy-MM-dd " readonly="false"/>
+              <Static id="stc_RetirementDate" taborder="24" text="퇴사일자" left="537" top="34" width="50" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2210"/>
+              <Calendar id="cal_RetirementDate" taborder="6" left="595" top="34" width="108" height="22" dateformat="yyyy-MM-dd " readonly="false"/>
+              <Static id="stc_RetirementConfirm" taborder="25" text="퇴사여부" left="711" top="34" width="48" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2211"/>
+              <Radio id="rdo_RetirementConfirm" taborder="7" left="773" top="34" width="108" height="22" innerdataset="ds_CD_HOLD_OFFICE" codecolumn="CODE" datacolumn="CAPTION" direction="vertical" readonly="false" rowcount="1"/>
+              <Edit id="edt_Email" taborder="19" top="154" width="186" height="22" text="수정불가" left="411" onkeydown="div_ClientList_edt_ClientName_onkeydown" readonly="false"/>
+              <Static id="stc_Email" taborder="26" text="이메일" left="356" top="154" width="48" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="80"/>
+              <Edit id="edt_Address2" taborder="14" top="94" width="282" height="22" text="수정불가" left="600" onkeydown="div_ClientList_edt_ClientName_onkeydown" readonly="false"/>
+              <Edit id="edt_Address" taborder="13" top="94" width="317" height="22" text="수정불가" left="279" onkeydown="div_ClientList_edt_ClientName_onkeydown" readonly="false"/>
+              <Static id="stc_Address" taborder="27" text="주소" left="208" top="94" width="59" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="851"/>
+              <Static id="stc_HTel" taborder="28" text="전화번호(집)" left="0" top="124" width="83" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2212"/>
+              <Edit id="edt_HTel" taborder="16" top="124" width="130" height="22" text="수정불가" left="91" onkeydown="div_ClientList_edt_ClientName_onkeydown" readonly="false"/>
+              <Static id="stc_OTel" taborder="29" text="전화번호(사무실)" left="311" top="124" width="93" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2213"/>
+              <Edit id="edt_OTel" taborder="17" top="124" width="130" height="22" text="수정불가" left="411" onkeydown="div_ClientList_edt_ClientName_onkeydown" readonly="false"/>
+              <Static id="stc_CPhone" taborder="30" text="핸드폰" left="35" top="154" width="48" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="76"/>
+              <Edit id="edt_CPhone" taborder="18" top="154" width="130" height="22" text="수정불가" left="91" onkeydown="div_ClientList_edt_ClientName_onkeydown" readonly="false"/>
+              <Radio id="rdo_Birth" taborder="11" left="532" top="64" width="100" height="22" innerdataset="ds_Birth" codecolumn="CODE" datacolumn="CAPTION" direction="vertical" readonly="false" rowcount="1" TL_FLAG="1" text="양력" value="0"/>
+              <Calendar id="cal_Birth" taborder="10" left="411" top="64" width="108" height="22" readonly="false" dateformat="yyyy-MM-dd"/>
+              <Static id="stc_Bitrh" taborder="31" text="생년월일" left="347" top="64" width="57" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2215"/>
+              <Radio id="rdo_SexType" taborder="9" left="236" top="64" width="100" height="22" innerdataset="ds_SexType" codecolumn="CODE" datacolumn="CAPTION" direction="vertical" text="남" rowcount="1" TL_FLAG="1" value="m"/>
+              <Edit id="edt_EmpName" taborder="8" top="64" width="130" height="22" text="수정불가" left="91" onkeydown="div_ClientList_edt_ClientName_onkeydown" readonly="false"/>
+              <Static id="stc_EmployeeName" taborder="32" text="성명" left="0" top="64" width="83" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="27"/>
+              <Static id="stc_CompanyName" taborder="33" text="회사명" left="0" top="4" width="83" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="148"/>
+              <Div id="div_RelatedCompany" taborder="0" top="4" height="22" url="Common::COM_Search.xfdl" binddataset="dsOutput" kind="COMPANY" async="false" codecolumn="CO_CD" datacolumn="CO_NAME" mode="" left="stc_CompanyName:8" user_onchanged="dsOutput_CO_CD_onchanged" text="" param="2" width="245"/>
+              <Static id="stc_DeptNM" taborder="34" text="부서명" left="div_RelatedCompany:10" top="4" width="58" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="25"/>
+              <Edit id="edt_DeptNM" taborder="1" top="4" height="22" text="수정불가" left="stc_DeptNM:7" onkeydown="div_ClientList_edt_ClientName_onkeydown" onchanged="edt_DeptNM_onchanged" readonly="false" width="130"/>
+              <Static id="stc_Grade" taborder="35" text="직급" left="edt_DeptNM:10" top="4" width="36" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="26"/>
+              <Combo id="cmb_Grade" taborder="2" text="" left="stc_Grade:8" top="4" height="22" codecolumn="CODE" datacolumn="CAPTION" innerdataset="ds_CD_GRADE_CODE" width="108"/>
+              <Static id="stc_Duty" taborder="36" text="직책" left="cmb_Grade:8" top="4" width="48" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="382"/>
+              <Combo id="cmb_Duty" taborder="3" text="" left="stc_Duty:14" top="4" height="22" codecolumn="CODE" datacolumn="CAPTION" innerdataset="ds_CD_DUTY_CODE" width="108"/>
+              <Button id="btn_PostalNumber" taborder="37" top="94" width="22" height="22" cssclass="btn_WF_Sch" onclick="comm_Click" left="199"/>
+              <Button id="btn_EmpNoIssuer" taborder="38" text="사번발급" left="225" top="34" width="56" height="22" onclick="comm_Click" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_CertificateMinus" taborder="25" top="206" width="16" height="16" onclick="comm_Click" right="9" cssclass="btn_POP_Del"/>
+        <Button id="btn_CertificatePlus" taborder="26" top="206" width="16" height="16" onclick="comm_Click" right="33" cssclass="btn_POP_Add"/>
+        <ImageViewer id="img_ImageReg" taborder="27" text="" left="9" top="12" width="120" height="160" stretch="fit" border="1px ridge"/>
+        <Button id="btn_ImageReg" taborder="28" text="사진등록" left="34" top="172" width="70" height="22" onclick="btn_ImageReg_onclick" enable="false" TL_SEQ="2220"/>
+        <Static id="stc_GbEducationInfo" taborder="29" cssclass="sta_POP_GroupBg" left="0" top="198" height="32" right="510"/>
+        <Static id="stc_EducationInfo" taborder="30" text="학력사항" left="12" top="206" width="134" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2221"/>
+        <Grid id="grd_EducationInfo" taborder="7" binddataset="dsOutput2" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" top="231" visible="true" left="0" right="510" cellmovingtype="col" height="106">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="20"/>
+                <Column size="80"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="80"/>
+                <Column size="200"/>
+              </Columns>
+              <Rows>
+                <Row size="25" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell colspan="3" text="기간" displaytype="text" edittype="text" TL_SEQ="28"/>
+                <Cell col="3" displaytype="text" edittype="text" text="학교명" TL_SEQ="2222"/>
+                <Cell col="4" text="과명" TL_SEQ="2223"/>
+                <Cell col="5" text="졸업,수료" TL_SEQ="2224"/>
+                <Cell col="6" text="소재지" TL_SEQ="2225"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="date" editautoselect="true" text="bind:START_DATE" displaytype="mask" maskedittype="string" maskeditformat="####-##-##"/>
+                <Cell col="1" text="~"/>
+                <Cell col="2" text="bind:END_DATE" displaytype="mask" edittype="date" maskedittype="string" maskeditformat="####-##-##"/>
+                <Cell col="3" edittype="text" editautoselect="true" editdisplay="edit" text="bind:SCHOOL_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:SUBJECT_NAME" edittype="text" textAlign="left"/>
+                <Cell col="5" text="bind:GRADUATE_FLAG" displaytype="combotext" combodataset="ds_CD_GRADUATION_FLAG" combocodecol="CODE" combodatacol="CAPTION" edittype="combo" TL_FLAG="1"/>
+                <Cell col="6" text="bind:PLACE_NAME" edittype="text" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_EducationPlus" taborder="31" top="206" width="16" height="16" onclick="comm_Click" right="543" cssclass="btn_POP_Add"/>
+        <Button id="btn_EducationMinus" taborder="32" top="206" width="16" height="16" onclick="comm_Click" right="519" cssclass="btn_POP_Del"/>
+        <Static id="stc_GbCareerInfo" taborder="33" cssclass="sta_POP_GroupBg" left="0" height="32" right="510" top="341"/>
+        <Static id="stc_CareerInfo" taborder="34" text="경력사항" left="12" width="118" height="16" visible="true" cssclass="sta_POP_GroupTit" top="349" TL_SEQ="2226"/>
+        <Grid id="grd_CareerInfo" taborder="8" binddataset="dsOutput3" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" left="0" visible="true" right="510" top="374" bottom="0" cellmovingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="20"/>
+                <Column size="80"/>
+                <Column size="200"/>
+                <Column size="100"/>
+                <Column size="200"/>
+              </Columns>
+              <Rows>
+                <Row size="25" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell colspan="3" text="재직기간" displaytype="text" edittype="text" TL_SEQ="2227"/>
+                <Cell col="3" displaytype="text" edittype="text" text="재직회사" TL_SEQ="2228"/>
+                <Cell col="4" text="직위" TL_SEQ="2229"/>
+                <Cell col="5" text="담당업무" TL_SEQ="2230"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="date" editautoselect="true" text="bind:START_DATE" displaytype="mask" maskedittype="string" maskeditformat="####-##-##"/>
+                <Cell col="1" text="~"/>
+                <Cell col="2" text="bind:END_DATE" edittype="date" displaytype="mask" maskedittype="string" maskeditformat="####-##-##"/>
+                <Cell col="3" edittype="text" editautoselect="true" editdisplay="edit" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:GRADE_NAME" edittype="text"/>
+                <Cell col="5" text="bind:WORK_PART" edittype="text" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_CareerMinus" taborder="35" width="16" height="16" onclick="comm_Click" right="519" top="349" cssclass="btn_POP_Del"/>
+        <Button id="btn_CareerPlus" taborder="36" width="16" height="16" onclick="comm_Click" right="543" top="349" cssclass="btn_POP_Add"/>
+        <WebBrowser id="wb_PostalSearch" taborder="37" left="8" top="623" width="72" height="71" onloadcompleted="wb_PostalSearch_onloadcompleted" onusernotify="wb_PostalSearch_onusernotify" visible="false"/>
+        <Div id="div_Attachment02" taborder="38" async="false" SOURCE_CD="EI" SOURCE_SEQ="EMP_NO" USE_NEXT_FILE_TYPE="false" USE_LINK_TYPE="false" USE_MULTI_FILE="false" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="false" STATUS_CD="PRIVACY" BINDDATASET="dsOutput" url="Common::COM_Attachment.xfdl" width="506" height="26" right="0" bottom="113" text="" formscrollbartype="none none" formscrolltype="none"/>
+        <Static id="stc_GBAttachment01" taborder="39" cssclass="sta_POP_GroupBg" width="506" height="29" right="0" bottom="138"/>
+        <Static id="stc_Attachment01" taborder="40" text="개인정보활용동의서" width="134" height="16" visible="true" cssclass="sta_POP_GroupTit" right="363" bottom="146" TL_SEQ="2231"/>
+        <Static id="stc_EmployeeName_Eng" taborder="41" text="성명(영어)" left="804" top="135" width="83" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2264"/>
+        <Edit id="edt_EmpName_Eng" taborder="42" top="135" width="130" height="22" text="수정불가" left="895" readonly="false"/>
+        <Static id="stc_EmployeeName_Jap" taborder="43" text="성명(일본어)" left="804" top="163" width="83" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="2265"/>
+        <Edit id="edt_EmpName_Jap" taborder="44" top="163" width="130" height="22" text="수정불가" left="895" readonly="false"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 인력정보등록 (TS_StaffInfoSearch_S01,
+								TS_StaffInfoSearch_S02,
+								TS_StaffInfoSearch_S04,
+								TS_StaffInfoSearch_R01,
+								TS_StaffInfoSearch_R02)
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.09.17
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.arrCompanyExceptList = ["TOBE"];	//선택되면 안되는 회사 목록 추려야함 ingyu 20181015
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.TS_StaffInfoReg_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용	
+	this.fnGetCode();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{	
+	this.gfnAddCodeDataset("ds_CD_GRADE_CODE"			,"CM0002");	
+	this.gfnAddCodeDataset("ds_CD_DUTY_CODE"			,"CM0003");
+	this.gfnAddCodeDataset("ds_CD_HOLD_OFFICE"			,"CM0009");
+	this.gfnAddCodeDataset("ds_CD_LEVEL_CODE" 			,"LEVEL_CODE");
+	this.gfnAddCodeDataset("ds_CD_LAST_SCHOOL_CAREER"	,"LAST_SCHOOL_CAREER");
+	this.gfnAddCodeDataset("ds_CD_LICENSE_TYPE" 		,"FILE_EL");
+	
+	// 공통코드 조회
+	this.gfnCodeTransaction();
+};
+
+this.fnsetEditReadonly = function(bRead)
+{	
+	this.gfnCompDisable(this.div_EmpInfo.form, bRead);
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+
+this.fnGetEmpCode = function()
+{
+	var dsOutput = this._getDatasetObject("dsOutput"); //parent의 Dataset에 접근하기 위해 사용한다.
+
+	this.gfnAddSendParameter("CO_CD", dsOutput.getColumn(0, "CO_CD"));
+	
+	this.gfnAddOutputDataset("dsEmpNo", "dsNewEmpNo");
+	this.gfnCommonTransaction("fnGetEmpCode", "TS_StaffInfoSearch_S04");
+};
+
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else
+	{
+		if(strSvcID == "gfnGetCode")
+		{
+			
+		}
+		else if(strSvcID == "fnGetEmpCode")
+		{
+			var dsOutput = this._getDatasetObject("dsOutput"); 
+			var form = dsOutput.parent;
+			form.fnSearchSub("SubSelect_Copy", this.dsEmpNo.getColumn(0, "EMP_NO")); //재조회 작업
+		}
+	}
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		case "btn_EducationPlus" : 
+			var ds = this.grd_EducationInfo.getBindDataset();
+			var nRow = ds.addRow();
+			ds.setColumn(nRow, "EMP_NO", this.div_EmpInfo.form.edt_EmpNo.value);
+			ds.setColumn(nRow, "GRADUATE_FLAG", "1");
+			break;
+		case "btn_EducationMinus" : 
+			var ds = this.grd_EducationInfo.getBindDataset();
+			ds.deleteRow(ds.rowposition);
+			break;
+		case "btn_CertificatePlus" : 
+			var ds = this.grd_CertificateInfo.getBindDataset();
+			ds.setColumn(ds.addRow(), "EMP_NO", this.div_EmpInfo.form.edt_EmpNo.value);
+			break;
+		case "btn_CertificateMinus" : 
+			var ds = this.grd_CertificateInfo.getBindDataset();
+			ds.deleteRow(ds.rowposition);
+			break;
+		case "btn_CareerPlus" : 
+			var ds = this.grd_CareerInfo.getBindDataset();
+			ds.setColumn(ds.addRow(), "EMP_NO", this.div_EmpInfo.form.edt_EmpNo.value);
+			break;
+		case "btn_CareerMinus" : 
+			var ds = this.grd_CareerInfo.getBindDataset();
+			ds.deleteRow(ds.rowposition);
+			break;
+		case "btn_EmpNoIssuer" : 
+			this.fnGetEmpCode();
+			break;		
+		case "btn_PostalNumber" : 
+			var objEnv = nexacro.getEnvironment();
+			var svc = objEnv.services["ServiceURL"];
+			this.wb_PostalSearch.set_url(svc.url+"/Service/zip.html");
+			break;
+			
+	}
+};
+
+this.dsOutput_CO_CD_onchanged = function(obj, e)
+{
+	if(this.arrCompanyExceptList.indexOf(e.newCode) != -1 )
+	{
+		this.fnsetEditReadonly(true); //TOBE직원일 때
+	}
+	else
+	{
+		this.fnsetEditReadonly(false); //TOBE직원이 아닐 때 
+	}
+}
+
+this.grd_CertificateInfo_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(obj.getCellProperty("body",e.cell,"displaytype")=="buttoncontrol")
+	{
+		var ds 	= obj.getBindDataset();
+		var sStatusCd	= ds.getColumn( obj.getDatasetRow(e.row), "LICENSE_CODE");
+		var sEmpNo		= ds.getColumn( obj.getDatasetRow(e.row), "EMP_NO" 		);
+		var nFindrow 	= ds.findRow("LICENSE_CODE", sStatusCd);
+		
+		if(this.gfnIsEmpty(sStatusCd))
+		{
+			alert(this.gfnGetTransTxt(1581,"자격증종류를 선택하여야 합니다."));
+			return;
+		}
+		else if(nFindrow>=0 && nFindrow!=e.row)
+		{
+			alert(this.gfnGetTransTxt(1582,"동일한 자격증종류가 존재합니다."));
+			return;
+		}
+		else if(!this.gfnIsEmpty(sEmpNo))
+		{	
+			var args = {
+							SOURCE_CD:"EL"
+							,SOURCE_SEQ:sEmpNo
+							,STATUS_CD:sStatusCd
+							,USE_MULTI_FILE:false
+						}	
+			this.commUtil.popupFileMaster(this, args, "fnPopupCallBack");
+		}
+	}
+};
+
+this.grd_CertificateInfo_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(obj.getBindCellIndex("body", "FILE_NAME") == e.cell)
+	{
+		var ds 	= obj.getBindDataset();
+		var sFMSEQ = ds.getColumn(obj.getDatasetRow(e.row), "FM_SEQ");
+		if(!this.gfnIsEmpty(sFMSEQ))
+			this.gfnFileDownload(sFMSEQ);
+	}
+};
+
+this.btn_ImageReg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var dsOutput = this._getDatasetObject("dsOutput");
+	var strEMP_NO = dsOutput.getColumn(0, "EMP_NO")
+	var args = {
+					SOURCE_CD:"EI"
+				   ,SOURCE_SEQ:strEMP_NO
+				   ,STATUS_CD:"EMP_PHOTO"
+				   ,USE_MULTI_FILE:false
+			   }
+	this.commUtil.popupFileMaster(this, args, "fnPopupCallBack");
+};
+
+this.wb_PostalSearch_onloadcompleted = function(obj:nexacro.WebBrowser,e:nexacro.WebLoadCompEventInfo)
+{
+	this.wb_PostalSearch.callMethod("sample4_execDaumPostcode", "");
+};
+
+this.wb_PostalSearch_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+	var strRtn = e.userdata
+	if(!this.gfnIsEmpty(strRtn))
+	{
+		//초기화
+		this.div_EmpInfo.form.edt_Address2.set_value("");		
+		//값지정
+		this.div_EmpInfo.form.edt_PostNo.set_value(strRtn[0]);
+		this.div_EmpInfo.form.edt_Address.set_value(strRtn[1]);
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsEmpNo">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CD_GRADE_CODE"/>
+      <Dataset id="ds_CD_DUTY_CODE"/>
+      <Dataset id="ds_CD_LEVEL_CODE"/>
+      <Dataset id="ds_CD_LAST_SCHOOL_CAREER"/>
+      <Dataset id="ds_CD_LICENSE_TYPE"/>
+      <Dataset id="ds_CD_HOLD_OFFICE"/>
+      <Dataset id="ds_ArmyType">
+        <ColumnInfo>
+          <Column id="CODE" size="256" type="STRING"/>
+          <Column id="CAPTION" size="256" type="STRING"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">미필</Col>
+            <Col id="CAPTION_JAP">軍未畢</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">필</Col>
+            <Col id="CAPTION_JAP">軍畢</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_Married">
+        <ColumnInfo>
+          <Column id="CODE" size="256" type="STRING"/>
+          <Column id="CAPTION" size="256" type="STRING"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">미혼</Col>
+            <Col id="CAPTION_JAP">未婚</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">기혼</Col>
+            <Col id="CAPTION_JAP">既婚</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_Birth">
+        <ColumnInfo>
+          <Column id="CODE" size="256" type="STRING"/>
+          <Column id="CAPTION" size="256" type="STRING"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">양력</Col>
+            <Col id="CAPTION_JAP">揚力</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">음력</Col>
+            <Col id="CAPTION_JAP">旧暦</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_SexType">
+        <ColumnInfo>
+          <Column id="CODE" size="256" type="STRING"/>
+          <Column id="CAPTION" size="256" type="STRING"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">m</Col>
+            <Col id="CAPTION">남</Col>
+            <Col id="CAPTION_JAP">男</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">w</Col>
+            <Col id="CAPTION">여</Col>
+            <Col id="CAPTION_JAP">女</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item13" compid="medt_RegisterNumber" propid="value" datasetid="dsOutput" columnid="REGISTER_NO"/>
+      <BindItem id="item18" compid="cmb_Rank" propid="value" datasetid="dsOutput" columnid="LEVEL_CODE"/>
+      <BindItem id="item19" compid="cmb_ResultGrade" propid="value" datasetid="dsOutput" columnid="LAST_SCHOOL_CAREER"/>
+      <BindItem id="item21" compid="rdo_ArmyType" propid="value" datasetid="dsOutput" columnid="MILITARY_FLAG"/>
+      <BindItem id="item20" compid="cal_HireDate" propid="value" datasetid="dsOutput" columnid="CAREER_START_DATE"/>
+      <BindItem id="item26" compid="edt_HireDateCount" propid="value" datasetid="dsOutput" columnid="CAREER_DATE"/>
+      <BindItem id="item0" compid="div_EmpInfo.form.rdo_Married" propid="value" datasetid="dsOutput" columnid="MARRY_FLAG"/>
+      <BindItem id="item1" compid="div_EmpInfo.form.edt_EmpNo" propid="value" datasetid="dsOutput" columnid="EMP_NO"/>
+      <BindItem id="item2" compid="div_EmpInfo.form.edt_PostNo" propid="value" datasetid="dsOutput" columnid="POST_NO"/>
+      <BindItem id="item3" compid="div_EmpInfo.form.cal_DayOfEmployment" propid="value" datasetid="dsOutput" columnid="ENTER_DATE"/>
+      <BindItem id="item4" compid="div_EmpInfo.form.cal_RetirementDate" propid="value" datasetid="dsOutput" columnid="FIRE_DATE"/>
+      <BindItem id="item5" compid="div_EmpInfo.form.rdo_RetirementConfirm" propid="value" datasetid="dsOutput" columnid="HOLD_OFFICE"/>
+      <BindItem id="item6" compid="div_EmpInfo.form.edt_Email" propid="value" datasetid="dsOutput" columnid="EMAIL"/>
+      <BindItem id="item7" compid="div_EmpInfo.form.edt_Address2" propid="value" datasetid="dsOutput" columnid="DETAIL_ADDR"/>
+      <BindItem id="item8" compid="div_EmpInfo.form.edt_Address" propid="value" datasetid="dsOutput" columnid="POST_ADDR"/>
+      <BindItem id="item9" compid="edt_Address2" propid="value" datasetid="dsOutput" columnid="DETAIL_ADDR"/>
+      <BindItem id="item10" compid="div_EmpInfo.form.edt_HTel" propid="value" datasetid="dsOutput" columnid="HOME_TEL"/>
+      <BindItem id="item11" compid="div_EmpInfo.form.edt_OTel" propid="value" datasetid="dsOutput" columnid="OFFICE_TEL_NO"/>
+      <BindItem id="item12" compid="div_EmpInfo.form.edt_CPhone" propid="value" datasetid="dsOutput" columnid="HP_TEL_NO"/>
+      <BindItem id="item14" compid="div_EmpInfo.form.rdo_Birth" propid="value" datasetid="dsOutput" columnid="LUNAR_FLAG"/>
+      <BindItem id="item15" compid="div_EmpInfo.form.cal_Birth" propid="value" datasetid="dsOutput" columnid="BIRTHDAY"/>
+      <BindItem id="item16" compid="div_EmpInfo.form.rdo_SexType" propid="value" datasetid="dsOutput" columnid="SEX"/>
+      <BindItem id="item22" compid="div_EmpInfo.form.edt_EmpName" propid="value" datasetid="dsOutput" columnid="EMP_NAME"/>
+      <BindItem id="item23" compid="div_EmpInfo.form.edt_DeptNM" propid="value" datasetid="dsOutput" columnid="DEPT_NAME"/>
+      <BindItem id="item24" compid="div_EmpInfo.form.cmb_Grade" propid="value" datasetid="dsOutput" columnid="GRADE_CODE"/>
+      <BindItem id="item25" compid="div_EmpInfo.form.cmb_Duty" propid="value" datasetid="dsOutput" columnid="DUTY_CODE"/>
+      <BindItem id="item17" compid="img_ImageReg" propid="image" datasetid="dsOutput" columnid="EMP_PHOTO"/>
+      <BindItem id="item27" compid="edt_EmpName_Eng" propid="value" datasetid="dsOutput9" columnid="USER_NM_EN"/>
+      <BindItem id="item28" compid="edt_EmpName_Jap" propid="value" datasetid="dsOutput9" columnid="USER_NM_JP"/>
+    </Bind>
+  </Form>
+</FDL>

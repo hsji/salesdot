@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MetaInfo version="2.0">
+  <EnumInfo id="ubiSelectType">
+    <Enum name="dmedit" description="편집모드"/>
+    <Enum name="dmview" description="뷰어모드"/>
+  </EnumInfo>
+</MetaInfo>

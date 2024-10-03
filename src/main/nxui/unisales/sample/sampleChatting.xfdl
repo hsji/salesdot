@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="test" width="1147" height="579" titletext="채팅 샘플" onload="form_onload">
+    <Layouts>
+      <Layout height="579" width="1147">
+        <Div id="divChat" taborder="0" left="344" top="38" width="339" height="492" border="1px solid">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <TextArea id="txtSend" taborder="1" left="694" top="38" width="206" height="140" onkeyup="txtSend_onkeyup"/>
+        <Button id="btnSend" taborder="2" text="보내기" left="909" top="42" width="85" height="131" onclick="btnSend_onclick"/>
+        <TextArea id="txtReceive" taborder="3" left="35" top="37" width="206" height="140" onkeyup="txtReceive_onkeyup"/>
+        <Button id="btnReceive" taborder="4" text="받기" left="250" top="41" width="85" height="131" onclick="btnReceive_onclick"/>
+        <Grid id="grd00" taborder="5" left="35" top="218" width="286" height="313" binddataset="dsStatic">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="258"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="compId"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:compId"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divChat00" taborder="6" left="694" top="218" width="306" height="312" border="1px solid">
+          <Layouts>
+            <Layout>
+              <Static id="sta00" taborder="0" text="우리나라는&#13;&#10;날씨가 너무 더워요~" top="5" width="120" height="36" background="antiquewhite" fittocontents="both" right="0"/>
+              <Static id="sta00_00" taborder="1" text="그렇죠~&#13;&#10;더운데 몸 관리 잘 하세요" top="sta00:10" width="150" height="36" background="azure" fittocontents="both" left="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsStatic">
+        <ColumnInfo>
+          <Column id="compId" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	sampleChatting.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/08/04
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/08/04			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvNCnt = 0;	// Statice count
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+
+/**
+ * @description 채팅 Static 생성
+ */
+this.fnCreate = function(sGubun, sText)
+{
+	var sColor = "";
+	var nLeft  = null;
+	var nRight  = null;
+	if (sGubun == "send") {
+		sColor = "antiquewhite";
+		nLeft  = null;
+		nRight = 3;
+	}
+	else {
+		sColor = "azure";
+		nLeft  = 3;
+		nRight = null;
+	}
+	
+	var nCnt = this.dsStatic.rowcount;
+	var nTop = 10;
+	if (nCnt > 0) {
+		nTop  = this.dsStatic.getColumn(nCnt-1, "compId")+":10";
+	}
+	
+	// count 증가
+	this.fvNCnt = this.fvNCnt + 1;
+	
+	// 동적생성
+	var objStatic = new Static();
+	var sStaName = "sta_" + this.fvNCnt;
+	       // init(strName, vLeft, vTop , vWidth, vHeight [, vRight, vBottom, [vMinWidth, [vMaxWidth, [vMinHeight, [vMaxHeight]]]]] )
+		   // init( "Button00", "Button22:10", 300, null, null, "Button33:10", "20%", 300, 500, 200, 500 );
+	objStatic.init(sStaName, nLeft, nTop, 10, 10, nRight); 
+	this.divChat.addChild(sStaName, objStatic);
+	objStatic.set_text(sText);
+	objStatic.set_background(sColor);
+	objStatic.set_fittocontents("both");
+	objStatic.show();
+	trace("추가한 objStatic : " + sStaName + " / nTop : " + nTop);
+	
+	// 화면 갱신
+	this.divChat.form.resetScroll();
+
+	// scroll 맨 밑으로 내리기
+	this.divChat.form.scrollBy(0, objStatic.getOffsetHeight()+10);
+	
+	// Dataset에 정보 추가
+	var nAddRow = this.dsStatic.addRow();
+	this.dsStatic.setColumn(nAddRow, "compId", sStaName);
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.btnSend_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnCreate("send", this.txtSend.value);
+	this.txtSend.set_value("");
+};
+
+this.btnReceive_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnCreate("receive", this.txtReceive.value);
+	this.txtReceive.set_value("");
+};
+
+this.txtSend_onkeyup = function(obj:nexacro.TextArea,e:nexacro.KeyEventInfo)
+{
+	//trace("e.ctrlkey : " + e.ctrlkey + " / e.altkey : " + e.altkey + " / e.keycode : " + e.keycode);
+	if (e.ctrlkey == true && e.keycode == 13) {
+		this.fnCreate("send", this.txtSend.value);
+		this.txtSend.set_value("");
+	}
+};
+
+this.txtReceive_onkeyup = function(obj:nexacro.TextArea,e:nexacro.KeyEventInfo)
+{
+	if (e.ctrlkey == true && e.keycode == 13) {
+		this.fnCreate("receive", this.txtReceive.value);
+		this.txtReceive.set_value("");
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

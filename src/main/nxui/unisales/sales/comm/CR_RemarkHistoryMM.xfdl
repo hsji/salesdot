@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CR_RemarkHistoryMM" width="600" height="500" titletext="New Form" cssclass="frm_popBg" onload="CR_RemarkHistoryMM_onload">
+    <Layouts>
+      <Layout height="500" mobileorientation="landscape" width="600">
+        <Static id="st_bottom" taborder="4" left="0" height="38" cssclass="sta_POP_BtnBg" bottom="0" right="0"/>
+        <Button id="btn_close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_close_onclick" text=""/>
+        <Static id="st_Title" taborder="1" text="비고 이력" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="2092"/>
+        <Button id="btn_close00" taborder="3" text="닫기" width="70" height="24" right="8" bottom="7" cssclass="btn_WF_tran" onclick="btn_close_onclick" TL_SEQ="59"/>
+        <Button id="btn_save" taborder="2" text="저장" width="60" height="24" right="btn_close00:4" bottom="7" cssclass="btn_WF_tran" onclick="btn_save_onclick" TL_SEQ="115"/>
+        <Grid id="grd_List" taborder="5" left="10" top="44" width="579" height="324" autofittype="col" binddataset="ds_List" onexpandup="grd_List_onexpandup">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="90"/>
+                <Column size="80"/>
+                <Column size="365"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No" TL_SEQ="167"/>
+                <Cell col="1" text="작성일" TL_SEQ="2157"/>
+                <Cell col="2" text="작성자" TL_SEQ="207"/>
+                <Cell col="3" text="비고" TL_SEQ="45"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow+1"/>
+                <Cell col="1" text="bind:CREATE_DATE" textAlign="center" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="2" text="bind:CREATE_EMP_NAME" textAlign="center"/>
+                <Cell col="3" text="bind:REMARKS" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <TextArea id="ta_Remarks" taborder="6" left="10" top="371" width="579" height="82"/>
+        <Button id="btn_Add" taborder="7" top="469" height="24" width="60" cssclass="btn_WF_tran" right="btn_save:4" onclick="btn_Add_onclick" text="추가" TL_SEQ="528"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 공통
+ * 02. 화면명   : CR_RemarkHistoryMM
+ * 03. 화면설명 : 비고 이력 등록 및 조회
+ * 04. 작성일   : 2020.01.9
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_TITLE = "";
+this.FV_SOURCE_CD = "";
+this.FV_SOURCE_SEQ = "";
+
+
+/************************************************************************************************
+ * FORM 영역
+************************************************************************************************/
+this.CR_RemarkHistoryMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	
+	if (!this.gfnIsEmpty(this.parent.pvTitle)) {
+		this.FV_TITLE = this.parent.pvTitle;
+		this.st_Title.set_text(this.FV_TITLE +" "+this.st_Title.text);
+	}
+	
+	this.FV_SOURCE_CD = this.parent.pvSourceCd;
+	this.FV_SOURCE_SEQ = this.parent.pvSourceSeq;
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	
+	this.fnSearch();
+};
+
+
+/************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+
+
+/************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnSearch = function()
+{
+	// trace("SOURCE_CD:["+this.FV_SOURCE_CD+"]  SOURCE_SEQ:["+this.FV_SOURCE_SEQ+"]");
+	this.gfnAddSendParameter("SOURCE_CD",		this.FV_SOURCE_CD);
+	this.gfnAddSendParameter("SOURCE_SEQ",		this.FV_SOURCE_SEQ);
+	
+	this.gfnAddOutputDataset("ds_List", "ds_output");
+	this.gfnCommonTransaction("Search", "CR_RemarkHistoryMM_S01");
+};
+
+
+this.fnSaveData = function()
+{
+	this.gfnAddInputDataset("ds_List", "ds_list");
+	this.gfnCommonTransaction("Save", "CR_RemarkHistoryMM_R01");
+}
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		this.alert("[" + nErrorCode + "] " + strErrorMag);
+		return;
+	}
+	
+	switch(strSvcID)
+	{
+		case "Save":
+			this.fnSearch();
+		break;
+	}
+};
+/************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sRtnVal = "";
+	if (this.ds_List.rowcount > 0)
+	{
+		for (var i=0; i<this.ds_List.rowcount; i++)
+		{
+			if (this.ds_List.getRowType(i) == Dataset.ROWTYPE_NORMAL)
+			{
+				var sRemarks = this.ds_List.getColumn(i, "REMARKS");
+				if (!this.gfnIsEmpty(sRemarks))
+				{
+					var sEmpNm = this.ds_List.getColumn(i, "CREATE_EMP_NAME");
+					var sDate = this.ds_List.getColumn(i, "CREATE_DATE");
+					var sYear = sDate.substr(0, 4);
+					var sMon = sDate.substr(4, 2);
+					var sDay = sDate.substr(6);
+					sRtnVal = sYear+"-"+sMon+"-"+sDay+" ("+sEmpNm+")"+": "+sRemarks;
+					break;
+				}
+			}
+		}
+	}
+	this.commUtil.popupClose(sRtnVal);
+	
+};
+
+this.btn_Add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nAddRow = this.ds_List.insertRow(0);
+	this.ds_List.setColumn(nAddRow, "SOURCE_CD", this.FV_SOURCE_CD);
+	this.ds_List.setColumn(nAddRow, "SOURCE_SEQ", this.FV_SOURCE_SEQ);
+};
+
+this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSaveData();
+};
+
+this.ds_List_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(this.ds_List.getRowType(e.newrow)==Dataset.ROWTYPE_INSERT)
+		this.ta_Remarks.set_readonly(false);
+	else
+		this.ta_Remarks.set_readonly(true);
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_List" onrowposchanged="ds_List_onrowposchanged">
+        <ColumnInfo>
+          <Column id="RH_SEQ" type="STRING" size="256"/>
+          <Column id="SOURCE_CD" type="STRING" size="256"/>
+          <Column id="SOURCE_SEQ" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="DELETE_FLAG" type="STRING" size="256"/>
+          <Column id="CREATE_DATE" type="STRING" size="256"/>
+          <Column id="CREATE_EMP_NO" type="STRING" size="256"/>
+          <Column id="CREATE_EMP_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="ta_Remarks" propid="value" datasetid="ds_List" columnid="REMARKS"/>
+    </Bind>
+  </Form>
+</FDL>

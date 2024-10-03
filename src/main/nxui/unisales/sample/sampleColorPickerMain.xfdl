@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="sampleColorPickerMain" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Button id="btn00" taborder="0" text="btn00" left="102" top="80" width="564" height="160"/>
+        <Edit id="edt00" taborder="1" left="203" top="289" width="309" height="41" value="#3399ff" text="#3399ff"/>
+        <Button id="btn01" taborder="2" text="btn01" left="529" top="286" width="86" height="44" onclick="btn01_onclick"/>
+        <PopupDiv id="pdiv00" text="pdiv00" visible="false" left="766" top="270" width="240" height="220" url="sample::sampleColorPicker.xfdl"/>
+        <Button id="btn02" taborder="3" text="기본색상지정" left="62" top="407" width="161" height="32" onclick="btn02_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.btn01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.pdiv00.form.fnInit(this.edt00.value);
+	this.pdiv00.trackPopupByComponent(this.edt00,0,this.edt00.getOffsetHeight(), 240, 220, "fnColorPicCallBack");
+};
+
+this.btn02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.pdiv00.form.setSelectedColor(this.edt00.value);
+};
+
+this.fnColorPicCallBack = function(obj, rtn) {
+	if(rtn) {
+		this.edt00.set_value(rtn);
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

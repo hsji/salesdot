@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AC_ServerCheckListPopup" width="390" height="200" titletext="복사할 데이터 설정" cssclass="frm_popBg" onload="AC_ServerCheckListPopup_onload">
+    <Layouts>
+      <Layout height="200" mobileorientation="landscape" width="390">
+        <Static id="st_Title" taborder="0" text="복사 할 데이터 설정" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title"/>
+        <Button id="btn_Close" taborder="1" top="10" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="btn_Close_onclick" escapebutton="true"/>
+        <Static id="Static01" taborder="3" left="0" right="0" bottom="0" cssclass="sta_POP_BtnBg" height="29"/>
+        <Grid id="grd_CopyYYYYMM" taborder="2" left="0" top="35" autofittype="col" binddataset="dsCopyData" right="0" bottom="Static01:0" oncellclick="grd_CopyYYYYMM_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="150"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="복사 대상 데이터 년월"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:YYYYMM" displaytype="date" calendardateformat="yyyy-MM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_Cancel" taborder="4" height="22" cssclass="btn_WF_cancel" text="취소" right="8" onclick="btn_Cancel_onclick" width="65" bottom="3"/>
+        <Button id="btn_OK" taborder="5" height="22" cssclass="btn_WF_tran" text="확인" right="80" width="65" bottom="3" onclick="btn_OK_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCopyData">
+        <ColumnInfo>
+          <Column id="YYYYMM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 서버점검관리
+* 02. 화면명		: 서버점검 체크리스트 데이터 복사 설정 팝업
+* 03. 화면설명 	: 서버점검 체크리스트 데이터 복사 설정 팝업
+						
+* 04. 작성일   	: 2022.04.27
+* 05. 작성자   	: 박종언
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_Report.xjs"
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+var curYYYYMM = "";
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.AC_ServerCheckListPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.dsCopyData.copyData(this.parent.dsCopyData);
+	curYYYYMM		= this.parent.curYYYYMM;
+};
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.btn_Cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+};
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+};
+
+this.btn_OK_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnCopy();
+};
+
+this.grd_CopyYYYYMM_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnCopy();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 이전 데이터 복사
+this.fnCopy = function()
+{
+	var sCurRow = this.dsCopyData.rowposition;
+	var sYYYYMM = this.dsCopyData.getColumn(sCurRow, "YYYYMM");
+	this.gfnAddSendParameter("TARGET_YYYYMM", sYYYYMM);
+	this.gfnAddSendParameter("CUR_YYYYMM", curYYYYMM);
+	this.gfnCommonTransaction("CopyData", "AC_ServerCheckList_R02");
+};
+
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		if(strSvcID == "CopyData")
+		{
+			alert(curYYYYMM + " 년월 데이터 복사 완료 되었습니다. \n암호변경 대상 계정 목록은 복사한 년월 패스워드 목록 생성 시 보입니다.");
+			this.commUtil.popupClose("copy");
+		}
+	}
+};
+
+]]></Script>
+  </Form>
+</FDL>

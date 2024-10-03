@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="customerPu" width="620" height="630" titletext="사용자전체조회" onload="form_onload">
+    <Layouts>
+      <Layout height="630" mobileorientation="landscape" width="620">
+        <Div id="divSearch" taborder="0" left="25" top="20" height="50" cssclass="div_WF_Search" text="" right="25">
+          <Layouts>
+            <Layout>
+              <Button id="btnSearch" taborder="1" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Static id="staCd" taborder="0" text="고객사명" cssclass="sta_WF_SchLabel" left="0" top="12" width="98" height="24"/>
+              <Edit id="edtCustomer" taborder="2" left="101" top="12" width="174" height="24" onkeyup="divSearch_edtCustomer_onkeyup"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="1" text="자산목록" left="25" top="70" height="43" cssclass="sta_WF_Title" right="25"/>
+        <Button id="btnConfirm" taborder="2" text="확인" height="28" width="50" fittocontents="width" cssclass="btn_WF_Crud" right="78" bottom="20" onclick="btnConfirm_onclick"/>
+        <Button id="btnClose" taborder="3" text="취소" height="28" width="50" fittocontents="width" right="25" bottom="20" onclick="btnClose_onclick"/>
+        <Static id="Static04" taborder="4" left="165" top="70" width="30" height="43" cssclass="sta_WF_GSize" visible="false" text="H43"/>
+        <Static id="Static04_01" taborder="5" left="0" top="0" width="25" cssclass="sta_WF_GSize" visible="false" text="W 25" bottom="0"/>
+        <Static id="Static04_01_00" taborder="6" top="0" width="25" cssclass="sta_WF_GSize" visible="false" text="W 25" bottom="0" right="0"/>
+        <Static id="Static04_00" taborder="7" left="166" top="0" width="30" height="20" cssclass="sta_WF_GSize" visible="false" text="H20"/>
+        <Grid id="grdMaster" taborder="8" left="25" top="113" binddataset="dsList" autoenter="select" bottom="68" cellsizingtype="col" autofittype="col" uFunction="filter,sort,!colfix,!initial,find" minheight="250" maxheight="" right="25" oncelldblclick="grdMaster_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="92"/>
+                <Column size="227"/>
+                <Column size="318"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="코드"/>
+                <Cell col="1" text="회사명"/>
+                <Cell col="2" text="주소"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COMPANY_CODE" suppress="1"/>
+                <Cell col="1" text="bind:COMPANY_NAME"/>
+                <Cell col="2" text="bind:POST_ADDR"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	customerPu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/28
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/28			TOBESOFT					최초생성
+* 2022/10/18			TOBESOFT					재직상태추가
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvType = "";
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+
+	this.fvType = this.getOwnerFrame().pvType;
+	this.dsParam1.setColumn(0, "COMPANY_TYPE", this.fvType);
+	var customer = this.getOwnerFrame().pvCustomer;
+	if(this.gfnIsNull(customer) == false) {
+		this.divSearch.form.edtCustomer.set_value(customer);
+		this.cfnSearch(); //자동조회
+	}
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*****************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if(this.gfnIsNull(this.divSearch.form.edtCustomer.value)) {
+		this.gfnAlert("msg.err.validator.required",["고객사명"],"");
+		return;
+	}
+
+	this.gfnInitNextGlobalDataset(this.dsGlobal);
+	
+	// http://172.10.10.20:7070/FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=CE_CompanySearch_S01&format=xml&version=xplatform&compress=false HTTP/1.1
+
+	this.dsParam1.setColumn(0, "COMPANY_NAME", this.divSearch.form.edtCustomer.value);
+	
+	var strSvcId 	= "customer";
+	var strSvcUrl 	= "nextService.do";
+	var inData 		= "dsGlobal=dsGlobal:A dsParam=dsParam1:A";
+	var outData 	= "dsList=dsOutput";
+	var strArg 		= "jobCode=" + nexacro.wrapQuote("next");
+	strArg 			+= " trxCode=" + nexacro.wrapQuote("customer");
+	strArg 			+= " trxUrl=" + nexacro.wrapQuote("FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=CE_CompanySearch_S01&format=xml&version=xplatform&compress=false");
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, "fnCallback");
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "customer":
+			break;
+		default:break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnClose = function (nRow)
+{
+	var sCd = this.dsList.getColumn(nRow, "COMPANY_TYPE");
+	var sName = this.dsList.getColumn(nRow, "COMPANY_NAME");
+
+	var rtn = sCd +"|" + sName + "|" + this.fvType;
+
+	this.close(rtn);
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnClose(this.dsList.rowposition);
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close("");
+};
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.grdMaster_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnClose(e.row);
+};
+
+this.divSearch_edtCustomer_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) {
+		this.cfnSearch();
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="ASSET_CD" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="HOOF_STAT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" firefirstcount="0" onrowposchanged="dsList_onrowposchanged" oncolumnchanged="dsList_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="TAG" type="string" size="200"/>
+          <Column id="CLIENT_FLAG" type="string" size="1"/>
+          <Column id="COMPANY_FLAG" type="string" size="1"/>
+          <Column id="TMP_FLAG" type="string" size="1"/>
+          <Column id="BLACKLIST_FLAG" type="string" size="1"/>
+          <Column id="NATION_CODE" type="string" size="20"/>
+          <Column id="BUSINESS_SCALE" type="string" size="20"/>
+          <Column id="L_CATEGORY" type="string" size="20"/>
+          <Column id="M_CATEGORY" type="string" size="20"/>
+          <Column id="COMPANY_REG_NO" type="string" size="20"/>
+          <Column id="CORPORATE_REG_NO" type="string" size="30"/>
+          <Column id="INCORPORATION_DATE" type="datetime" size="23"/>
+          <Column id="CEO_NAME" type="string" size="30"/>
+          <Column id="CEO_PHONE" type="string" size="20"/>
+          <Column id="POST_NO" type="string" size="8"/>
+          <Column id="POST_ADDR" type="string" size="100"/>
+          <Column id="DETAIL_ADDR" type="string" size="100"/>
+          <Column id="PHONE_NO" type="string" size="20"/>
+          <Column id="FAX_NO" type="string" size="20"/>
+          <Column id="BUSINESS_FORM" type="string" size="20"/>
+          <Column id="BUSINESS_KIND" type="string" size="20"/>
+          <Column id="PURCHASE_COMPANY_CODE" type="string" size="4"/>
+          <Column id="PRODUCT_FLAG" type="string" size="1"/>
+          <Column id="SI_FLAG" type="string" size="1"/>
+          <Column id="SOLUTION_FLAG" type="string" size="1"/>
+          <Column id="GOODS_FLAG" type="string" size="1"/>
+          <Column id="PARTNER_FLAG" type="string" size="1"/>
+          <Column id="PARTNER_KIND" type="string" size="20"/>
+          <Column id="COMPANY_STATE" type="string" size="20"/>
+          <Column id="COMPANY_KIND" type="string" size="20"/>
+          <Column id="BANK_CODE" type="string" size="20"/>
+          <Column id="ACCOUNT_NO" type="string" size="30"/>
+          <Column id="ACCOUNT_NAME" type="string" size="50"/>
+          <Column id="SI_VIEW_FLAG" type="string" size="1"/>
+          <Column id="COLLECTION_BOND_FLAG" type="string" size="1"/>
+          <Column id="CL_APPROVAL_EMP_NO" type="string" size="60"/>
+          <Column id="CL_ASSET" type="bigdecimal" size="20"/>
+          <Column id="CL_EMP_NUMBER" type="int" size="11"/>
+          <Column id="CL_APPROVAL_DATE" type="datetime" size="23"/>
+          <Column id="CL_CAPITAL" type="bigdecimal" size="20"/>
+          <Column id="CL_OPINION" type="string" size="20"/>
+          <Column id="CL_PS" type="bigdecimal" size="20"/>
+          <Column id="CL_ANNUAL_SALES" type="bigdecimal" size="20"/>
+          <Column id="CL_SI" type="bigdecimal" size="20"/>
+          <Column id="CL_NET_INCOME" type="bigdecimal" size="20"/>
+          <Column id="CL_EVALUATION" type="int" size="11"/>
+          <Column id="CL_LISTED_FLAG" type="string" size="1"/>
+          <Column id="CL_EXCEPTION_CODE" type="string" size="20"/>
+          <Column id="CL_CURRENT_ASSETS" type="bigdecimal" size="20"/>
+          <Column id="CL_PROFITABILITY" type="bigdecimal" size="20"/>
+          <Column id="CL_SAFETY" type="bigdecimal" size="20"/>
+          <Column id="CL_ADD_SCORE1" type="string" size="20"/>
+          <Column id="CL_ADD_SCORE2" type="string" size="20"/>
+          <Column id="CL_ADD_SCORE3" type="string" size="20"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="CONTRACT_REMARKS" type="string" size="1073741823"/>
+          <Column id="PURCHASE_REMARKS" type="string" size="1073741823"/>
+          <Column id="DELETE_FLAG" type="string" size="1"/>
+          <Column id="INSERT_DATE" type="datetime" size="23"/>
+          <Column id="INSERT_EMP_NO" type="string" size="60"/>
+          <Column id="INSERT_DEPT_CD" type="string" size="60"/>
+          <Column id="INSERT_DEPT_NM" type="string" size="100"/>
+          <Column id="INSERT_MODEL" type="string" size="100"/>
+          <Column id="UPDATE_DATE" type="datetime" size="23"/>
+          <Column id="UPDATE_EMP_NO" type="string" size="60"/>
+          <Column id="UPDATE_DEPT_CD" type="string" size="60"/>
+          <Column id="UPDATE_DEPT_NM" type="string" size="100"/>
+          <Column id="UPDATE_MODEL" type="string" size="100"/>
+          <Column id="TAX_PRICE" type="bigdecimal" size="20"/>
+          <Column id="BILL_PRICE" type="bigdecimal" size="20"/>
+          <Column id="VAT_PRICE" type="bigdecimal" size="20"/>
+          <Column id="REST" type="bigdecimal" size="20"/>
+          <Column id="YEAR" type="string" size="255"/>
+          <Column id="COMPANY_ABBREVIATION" type="string" size="100"/>
+          <Column id="MERGR_COMPANY_CODE" type="string" size="20"/>
+          <Column id="TURNKEY_FLAG" type="string" size="1"/>
+          <Column id="TRANS_TARGET" type="string" size="20"/>
+          <Column id="SUBSIDIARY_COMPANY_FLAG" type="string" size="1"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsParam1">
+        <ColumnInfo>
+          <Column id="COMPANY_TYPE" type="string" size="256"/>
+          <Column id="COMPANY_NAME" type="string" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="COMPANY_TYPE">1</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsGlobal">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NM" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NM" type="string" size="100"/>
+          <Column id="EMAIL" type="string" size="268"/>
+          <Column id="MOBILE" type="string" size="44"/>
+          <Column id="OFFICE" type="string" size="20"/>
+          <Column id="GRADE_CD" type="string" size="30"/>
+          <Column id="GRADE_NM" type="string" size="100"/>
+          <Column id="DUTY_CD" type="string" size="30"/>
+          <Column id="DUTY_NM" type="string" size="100"/>
+          <Column id="EMP_KIND" type="string" size="255"/>
+          <Column id="CO_CD" type="string" size="30"/>
+          <Column id="CO_NM" type="string" size="100"/>
+          <Column id="LOGIN_SYS" type="string" size="10"/>
+          <Column id="LANGUAGE" type="string" size="10"/>
+          <Column id="MODEL_ID" type="string" size="50"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtEmpNo" propid="value" datasetid="dsCond" columnid="EMP_NO"/>
+      <BindItem id="item1" compid="divSearch.form.edtUserNm" propid="value" datasetid="dsCond" columnid="USER_NM"/>
+      <BindItem id="item2" compid="divSearch.form.cboHoofStat" propid="value" datasetid="dsCond" columnid="HOOF_STAT_CD"/>
+      <BindItem id="item3" compid="divSearch.form.cboAssetGrp" propid="value" datasetid="dsCond" columnid="ASSET_CD"/>
+    </Bind>
+  </Form>
+</FDL>

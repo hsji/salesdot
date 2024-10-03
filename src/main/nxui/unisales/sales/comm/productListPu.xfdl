@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="orgUserListPu" width="540" height="630" titletext="사용자전체조회" onload="form_onload">
+    <Layouts>
+      <Layout height="630" mobileorientation="landscape" width="540">
+        <Static id="Static00" taborder="0" text="제품 목록" left="25.00" top="0" height="43" cssclass="sta_WF_Title" right="25"/>
+        <Button id="btnConfirm" taborder="1" text="확인" height="28" width="50" fittocontents="width" cssclass="btn_WF_Crud" right="78" bottom="20" onclick="btnConfirm_onclick"/>
+        <Button id="btnClose" taborder="2" text="취소" height="28" width="50" fittocontents="width" right="25" bottom="20" onclick="btnClose_onclick"/>
+        <Static id="Static04_01" taborder="3" left="0" top="0" width="25" cssclass="sta_WF_GSize" visible="false" text="W 25" bottom="0"/>
+        <Static id="Static04_01_00" taborder="4" top="0" width="25" cssclass="sta_WF_GSize" visible="false" text="W 25" bottom="0" right="0"/>
+        <Grid id="grd_List" taborder="5" left="25" top="43" autofittype="col" bottom="70" binddataset="ds_Product" treeinitstatus="expand,all" treeuseexpandkey="true" right="25" treeusecheckbox="false" oncelldblclick="grd_List_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="62"/>
+                <Column size="410"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No."/>
+                <Cell col="1" text="제품목록"/>
+              </Band>
+              <Band id="body">
+                <Cell expr="currow+1"/>
+                <Cell col="1" treelevel="bind:PRODUCT_LVL" edittype="tree" displaytype="treeitemcontrol" text="bind:PRODUCT_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	orgUserListPu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/28
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/28			TOBESOFT					최초생성
+* 2022/10/18			TOBESOFT					재직상태추가
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	this.cfnSearch(); //자동조회
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*****************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	this.gfnAddSendParameter("COMPANY_CODE"	, this.getOwnerFrame().pvCompanyCd);
+	this.gfnAddSendParameter("CONTRACT_TYPE"	, this.getOwnerFrame().pvContractType);
+	
+	this.gfnSetMap("nextBaseMapper", "ProductTreeList", "ds_Product");
+	
+	this.gfnCommonTransaction("Select", "selectNextList.do"/*"AP_SalesProductMM_S05"*/);
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "Select":
+			break;
+		default:break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnClose = function (nRow)
+{
+	var sCd = this.ds_Product.getColumn(nRow, "PRODUCT_CODE");
+	var sNm = this.ds_Product.getColumn(nRow, "PRODUCT_NAME");
+	var rtn = sCd +"|" + sNm;
+
+	this.close(rtn);
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnClose(this.ds_Product.rowposition);
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close("");
+};
+
+this.grd_List_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnClose(e.row);
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="HOOF_STAT_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="KORN_NM" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Product">
+        <ColumnInfo>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_TYPE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_NAME_SHORT" type="string" size="100"/>
+          <Column id="PRODUCT_NAME_JAP" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="float" size="22"/>
+          <Column id="PRODUCT_NAME_SHORT2" type="STRING" size="256"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="DELETE_FLAG" type="string" size="1"/>
+          <Column id="ORD" type="string" size="10"/>
+          <Column id="RELATED_COMPANY_CODE" type="string" size="20"/>
+          <Column id="INSERT_DATE" type="datetime" size="23"/>
+          <ConstColumn id="INSERT_EMP_NO" type="string" size="60" value="0412201"/>
+          <Column id="INSERT_DEPT_CD" type="string" size="60"/>
+          <Column id="INSERT_DEPT_NM" type="string" size="100"/>
+          <Column id="INSERT_MODEL" type="string" size="100"/>
+          <Column id="UPDATE_DATE" type="datetime" size="23"/>
+          <Column id="UPDATE_EMP_NO" type="string" size="60"/>
+          <Column id="UPDATE_DEPT_CD" type="string" size="60"/>
+          <Column id="UPDATE_DEPT_NM" type="string" size="100"/>
+          <Column id="UPDATE_MODEL" type="string" size="100"/>
+          <Column id="PRODUCT_CODE_LEVEL" type="string" size="255"/>
+          <Column id="P_PRODUCT_CODE" type="string" size="255"/>
+          <Column id="INSERT_EMP_NM" type="STRING" size="256"/>
+          <Column id="NO_PURCHASE_FLAG" type="STRING" size="256"/>
+          <Column id="ROYALTY_TYPE" type="STRING" size="256"/>
+          <Column id="MA_MAIN_PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="MA_MAIN_PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="PRODUCT_COMPANY_CODE" type="STRING" size="256"/>
+          <Column id="RELATED_COMPANY_CODE_JAP" type="STRING" size="256"/>
+          <Column id="PRODUCT_CO_CD_TOBE" type="STRING" size="256"/>
+          <Column id="PRODUCT_CO_CD_DX_TOBE" type="STRING" size="256"/>
+          <Column id="PRODUCT_CO_CD_TOBE_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

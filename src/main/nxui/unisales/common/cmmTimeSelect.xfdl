@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="cmmTimeSelect" width="110" height="28" titletext="시/분 선택" onload="form_onload">
+    <Layouts>
+      <Layout height="28" width="110">
+        <MaskEdit id="msk00_00" taborder="3" left="242" top="30" right="-242" format="##:##" displaynulltext="Time" type="string" bottom="-30" autoskip="true" autoselect="true" value="0000" readonly="true" visible="false" padding="1px 27px 0px 9px"/>
+        <MaskEdit id="msk00" taborder="2" left="242" top="0" right="-242" format="##:##" displaynulltext="시간" cssclass="point" type="string" bottom="0" autoskip="true" autoselect="true" value="0000" visible="false" padding="1px 27px 0px 9px"/>
+        <MaskEdit id="mskTime" taborder="0" left="0" top="0" right="0" format="##:##" displaynulltext="시간" cssclass="maskTime" type="string" bottom="0" autoskip="true" autoselect="true" value="0000" padding="1px 27px 0px 9px" onchanged="mskTime_onchanged"/>
+        <Button id="btnShow" taborder="1" top="1" width="26" right="1" bottom="1" cssclass="btn_WF_time" onclick="btnShow_onclick"/>
+        <PopupDiv id="pdivTime" visible="false" left="0" top="28" height="109" cssclass="pdiv_POP_lev3" width="126" oncloseup="pdivTime_oncloseup" formscrolltype="none" onpopup="pdivTime_onpopup">
+          <Layouts>
+            <Layout>
+              <MaskEdit id="mskHour" taborder="2" left="12" top="35" width="38" height="38" textAlign="center" format="##" value="00" type="string" autoskip="true" autoselect="true" font="normal 500 14px/normal &quot;Roboto Medium&quot;,&quot;RobotoWeb&quot;,&quot;맑은 고딕&quot;" borderRadius="0px" border="0px none"/>
+              <Static id="staUnit" taborder="1" text=":" left="50" top="40" width="24" height="26" cssclass="sta_WF_unit"/>
+              <MaskEdit id="mskMinute" taborder="5" left="74" top="35" height="38" textAlign="center" format="##" value="00" type="string" autoskip="true" autoselect="true" width="38" font="normal 500 14px/normal &quot;Roboto Medium&quot;,&quot;RobotoWeb&quot;,&quot;맑은 고딕&quot;" borderRadius="0px" border="0px none"/>
+              <Edit id="edtTemp" taborder="0" left="0" top="0" width="0" height="0" visible="true"/>
+              <Button id="btnHup" taborder="3" left="12" top="8" width="38" height="28" cssclass="btn_WF_timeUp" tabstop="false" onclick="btnHourCtrl_onclick"/>
+              <Button id="btnHdown" taborder="4" left="12" top="72" width="38" height="28" cssclass="btn_WF_timeDown" tabstop="false" onclick="btnHourCtrl_onclick"/>
+              <Button id="btnMup" taborder="6" left="74" top="8" height="28" cssclass="btn_WF_timeUp" tabstop="false" onclick="btnMinuteCtrl_onclick" width="38"/>
+              <Button id="btnMdown" taborder="7" left="74" top="72" height="28" cssclass="btn_WF_timeDown" tabstop="false" onclick="btnMinuteCtrl_onclick" width="38"/>
+              <Static id="staUnitS" taborder="8" text=":" left="113" top="40" width="24" height="26" cssclass="sta_WF_unit" visible="false"/>
+              <MaskEdit id="mskSecond" taborder="9" left="135" top="35" height="38" textAlign="center" format="##" value="00" type="string" autoskip="true" autoselect="true" width="38" font="normal 500 14px/normal &quot;Roboto Medium&quot;,&quot;RobotoWeb&quot;,&quot;맑은 고딕&quot;" borderRadius="0px" border="0px none" visible="false"/>
+              <Button id="btnSup" taborder="10" left="135" top="8" height="28" cssclass="btn_WF_timeUp" tabstop="false" onclick="btnSecondCtrl_onclick" width="38" visible="false"/>
+              <Button id="btnSdown" taborder="11" left="135" top="72" height="28" cssclass="btn_WF_timeDown" tabstop="false" onclick="btnSecondCtrl_onclick" width="38" visible="false"/>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+        <Button id="Button00_00" taborder="2" top="0" width="26" right="-242" bottom="0" cssclass="btn_WF_time" onclick="time_open" visible="false"/>
+        <Button id="Button00_00_00" taborder="4" top="30" width="26" right="-242" bottom="-30" cssclass="btn_WF_time" onclick="time_open" enable="false" visible="false"/>
+        <Static id="Static01" taborder="6" text="필수입력 스타일 " left="367" top="2" width="107" height="21" color="red" visible="false"/>
+        <Static id="Static01_00" taborder="7" text="읽기전용 스타일" left="366" top="31" width="107" height="21" color="red" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+* commComp
+* Business    
+* FileName 	  commTimeSelect.xfdl
+* Creator 	  TOBESOFT
+* CreateDate  2023/12/28
+* Desction    시/분 입력
+*--------------  Source Modify History  ---------------------------------------
+* Date					Modifier					Description
+*------------------------------------------------------------------------------
+* 2023/12/28			@RHS						Initial creation
+*******************************************************************************
+*/
+
+/************************************************************************************
+ * FORM Variable Area
+************************************************************************************/
+this.fvIsoHours ="HH24";
+this.fvCallbackFunction;
+this.fvObjForm;
+
+/************************************************************************************
+ * FORM Event Area (onload, onbeforeclose..)
+************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	if(!this.gfnIsNull(this.parent.uSetTimeVlaue)) {
+		this.setValue(this.parent.uSetTimeVlaue);
+	}
+	
+	if(!this.gfnIsNull(this.parent.uFunction)) {
+		this.mskTime.set_format("##:##:##");
+	
+	}
+};
+
+/* @param  sHours - 기준시간체계[HH24/HH12]
+ * 		   sCallbackFunction - callback 함수
+ *         objForm
+*/
+this.fnInit = function(objForm, sHours,sCallbackFunction)
+{
+	if (!this.gfnIsNull(sHours))	this.fvIsoHours = sHours;	// 기준시간
+	this.fvCallbackFunction = sCallbackFunction;		//callback 셋팅
+	this.fvObjForm = objForm;
+}
+
+/************************************************************************************
+ * Transaction Function Area 
+************************************************************************************/
+
+/************************************************************************************
+ * Callback Event Area (Transaction, popup, message..)
+************************************************************************************/
+
+/************************************************************************************
+ * User Function Area
+************************************************************************************/
+/**
+ * @description  return date
+*/
+this.getValue = function ()
+{
+	return String(this.mskTime.value);
+};
+
+/**
+* @description   보이는대로 값가져오기
+*/
+this.fnGetText = function() 
+{
+	return String(this.mskTime.text);
+};
+
+/**
+ * @description date setting
+*/
+this.setValue = function (value)
+{
+	this.mskTime.set_value(value);
+};
+
+/**
+* @description Essential css세팅 [true/false]
+*/
+this.fnSetEssential  = function (bValue)
+{
+	//CSS Class가 있는 경우 클래스설정
+	if(bValue){
+		this.mskTime.set_cssclass("point");
+	}else{
+		this.mskTime.set_cssclass("");
+	}
+};
+
+/**
+* @description enable 세팅 [true/false]
+*/
+this.fnSetEnable = function (bValue)
+{
+	this.mskTime.set_enable(bValue);
+	this.btnShow.set_enable(bValue);
+};
+
+/**
+* @description readonly 세팅 [true/false]
+*/
+this.fnSetReadonly = function (bValue)
+{
+	this.mskTime.set_readonly(bValue);
+	this.btnShow.set_enable(bValue);
+};
+
+this.fnCheckValidation = function(postValue, preValue)
+{
+	if(!this.gfnIsEmpty(postValue))
+	{
+		var sHour = nexacro.toNumber(postValue.substr(0,2));
+		var sMinu = nexacro.toNumber(postValue.substr(2,2));
+
+		if (sHour<0 || sHour>23)	sHour = "0";
+		if (sMinu<0 || sMinu>59)	sMinu = "0";
+
+		if (sHour=="0" || sMinu=="0") this.setValue(preValue);
+	}
+};
+
+this.fnSecondView = function (bFlag)
+{
+	if (bFlag) {
+		this.pdivTime.set_width(190);
+		this.pdivTime.form.staUnitS.set_left(111);
+		this.pdivTime.form.staUnitS.set_visible(true);
+		this.pdivTime.form.mskSecond.set_visible(true);
+		this.pdivTime.form.btnSup.set_visible(true);
+		this.pdivTime.form.btnSdown.set_visible(true);
+	}else {
+		this.pdivTime.set_width(126);
+		this.pdivTime.form.staUnitS.set_left(113);
+		this.pdivTime.form.staUnitS.set_visible(false);
+		this.pdivTime.form.mskSecond.set_visible(false);
+		this.pdivTime.form.btnSup.set_visible(false);
+		this.pdivTime.form.btnSdown.set_visible(false);
+	}
+};
+
+/************************************************************************************
+ * Component Event Area
+************************************************************************************/
+this.btnShow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(!this.gfnIsNull(this.parent.uFunction)) {
+		this.fnSecondView(true);
+	}
+	
+	this.pdivTime.form.edtTemp.setFocus();
+	this.pdivTime.trackPopupByComponent(this.mskTime, 0, this.mskTime.getOffsetHeight());
+};
+
+//시
+this.btnHourCtrl_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sHour = nexacro.toNumber(this.pdivTime.form.mskHour.value);
+	if (this.gfnIsNull(sHour))	sHour = 0;
+
+	if (obj.id=="btnHup")	sHour = sHour + 1;
+	else 					sHour = sHour - 1;
+
+	if (this.fvIsoHours =="HH24") {
+		if (sHour<0)	sHour = "23";
+		if (sHour>23)	sHour = "01";
+		else 			sHour = this.gfnLPad(sHour, "0", 2);
+	}else {
+		if (sHour<0)	sHour = "11";
+		if (sHour>23)	sHour = "01";
+		else 			sHour = this.gfnLPad(sHour, "0", 2);
+	}
+	
+	this.pdivTime.form.mskHour.set_value(sHour);
+};
+
+//분
+this.btnMinuteCtrl_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sHour = nexacro.toNumber(this.pdivTime.form.mskMinute.value);
+	if (this.gfnIsNull(sHour))	sHour = 0;
+
+	if (obj.id=="btnMup")	sHour = sHour + 1;
+	else 					sHour = sHour - 1;
+
+	if (sHour<0)	sHour = "59";
+	else if (sHour>59)	sHour = "01";
+	else 			sHour = this.gfnLPad(sHour, "0", 2);
+
+	sHour = this.gfnLPad(sHour, "0", 2);
+	this.pdivTime.form.mskMinute.set_value(sHour);
+};
+
+//초
+this.btnSecondCtrl_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sHour = nexacro.toNumber(this.pdivTime.form.mskSecond.value);
+	if (this.gfnIsNull(sHour))	sHour = 0;
+
+	if (obj.id=="btnSup")	sHour = sHour + 1;
+	else 					sHour = sHour - 1;
+
+	if (sHour<0)	sHour = "59";
+	else if (sHour>59)	sHour = "01";
+	else 			sHour = this.gfnLPad(sHour, "0", 2);
+
+	sHour = this.gfnLPad(sHour, "0", 2);
+	this.pdivTime.form.mskSecond.set_value(sHour);
+};
+
+this.pdivTime_onpopup = function(obj:nexacro.PopupDiv,e:nexacro.EventInfo)
+{
+	var sTime = String(this.mskTime.value);
+	
+	this.pdivTime.form.mskHour.set_value(sTime.substr(0,2));
+	this.pdivTime.form.mskMinute.set_value(sTime.substr(2,2));
+	this.pdivTime.form.mskSecond.set_value(sTime.substr(4,2));
+};
+
+this.pdivTime_oncloseup = function(obj:nexacro.PopupDiv,e:nexacro.EventInfo)
+{
+	this.pdivTime.form.edtTemp.setFocus();
+	var sTime = this.pdivTime.form.mskHour.value + this.pdivTime.form.mskMinute.value;
+	if(!this.gfnIsNull(this.parent.uFunction)) {
+		sTime = sTime + this.pdivTime.form.mskSecond.value;
+	}
+
+	this.mskTime.set_value(sTime);
+
+	var oRtn = {};
+	oRtn.time = sTime;
+	try{
+		this.fvCallbackFunction.call(this.fvObjForm, this.id, oRtn);
+	}catch(e){}
+};
+
+this.mskTime_onchanged = function(obj:nexacro.MaskEdit,e:nexacro.ChangeEventInfo)
+{
+	this.fnCheckValidation(e.postvalue, e.prevalue);	
+};
+
+]]></Script>
+  </Form>
+</FDL>

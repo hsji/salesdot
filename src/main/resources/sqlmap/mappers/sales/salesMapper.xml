@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="salesMapper">
+
+<!-- 영업정보  -->
+<select id="searchProjectList" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT
+		A.PRJT_CODE
+		, A.CLIENT_CODE
+		, C.CLIENT_NAME
+	    , A.PRJT_NAME
+	    , A.USER_NAME
+	    , A.USER_TEL
+	    , A.USER_CELL
+	    , A.USER_EMAIL
+	    , A.SALES_USER
+	    , A.REF_URL
+	    , A.SALES_TYPE_CODE
+	    , A.SALES_STATUS
+	    , A.REMK
+	    , A.LINK_CONFIRM_FLAG
+	    , D.KORN_NM
+	FROM T_SALES_PROJECT A,
+		 T_SALES_CLIENT C, T_SYTM_USER D 
+	WHERE A.CLIENT_CODE = C.CLIENT_CODE
+	  AND A.SALES_USER = D.EMP_NO
+	  <if test="CLIENT_NAME != null and CLIENT_NAME != ''">
+	  	AND C.CLIENT_NAME LIKE CONCAT('%', #{CLIENT_NAME} ,'%')
+	  </if>
+	  	AND A.INPT_DTTM BETWEEN #{SCHD_FDATE_FORMAT} AND #{SCHD_TDATE_FORMAT} 
+	 ORDER BY A.INPT_DTTM DESC
+	  
+</select>
+
+<select id="searchProjectCode" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT COALESCE(MAX(PRJT_CODE),'') AS PRJ_CODE
+	FROM T_SALES_PROJECT
+	WHERE PRJT_CODE LIKE CONCAT('%' , #{CURR_DATE} , '%')
+</select>
+
+<insert id="insertProjectInfo" parameterType="java.util.Map">
+	INSERT INTO T_SALES_PROJECT
+	(
+		  PRJT_CODE
+		, CLIENT_CODE
+		, PRJT_NAME
+		, USER_NAME
+		, USER_TEL
+		, USER_CELL
+		, USER_EMAIL
+		, SALES_USER
+		, REF_URL
+		, SALES_TYPE_CODE
+		, SALES_STATUS
+		, LINK_CONFIRM_FLAG
+		, REMK
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM  
+	)VALUES(
+	    #{PRJT_CODE}
+	    , #{CLIENT_CODE}
+	    , #{PRJT_NAME}
+	    , #{USER_NAME}
+	    , #{USER_TEL}
+	    , #{USER_CELL}
+	    , #{USER_EMAIL}
+	    , #{SALES_USER}
+	    , #{REF_URL}
+	    , #{SALES_TYPE_CODE}
+	    , #{SALES_STATUS}
+	    , #{LINK_CONFIRM_FLAG}
+	    , #{REMK}
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+		);
+</insert>
+
+<update id="updateProjectInfo" parameterType="java.util.Map">
+	UPDATE T_SALES_PROJECT 
+	SET 
+	    CLIENT_CODE 	= #{CLIENT_CODE}
+	    , PRJT_NAME 	= #{PRJT_NAME}
+	    , USER_NAME 	= #{USER_NAME}
+	    , USER_TEL 		= #{USER_TEL}
+	    , USER_CELL 	= #{USER_CELL}
+	    , USER_EMAIL 	= #{USER_EMAIL}
+	    , SALES_USER	= #{SALES_USER}
+	    , REF_URL 		= #{REF_URL}
+	    , SALES_TYPE_CODE 	= #{SALES_TYPE_CODE}
+	    , SALES_STATUS 	= #{SALES_STATUS}
+	    , LINK_CONFIRM_FLAG = #{LINK_CONFIRM_FLAG}
+	    , REMK 			= #{REMK}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE PRJT_CODE 	= #{PRJT_CODE}	
+</update>
+
+
+<delete id="deleteProjectInfo" parameterType="java.util.Map">
+	DELETE FROM T_SALES_PROJECT 
+	WHERE PRJT_CODE=#{PRJT_CODE}
+</delete>
+
+
+
+<!-- 영업정보 스케쥴  -->
+<select id="searchProjectScheduleList" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT
+		 PRJT_CODE
+		, SCHD_CODE
+		, SCHD_SDATE
+	    , SCHD_EDATE
+	    , SCHD_TITLE
+	    , SCHD_STATUS
+	    , REMK
+	FROM T_SALES_SCHEDULE
+	WHERE PRJT_CODE = #{PRJT_CODE}
+	  <if test="SCHD_CODE != null and SCHD_CODE != ''">
+	  	AND SCHD_CODE = #{SCHD_CODE}
+	  </if>	
+	 ORDER BY SCHD_SDATE ASC	  
+</select>
+
+<insert id="insertProjectScheduleInfo" parameterType="java.util.Map">
+	INSERT INTO T_SALES_SCHEDULE
+	(
+		  PRJT_CODE
+		, SCHD_CODE
+		, SCHD_SDATE
+		, SCHD_EDATE
+		, SCHD_TITLE
+		, SCHD_STATUS
+		, REMK
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM  
+	)VALUES(
+	    #{PRJT_CODE}
+	    , #{SCHD_CODE}
+	    , #{SCHD_SDATE}
+	    , #{SCHD_EDATE}
+	    , #{SCHD_TITLE}
+	    , #{SCHD_STATUS}
+	    , #{REMK}
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+		);
+</insert>
+
+<update id="updateProjectScheduleInfo" parameterType="java.util.Map">
+	UPDATE T_SALES_SCHEDULE 
+	SET 
+	      SCHD_SDATE 	= #{SCHD_SDATE}
+	    , SCHD_EDATE 	= #{SCHD_EDATE}
+	    , SCHD_TITLE 	= #{SCHD_TITLE}
+	    , SCHD_STATUS 	= #{SCHD_STATUS}
+	    , REMK 			= #{REMK}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE PRJT_CODE 	= #{PRJT_CODE}	
+	AND SCHD_CODE 	= #{SCHD_CODE}
+</update>
+
+
+<delete id="deleteProjectScheduleInfo" parameterType="java.util.Map">
+	DELETE FROM T_SALES_SCHEDULE 
+	WHERE PRJT_CODE = #{PRJT_CODE}
+	AND  SCHD_CODE = #{SCHD_CODE}
+</delete>
+
+<delete id="deleteProjectScheduleInfoAll" parameterType="java.util.Map">
+	DELETE FROM T_SALES_SCHEDULE 
+	WHERE PRJT_CODE = #{PRJT_CODE}
+</delete>
+
+<!-- 첨부파일  -->
+<select id="searchProjectScheduleFileList" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT
+		PRJT_CODE
+		, SCHD_CODE
+		, FILE_ID
+		, FILE_SEQ
+		, SAVE_FILE_NM
+		, OTXT_FILE_NM
+		, FILE_SIZE
+		, FILE_TYPE
+		, FILE_PATH_NM
+	FROM T_SALES_FILE
+	WHERE PRJT_CODE = #{PRJT_CODE}
+	  <if test="SCHD_CODE != null and SCHD_CODE != ''">
+	  	AND SCHD_CODE = #{SCHD_CODE}
+	  </if>	
+	 ORDER BY SCHD_CODE, FILE_ID
+</select>
+
+<select id="searchProjectScheduleFileListAll" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT
+		PRJT_CODE
+		, SCHD_CODE
+		, FILE_ID
+		, FILE_SEQ
+		, SAVE_FILE_NM
+		, OTXT_FILE_NM
+		, FILE_SIZE
+		, FILE_TYPE
+		, FILE_PATH_NM
+	FROM T_SALES_FILE
+	WHERE PRJT_CODE = #{PRJT_CODE}
+</select>
+
+<insert id="salesFileInsert" parameterType="java.util.Map">
+	INSERT INTO T_SALES_FILE
+	(
+		PRJT_CODE
+		, SCHD_CODE
+		, FILE_ID
+		, FILE_SEQ
+		, SAVE_FILE_NM
+		, OTXT_FILE_NM
+		, FILE_SIZE
+		, FILE_TYPE
+		, FILE_PATH_NM
+		, INPT_ID
+		, INPT_DTTM
+		, INPT_IP
+		, CHGE_ID
+		, CHGE_DTTM
+		, CHGE_IP
+	)VALUES(
+		#{PRJT_CODE}
+		, #{SCHD_CODE}
+		, #{FILE_ID}
+		, (SELECT COALESCE(MAX(FILE_SEQ),0)+1 FROM T_SALES_FILE F WHERE FILE_ID = #{FILE_ID})
+		, #{SAVE_FILE_NM}
+		, #{OTXT_FILE_NM}
+		, #{FILE_SIZE}
+		, #{FILE_TYPE}
+		, #{FILE_PATH_NM}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_CON_IPADDR_SRV}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_CON_IPADDR_SRV}
+	)
+</insert>
+
+<delete id="deleteSalesFile" parameterType="java.util.Map">
+	DELETE FROM T_SALES_FILE
+	WHERE FILE_ID 	 = #{FILE_ID}
+		AND FILE_SEQ = #{FILE_SEQ}
+</delete>
+
+<!-- 고객정보  -->
+<select id="selectCustomerList" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT
+		SEQ_NO
+		, CLIENT_CODE
+	    , CLIENT_NAME
+	    , ADDR_BASIC
+	    , ADDR_DTL
+	    , ZIP_NUMB
+	    , TELP_NUMB
+	    , HOME_URL
+	    , CLIENT_PIC
+	    , CLIENT_TYPE
+	FROM T_SALES_CLIENT
+	WHERE 1=1
+	  <if test="CLIENT_CODE != null and CLIENT_CODE != ''">
+	  AND CLIENT_CODE LIKE CONCAT('%', #{CLIENT_CODE} ,'%')
+	  </if>
+	  <if test="CLIENT_NAME != null and CLIENT_NAME != ''">
+	  AND CLIENT_NAME LIKE CONCAT('%', #{CLIENT_NAME} ,'%')
+	  </if>
+</select>
+
+<insert id="insertCustomerInfo" parameterType="java.util.Map">
+	INSERT INTO T_SALES_CLIENT
+	(
+		  CLIENT_CODE
+	    , CLIENT_NAME
+	    , ADDR_BASIC
+	    , ADDR_DTL
+	    , ZIP_NUMB
+	    , TELP_NUMB
+	    , HOME_URL
+	    , CLIENT_PIC
+	    , CLIENT_TYPE
+	    , INPT_ID
+	    , INPT_DTTM
+	    , INPT_IP
+	    , CHGE_ID
+	    , CHGE_DTTM
+	    , CHGE_IP	    
+	)VALUES(
+	    #{CLIENT_CODE}
+	    , #{CLIENT_NAME}
+	    , #{ADDR_BASIC}
+	    , #{ADDR_DTL}
+	    , #{ZIP_NUMB}
+	    , #{TELP_NUMB}
+	    , #{HOME_URL}
+	    , #{CLIENT_PIC}
+	    , #{CLIENT_TYPE}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+		);
+</insert>
+
+<update id="updateCustomerInfo" parameterType="java.util.Map">
+	UPDATE T_SALES_CLIENT 
+	SET 
+	    CLIENT_CODE 	= #{CLIENT_CODE}
+	    , CLIENT_NAME 	= #{CLIENT_NAME}
+	    , ADDR_BASIC 	= #{ADDR_BASIC}
+	    , ADDR_DTL 		= #{ADDR_DTL}
+	    , ZIP_NUMB 		= #{ZIP_NUMB}
+	    , TELP_NUMB 	= #{TELP_NUMB}
+	    , HOME_URL		= #{HOME_URL}
+	    , CLIENT_PIC 	= #{CLIENT_PIC}
+	    , CLIENT_TYPE 	= #{CLIENT_TYPE}
+	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_DTTM 	= NOW()
+	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE SEQ_NO 		= #{SEQ_NO}	
+</update>
+
+
+<delete id="deleteCustomerInfo" parameterType="java.util.Map">
+	DELETE FROM T_SALES_CLIENT 
+	WHERE SEQ_NO=#{SEQ_NO}
+</delete>
+
+<!-- 목표등록 영업대표정보  -->
+<select id="selectSalesGoalEmp" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSalesGoalEmp
+ 
+ 	<!-- 아래 구문이 이상함 GOAL에 없으면 영업아 아님? -->
+ 	<!-- 
+	SELECT  SG.EMP_NO
+	 ,VE.EMP_NM AS EMP_NAME
+	 ,VE.EMAIL
+	 ,SG.DEPT_CD
+	 ,FD.DEPT_KORN_NM AS DEPT_NM
+	 ,FD.COMPANY_CD
+	 FROM    SALES_GOAL SG
+	 JOIN   (SELECT  MAX(YEAR) AS YEAR
+			,EMP_NO
+			FROM    SALES_GOAL
+			WHERE   YEAR = #{YEAR}
+			GROUP BY EMP_NO
+	 ) SG2 ON (SG2.EMP_NO = SG.EMP_NO
+	 AND SG2.YEAR = SG.YEAR)
+	 JOIN    T_SYTM_USER VE  ON (SG.EMP_NO = VE.EMP_NO AND VE.COMPANY_CD = #{SERVER_CO_CD})
+	 JOIN    T_SYTM_DEPT FD  ON (FD.DEPT_CD = SG.DEPT_CD AND FD.COMPANY_CD = #{SERVER_CO_CD})
+	 WHERE   1=1
+	 <if test="FORM_NM != null and FORM_NM != ''">
+		<if test='FORM_NM == "BM_SalesMAPopup" '>
+			AND VED.HOLD_OFFICE != '3'
+		</if>
+	 </if>
+	 GROUP BY SG.EMP_NO 
+	 ,SG.DEPT_CD
+	 ,FD.DEPT_KORN_NM
+	 ,FD.COMPANY_CD
+	 ,SG.YEAR
+	 ,VE.EMP_NM
+	 ,VE.EMAIL
+	 ORDER BY FD.COMPANY_CD
+	 ,SG.YEAR DESC
+	 ,SG.DEPT_CD
+	 ,VE.EMP_NM
+	  -->
+	SELECT 
+		SE.EMP_NO
+		,SE.EMP_NAME
+		,SE.EMAIL
+		,SE.DEPT_CD
+		,SE.DEPT_NM
+		,SE.COMPANY_CODE
+		,SE.YEAR
+		,CONCAT(SE.EMP_NAME,' (',SE.DEPT_NM,')') AS FULL_NAME
+	FROM 
+	(
+		SELECT  SG.EMP_NO,
+			CASE VE.HOOF_STAT_CD
+				WHEN 'RT' THEN CONCAT('[퇴직]',VE.EMP_NM)
+				ELSE VE.EMP_NM
+			END AS EMP_NAME			
+		 ,VE.EMAIL
+		 ,SG.DEPT_CD
+		 ,FD.DEPT_KORN_NM AS DEPT_NM
+		 ,FD.COMPANY_CD AS COMPANY_CODE
+		 ,SG.YEAR 
+		 FROM    SALES_GOAL SG
+		 JOIN   (SELECT  MAX(YEAR) AS YEAR
+				,EMP_NO
+				FROM    SALES_GOAL
+				WHERE   YEAR = #{YEAR}
+				GROUP BY EMP_NO
+		 ) SG2 ON (SG2.EMP_NO = SG.EMP_NO  AND SG2.YEAR = SG.YEAR)
+		 JOIN    T_SYTM_USER VE  ON (SG.EMP_NO = VE.EMP_NO AND VE.COMPANY_CD = #{SERVER_CO_CD})
+		 JOIN    T_SYTM_DEPT FD  ON (FD.DEPT_CD = SG.DEPT_CD AND FD.COMPANY_CD = #{SERVER_CO_CD})
+		WHERE 1 = 1 
+	 <if test="FORM_NM != null and FORM_NM != ''">
+		<if test='FORM_NM == "BM_SalesMAPopup" '>
+			AND VE.HOOF_STAT_CD != 'RT'
+		</if>
+	 </if>	
+		 
+		UNION ALL 
+		
+		SELECT  VE.EMP_NO,
+			CASE VE.HOOF_STAT_CD
+				WHEN 'RT' THEN CONCAT('[퇴직]',VE.EMP_NM)
+				ELSE VE.EMP_NM
+			END AS EMP_NAME		
+		 ,VE.EMAIL
+		 ,SD.DEPT_CD
+		 ,SD.DEPT_KORN_NM AS DEPT_NM
+		 ,SD.COMPANY_CD AS COMPANY_CODE
+		 ,DATE_FORMAT(NOW(), '%Y') AS YEAR
+		 FROM T_SYTM_DEPT SD
+		 JOIN T_SYTM_USER VE  ON (SD.DEPT_CD = VE.DEPT_CD AND VE.COMPANY_CD = #{SERVER_CO_CD})
+		 WHERE (SD.DEPT_FRDT <![CDATA[<=]]> DATE_FORMAT(NOW(), '%Y%m%d') AND SD.DEPT_TODT <![CDATA[>=]]> DATE_FORMAT(NOW(), '%Y%m%d'))
+		 AND SD.COMPANY_CD = #{SERVER_CO_CD}	
+		 AND SD.BUSINESS_TYPE = #{SALES_DEPT_TYPE}
+	) SE 
+	 GROUP BY SE.EMP_NO
+	 ,SE.DEPT_CD
+	 ,SE.DEPT_NM 
+	 ,SE.COMPANY_CODE
+	 ,SE.YEAR
+	 ,SE.EMP_NAME
+	 ,SE.EMAIL
+	 ORDER BY SE.COMPANY_CODE
+	 ,SE.YEAR DESC
+	 ,SE.DEPT_CD
+	 ,SE.EMP_NAME	 	  
+</select>
+
+<!-- 목표등록 영업대표정보  -->
+<select id="selectSalesGoalYear" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSalesGoalYear
+	SELECT YR.YEAR
+	FROM (
+		SELECT CAST(SG.YEAR AS CHAR) AS YEAR
+		 FROM    SALES_GOAL    SG
+		 GROUP BY SG.YEAR
+		 
+		UNION ALL
+		
+		SELECT CAST(YEAR(NOW()) AS CHAR) AS YEAR
+		
+		UNION ALL
+		
+		SELECT CAST(YEAR(NOW()) + 1 AS CHAR) AS YEAR
+	) YR
+	GROUP BY YEAR
+	ORDER BY YEAR DESC
+	
+	
+</select>
+</mapper>

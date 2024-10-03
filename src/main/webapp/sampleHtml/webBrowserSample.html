@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>DevPack WebBrowser Call Sample</title>
+</head>
+<body>
+<script type="text/javascript">	
+if (! window.NEXACROHTML) {
+	window.NEXACROHTML = {};
+}
+
+var parentNexacro = null;
+var bInit = false;
+
+window.NEXACROHTML.Init = function(str)
+{
+	var loopCnt = 0;
+	var interval = setInterval(function() {            
+	    parentNexacro = window.NEXACROWEBBROWSER;  
+	if(loopCnt >= 10 || parentNexacro) {
+	    bInit = true;
+	    clearInterval(interval);
+	    window.NEXACROHTML.FireUserNotify(str);
+	  }
+	    loopCnt++;
+	}, 10);
+}
+
+window.NEXACROHTML.FireUserNotify = function(userdata)
+{			
+	var pp = window.NEXACROWEBBROWSER;
+	if (pp) 
+	{		
+		pp.on_fire_onusernotify(pp, userdata);
+	} 
+	else if (typeof nexacro == "undefined") //windows runtime
+	{			
+		window.document.title = userdata;
+	}
+	else if (nexacro) //mobile runtime 
+	{ 		
+		nexacro.fireUserNotify(userdata);	
+	} 
+}
+   
+function fnToNexacro(v)
+{
+	window.NEXACROHTML.FireUserNotify("toValue:"+v);
+}
+
+function fnFromNexacro(nStr)
+{
+	fromNexacro.value = nStr;
+}
+</script>
+
+<form id="sample">
+	<table width='100%'   border='0' cellpadding='1' cellspacing='1'>
+		<tr>
+			<td height='25' align=center bgcolor=#ededed> to nexacro </td>
+			<td><input type="text" id="toNexacro"> <input type="button" value="to nexacro" onclick="fnToNexacro(toNexacro.value)"></td>
+		</tr>
+		<tr></tr>
+		<tr>
+			<td height='25' align=center bgcolor=#ededed> from nexacro </td>
+			<td><textarea id="fromNexacro" cols="70" rows="30" value=""></textarea></td>
+		</tr>
+		
+	</table>
+</form>
+</html>

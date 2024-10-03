@@ -1,0 +1,926 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardMapper">
+<!--mySQL  -->
+<!-- ******************************************************게시판 게시글******************************************************************** -->
+<!-- 게시글 조회 -->
+<select id="searchBoardContentDetail" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT 	/* searchBoardContentDetail */
+		BOARD.BLBD_CD
+		, BOARD.NOTI_NO 
+		, BOARD.TITLE
+		, BOARD.CNTN 
+		, BOARD.INQ_CNT 
+		, BOARD.RCMD_CNT 
+		, BOARD.ANSW_YN 
+		, BOARD.HRANK_NOTI_NO
+		, BOARD.ANSW_ORDER
+		, BOARD.ANSW_LEVL
+		, BOARD.FILE_ID
+		, BOARD.DEL_YN 
+		, BOARD.INPT_ID 
+		, (SELECT CONCAT(KORN_NM , '(' , EMP_NO , ')') FROM T_SYTM_USER WHERE BOARD.INPT_ID = USER_ID) AS INPT_EMP_NO
+		, DATE_FORMAT(BOARD.INPT_DTTM,'%Y%m%d')  INPT_DTTM
+		-- , BOARD.INPT_DTTM 
+		, BOARD.INPT_IP
+		, '' AS STATUS
+		, (	
+	        SELECT 
+	        	COUNT(*) AS REPLY_CNT 
+			FROM T_COMM_BOARD_REPLY
+			WHERE BLBD_CD = #{BOARD_CD}
+	        	AND NOTI_NO = #{NOTI_NO}	)	AS REPLY_CNT
+	FROM T_COMM_BOARD BOARD		
+	WHERE BOARD.BLBD_CD = #{BOARD_CD}
+		AND BOARD.NOTI_NO = #{NOTI_NO}
+</select>
+
+<!-- 게시판 게시글 추가 -->  
+<insert id="boardContentsInsert" parameterType="java.util.Map">
+	INSERT INTO T_COMM_BOARD( /*  COM_BOARD  */
+		 BLBD_CD
+		, NOTI_NO
+		, TITLE
+		, CNTN
+		, INQ_CNT
+		, RCMD_CNT
+		, ANSW_YN
+		, HRANK_NOTI_NO
+		, ANSW_ORDER
+		, ANSW_LEVL
+		, FILE_ID
+		, DEL_YN
+		, INPT_ID
+		, INPT_DTTM
+		, INPT_IP
+		, CHGE_ID
+		, CHGE_DTTM
+		, CHGE_IP
+	)VALUES(
+		 #{BLBD_CD}
+		, (SELECT COALESCE(MAX(NOTI_NO),0)+1 AS CNT FROM T_COMM_BOARD A WHERE BLBD_CD = #{BLBD_CD})
+		, #{TITLE}
+		, #{CNTN}
+		, 0
+		, #{RCMD_CNT}
+		, #{ANSW_YN}
+		, #{HRANK_NOTI_NO}
+		, #{ANSW_ORDER}
+		, #{ANSW_LEVL}
+		, #{FILE_ID}
+		, '0'
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_CON_IPADDR_SRV}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_CON_IPADDR_SRV}
+	)
+</insert> 
+
+<!-- 조회수업데이트 -->
+<update id="updateInqCount" parameterType="java.util.Map">
+	UPDATE /* updateInqCount */
+		T_COMM_BOARD
+	SET
+		INQ_CNT 	= #{INQ_CNT}+1
+	WHERE BLBD_CD 	= #{BLBD_CD}
+		AND NOTI_NO = #{NOTI_NO}
+</update>
+
+<!-- 내용변경 -->
+<update id="updateBoardContents" parameterType="java.util.Map">
+	UPDATE   /* updateBoardContents */
+		T_COMM_BOARD
+	SET
+		TITLE 			= #{TITLE}
+		,FILE_ID 		= #{FILE_ID}
+		,CHGE_ID        = #{USER_ID_SRV}
+		,CHGE_DTTM      = NOW()
+		,CHGE_IP        = #{USER_CON_IPADDR_SRV}
+		,CNTN			= #{CNTN}
+	WHERE BLBD_CD 		= #{BLBD_CD}
+		AND NOTI_NO 	= #{NOTI_NO}
+</update>
+
+<!-- 컨텐츠삭제 -->
+<update id="deleteBoardContents" parameterType="java.util.Map">
+	UPDATE	/* deleteBoardContents */ 
+		T_COMM_BOARD
+	SET
+		DEL_YN 			= '1'
+		,CHGE_ID        = #{USER_ID_SRV}
+		,CHGE_DTTM      = NOW()
+		,CHGE_IP        = #{USER_CON_IPADDR_SRV}
+	WHERE BLBD_CD   	= #{BLBD_CD}
+		AND NOTI_NO 	= #{NOTI_NO}
+</update>
+
+
+<!-- 컨텐츠삭제(첨부파일) -->
+<delete id="deleteBoardFile" parameterType="java.util.Map">
+	DELETE FROM T_COMM_BOARD_FILE
+	WHERE FILE_ID 	 = #{FILE_ID}
+		AND FILE_SEQ = #{FILE_SEQ}
+</delete>
+
+
+<!-- 게시판 컨텐츠 목록 조회 -->
+<select id="searchBoardContents" parameterType="java.util.Map" resultType="java.util.Map"> 
+/* searchBoardContents */
+with t1 as (
+	select
+		ROW_NUMBER() over(order by NOTI_NO desc) AS RNUM,
+		AA.*
+	from 
+	(
+		SELECT
+			BOARD.BLBD_CD ,
+			BOARD.NOTI_NO ,
+			BOARD.TITLE ,
+			BOARD.CNTN ,
+			BOARD.INQ_CNT ,
+			BOARD.RCMD_CNT ,
+			BOARD.ANSW_YN ,
+			BOARD.HRANK_NOTI_NO ,
+			BOARD.ANSW_ORDER ,
+			BOARD.ANSW_LEVL ,
+			BOARD.FILE_ID ,
+			case COALESCE(BF.FILE_CNT, 0)
+				 when 0 then '0'
+				 else '1'
+			end  AS FILE_YN ,
+			BOARD.DEL_YN ,
+			BOARD.INPT_ID ,
+			CONCAT(U.KORN_NM , '(' , U.EMP_NO , ')') AS INPT_EMP_NO ,  
+			DATE_FORMAT(BOARD.INPT_DTTM,'%Y%m%d%H%i%s')  INPT_DTTM,
+			-- BOARD.INPT_DTTM , 
+			BOARD.INPT_IP , 
+			BOARD.CHGE_ID , 
+			BOARD.CHGE_DTTM ,
+			BOARD.CHGE_IP,
+			COALESCE(BR.REPLY_CNT, 0) AS REPLY_CNT
+		FROM
+			T_SYTM_USER U
+			, T_COMM_BOARD BOARD 
+			LEFT OUTER JOIN (
+		     	SELECT 
+		     		COALESCE(COUNT(*),0) AS REPLY_CNT
+		     		,BLBD_CD
+		     		,NOTI_NO
+		     	FROM T_COMM_BOARD_REPLY
+		     	GROUP BY BLBD_CD, NOTI_NO
+		     ) BR
+		     	ON BOARD.BLBD_CD = BR.BLBD_CD
+				AND BOARD.NOTI_NO = BR.NOTI_NO
+		     LEFT OUTER JOIN (
+		     	SELECT 
+		     		COALESCE(COUNT(*),0) AS FILE_CNT
+		     		,FILE_ID
+		     	FROM T_COMM_BOARD_FILE
+		     	GROUP BY FILE_ID
+		     )		BF
+		     	ON BOARD.FILE_ID = BF.FILE_ID
+		WHERE
+			BOARD.BLBD_CD = #{srchBoardCd}
+			AND BOARD.DEL_YN = '0'
+			AND BOARD.INPT_ID = U.USER_ID
+		ORDER BY NOTI_NO DESC 
+	) AA
+), CTE_MAIN as
+(
+	WITH recursive t2 AS (
+		SELECT	
+	           CONVERT(LPAD(BOARD.RNUM, 3, '0'), char(100)) as SortOrder,
+	           BOARD.*
+	       FROM
+	          t1 BOARD
+	       WHERE ANSW_LEVL = '0'
+		UNION ALL   
+		SELECT	
+	           CONCAT(c.SortOrder, '|', BOARD.RNUM) as BOARD_ORDER,
+	      		BOARD.*
+	   FROM
+	      	t1 BOARD
+		   INNER JOIN t2  c
+			  ON  c.NOTI_NO = BOARD.HRANK_NOTI_NO
+	)
+	select ROW_NUMBER() over(order by NOTI_NO desc) AS RBNUM, 
+	t2.*
+	from t2
+	WHERE 1=1
+	<if test="END_NUM != null and END_NUM != '' ">
+	<if test="srchGubun != null and srchGubun != '' ">
+		<if test="srchGubun == '01'">
+			<if test="srchCond != null and srchCond != '' ">
+		    AND t2.TITLE LIKE CONCAT('%', #{srchCond} ,'%')
+		    </if>
+		</if>
+		<if test="srchGubun == '02'">
+		 	<if test="srchCond != null and srchCond != '' ">
+		 	AND INSTR(REGEXP_REPLACE(UPPER(t2.CNTN),<![CDATA['<[^>]*>|\&([^;])*;']]>, ''),  UPPER(#{srchCond})) > 0 
+		    </if>
+		</if>
+	    <if test="srchGubun == '03'">
+	    	<if test="srchCond != null and srchCond != '' ">
+	        AND t2.INPT_EMP_NO LIKE CONCAT('%', #{srchCond}, '%')
+	        </if>
+	    </if>
+	</if>
+	<if test="(FROM_DATE !=null and FROM_DATE != '') and (TO_DATE !=null and TO_DATE != '')">
+		AND DATE_FORMAT(t2.INPT_DTTM,  '%Y%m%d') BETWEEN #{FROM_DATE} AND #{TO_DATE}
+	</if>
+	</if>
+)
+select *
+from CTE_MAIN
+<if test="END_NUM != null and END_NUM != '' ">
+WHERE CTE_MAIN.RBNUM BETWEEN #{START_NUM} AND #{END_NUM}
+</if>
+order by SortOrder
+</select>
+
+<!-- 게시판 컨텐츠 전체 카운트 조회 -->
+<select id="searchBoardContentsCnt" parameterType="java.util.Map" resultType="java.util.Map"> 
+/* searchBoardContentsCnt */
+with t1 as (
+	SELECT
+		ROW_NUMBER() over(order by NOTI_NO desc) AS RNUM ,
+		AA.*
+	from 
+	(
+		SELECT
+			BOARD.BLBD_CD ,
+			BOARD.NOTI_NO ,
+			BOARD.TITLE ,
+			BOARD.CNTN ,
+			BOARD.INQ_CNT ,
+			BOARD.RCMD_CNT ,
+			BOARD.ANSW_YN ,
+			BOARD.HRANK_NOTI_NO ,
+			BOARD.ANSW_ORDER ,
+			BOARD.ANSW_LEVL ,
+			BOARD.FILE_ID ,
+			case COALESCE(BF.FILE_CNT, 0)
+				 when 0 then '0'
+				 else '1'
+			end  AS FILE_YN ,
+			BOARD.DEL_YN ,
+			BOARD.INPT_ID ,
+			CONCAT(U.KORN_NM , '(' , U.EMP_NO , ')') AS INPT_EMP_NO , 
+			BOARD.INPT_DTTM , 
+			BOARD.INPT_IP , 
+			BOARD.CHGE_ID , 
+			BOARD.CHGE_DTTM ,
+			BOARD.CHGE_IP,
+			COALESCE(BR.REPLY_CNT, 0) AS REPLY_CNT
+		FROM
+			T_SYTM_USER U
+			, T_COMM_BOARD BOARD 
+			LEFT OUTER JOIN (
+		     	SELECT 
+		     		COALESCE(COUNT(*),0) AS REPLY_CNT
+		     		,BLBD_CD
+		     		,NOTI_NO
+		     	FROM T_COMM_BOARD_REPLY
+		     	GROUP BY BLBD_CD, NOTI_NO
+		     ) BR
+		     	ON BOARD.BLBD_CD = BR.BLBD_CD
+				AND BOARD.NOTI_NO = BR.NOTI_NO
+		     LEFT OUTER JOIN (
+		     	SELECT 
+		     		COALESCE(COUNT(*),0) AS FILE_CNT
+		     		,FILE_ID
+		     	FROM T_COMM_BOARD_FILE
+		     	GROUP BY FILE_ID
+		     )		BF
+		     	ON BOARD.FILE_ID = BF.FILE_ID
+		WHERE
+			BOARD.BLBD_CD = #{srchBoardCd}
+			AND BOARD.DEL_YN = '0'
+			AND BOARD.INPT_ID = U.USER_ID
+		ORDER BY
+			NOTI_NO DESC 
+	) AA
+), CTE_MAIN as
+(
+WITH recursive t2 AS (
+	SELECT	
+           CONVERT(BOARD.ANSW_LEVL, char(100)) as SortOrder,
+           BOARD.*
+       FROM
+          t1 BOARD
+       WHERE ANSW_LEVL = '0'
+	UNION ALL   
+	SELECT	
+           CONCAT(c.SortOrder, '|', BOARD.ANSW_LEVL) as BOARD_ORDER,
+      		BOARD.*
+   FROM
+      	t1 BOARD
+	   INNER JOIN t2 c
+		  ON  c.NOTI_NO = BOARD.HRANK_NOTI_NO
+	)
+	select *
+	from t2
+)
+select COUNT(*) AS TOTALCNT
+from CTE_MAIN
+WHERE 1=1
+<if test="srchGubun != null and srchGubun != '' ">
+	<if test="srchGubun == '01'">
+		<if test="srchCond != null and srchCond != '' ">
+	    AND CTE_MAIN.TITLE LIKE CONCAT('%', #{srchCond} ,'%')
+	    </if>
+	</if>
+	<if test="srchGubun == '02'">
+		<if test="srchCond != null and srchCond != '' ">
+		AND INSTR(REGEXP_REPLACE(UPPER(CTE_MAIN.CNTN),<![CDATA['<[^>]*>|\&([^;])*;']]>, ''),  UPPER(#{srchCond})) > 0 
+	   	</if>
+	</if>
+	<if test="srchGubun == '03'">
+	   	<if test="srchCond != null and srchCond != '' ">
+		AND CTE_MAIN.INPT_EMP_NO LIKE CONCAT('%', #{srchCond}, '%')
+		</if>
+	</if>
+</if>
+<if test="(FROM_DATE !=null and FROM_DATE != '') and (TO_DATE !=null and TO_DATE != '')">
+	AND DATE_FORMAT(CTE_MAIN.INPT_DTTM,  '%Y%m%d') BETWEEN #{FROM_DATE} AND #{TO_DATE}
+</if>
+</select> 
+
+<!-- ******************************************************게시판 게시글 첨부파일******************************************************************** -->
+<!-- 게시글 첨부파일 조회 -->
+<select id="searchBoardContentDetailFile" parameterType="java.util.Map" resultType="java.util.Map"> 
+/* searchBoardContentDetailFile */
+	SELECT 	
+		BB.FILE_ID
+		, BF.FILE_SEQ
+		, BF.SAVE_FILE_NM
+		, BF.OTXT_FILE_NM
+		, BF.FILE_SIZE
+		, BF.FILE_TYPE
+		, BF.FILE_PATH_NM
+		, BF.INPT_ID
+		, (SELECT EMP_NO FROM T_SYTM_USER WHERE BF.INPT_ID = USER_ID) AS INPT_EMP_NO
+		, BF.INPT_DTTM
+		, BF.INPT_IP
+	FROM T_COMM_BOARD_FILE BF
+		INNER JOIN T_COMM_BOARD BB	
+			ON BF.FILE_ID = BB.FILE_ID 
+	WHERE BB.BLBD_CD = #{BOARD_CD}
+		AND BB.NOTI_NO = #{NOTI_NO}
+		
+</select>
+
+<!-- 게시판 첨부파일 추가 -->
+<insert id="boardFileInsert" parameterType="java.util.Map">
+	INSERT INTO T_COMM_BOARD_FILE
+	(
+		FILE_ID
+		, FILE_SEQ
+		, SAVE_FILE_NM
+		, OTXT_FILE_NM
+		, FILE_SIZE
+		, FILE_TYPE
+		, FILE_PATH_NM
+		, INPT_ID
+		, INPT_DTTM
+		, INPT_IP
+		, CHGE_ID
+		, CHGE_DTTM
+		, CHGE_IP
+	)VALUES(
+		#{FILE_ID}
+		, (SELECT COALESCE(MAX(FILE_SEQ),0)+1 FROM T_COMM_BOARD_FILE F WHERE FILE_ID = #{FILE_ID})
+		, #{SAVE_FILE_NM}
+		, #{OTXT_FILE_NM}
+		, #{FILE_SIZE}
+		, #{FILE_TYPE}
+		, #{FILE_PATH_NM}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_CON_IPADDR_SRV}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_CON_IPADDR_SRV}
+	)
+</insert>
+
+<!-- 게시글 파일 조회 -->
+<select id="searchBoardFileList" parameterType="java.util.Map" resultType="java.util.Map"> 
+/* searchBoardFileList */
+	SELECT 
+		FILE_ID
+		, FILE_SEQ
+		, SAVE_FILE_NM
+		, OTXT_FILE_NM
+		, FILE_SIZE
+		, FILE_TYPE
+		, FILE_PATH_NM
+	FROM T_COMM_BOARD_FILE
+	WHERE 1=1
+		AND FILE_ID = #{FILE_ID}
+</select>
+
+<!-- ******************************************************게시판 리플(댓글)******************************************************************** -->
+<!-- 게시판 댓글 조회 -->
+<select id="searchReplyList" parameterType="java.util.Map" resultType="java.util.Map">
+/* searchReplyList */ 
+	SELECT	
+		BR.BLBD_CD
+		, BR.NOTI_NO
+		, BR.REPLY_SEQ
+		, BR.REPLY_CNTN
+		, BR.INPT_ID
+		<!--, (SELECT EMP_NO FROM T_SYTM_USER WHERE BR.INPT_ID = USER_ID) AS INPT_EMP_NO-->
+		, (SELECT CONCAT(KORN_NM , '(' , EMP_NO , ')') FROM T_SYTM_USER WHERE BR.INPT_ID = USER_ID) AS INPT_EMP_NO -- 작성자 이름(작성자 아이디)
+		, BR.INPT_DTTM
+		, BR.INPT_IP
+		, BR.CHGE_ID
+		, BR.CHGE_DTTM
+		, BR.CHGE_IP
+		, '' AS STATUS
+	FROM T_COMM_BOARD_REPLY BR
+	WHERE 1=1 
+	<if test="NOTI_NO != null and NOTI_NO != ''">
+	    AND BR.NOTI_NO = #{NOTI_NO}
+	</if>
+	<if test="BOARD_CD != null and BOARD_CD != ''">
+	    AND BR.BLBD_CD = #{BOARD_CD}
+	</if>
+</select>
+
+<!-- 게시판 댓글 추가 -->  
+<insert id="insertBoardReply" parameterType="java.util.Map">
+	INSERT INTO T_COMM_BOARD_REPLY (
+		  BLBD_CD
+		, NOTI_NO
+		, REPLY_SEQ
+		, REPLY_CNTN
+		, INPT_ID
+		, INPT_DTTM
+		, INPT_IP
+		, CHGE_ID
+		, CHGE_DTTM
+		, CHGE_IP
+	)VALUES(
+		 #{BLBD_CD}
+		, #{NOTI_NO}
+		, (SELECT CNT FROM(SELECT COALESCE(MAX(REPLY_SEQ),0)+1 AS CNT FROM T_COMM_BOARD_REPLY WHERE BLBD_CD = #{BLBD_CD} AND NOTI_NO = #{NOTI_NO})T)
+		, #{REPLY_CNTN}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_CON_IPADDR_SRV}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_CON_IPADDR_SRV}
+	)
+</insert>
+
+<!-- 게시판 댓글 삭제 -->  
+<delete id="deleteBoardReply" parameterType="java.util.Map">
+	DELETE FROM T_COMM_BOARD_REPLY
+	WHERE 1=1
+		AND NOTI_NO = #{NOTI_NO}
+		AND BLBD_CD = #{BLBD_CD}
+		AND REPLY_SEQ = #{REPLY_SEQ}
+</delete>
+
+<!-- 게시판 댓글 수정 -->  
+<update id="updateBoardReply" parameterType="java.util.Map">
+	UPDATE	 /* updateBoardReply */ 
+		T_COMM_BOARD_REPLY
+	SET 
+		REPLY_CNTN  = #{REPLY_CNTN}
+		, CHGE_ID   = #{USER_ID_SRV}
+		, CHGE_DTTM = NOW()
+		, CHGE_IP   = #{USER_CON_IPADDR_SRV}
+	WHERE 1=1
+		AND NOTI_NO = #{NOTI_NO}
+		AND BLBD_CD = #{BLBD_CD}
+		AND REPLY_SEQ = #{REPLY_SEQ}
+</update>
+
+<!-- ******************************************************게시판 마스터******************************************************************** -->
+<!-- 게시판목록조회 -->
+<select id="searchBoardList" parameterType="java.util.Map" resultType="java.util.Map">
+/* searchBoardList */
+	SELECT 	
+	    BM.BLBD_CD
+	    , BM.BLBD_NM
+	    , BM.BLBD_SECT_CD
+	    , BM.PAGE_CNT
+	    , BM.ANSW_YN
+	    , BM.REPLY_YN
+	    , BM.APND_YN
+	    , BM.MGR_CD
+	    , US.EMP_NO AS MGR_EMP_NO
+	    , US.KORN_NM AS MGR_NM
+	    , BM.USED_YN
+	FROM T_COMM_BOARD_MASTER BM
+			LEFT OUTER JOIN T_SYTM_USER US
+			ON BM.MGR_CD = US.USER_ID
+	WHERE 1=1 
+	<if test="BOARD_NM != null and BOARD_NM != ''">
+	    AND BM.BLBD_NM like CONCAT('%' , #{BOARD_NM} , '%')
+	</if>
+	<if test="BOARD_CD != null and BOARD_CD != ''">
+	    AND BM.BLBD_CD = #{BOARD_CD}
+	</if>
+	<if test="USED_YN != null and USED_YN != ''">
+	    AND BM.USED_YN = #{USED_YN}
+	</if>
+	ORDER BY BM.BLBD_SECT_CD, BM.BLBD_CD, BM.BLBD_NM
+</select>
+
+<!-- 게시판 목록 추가 -->  
+<insert id="insertBoard" parameterType="java.util.Map">
+	INSERT INTO T_COMM_BOARD_MASTER(
+		  BLBD_CD
+		, BLBD_NM
+		, BLBD_SECT_CD
+		, ANSW_YN
+		, APND_YN
+		, REPLY_YN
+		, PAGE_CNT
+		, MGR_CD
+		, USED_YN
+		, INPT_ID
+		, INPT_DTTM
+		, INPT_IP
+		, CHGE_ID
+		, CHGE_DTTM
+		, CHGE_IP
+	)VALUES(
+		 #{BLBD_CD}
+		, #{BLBD_NM}
+		, #{BLBD_SECT_CD}
+		, #{ANSW_YN}
+		, #{APND_YN}
+		, #{REPLY_YN}
+		, #{PAGE_CNT}
+		, #{MGR_CD}
+		, #{USED_YN}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_CON_IPADDR_SRV}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_CON_IPADDR_SRV}
+	)
+</insert>
+
+<!-- 게시판 목록 수정 -->  
+<update id="updateBoard" parameterType="java.util.Map">
+	UPDATE	/* updateBoard */ 
+		T_COMM_BOARD_MASTER
+	SET 
+		  BLBD_NM 	   = #{BLBD_NM}
+		, BLBD_SECT_CD = #{BLBD_SECT_CD}
+		, ANSW_YN 	   = #{ANSW_YN}
+		, APND_YN 	   = #{APND_YN}
+		, REPLY_YN 	   = #{REPLY_YN}
+		, USED_YN	   = #{USED_YN}
+		, PAGE_CNT 	   = #{PAGE_CNT}
+		, MGR_CD 	   = #{MGR_CD}
+	WHERE BLBD_CD 	   = #{BLBD_CD}
+</update>
+
+
+<!-- 게시판 목록 삭제 -->  
+<delete id="deleteBoard" parameterType="java.util.Map">
+	DELETE FROM T_COMM_BOARD_MASTER
+	WHERE BLBD_CD = #{BLBD_CD}
+</delete>
+
+
+
+<!-- ******************************************************카드형 게시판******************************************************************** -->
+<!--카드형 게시판 게시글 조회 -->
+<select id="searchBoardCardContents" parameterType="java.util.Map" resultType="java.util.Map">
+/* searchBoardCardContents  */
+	SELECT	
+		BB.*
+	FROM	(	SELECT 
+  		  		B.BLBD_CD
+	                  ,B.NOTI_NO
+	                  ,B.TITLE
+	                  ,B.CNTN
+	                  ,B.INQ_CNT
+	                  ,B.FILE_ID
+	                  ,B.INPT_ID
+	                  ,B.INPT_IP
+	                  ,B.INPT_DTTM
+	                  ,B.CHGE_ID
+	                  ,B.CHGE_IP
+	                  ,B.CHGE_DTTM
+	                  , CONCAT(U.KORN_NM , '(' , U.EMP_NO , ')') AS INPT_EMP_NO      -- 작성자 이름(작성자 아이디)
+	                  , ROW_NUMBER() OVER(ORDER BY B.INPT_DTTM DESC) AS RNUM
+	                FROM T_COMM_BOARD B
+	                   INNER JOIN T_SYTM_USER U
+	                   		ON B.INPT_ID = U.USER_ID
+	                WHERE B.BLBD_CD = #{BOARD_CD}
+	                   AND DATE_FORMAT(B.INPT_DTTM, '%Y%m%d') BETWEEN #{FROM_DATE} AND #{TO_DATE}
+	                   AND DEL_YN    = '0'
+						<if test="SEARCH_GUBUN != null and SEARCH_GUBUN != '' ">
+						    <if test="SEARCH_GUBUN == '01'">
+						    	<if test="SEARCH_COND != null and SEARCH_COND != '' ">
+						        AND  UPPER(B.TITLE) LIKE CONCAT('%' , UPPER(#{SEARCH_COND}) , '%') 
+						        </if>
+						    </if>
+						    <if test="SEARCH_GUBUN == '02'">
+						     	<if test="SEARCH_COND != null and SEARCH_COND != '' ">
+						     	-- AND DBMS_LOB.CHARINDEX(REGEXP_REPLACE(UPPER(B.CNTN),<![CDATA['<[^>]*>|\&([^;])*;']]>), UPPER(#{SEARCH_COND})) > 0 
+						     	AND CHARINDEX(UPPER(B.CNTN),UPPER(#{SEARCH_COND})) > 0
+						     	</if>
+						    </if>
+						</if> 
+	                -- ORDER BY INPT_DTTM DESC 
+	     )BB
+	<if test="END_NUM != null and END_NUM != '' ">
+		WHERE BB.RNUM BETWEEN #{START_NUM} AND #{END_NUM} 
+	</if>
+	ORDER BY RNUM
+</select>
+
+
+<!--카드형 게시판 게시글 수 카운트  -->
+<select id="searchBoardCardContentsCnt" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT /* searchBoardCardContentsCnt */
+		  COUNT(*) AS TOTALCNT	
+	 FROM T_COMM_BOARD B
+	    INNER JOIN T_SYTM_USER U
+	    	ON B.INPT_ID = U.USER_ID  
+	 WHERE B.BLBD_CD = #{BOARD_CD}
+	    AND DATE_FORMAT(B.INPT_DTTM, '%Y%m%d') BETWEEN #{FROM_DATE} AND #{TO_DATE}
+	    AND DEL_YN    = '0'
+	<if test="SEARCH_GUBUN != null and SEARCH_GUBUN != '' ">
+	    <if test="SEARCH_GUBUN == '01'">
+	    	<if test="SEARCH_COND != null and SEARCH_COND != '' ">
+	        AND  UPPER(B.TITLE) LIKE CONCAT('%' , UPPER(#{SEARCH_COND}) , '%') 
+	        </if>
+	    </if>
+	    <if test="SEARCH_GUBUN == '02'">
+	     	<if test="SEARCH_COND != null and SEARCH_COND != '' ">
+	     	AND CHARINDEX(UPPER(B.CNTN), UPPER(#{SEARCH_COND})) > 0 
+	     	</if>
+	    </if>
+	</if>  
+</select>
+
+<!-- 조회조건용 팀조회  -->
+<select id="selectTeamList" parameterType="java.util.Map" resultType="java.util.Map">
+	WITH RECURSIVE CTE_Dept AS (
+	    SELECT
+	        AA.DEPT_CD,
+	        HIPO_DEPT_CD,
+	        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = AA.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+	        AA.DEPT_KORN_NM,
+	        AA.DEPT_ORDR,
+	        AA.DEPT_YN,
+	        AA.DEPT_FLAG_CD,
+	        AA.DEPT_LVL,
+	        AA.BEFO_DEPT_CD,
+	        CONVERT(AA.DEPT_ORDR, char(100)) as SortOrder
+	    FROM T_SYTM_DEPT AA
+	    WHERE DEPT_LVL = '0'
+	    UNION ALL
+	    SELECT
+	        BB.DEPT_CD,
+	        BB.HIPO_DEPT_CD,
+	        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = BB.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+	        BB.DEPT_KORN_NM,
+	        BB.DEPT_ORDR,
+	        BB.DEPT_YN,
+	        BB.DEPT_FLAG_CD,
+	        BB.DEPT_LVL,
+	        BB.BEFO_DEPT_CD,
+	        CONCAT(CTE_Dept.SortOrder, '|', BB.DEPT_ORDR) as DEPT_ORDER
+	    FROM T_SYTM_DEPT BB
+	    INNER JOIN CTE_Dept ON BB.HIPO_DEPT_CD = CTE_Dept.DEPT_CD
+	)
+	
+	SELECT DEPT_CD as CODE, DEPT_KORN_NM as NAME
+	FROM CTE_Dept
+	WHERE 1=1
+	AND CTE_Dept.DEPT_YN = '1'
+	AND CTE_Dept.DEPT_FLAG_CD = '0040'
+	
+	ORDER BY SortOrder
+</select>
+
+
+<!-- 주간보고 전체 카운트 조회 -->
+<select id="selectWeekReportCnt" parameterType="java.util.Map" resultType="java.util.Map"> 
+
+	SELECT COUNT(*) AS TOTALCNT
+	from T_WEEKREPORT
+	WHERE 1=1
+	<if test="RPT_YEAR != null and RPT_YEAR != '' ">
+		<if test="RPT_MONTH != null and RPT_MONTH != '' ">
+	    AND RPT_YEAR = #{RPT_YEAR}
+	    AND RPT_MONTH = #{RPT_MONTH}
+	    </if>
+	</if>
+	<if test="DEPT_CD != null and DEPT_CD != '' ">
+	    AND DEPT_CD = #{DEPT_CD}
+    </if>
+	<if test="TITLE != null and TITLE != '' ">
+	    AND TITLE LIKE CONCAT('%', #{TITLE}, '%')
+    </if>
+</select>
+
+
+<!-- 주간보고 조회 -->
+<select id="selectWeekReportList" parameterType="java.util.Map" resultType="java.util.Map"> 
+	WITH CTE_MAIN AS (
+		SELECT 
+		ROW_NUMBER() over(order by W.RPT_NO desc) AS RBNUM
+		, W.RPT_NO
+		, W.TITLE
+		, W.DEPT_CD
+		, W.RPT_YEAR
+		, W.RPT_MONTH
+		, W.RPT_CNT
+		, W.FILE_ID
+		, W.INPT_DTTM
+		, W.INPT_ID
+		, U.KORN_NM
+		from T_WEEKREPORT W    
+	     LEFT OUTER JOIN T_SYTM_USER U
+	     ON W.INPT_ID = U.USER_ID	
+	     
+	     WHERE 1 = 1
+		<if test="RPT_YEAR != null and RPT_YEAR != '' ">
+			<if test="RPT_MONTH != null and RPT_MONTH != '' ">
+		    AND W.RPT_YEAR = #{RPT_YEAR}
+		    AND W.RPT_MONTH = #{RPT_MONTH}
+		    </if>
+		</if>
+		<if test="DEPT_CD != null and DEPT_CD != '' ">
+		    AND W.DEPT_CD = #{DEPT_CD}
+	    </if>
+		<if test="TITLE != null and TITLE != '' ">
+		    AND W.TITLE LIKE CONCAT('%', #{TITLE}, '%')
+	    </if>	     
+	)
+	SELECT *,  DATE_FORMAT(INPT_DTTM, '%Y%m%d%H%i%s') AS REG_DATE
+	from CTE_MAIN
+	WHERE CTE_MAIN.RBNUM BETWEEN #{START_NUM} AND #{END_NUM}
+	order by RBNUM
+</select>
+
+<!-- 주간보고 조회 -->
+<select id="selectWeekReport" parameterType="java.util.Map" resultType="java.util.Map"> 
+SELECT W.*, U.KORN_NM AS USER_NAME 
+FROM T_WEEKREPORT W, T_SYTM_USER U
+WHERE W.RPT_NO = #{RPT_NO}
+AND W.INPT_ID = U.USER_ID
+</select>
+
+<select id="selectWeekReportFile" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT 	
+		BB.FILE_ID
+		, BF.FILE_SEQ
+		, BF.SAVE_FILE_NM
+		, BF.OTXT_FILE_NM
+		, BF.FILE_SIZE
+		, BF.FILE_TYPE
+		, BF.FILE_PATH_NM
+		, BF.INPT_ID
+		, BF.INPT_DTTM
+	FROM T_WEEKREPORT_FILE BF
+		INNER JOIN T_WEEKREPORT BB	
+			ON BF.FILE_ID = BB.FILE_ID 
+	WHERE BB.RPT_NO = #{RPT_NO}		
+</select>
+
+<select id="selectWeekReportFileOne" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT 	
+		FILE_ID
+		, FILE_SEQ
+		, SAVE_FILE_NM
+		, OTXT_FILE_NM
+		, FILE_SIZE
+		, FILE_TYPE
+		, FILE_PATH_NM
+	FROM T_WEEKREPORT_FILE
+	WHERE FILE_ID = #{FILE_ID}
+	<if test="FILE_SEQ != null and FILE_SEQ != '' ">
+	AND FILE_SEQ = #{FILE_SEQ}
+	</if>		
+</select>
+	
+<!-- 게시판 게시글 추가 -->  
+<insert id="insertWeekReport" parameterType="java.util.Map">
+	INSERT INTO T_WEEKREPORT(
+		 TITLE
+		, DEPT_CD
+		, RPT_YEAR
+		, RPT_MONTH
+		, RPT_CNT
+		, CNTN
+		, FILE_ID
+		, INPT_ID
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_DTTM
+	)VALUES(
+		 #{TITLE}
+		, #{DEPT_CD}
+		, #{RPT_YEAR}
+		, #{RPT_MONTH}
+		, #{RPT_CNT}
+		, #{CNTN}
+		, #{FILE_ID}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_ID_SRV}
+		, NOW()
+	)
+</insert> 
+
+
+<!-- 내용변경 -->
+<update id="updateWeekReport" parameterType="java.util.Map">
+	UPDATE   
+		T_WEEKREPORT
+	SET
+		TITLE 			= #{TITLE}
+		,DEPT_CD 		= #{DEPT_CD}
+		,RPT_YEAR 		= #{RPT_YEAR}
+		,RPT_MONTH 		= #{RPT_MONTH}
+		,RPT_CNT 		= #{RPT_CNT}
+		,CNTN 			= #{CNTN}
+		,FILE_ID 		= #{FILE_ID}
+		,CHGE_ID        = #{USER_ID_SRV}
+		,CHGE_DTTM      = NOW()
+		,CNTN			= #{CNTN}
+	WHERE RPT_NO 		= #{RPT_NO}
+</update>
+
+<delete id="deleteWeekReport" parameterType="java.util.Map">
+	DELETE FROM  
+		T_WEEKREPORT
+	WHERE RPT_NO 		= #{RPT_NO}
+</delete>
+
+
+<!-- 게시판 게시글 추가 -->  
+<insert id="insertWeekReportFile" parameterType="java.util.Map">
+	INSERT INTO T_WEEKREPORT_FILE(
+		 FILE_ID
+		, FILE_SEQ
+		, SAVE_FILE_NM
+		, OTXT_FILE_NM
+		, FILE_SIZE
+		, FILE_TYPE
+		, FILE_PATH_NM
+		, INPT_ID
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_DTTM
+	)VALUES(
+		 #{FILE_ID}
+		, (SELECT COALESCE(MAX(FILE_SEQ),0)+1 FROM T_WEEKREPORT_FILE F WHERE FILE_ID = #{FILE_ID})
+		, #{SAVE_FILE_NM}
+		, #{OTXT_FILE_NM}
+		, #{FILE_SIZE}
+		, #{FILE_TYPE}
+		, #{FILE_PATH_NM}
+		, #{USER_ID_SRV}
+		, NOW()
+		, #{USER_ID_SRV}
+		, NOW()
+	)
+</insert> 
+
+
+<!-- 내용변경 -->
+<update id="updateWeekReportFile" parameterType="java.util.Map">
+	UPDATE   
+		T_WEEKREPORT_FILE
+	SET
+		SAVE_FILE_NM 			= #{SAVE_FILE_NM}
+		,OTXT_FILE_NM 		= #{OTXT_FILE_NM}
+		,FILE_SIZE 		= #{FILE_SIZE}
+		,FILE_TYPE 		= #{FILE_TYPE}
+		,FILE_PATH_NM 			= #{FILE_PATH_NM}
+		,CHGE_ID        = #{USER_ID_SRV}
+		,CHGE_DTTM      = NOW()
+	WHERE FILE_ID 		= #{FILE_ID}
+	AND FILE_SEQ = #{FILE_SEQ}
+</update>
+
+<delete id="deleteWeekReportFile" parameterType="java.util.Map">
+	DELETE FROM  
+		T_WEEKREPORT_FILE
+	WHERE FILE_ID 		= #{FILE_ID}
+	<if test="FILE_SEQ != null and FILE_SEQ != '' ">
+	AND FILE_SEQ = #{FILE_SEQ}
+	</if>	
+</delete>
+
+</mapper>

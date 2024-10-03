@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="tt" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Edit id="edt00" taborder="0" left="66" top="61" width="252" height="49" displaynulltext="안녕하세요"/>
+        <Edit id="edt01" taborder="1" left="64" top="135" width="254" height="60" displaynulltext="반갑습니다"/>
+        <Edit id="edt02" taborder="2" left="66" top="219" width="254" height="53"/>
+        <Static id="sta00" taborder="3" text="sta00" left="354" top="60" width="184" height="58" accessibilityaction="333"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+
+// _pEdit.on_apply_displaynulltext = function(_a) {
+//     _pEdit.on_apply_displaynulltext = function(_a) {
+//         var _b = this._input_element;
+//         if (_b) {
+// 			if(nexacro._Browser == "Runtime") {
+// 			} else {
+// 			}
+// // 			console.log("on_apply_displaynulltext===========", this._onlydisplay, _a);
+// //             if (this._onlydisplay) {
+// //                 this.on_apply_value(this.value);
+// //             } else {
+// // 				_b.setElementDisplayNullText(_a);
+// //             }
+//         }
+//     }
+//     ;
+// 
+// _pEdit.__orgon_killfocus_basic_action = _pEdit.on_killfocus_basic_action;
+// _pEdit.on_killfocus_basic_action = function () {
+// 	var rtn = this.__orgon_killfocus_basic_action();
+// 	if (this.displaynulltext && (nexacro._isNull(this.value) || this.value == "")) {
+// 		this._changeUserStatus("nulltext", true);
+// 		console.log("on_killfocus_basic_action");
+// 		var _b = this._input_element;
+// 		_b.displaynulltext = "   ";
+// 		this.on_apply_displaynulltext(this.displaynulltext);
+// 	}
+// 	return rtn;
+// };	
+// var _pInputElement = nexacro.InputElement.prototype;
+// 	_pInputElement.setElementDisplayNullText = function (nulltext, applytext) {
+// 		var input_handle = this.handle;
+// console.log("setElementDisplayNullText1", this.displaynulltext, nulltext);
+// 		if (this.displaynulltext == nulltext) {
+// 			return;
+// 		}
+// console.log("setElementDisplayNullText2");
+// 		this.displaynulltext = nulltext;
+// 
+// 		if (input_handle) {
+// 			if ((nexacro._isNull(this.value)||this.value=="") && !this._is_focused) {
+// 			console.log("setElementDisplayNullText3", this.displaynulltext);
+// 				if (applytext != "" && applytext != undefined) {
+// 					this._updateInputValue(applytext);
+// 				}
+// 				else {
+// 					console.log("setElementDisplayNullText4", this.displaynulltext);
+// 					this._updateInputValue(this.displaynulltext);
+// 				}
+// 			}
+// 		}
+// 	};]]></Script>
+  </Form>
+</FDL>

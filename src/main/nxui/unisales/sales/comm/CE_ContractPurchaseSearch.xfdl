@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CE_ContractPurchaseSearch" width="1100" height="391" titletext="매입계약 검색" cssclass="frm_popBg" onload="CE_ContractPurchaseSearch_onload">
+    <Layouts>
+      <Layout height="391" mobileorientation="landscape" width="1100">
+        <Static id="Static00" taborder="0" left="0" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg" text=""/>
+        <Static id="st_Title" taborder="1" text="매입계약 검색" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="764"/>
+        <Button id="btn_Close" taborder="2" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_Close_onclick"/>
+        <Div id="div_Search" taborder="3" text="" left="4" top="39" height="40" right="4" cssclass="div_WF_SchList">
+          <Layouts>
+            <Layout>
+              <Static id="st_ContractType" taborder="4" text="계약구분" left="11" top="8" width="60" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="123"/>
+              <Combo id="cmb_ContractType" taborder="0" left="75" top="8" width="118" height="22" innerdataset="ds_cmm_ContractType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Search_cmb_ContractType_onitemchanged"/>
+              <Button id="btn_Search" taborder="3" text="조회" top="7" width="60" height="24" cssclass="btn_WF_SchText" right="8" onclick="div_Search_btn_Search_onclick" TL_SEQ="118"/>
+              <Static id="stc_Client_Code00" taborder="5" text="계약처" left="471" top="8" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="34"/>
+              <Edit id="edt_ContractMainName" taborder="2" left="539" top="8" height="22" width="196" onkeydown="Edit_onkeydown"/>
+              <Static id="stc_Client_Code01" taborder="6" text="계약서번호" left="211" top="7" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="743"/>
+              <Edit id="edt_ContractDocNo" taborder="1" left="279" top="7" height="22" width="196" onkeydown="Edit_onkeydown"/>
+              <Static id="stc_Client_Code02" taborder="7" text="프로젝트" left="735" top="8" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="119"/>
+              <Edit id="edt_ProjectName" taborder="8" left="stc_Client_Code02:8" top="8" height="22" width="196" onkeydown="Edit_onkeydown"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_List" taborder="4" left="4" top="83" right="4" bottom="42" oncelldblclick="grd_List_oncelldblclick" binddataset="ds_List" autofittype="col" formatid="S">
+          <Formats>
+            <Format id="S">
+              <Columns>
+                <Column size="100"/>
+                <Column size="120"/>
+                <Column size="180"/>
+                <Column size="190"/>
+                <Column size="120"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="60"/>
+                <Column size="150"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="계약서번호" TL_SEQ="743"/>
+                <Cell col="1" text="고객사" TL_SEQ="32"/>
+                <Cell col="2" text="프로젝트명" TL_SEQ="114"/>
+                <Cell col="3" text="매입계약명" TL_SEQ="161"/>
+                <Cell col="4" text="업체명" TL_SEQ="231"/>
+                <Cell col="5" text="이름" TL_SEQ="765"/>
+                <Cell col="6" text="시작일" TL_SEQ="38"/>
+                <Cell col="7" text="종료일" TL_SEQ="39"/>
+                <Cell col="8" text="계약상태" TL_SEQ="121"/>
+                <Cell col="9" text="비고" TL_SEQ="45"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CONTRACT_DOC_NO" textAlign="left"/>
+                <Cell col="1" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:CONTRACT_PURCHASE_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:CONTRACT_MAIN_NAME" textAlign="left"/>
+                <Cell col="5" text="bind:EMP_NAME"/>
+                <Cell col="6" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="7" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="8" displaytype="combotext" text="bind:CONTRACT_STATUS" combodataset="ds_cmm_ContractStatus" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="9" text="bind:REMARKS" combodataset="ds_cmm_ContractStatus" combocodecol="CODE" combodatacol="CAPTION" tooltiptext="bind:REMARKS" textAlign="left"/>
+              </Band>
+            </Format>
+            <Format id="M">
+              <Columns>
+                <Column size="100"/>
+                <Column size="120"/>
+                <Column size="180"/>
+                <Column size="190"/>
+                <Column size="120"/>
+                <Column size="80"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="60"/>
+                <Column size="150"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="계약서번호" TL_SEQ="743"/>
+                <Cell col="1" text="고객사" TL_SEQ="32"/>
+                <Cell col="2" text="프로젝트명" TL_SEQ="114"/>
+                <Cell col="3" text="매입계약명" TL_SEQ="161"/>
+                <Cell col="4" text="업체명" TL_SEQ="231"/>
+                <Cell col="5" text="제품" TL_SEQ="62"/>
+                <Cell col="6" text="시작일" TL_SEQ="38"/>
+                <Cell col="7" text="종료일" TL_SEQ="39"/>
+                <Cell col="8" text="계약상태" TL_SEQ="121"/>
+                <Cell col="9" text="비고" TL_SEQ="45"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CONTRACT_DOC_NO" textAlign="left"/>
+                <Cell col="1" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:CONTRACT_PURCHASE_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:CONTRACT_MAIN_NAME" textAlign="left"/>
+                <Cell col="5" text="bind:EMP_NAME"/>
+                <Cell col="6" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="7" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="8" displaytype="combotext" text="bind:CONTRACT_STATUS" combodataset="ds_cmm_ContractStatus" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="9" text="bind:REMARKS" combodataset="ds_cmm_ContractStatus" combocodecol="CODE" combodatacol="CAPTION" tooltiptext="bind:REMARKS" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_Cancel" taborder="5" text="닫기" width="70" height="22" cssclass="btn_WF_cancel" right="8" bottom="8" onclick="btn_Close_onclick" TL_SEQ="59"/>
+        <Button id="btn_Confirm" taborder="6" text="선택" width="60" height="22" cssclass="btn_WF_tran" right="88" bottom="8" onclick="btn_Confirm_onclick" TL_SEQ="113"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 
+* 02. 화면명		: 
+* 03. 화면설명 	: 
+* 04. 작성일   	: 2018.12.19
+* 05. 작성자   	: 채종한
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_CONTRACT_TYPE = "";
+this.FV_PROJECT_CODE = "";
+this.FV_CONTRACT_NO_PURCHASE = "";
+this.FV_CONTRACT_MAIN_NAME = "";
+this.FV_EMP_NO = "";
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.CE_ContractPurchaseSearch_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.FV_PROJECT_CODE = this.parent.pv_project_cd;
+	this.FV_CONTRACT_TYPE = this.parent.pv_contract_type;
+	this.FV_CONTRACT_NO_PURCHASE = this.parent.pv_ContractNoPurchase;
+	this.FV_CONTRACT_MAIN_NAME = this.parent.pv_ContractMainName;	
+	this.FV_EMP_NO = this.parent.pv_emp_no;	
+	this.div_Search.form.edt_ContractMainName.set_value(this.FV_CONTRACT_MAIN_NAME);
+	
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+};
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 공통 코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_ContractType",	"CONTRACT_TYPE", true);	// 계약구분
+	this.gfnAddCodeDataset("ds_cmm_ContractStatus",	"CONTRACT_STATUS");		// 계약상태
+	this.gfnAddCodeDataset("ds_cmm_PurchaseType",	"PURCHASE_TYPE"); 		// 매입구분
+	this.gfnCodeTransaction();
+}
+
+
+// 조회
+this.fnSearch = function()
+{	
+	this.fnSetGridDisp();	// 계약구분에 대한 Grid 포맷 변경 처리
+	
+	this.gfnAddSendParameter("PROJECT_CODE",		this.FV_PROJECT_CODE);
+	this.gfnAddSendParameter("CONTRACT_NO_PURCHASE",this.FV_CONTRACT_NO_PURCHASE);
+	this.gfnAddSendParameter("CONTRACT_TYPE",		this.div_Search.form.cmb_ContractType.value);
+	this.gfnAddSendParameter("CONTRACT_DOC_NO",		this.div_Search.form.edt_ContractDocNo.value);
+	this.gfnAddSendParameter("CONTRACT_MAIN_NAME",	this.div_Search.form.edt_ContractMainName.value);
+	this.gfnAddSendParameter("PROJECT_NAME",		this.div_Search.form.edt_ProjectName.value);
+		
+	this.gfnAddOutputDataset("ds_List", "dsOutput");	
+	this.gfnCommonTransaction("Select", "CE_ContractPurchaseSearch_S01");
+}
+
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) {
+		return;
+	} else {
+		if(strSvcID=="gfnGetCode") {
+			
+			if (this.gfnIsEmpty(this.FV_CONTRACT_TYPE)) {
+				this.div_Search.form.cmb_ContractType.set_index(0);
+			} else {
+				this.div_Search.form.cmb_ContractType.set_value(this.FV_CONTRACT_TYPE);
+				this.div_Search.form.cmb_ContractType.set_readonly(true);
+			}
+			this.fnSearch();
+			
+		} else if(strSvcID=="Select")	{
+			//
+		}
+	}
+}
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+// 
+this.fnSetGridDisp = function()
+{
+	var sContractType = this.div_Search.form.cmb_ContractType.value;	
+	this.grd_List.set_enableevent(false);
+	this.grd_List.set_formatid(sContractType);
+	this.grd_List.set_enableevent(true);
+}
+
+// 선택된 Row의 데이터를 Return처리
+this.fnReturnOne = function(objDs, nRow)
+{
+	if(objDs.getColumn(objDs.rowposition, "EMP_NO")!=this.FV_EMP_NO && !this.gfnIsEmpty(this.FV_EMP_NO))
+	{
+		alert(this.gfnGetTransTxt(1206, "다른 직원의 매입계약은 선택할수 없습니다."));
+		return;
+	}
+	
+	var dsReturn = new nexacro.Dataset();
+	dsReturn.assign(objDs);
+	dsReturn.clearData();
+	
+	var newrow = dsReturn.addRow();
+	dsReturn.copyRow(newrow, objDs, nRow);
+	this.commUtil.popupClose(dsReturn);
+}
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+// 조회 버튼
+this.div_Search_btn_Search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSearch();
+};
+
+
+// 닫기 버튼
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+};
+
+// 선택 버튼
+this.btn_Confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sDatasetId = obj.binddataset;
+	var objDs = this.objects[sDatasetId];
+	this.fnReturnOne(objDs, objDs.rowposition);
+};
+
+// Grid 더블클릭
+this.grd_List_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var sDatasetId = obj.binddataset;
+	var objDs = this.objects[sDatasetId];
+	this.fnReturnOne(objDs, e.row);
+};
+
+this.Edit_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode==13)
+		this.fnSearch();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_cmm_ContractType">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ContractStatus">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_PurchaseType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_List">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_PURCHASE_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="PURCHASE_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NAME" type="string" size="255"/>
+          <Column id="START_DATE" type="string" size="8"/>
+          <Column id="END_DATE" type="string" size="8"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

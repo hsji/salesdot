@@ -1,0 +1,85 @@
+@import url(./font-style.css);
+
+
+
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.toolbar {
+    width: 100%;
+    height: 60px;
+    background-color: #4E3814;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index:100;
+    color: #fff ;
+    font-size:16px;
+    font-weight:bold;
+    letter-spacing: 0;
+}
+
+.Reader-Toolbar-Group .Toolbar-Field.Page-Number {
+    background-color: #e0a038;
+    border-color: #ffbd4a;
+}
+
+
+.Reader-Button {
+    background-color: rgba(111, 57, 21, 0.3) !important;
+    border: 0 !important;
+}
+.Reader-Toolbar-Group.Center {
+    margin: 5px auto 0 !important;
+}
+
+.Zoom-Out-Button, .Zoom-In-Button {
+    background-color: transparent !important;
+}
+
+.Reader-Toolbar-Group > ul > li .Toolbar-Label > a {
+    filter: brightness(0.1);
+}
+
+.Reader-Toolbar {
+    height: 56px !important;
+    background-color: #E0A038 !important;
+    border-radius:0 !important;
+}
+.Reader-Toolbar-Group.Center {
+    position: relative;
+    z-index: 81;
+}
+
+
+#PreviewReaderViewerContainer {
+    top: 56px !important;
+    left: 300px !important;
+    height: calc(100% - 56px - 81px) !important; /* 占쎄맒占쎈릭占쎈뼊 占쎈뙅獄쏉옙 px �뜮�눊由� */
+}
+.Preview-Compoment.Editor-Component {
+    top: 56px !important;
+    height: calc(100% - 56px - 81px) !important; /* 占쎄맒占쎈릭占쎈뼊 占쎈뙅獄쏉옙 px �뜮�눊由� */
+}
+
+
+.User-Component-List-Conatiner {
+    border: solid 2px #E9BD74 !important;
+    margin-bottom: 6px;
+}
+.User-Component-List>li:first-child>span{
+    background-image: url(../images/icon_people.png);
+    background-position: 0 3px !important;
+    background-repeat: no-repeat;
+    background-size: 14px;
+    padding-left: 20px;
+}
+
+.Reader-Bottom-Container {
+    z-index: 80 !important;
+}

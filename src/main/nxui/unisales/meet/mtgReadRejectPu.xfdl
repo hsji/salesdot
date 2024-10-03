@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="docViewPu" width="1000" height="730" titletext="New Form" onload="docViewPu_onload" onbeforeclose="docViewPu_onbeforeclose">
+    <Layouts>
+      <Layout height="730" horizontalgap="0" mobileorientation="landscape" spacing="0px" tabletemplate="1* / 1*" verticalgap="0" width="1000">
+        <Static id="staTitle01" taborder="0" left="10" width="738" height="43" top="0" cssclass="sta_WF_Title" text="회의록  의견"/>
+        <Div id="divImage" taborder="1" text="div00" left="10" top="45" background="#ffffff" height="540" width="980"/>
+        <TextArea id="txa00" taborder="2" left="9" height="90" right="10" top="divImage:40"/>
+        <Static id="staTitle00" taborder="3" text="반송의견" left="0" top="divImage:10" width="760" height="28" cssclass="sta_WF_SchLabel"/>
+        <Button id="btnClose" taborder="4" text="닫기" height="28" width="50" right="9" onclick="btnClose_onclick" top="10"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+* @function docViewPu_onload  <br>
+* description 문서보기
+*/
+this.fvPageCnt = 0;
+this.fvContext = null;
+this.fvPage = {
+	x : 0, y : 0, w : 0, h : 0
+};
+this.fvImage = null;
+this.fvIsExist = true;
+this.fvIsDrawingFlag = false;
+this.fvIsDrawing = false;
+this.fvX = 0;
+this.fvY = 0;
+
+this.docViewPu_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+
+	this.dsCond.setColumn(0, "SYS_CODE", this.getOwnerFrame().pvSysCode);
+	this.dsCond.setColumn(0, "BIZ_CODE", this.getOwnerFrame().pvBizCode);
+	
+	this.dsCond.setColumn(0, "DOC_ID", this.getOwnerFrame().pvDocId);
+	this.dsCond.setColumn(0, "USER_ID", this.getOwnerFrame().pvUserId);
+	this.fnUserSearch();
+};
+
+/**
+* @function fnCompanySearch  <br>
+* description 사용자조회 
+*/
+this.fnUserSearch = function ()
+{
+	this.gfnSetMap("meet", "MyUserInfo");
+	
+	var strSvcId    = "searchUserInfo";
+	var strSvcUrl   = "searchCommonBaseService.do";
+	var inData      = "dsCond=dsCond dsMap=dsMap";
+	var outData     = "dsComment=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+
+//transaction callback
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchUserInfo" :
+			var page = this.getOwnerFrame().pvPage;
+			this.fnMakeCanvas(page);	
+			break;
+		default:break;
+	}
+};
+
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	switch(sPopupId) {
+		case "mtgSignRegPu":
+			if(sRtn) {
+				this.fnTranSave();
+			}
+			break;
+		default:break;
+	}
+};
+
+/**
+* @class Unique ID 생성. <br>
+* @param N/A
+* @return {String} v uid
+* @example this.createUID()       
+*/
+this.createUID = function ()
+{
+	return 'xxxx_xyx4x'.replace(/[xy]/g, function(c)
+	{
+		var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+		return v.toString(16);
+	});
+};
+
+this.fnLoadImage = function()
+{
+	this.fvPageCnt++;
+	var path = "?D=" + this.getOwnerFrame().pvDocId;
+	path += "&S=" + this.getOwnerFrame().pvSysCode;
+	path += "&B=" + this.getOwnerFrame().pvBizCode;
+	path += "&U=" + this.gfnGetUserInfo("USER_ID");
+	path += "&PAGE=" + this.fvPageCnt;
+	path += "&UID=" + this.createUID();
+	
+	var page = this.getOwnerFrame().pvPage;
+	
+	var objEnv	 = nexacro.getEnvironment();
+	var objSrv   = objEnv.services["svcUrl"];
+	var url = objSrv.url + "searchImageView.do" + path;
+	
+	var context = this.fvContext;	
+	var img = {};
+	var pThis = this;
+	var _imageload_callback = function (url, w, h, imgnode) {
+		var pageh = (page*pThis.fvPage.h);
+		img.width = w;
+		img.height = h;
+		img.imagewidth = w;
+		img.imageheight = h;
+		pThis.fvImage = img;
+
+		context.drawImage(img, 0, 0, w, h /*pThis.fvPage.w, pageh*/);
+		pThis.fvIsExist = false;
+	};
+	img.src = url;
+	img.handle = nexacro._getImageObject(url, _imageload_callback, this, "", false);			
+};	
+
+// canvas 생성
+this.fnMakeCanvas = function (page)
+{
+	var mainDiv = this.divImage.form;
+	var x = this.divImage.form.getOffsetWidth();
+	var y = this.divImage.form.getOffsetHeight();
+	
+	var w = 595;
+	var h = (page * 840) + (page * 10);
+	var l = parseInt((x - w)/2);
+	
+	var control_elem = mainDiv.getElement();
+	var	sid = "canvas00";
+	var canvas;
+	canvas = new nexacro.CanvasComponent(sid, l, 0, w, h);
+	canvas.set_name(sid);
+	canvas.set_id(sid);
+	mainDiv.addChild(sid, canvas);
+	canvas.show();
+	canvas.bringToFront();
+	canvas.set_enableevent(true);
+	var context = canvas._canvas;
+	context.clearRect(0, 0, w, h);
+	
+	this.fvContext = context;
+	
+	this.fvPage.x = l;
+	this.fvPage.y = 0;
+	this.fvPage.w = w;
+	this.fvPage.h = 840;
+	
+	mainDiv.resetScroll();
+
+	this.fnLoadImage();
+};
+
+
+this.docViewPu_onbeforeclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
+{
+	var mainDiv = this.divImage.form;
+	var comp = mainDiv.removeChild("canvas00");
+	if(comp) comp.destroy();
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsDocInfo">
+        <ColumnInfo>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="DOC_TITLE" type="string" size="32"/>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="SEND_SEQ" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsComment">
+        <ColumnInfo>
+          <Column id="READ_COMMENT" type="STRING" size="256"/>
+          <Column id="READ_STATUS" type="STRING" size="256"/>
+          <Column id="FILE" type="STRING" size="256"/>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="SYS_CODE" type="STRING" size="256"/>
+          <Column id="BIZ_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCompany"/>
+      <Dataset id="dsUser">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="WORK_NAME" type="STRING" size="256"/>
+          <Column id="COMP_NAME" type="STRING" size="256"/>
+          <Column id="TYPE_NAME" type="STRING" size="256"/>
+          <Column id="FORMER_YN" type="STRING" size="256"/>
+          <Column id="FORMER_ORDER" type="INT" size="256"/>
+          <Column id="SEND_SEQ" type="int" size="2"/>
+          <Column id="USER_MAILADDR" type="STRING" size="256"/>
+          <Column id="USER_PHONE" type="STRING" size="256"/>
+          <Column id="FORMER_ID" type="STRING" size="256"/>
+          <Column id="FORMER_NAME" type="STRING" size="256"/>
+          <Column id="APRV_SEQ" type="INT" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="USER_ID">jihs</Col>
+            <Col id="USER_NAME">지해식</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsSignUser">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="SIGN_SEQ" type="INT" size="256"/>
+          <Column id="SSRESULT_CD" type="STRING" size="256"/>
+          <Column id="SS_COMMENT" type="STRING" size="256"/>
+          <Column id="WORK_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReadUser">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="DEPT_GB" type="STRING" size="256"/>
+          <Column id="WORK_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="USED_FLAG" type="string" size="32"/>
+          <Column id="MTG_END_TM" type="string" size="32"/>
+          <Column id="MTG_DATE" type="string" size="32"/>
+          <Column id="MTG_RESULT_TYPE" type="string" size="32"/>
+          <Column id="MTG_RESULT_CN" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="CLSDR_MTG_AT" type="string" size="32"/>
+          <Column id="ETC_MATTER" type="string" size="32"/>
+          <Column id="HOST_NAME" type="string" size="32"/>
+          <Column id="HOST_ID" type="string" size="32"/>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="DOC_TITLE" type="string" size="32"/>
+          <Column id="INPT_DTTM" type="string" size="32"/>
+          <Column id="EXPIRE_DATE" type="string" size="32"/>
+          <Column id="EDIT_INFO" type="string" size="32"/>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="PDF_FILE_NM" type="string" size="32"/>
+          <Column id="MTG_CNT" type="int" size="4"/>
+          <Column id="WORK_NAME" type="string" size="32"/>
+          <Column id="MTG_MTR_CN" type="string" size="32"/>
+          <Column id="MTG_BEGIN_TM" type="string" size="32"/>
+          <Column id="MTG_PLACE_CD" type="string" size="32"/>
+          <Column id="MTG_SEQ" type="int" size="4"/>
+          <Column id="READNG_AT" type="string" size="32"/>
+          <Column id="HOST_TYPE" type="string" size="32"/>
+          <Column id="USER_NAME" type="string" size="32"/>
+          <Column id="HOST_WORK_NAME" type="string" size="32"/>
+          <Column id="CHGE_ID" type="string" size="32"/>
+          <Column id="MTG_AT" type="string" size="32"/>
+          <Column id="CHGE_DTTM" type="datetime" size="17"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="PDF_ORIG_FILE_NM" type="string" size="32"/>
+          <Column id="PDF_FILE_PATH_NM" type="string" size="32"/>
+          <Column id="READNG_DATE" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="DOC_TITLE" type="STRING" size="256"/>
+          <Column id="IN_FDATE" type="STRING" size="256"/>
+          <Column id="IN_TDATE" type="STRING" size="256"/>
+          <Column id="DOC_LIST" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+          <Column id="SEND_TYPE" type="STRING" size="256"/>
+          <Column id="LIMIT" type="INT" size="256"/>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="READ_STATUS" type="STRING" size="256"/>
+          <Column id="SYS_CODE" type="STRING" size="256"/>
+          <Column id="BIZ_CODE" type="STRING" size="256"/>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsSave">
+        <ColumnInfo>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="HTML" type="string" size="32"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMySign"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item1" compid="txa00" propid="value" datasetid="dsComment" columnid="READ_COMMENT"/>
+    </Bind>
+  </Form>
+</FDL>

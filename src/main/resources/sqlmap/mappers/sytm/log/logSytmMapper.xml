@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="logSytmMapper">
+
+<select id="selectSytmLoginLog" parameterType="java.util.Map" resultType="java.util.Map">
+/*  selectSytmLoginLog  */ 
+	WITH recursive TREE_MAIN AS ( 	
+			SELECT   
+				DEPT_CD
+		    FROM T_SYTM_DEPT 
+		    WHERE DEPT_CD = COALESCE(#{DEPT_CD},'1000000')
+			UNION ALL
+			SELECT 
+				a.DEPT_CD
+		    FROM T_SYTM_DEPT a
+				, TREE_MAIN  b
+		    WHERE  b.DEPT_CD = a.HIPO_DEPT_CD  
+		)		
+	SELECT  
+	    LG.SYTM_FLAG_CD
+	    , DATE_FORMAT(LG.ALOG_DTTM, '%Y-%m-%d %H:%i:%s') AS ALOG_DTTM
+	    , LG.USER_ID
+	    , US.KORN_NM AS USER_NM
+	    , US.EMP_NO 
+	    , US.DEPT_CD 
+	    , DP.DEPT_KORN_NM AS DEPT_NM
+	    , US.WKGD_CD <!-- 직급코드(SM05) -->
+	    , LG.LOIN_FLAG_CD
+	    , LG.BROWSER_CD
+	    , LG.BROWSER_VERSION
+	    , LG.OS_CD
+	    , LG.OS_VERSION
+	    , LG.SCREEN_HEIGHT
+	    , LG.SCREEN_WIDTH
+	    , CONCAT(LG.SCREEN_WIDTH , '*' , LG.SCREEN_HEIGHT) AS SCREEN_SIZE
+	    , LG.MOB_YN
+	    , LG.INPT_IP
+	FROM T_SYTM_LOGIN_LOG LG
+		INNER JOIN T_SYTM_USER US
+			ON LG.USER_ID = US.USER_ID 
+		LEFT OUTER JOIN T_SYTM_DEPT DP
+			ON US.DEPT_CD = DP.DEPT_CD
+	WHERE 
+		1=1
+	    AND LG.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+	<if test="FROM_DT != null and FROM_DT != ''">    
+	    AND DATE_FORMAT(LG.ALOG_DTTM, '%Y%m%d') &gt;= #{FROM_DT}
+	</if>
+	<if test="TO_DT != null and TO_DT != ''">    
+	    AND DATE_FORMAT(LG.ALOG_DTTM, '%Y%m%d') &lt;= #{TO_DT}
+	</if>
+	<if test="DEPT_CD != null and DEPT_CD != ''">   
+	    AND US.DEPT_CD IN (SELECT DEPT_CD
+	                         FROM TREE_MAIN   )    
+	</if>
+	<if test="USER_ID != null and USER_ID != ''">
+	    AND US.USER_ID = #{USER_ID}
+	</if>
+	<if test="LOIN_FLAG_CD != null and LOIN_FLAG_CD != ''">
+	    AND LG.LOIN_FLAG_CD LIKE #{LOIN_FLAG_CD}
+	</if>
+	ORDER BY LG.ALOG_DTTM DESC
+</select>
+
+<select id="selectPrgmOpenLog" parameterType="java.util.Map" resultType="java.util.Map">
+/* selectPrgmOpenLog */
+	WITH recursive TREE_MAIN AS (
+		SELECT 	
+			DEPT_CD
+	    FROM T_SYTM_DEPT 
+	    WHERE DEPT_CD = COALESCE(#{DEPT_CD},'1000000')
+		UNION ALL
+		SELECT 
+			a.DEPT_CD
+	    FROM T_SYTM_DEPT a
+			, TREE_MAIN  b
+	    WHERE  b.DEPT_CD = a.HIPO_DEPT_CD  
+	)
+	 
+	SELECT
+	    PL.SYTM_FLAG_CD
+	    , DATE_FORMAT(PL.ALOG_DTTM, '%Y-%m-%d %H:%i:%s') AS ALOG_DTTM
+	    , PL.USER_ID
+	    , US.KORN_NM AS USER_NM
+	    , US.EMP_NO
+	    , PL.PRGM_ID
+	    , PR.PRGM_NM
+	    , PL.MENU_ID
+	    , MN.MENU_NM
+	    , MN.MODULE_CD
+	    , US.DEPT_CD
+	    , DP.DEPT_KORN_NM AS DEPT_NM
+	    , US.WKGD_CD      <!-- 직급코드(SM05) -->
+		, PL.INPT_IP      <!-- Client IP   -->		    
+	FROM T_SYTM_PRGM_LOG PL 
+		 INNER JOIN  T_SYTM_USER US 
+			ON  PL.USER_ID = US.USER_ID 
+		INNER JOIN  T_SYTM_MENU MN 
+			ON  PL.MENU_ID = MN.MENU_ID 
+		INNER JOIN T_SYTM_PRGM PR 
+			ON  PL.PRGM_ID = PR.PRGM_ID 
+		LEFT OUTER JOIN T_SYTM_DEPT DP 
+			ON DP.DEPT_CD = US.DEPT_CD 
+	WHERE 1=1
+	    
+	    AND PL.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+	<if test="FROM_DT != null and FROM_DT != ''">    
+	    AND DATE_FORMAT(PL.ALOG_DTTM, '%Y%m%d') &gt;= #{FROM_DT}
+	</if>
+	<if test="TO_DT != null and TO_DT != ''">    
+	    AND DATE_FORMAT(PL.ALOG_DTTM, '%Y%m%d') &lt;= #{TO_DT}
+	</if>
+	<if test="DEPT_CD != null and DEPT_CD != ''">
+	    AND US.DEPT_CD IN (SELECT DEPT_CD
+	                         FROM TREE_MAIN )  
+	</if>
+	<if test="USER_ID != null and USER_ID != ''">
+	    AND US.USER_ID LIKE #{USER_ID}
+	</if>
+	ORDER BY PL.ALOG_DTTM DESC
+</select>
+
+
+<insert id="insertMenuLog" parameterType="java.util.Map">
+	INSERT INTO T_SYTM_PRGM_LOG
+	(
+	   SYTM_FLAG_CD
+	   , ALOG_DTTM
+	   , USER_ID
+	   , PRGM_ID 
+	   , MENU_ID 
+	   , INPT_ID
+	   , INPT_DTTM 
+	   , INPT_IP
+	   , CHGE_ID 
+	   , CHGE_DTTM 
+	   , CHGE_IP
+	)VALUES(
+	   #{SYTM_FLAG_CD}
+	   , NOW() 
+	   , #{USER_ID} 
+	   , #{PRGM_ID} 
+	   , #{MENU_ID} 
+	   , #{USER_ID_SRV}
+	   , NOW()
+	   , #{USER_CON_IPADDR_SRV}
+	   , #{USER_ID_SRV}
+	   , NOW()
+	   , #{USER_CON_IPADDR_SRV}
+	)
+</insert>
+
+<insert id="insertLoginLog" parameterType="java.util.Map">
+	INSERT INTO T_SYTM_LOGIN_LOG
+	(
+		COMPANY_CD
+		, SYTM_FLAG_CD
+		, ALOG_DTTM
+		, USER_ID
+		, LOIN_FLAG_CD
+		, BROWSER_CD
+		, BROWSER_VERSION
+		, OS_CD
+		, OS_VERSION
+		, SCREEN_HEIGHT
+		, SCREEN_WIDTH
+		, MOB_YN
+		, INPT_ID
+		, INPT_DTTM
+		, INPT_IP
+		, CHGE_ID 
+		, CHGE_DTTM
+		, CHGE_IP
+	)VALUES(
+		#{COMPANY_CD}
+	    , #{SYTM_FLAG_CD}
+	    , NOW()
+	    , #{USER_ID}
+	    , #{LOIN_FLAG_CD}
+	    , #{BROWSER_CD}
+		, #{BROWSER_VERSION}
+		, #{OS_CD}
+		, #{OS_VERSION}
+		, #{SCREEN_HEIGHT}
+		, #{SCREEN_WIDTH}
+		, #{MOB_YN}
+		, #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	    , #{USER_ID_SRV}
+	    , NOW()
+	    , #{USER_CON_IPADDR_SRV}
+	)
+</insert>
+
+<select id="selectUserLog" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+		AA.* 
+	FROM 
+		(SELECT
+			'LOGIN' AS LOG_TYPE
+			, ALOG_DTTM 
+			, '' AS MENU_ID
+			, '' AS MENU_NM
+			, '' AS PRGM_ID
+			, '' AS PRGM_NM
+		FROM T_SYTM_LOGIN_LOG
+		WHERE USER_ID = #{USER_ID}
+			AND LOIN_FLAG_CD = '0010'
+		UNION ALL 
+		SELECT
+			'LOGOUT' AS LOG_TYPE
+			, CL.ALOG_DTTM 
+			, '' AS MENU_ID
+			, '' AS MENU_NM
+			, '' AS PRGM_ID
+			, '' AS PRGM_NM
+		FROM T_SYTM_LOGIN_LOG CL
+		WHERE CL.USER_ID = #{USER_ID}
+			AND CL.LOIN_FLAG_CD = '0020'
+		UNION ALL 
+		SELECT
+			'MENU' AS LOG_TYPE
+			, CPL.ALOG_DTTM 
+			, CPL.MENU_ID
+			, MN.MENU_NM 
+			, CPL.PRGM_ID
+			, PR.PRGM_NM
+		FROM T_SYTM_PRGM_LOG CPL
+			,T_SYTM_MENU MN
+			,T_SYTM_PRGM PR
+		WHERE   MN.MENU_ID = CPL.MENU_ID
+			AND PR.PRGM_ID = CPL.PRGM_ID
+			AND CPL.USER_ID = #{USER_ID} 
+		)AA
+	WHERE 1=1  
+		AND DATE_FORMAT(ALOG_DTTM, '%Y%m%d')
+				BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -7 DAY), '%Y%m%d') 
+				AND DATE_FORMAT(NOW(), '%Y%m%d')
+	ORDER BY AA.ALOG_DTTM DESC
+ </select>
+
+<select id="selectMainLogOs" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+	    CONCAT(' ', OS_CD) AS OS_CD
+	    , COUNT(*) AS OS_CNT
+	    , '0' AS OS_SELECT
+	FROM T_SYTM_LOGIN_LOG
+	WHERE 1=1
+		AND DATE_FORMAT(ALOG_DTTM, '%Y%m%d')
+			BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -1 MONTH) , '%Y%m%d') 
+			AND DATE_FORMAT(NOW(), '%Y%m%d')
+		AND SYTM_FLAG_CD = 'PC'
+		AND OS_CD IS NOT NULL
+	GROUP BY OS_CD 
+	ORDER BY OS_CD
+</select>
+
+<select id="selectMainLogBrowser" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+		CONCAT(' ', BROWSER_CD) AS BROWSER_CD
+	    , COUNT(*) AS BROWSER_CNT
+	    , '0' AS BROWSER_SELECT
+	FROM T_SYTM_LOGIN_LOG
+	WHERE 1=1
+		AND DATE_FORMAT(ALOG_DTTM, '%Y%m%d')
+			BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -1 MONTH) , '%Y%m%d') 
+			AND DATE_FORMAT(NOW(), '%Y%m%d')
+		AND SYTM_FLAG_CD = 'PC'
+		AND BROWSER_CD IS NOT NULL
+	GROUP BY BROWSER_CD 
+	ORDER BY BROWSER_CD
+</select>
+
+<select id="selectMainLogScreen" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+	    a.SCREEN 
+	    , a.N_WIDTH
+	    , a.N_HEIGHT
+	    , COUNT(*) AS SCREEN_CNT
+	    , '0' AS SCREEN_SELECT
+	FROM (
+	    SELECT 
+	        SCREEN_WIDTH AS N_WIDTH
+	        , SCREEN_HEIGHT AS N_HEIGHT
+	        , CONCAT(' ', SCREEN_WIDTH , '*' , SCREEN_HEIGHT) AS SCREEN
+	    FROM T_SYTM_LOGIN_LOG
+	    WHERE 1=1
+	        
+	        AND DATE_FORMAT(ALOG_DTTM, '%Y%m%d')
+				BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -1 MONTH) , '%Y%m%d') 
+				AND DATE_FORMAT(NOW(), '%Y%m%d')
+	        AND SYTM_FLAG_CD = 'PC'
+	        AND SCREEN_WIDTH >= 1024
+	   -- ORDER BY N_WIDTH
+	) a
+	GROUP BY a.SCREEN , a.N_WIDTH, a.N_HEIGHT
+	ORDER BY a.N_WIDTH
+</select>
+</mapper>

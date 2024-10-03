@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AA_WriterDeptPopup" width="640" height="270" titletext="신규회차 불러오기" scrolltype="none" cssclass="frm_popBg" onload="AA_WriterDeptPopup_onload">
+    <Layouts>
+      <Layout>
+        <Button id="btn_Confirm" taborder="0" text="선택" cssclass="btn_WF_tran" height="22" width="60" bottom="-310" right="815" defaultbutton="true" onclick="div_InConfirm_btn_Confirm_onclick"/>
+        <Static id="st_Title" taborder="1" text="TP작성부서등록" left="8" top="0" width="356" height="35" cssclass="sta_POP_Title"/>
+        <Button id="btn_Close" taborder="2" top="10" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="btn_Close_onclick" escapebutton="true"/>
+        <Grid id="grd_WriterDeptList" taborder="6" left="4" top="38" width="632" height="194" binddataset="ds_WriterDeptList" autofittype="col" onexpandup="grd_WriterDeptList_onexpandup">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="110"/>
+                <Column size="200"/>
+                <Column size="110"/>
+                <Column size="200"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="이전TP부서코드"/>
+                <Cell col="1" text="이전TP부서명"/>
+                <Cell col="2" text="신규TP부서코드"/>
+                <Cell col="3" text="신규TP부서명"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ORG_WRITER_DEPT"/>
+                <Cell col="1" text="bind:ORG_WRITER_DEPT_NM"/>
+                <Cell col="2" text="bind:NEW_WRITER_DEPT" expandimage="url('theme://images/btn_WF_Sch.png')" expandshow="show"/>
+                <Cell col="3" text="bind:NEW_WRITER_DEPT_NM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static01" taborder="3" left="1" top="grd_WriterDeptList:4" cssclass="sta_POP_BtnBg" right="1" bottom="0"/>
+        <Button id="btn_Save" taborder="4" text="적용" left="491" top="242" height="22" cssclass="btn_WF_tran" width="60" onclick="btn_Save_onclick"/>
+        <Button id="btn_Cancel" taborder="5" text="닫기" cssclass="btn_WF_cancel" onclick="btn_Close_onclick" top="242" height="22" left="562" width="60"/>
+      </Layout>
+    </Layouts>
+    <InitValue/>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : Admin
+ * 02. 화면명   : 신규회차등록 팝업(Popup) 
+ * 03. 화면설명 : 내부회계관리제도 신규회차등록 팝업
+ * 04. 작성일   : 2021.06.04
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ************************************************************************************************/ 
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+ var sSmSeq = 0;
+ this.evtPosition = "";
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.AA_WriterDeptPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnInit();
+};
+
+
+/************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+this.fnInit = function()
+{
+	this.evtPosition = this.parent.STR_EVT_POSITION; // 이벤트 발생한 곳 
+
+	if(this.evtPosition != "SerialityPopup")
+	{
+		this.grd_WriterDeptList.setCellProperty("head", 0, "text", "TP부서코드");
+		this.grd_WriterDeptList.setCellProperty("head", 1, "text", "TP부서명");
+		this.grd_WriterDeptList.setCellProperty("head", 2, "text", "변경할 TP부서코드");
+		this.grd_WriterDeptList.setCellProperty("head", 3, "text", "변경할 TP부서명");
+	}
+	// TP작성부서 조회
+	this.fnGetWriterDeptList();
+}
+
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.evtPosition == "SerialityPopup")
+	{
+		alert("TP부서가 작년도 부서로 되어 있습니다. \n 추후 등록시 TP부서일괄등록을 이용해주세요.");
+	}
+	this.commUtil.popupClose(this.dsRtn);
+};
+
+
+// 부서 찾기 버튼 클릭
+this.grd_WriterDeptList_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	this.commUtil.popupOrganization(this, "popDept", "fnPopupCallBack", "DEPT", null, "1");
+};
+
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSave();
+};
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+// TP부서 조회
+this.fnGetWriterDeptList = function()
+{
+	// 회차 일련번호
+	sSmSeq = this.parent.STR_SM_SEQ;
+	
+	//Parameter 셋팅
+	this.gfnAddSendParameter("SM_SEQ", sSmSeq);
+	
+	// 조회용 Output dataset 세팅 
+	this.gfnAddOutputDataset("ds_WriterDeptList", "dsWriterDeptList");
+	this.gfnCommonTransaction("GetWriterDeptList", "AA_WriterDept_S01");
+}
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else
+	{
+		if(strSvcID == "GetWriterDeptList")
+		{
+			
+		}
+		else if(strSvcID == "WriterDeptListInsert")
+		{
+			alert("TP작성부서 처리가 정상적으로 되었습니다.");
+			if(this.evtPosition != "SerialityPopup") 
+			{
+				this.commUtil.popupClose(this.dsRtn);
+			}
+			else
+			{
+				this.commUtil.popupClose(this.dsRtn);
+			}
+		}
+	}
+}
+
+//팝업 콜백 함수
+this.fnPopupCallBack = function(popupId, popupArg)
+{
+	popupArg = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(popupArg))
+	{
+		return;
+	}
+	else
+	{
+		switch(popupId)
+		{
+			case "popDept" :
+				var ds = new nexacro.Dataset();
+				ds.loadXML(popupArg);
+				var nCurrow = this.ds_WriterDeptList.rowposition;
+				
+				for(var i = 0; i < ds.rowcount; i++)
+				{
+					this.ds_WriterDeptList.setColumn(nCurrow, "NEW_WRITER_DEPT", ds.getColumn(i, "DEPT_CD"));
+					this.ds_WriterDeptList.setColumn(nCurrow, "NEW_WRITER_DEPT_NM", ds.getColumn(i, "DEPT_NM"));
+				}
+				break;
+		}
+	}
+}
+
+// 적용
+this.fnSave = function()
+{
+	if (!this.fn_Validation()) return;
+	
+	if (!confirm( "TP작성부서 처리를 적용하시겠습니까?"))	return;
+	
+	// 입력용 Input Dataset 세팅 
+	this.gfnAddInputDataset("ds_WriterDeptList",	"dsInput");
+	// 입력용 Input Dataset 세팅 
+	this.gfnAddOutputDataset("dsRtn",	"dsRtn");
+	
+	// 공통 Transaction
+	this.gfnCommonTransaction("WriterDeptListInsert", "AA_WriterDept_R01");
+}
+
+this.fn_Validation = function()
+{
+	for(var i = 0; i < this.ds_WriterDeptList.rowcount; i++)
+	{
+		if(this.gfnIsEmpty(this.ds_WriterDeptList.getColumn(i, "NEW_WRITER_DEPT"))) { alert("TP작성부서는 필수 입력 항목입니다."); return false;}
+	}
+	
+	return true;
+}]]></Script>
+    <Objects>
+      <Dataset id="ds_WriterDeptList">
+        <ColumnInfo>
+          <Column id="SM_SEQ" type="INT" size="256"/>
+          <Column id="ORG_WRITER_DEPT" type="STRING" size="256"/>
+          <Column id="ORG_WRITER_DEPT_NM" type="STRING" size="256"/>
+          <Column id="NEW_WRITER_DEPT" type="STRING" size="256"/>
+          <Column id="NEW_WRITER_DEPT_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsRtn">
+        <ColumnInfo>
+          <Column id="ROWINDEX" type="INT" size="256"/>
+          <Column id="STATUS" type="STRING" size="256"/>
+          <Column id="RESULT" type="INT" size="256"/>
+          <Column id="ERROR" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

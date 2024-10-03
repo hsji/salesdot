@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.unisales.login.mapper.loginMapper">
+
+<!-- Login 처리 frameLogin -->    
+<!--  MAP 로그인 처리 사용자가 유호한 사용자인지 확인 및 SHA256 단방향 암호화 적용 2022-12-15 -->
+<select id="Login" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT   
+		AA.COMPANY_CD 
+		, CL.COMPANY_NAME
+		, AA.USER_ID
+		, AA.EMP_NO 
+		,  COALESCE(AA.KORN_NM, ' ')	AS USER_NAME       
+		,  COALESCE(AA.ENGL_NM, ' ') 	AS ENGL_NM         
+		, AA.DEPT_CD  					AS DEPT_CD
+		, DP.DEPT_KORN_NM 				AS DEPT_NM 
+		, DP.DEPT_KORN_NM 				AS DEPT_KORN_NM
+		,  DP.DEPT_ENGL_NM				AS DEPT_ENGL_NM				
+		,  COALESCE(AA.USER_FLAG_CD, ' ') AS USER_FLAG_CD   
+		,  COALESCE(AA.HOOF_STAT_CD, ' ') AS HOOF_STAT_CD   
+		,  COALESCE(AA.WKGD_CD, ' ') 	AS WKGD_CD            
+		,  COALESCE(AA.WKDT_CD, ' ') 	AS WKDT_CD                              
+		,  COALESCE(AA.OCCU_CD, ' ') 	AS OCCU_CD
+		,  COALESCE(AA.CHAG_WORK, ' ') 	AS CHAG_WORK
+		, '0' 							AS CHECK_LOGIN2_YN
+		, AA.THEME_ID 					AS THEME_ID
+		, AA.REGI_NUMB
+		, AA.CELL_NUMB
+		, AA.EMAIL  
+	FROM T_SYTM_USER AA 
+	INNER JOIN T_SYTM_DEPT DP ON AA.COMPANY_CD = DP.COMPANY_CD AND AA.DEPT_CD = DP.DEPT_CD
+	INNER JOIN SALES_COMPANY_LIST CL ON CL.COMPANY_CODE = AA.COMPANY_CD
+	WHERE AA.COMPANY_CD = #{COMPANY_CD}	
+		AND AA.USER_ID = #{USER_ID}	
+		AND AA.PASSWORD = #{USER_PASSWORD}  	
+		AND AA.HOOF_STAT_CD != 'RT' ; 
+</select>
+
+<select id="LoginSession" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT   
+		AA.COMPANY_CD 
+		, AA.USER_ID
+		, AA.EMP_NO 
+		,  COALESCE(AA.KORN_NM, ' ')	AS USER_NAME       
+		,  COALESCE(AA.ENGL_NM, ' ') 	AS ENGL_NM         
+		, AA.DEPT_CD  					AS DEPT_CD 
+		, DP.DEPT_KORN_NM 				AS DEPT_KORN_NM
+		,  DP.DEPT_ENGL_NM				AS DEPT_ENGL_NM				
+		,  COALESCE(AA.USER_FLAG_CD, ' ') AS USER_FLAG_CD   
+		,  COALESCE(AA.HOOF_STAT_CD, ' ') AS HOOF_STAT_CD   
+		,  COALESCE(AA.WKGD_CD, ' ') 	AS WKGD_CD            
+		,  COALESCE(AA.WKDT_CD, ' ') 	AS WKDT_CD                              
+		,  COALESCE(AA.OCCU_CD, ' ') 	AS OCCU_CD
+		,  COALESCE(AA.CHAG_WORK, ' ') 	AS CHAG_WORK
+		, '0' 							AS CHECK_LOGIN2_YN
+		, AA.THEME_ID 					AS THEME_ID 
+		, AA.REGI_NUMB
+		, AA.CELL_NUMB
+		, AA.EMAIL  		
+	FROM T_SYTM_USER AA 
+		, T_SYTM_DEPT DP
+	WHERE AA.COMPANY_CD = DP.COMPANY_CD
+		AND AA.DEPT_CD = DP.DEPT_CD		
+		AND AA.COMPANY_CD = #{COMPANY_CD}	
+		AND AA.USER_ID = #{USER_ID}	 	
+		AND AA.HOOF_STAT_CD != 'RT' ; 
+</select>
+
+<!-- AND CONVERT(nvarchar, DecryptByKey(AA.PASSWORD)) = #{USER_PASSWORD} -->
+<!--  MAP 시스템 사용 메시지 조회 -->
+<select id="searchMessage" resultType="java.util.Map">
+	SELECT   
+		MSGE_CD										/* 메시지 코드 */
+		, MSGE_FLAG_CD								/* 메시지 구분 코드 */ 
+		, KORN_MSGE									/* 메시지 한글 */
+		, COALESCE(ENGL_MSGE, KORN_MSGE) AS ENGL_MSGE    /* 메시지 영문 */
+	FROM  T_SYTM_MSG
+	WHERE USED_YN = '1' /* 사용중인 메시지만 조회 */
+	ORDER BY MSGE_CD
+</select>
+
+<!--  MAP 시스템에서 사용하는 공통코드 목록을 조회한다. -->
+<select id="searchComCode" parameterType="com.unisales.util.UserInfo" resultType="java.util.Map">
+	SELECT  
+		SSC_NUMB          										 /* 소분류번호 */
+		, SSC_CD          										 /* 소분류코드 */
+		, SSC_CD AS CODE   										 /* 소분류코드  NEXT */
+		, HCL_CD         										 /* 대분류코드 */
+		, SSC_CD_KORN_NM  										 /* 소분류코드 한글명 */
+		, SSC_CD_KORN_NM AS CAPTION								 /* 소분류코드 한글명 NEXT */
+		, COALESCE(SSC_CD_ENGL_NM, SSC_CD_KORN_NM) AS SSC_CD_ENGL_NM  /* 소분류코드 영문명 */ 
+		, ABBR_KORN_NM    										 /* 약어 한글명 */
+		, COALESCE(ABBR_ENGL_NM, ABBR_KORN_NM) AS ABBR_ENGL_NM        /* 약어 영문명 */ 
+		, GRP_CD_1        										 /* 그룹코드 1 */ 
+		, GRP_CD_2        										 /* 그룹코드 2 */ 
+		, GRP_CD_3        										 /* 그룹코드 3 */ 
+		, GRP_CD_4        										 /* 그룹코드 4 */ 
+		, GRP_CD_5        										 /* 그룹코드 5 */ 
+		, GRP_CD_6        										 /* 그룹코드 6 */ 
+		, GRP_CD_7        										 /* 그룹코드 7 */ 
+		, GRP_CD_8        										 /* 그룹코드 8 */ 
+		, GRP_CD_9        										 /* 그룹코드 9 */ 
+		, SORT_ORDR       										 /* 정렬 순서   */
+		, USED_YN         										 /* 사용여부    */
+		, REMK            										 /* 비고         */
+	FROM T_SYTM_CODE
+	WHERE USED_YN = '1'    										 /* 사용중인 코드만 조회 */
+	AND   COMPANY_CD = #{strCompanyCd}	
+	ORDER BY HCL_CD, SORT_ORDR 
+</select>
+
+<!--  MAP 사용자의 MyMenu 목록을 조회한다. -->
+<select id="searchMyMenu" parameterType="com.unisales.util.UserInfo" resultType="java.util.Map">
+	SELECT 
+	    MM.SYTM_FLAG_CD
+	    , MM.MENU_ID    
+	    , MM.USER_ID
+	    , MM.SORT_ORDR 
+	    , SM.MENU_NM
+	    , SM.MENU_ENGL_NM AS MENU_NM_EN
+	    , SM.MODULE_CD
+	    , SM.PRGM_ID
+	    , PR.PRGM_PATH   
+	    , PR.PRGM_PATH AS PRGM_FULL_PATH
+	FROM T_SYTM_MYMENU MM
+		INNER JOIN	T_SYTM_MENU SM
+			ON MM.MENU_ID = SM.MENU_ID  
+		INNER JOIN	T_SYTM_PRGM PR
+			ON SM.PRGM_ID = PR.PRGM_ID
+	WHERE  MM.USER_ID = #{strUserId}
+	    AND MM.SYTM_FLAG_CD = #{strUserConSysFlag}
+	    AND MM.COMPANY_CD = #{strCompanyCd}	
+	ORDER BY MM.SORT_ORDR                 
+</select>
+
+<!-- 권한에 따른 추가버튼 리스트 조회 -->
+<select id="searchAddBtn" parameterType="com.unisales.util.UserInfo" resultType="java.util.Map">
+	SELECT /* searchAddBtn */
+		K.COMPANY_CD, K.SYTM_FLAG_CD
+	     , K.MENU_ID
+	     , K.BTTN_ID
+	     , PB.SORT_CD
+	     , PB.SORT_ORDR
+	     , PB.BTTN_NM
+	     , PB.BTTN_ENGL_NM
+	     , PB.BTTN_STYLE
+	 FROM 
+	 	(
+	      SELECT A.COMPANY_CD, A.SYTM_FLAG_CD
+	           , A.MENU_ID
+	           , A.BTTN_ID
+	           , SUM(A.CNT) AS CNT
+	      FROM (
+	            /* 그룹별 권한  */
+	            SELECT D.COMPANY_CD
+	            	 , D.SYTM_FLAG_CD
+	                 , D.MENU_ID
+	                 , D.BTTN_ID
+	                 , COUNT(*) AS CNT
+	            FROM T_SYTM_PERM_GRP A
+	                 INNER JOIN T_SYTM_PERM_USER B 
+	                    ON A.SYTM_FLAG_CD = B.SYTM_FLAG_CD
+	                   AND A.PERM_ID = B.PERM_ID
+	                   AND B.USER_ID = #{strUserId}
+	                   AND B.COMPANY_CD = #{strCompanyCd}
+	                 INNER JOIN T_SYTM_PERM_MENU C
+	                    ON A.SYTM_FLAG_CD = C.SYTM_FLAG_CD
+	                   AND A.PERM_ID = C.PERM_ID
+	                   AND C.COMPANY_CD = #{strCompanyCd}
+	                 INNER JOIN T_SYTM_PERM_MENU_ADD_BTN D
+	                    ON A.SYTM_FLAG_CD = D.SYTM_FLAG_CD
+	                   AND A.PERM_ID = D.PERM_ID
+	                   AND C.MENU_ID = D.MENU_ID
+	                   AND D.USED_YN = '1'
+	                   AND D.COMPANY_CD = #{strCompanyCd}
+	             WHERE A.SYTM_FLAG_CD = #{strUserConSysFlag}
+	               AND A.USED_YN = '1'
+	               AND A.COMPANY_CD = #{strCompanyCd}
+	             GROUP BY D.SYTM_FLAG_CD, D.MENU_ID, D.BTTN_ID
+	            UNION ALL
+	            /* 사용자별 권한 */
+	            SELECT C.COMPANY_CD
+	            	 , C.SYTM_FLAG_CD
+	                 , C.MENU_ID
+	                 , C.BTTN_ID
+	                 , 1 AS CNT
+	            FROM T_SYTM_USER_MENU_ADD_BTN C
+	           WHERE C.SYTM_FLAG_CD = #{strUserConSysFlag}
+	             AND C.COMPANY_CD = #{strCompanyCd}
+	             AND C.USER_ID = #{strUserId}
+	             AND C.USED_YN = '1'
+	           ) A
+	           GROUP BY A.SYTM_FLAG_CD, A.MENU_ID , A.BTTN_ID
+	      ) K
+	      INNER JOIN  T_SYTM_MENU M
+	      	ON  K.SYTM_FLAG_CD = M.SYTM_FLAG_CD
+	      		AND K.COMPANY_CD = M.COMPANY_CD
+	      		AND K.MENU_ID = M.MENU_ID 
+	      INNER JOIN   T_SYTM_PRGM P
+	      	ON  M.PRGM_ID = P.PRGM_ID
+	      	AND M.COMPANY_CD = P.COMPANY_CD
+	      INNER JOIN   T_SYTM_PRGM_ADD_BTN PB
+	      	ON  P.PRGM_ID = PB.PRGM_ID
+	      		AND PB.BTTN_ID = K.BTTN_ID
+	      		AND PB.COMPANY_CD = K.COMPANY_CD
+	WHERE 1=1	    	    
+	  AND PB.USED_YN = '1'
+	ORDER BY K.MENU_ID, PB.SORT_ORDR
+</select>
+ 
+
+<select id="searchMenuInfo" parameterType="com.unisales.util.UserInfo" resultType="java.util.Map">
+/*searchMenuInfo*/
+ WITH t1 AS (
+ SELECT A.SYTM_FLAG_CD        AS SYTM_FLAG_CD   /* 시스템구분코드 */
+         , A.MENU_ID             AS MENU_ID        /* 메뉴ID */
+         , A.MENU_NM             AS MENU_NM        /* 메뉴명 */
+         , A.MODULE_CD 		  AS MODULE_CD		   /* 모듈*/
+         , A.MENU_LVL            AS MENU_LV        /* 메뉴레벨 */
+         , A.HIPO_MENU_ID        AS HIPO_MENU_ID   /* 상위메뉴ID */
+         , A.PRGM_ID             AS PRGM_ID        /* 프로그램ID */
+         , A.PRGM_PATH           AS PRGM_PATH      /* 프로그램경로 */  
+         ,IF(A.PRGM_HELP IS NOT NULL, 'true', '') AS PRGM_HELP_FLAG  /* 프로그램매뉴얼 유무 */
+         , ''                   AS PRGM_FILE_NM   /* 프로그램파일명 */
+         , A.PRGM_PATH           AS MENU_URL       /* 메뉴URL */       
+         , A.MENU_ENGL_NM        AS MENU_ENGL_NM   /* 메뉴영문명 */
+         , A.MENU_FLAG_CD        AS MENU_FLAG_CD   /* 메뉴구분코드 */
+         , A.MENU_ORDR           AS MENU_ORDR      /* 메뉴순서 */
+         , A.REMK                AS REMK           /* 비고 */
+         , A.PARM                AS PARM           /* 파라미터 */
+         , A.INQR_BTTN_USED_YN   AS CMMNBTNSEARCH  /* 조회버튼사용여부 */
+         , A.ANEW_BTTN_USED_YN   AS CMMNBTNADD     /* 신규버튼사용여부 */
+         , A.DELE_BTTN_USED_YN   AS CMMNBTNDEL     /* 삭제버튼사용여부 */
+         , A.SAVE_BTTN_USED_YN   AS CMMNBTNSAVE    /* 저장버튼사용여부 */
+         , A.PRNT_BTTN_USED_YN   AS CMMNBTNPRINT   /* 출력버튼사용여부 */
+         , A.EXCL_BTTN_USED_YN   AS CMMNBTNEXCELDOWN   /* 엑셀버튼사용여부 */
+         , A.INIT_BTTN_USED_YN   AS CMMNBTNINIT        /* 초기화버튼사용여부 */
+         , A.SEARCH_SCOPE_CD     AS SEARCH_SCOPE_CD   /* 조회권한 */
+   FROM (
+       SELECT A.SYTM_FLAG_CD
+                 , A.MENU_ID
+                 , A.HIPO_MENU_ID
+                 , A.MENU_NM
+                 , A.MENU_ENGL_NM
+                 , A.REMK
+                 , A.MENU_FLAG_CD
+                 , A.MENU_ORDR
+                 , A.MENU_LVL
+                 , A.PARM
+                 , B.INQR_BTTN_USED_YN
+                 , B.ANEW_BTTN_USED_YN
+                 , B.SAVE_BTTN_USED_YN
+                 , B.DELE_BTTN_USED_YN
+                 , B.PRNT_BTTN_USED_YN
+                 , B.EXCL_BTTN_USED_YN
+                 , B.INIT_BTTN_USED_YN
+                 , B.SEARCH_SCOPE_CD
+                 , A.PRGM_ID
+                 , P.PRGM_PATH
+                 , P.PRGM_HELP
+                 , A.MODULE_CD
+              FROM T_SYTM_MENU A
+                INNER JOIN (
+                            /* 전체 권한 */
+                            SELECT 
+                            	   A.MENU_ID
+                                 , MAX(A.INQR_BTTN_USED_YN)  AS INQR_BTTN_USED_YN
+                                 , MAX(A.ANEW_BTTN_USED_YN)  AS ANEW_BTTN_USED_YN
+                                 , MAX(A.SAVE_BTTN_USED_YN)  AS SAVE_BTTN_USED_YN
+                                 , MAX(A.DELE_BTTN_USED_YN)  AS DELE_BTTN_USED_YN
+                                 , MAX(A.PRNT_BTTN_USED_YN)  AS PRNT_BTTN_USED_YN
+                                 , MAX(A.EXCL_BTTN_USED_YN)  AS EXCL_BTTN_USED_YN
+                                 , MAX(A.INIT_BTTN_USED_YN)  AS INIT_BTTN_USED_YN
+                                 , MIN(A.SEARCH_SCOPE_CD)    AS SEARCH_SCOPE_CD
+                              FROM (
+                                    /* 그룹별 권한  */
+                                    SELECT 
+                                    	   C.MENU_ID   AS MENU_ID
+                                         , C.INQR_BTTN_USED_YN
+                                         , C.ANEW_BTTN_USED_YN
+                                         , C.SAVE_BTTN_USED_YN
+                                         , C.DELE_BTTN_USED_YN
+                                         , C.PRNT_BTTN_USED_YN
+                                         , C.EXCL_BTTN_USED_YN
+                                         , C.INIT_BTTN_USED_YN
+                                         , C.SEARCH_SCOPE_CD
+                                      FROM T_SYTM_PERM_GRP A
+                                        INNER JOIN T_SYTM_PERM_USER B 
+                                           ON A.SYTM_FLAG_CD = B.SYTM_FLAG_CD
+                                          AND A.PERM_ID = B.PERM_ID
+                                          AND B.USER_ID = #{strUserId}
+                                          AND B.COMPANY_CD = #{strCompanyCd}
+                                        INNER JOIN T_SYTM_PERM_MENU C
+                                           ON A.SYTM_FLAG_CD = C.SYTM_FLAG_CD
+                                          AND A.PERM_ID = C.PERM_ID
+                                          AND C.COMPANY_CD = #{strCompanyCd}
+                                     WHERE A.SYTM_FLAG_CD = #{strUserConSysFlag}
+                                       AND A.USED_YN = '1'
+                                       AND A.COMPANY_CD = #{strCompanyCd}
+                                    UNION ALL
+                                    /* 사용자별 권한 */
+                                    SELECT 
+                                    	   C.MENU_ID
+                                         , C.INQR_BTTN_USED_YN
+                                         , C.ANEW_BTTN_USED_YN
+                                         , C.SAVE_BTTN_USED_YN
+                                         , C.DELE_BTTN_USED_YN
+                                         , C.PRNT_BTTN_USED_YN
+                                         , C.EXCL_BTTN_USED_YN
+                                         , C.INIT_BTTN_USED_YN
+                                         , C.SEARCH_SCOPE_CD
+                                      FROM T_SYTM_USER_MENU C
+                                     WHERE C.SYTM_FLAG_CD = #{strUserConSysFlag}
+                                       AND C.USER_ID = #{strUserId}
+                                       AND C.COMPANY_CD = #{strCompanyCd}
+                                     ) A
+                            GROUP BY MENU_ID
+                  ) B
+                  ON A.MENU_ID = B.MENU_ID
+   LEFT OUTER JOIN (SELECT PRGM_ID, PRGM_PATH, PRGM_HELP FROM T_SYTM_PRGM WHERE USED_YN = '1' AND COMPANY_CD = #{strCompanyCd} ) P
+     ON A.PRGM_ID = P.PRGM_ID
+             WHERE A.USED_YN = '1'
+             ORDER BY A.MENU_LVL, A.MENU_ORDR
+       ) A 
+), CTE_MAIN AS
+(
+	WITH RECURSIVE t2 AS (
+		SELECT CAST(LPAD(a.MENU_ORDR,3,'0') AS CHAR(255)) as SortOrder
+				,a.SYTM_FLAG_CD
+				,a.MENU_ID
+				,a.MENU_NM
+				,a.MODULE_CD
+				,a.MENU_LV
+				,a.HIPO_MENU_ID
+				,a.PRGM_ID
+				,a.PRGM_PATH
+				,a.PRGM_FILE_NM
+				,a.MENU_URL
+				,a.MENU_ENGL_NM
+				,a.MENU_FLAG_CD
+				,a.MENU_ORDR
+				,a.REMK
+				,a.PARM
+				,a.CMMNBTNSEARCH
+				,a.CMMNBTNADD
+				,a.CMMNBTNDEL
+				,a.CMMNBTNSAVE
+				,a.CMMNBTNPRINT
+				,a.CMMNBTNEXCELDOWN
+				,a.CMMNBTNINIT
+				,a.SEARCH_SCOPE_CD
+				,CAST(a.MENU_ID AS CHAR(255)) AS MENU_PATH /* 메뉴 Path */
+				,CAST(a.MENU_NM AS CHAR(255)) AS DISPLAY_PATH /* 표시용 한글메뉴 Path */
+				,CAST(a.MENU_ENGL_NM AS CHAR(255)) AS ENGL_DISPLAY_PATH /* 표시용 영문메뉴 Path */
+				,a.PRGM_HELP_FLAG
+		FROM t1 AS a
+		WHERE a.HIPO_MENU_ID = '0000000000'
+	UNION ALL
+		SELECT CAST(CONCAT(c.SORTORDER, '|', LPAD(b.MENU_ORDR,3,'0')) AS CHAR(255)) as BOARD_ORDER
+				,b.SYTM_FLAG_CD
+				,b.MENU_ID
+				,b.MENU_NM
+				,b.MODULE_CD
+				,b.MENU_LV
+				,b.HIPO_MENU_ID
+				,b.PRGM_ID
+				,b.PRGM_PATH
+				,b.PRGM_FILE_NM
+				,b.MENU_URL
+				,b.MENU_ENGL_NM
+				,b.MENU_FLAG_CD
+				,b.MENU_ORDR
+				,b.REMK
+				,b.PARM
+				,b.CMMNBTNSEARCH
+				,b.CMMNBTNADD
+				,b.CMMNBTNDEL
+				,b.CMMNBTNSAVE
+				,b.CMMNBTNPRINT
+				,b.CMMNBTNEXCELDOWN
+				,b.CMMNBTNINIT
+				,b.SEARCH_SCOPE_CD
+				,CAST(CONCAT(c.MENU_PATH, ',',  b.MENU_ID) AS CHAR(255)) AS MENU_PATH
+				,REGEXP_REPLACE(CAST(CONCAT(c.DISPLAY_PATH , ' > ' , b.MENU_NM) AS CHAR(255)), '^ > ', '') AS DISPLAY_PATH
+				,REGEXP_REPLACE(CAST(CONCAT(c.ENGL_DISPLAY_PATH, ' > ',  b.MENU_ENGL_NM) AS CHAR(255)), '^ > ', '') as ENGL_DISPLAY_PATH
+				,b.PRGM_HELP_FLAG
+		FROM t1 AS b
+		INNER JOIN t2 c 
+			ON b.HIPO_MENU_ID = c.MENU_ID
+	)
+	SELECT * FROM t2
+	
+) 
+SELECT * FROM CTE_MAIN
+ORDER BY SortOrder
+</select>
+
+<!--  MAP 마이메뉴 조회 -->
+<select id="searchUserSetting" parameterType="com.unisales.util.UserInfo" resultType="java.util.Map">
+	SELECT 
+	    THEME_ID   
+	FROM T_SYTM_USER
+	WHERE USER_ID = #{strUserId}   
+</select>
+
+<!--  MAP 사용자 정보 수정 -->   
+<update id="updateUserSetting" parameterType="java.util.Map">
+call
+DECLARE
+	V_CNT NUMBER(3);
+	V_FILECNT NUMBER(3);
+BEGIN
+	UPDATE T_SYTM_USER 
+	SET 
+	    THEME_ID 		= #{THEME_ID}
+	WHERE USER_ID 		= #{USER_ID_SRV};
+END 
+</update>
+
+<!--  MAP 사용자 비밀번호 확인  -->
+<select id="searchCurPassword" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT *                          
+	FROM  T_SYTM_USER 
+	WHERE USER_ID = #{USER_ID}
+		AND  PASSWORD   =  CONVERT(#{CUR_PASSWORD}, CHAR) 	
+		AND  COMPANY_CD = #{COMPANY_CD}	
+</select>
+
+<!--  MAP 공통코드 조회 -->
+<select id="searchCodeData" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT  
+	SSC_NUMB          										 /* 소분류번호 */
+	, SSC_CD          										 /* 소분류코드 */
+	, HCL_CD         										 /* 대분류코드 */
+	, SSC_CD_KORN_NM  										 /* 소분류코드 한글명 */
+	, COALESCE(SSC_CD_ENGL_NM, SSC_CD_KORN_NM) AS SSC_CD_ENGL_NM  /* 소분류코드 영문명 */ 
+	, ABBR_KORN_NM    										 /* 약어 한글명 */
+	, COALESCE(ABBR_ENGL_NM, ABBR_KORN_NM) AS ABBR_ENGL_NM        /* 약어 영문명 */ 
+	, GRP_CD_1        										 /* 그룹코드 1 */ 
+	, GRP_CD_2        										 /* 그룹코드 2 */ 
+	, GRP_CD_3        										 /* 그룹코드 3 */ 
+	, GRP_CD_4        										 /* 그룹코드 4 */ 
+	, GRP_CD_5        										 /* 그룹코드 5 */ 
+	, GRP_CD_6        										 /* 그룹코드 6 */ 
+	, GRP_CD_7        										 /* 그룹코드 7 */ 
+	, GRP_CD_8        										 /* 그룹코드 8 */ 
+	, GRP_CD_9        										 /* 그룹코드 9 */ 
+	, SORT_ORDR       										 /* 정렬 순서   */
+	, USED_YN         										 /* 사용여부    */
+	, REMK            										 /* 비고         */
+FROM T_SYTM_CODE
+WHERE USED_YN = '1'    										 /* 사용중인 코드만 조회 */
+ AND HCL_CD = #{HCL_CD}
+ AND COMPANY_CD = #{COMPANY_CD}	
+ORDER BY HCL_CD, SORT_ORDR 
+</select>
+
+<!--  회사코드 조회 -->
+<select id="searchAllCodeData" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT  
+	SSC_NUMB          										 /* 소분류번호 */
+	, SSC_CD          										 /* 소분류코드 */
+	, HCL_CD         										 /* 대분류코드 */
+	, SSC_CD_KORN_NM  										 /* 소분류코드 한글명 */
+	, COALESCE(SSC_CD_ENGL_NM, SSC_CD_KORN_NM) AS SSC_CD_ENGL_NM  /* 소분류코드 영문명 */ 
+	, ABBR_KORN_NM    										 /* 약어 한글명 */
+	, COALESCE(ABBR_ENGL_NM, ABBR_KORN_NM) AS ABBR_ENGL_NM        /* 약어 영문명 */ 
+	, GRP_CD_1        										 /* 그룹코드 1 */ 
+	, GRP_CD_2        										 /* 그룹코드 2 */ 
+	, GRP_CD_3        										 /* 그룹코드 3 */ 
+	, GRP_CD_4        										 /* 그룹코드 4 */ 
+	, GRP_CD_5        										 /* 그룹코드 5 */ 
+	, GRP_CD_6        										 /* 그룹코드 6 */ 
+	, GRP_CD_7        										 /* 그룹코드 7 */ 
+	, GRP_CD_8        										 /* 그룹코드 8 */ 
+	, GRP_CD_9        										 /* 그룹코드 9 */ 
+	, SORT_ORDR       										 /* 정렬 순서   */
+	, USED_YN         										 /* 사용여부    */
+	, REMK            										 /* 비고         */
+FROM T_SYTM_CODE
+WHERE USED_YN = '1'    										 /* 사용중인 코드만 조회 */
+ AND HCL_CD = #{HCL_CD}
+ORDER BY HCL_CD, SORT_ORDR 
+</select>
+
+
+</mapper>

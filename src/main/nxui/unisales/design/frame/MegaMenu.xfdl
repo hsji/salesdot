@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="megamenu" width="1280" height="2350" titletext="메가메뉴" onload="form_onload" onsize="form_onsize" cssclass="frm_MF_MegaMenu">
+    <Layouts>
+      <Layout height="2350" width="1280">
+        <Div id="div00" taborder="22" text="div00" left="0" top="0" cssclass="div_MF_MegaMenu" right="0" bottom="0">
+          <Layouts>
+            <Layout>
+              <Static id="sta00" taborder="0" text="DevPack N" left="40" top="15" width="83" height="60" cssclass="sta_MF_Logo"/>
+              <Static id="sta01" taborder="1" text="전체메뉴보기" left="133" top="15" width="120" height="60" cssclass="sta_MF_Title"/>
+              <Button id="btn00" taborder="2" top="25" width="40" height="40" cssclass="btn_MF_Close" right="30"/>
+              <Static id="sta02" taborder="3" text="커뮤니티" left="80" top="140" height="70" cssclass="sta_MF_Menu" right="80"/>
+              <Grid id="grd00" taborder="4" left="100" top="220" width="180" height="340" cssclass="grd_MF_MegaMenu" binddataset="ds00" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="35"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="커뮤니티 관리"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:커뮤니티관리"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta03" taborder="5" text="개발표준" left="80" top="grd00:50" height="70" cssclass="sta_MF_Menu" right="80"/>
+              <Grid id="grd06" taborder="6" left="100" top="sta03:10" width="180" height="620" binddataset="ds06" autofittype="col" cssclass="grd_MF_MegaMenu">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="35"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="공통 기능"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:공통기능"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta04" taborder="7" text="디자인" left="80" top="grd06:50" height="70" cssclass="sta_MF_Menu" right="80"/>
+              <Grid id="grd09" taborder="8" left="100" top="sta04:10" width="180" height="450" cssclass="grd_MF_MegaMenu" binddataset="ds07" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="가이드"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:가이드"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta05" taborder="9" text="시스템관리" left="100" top="grd09:50" height="70" cssclass="sta_MF_Menu" right="100"/>
+              <Grid id="grd01" taborder="10" left="280" top="220" width="180" height="340" cssclass="grd_MF_MegaMenu" binddataset="ds01" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="35"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="전사 공지 및 일정"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:전사공지"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd02" taborder="11" left="460" top="220" width="180" height="340" cssclass="grd_MF_MegaMenu" binddataset="ds02" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="35"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="일정"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:일정"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd03" taborder="12" left="640" top="220" width="180" height="340" cssclass="grd_MF_MegaMenu" binddataset="ds03" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="35"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="주간보고"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:주간보고"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd04" taborder="13" left="820" top="220" width="180" height="340" cssclass="grd_MF_MegaMenu" binddataset="ds04" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="35"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="고객의 소리"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:고객의소리"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd05" taborder="14" top="220" width="180" height="340" cssclass="grd_MF_MegaMenu" binddataset="ds05" autofittype="col" left="1000">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="35"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="자유게시판 유형별 테스트" letterSpacing="-1px"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:자유게시판"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd07" taborder="15" left="280" top="690" width="180" height="620" cssclass="grd_MF_MegaMenu" binddataset="ds01" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="35"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="전사 공지 및 일정"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:전사공지"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd08" taborder="16" left="460" top="690" width="180" height="620" cssclass="grd_MF_MegaMenu" binddataset="ds02" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="35"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="일정"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:일정"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd10" taborder="17" left="280" top="1440" width="180" height="450" cssclass="grd_MF_MegaMenu" binddataset="ds08" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="템플릿"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:템플릿"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd11" taborder="18" width="180" height="240" cssclass="grd_MF_MegaMenu" binddataset="ds09" autofittype="col" left="100" top="sta05:10">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="권한관리"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:권한관리"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd12" taborder="19" width="180" height="240" cssclass="grd_MF_MegaMenu" binddataset="ds09" autofittype="col" left="280" top="2020">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="권한관리"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:권한관리"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd13" taborder="20" width="180" height="240" cssclass="grd_MF_MegaMenu" binddataset="ds09" autofittype="col" left="460" top="2020">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="권한관리"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:권한관리"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd14" taborder="21" width="180" height="240" cssclass="grd_MF_MegaMenu" binddataset="ds09" autofittype="col" left="640" top="2020">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="권한관리"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:권한관리"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta06" taborder="22" left="110" width="157" height="40" top="2310"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[]]></Script>
+    <Objects>
+      <Dataset id="ds00">
+        <ColumnInfo>
+          <Column id="커뮤니티관리" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="커뮤니티관리">게시판 관리</Col>
+          </Row>
+          <Row>
+            <Col id="커뮤니티관리">일정 관리</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds01">
+        <ColumnInfo>
+          <Column id="전사공지" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="전사공지">전사 공지</Col>
+          </Row>
+          <Row>
+            <Col id="전사공지">전사 공지(카드형)</Col>
+          </Row>
+          <Row>
+            <Col id="전사공지">전사 일정</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds02">
+        <ColumnInfo>
+          <Column id="일정" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="일정">일정 모아보기</Col>
+          </Row>
+          <Row>
+            <Col id="일정">일정 검색</Col>
+          </Row>
+          <Row>
+            <Col id="일정">컨설팅그룹 일정</Col>
+          </Row>
+          <Row>
+            <Col id="일정">컨설팅팀 일정</Col>
+          </Row>
+          <Row>
+            <Col id="일정">디자인팀 일정</Col>
+          </Row>
+          <Row>
+            <Col id="일정">UX팀 일정</Col>
+          </Row>
+          <Row>
+            <Col id="일정">씨엔에스-컨설팅1그룹 일정</Col>
+          </Row>
+          <Row>
+            <Col id="일정">씨엔에스-컨설팅2그룹 일정</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds03">
+        <ColumnInfo>
+          <Column id="주간보고" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="주간보고">컨설팅팀 주간보고</Col>
+          </Row>
+          <Row>
+            <Col id="주간보고">UX팀 주간보고</Col>
+          </Row>
+          <Row>
+            <Col id="주간보고">디자인팀 주간보고</Col>
+          </Row>
+          <Row>
+            <Col id="주간보고">씨엔에스-컨설팅1그룹 주간보고</Col>
+          </Row>
+          <Row>
+            <Col id="주간보고">씨엔에스-컨설팅2그룹 주간보고</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds04">
+        <ColumnInfo>
+          <Column id="고객의소리" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="고객의소리">VOC</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds05">
+        <ColumnInfo>
+          <Column id="자유게시판" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="자유게시판">아이디어 게시판</Col>
+          </Row>
+          <Row>
+            <Col id="자유게시판">자유게시판 (추가기능O)</Col>
+          </Row>
+          <Row>
+            <Col id="자유게시판">자유게시판 (추가기능X)</Col>
+          </Row>
+          <Row>
+            <Col id="자유게시판">자유게시판 (파일)</Col>
+          </Row>
+          <Row>
+            <Col id="자유게시판">자유게시판 (답글)</Col>
+          </Row>
+          <Row>
+            <Col id="자유게시판">자유게시판 (댓글)</Col>
+          </Row>
+          <Row>
+            <Col id="자유게시판">주간보고</Col>
+          </Row>
+          <Row>
+            <Col id="자유게시판">주간보고(파일첨부x)</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds06">
+        <ColumnInfo>
+          <Column id="공통기능" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="공통기능">스크립트 표준</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">트랜잭션</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">팝업</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">메세지</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">정합성 체크</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">그리드 공통기능</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">그리드 페이징</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">액셀 import/export</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">파일 upload/download</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">파일 upload 미리보기</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">권한 제어</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">그리드 다양한 표현</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">그리드 그룹/Suppress</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">Div 동적생성</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">Tabpage 동적생성</Col>
+          </Row>
+          <Row>
+            <Col id="공통기능">테스트</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds07">
+        <ColumnInfo>
+          <Column id="가이드" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="가이드">컴포넌트1</Col>
+          </Row>
+          <Row>
+            <Col id="가이드">컴포넌트2</Col>
+          </Row>
+          <Row>
+            <Col id="가이드">컴포넌트3</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds08">
+        <ColumnInfo>
+          <Column id="템플릿" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="템플릿">Single-Detail</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">List-Detail1</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">List-Detail2</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">Master-Detail</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">Master-Detail-V</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">Master-Detail-H</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">Master-Detail-VVV</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">Master-List-Detail-VHH</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">Master-List-Detail-HVV</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">Tree</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">Shuttle</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">Tab</Col>
+          </Row>
+          <Row>
+            <Col id="템플릿">Popup</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds09">
+        <ColumnInfo>
+          <Column id="권한관리" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="권한관리">프로그램 관리</Col>
+          </Row>
+          <Row>
+            <Col id="권한관리">메뉴 관리</Col>
+          </Row>
+          <Row>
+            <Col id="권한관리">권한그룹별 권한 관리</Col>
+          </Row>
+          <Row>
+            <Col id="권한관리">권한그룹별 사용자 관리</Col>
+          </Row>
+          <Row>
+            <Col id="권한관리">개인별 권한 관리</Col>
+          </Row>
+          <Row>
+            <Col id="권한관리">사용자별 권한 조회</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

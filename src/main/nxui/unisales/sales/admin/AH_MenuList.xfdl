@@ -1,0 +1,561 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AH_MenuList" width="1280" height="720" titletext="메뉴관리" onload="AH_MenuList_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Div id="div_Search" taborder="0" left="8" top="8" height="40" cssclass="div_WF_SchList" right="24" text="">
+          <Layouts>
+            <Layout>
+              <Button id="btn_Excel" taborder="1" text="Excel" top="9" height="22" cssclass="btn_WF_Excel" width="68" right="8" onclick="common_onclick"/>
+              <Button id="btn_Search" taborder="0" text="조회" top="9" width="58" height="22" cssclass="btn_WF_SchText" right="btn_Excel:8" onclick="common_onclick"/>
+              <Button id="btn_Save" taborder="2" text="저장" top="9" height="23" right="btn_Search:8" onclick="common_onclick" width="59" cssclass="btn_WF_tran"/>
+              <Button id="btn_deleteRow" taborder="3" text="삭제" top="9" height="23" right="btn_Save:8" onclick="common_onclick" width="59"/>
+              <Button id="btn_addRow" taborder="4" text="추가" top="9" height="23" right="btn_deleteRow:8" onclick="common_onclick" width="59"/>
+              <Static id="stc_UseYn" taborder="5" text="사용여부" left="8" top="9" width="69" height="18" cssclass="sta_WF_DetailTit"/>
+              <Radio id="rdo_UseYn" taborder="6" left="104" top="9" width="214" height="17" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" columncount="3" value="Y" text="사용" index="1" onitemchanged="div_Search_rdo_UseYn_onitemchanged">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">0</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Static id="stc_Language" taborder="7" text="사이트구분" left="326" top="9" width="69" height="18" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_Language" taborder="8" left="stc_Language:8" top="9" width="150" height="22" innerdataset="ds_cmm_LanguageCode" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Search_cmb_Language_onitemchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_MenuList" taborder="1" left="8" autofittype="col" autosizingtype="none" right="24" top="56" bottom="8" autoenter="select" binddataset="ds_MenuList" treeinitstatus="expand,all" treeusecheckbox="false" ondrag="grd_MenuList_ondrag" ondrop="grd_MenuList_ondrop">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="250"/>
+                <Column size="250"/>
+                <Column size="300"/>
+                <Column size="100"/>
+                <Column size="120"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구성도(메뉴이동 시 선택)"/>
+                <Cell col="1" text="메뉴명"/>
+                <Cell col="2" text="URL"/>
+                <Cell col="3" text="사용여부"/>
+                <Cell col="4" text="Top메뉴 미 표출여부"/>
+                <Cell col="5" text="새창 오픈 여부"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:MENU_NM" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:MENU_DEPTH" treestate="bind:USE_YN"/>
+                <Cell col="1" edittype="text" text="bind:MENU_NM" textAlign="left"/>
+                <Cell col="2" text="bind:MENU_URL" edittype="text" textAlign="left"/>
+                <Cell col="3" text="bind:USE_FLAG" checkboxfalsevalue="0" checkboxtruevalue="1" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="4" displaytype="checkboxcontrol" edittype="checkbox" text="bind:HIDDEN_FLAG" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell col="5" displaytype="checkboxcontrol" edittype="checkbox" text="bind:NWIN_FLAG" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_ExcelMenuList" taborder="2" left="1402" top="54" width="1248" height="221" binddataset="ds_ExcelMenuList" autofittype="col" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="200"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="300"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구성도"/>
+                <Cell col="1" text="메뉴ID"/>
+                <Cell col="2" text="상위메뉴ID"/>
+                <Cell col="3" text="메뉴레벨"/>
+                <Cell col="4" text="그룹여부"/>
+                <Cell col="5" text="URL"/>
+                <Cell col="6" text="사용여부"/>
+                <Cell col="7" text="정렬"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:TREE_MENU" textAlign="left"/>
+                <Cell col="1" text="bind:MENU_IDX"/>
+                <Cell col="2" text="bind:UP_IDX"/>
+                <Cell col="3" text="bind:MENU_DEPTH" textAlign="left"/>
+                <Cell col="4" text="bind:MENU_GRP_NM"/>
+                <Cell col="5" text="bind:MENU_URL" textAlign="left"/>
+                <Cell col="6" text="bind:USE_YN"/>
+                <Cell col="7" text="bind:MENU_SORT"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 홈페이지관리
+ * 02. 화면명   : 메뉴관리 탭페이지(AH_MenuList)
+ * 03. 화면설명 : 메뉴관리 탭페이지
+ * 04. 작성일   : 2022.12.01
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.DELETE_COUNT = 0;
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.AH_MenuList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//this.gfnCompInit(obj);  	// Grid 공통함수 호출 ( 트리구조는 해더 필터 이용시 뎁스가 깨지므로 사용 X)
+	this.fnGetCode();
+};
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/ 
+// 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_LanguageCode",	"LANGUAGE_CODE"); 		// 언어구분
+	this.gfnCodeTransaction();
+};
+
+// 조회
+this.fnSearch = function()
+{	
+	if(this.DELETE_COUNT > 0) this.div_Search.form.rdo_UseYn.set_value("1");
+	
+	var sUseYn = this.div_Search.form.rdo_UseYn.value;
+	var sLanguage = this.div_Search.form.cmb_Language.value;
+	
+	this.gfnAddSendParameter("USE_FLAG", sUseYn);
+	this.gfnAddSendParameter("LANGUAGE_CODE", sLanguage);
+	
+	this.gfnAddOutputDataset("ds_MenuList", "dsOutput");	
+	this.gfnCommonTransaction("Search_MenuList", "AH_MenuList_S01", this.grd_MenuList);
+};
+
+// 메뉴 추가
+this.fnAddRow = function()
+{
+	var sLanguage = this.div_Search.form.cmb_Language.value;
+	var curRow = this.ds_MenuList.rowposition;
+	var sUpIdx = this.ds_MenuList.getColumn(curRow, "UP_IDX");
+	var sMenuIdx = this.ds_MenuList.getColumn(curRow, "MENU_IDX");
+	var sMenuDeth = this.ds_MenuList.getColumn(curRow, "MENU_DEPTH");
+	
+	// 동일한 부모IDX 메뉴 중 제일 마지막 메뉴 찾기
+	var sMenuSort = this.ds_MenuList.getCaseMax("UP_IDX=='"+sMenuIdx+"'", "MENU_SORT");
+	var sTargetRow = this.ds_MenuList.findRowExpr("UP_IDX=='"+sMenuIdx+"' && MENU_SORT=='" + sMenuSort + "'");
+	
+	// 자식 갯수
+	var sTargetChildCnt = this.grd_MenuList.getTreeChildCount(sTargetRow);
+	
+	if(sTargetChildCnt > 0) {
+		sTargetRow = this.fnLeafRow(sTargetRow);
+	}
+	
+	var nRow;
+	// 해당 신규 메뉴에 대해서 하위 메뉴가 하나도 없는 경우
+	if(sTargetChildCnt == 0) {
+		nRow = this.ds_MenuList.insertRow(curRow + 1); 
+		sMenuSort = 0;
+	} else {
+		nRow = this.ds_MenuList.insertRow(sTargetRow + 1);
+	}
+	
+	this.ds_MenuList.setColumn(nRow, "LANGUAGE_CODE", sLanguage);
+	this.ds_MenuList.setColumn(nRow, "UP_IDX", sMenuIdx);
+	this.ds_MenuList.setColumn(nRow, "MENU_DEPTH", sMenuDeth + 1);
+	this.ds_MenuList.setColumn(nRow, "USE_FLAG", "1");
+	this.ds_MenuList.setColumn(nRow, "MENU_GRP_FLAG", "0");
+	this.ds_MenuList.setColumn(nRow, "MENU_SORT", sMenuSort + 1);
+	this.ds_MenuList.setColumn(nRow, "HIDDEN_FLAG", "0");
+	this.ds_MenuList.setColumn(nRow, "NWIN_FLAG", "0");
+};
+
+// NODE 체크
+this.fnChkNode = function()
+{
+	var curRow = this.ds_MenuList.rowposition;
+	var sMenuIdx = this.ds_MenuList.getColumn(curRow, "MENU_IDX");
+	
+	if(this.gfnIsEmpty(sMenuIdx)){ // 하위 추가 시 상위 MENU_IDX 체크
+		alert("상위 메뉴를 먼저 저장 후 하위 메뉴가 추가 가능합니다.");
+	} else {
+		this.fnAddRow();
+	}
+};
+
+// Validation
+this.fnValidation = function()
+{
+	/*
+		체크 데이터 : MENU_NM
+	*/
+	for(var i = 0; i < this.ds_MenuList.rowcount; i++)
+	{
+		if(this.gfnIsEmpty(this.ds_MenuList.getColumn(i, "MENU_NM"))) { alert("메뉴명은 필수 입력 항목입니다."); this.grd_MenuList.setCellPos(1, i); this.grd_MenuList.showEditor(true); return false;}
+	}
+	return true;
+};
+
+// 저장
+this.fnSave = function()
+{
+	this.gfnAddInputDataset("ds_MenuList",  "dsInput");
+	this.gfnCommonTransaction("Save", "AH_MenuList_R01");
+};
+
+// 삭제
+this.fnDelete = function(curRow)
+{
+	this.ds_MenuList.deleteRow(curRow);
+	this.DELETE_COUNT++;
+};
+
+// 메뉴 정렬
+this.fnSetOrd = function(sMenuUpIdx, sMenuDepth)
+{	
+	var sCnt = this.ds_MenuList.rowcount;
+	var sSort = 1;
+	var sFindRowCnt = this.ds_MenuList.getCaseCount("UP_IDX=='" + sMenuUpIdx + "'&&MENU_DEPTH=='" + sMenuDepth + "'");
+	
+	if(sFindRowCnt > 0) {
+		for(var i = 0; i < sCnt; i++)
+		{
+			var sUpIdx = this.ds_MenuList.getColumn(i, "UP_IDX");
+			var sDepth  = this.ds_MenuList.getColumn(i, "MENU_DEPTH");
+			
+			if(sMenuUpIdx == sUpIdx && sMenuDepth == sDepth) {
+				this.ds_MenuList.setColumn(i, "MENU_SORT", sSort);
+				sSort++;
+			}
+		}
+	}
+};
+
+// 현재 메뉴에서 제일 마지막 row 구하기
+this.fnLeafRow = function(sRow)
+{
+	var sLastRow = this.grd_MenuList.getTreeChildRow(sRow, -1);
+	
+	// leaf Flag
+	var leafYn = this.grd_MenuList.isTreeLeafRow(sLastRow);
+	
+	// leaf가 아닌 경우 맨 마지막 ROW 찾기
+	while( !leafYn ) {
+		sLastRow = this.grd_MenuList.getTreeChildRow(sLastRow, -1);
+		leafYn = this.grd_MenuList.isTreeLeafRow(sLastRow);
+	}
+	
+// 	trace("마지막 leaf Row ==>" + sLastRow);
+// 	trace("현재 ROW==>"+ sRow);
+		
+	return sLastRow;
+};
+
+// 트리 다시 그리기
+this.fnRedrawTree = function()
+{
+	// 데이터 셋팅 후 트리 그리드 다시 그리기 위함 START
+	this.grd_MenuList.set_binddataset("");
+	
+	// 데이터 셋팅 후 트리 그리드 다시 그리기 위함 END
+	this.grd_MenuList.set_binddataset("ds_MenuList");
+};
+
+// 엑셀 데이터 조회
+this.fnExcelDataSearch = function()
+{
+	var sUseYn = this.div_Search.form.rdo_UseYn.value;
+	
+	this.gfnAddSendParameter("USE_FLAG", sUseYn);
+	
+	this.gfnAddOutputDataset("ds_ExcelMenuList", "dsOutput");	
+	this.gfnCommonTransaction("Search_ExcelMenuList", "AH_MenuList_S02", this.grd_ExcelMenuList);
+};
+
+// 엑셀
+this.fnExcel = function()
+{
+	var objGrd = this.grd_ExcelMenuList;
+	
+	var sFileNm = "메뉴관리 목록";
+	var sUseYnNm = this.div_Search.form.rdo_UseYn.text;
+	sFileNm += "(" + sUseYnNm + ")";
+	
+	if(nexacro.getApplication().id=="ACEp")
+	{
+		this.parent.parent.parent.parent.parent.fn_excelExport(this, objGrd, sFileNm);
+	}
+	else
+	{
+		this.gfn_excelExport(this, objGrd, sFileNm);
+	}
+};
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if (nErrorCode<0) {
+		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		return;
+	} else {
+		switch (strSvcID) 
+		{
+			case "gfnGetCode" :			
+				this.div_Search.form.cmb_Language.set_index(0);
+				this.fnSearch();
+				break;
+			case "Search_MenuList" :
+				// 초기화
+				this.DELETE_COUNT = 0;
+				break;
+			case "Search_ExcelMenuList":
+				this.fnExcel();
+				break;
+			case "Save" :
+				alert("저장 되었습니다.");
+				this.fnSearch();
+				break;
+		}
+	}
+};
+
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{	
+		case "btn_Search":	// 조회
+			this.fnSearch();
+			break;
+		case "btn_Excel":	// 엑셀
+			this.fnExcelDataSearch();
+			break;
+		case "btn_addRow":	// 추가
+			this.fnChkNode();
+			break;
+		case "btn_deleteRow" : // 삭제
+			var curRow = this.ds_MenuList.rowposition;
+			var sMenuIdx = this.ds_MenuList.getColumn(curRow, "MENU_IDX");
+			var sMenuNm = this.ds_MenuList.getColumn(curRow, "MENU_NM");
+			var sMenuDepth = this.ds_MenuList.getColumn(curRow, "MENU_DEPTH");
+			
+			if(sMenuDepth == "0") {
+				alert("ROOT는 삭제 할 수 없습니다.");
+			} else {
+				if(this.gfnIsEmpty(sMenuIdx)) {
+					this.fnDelete(curRow);
+				} else {
+					if(this.confirm("[" +sMenuNm + "] 삭제 하시겠습니까?")) {
+						alert("저장 버튼을 클릭해야 삭제 적용 됩니다.");
+						this.fnDelete(curRow);
+					}
+				}
+			}			
+			break;
+		case "btn_Save" : // 저장
+			if(this.fnValidation()) {
+				this.fnSave();
+			}
+			break;
+	}
+};
+
+this.div_Search_rdo_UseYn_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSearch();
+};
+
+this.grd_MenuList_ondrag = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
+{
+	if(e.col == 0) {
+		var sUseYn = this.div_Search.form.rdo_UseYn.value;
+		if(sUseYn == "N") alert("메뉴 이동은 [미사용]에서는 이동이 불가 합니다.");
+		else {
+			var sMenuIdx = this.ds_MenuList.getColumn(e.row, "MENU_IDX");
+			var argument = {"MENU_IDX":sMenuIdx, "ROW":e.row};
+			e.set_userdata(argument);
+			return true;
+		}	
+	}
+	
+};
+
+this.grd_MenuList_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
+{	
+	// e.userdata 안에 MENU_IDX, 선택한 ROW가 들어가 있다 ( KEY : VALUE 형태 )
+	var curRow = e.userdata.ROW;
+	var curMenuIdx = e.userdata.MENU_IDX;
+	var curMenuNm = this.ds_MenuList.getColumn(curRow, "MENU_NM");
+	var rtn = this.confirm("[" + curMenuNm + "] 메뉴를 이동하시겠습니까?");
+	
+	if(rtn) {
+		var targetRow = e.row;
+		var sRoot = this.ds_MenuList.getColumn(e.row, "MENU_DEPTH");
+		if(sRoot == 0) {
+			alert("ROOT 위로는 메뉴 이동할 수 없습니다.");
+		} else {
+			var curGrpyn = this.ds_MenuList.getColumn(curRow, "MENU_GRP_FLAG");
+			var curMenuDepth = this.ds_MenuList.getColumn(curRow, "MENU_DEPTH");
+			
+			// 자식 갯수
+			var curChildCnt = this.grd_MenuList.getTreeChildCount(curRow);
+			// 맨 마지막 자식 row
+			var curLastChildRow = curRow;
+			if(curChildCnt > 0) {
+				curLastChildRow = this.fnLeafRow(curLastChildRow);
+				// 해당 그룹 하위에 있는 모든 자식 수 계산
+				curChildCnt = curLastChildRow - curRow;
+			}
+			
+			var targetMenuIdx = this.ds_MenuList.getColumn(e.row, "MENU_IDX");
+			var targetUpIdx = this.ds_MenuList.getColumn(e.row, "UP_IDX");
+			var targetMenuDepth = this.ds_MenuList.getColumn(e.row, "MENU_DEPTH");
+			
+			/*
+				순서 중요!!
+				1. 메뉴 뎁스 변경
+				2. 이동하는 메뉴 상위메뉴IDX 변경
+				3. 메뉴 정렬 변경
+			*/
+			// 뎁스 설정 START
+			this.ds_MenuList.setColumn(curRow, "MENU_DEPTH", targetMenuDepth);
+			if(targetMenuDepth != curMenuDepth) {
+				
+				for(var i = 1; i <= curChildCnt; i++) {
+					
+					var sUpIdx = this.ds_MenuList.getColumn(curRow + i, "UP_IDX");
+					var sMomRow = this.ds_MenuList.findRowExpr("MENU_IDX=='" + sUpIdx + "'");
+					var sUpdateDepth = this.ds_MenuList.getColumn(sMomRow, "MENU_DEPTH");
+					
+					this.ds_MenuList.setColumn(curRow + i, "MENU_DEPTH", sUpdateDepth + 1 );
+				}
+			} else {
+				this.ds_MenuList.setColumn(curRow, "MENU_DEPTH", targetMenuDepth);
+			}
+			// 뎁스 설정 END
+			
+			// 상위메뉴 IDX 변경
+			this.ds_MenuList.setColumn(curRow, "UP_IDX", targetUpIdx);
+			
+			// 메뉴 이동 START
+			if(curRow > targetRow) { // 아래에서 위로 올렸을 경우
+				for(var i = 0; i <= curLastChildRow - curRow; i++) {
+					this.ds_MenuList.moveRow(curRow + i, targetRow + i);
+				}
+			} else { // 위에서 아래로 올렸을 경우
+				for(var i = 0; i <= curChildCnt; i++) {
+					this.ds_MenuList.moveRow(curRow + curChildCnt -i, targetRow -1 -i);
+				}
+			}
+			// 메뉴 이동 END
+			
+			// 정렬
+			this.fnSetOrd(targetUpIdx, targetMenuDepth);
+			
+			// TREE Refresh 
+			this.fnRedrawTree();
+		}
+	}
+};
+
+this.div_Search_cmb_Language_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSearch();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_MenuList">
+        <ColumnInfo>
+          <Column id="MENU_IDX" type="INT" size="256"/>
+          <Column id="LANGUAGE_CODE" type="STRING" size="256"/>
+          <Column id="UP_IDX" type="INT" size="256"/>
+          <Column id="MENU_NM" type="STRING" size="256"/>
+          <Column id="MENU_URL" type="STRING" size="256"/>
+          <Column id="MENU_DEPTH" type="INT" size="256"/>
+          <Column id="MENU_GRP_FLAG" type="STRING" size="256"/>
+          <Column id="MENU_GRP_NM" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="MENU_SORT" type="INT" size="256"/>
+          <Column id="HIDDEN_FLAG" type="STRING" size="256"/>
+          <Column id="NWIN_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_ExcelMenuList">
+        <ColumnInfo>
+          <Column id="MENU_IDX" type="INT" size="256"/>
+          <Column id="LANGUAGE_CODE" type="STRING" size="256"/>
+          <Column id="UP_IDX" type="INT" size="256"/>
+          <Column id="TREE_MENU" type="STRING" size="256"/>
+          <Column id="MENU_NM" type="STRING" size="256"/>
+          <Column id="MENU_URL" type="STRING" size="256"/>
+          <Column id="MENU_DEPTH" type="STRING" size="256"/>
+          <Column id="MENU_GRP_NM" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="MENU_SORT" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_LanguageCode">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

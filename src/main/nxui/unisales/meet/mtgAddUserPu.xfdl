@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="orgUserListPu" width="450" height="500" titletext="사용자전체조회" onload="form_onload">
+    <Layouts>
+      <Layout height="500" mobileorientation="landscape" width="450">
+        <Static id="Static00" taborder="0" text="참석자 추가" left="25.00" top="8" height="43" cssclass="sta_WF_Title" right="25"/>
+        <Button id="btnConfirm" taborder="1" text="적용" height="28" width="50" fittocontents="width" cssclass="btn_WF_Crud" right="78" bottom="20" onclick="btnConfirm_onclick"/>
+        <Button id="btnClose" taborder="2" text="취소" height="28" width="50" fittocontents="width" right="25" bottom="20" onclick="btnClose_onclick"/>
+        <Edit id="edtHost" taborder="3" left="126" top="56" width="284" height="28"/>
+        <Static id="staTitle" taborder="4" text="회사명" left="20" top="54" width="104" height="30" cssclass="sta_WF_SchLabel"/>
+        <Static id="staTitle00" taborder="5" text="직급/직책" left="20" top="88" width="104" height="30" cssclass="sta_WF_SchLabel"/>
+        <Edit id="edtHost00" taborder="6" left="126" top="90" width="284" height="28"/>
+        <Static id="staTitle00_00" taborder="7" text="이름" left="20" top="122" width="104" height="30" cssclass="sta_WF_SchLabel"/>
+        <Edit id="edtHost00_00" taborder="8" left="126" top="124" width="284" height="28"/>
+        <Static id="staTitle00_00_00" taborder="9" text="이메일주소" left="20" top="156" width="104" height="30" cssclass="sta_WF_SchLabel"/>
+        <Edit id="edtHost00_00_00" taborder="10" left="126" top="158" width="284" height="28"/>
+        <Grid id="grdList" taborder="11" left="10" top="236" right="15" bottom="59" binddataset="dsList" autofittype="col" oncelldblclick="grdList_oncelldblclick" treeinitstatus="expand,all" treeuseexpandkey="true">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="151"/>
+                <Column size="278"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="이름"/>
+                <Cell col="1" text="E-Mail"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:USER_NAME" treelevel="bind:DEPT_LVL" treecheck="bind:CHK"/>
+                <Cell col="1" text="bind:USER_MAILADDR" edittype="normal"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnAdd" taborder="12" text="추가" width="78" height="26" cssclass="btn_TFDM_Save" visible="true" onclick="btnEdit_onclick" btnType="E" top="196" right="41"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	mtgAddUser.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/28
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/28			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvDocId = null;
+this.fvFormerPrefix = "FMER_";	// 발신자,수신자동일함을 허용위해 이름 다르게
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fvDocId = this.getOwnerFrame().pvDocId;
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*****************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnClose = function (nRow)
+{
+
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.dsList.deleteRow(this.dsList.rowposition);
+};
+
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var targetDs = this.opener.dsUser;
+	for(var i=0,len=this.dsList.rowcount;i<len;i++) {
+		var targetRow = targetDs.addRow();
+		targetDs.setColumn(targetRow, "DOC_ID", this.fvDocId);
+		targetDs.setColumn(targetRow, "COMP_NAME", this.dsList.getColumn(i, "COMP_NAME"));
+		targetDs.setColumn(targetRow, "USER_ID", this.dsList.getColumn(i, "USER_ID"));
+		targetDs.setColumn(targetRow, "USER_NAME", this.dsList.getColumn(i, "USER_NAME"));
+		targetDs.setColumn(targetRow, "USER_MAILADDR", this.dsList.getColumn(i, "USER_MAILADDR"));
+		targetDs.setColumn(targetRow, "WORK_NAME", this.dsList.getColumn(i, "WORK_NAME"));
+		targetDs.setColumn(targetRow, "SEND_SEQ", 0);
+		targetDs.setColumn(targetRow, "R_ORDER", 1);
+		
+		targetDs.setColumn(targetRow, "FORMER_ID", this.fvFormerPrefix + this.dsList.getColumn(i, "USER_ID"));
+		targetDs.setColumn(targetRow, "FORMER_NAME", this.dsList.getColumn(i, "USER_NAME"));
+	}
+
+	var v = "";
+	for(var i=0,len=targetDs.rowcount;i<len;i++) {
+		if(i>0) v += ",";
+		v += targetDs.getColumn(i, "USER_ID");
+	}
+	console.log(v);
+
+	this.opener.divContents.form.MultiComboUser.set_value(v);	
+	
+	this.close("");
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close("");
+};
+
+/**
+ * @function btnEdit_onclick
+ * @description 추가
+ */
+this.btnEdit_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.fnCheckValidation() == false) return;
+	var nRow = this.dsList.addRow();
+	this.dsList.copyRow(nRow, this.dsOne, 0);
+};
+
+//정합성체큰
+this.fnCheckValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsOne);
+
+	this.gfnSetValidation(this.dsOne, "COMP_NAME", "회사명"	, "required");
+	this.gfnSetValidation(this.dsOne, "WORK_NAME",  "직급"	    , "required");
+	this.gfnSetValidation(this.dsOne, "USER_NAME", "이름"	, "required");
+	
+	this.gfnSetValidation(this.dsOne, "USER_MAILADDR", "EMail"	, "isemail");
+	
+	this.dsOne.setColumn(0, "USER_ID", this.createUID());
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsOne, "U") == false) return false;
+	else return true;
+};
+
+/**
+* @class Unique ID 생성. <br>
+* @param N/A
+* @return {String} v uid
+* @example this.createUID()       
+*/
+this.createUID = function ()
+{
+	return 'xxxx_xyx4x'.replace(/[xy]/g, function(c)
+	{
+		var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+		return v.toString(16);
+	});
+};]]></Script>
+    <Objects>
+      <Dataset id="dsList" oncolumnchanged="dsList_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="COMP_NAME" type="string" size="32"/>
+          <Column id="WORK_NAME" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_MAILADDR" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOne" oncolumnchanged="dsList_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="COMP_NAME" type="string" size="32"/>
+          <Column id="WORK_NAME" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_MAILADDR" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="edtHost" propid="value" datasetid="dsOne" columnid="COMP_NAME"/>
+      <BindItem id="item1" compid="edtHost00" propid="value" datasetid="dsOne" columnid="WORK_NAME"/>
+      <BindItem id="item2" compid="edtHost00_00" propid="value" datasetid="dsOne" columnid="USER_NAME"/>
+      <BindItem id="item3" compid="edtHost00_00_00" propid="value" datasetid="dsOne" columnid="USER_MAILADDR"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,401 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AL_LevelUnitMM" width="1290" height="570" titletext="레벨단가 관리" onload="AL_LevelUnitMM_onload">
+    <Layouts>
+      <Layout height="570" mobileorientation="landscape" width="1290">
+        <Div id="div_Search" taborder="0" text="" left="8" top="8" height="40" cssclass="div_WF_SchList" right="8" formscrollbartype="none none" formscrolltype="none">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_Level_Year" taborder="0" left="46" top="9" width="86" height="22" dateformat="yyyy" editformat="yyyy" showyearspin="true" type="spin"/>
+              <Static id="Static00" taborder="1" text="년도" left="8" top="9" width="30" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="352"/>
+              <Static id="Static01" taborder="2" text="구분" left="140" top="9" width="30" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="68"/>
+              <Combo id="cmb_Level_Type" taborder="3" text="SI인력" left="178" top="9" width="86" height="22" innerdataset="ds_Level_Type" codecolumn="CODE" datacolumn="CAPTION" value="S" index="0" onitemchanged="div_Search_cmb_Level_Type_onitemchanged" TL_FLAG="1"/>
+              <Button id="btn_Search" taborder="4" text="조회" top="7" width="60" height="22" right="76" onclick="comm_Click" cssclass="btn_WF_SchText" TL_SEQ="118"/>
+              <Button id="btn_Save" taborder="5" text="저장" width="60" height="22" right="8" bottom="9" onclick="comm_Click" cssclass="btn_WF_tran" TL_SEQ="115"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_LevelCodeList" taborder="1" left="278" top="56" binddataset="dsOutput1" autofittype="col" right="8" bottom="6" selecttype="multirow" cellmovingtype="col" cellsizingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="50"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="150"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="적용년도" TL_SEQ="408"/>
+                <Cell col="1" text="구분" TL_SEQ="68"/>
+                <Cell col="2" text="단가" TL_SEQ="102"/>
+                <Cell col="3" text="등급명" TL_SEQ="92"/>
+                <Cell col="4" text="등록일" TL_SEQ="77"/>
+                <Cell col="5" text="등록자" TL_SEQ="81"/>
+                <Cell col="6" text="비고" TL_SEQ="45"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:YEAR"/>
+                <Cell col="1" text="bind:LEVEL_TYPE" displaytype="combotext" combodataset="ds_CD_Staff_Class" combocodecol="CODE" combodatacol="CAPTION" TL_FLAG="1"/>
+                <Cell col="2" text="bind:UNIT_COST" edittype="text"/>
+                <Cell col="3" text="bind:LEVEL_CODE" displaytype="combotext" combodataset="ds_CD_LEVEL_CODE" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="4" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd "/>
+                <Cell col="5" text="bind:REGISTER"/>
+                <Cell col="6" text="bind:REMARKS" edittype="text"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Level_Code" taborder="2" left="8" width="214" binddataset="dsOutput2" autofittype="col" bottom="6" top="56" selecttype="multirow" cellsizingtype="col" cellmovingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="98"/>
+                <Column size="95"/>
+                <Column size="106"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구분" TL_SEQ="68"/>
+                <Cell col="1" text="레벨" TL_SEQ="12408"/>
+                <Cell col="2" text="등급명" TL_SEQ="92"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:LEVEL_TYPE" displaytype="combotext" combodataset="ds_CD_Staff_Class" combocodecol="CODE" combodatacol="CAPTION" TL_FLAG="1"/>
+                <Cell col="1" text="bind:CD_CODE"/>
+                <Cell col="2" combodataset="ds_CD_LEVEL_CODE" combocodecol="CODE" combodatacol="CAPTION" text="bind:CAPTION"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_MultiOut" taborder="4" left="230" width="42" height="33" top="180" onclick="comm_Click" cssclass="btn_WF_prev2"/>
+        <Button id="btn_SingleOut" taborder="3" left="230" width="42" height="33" top="btn_MultiOut:8" onclick="comm_Click" cssclass="btn_WF_prev"/>
+        <Button id="btn_MultiIns" taborder="6" left="230" width="42" height="33" top="btn_SingleOut:148" onclick="comm_Click" cssclass="btn_WF_next2"/>
+        <Button id="btn_SingleIns" taborder="5" left="230" width="42" height="33" top="btn_MultiIns:8" onclick="comm_Click" cssclass="btn_WF_next"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 레벨 단가 (AL_LevelUnitMM_S01)
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.09.10
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AL_LevelUnitMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.fnFormInit();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+	var bEnable = false;
+	if(this.commUtil.getFormAuthority(285,1))	/*저장권한*/
+		bEnable = true;
+	
+	this.div_Search.form.btn_Save.set_enable(bEnable);
+	this.btn_MultiOut.set_enable(bEnable);
+	this.btn_SingleOut.set_enable(bEnable);
+	this.btn_MultiIns.set_enable(bEnable);
+	this.btn_SingleIns.set_enable(bEnable);	
+	this.grd_LevelCodeList.set_readonly(!bEnable);
+	
+	this.div_Search.form.cal_Level_Year.set_value(this.getDate().split("-")[0]);
+	this.fnGetCode();
+	this.fnSearch();
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_CD_LEVEL_CODE"		,"LEVEL_CODE");
+	
+	// 공통코드 조회
+	this.gfnCodeTransaction();
+};
+
+this.fnSearch = function() 
+{
+	// 조건값 셋팅
+	this.gfnAddSendParameter("YEAR", this.div_Search.form.cal_Level_Year.value.substr(0,4));
+	this.gfnAddSendParameter("LEVEL_TYPE", this.div_Search.form.cmb_Level_Type.value);
+
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("dsOutput1", "dsOutput1");	
+	this.gfnAddOutputDataset("dsOutput2", "dsOutput2");
+	
+	var grdArray = new Array();
+	grdArray[0] = this.grd_LevelCodeList;
+	grdArray[1] = this.grd_Level_Code;
+	
+	this.gfnCommonTransaction("Select", "AL_LevelUnitMM_S01", grdArray);
+};
+
+this.fnSave = function()
+{	
+	//저장용 Input Dataset 세팅
+	this.gfnAddInputDataset("dsOutput1", "dsInput");
+	this.gfnCommonTransaction("Save", "AL_LevelUnitMM_R01");
+};
+
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		if(strSvcID=="gfnGetCode")
+		{
+			this.fnSearch();
+		}
+		else if(strSvcID=="Select") 
+		{	
+		
+ 		}
+		else if(strSvcID=="Save")
+		{
+			this.fnSearch();
+		}
+	}
+};
+
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		case "btn_Search" : 
+			this.fnSearch();
+			break;
+		case "btn_Save" : 
+			this.fnSave();
+			break;
+		case "btn_MultiIns" :
+			for(var i=0; i<this.dsOutput2.rowcount; i++)
+			{
+				var nRow = this.dsOutput1.addRow();
+				this.dsOutput1.setColumn(nRow, "YEAR", this.div_Search.form.cal_Level_Year.value.substr(0,4));
+				this.dsOutput1.setColumn(nRow, "LEVEL_TYPE", this.dsOutput2.getColumn(i, "LEVEL_TYPE"));
+				this.dsOutput1.setColumn(nRow, "UNIT_COST", 0);
+				this.dsOutput1.setColumn(nRow, "LEVEL_CODE", this.dsOutput2.getColumn(i, "CD_CODE"));
+				this.dsOutput1.setColumn(nRow, "INSERT_DATE", this.getDate().split('-')[0] + this.getDate().split('-')[1] + this.getDate().split('-')[2]);
+				this.dsOutput1.setColumn(nRow, "REGISTER", nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NM"));
+			}
+				
+			this.dsOutput2.clearData();
+			break;
+			
+		case "btn_SingleIns" : 
+			var aRowidx = this.grd_Level_Code.getSelectedRows();
+			
+			for(var i=0; i<aRowidx.length; i++)
+			{
+				var nRow = this.dsOutput1.addRow();
+				this.dsOutput1.setColumn(nRow, "YEAR", this.div_Search.form.cal_Level_Year.value.substr(0,4));
+				this.dsOutput1.setColumn(nRow, "LEVEL_TYPE", this.dsOutput2.getColumn(aRowidx[i], "LEVEL_TYPE"));
+				this.dsOutput1.setColumn(nRow, "UNIT_COST", 0);
+				this.dsOutput1.setColumn(nRow, "LEVEL_CODE", this.dsOutput2.getColumn(aRowidx[i], "CD_CODE"));
+				this.dsOutput1.setColumn(nRow, "INSERT_DATE", this.getDate().split('-')[0] + this.getDate().split('-')[1] + this.getDate().split('-')[2]);
+				this.dsOutput1.setColumn(nRow, "REGISTER", nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NM"));
+			}
+			
+			this.dsOutput2.deleteMultiRows(aRowidx);
+			this.dsOutput2.set_rowposition(-1);
+			break;	
+			
+		case "btn_MultiOut" : 
+			for(var i=0; i<this.dsOutput1.rowcount; i++)
+			{
+				var nRow = this.dsOutput2.addRow();
+				this.dsOutput2.setColumn(nRow, "CD_CODE", this.dsOutput1.getColumn(i, "LEVEL_CODE"));
+				this.dsOutput2.setColumn(nRow, "CAPTION", this.dsOutput1.getColumn(i, "LEVEL_NAME"));
+			}
+			
+			//this.dsOutput1.clearData(); 
+			//저장시에 dsOutput1에 대한 rowType이 변해야 하므로 위와는 다르게 clearData를 쓰지 않고 하나씩 지워준다. 
+			//이유 : clearData()를 하게되면 rowType은 변하지 않는다. 하지만, 아래와 같이 for문을 돌려서 지워야( (this.dsOutput1.deleteMultiRows(this.dsOutput1)를 써도 무방하다.) )
+			//rowType이 delete로 되어 트랜잭션을 타고 들어가서 Invoke를 탈 때 삭제가 수행된다.
+			
+			var length = this.dsOutput1.rowcount;
+			
+			for(var i=0; i<length; i++)
+			{
+				this.dsOutput1.deleteRow(length-(i+1));
+			}
+			
+			break;
+			
+		case "btn_SingleOut" : 
+			var aRowidx = this.grd_LevelCodeList.getSelectedRows();
+			
+			for(var i=0; i<aRowidx.length; i++)
+			{
+				var nRow = this.dsOutput2.addRow();
+				this.dsOutput2.setColumn(nRow, "CD_CODE", this.dsOutput1.getColumn(aRowidx[i], "LEVEL_CODE"));
+				this.dsOutput2.setColumn(nRow, "CAPTION", this.dsOutput1.getColumn(aRowidx[i], "LEVEL_NAME"));
+			}
+			
+			this.dsOutput1.deleteMultiRows(aRowidx);
+			this.dsOutput2.set_rowposition(-1);
+			break;	
+	}
+};
+
+//현재날짜측정
+this.getDate = function()
+{
+	var objDate = new Date();
+	var strMonth = "", strDate = "", resMonth = "", resDate = "";
+	
+	strMonth = parseInt(objDate.getMonth()) + 1;
+	strDate = parseInt(objDate.getDate());
+	
+	resMonth = strMonth.toString().padLeft(2, "0");
+	resDate = strDate.toString().padLeft(2, "0");
+	
+	return objDate.getYear() + "-" + resMonth + "-" + resDate;
+};
+
+this.div_Search_cmb_Level_Type_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var strFilter = ""
+			
+	if(e.postvalue == "0") //unfilter 처리함.
+	{
+		this.dsOutput1.filter("");
+		this.dsOutput2.filter("");
+	}
+	else if(e.postvalue == "S")
+	{
+		strFilter = "S";
+		this.dsOutput1.filter("LEVEL_TYPE == '" + strFilter + "'");
+		this.dsOutput2.filter("LEVEL_TYPE == '" + strFilter + "'");
+	}
+	else if(e.postvalue == "T")
+	{
+		strFilter = "T";
+		this.dsOutput1.filter("LEVEL_TYPE == '" + strFilter + "'");
+		this.dsOutput2.filter("LEVEL_TYPE == '" + strFilter + "'");
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsOutput1">
+        <ColumnInfo>
+          <Column id="REGISTER" type="STRING" size="255"/>
+          <Column id="YEAR" type="STRING" size="4"/>
+          <Column id="LEVEL_TYPE" type="STRING" size="20"/>
+          <Column id="LEVEL_CODE" type="STRING" size="20"/>
+          <Column id="UNIT_COST" type="FLOAT" size="22"/>
+          <Column id="REMARKS" type="STRING" size="1073741823"/>
+          <Column id="INSERT_DATE" type="DATETIME" size="23"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="60"/>
+          <Column id="INSERT_DEPT_CD" type="STRING" size="60"/>
+          <Column id="INSERT_DEPT_NM" type="STRING" size="100"/>
+          <Column id="INSERT_MODEL" type="STRING" size="100"/>
+          <Column id="UPDATE_DATE" type="DATETIME" size="23"/>
+          <Column id="UPDATE_EMP_NO" type="STRING" size="60"/>
+          <Column id="UPDATE_DEPT_CD" type="STRING" size="60"/>
+          <Column id="UPDATE_DEPT_NM" type="STRING" size="100"/>
+          <Column id="UPDATE_MODEL" type="STRING" size="100"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CD_LEVEL_CODE"/>
+      <Dataset id="ds_CD_Staff_Class">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">S</Col>
+            <Col id="CAPTION">SI인력</Col>
+            <Col id="CAPTION_JAP">SI人材</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">T</Col>
+            <Col id="CAPTION">기술지원</Col>
+            <Col id="CAPTION_JAP">技術サポート</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsOutput2">
+        <ColumnInfo>
+          <Column id="LEVEL_TYPE" type="STRING" size="1"/>
+          <Column id="CD_CODE" type="STRING" size="20"/>
+          <Column id="CAPTION" type="STRING" size="100"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Level_Type">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="CAPTION_ENG" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">전체</Col>
+            <Col id="CAPTION_JAP">全体</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">S</Col>
+            <Col id="CAPTION">SI인력</Col>
+            <Col id="CAPTION_JAP">SI人材</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">T</Col>
+            <Col id="CAPTION">기술지원</Col>
+            <Col id="CAPTION_JAP">技術サポート</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

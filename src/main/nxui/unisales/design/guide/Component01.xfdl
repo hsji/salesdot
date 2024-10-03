@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Component_01" width="1070" height="3743" titletext="sta,edt,msk,txt,cbo,lst,spn,cal,mnu" cssclass="frm_WF_Frame">
+    <Layouts>
+      <Layout height="3743" width="1070">
+        <Static id="sta109_00_00_00_00_01_00_00" taborder="149" left="48" height="151" cssclass="sta_WF_Box" right="52" text="" onclick="sta109_00_00_00_00_01_onclick" top="3517"/>
+        <Static id="sta109_00_00_00_00_01" taborder="147" left="48" top="2466" height="292" cssclass="sta_WF_Box" right="52" text="" onclick="sta109_00_00_00_00_01_onclick"/>
+        <Static id="sta109_00_00_00_00_01_00" taborder="148" left="48" top="2778" height="719" cssclass="sta_WF_Box" right="52" text="" onclick="sta109_00_00_00_00_01_onclick"/>
+        <Static id="sta109_00_00_00_00_00" taborder="146" left="48" top="2174" height="272" cssclass="sta_WF_Box" right="52" text=""/>
+        <Static id="sta109_00_00_00_00" taborder="145" left="48" top="1846" height="308" cssclass="sta_WF_Box" right="52" text=""/>
+        <Static id="sta109_00_00_00" taborder="144" left="48" top="1420" height="406" cssclass="sta_WF_Box" right="52" text=""/>
+        <Static id="sta109_00" taborder="142" left="48" top="669" height="402" cssclass="sta_WF_Box" right="52" text=""/>
+        <Static id="sta109_00_00" taborder="143" left="48" top="1092" height="308" cssclass="sta_WF_Box" right="52" text=""/>
+        <Static id="sta109" taborder="141" left="48" top="160" height="489" cssclass="sta_WF_Box" right="52"/>
+        <Static id="sta00_00" taborder="139" left="202" top="3568" right="88" cssclass="sta_TF_Bg" height="50"/>
+        <Static id="sta00" taborder="0" left="0" top="0" height="151" cssclass="sta_WF_GBar" text="&lt;fc v='#3683e2'&gt;&lt;fs v='13'&gt;TOBESOFT&lt;/fs&gt;&lt;/fc&gt;&#13;&#10;Component KIT&#13;&#10;&lt;fc v='#acafbb'&gt;&lt;fs v='11'&gt;sta, edt, msk, txt, cbo, lst, spn, cal, mnu&lt;/fs&gt;&lt;/fc&gt;" right="0" usedecorate="true"/>
+        <Static id="sta03" taborder="1" left="98" top="210" width="72" height="21" cssclass="sta_WF_GTxt01" text="Static"/>
+        <Static id="sta04" taborder="2" text="기본" left="280" top="210" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta05" taborder="3" text="normal" left="280" top="238" width="35" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta06" taborder="4" text="13px &quot;Malgun Gothic&quot; &#13;&#10;가나다라마바사아자차카타파하" left="280" top="258" width="303" height="40"/>
+        <Static id="sta07" taborder="5" text="disabled" left="693" top="238" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta08" taborder="6" text="13px &quot;Malgun Gothic&quot; &#13;&#10;가나다라마바사아자차카타파하" left="693" top="258" width="303" height="40" enable="false"/>
+        <Static id="sta21" taborder="7" left="98" top="719" width="50" height="21" cssclass="sta_WF_GTxt01" text="Edit"/>
+        <Static id="sta22" taborder="8" text="기본" left="280" top="719" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta23" taborder="9" text="normal" left="280" top="747" width="35" height="13" cssclass="sta_WF_GTxt03"/>
+        <Edit id="edt09" taborder="10" left="280" top="770" width="150" height="24" text="투비" value="투비"/>
+        <Edit id="edt01" taborder="11" left="508" top="770" width="150" height="24" text="투비" value="투비" enable="false"/>
+        <Edit id="edt02" taborder="12" left="743" top="770" width="150" height="24" text="투비" value="투비" readonly="true"/>
+        <Static id="sta25" taborder="13" text="disabled" left="508" top="747" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta26" taborder="14" text="readonly" left="743" top="747" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta27" taborder="15" text="필수" left="280" top="830" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Edit id="edt03" taborder="16" left="280" top="881" width="150" height="24" text="투비" cssclass="essential" value="투비" readonly="false"/>
+        <Static id="sta31" taborder="17" left="98" top="1142" width="115" height="21" cssclass="sta_WF_GTxt01" text="MaskEdit"/>
+        <Static id="sta36" taborder="18" text="필수" left="280" top="1259" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta39" taborder="19" text="기본" left="280" top="1142" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <MaskEdit id="mak07" taborder="20" left="280" top="1199" height="24" readonly="false" width="150" value="1500000000" format="###,###"/>
+        <MaskEdit id="mak01" taborder="21" left="508" top="1199" height="24" readonly="false" width="150" value="1500000000" format="###,###" enable="false"/>
+        <MaskEdit id="mak02" taborder="22" left="743" top="1199" height="24" readonly="true" width="150" value="1500000000" format="###,###"/>
+        <MaskEdit id="mak03" taborder="23" left="280" top="1316" height="24" readonly="false" width="150" value="1500000000" format="###,###" cssclass="essential"/>
+        <Static id="sta41" taborder="24" left="98" top="1470" width="115" height="21" cssclass="sta_WF_GTxt01" text="TextArea"/>
+        <Static id="sta42" taborder="25" text="기본" left="280" top="1470" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <TextArea id="txa00" taborder="26" left="280" top="1532" width="150" height="68" enable="true" scrolltype="both" value="투비&#10;투비&#10;투비&#10;투비&#10;투비&#10;투비"/>
+        <TextArea id="txa02" taborder="27" left="508" top="1532" width="150" height="68" enable="false" scrolltype="both" value="투비&#10;투비"/>
+        <TextArea id="txa03" taborder="28" left="743" top="1532" width="150" height="68" enable="true" scrolltype="both" value="투비&#10;투비" readonly="true"/>
+        <Static id="sta47" taborder="29" text="필수" left="280" top="1636" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <TextArea id="txa04" taborder="30" left="280" top="1698" width="150" height="68" enable="true" scrolltype="both" value="투비&#10;투비" cssclass="essential" readonly="false"/>
+        <Static id="sta51" taborder="31" left="98" top="1896" width="121" height="43" cssclass="sta_WF_GTxt01" text="Combo"/>
+        <Static id="sta52" taborder="32" text="기본" left="280" top="1896" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta57" taborder="33" text="필수" left="280" top="2017" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Combo id="cbo02" taborder="34" left="280" width="150" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" value="1" index="0" text="투비" top="1957">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">1</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">2</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">3</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Combo id="cbo01" taborder="35" left="508" width="150" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" value="1" index="0" text="투비" top="1957" enable="false">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">1</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">2</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">3</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Combo id="cbo03" taborder="36" left="743" width="150" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" value="1" index="0" text="투비" top="1957" readonly="true">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">1</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">2</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">3</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Combo id="cbo04" taborder="37" left="280" width="150" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" value="1" index="0" text="투비" top="2078" accessibilityenable="true" cssclass="essential" readonly="false">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">1</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">2</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">3</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Static id="sta63" taborder="38" left="98" top="2224" width="95" height="21" cssclass="sta_WF_GTxt01" text="ListBox"/>
+        <Static id="sta64" taborder="39" text="기본" left="280" top="2224" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <ListBox id="lsb00" taborder="40" left="280" top="2284" width="150" height="102" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">1</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">2</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">3</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">4</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">5</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </ListBox>
+        <ListBox id="lsb01" taborder="41" left="508" top="2284" width="150" height="102" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" enable="false">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">1</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">2</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">3</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">4</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </ListBox>
+        <Static id="sta68" taborder="42" left="98" top="2516" width="56" height="25" cssclass="sta_WF_GTxt01" text="Spin"/>
+        <Static id="sta69" taborder="43" text="기본" left="280" top="2516" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta74" taborder="44" text="필수" left="280" top="2625" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Spin id="spn00" taborder="45" left="280" top="2565" width="150" height="24" value="20"/>
+        <Spin id="spn02" taborder="46" left="508" top="2565" width="150" height="24" value="20" enable="false"/>
+        <Spin id="spn03" taborder="47" left="743" top="2565" width="150" height="24" value="20" readonly="true"/>
+        <Spin id="spn04" taborder="48" left="280" top="2674" width="150" height="24" value="20" cssclass="essential" readonly="false"/>
+        <Static id="sta78" taborder="49" left="98" top="2828" width="118" height="21" cssclass="sta_WF_GTxt01" text="Calendar"/>
+        <Static id="sta79" taborder="50" text="기본" left="280" top="2828" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta84" taborder="51" text="필수" left="280" top="2943" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Calendar id="cal00" taborder="52" left="280" top="2883" width="150" height="24" value="20191225" dateformat="yyyy-MM-dd " usetrailingday="true"/>
+        <Calendar id="cal02" taborder="53" left="508" top="2883" width="150" height="24" value="20191225" dateformat="yyyy-MM-dd " enable="false"/>
+        <Calendar id="cal03" taborder="54" left="743" top="2883" width="150" height="24" value="20191225" dateformat="yyyy-MM-dd " readonly="true"/>
+        <Calendar id="cal04" taborder="55" left="280" top="2998" width="150" height="24" value="20191225" dateformat="yyyy-MM-dd " cssclass="essential" enable="true" readonly="false"/>
+        <Static id="sta87" taborder="56" text="캘린더 팝업" left="280" top="3167" width="70" height="14" cssclass="sta_WF_GTxt02"/>
+        <Calendar id="cal06" taborder="57" left="280" top="3217" width="200" height="220" value="20191225" type="monthonly" enable="true" usetrailingday="true"/>
+        <Static id="sta96" taborder="58" text="Spin" left="280" top="3058" width="27" height="14" cssclass="sta_WF_GTxt02B"/>
+        <Calendar id="cal07" taborder="59" left="280" top="3108" width="150" height="24" value="20191225" dateformat="yyyy-MM-dd " showyearspin="false" type="spin"/>
+        <Static id="sta138" taborder="60" text="검색" left="280" top="941" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Edit id="edt08" taborder="61" top="987" width="150" height="24" text="투비투비" cssclass="edt_WF_Search" left="280" value="투비투비"/>
+        <Button id="Button27" taborder="62" left="402" top="987" width="28" height="24" cssclass="btn_WF_EdiSch" onclick="Div00_Button01_onclick"/>
+        <Edit id="edt06" taborder="63" top="987" width="150" height="24" text="투비" cssclass="edt_WF_SearchEssential" left="508" value="투비" enable="true" readonly="false" usecontextmenu="true"/>
+        <Button id="Button00" taborder="64" left="633" top="987" width="28" height="24" cssclass="btn_WF_EdiSch" onclick="Div00_Button01_onclick"/>
+        <Static id="sta24" taborder="65" text="fs 글자의 크기(fontsize)를 지정합니다.  ex)&lt;fs v='12'&gt;&lt;/fs&gt;&#13;&#10;fc 글자의 색상(fontcolor)를 지정합니다.  ex)&lt;fc v='red'&gt;&lt;/fc&gt;&lt;fc v='#FF00FF'&gt;&lt;/fc&gt;&#13;&#10;ff 글자의 종류(fontface)를 지정합니다.  ex)&lt;ff v='굴림'&gt;&lt;/ff&gt;&#13;&#10;b 굵은글씨를(bold)를 지정합니다. ex)&lt;b v='true'&gt;&lt;/b&gt;&#13;&#10;i 이텔릭체를 (italic)를 지정합니다.  ex)&lt;i v='true'&gt;&lt;/i&gt;&#13;&#10;u 언더라인을(underline)를 지정합니다.  ex)&lt;u v='true'&gt;&lt;/u&gt;&#13;&#10;s 취소선(strike)를 지정합니다.  ex)&lt;s v='true'&gt;&lt;/s&gt;" left="280" top="353" width="562" height="130" usedecorate="false" cssclass="sta_WF_GBg02"/>
+        <Static id="sta28" taborder="66" text="※ usedecorate =&quot;&lt;b v='true'&gt;true&lt;/b&gt;&quot;" left="280" top="327" width="232" height="21" usedecorate="true" cssclass="sta_WF_GTxt05"/>
+        <Static id="sta02" taborder="67" text="타이틀" left="280" top="525" width="46" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta09" taborder="68" text="대타이틀" left="280" top="547" width="179" height="50" cssclass="sta_WF_Title"/>
+        <Static id="sta10" taborder="69" text="서브타이틀" left="508" top="547" width="179" height="50" cssclass="sta_WF_SubTitle"/>
+        <Static id="sta11" taborder="70" text="검색라벨" left="743" top="560" width="96" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+        <Static id="sta14" taborder="71" text="essential" left="280" top="858" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta15" taborder="72" left="267" top="770" width="9" height="24" cssclass="sta_WF_GLineV" visible="false"/>
+        <Static id="sta59" taborder="73" text="24" left="249" top="777" width="22" height="13" cssclass="sta_WF_GTxt04" onclick="Static102_onclick" visible="false"/>
+        <Static id="sta16" taborder="74" text="normal" left="280" top="1175" width="35" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta17" taborder="75" text="disabled" left="508" top="1175" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta18" taborder="76" text="readonly" left="743" top="1175" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta19" taborder="77" text="essential" left="280" top="1292" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta29" taborder="78" left="269" top="1198" width="9" height="24" cssclass="sta_WF_GLineV" visible="false"/>
+        <Static id="sta32" taborder="79" text="24" left="251" top="1205" width="22" height="13" cssclass="sta_WF_GTxt04" onclick="Static102_onclick" visible="false"/>
+        <Static id="sta33" taborder="80" text="normal" left="280" top="1506" width="35" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta34" taborder="81" text="disabled" left="508" top="1506" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta35" taborder="82" text="readonly" left="743" top="1506" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta37" taborder="83" text="essential" left="280" top="1672" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta38" taborder="84" text="normal" left="280" top="1934" width="35" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta43" taborder="85" text="disabled" left="508" top="1934" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta44" taborder="86" text="readonly" left="743" top="1934" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta45" taborder="87" text="essential" left="280" top="2055" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta46" taborder="88" left="268" top="1957" width="9" height="24" cssclass="sta_WF_GLineV" visible="false"/>
+        <Static id="sta48" taborder="89" text="24" left="250" top="1964" width="22" height="13" cssclass="sta_WF_GTxt04" onclick="Static102_onclick" visible="false"/>
+        <Static id="sta49" taborder="90" text="disabled" left="508" top="2257" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta53" taborder="91" text="normal" left="280" top="2257" width="35" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta54" taborder="92" text="" left="743" top="2532" width="32" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta55" taborder="93" text="normal" left="280" top="2542" width="35" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta56" taborder="94" text="disabled" left="508" top="2542" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta60" taborder="95" text="readonly" left="743" top="2542" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta61" taborder="96" text="essential" left="280" top="2651" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta65" taborder="97" text="24" left="249" top="2572" width="22" height="13" cssclass="sta_WF_GTxt04" onclick="Static102_onclick" visible="false"/>
+        <Static id="sta66" taborder="98" left="267" top="2565" width="9" height="24" cssclass="sta_WF_GLineV" visible="false"/>
+        <Static id="sta70" taborder="99" text="normal" left="280" top="2860" width="35" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta71" taborder="100" text="disabled" left="508" top="2860" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta72" taborder="101" text="readonly" left="743" top="2860" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta73" taborder="102" text="essential" left="280" top="2975" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta75" taborder="103" text="24" left="249" top="2890" width="22" height="13" cssclass="sta_WF_GTxt04" onclick="Static102_onclick" visible="false"/>
+        <Static id="sta76" taborder="104" left="267" top="2883" width="9" height="24" cssclass="sta_WF_GLineV" visible="false"/>
+        <Static id="sta80" taborder="105" text="이전 다음달 표기 &#13;&#10;usetrailingday: true" left="514" top="3217" width="147" height="57" cssclass="sta_WF_GBg02" visible="false"/>
+        <Static id="sta81" taborder="106" text="type: monthonly" left="280" top="3188" width="125" height="23" cssclass="sta_WF_GTxt05"/>
+        <Static id="sta82" taborder="107" text="type: spin" left="280" top="3079" width="125" height="23" cssclass="sta_WF_GTxt05"/>
+        <Static id="sta83" taborder="108" text="에러" left="508" top="830" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Edit id="edt00" taborder="109" left="508" top="881" width="150" height="24" text="투비" cssclass="error" value="투비" readonly="false"/>
+        <Static id="sta85" taborder="110" text="error" left="508" top="858" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta86" taborder="111" left="743" top="830" width="103" height="14" cssclass="sta_WF_GTxt02" text="아웃풋(라인없음)"/>
+        <Static id="sta88" taborder="112" text="output" left="743" top="858" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta89" taborder="113" text="에러" left="508" top="1636" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta90" taborder="114" text="error" left="508" top="1672" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta91" taborder="115" left="743" top="1636" width="103" height="14" cssclass="sta_WF_GTxt02" text="아웃풋(라인없음)"/>
+        <Static id="sta92" taborder="116" text="output" left="743" top="1672" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <MaskEdit id="mak00" taborder="117" left="508" top="1316" height="24" readonly="false" width="150" value="1500000000" format="###,###" cssclass="error"/>
+        <MaskEdit id="mak04" taborder="118" left="743" top="1316" height="24" readonly="false" width="150" value="1500000000" format="###,###" cssclass="output"/>
+        <TextArea id="txa01" taborder="119" left="508" top="1698" width="150" height="68" enable="true" scrolltype="both" value="투비&#10;투비" cssclass="error" readonly="false"/>
+        <TextArea id="txa05" taborder="120" left="743" top="1698" width="150" height="68" enable="true" scrolltype="both" value="투비&#10;투비" cssclass="output" readonly="false"/>
+        <Static id="sta93" taborder="121" text="에러" left="508" top="1259" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta94" taborder="122" text="error" left="508" top="1292" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta95" taborder="123" left="743" top="1259" width="103" height="14" cssclass="sta_WF_GTxt02" text="아웃풋(라인없음)"/>
+        <Static id="sta97" taborder="124" text="output" left="743" top="1292" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Static id="sta98" taborder="125" text="에러" left="508" top="2017" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta99" taborder="126" text="error" left="508" top="2055" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Combo id="cbo00" taborder="127" left="508" width="150" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" value="1" index="0" text="투비" top="2078" accessibilityenable="true" cssclass="error" readonly="false">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">1</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">2</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">3</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Static id="sta100" taborder="128" text="에러" left="508" top="2625" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta101" taborder="129" text="error" left="508" top="2651" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Spin id="spn01" taborder="130" left="508" top="2674" width="150" height="24" value="20" cssclass="error" readonly="false"/>
+        <Static id="sta102" taborder="131" text="에러" left="508" top="2943" width="26" height="14" cssclass="sta_WF_GTxt02"/>
+        <Static id="sta103" taborder="132" text="error" left="508" top="2975" width="45" height="13" cssclass="sta_WF_GTxt03"/>
+        <Calendar id="cal01" taborder="133" left="508" top="2998" width="150" height="24" value="20191225" dateformat="yyyy-MM-dd " cssclass="error" enable="true" readonly="false"/>
+        <Calendar id="cal05" taborder="134" left="508" top="3108" width="150" height="24" value="20191225" dateformat="yyyy-MM-dd " showyearspin="false" type="spin" cssclass="error"/>
+        <Static id="sta104" taborder="135" left="98" top="3567" width="118" height="21" cssclass="sta_WF_GTxt01" text="Menu"/>
+        <Menu id="mnu00" taborder="136" left="202" top="3568" width="738" height="50" innerdataset="innerdataset" captioncolumn="captioncolumn" checkboxcolumn="checkboxcolumn" enablecolumn="enablecolumn" hotkeycolumn="hotkeycolumn" iconcolumn="iconcolumn" idcolumn="idcolumn" levelcolumn="levelcolumn" userdatacolumn="userdatacolumn">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="captioncolumn" size="256"/>
+              <Column id="checkboxcolumn" size="256"/>
+              <Column id="enablecolumn" size="256"/>
+              <Column id="hotkeycolumn" size="256"/>
+              <Column id="iconcolumn" size="256"/>
+              <Column id="idcolumn" size="256"/>
+              <Column id="levelcolumn" size="256"/>
+              <Column id="userdatacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="captioncolumn">메뉴</Col>
+                <Col id="levelcolumn">0</Col>
+                <Col id="checkboxcolumn">0</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">2뎁스메뉴</Col>
+                <Col id="levelcolumn">1</Col>
+                <Col id="checkboxcolumn">1</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">Last Menu</Col>
+                <Col id="levelcolumn">2</Col>
+                <Col id="checkboxcolumn">1</Col>
+                <Col id="hotkeycolumn">hotkey</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">Last Menu</Col>
+                <Col id="levelcolumn">2</Col>
+                <Col id="checkboxcolumn">0</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">2뎁스메뉴</Col>
+                <Col id="levelcolumn">1</Col>
+                <Col id="checkboxcolumn">1</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">2뎁스메뉴</Col>
+                <Col id="levelcolumn">1</Col>
+                <Col id="checkboxcolumn">0</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">메뉴</Col>
+                <Col id="levelcolumn">0</Col>
+                <Col id="checkboxcolumn">0</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">메뉴</Col>
+                <Col id="levelcolumn">0</Col>
+                <Col id="checkboxcolumn">0</Col>
+                <Col id="hotkeycolumn">hotkey</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">메뉴</Col>
+                <Col id="levelcolumn">0</Col>
+                <Col id="checkboxcolumn">0</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">메뉴</Col>
+                <Col id="levelcolumn">0</Col>
+                <Col id="checkboxcolumn">0</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Menu>
+        <Static id="sta106" taborder="137" text="Edit Class: edt_WF_Search" left="280" top="959" width="190" height="23" cssclass="sta_WF_GTxt05"/>
+        <Static id="sta107" taborder="138" text="Edit Class: edt_WF_SearchEssential" left="508" top="959" width="250" height="23" cssclass="sta_WF_GTxt05"/>
+        <Static id="sta01" taborder="140" top="64" width="61" height="50" right="50" text="01" cssclass="sta_WF_GNum"/>
+        <Static id="sta138_00" taborder="150" text="검색필수" left="508" top="941" width="52" height="14" cssclass="sta_WF_GTxt02"/>
+        <Edit id="edt02_00" taborder="151" left="743" top="881" width="150" height="24" text="투비" value="투비" cssclass="output"/>
+        <MultiCombo id="MultiCombo00_00_00_00" taborder="152" text="투비,투비,투비" left="743" top="2259" width="197" height="46" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" readonlycolumn="readonlycolumn" value="1,2,3" index="0,1,2" edittype="singletag" type="filter" showselectallcheckbox="true" onitemchanged="MultiCombo00_00_onitemchanged" tagboxscrollbarsize="12" enable="false">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+              <Column id="readonlycolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">1</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">2</Col>
+                <Col id="datacolumn">투비</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">3</Col>
+                <Col id="datacolumn">투비</Col>
+                <Col id="readonlycolumn">true</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">4</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">5</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">6</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">7</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">8</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">9</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">10</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">11</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">12</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">13</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">14</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">투비</Col>
+                <Col id="codecolumn">15</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </MultiCombo>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[]]></Script>
+  </Form>
+</FDL>

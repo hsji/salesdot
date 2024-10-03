@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="sampleWeather" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Button id="btn00" taborder="0" text="btn00" left="60" top="44" width="286" height="85" onclick="btn00_onclick"/>
+        <Button id="btn01" taborder="1" text="btn01" left="406" top="44" width="243" height="89" onclick="btn01_onclick"/>
+        <Button id="btn02" taborder="2" text="btn02" left="149" top="163" width="269" height="101" onclick="btn02_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.btn00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// %2BPFsFevzZecsv9GbHbbEWjG%2BokFVEdgTEQfibhhDDlUrb2XPyRFDXmeTRei5i%2FRPuDKr%2FVCDX7NhdxwDWhZLeQ%3D%3D
+	// +PFsFevzZecsv9GbHbbEWjG+okFVEdgTEQfibhhDDlUrb2XPyRFDXmeTRei5i/RPuDKr/VCDX7NhdxwDWhZLeQ==
+	// https://www.data.go.kr/data/15059468/openapi.do
+	var time = this.gfnGetDate("date");
+	console.log(time);
+	var sKey = "%2BPFsFevzZecsv9GbHbbEWjG%2BokFVEdgTEQfibhhDDlUrb2XPyRFDXmeTRei5i%2FRPuDKr%2FVCDX7NhdxwDWhZLeQ%3D%3D";
+	var xhr = new XMLHttpRequest();
+	var url = 'http://apis.data.go.kr/1360000/MidFcstInfoService/getMidFcst'; /*URL*/
+	var queryParams = '?' + encodeURIComponent('serviceKey') + '='+sKey; /*Service Key*/
+	queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
+	queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON'); /**/
+	queryParams += '&' + encodeURIComponent('stnId') + '=' + encodeURIComponent('108'); /**/
+	queryParams += '&' + encodeURIComponent('tmFc') + '=' + encodeURIComponent(time + '0600'); /**/
+	xhr.open('GET', url + queryParams);
+	xhr.onreadystatechange = function () {
+		if (this.readyState == 4) {
+			console.log(this.status,this.getAllResponseHeaders(),this.responseText);
+		}
+	};
+
+	xhr.send('');	
+};
+
+this.btn01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//0200, 0500, 0800, 1100, 1400, 1700, 2000, 2300 
+	
+	var date = this.gfnGetDate("date");
+	var time = this.gfnGetDate("timeform2");
+// %2BPFsFevzZecsv9GbHbbEWjG%2BokFVEdgTEQfibhhDDlUrb2XPyRFDXmeTRei5i%2FRPuDKr%2FVCDX7NhdxwDWhZLeQ%3D%3D
+// +PFsFevzZecsv9GbHbbEWjG+okFVEdgTEQfibhhDDlUrb2XPyRFDXmeTRei5i/RPuDKr/VCDX7NhdxwDWhZLeQ==
+	var sKey = "%2BPFsFevzZecsv9GbHbbEWjG%2BokFVEdgTEQfibhhDDlUrb2XPyRFDXmeTRei5i%2FRPuDKr%2FVCDX7NhdxwDWhZLeQ%3D%3D";
+	var xhr = new XMLHttpRequest();
+	//var url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst'; /*URL*/
+	var url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst'; /*URL*/
+	//var url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getFcstVersion'; /*URL*/
+	var queryParams = '?' + encodeURIComponent('serviceKey') + '='+sKey; /*Service Key*/
+	queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('100'); /**/
+	queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON'); /**/
+	//queryParams += '&' + encodeURIComponent('ftype') + '=' + encodeURIComponent('SHRT'); /**/
+	queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent(date); /**/
+	queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent("1600"/*time.substr(0,2) + "30"*/); /**/
+	//queryParams += '&' + encodeURIComponent('basedatetime') + '=' + encodeURIComponent(date + time.substr(0,2) + "00"); /**/
+	
+	queryParams += '&' + encodeURIComponent('nx') + '=55';// + encodeURIComponent('37'); /**/
+	queryParams += '&' + encodeURIComponent('ny') + '=127';// + encodeURIComponent('127'); /**/
+	xhr.open('GET', url + queryParams);
+	xhr.onreadystatechange = function () {
+		if (this.readyState == 4) {
+			//console.log(this.status,this.getAllResponseHeaders(),this.responseText);
+			console.log(this.responseText);
+		}
+	};
+
+	xhr.send('');	
+};
+
+this.btn02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var date = this.gfnGetDate("date");
+	var time = this.gfnGetDate("timeform2");
+// %2BPFsFevzZecsv9GbHbbEWjG%2BokFVEdgTEQfibhhDDlUrb2XPyRFDXmeTRei5i%2FRPuDKr%2FVCDX7NhdxwDWhZLeQ%3D%3D
+// +PFsFevzZecsv9GbHbbEWjG+okFVEdgTEQfibhhDDlUrb2XPyRFDXmeTRei5i/RPuDKr/VCDX7NhdxwDWhZLeQ==
+	var sKey = "%2BPFsFevzZecsv9GbHbbEWjG%2BokFVEdgTEQfibhhDDlUrb2XPyRFDXmeTRei5i%2FRPuDKr%2FVCDX7NhdxwDWhZLeQ%3D%3D";
+	var xhr = new XMLHttpRequest();
+	//var url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst'; /*URL*/
+	var url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst'; /*URL*/
+	//var url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getFcstVersion'; /*URL*/
+	var queryParams = '?' + encodeURIComponent('serviceKey') + '='+sKey; /*Service Key*/
+	queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('100'); /**/
+	queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON'); /**/
+	//queryParams += '&' + encodeURIComponent('ftype') + '=' + encodeURIComponent('SHRT'); /**/
+	queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent(date); /**/
+	queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent("1600"/*time.substr(0,2) + "30"*/); /**/
+	//queryParams += '&' + encodeURIComponent('basedatetime') + '=' + encodeURIComponent(date + time.substr(0,2) + "00"); /**/
+	
+	queryParams += '&' + encodeURIComponent('nx') + '=55';// + encodeURIComponent('37'); /**/
+	queryParams += '&' + encodeURIComponent('ny') + '=127';// + encodeURIComponent('127'); /**/
+	
+	var objReqData = {
+		"serviceid" : "weather",
+		"dataobject" : this.doj00,
+		"method" : "GET",
+		"requesturl" : url + queryParams,
+	};
+	this.gfnRequestDataObject(this, objReqData, this.fnCb);
+};
+
+this.fnCb = function(serviceid, code, objResolve) {
+	console.log(serviceid, code, objResolve);
+};
+]]></Script>
+    <Objects>
+      <DataObject id="doj00"/>
+      <Dataset id="ds00" binddataobject="doj00">
+        <ColumnInfo>
+          <Column id="items" datapath="$.response.body.items" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="cmmCalM" width="135" height="24" titletext="월력" onload="form_onload">
+    <Layouts>
+      <Layout height="24" mobileorientation="landscape" width="135">
+        <Calendar id="calM" taborder="0" left="0" top="0" dateformat="yyyy-MM" editformat="yyyy-MM" right="0" bottom="0" popuptype="none" ondropdown="calM_ondropdown" oneditclick="calM_oneditclick" enable="true" readonly="false"/>
+        <PopupDiv id="pdivCal" text="pdiv00" visible="false" left="0" top="40" height="175" onpopup="pdivCal_onpopup" width="180">
+          <Layouts>
+            <Layout>
+              <Static id="staBg" taborder="0" left="0" top="0" cssclass="sta_WF_GBg01" right="0" bottom="0"/>
+              <Static id="staYear" taborder="1" text="2020" left="0" top="7" height="29" cssclass="sta_WF_GTxt01" right="0" textAlign="center"/>
+              <Button id="btnPrev" taborder="2" height="29" cssclass="btn_WF_CalLeft" left="10" top="7" width="29" onclick="pdivCal_btnPrev_onclick"/>
+              <Button id="btnNext" taborder="3" top="7" cssclass="btn_WF_CalRight" height="29" width="29" right="10" onclick="pdivCal_btnNext_onclick"/>
+              <Button id="btn01" taborder="4" left="6" top="43" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal01"/>
+              <Button id="btn02" taborder="5" left="btn01:2" top="43" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal02"/>
+              <Button id="btn03" taborder="6" left="btn02:2" top="43" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal03"/>
+              <Button id="btn04" taborder="7" left="btn03:2" top="43" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal04"/>
+              <Button id="btn05" taborder="8" left="6" top="btn01:2" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal05"/>
+              <Button id="btn06" taborder="9" left="48" top="btn02:2" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal06"/>
+              <Button id="btn07" taborder="10" left="90" top="btn03:2" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal07"/>
+              <Button id="btn08" taborder="11" left="132" top="btn04:2" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal08"/>
+              <Button id="btn09" taborder="12" left="6" top="127" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal09"/>
+              <Button id="btn10" taborder="13" left="48" top="127" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal10"/>
+              <Button id="btn11" taborder="14" left="90" top="127" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal11"/>
+              <Button id="btn12" taborder="15" left="132" top="127" width="40" height="40" onclick="btnMonth_onclick" cssclass="btn_WF_Cal12"/>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	cmmCalM.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2020/12/03
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2020/12/03			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+this.fvDiv = null;
+this.fvSelectCss = "btn_WF_Crud";
+this.fvBtn = null;
+
+this.today;
+this.yyyy;
+this.mm;
+this.popdiv;
+
+this.yyyyPre;
+this.mmPre;
+this.pForm;
+this.pComp;
+this.pEventForm;
+this.pEventComp;
+
+this.validYear = {
+					 min:"2000"
+					,max:((new Date()).getFullYear()+5).toString()
+				 };											//년 4자리 (1900~2018:최신년도) : 미래 설정가능여부 판단필요. (10년까지?)
+this.validMonths = [  "01", "02", "03", "04", "05", "06" ,"07", "08", "09", "10", "11", "12" ];	//월 2자리 (01~12)
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	this.fvDiv = this.parent;
+	
+	this.fvBtn = [];
+	this.fvBtn.push(this.pdivCal.form.btn01);
+	this.fvBtn.push(this.pdivCal.form.btn02);
+	this.fvBtn.push(this.pdivCal.form.btn03);
+	this.fvBtn.push(this.pdivCal.form.btn04);
+	this.fvBtn.push(this.pdivCal.form.btn05);
+	this.fvBtn.push(this.pdivCal.form.btn06);
+	this.fvBtn.push(this.pdivCal.form.btn07);
+	this.fvBtn.push(this.pdivCal.form.btn08);
+	this.fvBtn.push(this.pdivCal.form.btn09);
+	this.fvBtn.push(this.pdivCal.form.btn10);
+	this.fvBtn.push(this.pdivCal.form.btn11);
+	this.fvBtn.push(this.pdivCal.form.btn12);
+	
+	//스크롤바 제거
+	this.set_scrollbartype("none none");
+	
+	this.today = new Date();
+	//this.pdivCal.form.spin_Year.set_max(this.validYear.max);
+	
+	this.popdiv = this.pdivCal;
+	this.popdiv.parentOrg = this;
+	
+	this.pForm = this.parent.parent;		//Form.Div.this(현위치)
+	this.pEventForm = this.pForm;			//Form.Div.this(현위치)
+	
+	this.pComp = this.parent;				//Div.this(현위치)
+	this.pEventComp = this.pComp;			//Div.this(현위치)
+
+	if( this.pComp.name == "div_yyyyMM_From" 
+	 || this.pComp.name == "div_yyyyMM_To" )
+	{
+		this.pForm = this.parent.parent.parent.parent;		//Form.Div.Form.Div.this(현위치)
+		this.pComp = this.parent.parent.parent;				//Div.Form.Div.this(현위치)		
+	}
+	
+	//this.removeChild( this.popdiv.name );
+	//this.pForm.addChild(this.gfnGetUniqueId(this.popdiv.name), this.popdiv);
+	
+	//this.getOwnerFrame().getForm().addChild(this.gfnGetUniqueId(this.popdiv.name), this.popdiv);
+	
+// 	if(nexacro.getApplication().id=="ACEp")
+// 		//this.getOwnerFrame().addChild(this.gfnGetUniqueId(this.popdiv.name), this.popdiv);
+// 		this.getOwnerFrame().getForm().addChild(this.gfnGetUniqueId(this.popdiv.name), this.popdiv);
+// 	else
+// 		nexacro.getApplication().getActiveForm().addChild(this.gfnGetUniqueId(this.popdiv.name), this.popdiv);
+	
+	var pThis = this;
+	this.pEventComp.getYear = function()	{	return pThis.yyyy;			}
+	this.pEventComp.getMonth = function()	{	return pThis.mm;			}
+	this.pEventComp.getYYYYMM = function()	{	return pThis.yyyy+pThis.mm;	}
+	
+	this.pEventComp.setYear = function(v)	
+	{
+		if(pThis.isValidYear(v))
+		{
+			pThis.today.setYear(v);
+			pThis.updateDate();
+			return true;
+		}
+		return false;
+	}
+	this.pEventComp.setMonth = function(v)	
+	{	
+		if(pThis.isValidMonth(v))
+		{
+			pThis.today.setMonth(parseInt(v)-1);// v:01~12 -> setMonth:0~11 int형 입력
+			pThis.updateDate();
+			return true;
+		}
+		return false;		
+	}
+	this.pEventComp.setYYYYMM = function(v)	
+	{	
+		if(!pThis.isValidValue(v))
+		{
+			return false;
+		}
+		var year = v.substring(0,4);
+		var month = v.substring(4,6);
+		pThis.today.setYear(year);
+		pThis.today.setMonth(month-1);
+		
+		pThis.updateDate();
+	
+		return true;
+	}
+
+	this.updateDate();	
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnOpenPopupdiv= function ()
+{
+	this.pdivCal.trackPopupByComponent(this.calM, 0, this.calM.getOffsetHeight());
+};
+
+this.fnShowCalendarData = function (sYear, sMonth)
+{	
+	if( sYear == "0000"){
+		sYear = this.gfnGetDate().substr(0,4);
+	}
+	this.pdivCal.form.staYear.set_text(sYear);
+	var sCurValue = this.calM.value;
+	
+	if( !this.gfnIsNull(sCurValue)){
+		for( var i=0; i<this.fvBtn.length; i++){
+			if( this.fvBtn[i].name.replace("btn","") == sCurValue.substr(4,2) && sCurValue.substr(0,4)==sYear){
+				//this.fvBtn[i].set_cssclass(this.fvSelectCss);
+			}else{
+				//this.fvBtn[i].set_cssclass("");
+			}
+		}
+	}
+};
+
+
+/**
+ * @description  return date
+*/
+this.getDate = function ()
+{
+	if( !this.gfnIsNull(this.calM.value)) return this.calM.value.substr(0,6);
+	else return this.calM.value;
+};
+
+/**
+ * @description date setting
+*/
+this.setDate = function (value)
+{
+	this.calM.set_value(value.substr(0,4)+""+value.substr(4,2)+"01");
+};
+
+/**
+ * @description  필수여부 css 변경
+*/
+this.setRequired = function(bValue)
+{
+	if (bValue) {
+		this.calM.set_cssclass("essential");
+	}else {
+		this.calM.set_cssclass("");
+	}
+};
+
+/**
+ * @description  ReadOnly여부 변경
+*/
+this.setReadOnly = function(bValue)
+{
+	this.calM.set_readonly(bValue);
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.calM_ondropdown = function(obj:nexacro.Calendar,e:nexacro.EventInfo)
+{
+	obj.uOrgValue = obj.text;
+	this.fnOpenPopupdiv();
+};
+
+this.calM_oneditclick = function(obj:nexacro.Calendar,e:nexacro.EditClickEventInfo)
+{
+	obj.uOrgValue = obj.text;
+	this.fnOpenPopupdiv();
+};
+
+this.pdivCal_onpopup = function(obj:nexacro.PopupDiv,e:nexacro.EventInfo)
+{
+	var sDate = this.calM.value;
+	if(this.gfnIsNull(sDate)){
+		sDate = "00000000";//this.gfnGetDate();
+	}
+	
+	var sYear  = sDate.substr(0, 4);
+    var sMonth = sDate.substr(4, 2);
+    var sDay   = sDate.substr(6, 2);
+	
+	this.fnShowCalendarData(sYear, sMonth);
+};
+
+this.btnMonth_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sYear = this.pdivCal.form.staYear.text;
+	var sMonth = obj.name.replace("btn","");
+	
+	this.calM.set_value(sYear+""+sMonth+"01");
+	this.pdivCal.closePopup();
+};
+
+this.pdivCal_btnPrev_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sDate = nexacro.toNumber(this.pdivCal.form.staYear.text);
+	this.pdivCal.form.staYear.set_text(sDate - 1 );
+	
+	this.fnShowCalendarData(sDate - 1 , "00");
+};
+
+this.pdivCal_btnNext_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sDate = nexacro.toNumber(this.pdivCal.form.staYear.text);
+	this.pdivCal.form.staYear.set_text(sDate + 1 );
+	
+	this.fnShowCalendarData(sDate + 1, "00");
+};
+
+
+this.updateDate = function()
+{	
+	this.yyyyPre = this.yyyy;
+	this.mmPre = this.mm;
+	
+	this.yyyy = this.today.getFullYear();
+	this.yyyy = this.yyyy.toString();
+	this.mm = this.today.getMonth()+1;	
+	this.mm = this.mm.toString().padLeft(2, "0");
+	
+	this.calM.set_value(this.yyyy+this.mm);
+	this.pdivCal.form.staYear.set_text(this.yyyy);
+}
+
+this.setNextYear = function()	
+{
+	if(this.isValidYear(this.yyyy+1))
+	{
+		this.today.addYear(1);		
+		this.updateDate();
+		this.onchanged();
+	}	
+}
+this.setPreYear = function()
+{
+	if(this.isValidYear(this.yyyy-1))
+	{
+		this.today.addYear(-1);
+		this.updateDate();
+		this.onchanged();
+	}
+}
+this.setNextMonth = function()	
+{
+	this.today.addMonth(1);
+	this.updateDate();
+	this.onchanged();
+}
+this.setPreMonth = function()
+{
+	this.today.addMonth(-1);
+	this.updateDate();
+	this.onchanged();
+}
+
+this.btn_SelectPopMM_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nXpos = 31;	// 29
+	var nYpos = 24;
+// 	if(nexacro.getApplication().id=="ACEp")
+// 		nYpos = 20;
+		
+	this.popdiv.trackPopupByComponent(this, nXpos, nYpos, null, null, "onchanged");
+};
+
+this.comm_btn_mm = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var mm = obj.name.split("_")[1];
+	var pForm = obj.parent.parent.parentOrg;
+	pForm.today.setMonth(mm-1);
+	
+	pForm.updateDate();
+	this.popdiv.closePopup();
+};
+
+this.isValidValue = function(val)
+{
+	//사용자가 직접입력한 경우 유효성 체크
+	if(this.gfnIsEmpty(val) || val.length != 6)	//총 6자리
+	{
+		return false;
+	}
+						
+	var year = val.substring(0,4);
+	var month = val.substring(4,6);
+	
+	if( this.isValidYear(year) && this.isValidMonth(month) )
+	{
+		return true;
+	}else{
+		return false;
+	}
+}
+
+this.isValidYear = function(year)
+{
+	if( this.validYear.min <= year && this.validYear.max >= year )
+	{
+		return true;
+	}else{
+		return false;
+	}
+}
+this.isValidMonth = function(month)
+{
+	if( this.validMonths.indexOf(month) != -1 )
+	{
+		return true;
+	}else{
+		return false;
+	}
+}
+
+this.medt_yyyyMM_canchange = function(obj:nexacro.MaskEdit,e:nexacro.ChangeEventInfo)
+{
+	if(!this.isValidValue(e.postvalue))
+	{
+		return false;
+	}
+	var year = e.postvalue.substring(0,4);
+	var month = e.postvalue.substring(4,6);
+	this.today.setYear(year);
+	this.today.setMonth(month-1);
+	
+	this.updateDate();
+	
+	this.onchanged();
+};
+
+this.spin_Year_onchanged = function(obj:nexacro.Spin,e:nexacro.ChangeEventInfo)
+{
+	if(!this.isValidYear(e.postvalue))
+	{
+		return false;
+	}
+	this.today.setYear(e.postvalue);
+	
+	this.updateDate();
+};
+
+
+this.pop_SelectMM_spin_Year_onspin = function(obj:nexacro.Spin,e:nexacro.SpinEventInfo)
+{
+	if(!this.isValidYear(e.postvalue))
+	{
+		return false;
+	}
+	this.today.setYear(e.postvalue);
+	
+	this.updateDate();
+};
+
+this.onchanged = function()
+{
+	if(this.pEventComp.hasOwnProperty("user_onchanged"))
+	{
+		var event = this.pEventComp.user_onchanged;
+		if(!this.gfnIsEmpty(event))
+		{
+			var ep = {
+						 prevalue:this.yyyyPre + this.mmPre
+						,newvalue:this.yyyy + this.mm
+					}
+			
+			var f = this.pEventForm;	
+			var fe;
+			/*상위로 올라가면서 event fn 찾기*/
+			for (f; (f != null); f = f.parent)
+			{
+				if (event in f)
+				{
+					/*event fn이 존재한다면 호출*/
+					f[event].call(f, this.pEventComp, ep);
+					break;
+				}
+			}
+		}		
+	}	
+}
+
+this.pop_SelectMM_oncloseup = function(obj:nexacro.PopupDiv,e:nexacro.EventInfo)
+{
+	this.onchanged();
+};
+]]></Script>
+  </Form>
+</FDL>

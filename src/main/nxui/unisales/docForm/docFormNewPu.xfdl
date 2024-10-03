@@ -1,0 +1,670 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="docEditor" width="1400" height="800" titletext="New Form" onload="docEditor_onload" onstepchanged="docEditor_onstepchanged" canstepchange="docEditor_canstepchange" onsize="docEditor_onsize">
+    <Layouts>
+      <Layout height="800" width="1400" stepcount="2" stepindex="0">
+        <Div id="divTop" taborder="0" left="0" height="70" right="0" top="0" cssclass="div_TFDM_BottomStep" visible="true">
+          <Layouts>
+            <Layout>
+              <Static id="staTitleSubStep1" taborder="1" text="문서기본 정보 설정" left="40.06%" top="38" width="227" height="23" cssclass="sta_TFDM_StepTitle" font="bold 20px/normal &quot;Noto Sans&quot;,&quot;Malgun Gothic&quot;,&quot;Tahoma&quot;,&quot;Dotum&quot;,&quot;Helvetica&quot;,&quot;Apple SD Gothic Neo&quot;,&quot;Sans-serif&quot;" textDecoration="none" textAlign="center"/>
+              <Static id="staTitleStep1" taborder="1" text="STEP 1" left="560.00" top="12" width="227" height="17" cssclass="sta_TFDM_Step" font="bold 14px/normal &quot;Noto Sans&quot;,&quot;Malgun Gothic&quot;,&quot;Tahoma&quot;,&quot;Dotum&quot;,&quot;Helvetica&quot;,&quot;Apple SD Gothic Neo&quot;,&quot;Sans-serif&quot;" textAlign="center"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divTop00" taborder="1" left="0" height="70" right="0" top="0" cssclass="div_TFDM_BottomStep" visible="true" positionstep="1">
+          <Layouts>
+            <Layout>
+              <Static id="staTitleSubStep1" taborder="1" text="문서 편집" left="40.06%" top="38" width="227" height="23" cssclass="sta_TFDM_StepTitle" font="bold 20px/normal &quot;Noto Sans&quot;,&quot;Malgun Gothic&quot;,&quot;Tahoma&quot;,&quot;Dotum&quot;,&quot;Helvetica&quot;,&quot;Apple SD Gothic Neo&quot;,&quot;Sans-serif&quot;" textDecoration="none" textAlign="center"/>
+              <Static id="staTitleStep1" taborder="0" text="STEP 2" left="560.00" top="12" width="227" height="17" cssclass="sta_TFDM_Step" font="bold 14px/normal &quot;Noto Sans&quot;,&quot;Malgun Gothic&quot;,&quot;Tahoma&quot;,&quot;Dotum&quot;,&quot;Helvetica&quot;,&quot;Apple SD Gothic Neo&quot;,&quot;Sans-serif&quot;" textAlign="center"/>
+              <Button id="btnSaveAs" taborder="2" text="다른이름으로 저장" top="21" width="191" height="30" cssclass="btn_TFDM_Save" visible="true" right="29" onclick="divTop00_btnSaveAs_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <UbiDocuMaker id="UbiDocuMaker00" taborder="2" left="0" top="divTop00:0" positionstep="1" right="0" bottom="70" onnotify="UbiDocuMaker00_onnotify"/>
+        <Div id="divBottom" taborder="3" left="0" height="66" right="0" cssclass="div_TFDM_BottomStep" visible="true" positionstep="1" top="UbiDocuMaker00:0">
+          <Layouts>
+            <Layout>
+              <Button id="btnSave" taborder="0" text="편집내용저장" left="45.99%" top="11" width="110" height="30" cssclass="btn_TFDM_Save" visible="true" onclick="divBottom_btnSave_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divContents" taborder="4" text="Div00" left="0" top="divTop:0" width="1400" background="#ffffff" bottom="0">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle1" taborder="0" text="문서 제목" left="11.36%" top="20" height="36" cssclass="sta_WF_doctitle" font="bold 16px/normal &quot;Noto Sans&quot;,&quot;Malgun Gothic&quot;,&quot;Tahoma&quot;,&quot;Dotum&quot;,&quot;Helvetica&quot;,&quot;Apple SD Gothic Neo&quot;,&quot;Sans-serif&quot;" width="1058"/>
+              <Edit id="edtDocName" taborder="1" left="11.36%" top="64" height="32" cssclass="edt_TFDM_essential" right="11.79%"/>
+              <Static id="staTitle2_00" taborder="5" text="작성/수신 그룹" left="11.36%" top="201" height="23" cssclass="sta_WF_doctitle" right="400" font="bold 16px/normal &quot;Noto Sans&quot;,&quot;Malgun Gothic&quot;,&quot;Tahoma&quot;,&quot;Dotum&quot;,&quot;Helvetica&quot;,&quot;Apple SD Gothic Neo&quot;,&quot;Sans-serif&quot;"/>
+              <Div id="divFormer" taborder="6" left="11.36%" top="staTitle2_00:9" height="135" background="#F2F6FF" right="12.14%" borderRadius="10px" boxShadow="1px 1px 2px 0px #cccccc">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grdFormer" taborder="0" left="20.00" top="20" height="94" binddataset="dsFormerInfo" autofittype="col" autoenter="select" right="20" border="1px solid #C3E9CD">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="189"/>
+                            <Column size="222"/>
+                            <Column size="156"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="32" band="head"/>
+                            <Row size="30"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="그룹명"/>
+                            <Cell col="1" text="그룹 ID"/>
+                            <Cell col="2" text="작성자 구분"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:FORMER_NAME" edittype="normal"/>
+                            <Cell col="1" text="bind:FORMER_ID" edittype="none"/>
+                            <Cell col="2" text="bind:FORMER_YN" edittype="none" displaytype="combotext" combodataset="dsCodeFormer" combocodecol="code" combodatacol="name"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="staTitle2" taborder="7" text="필드 정의" left="11.36%" top="divFormer:24" height="25" cssclass="sta_WF_doctitle" right="212" font="bold 16px/normal &quot;Noto Sans&quot;,&quot;Malgun Gothic&quot;,&quot;Tahoma&quot;,&quot;Dotum&quot;,&quot;Helvetica&quot;,&quot;Apple SD Gothic Neo&quot;,&quot;Sans-serif&quot;"/>
+              <Div id="divField" taborder="8" left="11.36%" top="staTitle2:7" height="270" background="#FFF6F4" url="ubiComm::ubiCmmFieldSet.xfdl" right="12.14%" borderRadius="10px" boxShadow="1px 1px 2px 0px #cccccc"/>
+              <Static id="Static00" taborder="9" left="576.00" top="713" width="62" height="2"/>
+              <Static id="staTitle1_00" taborder="2" text="문서 파기일자" left="11.36%" top="110" height="36" cssclass="sta_WF_doctitle" font="bold 16px/normal &quot;Noto Sans&quot;,&quot;Malgun Gothic&quot;,&quot;Tahoma&quot;,&quot;Dotum&quot;,&quot;Helvetica&quot;,&quot;Apple SD Gothic Neo&quot;,&quot;Sans-serif&quot;" width="1058"/>
+              <Calendar id="Calendar00" taborder="3" left="11.36%" top="150" width="233" height="32"/>
+              <Combo id="Combo00" taborder="4" text="선택" left="Calendar00:33" top="150" width="150" height="32" innerdataset="dsCal" codecolumn="code" datacolumn="name" value="Z" index="0" onitemchanged="divContents_Combo00_onitemchanged"/>
+              <Button id="btnAddGroup" taborder="10" top="196" width="130" height="28" right="170" text="수신그룹 추가" cssclass="btn_POP_yes" onclick="divContents_btnAddGroup_onclick"/>
+              <Button id="btnDeleteGroup" taborder="11" top="196" width="130" height="28" right="306" text="수신그룹 삭제" cssclass="btn_POP_yes" enable="false" onclick="divContents_btnDeleteGroup_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  문서편집 팝업
+*  @FileName 	docFormNewPu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2024/03/04
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2024/03/04			DXTOBE						최초생성
+*******************************************************************************
+*/
+this.fvUUID = null;
+this.fvisDocLoad = false;
+/**
+* @function docEditor_onload  <br>
+* description 문서편집,작성 팝업
+*/
+this.docEditor_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	var uuid = this.getOwnerFrame().pvUUID;
+	var sysCode = this.getOwnerFrame().pvSysCode;
+	var bizCode = this.getOwnerFrame().pvBizCode;
+	
+	// 다른이름으로 저장
+	if(this.getOwnerFrame().pvSaveMode == "N") {
+		this.divTop00.form.btnSaveAs.set_visible(false);
+	}
+	// 신규 기본정보 세팅
+	if(this.gfnIsNull(uuid)) {
+		this.divTop00.form.btnSaveAs.set_visible(false);
+		this.dsDocInfo.setColumn(0, "INPT_ID", this.gfnGetUserInfo("USER_ID"));
+		this.dsDocInfo.setColumn(0, "EXPIRE_DATE", this.gfnAddDate(this.gfnGetDate(),3650));
+		this.divContents.form.Combo00.set_value("D");
+		this.dsDocInfo.setColumn(0, "SYS_CODE", sysCode);
+		this.dsDocInfo.setColumn(0, "BIZ_CODE", bizCode);	
+		
+		this.dsFormerInfo.copyData(this.dsFormerDefault);
+	} else {
+		this.dsDocInfo.copyData(this.opener.dsDocInfo);
+		this.fvUUID = uuid;
+		this.dsCond.setColumn(0, "DOC_ID", uuid);
+		
+		this.fnDocInfoSearch();
+	}
+	
+	// 문서 html 오픈
+	this.UbiDocuMaker00.set_bizFormUrl("ubiComm::ubiCmmComm.xfdl");
+	this.UbiDocuMaker00.set_viewType("dmedit");
+	this.UbiDocuMaker00.set_editorPath("svcUrl::dxtobe/ubidocumaker");	// test
+	//this.UbiDocuMaker00.setDebugMode(true);
+
+};
+/**
+* @function fnDocInfoSearch  <br>
+* description 문서 상세 정보 조회 - 필드정보, 수신자 정보
+*/
+this.fnDocInfoSearch = function ()
+{
+	var strSvcId    = "searchDocuDetail";
+	var strSvcUrl   = "searchDocuDetail.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsFieldInfo=dsFieldInfo dsFormerInfo=dsFormerInfo";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/**
+* @function fnDocSaveCopy  <br>
+* description 다른이름으로 저장
+*/
+this.fnDocSaveCopy = function ()
+{
+	var strSvcId    = "saveAsDoc";
+	var strSvcUrl   = "saveAsDoc.do";
+	var inData      = "dsCond=dsCondCopy";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/**
+* @function fnCallback  <br>
+* description 서비스콜백
+*/
+this.fnCallback = function(srvId, errCode, errMsg)
+{
+	if(errCode < 0) return;
+	if(srvId == "searchDocuDetail") {
+		this.divContents.form.divField.form._setData(this.dsFieldInfo);
+		if(this.dsFormerInfo.rowcount == 0) {
+			this.dsFormerInfo.copyData(this.dsFormerDefault);
+		} 
+		this.fnresizeFormer();	// resize
+		this.divContents.form.divField.form._setFormerData(this.dsFormerInfo);
+	} else if(srvId == "saveAsDoc") {	// 다른이름으로 저장
+		this.gfnAlert("msg.copy");
+	}
+};
+
+/**
+* @function fnDocLoad  <br>
+* description 문서오픈
+*/
+this.fnDocLoad = function()
+{
+	if(this.gfnIsNull(this.dsDocInfo.getColumn(0, "SEND_SEQ"))) {
+		this.dsDocInfo.setColumn(0, "SEND_SEQ", 0);
+	}
+	
+	// 문서정보를 html 로 전달
+	var rtn = this.UbiDocuMaker00.setDocInfo(this.dsDocInfo, 0);
+	if(rtn == false) return;
+	// 작성그룹정보를 html 로 전달
+	this.UbiDocuMaker00.setFormerInfo(this.dsFormerInfo);
+	// 필드정보를 html 로 전달
+	this.UbiDocuMaker00.setFieldInfo(this.dsFieldInfo);
+	// 문서 오픈
+	this.UbiDocuMaker00.loadEditor();
+};
+
+// viewer
+this.btnView_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.UbiDocuMaker00.set_viewType("dmview");
+	this.UbiDocuMaker00.setDocInfo(this.dsDocInfo, 0);
+	this.UbiDocuMaker00.loadEditor();
+};
+
+/**
+* @function UbiDocuMaker00_onnotify  <br>
+* description 문서 event
+*/
+this.UbiDocuMaker00_onnotify = function(obj:nexacro.UbiDocuMaker, e:nexacro.UbiDocuMakerNotifyEventInfo)
+{
+	if(e.data) {
+		console.log("UbiDocuMaker00_onnotify", e.data);
+		if(e.data.UTYPE == "SAVE") {	// 저장성공
+			 if(e.data.STATUS == 1) {
+				// 데이터 저장
+				if(this.divTop00.form.btnSaveAs.visible == false) {
+					this.divTop00.form.btnSaveAs.set_visible(true);
+				}
+			} else {
+			}
+		}
+	}
+};
+/**
+ * @function fnValidationDup
+ * @description 중복체크
+ */
+this.fnValidationErrorAlert = function(ds, i, msg)
+{
+	ds.set_rowposition(i);
+	this.gfnAlert("msg.err.validator", [msg],"");
+};
+/**
+ * @function fnValidationDup
+ * @description 중복체크
+ */
+this.fnValidationFormerDup = function()
+{
+	var nCnt = this.dsFormerInfo.rowcount;
+	var receiver, treceiver;
+	for(var i=1;i<nCnt-1;i++) {
+		receiver = this.dsFormerInfo.getColumn(i, "FORMER_NAME");
+		for(var j=(i+1);j<nCnt;j++) {
+			treceiver = this.dsFormerInfo.getColumn(j, "FORMER_NAME");
+			if(receiver == treceiver) {
+				this.fnValidationErrorAlert(this.dsFormerInfo, i, "수신그룹명에 중복데이터가 존재합니다.");
+				return false;
+			}
+		}
+	}
+	return true;
+};
+
+/**
+* @function fnValidate  <br>
+* description 정합성 체크
+*/
+this.fnValidate = function() {
+	// 정합성 체크
+	console.log(this.dsDocInfo.saveXML());
+	console.log(this.dsFormerInfo.saveXML());
+	console.log(this.dsFieldInfo.saveXML());
+	console.log("####>>>>>>>>>>>>");
+	this.gfnClearValidation(this.dsDocInfo);
+	this.gfnSetValidation(this.dsDocInfo, "DOC_TITLE"	, "문서제목"		, "required");
+	console.log("####0");
+	if (this.gfnValidation(this.dsDocInfo, "A") == false) return false;
+	console.log("####1");
+	this.gfnClearValidation(this.dsFormerInfo);
+	this.gfnSetValidation(this.dsFormerInfo, "FORMER_NAME"	, "그룹명"		, "required");
+	this.gfnSetValidation(this.dsFormerInfo, "FORMER_ID"		, "그룹ID"	, "required");
+	this.gfnSetValidation(this.dsFormerInfo, "FORMER_YN"		, "작성자구분"	, "required");
+	if (this.gfnValidation(this.dsFormerInfo, "A") == false) return false;
+	console.log("####2");
+	this.dsFieldInfo.copyData(this.divContents.form.divField.form._getData());
+
+	// former 체크
+	if(this.dsFormerInfo.rowcount > 2) {
+		if(this.fnValidationFormerDup() == false) return false;
+	}
+console.log("####3");
+	if(this.divContents.form.divField.form.fnValidation() == false) return false;
+console.log("####4");
+	this.gfnClearValidation(this.dsFieldInfo);
+	this.gfnSetValidation(this.dsFieldInfo, "FIELD_ID"	, "필드ID"		, "required");
+	this.gfnSetValidation(this.dsFieldInfo, "FIELD_NAME", "필드명"	, "required");
+	if (this.gfnValidation(this.dsFieldInfo, "A") == false) return false;
+	else return true;	
+};
+
+/**
+* @function docEditor_onstepchanged  <br>
+* description step 이동 처리
+*/
+this.docEditor_onstepchanged = function(obj:nexacro.Form,e:nexacro.StepChangeEventInfo)
+{
+	if(e.postindex == 0) {
+	
+	} else {
+		this.resetScroll();
+		this.fnDocLoad();
+// 		if(this.fvisDocLoad == false) {
+// 			this.fnDocLoad();
+// 			this.fvisDocLoad = true;
+// 		}
+	}
+};
+/**
+* @function docEditor_canstepchange  <br>
+* description step 이동 체크
+*/
+this.docEditor_canstepchange = function(obj:nexacro.Form,e:nexacro.StepChangeEventInfo)
+{
+	if(e.postindex == 1) {
+		var objComp = this.getNextComponent(this.getFocus(), true);
+		if(objComp) {
+			objComp.setFocus();
+		} else {
+			objComp = this.getPrevComponent(this.getFocus(), true);
+			if(objComp) objComp.setFocus();
+		}
+		if(this.fnValidate() == false) {
+			return false;
+		}
+	}
+	return true;
+};
+/**
+* @function divBottom_btnSave_onclick  <br>
+* description 문서저장
+*/
+this.divBottom_btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.gfnIsNull(this.dsDocInfo.getColumn(0, "DOC_ID"))) {
+		this.gfnAlert("msg.err.validator", ["파일을 먼저 선택하세요."],"");
+		return;
+	}
+	this.UbiDocuMaker00.saveEditor();
+};
+/**
+* @function docEditor_onbeforeclose  <br>
+* description 닫기전 부모 리프레쉬
+*/
+this.docEditor_onbeforeclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
+{
+	//this.opener.fnRefreshMain();
+};
+
+this.docEditor_onsize = function(obj:nexacro.Form,e:nexacro.SizeEventInfo)
+{
+
+};
+
+//message callback
+this.fnMsgCallback = function (sPopupId, sRtn)
+{
+	if( sPopupId == "saveMsg"){
+		if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+			return;
+		}
+		var title = this.dsDocInfo.getColumn(0, "DOC_TITLE") + "-복사";
+		this.dsCondCopy.setColumn(0, "DOC_ID", this.dsDocInfo.getColumn(0, "DOC_ID"));
+		this.dsCondCopy.setColumn(0, "DOC_TITLE", title);
+		this.dsCondCopy.setColumn(0, "SEND_SEQ", 0);
+		this.dsCondCopy.setColumn(0, "SYS_CODE", this.dsDocInfo.getColumn(0, "SYS_CODE"));
+		this.dsCondCopy.setColumn(0, "BIZ_CODE", this.dsDocInfo.getColumn(0, "BIZ_CODE"));
+		this.dsCondCopy.setColumn(0, "USER_ID", this.gfnGetUserInfo("USER_ID"));
+		this.fnDocSaveCopy();
+	}
+};
+/**
+* @function divTop00_btnSaveAs_onclick  <br>
+* description 다른이름으로 저장
+*/
+this.divTop00_btnSaveAs_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnAlert("confirm.save", [""], "saveMsg", "fnMsgCallback");
+};
+/**
+* @function divContents_Combo00_onitemchanged  <br>
+* description 파기일선택
+*/
+this.divContents_Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var sDate = "";
+	switch(e.postvalue) {
+		case "A" :
+			this.dsDocInfo.setColumn(0, "EXPIRE_DATE", this.gfnAddDate(this.gfnGetDate(),365));
+			break;
+		case "B" :
+			this.dsDocInfo.setColumn(0, "EXPIRE_DATE", this.gfnAddDate(this.gfnGetDate(),365*3));
+			break;
+		case "C" :
+			this.dsDocInfo.setColumn(0, "EXPIRE_DATE", this.gfnAddDate(this.gfnGetDate(),365*5));
+			break;
+		case "D" :
+			this.dsDocInfo.setColumn(0, "EXPIRE_DATE", this.gfnAddDate(this.gfnGetDate(),365*10));
+			break;
+		default  :
+			break;
+	}
+};
+
+
+/**
+* @function divContents_btnAddGroup_onclick  <br>
+* description 수신그룹추가
+*/
+this.divContents_btnAddGroup_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsFormerInfo.addRow();
+	this.dsFormerInfo.setColumn(nRow, "USED_FLAG", "1");
+	this.dsFormerInfo.setColumn(nRow, "FORMER_YN", "N");
+	this.dsFormerInfo.setColumn(nRow, "FORMER_ID", "receiver" + nRow);
+	
+	this.fnresizeFormer();
+};
+/**
+* @function divContents_btnAddGroup_onclick  <br>
+* description 수신그룹삭제
+*/
+this.divContents_btnDeleteGroup_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.dsFormerInfo.rowposition < 2) return;
+	this.dsFormerInfo.deleteRow(this.dsFormerInfo.rowposition);
+	
+	this.fnresizeFormer();
+};
+
+/**
+* @function fnresizeFormer  <br>
+* description 수신그룹 변경 사이즈 조정
+*/
+this.fnresizeFormer = function()
+{
+	var grid = this.divContents.form.divFormer.form.grdFormer;
+	var nCnt = this.dsFormerInfo.rowcount;
+	var nHead = 32;
+	var nBody = 30;
+	
+	grid.setOffsetHeight(nHead + (nBody*nCnt) + 2);
+	this.divContents.form.divFormer.form.resetScroll();
+	this.divContents.form.divFormer.setOffsetHeight(grid.getOffsetHeight() + 42);
+	
+	this.divContents.form.resetScroll();
+	this.resetScroll();
+	
+};
+/**
+* @function dsFormerInfo_oncolumnchanged  <br>
+* description 수신그룹 변경시 필드정보데이터 갱신
+*/
+this.dsFormerInfo_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	this.divContents.form.divField.form._setFormerData(this.dsFormerInfo);
+};
+
+this.dsFormerInfo_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(e.newrow < 2) {
+		this.divContents.form.btnDeleteGroup.set_enable(false);
+	} else {
+		this.divContents.form.btnDeleteGroup.set_enable(true);
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsDocInfo">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="PDF_FILE_NM" type="string" size="32"/>
+          <Column id="USED_FLAG" type="string" size="32"/>
+          <Column id="CHGE_ID" type="string" size="32"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="PDF_ORIG_FILE_NM" type="string" size="32"/>
+          <Column id="PDF_FILE_PATH_NM" type="string" size="32"/>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="DOC_TITLE" type="string" size="32"/>
+          <Column id="EXPIRE_DATE" type="string" size="32"/>
+          <Column id="INPT_ID" type="string" size="32"/>
+          <Column id="EDIT_INFO" type="string" size="32"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsFormerInfo" oncolumnchanged="dsFormerInfo_oncolumnchanged" onrowposchanged="dsFormerInfo_onrowposchanged">
+        <ColumnInfo>
+          <Column id="FORMER_NAME" type="STRING" size="256"/>
+          <Column id="FORMER_ID" type="STRING" size="256"/>
+          <Column id="FORMER_YN" type="STRING" size="256"/>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="FORMER_ORDER" type="INT" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="FORMER_NAME">작성자</Col>
+            <Col id="FORMER_ID">former</Col>
+            <Col id="FORMER_YN">Y</Col>
+          </Row>
+          <Row>
+            <Col id="FORMER_NAME">수신자</Col>
+            <Col id="FORMER_ID">receiver</Col>
+            <Col id="FORMER_YN">N</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsFieldInfo">
+        <ColumnInfo>
+          <Column id="FIELD_NAME" type="STRING" size="256"/>
+          <Column id="FIELD_ID" type="STRING" size="256"/>
+          <Column id="FIELD_MASK" type="STRING" size="256"/>
+          <Column id="FORMER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="FIELD_NAME">기본급</Col>
+            <Col id="FIELD_ID">field_base</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">고정연장수당</Col>
+            <Col id="FIELD_ID">field_overtime</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">직책수당</Col>
+            <Col id="FIELD_ID">field_work</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">출산보육수당</Col>
+            <Col id="FIELD_ID">field_baby</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">연구개발비</Col>
+            <Col id="FIELD_ID">field_rnd</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">월합계</Col>
+            <Col id="FIELD_ID">field_month</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">총연봉</Col>
+            <Col id="FIELD_ID">field_year</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">주민등록번호</Col>
+            <Col id="FIELD_ID">field_resno</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">성명</Col>
+            <Col id="FIELD_ID">field_name</Col>
+          </Row>
+          <Row>
+            <Col id="FIELD_NAME">서명</Col>
+            <Col id="FIELD_ID">field_sign</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="SYS_CODE" type="STRING" size="256"/>
+          <Column id="BIZ_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCondCopy">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="SYS_CODE" type="STRING" size="256"/>
+          <Column id="BIZ_CODE" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="DOC_TITLE" type="STRING" size="256"/>
+          <Column id="SEND_SEQ" type="INT" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCal">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="name">선택</Col>
+            <Col id="code">Z</Col>
+          </Row>
+          <Row>
+            <Col id="name">1년</Col>
+            <Col id="code">A</Col>
+          </Row>
+          <Row>
+            <Col id="name">3년</Col>
+            <Col id="code">B</Col>
+          </Row>
+          <Row>
+            <Col id="name">5년</Col>
+            <Col id="code">C</Col>
+          </Row>
+          <Row>
+            <Col id="name">10년</Col>
+            <Col id="code">D</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsFormerDefault">
+        <ColumnInfo>
+          <Column id="FORMER_NAME" type="STRING" size="256"/>
+          <Column id="FORMER_ID" type="STRING" size="256"/>
+          <Column id="FORMER_YN" type="STRING" size="256"/>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="FORMER_ORDER" type="INT" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="FORMER_NAME">작성자</Col>
+            <Col id="FORMER_ID">former</Col>
+            <Col id="FORMER_YN">Y</Col>
+          </Row>
+          <Row>
+            <Col id="FORMER_NAME">수신자</Col>
+            <Col id="FORMER_ID">receiver</Col>
+            <Col id="FORMER_YN">N</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCodeFormer">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">Y</Col>
+            <Col id="name">작성자</Col>
+          </Row>
+          <Row>
+            <Col id="code">N</Col>
+            <Col id="name">수신자</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divContents.form.edtDocName" propid="value" datasetid="dsDocInfo" columnid="DOC_TITLE"/>
+      <BindItem id="item1" compid="divContents.form.Calendar00" propid="value" datasetid="dsDocInfo" columnid="EXPIRE_DATE"/>
+    </Bind>
+  </Form>
+</FDL>

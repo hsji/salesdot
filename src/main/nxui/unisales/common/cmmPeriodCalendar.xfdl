@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="commPeriodCalendar" left="0" top="0" width="269" height="28" titletext="기간" onload="commPeriodCalendar_onload">
+    <Layouts>
+      <Layout width="269" height="28">
+        <Static id="stc_bar" taborder="3" text="~" left="44.61%" top="0" width="29" cssclass="sta_WF_unit" bottom="0" textAlign="center"/>
+        <Calendar id="cal_to" taborder="8" top="0" ondropdown="cal_to_ondropdown" left="stc_bar:0" canchange="cal_to_canchange" onchanged="cal_to_onchanged" initvalueid="iv_cal" bottom="0" right="0" displaynulltext="End Date" headformat="MM.yyyy"/>
+        <PopupDiv id="pdvCal" left="0" top="28" width="483" height="378" cssclass="pdiv_POP_lev3">
+          <Layouts>
+            <Layout>
+              <Static id="sta02" taborder="8" left="0" top="0" height="60" cssclass="sta_POP_calHead_green" right="0"/>
+              <Calendar id="cal_fr" taborder="0" value="20231210" type="monthonly" left="0" top="68" width="236" height="260" ondayclick="pdvCal_cal_fr_ondayclick" cssclass="cal_POP_period" initvalueid="iv_cal" onchanged="pdvCal_calfrto_onchanged" headformat="MM.yyyy"/>
+              <Calendar id="cal_to" taborder="1" value="20240116" type="monthonly" left="245" top="68" ondayclick="pdvCal_cal_to_ondayclick" width="236" height="260" initvalueid="iv_cal" cssclass="cal_POP_period" style="" onchanged="pdvCal_calfrto_onchanged" headformat="MM.yyyy"/>
+              <Button id="btn_WF_Popup" taborder="2" text="OK" right="16" width="51" height="32" cssclass="btn_alert_yes" onclick="pdvCal_btn_WF_Popup_onclick" top="336"/>
+              <Static id="staFrom2" taborder="3" text="12. 2023" left="65" top="51" width="98" height="36" cssclass="sta_POP_calHead" textAlign="left" padding="0px 0px 0px 26px" visible="false"/>
+              <Static id="sta01" taborder="4" text="w&#13;&#10;16" left="0" top="162" width="16" height="72" cssclass="guideTip" visible="false"/>
+              <Static id="staTo2" taborder="5" text="10. 2024" left="319" top="51" width="98" height="36" cssclass="sta_POP_calHead" textAlign="right" padding="0px 26px 0px 0px" visible="false"/>
+              <Static id="sta01_00" taborder="6" text="h8" top="328" width="26" height="8" cssclass="guideTip" right="34" visible="false"/>
+              <Static id="sta00" taborder="7" left="240" top="68" width="5" height="260" cssclass="sta_alert_lineV"/>
+              <Static id="staFrom" taborder="9" text="DEC 28. 2023" left="0" top="0" width="236" height="60" cssclass="sta_POP_calHead_green"/>
+              <Static id="staTo" taborder="10" text="JAN 10. 2024" left="245" top="0" width="236" height="60" cssclass="sta_POP_calHead_green"/>
+              <Static id="sta00_01" taborder="11" left="240" top="8" width="5" height="44" cssclass="sta_alert_lineV"/>
+              <Button id="btnPrevFr" taborder="12" height="32" cssclass="btn_POP_calPrev" left="14" top="52" width="32" onclick="pdvCal_btnPrevCtrl_onclick" visible="false"/>
+              <Button id="btnNextFr" taborder="13" top="52" cssclass="btn_POP_calNext" height="32" width="32" right="260" onclick="pdvCal_btnNextCtrl_onclick" visible="false"/>
+              <Button id="btnPrevTo" taborder="14" height="32" cssclass="btn_POP_calPrev" left="259" top="52" width="32" onclick="pdvCal_btnPrevCtrl_onclick" visible="false"/>
+              <Button id="btnNextTo" taborder="15" top="52" cssclass="btn_POP_calNext" height="32" width="32" right="15" onclick="pdvCal_btnNextCtrl_onclick" visible="false"/>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+        <Calendar id="cal_fr" taborder="7" left="0" top="0" initvalueid="iv_cal" bottom="0" right="stc_bar:0" displaynulltext="Start Date" onchanged="cal_fr_onchanged" canchange="cal_fr_canchange" headformat="MM.yyyy"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  commComp
+*  @FileName 	commPeriodCalendar.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2023/12/20
+*  @Desction    common - Period Calendar
+*--------------  Source Modify History  ---------------------------------------
+* Date					Modifier					Description
+*------------------------------------------------------------------------------
+* 2023/12/20			@RHS						Initial creation
+*******************************************************************************
+*/
+
+/************************************************************************************
+ * FORM Variable Area
+************************************************************************************/
+this.isSelectedFr = false;
+this.isSelectedTo = false;
+this.fvSelFrDay;
+this.fvSelToDay;
+
+/************************************************************************************
+ * FORM Event Area (onload, onbeforeclose..)
+************************************************************************************/
+this.commPeriodCalendar_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+
+};
+
+//기간달력 초기설정
+this.fnInitComp = function(oForm, sPopId, oCallback, aPDate)
+{
+	if(!this.gfnIsNull(this.cal_fr.dropbutton))
+	{
+		this.cal_fr.dropbutton.set_visible(false);
+	}
+	
+	this.fv_oForm     = oForm;
+	this.fv_sPopId    = sPopId;
+	this.fv_oCallback = oCallback;
+	
+	if(!this.gfnIsNull(aPDate))
+	{
+		this.fnInitValue(aPDate);
+	}
+	else {
+		aPDate = {};
+		aPDate.fromdate = this.gfnAddDate(this.gfnGetDate(),-30);
+		aPDate.todate   = this.gfnGetDate();
+		this.fnInitValue(aPDate);
+	}
+	
+	//this.periodcalendar_onsize(this);
+};
+
+/************************************************************************************
+ * User Function Area
+*************************************************************************************/
+/**
+* @description from일자 세팅하기
+*/
+this.setFromDate = function (sDate)
+{
+	//aPDate.fromdate = sDate;
+	//this.cal_fr.set_value(sDate);
+	this.fnSetValue(sDate, "");
+};
+
+/**
+* @description to일자 세팅하기
+*/
+this.setToDate = function (sDate)
+{
+	//aPDate.todate = sDate;
+	//this.cal_to.set_value(sDate);
+	this.fnSetValue("", sDate);
+};
+
+/**
+* @description from 일자 갖고오기
+*/
+this.getFromDate = function ()
+{	
+	var sDate = this.cal_fr.value;
+	return sDate;
+};
+
+/**
+* @description to 일자 갖고오기
+*/
+this.getToDate = function ()
+{
+	var sDate = this.cal_to.value;
+	return sDate;
+};
+
+//값설정 : viewcolumn에 해당하는값들을 보여줌(기본값은 datacolumn), from일자/to일자 세팅하기
+this.fnSetValue = function(frDate, toDate)
+{
+	var aPDate = {};
+	aPDate.fromdate = frDate;
+	aPDate.todate = toDate;
+	this.fnInitValue(aPDate);	
+};
+
+//값얻기 : codecolumn값 이외 경우 컬럼명을 설정해줌
+this.fnGetValue = function()
+{
+	var oRtn = {};
+	oRtn.fromdate = this.cal_fr.value;
+	oRtn.todate   = this.cal_to.value;
+	
+	return oRtn;
+};
+
+//From, To 달력 초기화
+this.fnInitValue = function(aPDate)
+{
+//	this.fv_aPDate = aPDate;
+
+	if(this.gfnIsNull(aPDate))
+	{
+		this.cal_fr.set_value("");
+		this.cal_to.set_value("");
+		this.pdvCal.form.cal_fr.set_value(this.gfnGetDate());
+		this.pdvCal.form.cal_to.set_value(this.gfnGetDate());
+		return;
+	}
+	
+	if(!this.gfnIsNull(aPDate.fromdate))
+	{
+		this.cal_fr.set_value(aPDate.fromdate);
+		this.pdvCal.form.cal_fr.set_value(aPDate.fromdate);
+	}
+	else {
+		this.cal_fr.set_value(aPDate.fromdate);
+		this.pdvCal.form.cal_fr.set_value(this.gfnGetDate());
+	}
+	this.fnSetDateFormat("FR", this.cal_fr.value);
+	
+	if(!this.gfnIsNull(aPDate.todate))
+	{
+		this.cal_to.set_value(aPDate.todate);
+		this.pdvCal.form.cal_to.set_value(aPDate.todate);
+	}
+	else {
+		this.cal_to.set_value(aPDate.todate);
+		this.pdvCal.form.cal_to.set_value(this.gfnGetDate());
+	}
+	this.fnSetDateFormat("TO", this.cal_to.value);
+	
+	// from 일자 초기값
+	var sDay = this.pdvCal.form.cal_fr.value;
+	sDay = sDay.substring(sDay.length-2, sDay.length);
+	this.fvSelFrDay = sDay;
+	// to 일자 초기값
+	sDay = this.pdvCal.form.cal_to.value;
+	sDay = sDay.substring(sDay.length-2, sDay.length);
+	this.fvSelToDay = sDay;
+};
+
+/**
+ * @class 입력된 월로부터 영문 월 Full Name을 구함 <br>
+ * @param {String} monthVal - 'month' 월
+ * @return {String} 
+ */
+this.fnGetMonthOrgKr = function(monthVal) 
+{
+	var nDay = -1;
+	var menthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+	if( monthVal < 0 ) return "";
+
+	return menthArray[monthVal-1];
+};
+//MM.yyyy 형태
+this.fnSetDateFormat = function(dGubun, sDate)
+{
+	var sYear, sMonth;
+	sYear = sDate.substr(0,4);
+	sMonth = sDate.substr(4,2);;	//Month
+	
+	if (dGubun=="FR") {
+		//this.pdvCal.form.staFrom.set_text(this.gfnGetMonthEn(nexacro.toNumber(sMonth))+"  "+sMonth +"."+sYear);
+		this.pdvCal.form.staFrom.set_text(this.fnGetMonthOrgKr(nexacro.toNumber(sMonth))+"  "+sYear);
+		this.pdvCal.form.staFrom2.set_text(sMonth +"."+sYear);
+
+	}else {
+		this.pdvCal.form.staTo.set_text(this.fnGetMonthOrgKr(nexacro.toNumber(sMonth))+"  "+sYear);
+		this.pdvCal.form.staTo2.set_text(sMonth +"."+sYear);	
+	}			
+};
+
+//class 설정
+this.fn_setClass = function(sClass)
+{	
+	if(this.gfnIsNull(sClass))
+	{
+		sClass = "essential";
+	}
+	
+	this.cal_fr.set_cssclass(sClass);
+	this.cal_to.set_cssclass(sClass);
+};
+
+this.fnCheckValidation = function(sMsgCd)
+{
+	if(this.gfnIsNull(this.cal_fr.value))
+	{
+		//this.gfn_alert("VALID_REQUIRED", [this.gfn_getWord(sMsgCd)]);
+		trace("VALID_REQUIRED", [this.gfn_getWord(sMsgCd)]);
+		this.cal_fr.setFocus();
+		return false;
+	}
+	if(this.gfnIsNull(this.cal_to.value))
+	{
+		//this.gfn_alert("VALID_REQUIRED", [this.gfn_getWord(sMsgCd)]);
+		trace("VALID_REQUIRED", [this.gfn_getWord(sMsgCd)]);
+		this.cal_to.setFocus();
+		return false;
+	}
+ 	return true;
+};
+
+//popupdiv오픈
+this.fnOpenPopupDiv = function()
+{
+	this.pdvCal.form.cal_fr.set_enable(this.cal_fr.enable);
+	this.pdvCal.form.cal_to.set_enable(this.cal_to.enable);
+
+	this.pdvCal.form.cal_fr.set_value(this.cal_fr.value);
+	this.pdvCal.form.cal_to.set_value(this.cal_to.value);
+
+	if(this.gfnIsNull(this.pdvCal.form.cal_fr.value)) this.pdvCal.form.cal_fr.set_value(this.gfnGetDate());
+	if(this.gfnIsNull(this.pdvCal.form.cal_to.value)) this.pdvCal.form.cal_to.set_value(this.gfnGetDate());
+
+	this.fnSetDateFormat("FR", this.pdvCal.form.cal_fr.value);
+	this.fnSetDateFormat("TO", this.pdvCal.form.cal_to.value);
+
+	this.pdvCal.trackPopupByComponent(this.cal_fr, 0, 28);
+};
+
+	
+/************************************************************************************
+ * Component Event Area
+************************************************************************************/
+this.btn_expand_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fnOpenPopupDiv();
+};
+
+this.cal_fr_ondropdown = function(obj:Calendar, e:nexacro.EventInfo)
+{	
+	this.fnOpenPopupDiv();
+	return false;
+};
+
+this.cal_to_ondropdown = function(obj:Calendar, e:nexacro.EventInfo)
+{	
+	this.fnOpenPopupDiv();
+	return false;
+};
+
+this.pdvCal_btn_WF_Popup_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fnCloseCalendar();
+};
+
+this.fnCloseCalendar = function()
+{
+	var arrArg = [];
+	if(this.gfnIsNull(this.cal_fr.value))
+	{
+		this.gfnAlert("시작일을 선택해주세요.", arrArg);
+		return false;
+	}
+	else if(this.gfnIsNull(this.cal_to.value))
+	{
+		this.gfnAlert("종료일을 선택해주세요.", arrArg);
+		return false;
+	}
+	var rtn = true;
+	var fromdt = this.pdvCal.form.cal_fr.toString();
+	var todt   = this.pdvCal.form.cal_to.toString();
+	var day    = this.gfnGetDiffDate(fromdt, todt);
+
+	if(day < 0)
+	{
+		this.cal_fr.set_value("");
+		this.cal_to.set_value("");
+		
+		this.isSelectedFr = false;
+		this.isSelectedTo = false;	
+		rtn = false;
+		this.gfnAlert("시작일이 종료일 보다 큽니다.", arrArg);
+		return;
+	}	
+
+	if(this.isSelectedFr || this.isSelectedTo)
+	{
+		if(this.gfnIsNull(this.cal_fr.value)) this.cal_fr.set_value(this.pdvCal.form.cal_fr.value);
+		if(this.gfnIsNull(this.cal_to.value)) this.cal_to.set_value(this.pdvCal.form.cal_to.value);
+	}	
+	
+	var oRtn = {};
+	oRtn.fromdate = this.cal_fr.value;
+	oRtn.todate   = this.cal_to.value;
+	try{
+		this.fv_oCallback.call(this.fv_oForm, this.fv_sPopId, oRtn);
+	}catch(e){}
+	this.isSelectedFr = false;
+	this.isSelectedTo = false;
+		
+	this.pdvCal.closePopup();
+};
+
+this.pdvCal_cal_fr_ondayclick = function(obj:Calendar, e:nexacro.CalendarDayClickEventInfo)
+{
+	if(this.cal_fr.enable && !this.cal_fr.readonly)
+	{
+		obj.set_value(e.date);
+		this.cal_fr.uPrevVal = this.cal_fr.value;
+		this.cal_fr.set_value(this.pdvCal.form.cal_fr.value);
+	}
+	this.isSelectedFr = true;
+	
+	var sVal = String(this.cal_fr.value);
+	this.fvSelFrDay = sVal.substring(sVal.length-2, sVal.length);
+
+	if(this.isSelectedFr==true && this.isSelectedTo==true) this.fnCloseCalendar();
+};
+
+this.pdvCal_calfrto_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	if(this.gfnIsNull(this.cal_to.value)) return true;
+	
+	var fromdt = this.cal_fr.value.toString();
+	var todt   = this.cal_to.value.toString();
+	var day    = this.gfnGetDiffDate(fromdt, todt);
+
+	if(day < 0)
+	{
+		var arrArg = [];
+		this.gfnAlert("시작일이 종료일 보다 큽니다.", arrArg);
+
+		var sCalNm = String(obj.id);
+		if (sCalNm.indexOf('fr')>0) 
+			this.cal_fr.set_value(this.cal_fr.uPrevVal);
+		else this.cal_to.set_value(this.cal_to.uPrevVal);
+		return;
+	}	
+};
+
+this.pdvCal_cal_to_ondayclick = function(obj:Calendar, e:nexacro.CalendarDayClickEventInfo)
+{
+	if(this.cal_to.enable && !this.cal_to.readonly)
+	{
+		obj.set_value(e.date);
+		this.cal_to.uPrevVal = this.cal_to.value;
+		this.cal_to.set_value(this.pdvCal.form.cal_to.value);
+	}
+	this.isSelectedTo = true;
+
+	var sVal = String(this.cal_to.value);
+	this.fvSelToDay = sVal.substring(sVal.length-2, sVal.length);
+
+	if(this.isSelectedFr==true && this.isSelectedTo==true) this.fnCloseCalendar();
+	
+	if(!this.cal_fr.enable) this.fnCloseCalendar();
+};
+
+
+this.cal_fr_canchange = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{	
+	return true;
+};
+
+this.cal_to_canchange = function(obj:Calendar, e:nexacro.ChangeEventInfo)
+{
+	return true;
+};
+
+this.cal_fr_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	if(this.gfnIsNull(this.cal_to.value)) return true;
+	
+	var fromdt = this.cal_fr.value.toString();
+	var todt   = this.cal_to.value.toString();
+	var day    = this.gfnGetDiffDate(fromdt, todt);
+
+	if(day < 0)
+	{
+		var arrArg = [];
+		this.gfnAlert("시작일이 종료일 보다 큽니다.", arrArg);
+
+		obj.set_value(e.prevalue);
+		return;
+	}	
+
+	var objFunc = this.getOwnerFrame().form["comm_cal_fr_onchanged"];
+	if(!this.gfnIsNull(objFunc))
+	{	
+		try{
+			this.getOwnerFrame().form.comm_cal_fr_onchanged(obj, e);
+		}catch(e){}
+	}
+};
+
+this.cal_to_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{	
+	if(this.gfnIsNull(this.cal_fr.value)) return true;
+	
+	var fromdt = this.cal_fr.value.toString();
+	var todt   = this.cal_to.value.toString();
+	var day    = this.gfnGetDiffDate(fromdt, todt);
+
+	if(day < 0)
+	{
+		var arrArg = [];
+		this.gfnAlert("시작일이 종료일 보다 큽니다.", arrArg);
+	
+		obj.set_value(e.prevalue);
+		return;
+	}
+
+	var objFunc = this.getOwnerFrame().form["comm_cal_to_onchanged"];
+	if(!this.gfnIsNull(objFunc))
+	{	
+		try{
+			this.getOwnerFrame().form.comm_cal_to_onchanged(obj, e);
+		}catch(e){}
+	}
+};
+
+// 다음 버튼
+this.pdvCal_btnNextCtrl_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sBtnNm = obj.id;
+	var selDate, sYear;
+	if (sBtnNm.indexOf("Fr")>0) {
+		this.pdvCal.form.cal_fr.datepicker.head.nextbutton.click();
+		
+		selDate = this.pdvCal.form.cal_fr.datepicker.head.monthstatic.text;
+		sYear = this.gfnTrim(this.pdvCal.form.cal_fr.datepicker.head.yearstatic.text).substr(0,4);
+
+		this.pdvCal.form.staFrom.set_text(this.fnGetMonthOrgKr(nexacro.toNumber(selDate))+"  "+sYear);
+		this.pdvCal.form.staFrom2.set_text(selDate +"."+sYear);
+		this.pdvCal.form.cal_fr.set_value(sYear+selDate+this.fvSelFrDay);
+	}else {
+		this.pdvCal.form.cal_to.datepicker.head.nextbutton.click();
+		
+		selDate = this.pdvCal.form.cal_to.datepicker.head.monthstatic.text;
+		sYear = this.gfnTrim(this.pdvCal.form.cal_to.datepicker.head.yearstatic.text).substr(0,4);
+		// 영문 월
+		this.pdvCal.form.staTo.set_text(this.fnGetMonthOrgKr(nexacro.toNumber(selDate))+"  "+sYear);
+		this.pdvCal.form.staTo2.set_text(selDate +"."+sYear);
+		this.pdvCal.form.cal_to.set_value(sYear+selDate+this.fvSelToDay);
+	}
+};
+
+//이전 버튼
+this.pdvCal_btnPrevCtrl_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sBtnNm = obj.id;
+	var selDate, sYear;
+
+	if (sBtnNm.indexOf("Fr")>0) {
+		this.pdvCal.form.cal_fr.datepicker.head.prevbutton.click();
+		
+		selDate = this.pdvCal.form.cal_fr.datepicker.head.monthstatic.text;
+		sYear = this.gfnTrim(this.pdvCal.form.cal_fr.datepicker.head.yearstatic.text).substr(0,4);
+
+		// 영문 월
+		this.pdvCal.form.staFrom.set_text(this.fnGetMonthOrgKr(nexacro.toNumber(selDate))+"  "+sYear);
+		this.pdvCal.form.staFrom2.set_text(selDate +"."+sYear);
+		this.pdvCal.form.cal_fr.set_value(sYear+selDate+this.fvSelFrDay);
+	}else {
+		this.pdvCal.form.cal_to.datepicker.head.prevbutton.click();
+		
+		selDate = this.pdvCal.form.cal_to.datepicker.head.monthstatic.text;
+		sYear = this.gfnTrim(this.pdvCal.form.cal_to.datepicker.head.yearstatic.text).substr(0,4);
+		
+		this.pdvCal.form.staTo.set_text(this.fnGetMonthOrgKr(nexacro.toNumber(selDate))+"  "+sYear);
+		this.pdvCal.form.staTo2.set_text(selDate +"."+sYear);
+		this.pdvCal.form.cal_to.set_value(sYear+selDate+this.fvSelToDay);
+	}
+};
+
+this.periodcalendar_onsize = function(obj:Form, e:nexacro.SizeEventInfo)
+{
+	obj.set_scrollbars("none");	
+	
+	var nFormWidth = obj.getOffsetWidth();
+	var nBarWidth = this.stc_bar.width;
+	var nBtnWidth = 10;
+	var nLeft = 0;
+	var nCalWidth = parseInt((nFormWidth - nBarWidth - nBtnWidth)/2);
+	
+	this.cal_fr.set_left(nLeft);		// 0
+	this.cal_fr.set_width(nCalWidth);	// 91
+	
+	nLeft += parseInt(nCalWidth);
+	this.stc_bar.set_left(nLeft);
+	this.stc_bar.set_width(nBarWidth);
+	
+	nLeft += parseInt(nBarWidth);
+	this.cal_to.set_left(nLeft);
+	this.cal_to.set_width(nCalWidth);
+	
+	if(!this.gfnIsNull(this.cal_fr.dropbutton))
+	{
+		this.cal_fr.dropbutton.set_visible(false);
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

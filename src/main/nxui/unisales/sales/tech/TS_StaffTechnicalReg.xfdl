@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="TS_StaffTechnicalReg" width="1200" height="600" titletext="기술사항" onload="TS_StaffTechnicalReg_onload">
+    <Layouts>
+      <Layout height="600" mobileorientation="landscape" width="1200">
+        <Static id="stc_GbProjectCareer" taborder="0" cssclass="sta_POP_GroupBg" left="0" top="7" height="32" right="0"/>
+        <Static id="stc_ProjectCareer" taborder="1" text="프로젝트경력사항" left="10" top="10" width="134" height="23" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2232"/>
+        <Button id="btn_SpecialSkillMinus" taborder="20" text="행삭제" height="28" cssclass="btn_WF_Delete" width="72" bottom="190" right="10" onclick="btn_SpecialSkillMinus_onclick"/>
+        <Grid id="grd_ProjectCareer" taborder="2" binddataset="dsOutput4" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" top="40" visible="true" left="10" right="10" cellmovingtype="col" bottom="224">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="217"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="120"/>
+                <Column size="150"/>
+                <Column size="100"/>
+                <Column size="266"/>
+                <Column size="106"/>
+                <Column size="93"/>
+                <Column size="300"/>
+              </Columns>
+              <Rows>
+                <Row size="25" band="head"/>
+                <Row size="26" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="프로젝트명" displaytype="text" edittype="text" TL_SEQ="2233"/>
+                <Cell col="1" colspan="2" displaytype="text" edittype="text" text="참여기간" TL_SEQ="2234"/>
+                <Cell col="3" rowspan="2" text="고객사" TL_SEQ="32"/>
+                <Cell col="4" rowspan="2" text="근무회사" TL_SEQ="2235"/>
+                <Cell col="5" rowspan="2" text="역할" TL_SEQ="75"/>
+                <Cell col="6" colspan="4" text="개발환경" TL_SEQ="2237"/>
+                <Cell row="1" col="1" text="시작일" TL_SEQ="38"/>
+                <Cell row="1" col="2" text="종료일" TL_SEQ="39"/>
+                <Cell row="1" col="6" text="환경요약" TL_SEQ="2240"/>
+                <Cell row="1" col="7" text="언어" TL_SEQ="2241"/>
+                <Cell row="1" col="8" text="DBMS"/>
+                <Cell row="1" col="9" text="기타" TL_SEQ="406"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="text" editautoselect="true" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="1" edittype="date" editautoselect="true" editdisplay="edit" text="bind:START_DATE" calendardateformat="yyyy-MM-dd " maskedittype="string" maskeditformat="####-##-##" displaytype="date"/>
+                <Cell col="2" text="bind:END_DATE" edittype="date" calendardateformat="yyyy-MM-dd " maskedittype="string" maskeditformat="####-##-##" displaytype="date"/>
+                <Cell col="3" text="bind:CLIENT_NAME" edittype="text" textAlign="left"/>
+                <Cell col="4" text="bind:COMPANY_NAME" edittype="text" textAlign="left"/>
+                <Cell col="5" text="bind:ROLE_CODE" edittype="combo" textAlign="left" displaytype="combotext" combodataset="ds_PROJECT_ROLE" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="6" text="bind:ENV" edittype="text" textAlign="left"/>
+                <Cell col="7" text="bind:PRLANGUAGE" edittype="combo" textAlign="left" displaytype="combotext" combodataset="ds_PROJECT_LANG" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="8" text="bind:DBMS" edittype="combo" textAlign="left" combodatacol="CAPTION" combodataset="ds_PROJECT_DB" combocodecol="CODE" displaytype="combotext"/>
+                <Cell col="9" text="bind:REMARKS" edittype="text" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_Education" taborder="3" text="교육" left="10" width="134" height="23" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2060" bottom="192"/>
+        <Button id="btn_ExcelExport" taborder="4" text="Excel ↓" top="11" width="76" height="24" right="515" onclick="comm_Click" cssclass="btn_WF_Excel" tooltiptext="Excel Export" visible="false"/>
+        <Button id="btn_ExcelImport" taborder="5" text="Excel ↑" top="11" width="76" height="24" right="435" onclick="comm_Click" cssclass="btn_WF_Excel" tooltiptext="Excel Import" visible="false"/>
+        <Button id="btn_Reset" taborder="6" text="ReSet" top="11" width="76" height="24" right="267" onclick="comm_Click" cssclass="btn_WF_tran" visible="false"/>
+        <Static id="stc_Ext" taborder="7" text="특이사항" left="10" width="178" height="23" cssclass="sta_POP_GroupTit" TL_SEQ="245" bottom="53"/>
+        <TextArea id="txt_Ext" taborder="8" height="43" left="10" right="10" bottom="5"/>
+        <Grid id="grd_SpecialSkill" taborder="10" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" visible="true" height="107" cellmovingtype="col" binddataset="dsOutput5" right="10" width="560" bottom="80">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="424"/>
+                <Column size="134"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="특수기술" displaytype="text" edittype="text" TL_SEQ="2246"/>
+                <Cell col="1" displaytype="text" edittype="text" text="숙련도" TL_SEQ="2247"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="normal" editautoselect="true" text="bind:SKILL_NAME"/>
+                <Cell col="1" edittype="combo" editautoselect="true" editdisplay="edit" text="bind:SKILL" combodataset="ds_CD_LEVEL_CODE" combocodecol="CODE" combodatacol="CAPTION" displaytype="combotext"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Education" taborder="9" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" visible="true" left="10" height="107" right="grd_SpecialSkill:10" cellmovingtype="col" binddataset="dsOutput6" bottom="80">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="224"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="223"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="교육명" displaytype="text" edittype="text" TL_SEQ="2244"/>
+                <Cell col="1" displaytype="text" edittype="text" text="시작일" TL_SEQ="38"/>
+                <Cell col="2" text="종료일" TL_SEQ="39"/>
+                <Cell col="3" text="기관" TL_SEQ="2245"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="text" editautoselect="true" text="bind:EDU_NAME"/>
+                <Cell col="1" edittype="date" editautoselect="true" editdisplay="edit" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="2" text="bind:END_DATE" edittype="date" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="3" text="bind:INSTITUTION_NAME" edittype="text"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_SpecialSkill" taborder="11" text="특수기술" width="178" height="23" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2246" bottom="192" right="392"/>
+        <Static id="stc_GbProjectCareer01" taborder="12" cssclass="sta_POP_GroupBg" left="466" top="4" height="32" width="157"/>
+        <Edit id="edt_EmpNo" taborder="13" top="0" width="0" height="0" text="수정불가" left="-4" onkeydown="div_ClientList_edt_ClientName_onkeydown"/>
+        <Button id="btn_ExcelTemplate" taborder="14" text="Template" top="11" width="84" height="24" right="347" onclick="comm_Click" cssclass="btn_WF_Excel" tooltiptext="Excel Template" visible="false"/>
+        <Button id="btn_EducationMinus" taborder="16" text="행삭제" height="28" cssclass="btn_WF_Delete" width="72" right="grd_SpecialSkill:10" bottom="190" onclick="btn_EducationMinus_onclick"/>
+        <Button id="btn_EducationPlus" taborder="15" text="행추가" width="72" height="28" cssclass="btn_WF_Add" right="btn_EducationMinus:5" bottom="190" onclick="btn_EducationPlus_onclick"/>
+        <Button id="btn_ProjectCareerMinus" taborder="18" text="행삭제" top="9" height="28" cssclass="btn_WF_Delete" width="72" right="10" onclick="btn_ProjectCareerMinus_onclick"/>
+        <Button id="btn_ProjectCareerPlus" taborder="17" text="행추가" top="9" width="72" height="28" cssclass="btn_WF_Add" right="btn_ProjectCareerMinus:5" onclick="btn_ProjectCareerPlus_onclick"/>
+        <Button id="btn_SpecialSkillPlus" taborder="19" text="행추가" width="72" height="28" cssclass="btn_WF_Add" right="btn_SpecialSkillMinus:5" bottom="190" onclick="btn_SpecialSkillPlus_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_CD_E_ROLE_EVAL"/>
+      <ExcelImportObject id="ExcelImportObject" onerror="ExcelImportObject_onerror" onsuccess="ExcelImportObject_onsuccess"/>
+      <Dataset id="dsExcelImport">
+        <ColumnInfo>
+          <Column id="EPC_SEQ" type="bigdecimal" size="18"/>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="START_DATE" type="datetime" size="23"/>
+          <Column id="END_DATE" type="datetime" size="23"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="DOMAIN_INDUSTRY" type="string" size="1"/>
+          <Column id="DOMAIN_APPLICATION" type="string" size="1"/>
+          <Column id="ROLE_NAME" type="string" size="100"/>
+          <Column id="MACHINE" type="string" size="100"/>
+          <Column id="OS" type="string" size="100"/>
+          <Column id="LANGUAGE" type="string" size="100"/>
+          <Column id="DBMS" type="string" size="100"/>
+          <Column id="TOOL" type="string" size="100"/>
+          <Column id="COMMUNICATION" type="string" size="100"/>
+          <Column id="REMARKS" type="string" size="32767"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_PROJECT_ROLE"/>
+      <Dataset id="ds_PROJECT_LANG"/>
+      <Dataset id="ds_PROJECT_DB"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 인력정보등록 (TS_StaffInfoSearch_S01,
+								TS_StaffInfoSearch_S02,
+								TS_StaffInfoSearch_S04,
+								TS_StaffInfoSearch_R01,
+								TS_StaffInfoSearch_R02)
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.09.17
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.dsOutput = null;
+this.dsOutput4 = null;
+this.dsOutput5 = null;
+this.dsOutput6 = null;
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.TS_StaffTechnicalReg_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.fnFormInit();
+	this.fnGetCode();
+	
+	this.dsOutput = this.parent.parent.parent.dsOutput;
+	this.dsOutput4 = this.parent.parent.parent.dsOutput4;	
+	this.dsOutput5 = this.parent.parent.parent.dsOutput5;	
+	this.dsOutput6 = this.parent.parent.parent.dsOutput6;	
+};
+
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+
+}
+
+this.fnGetCode = function()
+{	
+	this.gfnAddCodeDataset("ds_PROJECT_ROLE"			,"PROJECTROLE");	// 역할
+	this.gfnAddCodeDataset("ds_PROJECT_LANG"			,"PROJECTLANG");
+	this.gfnAddCodeDataset("ds_PROJECT_DB"				,"PROJECTDB");
+
+	
+	// 공통코드 조회
+	this.gfnCodeTransaction();
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+// 프로젝트경력추가
+this.btn_ProjectCareerPlus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsOutput4.addRow();
+	this.dsOutput4.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+	this.dsOutput4.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));	
+};
+// 프로젝트경력삭제
+this.btn_ProjectCareerMinus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.dsOutput4.rowposition < 0) return;
+	this.dsOutput4.deleteRow(this.dsOutput4.rowposition);	
+};
+// 교육추가
+this.btn_EducationPlus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsOutput6.addRow();
+	this.dsOutput6.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+	this.dsOutput6.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));		
+};
+// 교육삭제
+this.btn_EducationMinus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.dsOutput6.rowposition < 0) return;
+	this.dsOutput6.deleteRow(this.dsOutput6.rowposition);		
+};
+//특수기술추가
+this.btn_SpecialSkillPlus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsOutput5.addRow();
+	this.dsOutput5.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+	this.dsOutput5.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));		
+};
+//특수기술삭제
+this.btn_SpecialSkillMinus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.dsOutput5.rowposition < 0) return;
+	this.dsOutput5.deleteRow(this.dsOutput5.rowposition);		
+};
+
+// 저장 validation
+this.fnValid = function ()
+{
+	for(var i=0,len=this.dsOutput4.rowcount;i<len;i++) {
+		if(this.dsOutput4.getRowType(i) == 2) {
+			if(this.gfnIsNull(this.dsOutput4.getColumn(i, "COMPANY_CD"))) {
+				this.dsOutput4.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+			}
+			if(this.gfnIsNull(this.dsOutput4.getColumn(i, "EMP_NO"))) {
+				this.dsOutput4.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));
+			}			
+		}
+	}
+	for(var i=0,len=this.dsOutput5.rowcount;i<len;i++) {
+		if(this.dsOutput5.getRowType(i) == 2) {
+			if(this.gfnIsNull(this.dsOutput5.getColumn(i, "COMPANY_CD"))) {
+				this.dsOutput5.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+			}
+			if(this.gfnIsNull(this.dsOutput5.getColumn(i, "EMP_NO"))) {
+				this.dsOutput5.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));
+			}			
+		}
+	}	
+	for(var i=0,len=this.dsOutput6.rowcount;i<len;i++) {
+		if(this.dsOutput6.getRowType(i) == 2) {
+			if(this.gfnIsNull(this.dsOutput6.getColumn(i, "COMPANY_CD"))) {
+				this.dsOutput6.setColumn(nRow, "COMPANY_CD", this.dsOutput.getColumn(0, "COMPANY_CD"));
+			}
+			if(this.gfnIsNull(this.dsOutput6.getColumn(i, "EMP_NO"))) {
+				this.dsOutput6.setColumn(nRow, "EMP_NO", this.dsOutput.getColumn(0, "EMP_NO"));
+			}			
+		}
+	}	
+	// 정합성 체크
+	this.gfnClearValidation(this.dsOutput4);
+	this.gfnSetValidation(this.dsOutput4, "PROJECT_NAME", "프로젝트명"	, "required");
+	this.gfnSetValidation(this.dsOutput4, "START_DATE", "프로젝트 시작일"	, "required");
+	this.gfnSetValidation(this.dsOutput4, "END_DATE", "프로젝트 종료일"	, "required");
+	this.gfnSetValidation(this.dsOutput4, "CLIENT_NAME", "고객명"	, "required");
+	this.gfnSetValidation(this.dsOutput4, "COMPANY_NAME", "근무회사"	, "required");
+	this.gfnSetValidation(this.dsOutput4, "ROLE_CODE", "역할"	, "required");
+	this.gfnSetValidation(this.dsOutput4, "ENV", "환경요약"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsOutput4, "U") == false) return false;
+	
+	this.gfnClearValidation(this.dsOutput5);
+	this.gfnSetValidation(this.dsOutput5, "SKILL_NAME", "특수기술명"	, "required");
+	this.gfnSetValidation(this.dsOutput5, "SKILL", "기술수준"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsOutput5, "U") == false) return false;	
+	
+	this.gfnClearValidation(this.dsOutput6);
+	this.gfnSetValidation(this.dsOutput6, "EDU_NAME", "교육명"	, "required");
+	this.gfnSetValidation(this.dsOutput6, "START_DATE", "교육시작일"	, "required");
+	this.gfnSetValidation(this.dsOutput6, "END_DATE", "교육종료일"	, "required");
+	this.gfnSetValidation(this.dsOutput6, "INSTITUTION_NAME", "교육기관"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsOutput6, "U") == false) return false;		
+	
+	else return true;
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="txt_Ext" propid="value" datasetid="dsOutput" columnid="REMARKS"/>
+      <BindItem id="item12" compid="edt_EmpNo" propid="value" datasetid="dsOutput" columnid="EMP_NO"/>
+    </Bind>
+  </Form>
+</FDL>

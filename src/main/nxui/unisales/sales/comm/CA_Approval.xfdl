@@ -1,0 +1,911 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CA_Approval" width="1365" height="670" titletext="전자결재" cssclass="frm_popBg" onload="CA_Approval_onload">
+    <Layouts>
+      <Layout height="670" mobileorientation="landscape" width="1365">
+        <UbiReport id="UbiReport" taborder="1" top="39" bottom="41" left="518" right="4"/>
+        <Button id="btn_close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_Close_onclick"/>
+        <Static id="Static00" taborder="3" left="0" height="38" cssclass="sta_POP_BtnBg" bottom="0" right="0"/>
+        <Div id="div_Approval" taborder="7" left="4" top="73" width="510" cssclass="div_WF_detailBg" bottom="37">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" taborder="5" text="결재의견" left="8" top="4" width="50" height="53" TL_SEQ="378"/>
+              <TextArea id="ta_Comment" taborder="3" left="65" top="4" height="53" width="321"/>
+              <Static id="Static01" taborder="7" text="※ 결재 진행전 의견입력 바랍니다.(선택사항) &#13;&#10;※ 상신자는 상신후에 결재의견이 등록가능합니다." left="65" top="ta_Comment:4" height="28" right="4" TL_SEQ="379"/>
+              <Grid id="grdApprovalDoc" taborder="1" left="4" top="Static01:4" height="123" binddataset="dsApprovalDoc" autofittype="col" selecttype="cell" right="4" formatid="default">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="200"/>
+                      <Column size="80"/>
+                      <Column size="140"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="49"/>
+                      <Row size="24"/>
+                      <Row size="24"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell colspan="3" text="bind:DOC_KIND_NAME" font="bold 20px/normal &quot;Dotum&quot;"/>
+                      <Cell col="3" text="bind:DOC_STATUS_NAME"/>
+                      <Cell row="1" text="품의번호" TL_SEQ="372"/>
+                      <Cell row="1" col="1" text="bind:DOC_NO" textAlign="left"/>
+                      <Cell row="1" col="2" text="작성일자" TL_SEQ="2185"/>
+                      <Cell row="1" col="3" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd hh:mm" displaytype="normal"/>
+                      <Cell row="2" text="기안부서" TL_SEQ="373"/>
+                      <Cell row="2" col="1" textAlign="left" text="bind:INSERT_DEPT_NM"/>
+                      <Cell row="2" col="2" text="기안자" TL_SEQ="374"/>
+                      <Cell row="2" col="3" text="bind:INSERT_EMP_NAME"/>
+                      <Cell row="3" text="제목" TL_SEQ="370"/>
+                      <Cell row="3" col="1" colspan="3" text="bind:SUBJECT" textAlign="left" font="bold 12px/normal &quot;Dotum&quot;"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="200"/>
+                      <Column size="80"/>
+                      <Column size="140"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell colspan="3" text="bind:DOC_KIND_NAME" font="bold 20px/normal &quot;Dotum&quot;"/>
+                      <Cell col="3" text="bind:DOC_STATUS_NAME"/>
+                      <Cell row="1" text="품의번호" TL_SEQ="372"/>
+                      <Cell row="1" col="1" text="bind:DOC_NO" textAlign="left"/>
+                      <Cell row="1" col="2" text="작성일자" TL_SEQ="2185"/>
+                      <Cell row="1" col="3" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd hh:mm" displaytype="normal"/>
+                      <Cell row="2" text="기안부서" TL_SEQ="373"/>
+                      <Cell row="2" col="1" textAlign="left" text="bind:INSERT_DEPT_NM"/>
+                      <Cell row="2" col="2" text="기안자" TL_SEQ="374"/>
+                      <Cell row="2" col="3" text="bind:INSERT_EMP_NAME"/>
+                      <Cell row="3" text="제목" TL_SEQ="370"/>
+                      <Cell row="3" col="1" colspan="3" text="bind:SUBJECT" textAlign="left" font="bold 12px/normal &quot;Dotum&quot;"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grdApprovalLine" taborder="0" left="4" top="grdApprovalDoc:4" width="500" height="146" binddataset="dsApprovalLine" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="60"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="120"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번" TL_SEQ="333"/>
+                      <Cell col="1" text="결재구분" TL_SEQ="380"/>
+                      <Cell col="2" text="사원" TL_SEQ="381"/>
+                      <Cell col="3" text="직책" TL_SEQ="382"/>
+                      <Cell col="4" text="결재상태" TL_SEQ="375"/>
+                      <Cell col="5" text="결재일시" TL_SEQ="383"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:ORD"/>
+                      <Cell col="1" text="bind:LINE_KIND_NAME"/>
+                      <Cell col="2" text="bind:EMP_NM"/>
+                      <Cell col="3" text="bind:DUTY_NAME"/>
+                      <Cell col="4" text="bind:APPROVAL_STATUS_NAME"/>
+                      <Cell col="5" text="bind:APPROVAL_DATE" calendardateformat="yyyy-MM-dd HH:mm" displaytype="expr:comp.parent.gfnIsEmpty(APPROVAL_DATE)?'none':'normal'"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="60"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="60"/>
+                      <Column size="140"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번" TL_SEQ="333"/>
+                      <Cell col="1" text="결재" TL_SEQ="389"/>
+                      <Cell col="2" text="사원" TL_SEQ="381"/>
+                      <Cell col="3" text="직책" TL_SEQ="382"/>
+                      <Cell col="4" text="상태" TL_SEQ="209"/>
+                      <Cell col="5" text="결재일시" TL_SEQ="383"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:ORD"/>
+                      <Cell col="1" text="bind:LINE_KIND_NAME"/>
+                      <Cell col="2" text="bind:EMP_NM"/>
+                      <Cell col="3" text="bind:DUTY_NAME"/>
+                      <Cell col="4" text="bind:APPROVAL_STATUS_NAME"/>
+                      <Cell col="5" text="bind:APPROVAL_DATE" calendardateformat="yyyy-MM-dd HH:mm" displaytype="expr:comp.parent.gfnIsEmpty(APPROVAL_DATE)?'none':'normal'"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grdApprovalCommnet" taborder="2" left="4" top="grdApprovalLine:4" binddataset="dsApprovalCommnet" autofittype="col" right="4" bottom="4">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                      <Row size="40"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="등록자" TL_SEQ="81"/>
+                      <Cell col="1" text="부서" TL_SEQ="74"/>
+                      <Cell col="2" text="등록일시" TL_SEQ="384"/>
+                      <Cell col="3" text="반영여부" TL_SEQ="385"/>
+                      <Cell row="1" colspan="4" text="결재의견" TL_SEQ="378"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:INSERT_EMP_NM"/>
+                      <Cell col="1" text="bind:INSERT_DEPT_NM"/>
+                      <Cell col="2" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd HH:mm"/>
+                      <Cell col="3" text="bind:APPLY_FLAG" displaytype="checkboxcontrol"/>
+                      <Cell row="1" colspan="4" text="bind:CONTENTS" edittype="textarea" displaytype="text" textAlign="left" tooltiptext="bind:CONTENTS"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
+                      <Row size="50"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="등록자" TL_SEQ="81"/>
+                      <Cell col="1" text="부서" TL_SEQ="74"/>
+                      <Cell col="2" text="등록일시" TL_SEQ="384"/>
+                      <Cell col="3" text="반영여부" TL_SEQ="385"/>
+                      <Cell row="1" colspan="4" text="결재의견" TL_SEQ="378"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:INSERT_EMP_NM"/>
+                      <Cell col="1" text="bind:INSERT_DEPT_NM"/>
+                      <Cell col="2" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd HH:mm"/>
+                      <Cell col="3" text="bind:APPLY_FLAG" displaytype="checkboxcontrol"/>
+                      <Cell row="1" colspan="4" text="bind:CONTENTS" edittype="textarea" displaytype="text" textAlign="left" tooltiptext="bind:CONTENTS"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <CheckBox id="cb_Apply" taborder="4" text="사전원가표 반영" left="390" top="4" height="20" width="114" falsevalue="0" truevalue="1" enable="false" TL_SEQ="386"/>
+              <Button id="btn_Comment" taborder="6" text="결재의견등록" width="114" height="24" cssclass="btn_WF_tran" top="33" left="390" enable="false" onclick="div_Approval_btn_Comment_onclick" TL_SEQ="387"/>
+            </Layout>
+            <Layout name="portrait">
+              <Grid id="grdApprovalCommnet" left="4" top="grdApprovalLine:4" right="4" formatid="mobile" bottom="4" minheight="222" maxheight=""/>
+              <CheckBox id="cb_Apply" top="4" width="138" height="30" right="4"/>
+              <Button id="btn_Comment" top="cb_Apply:4" width="138" height="30" right="4"/>
+              <TextArea id="ta_Comment" left="Static00:4" top="4" height="64" right="146"/>
+              <Grid id="grdApprovalLine" right="4" left="4" top="grdApprovalDoc:4" height="182" formatid="mobile"/>
+              <Static id="Static01" height="40" left="74" top="ta_Comment:4" right="4"/>
+              <Static id="Static00" width="62" left="8" top="4" height="53"/>
+              <Grid id="grdApprovalDoc" formatid="mobile" left="4" top="Static01:4" height="132" right="4"/>
+            </Layout>
+            <Layout name="landscape">
+              <Grid id="grdApprovalCommnet" left="4" top="grdApprovalLine:4" right="4" formatid="mobile" bottom="4" maxwidth="" minheight="222" maxheight=""/>
+              <CheckBox id="cb_Apply" top="4" width="138" height="30" right="4"/>
+              <Button id="btn_Comment" top="cb_Apply:4" width="138" height="30" right="4"/>
+              <TextArea id="ta_Comment" left="Static00:4" top="4" height="64" right="146"/>
+              <Grid id="grdApprovalLine" right="4" left="4" top="grdApprovalDoc:4" height="182" formatid="mobile"/>
+              <Static id="Static01" height="40" left="74" top="ta_Comment:4" right="4"/>
+              <Static id="Static00" width="62" left="8" top="4" height="53"/>
+              <Grid id="grdApprovalDoc" formatid="mobile" left="4" top="Static01:4" height="132" right="4"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static03" taborder="2" text="전자결재" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="388"/>
+        <Button id="btn_Close" taborder="4" text="닫기" width="60" height="24" right="8" bottom="7" cssclass="btn_WF_tran" onclick="btn_Close_onclick" TL_SEQ="59"/>
+        <Static id="stc_Gb_Sales_Prod00" taborder="5" cssclass="sta_POP_GroupBg" left="4" top="39" height="35" width="510"/>
+        <Static id="stc_Sales_Prod00" taborder="6" text="전자결재" left="18" top="39" width="158" height="30" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="388"/>
+        <Button id="btn_Return" taborder="9" text="반려" width="65" height="24" cssclass="btn_WF_tran" top="45" enable="false" onclick="btn_Return_onclick" left="443" TL_SEQ="23"/>
+        <Button id="btn_Approval" taborder="8" text="결재" height="24" cssclass="btn_WF_tran" top="45" enable="false" onclick="btn_Approval_onclick" right="btn_Return:4" width="65" TL_SEQ="389"/>
+        <Button id="btn_ReReport" taborder="10" text="내용수정" height="24" cssclass="btn_WF_tran" top="45" enable="false" onclick="btn_ReReport_onclick" right="btn_Approval:4" width="65" TL_SEQ="390"/>
+        <Div id="div_Attachment" taborder="11" top="45" height="24" width="84" async="false" SOURCE_CD="P" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="true" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" right="btn_ReReport:8" url="sales::comm/COM_Attachment.xfdl"/>
+        <Button id="btn_Preview" taborder="12" text="원가표확인" width="60" height="24" right="76" cssclass="btn_WF_tran" bottom="7" onclick="btn_Preview_onclick" visible="false" TL_SEQ="391"/>
+      </Layout>
+      <Layout name="portrait" screenid="Mobile_screen" width="480" height="789" mobileorientation="portrait">
+        <UbiReport id="UbiReport" left="536" top="62" right="-528" height="644" text="" visible="false"/>
+        <Div id="div_Approval" text="" left="4" top="81" right="4" bottom="Static00:4" formscrolltype="vertical"/>
+        <Static id="stc_Gb_Sales_Prod00" right="4" left="4" top="39" height="39"/>
+        <Div id="div_Attachment" height="30" top="43" width="106" right="btn_ReReport:4"/>
+        <Button id="btn_ReReport" height="30" top="43" width="75" right="btn_Approval:4"/>
+        <Button id="btn_Approval" height="30" top="43" width="75" right="btn_Return:4"/>
+        <Button id="btn_Return" height="30" top="43" width="85" right="8"/>
+        <Static id="stc_Sales_Prod00" left="10" top="43" width="94" height="30"/>
+        <Static id="Static00" left="0" height="38" right="0" bottom="0"/>
+        <Button id="btn_Close" height="30" width="70" right="4" bottom="4"/>
+        <Button id="btn_close" width="30" top="4" height="30" right="4"/>
+        <Static id="Static03" left="10" top="4" width="113" height="22" text="전자결재"/>
+        <Button id="btn_Preview" width="100" height="30" right="btn_Close:4" bottom="4" visible="true"/>
+      </Layout>
+      <Layout name="landscape" screenid="Mobile_screen" width="768" height="789" mobileorientation="landscape">
+        <UbiReport id="UbiReport" left="784" top="744" right="-776" height="644" visible="false"/>
+        <Div id="div_Approval" text="" left="4" top="81" right="4" bottom="Static00:4" formscrolltype="vertical"/>
+        <Static id="stc_Gb_Sales_Prod00" right="4" left="4" top="39" height="39"/>
+        <Div id="div_Attachment" height="30" top="43" width="106" right="btn_ReReport:4"/>
+        <Button id="btn_ReReport" height="30" top="43" width="75" right="btn_Approval:4"/>
+        <Button id="btn_Approval" height="30" top="43" width="75" right="btn_Return:4"/>
+        <Button id="btn_Return" height="30" top="43" width="85" right="8"/>
+        <Static id="stc_Sales_Prod00" left="10" top="43" width="94" height="30"/>
+        <Static id="Static00" left="0" height="38" right="0" bottom="0"/>
+        <Button id="btn_Close" height="30" width="70" right="4" bottom="4"/>
+        <Button id="btn_close" width="30" top="4" height="30" right="4"/>
+        <Static id="Static03" left="10" top="4" width="113" height="22" text="전자결재"/>
+        <Button id="btn_Preview" width="100" height="30" right="btn_Close:4" bottom="4" visible="true"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[ /************************************************************************************************
+ * 01. 업무구분	: 공통 - 공통
+ * 02. 화면명		: Report 미리보기 (CA_Approval)
+ * 03. 화면설명 	: Report 미리보기 한다.
+ * 04. 작성일   	: 2018.07.30
+ * 05. 작성자   	: 채종한
+ * 06. 수정이력 	:
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ************************************************************************************************/
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs";
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+include "Script::ext_Report.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.fv_arrInDataSet = new Array();
+this.fv_arrParamData = new Array();
+this.fv_rptFileNm = "";
+this.fv_saveFileNm = "";
+this.AD_SEQ = "";
+this.fv_DOC_KIND = "";			//문서분류
+this.fv_SOURCE_CD = "";			//출처
+this.fv_SOURCE_DATA = "";		//출처코드
+this.fv_ARBITRARILY_CODE = "";	//전결구분
+this.fv_ARBITRARILY_DATA = "";	//전결코드
+this.fv_CONTENTS = "";			//내용
+this.fv_SALES_EMP_NO = "";		//담당영업
+this.fv_FILE_SOURCE_CD = "";	//파일 SOURCE_CD
+this.fv_FILE_SOURCE_SEQ = "";	//파일 SOURCE_SEQ
+this.fv_SUBJECT = "";			//제목
+this.fv_TITLE = "";				//레포트 타이틀
+
+this.fv_pv_inDs  = this.parent.pv_inDs;
+this.fv_pv_paramDt  = this.parent.pv_paramDt;
+/************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.CA_Approval_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fv_rptFileNm = this.parent.pv_rptFileNm;
+	this.fv_saveFileNm = this.parent.pv_saveFileNm;
+	this.fv_arrInDataSet = this.parent.pv_inDs;
+	this.fv_arrParamData = this.parent.pv_paramDt;
+	this.AD_SEQ = this.parent.pv_arrParam.pv_AD_SEQ;
+	this.fv_DOC_KIND = this.parent.pv_arrParam.pv_DOC_KIND;
+	this.fv_SOURCE_CD = this.parent.pv_arrParam.pv_SOURCE_CD;
+	this.fv_SOURCE_DATA = this.parent.pv_arrParam.pv_SOURCE_DATA;
+	this.fv_ARBITRARILY_CODE = this.parent.pv_arrParam.pv_ARBITRARILY_CODE;
+	this.fv_ARBITRARILY_DATA = this.parent.pv_arrParam.pv_ARBITRARILY_DATA;
+	this.fv_CONTENTS = this.parent.pv_arrParam.pv_CONTENTS;
+	this.fv_SALES_EMP_NO = this.parent.pv_arrParam.pv_SALES_EMP_NO;		
+	this.fv_FILE_SOURCE_CD = this.parent.pv_arrParam.pv_FILE_SOURCE_CD;
+	this.fv_FILE_SOURCE_SEQ = this.parent.pv_arrParam.pv_FILE_SOURCE_SEQ;		
+	this.fv_SUBJECT = this.parent.pv_arrParam.pv_SUBJECT;
+	this.fv_TITLE = this.parent.pv_arrParam.pv_TITLE;
+		
+	if(!this.gfnIsEmpty(this.AD_SEQ))
+		this.fn_SelecctApprovalDoc();	//전달받은 AD_SEQ가 있으면 해당 전자결재 조회	
+	else// if(this.fv_DOC_KIND=="COSTSHEET_1")
+		this.fn_getAD_SEQ();			//전달받은 AD_SEQ가 없으면 최근 전자결재 AD_SEQ 조회
+		
+	this.div_Attachment.set_url("");
+	this.div_Attachment.SOURCE_CD = this.fv_FILE_SOURCE_CD;
+	this.div_Attachment.SOURCE_SEQ = this.fv_FILE_SOURCE_SEQ;
+	//this.div_Attachment.USE_NEXT_FILE_TYPE = false;
+	this.div_Attachment.set_url("sales::comm/COM_Attachment.xfdl");
+	
+	//사전원가표일경우만 내용수정이 가능
+	if(this.fv_DOC_KIND=="COSTSHEET_1")
+	{
+		this.btn_ReReport.set_visible(true);
+		this.div_Approval.form.cb_Apply.set_visible(true);
+	}
+	else
+	{
+		this.btn_ReReport.set_visible(false);
+		this.div_Approval.form.cb_Apply.set_visible(false);
+	}
+	
+	if(this.fv_DOC_KIND=="ESTIMATE")
+	{
+		this.div_Attachment.set_visible(false); // 견적서일 경우 첨부파일 사용 X
+	}
+};
+
+this.fn_DeepCopyDs = function(copyArr)
+{
+	var sArrDs = this.fv_arrInDataSet;
+	for(var i = 0; i < sArrDs.length; i++) {
+		for(var j = 0; j < sArrDs[i].length; j++) {
+			if(this.gfnXCompTypeOf(sArrDs[i][j]) == "Dataset") {
+				var objDs = new nexacro.Dataset();
+				objDs = sArrDs[i][j];
+				copyArr.push([sArrDs[i][0], objDs]);
+			}
+		}
+	}
+};
+
+this.fn_ReporrtView =function ()
+{	
+	if(this.commUtil.gfnGetMobile())
+		return;
+	this.dsPrtApprovalDoc.applyChange();
+	this.dsPrtApprovalLine.applyChange();
+	this.dsPrtApprovalCommnet.applyChange();
+
+	//this.arrInDataSet = this.parent.pv_inDs;
+	//this.arrInDataSet = this.fv_arrInDataSet;
+	this.fn_DeepCopyDs(this.arrInDataSet);
+	
+	this.arrParamData = this.parent.pv_paramDt;
+	this.arrParamData = this.fv_arrParamData;
+	
+	// 결재라인, 결재의견 추가 처리
+	this.arrInDataSet.push(["dsPrtApprovalDoc", this.dsPrtApprovalDoc]);
+	this.arrInDataSet.push(["dsPrtApprovalLine", this.dsPrtApprovalLine]);
+	this.arrInDataSet.push(["dsPrtApprovalCommnet", this.dsPrtApprovalCommnet]);
+	
+	if(!this.gfnIsEmpty(this.fv_saveFileNm))
+		this.UbiReport.reporttitle = this.fv_saveFileNm;
+	this.gfnOpenReportViewer(this.UbiReport, this.fv_rptFileNm);
+}
+
+/************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+this.fnRptCallBack = function()
+{
+	// trace("Report Callback !!");
+}
+
+/************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+  // 조회
+ this.fn_getAD_SEQ = function()
+ {
+	// 조건값 셋팅
+	this.gfnAddSendParameter("DOC_KIND",	this.fv_DOC_KIND);
+	this.gfnAddSendParameter("SOURCE_CD",	this.fv_SOURCE_CD);
+	this.gfnAddSendParameter("SOURCE_DATA",	this.fv_SOURCE_DATA);
+	
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("dsApprovalSeq",		"dsOutput");
+	
+	this.gfnCommonTransaction("CA_Approval_S01", "CA_Approval_S01");
+ };
+ 
+ // 조회
+ this.fn_SelecctApprovalDoc = function()
+ {
+	if(this.gfnIsEmpty(this.AD_SEQ))
+		return;
+	// 조건값 셋팅
+	this.gfnAddSendParameter("AD_SEQ",	this.AD_SEQ);
+	
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("dsApprovalDoc",		"dsOutput1");
+	this.gfnAddOutputDataset("dsApprovalLine",		"dsOutput2");
+	this.gfnAddOutputDataset("dsApprovalCommnet",	"dsOutput3");
+	
+	this.gfnCommonTransaction("CA_Approval_S02", "CA_Approval_S02");
+ };
+  
+ // 전자결재 신규등록
+ this.fn_InsertApprovalDoc = function ()
+ {
+	this.dsInsertApproval.clearData();
+	this.dsInsertApproval.addRow();
+	this.dsInsertApproval.setColumn(0, "DOC_KIND",			this.fv_DOC_KIND);			//문서분류
+	this.dsInsertApproval.setColumn(0, "SOURCE_CD",			this.fv_SOURCE_CD);			//출처
+	this.dsInsertApproval.setColumn(0, "SOURCE_DATA",		this.fv_SOURCE_DATA);		//출처코드
+	this.dsInsertApproval.setColumn(0, "ARBITRARILY_CODE",	this.fv_ARBITRARILY_CODE);	//전결구분
+	this.dsInsertApproval.setColumn(0, "ARBITRARILY_DATA",	this.fv_ARBITRARILY_DATA);	//전결코드
+	this.dsInsertApproval.setColumn(0, "SUBJECT",			this.fv_SUBJECT);			//제목
+	
+	this.gfnAddOutputDataset("dsApprovalSeq",		"dsOutput");
+	this.gfnAddInputDataset("dsInsertApproval", 	"dsInput", "A");
+	
+	this.gfnCommonTransaction("CA_Approval_R01", "CA_Approval_R01");
+ }
+ 
+ // 결재/반려
+ this.fn_SaveApprovalLine = function (strAPPROVAL_STATUS)
+ {
+	if(this.gfnIsEmpty(this.AD_SEQ))
+		return;
+	this.gfnAddSendParameter("AD_SEQ",	this.AD_SEQ);					//전자결제번호
+	this.gfnAddSendParameter("APPROVAL_STATUS",	strAPPROVAL_STATUS);	//결재상태
+	this.gfnCommonTransaction("CA_Approval_R02", "CA_Approval_R02");
+ }
+ 
+ // 결재의견등록
+ this.fn_SaveApprovalComment = function ()
+ {
+	if(this.gfnIsEmpty(this.AD_SEQ))
+		return;
+	if(this.gfnIsEmpty(this.div_Approval.form.ta_Comment.value))
+		return;
+	var nRow = this.dsApprovalCommnet.findRow("INSERT_EMP_NO", nexacro.getApplication().gdsUserInfo.getColumn(0,"EMP_NO"));
+ 	if(nRow<0)
+	{
+		nRow = this.dsApprovalCommnet.addRow();
+		this.dsApprovalCommnet.setColumn(nRow, "AD_SEQ", this.AD_SEQ);
+		this.dsApprovalCommnet.setColumn(nRow, "CONTENTS", this.div_Approval.form.ta_Comment.value);
+		this.dsApprovalCommnet.setColumn(nRow, "APPLY_FLAG", this.div_Approval.form.cb_Apply.value);
+		this.dsApprovalCommnet.setColumn(nRow, "INSERT_EMP_NO", nexacro.getApplication().gdsUserInfo.getColumn(0,"EMP_NO"));
+		this.dsApprovalCommnet.setColumn(nRow, "INSERT_EMP_NM", nexacro.getApplication().gdsUserInfo.getColumn(0,"EMP_NM"));
+		this.dsApprovalCommnet.setColumn(nRow, "INSERT_DEPT_NM", nexacro.getApplication().gdsUserInfo.getColumn(0,"DEPT_NM"));
+	}
+	else
+	{
+		this.dsApprovalCommnet.setColumn(nRow, "APPLY_FLAG", this.div_Approval.form.cb_Apply.value);
+		this.dsApprovalCommnet.setColumn(nRow, "CONTENTS", this.div_Approval.form.ta_Comment.value);
+	}
+	this.gfnAddInputDataset("dsApprovalCommnet", "dsInput", "A");
+	this.gfnCommonTransaction("CA_Approval_R03", "CA_Approval_R03");	
+ }
+ 
+ // Report 결재라인 입력 데이터셋 처리
+ this.fn_SetApprovalLineInput = function ()
+ {
+	this.dsPrtApprovalLine.clearData();
+	
+	var sDutyColNm = "DUTY";
+	var sEmpColNo = "EMP_NO";
+	var sEmpColNm = "EMP_NM";
+	var sStatusColNm = "STATUS";
+	var sApprovalDateColNm = "APPROVAL_DT";
+	var sColIndx = 0;
+		
+	if (this.dsApprovalLine.rowcount>0) {
+		this.dsPrtApprovalLine.addRow();
+		this.dsPrtApprovalLine.setColumn(0, "LINE_CNT", this.dsApprovalLine.rowcount);
+		
+		for (var i=0; i<this.dsApprovalLine.rowcount; i++) {
+			var sDuty = this.dsApprovalLine.getColumn(i, "DUTY_NAME");
+			var sLinkKindNm = this.dsApprovalLine.getColumn(i, "LINE_KIND_NAME");
+			var sAppDate = this.dsApprovalLine.getColumn(i, "APPROVAL_DATE");
+			var sAppDate2 = "";
+			var sEmpNo = this.dsApprovalLine.getColumn(i, "EMP_NO");
+			var sEmpName = this.dsApprovalLine.getColumn(i, "EMP_NM");
+			var sAppStat = this.dsApprovalLine.getColumn(i, "APPROVAL_STATUS");
+			
+			sColIndx++;
+			if (sLinkKindNm == this.gfnGetTransTxt(2187,"합의")) {
+				this.dsPrtApprovalLine.setColumn(0, sDutyColNm+"_"+sColIndx, sLinkKindNm);
+			} else if (sDuty == this.gfnGetTransTxt(2188,"팀원")) {
+				this.dsPrtApprovalLine.setColumn(0, sDutyColNm+"_"+sColIndx, this.gfnGetTransTxt(66,"담당자"));
+			} else {
+				this.dsPrtApprovalLine.setColumn(0, sDutyColNm+"_"+sColIndx, sDuty);
+			}
+			
+			this.dsPrtApprovalLine.setColumn(0, sStatusColNm+"_"+sColIndx, this.dsApprovalLine.getColumn(i, "APPROVAL_STATUS_NAME"));
+			if (this.gfnIsEmpty(sAppDate)) {
+				sAppDate = "";
+				sEmpName = "";
+			} else if (sAppStat=="RETURN") {
+				sAppDate = "";
+				sEmpName = "";
+			} else {
+				sAppDate = sAppDate.toString();
+				sAppDate2 = sAppDate.substr(2, 2)+"/"+sAppDate.substr(4, 2)+"/"+sAppDate.substr(6, 2);
+			}
+			this.dsPrtApprovalLine.setColumn(0, sApprovalDateColNm+"_"+sColIndx, sAppDate2);
+			this.dsPrtApprovalLine.setColumn(0, sEmpColNo+"_"+sColIndx, sEmpNo);
+			this.dsPrtApprovalLine.setColumn(0, sEmpColNm+"_"+sColIndx, sEmpName);
+		}
+	}
+		
+	this.dsPrtApprovalCommnet.clearData();
+	for (var i=0; i<this.dsApprovalCommnet.rowcount; i++)
+	{
+		if (this.dsApprovalCommnet.getColumn(i, "APPLY_FLAG") == "1")
+		{
+			var nAddRow = this.dsPrtApprovalCommnet.addRow();
+			var sDt = this.dsApprovalCommnet.getColumn(i, "INSERT_DATE");
+			sDt = sDt.toString();
+			this.dsPrtApprovalCommnet.setColumn(nAddRow, "INSERT_DATE", sDt.substr(0,14));
+			this.dsPrtApprovalCommnet.setColumn(nAddRow, "EMP_NM", 		this.dsApprovalCommnet.getColumn(i, "INSERT_EMP_NM"));
+			this.dsPrtApprovalCommnet.setColumn(nAddRow, "CONTENTS", 	this.dsApprovalCommnet.getColumn(i, "CONTENTS"));
+		}
+	}
+	
+	if (this.dsPrtApprovalCommnet.rowcount == 0) {
+		var nAddRow = this.dsPrtApprovalCommnet.addRow();
+	}
+	
+	this.dsPrtApprovalDoc.clearData();
+	this.dsPrtApprovalDoc.copyData(this.dsApprovalDoc);
+	if(!this.gfnIsEmpty(this.fv_TITLE))
+	{
+		this.dsPrtApprovalDoc.addColumn("TITLE");
+		this.dsPrtApprovalDoc.setColumn(0, "TITLE", this.fv_TITLE);
+	}
+ }
+ 
+ // 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	var EmpNo = nexacro.getApplication().gdsUserInfo.getColumn(0,"EMP_NO");
+	// 에러 예외처리
+	if(nErrorCode != 0) {
+		return;
+	}
+	else 
+	{
+		switch (strSvcID) 
+		{
+			case "gfnGetCode" :
+				
+				break;
+			case "CA_Approval_S01" :
+				this.AD_SEQ = this.dsApprovalSeq.getColumn(0,"AD_SEQ");
+				if(this.gfnIsEmpty(this.AD_SEQ)) {
+					// 신규건인경우 작성자(담당영업)는 버튼생성
+					if (this.fv_SALES_EMP_NO==EmpNo) {
+						this.btn_Approval.set_text(this.gfnGetTransTxt(577,"상신"));
+						this.btn_Approval.set_enable(true);	//등록된 전자결재가 없을경우 상신 가능
+					}
+					this.fn_ReporrtView();
+				}			
+				else
+					this.fn_SelecctApprovalDoc();
+				break;
+			case "CA_Approval_S02" :
+				this.fn_SetApprovalLineInput();
+				
+				this.btn_Approval.set_enable(false);
+				this.btn_Approval.set_text(this.gfnGetTransTxt(389,"결재"));
+				this.btn_ReReport.set_enable(false);
+				this.btn_Return.set_enable(false);
+				this.btn_Return.set_text(this.gfnGetTransTxt(23,"반려"));
+				this.div_Approval.form.btn_Comment.set_enable(false);
+				this.div_Approval.form.cb_Apply.set_enable(false);			
+				
+				var nLineRow = this.dsApprovalLine.findRow("EMP_NO", EmpNo);
+				var nCommnetRow = this.dsApprovalCommnet.findRow("INSERT_EMP_NO", nexacro.getApplication().gdsUserInfo.getColumn(0,"EMP_NO"));
+						
+				if(this.dsApprovalDoc.getColumn(0, "DOC_STATUS")=="RETURN"				//반려일경우 재상신 가능
+						&& this.fv_SALES_EMP_NO==EmpNo
+						&& this.gfnIsEmpty(this.dsApprovalDoc.getColumn(0, "NEXT_AD_SEQ")) )	//재상신건이 없을경우
+				{
+					this.btn_ReReport.set_enable(true);
+				}
+				else if(this.dsApprovalDoc.getRowCount()==0)
+				{
+					this.btn_Approval.set_enable(true);										//등록된 전자결재가 없을경우 상신 가능
+				}
+				else if(nLineRow>=0)														//본인이 결재라인에 있을경우
+				{
+					var ApprovalBtnText = this.dsApprovalLine.getColumn(nLineRow, "APPROVAL_BTN_TXT");
+					if(!this.gfnIsEmpty(ApprovalBtnText))
+					{
+						this.btn_Approval.set_enable(true);
+						this.btn_Approval.set_text(ApprovalBtnText);
+					}
+					var ReturnBtnText = this.dsApprovalLine.getColumn(nLineRow, "RETURN_BTN_TXT");
+					if(!this.gfnIsEmpty(ReturnBtnText))
+					{
+						this.btn_Return.set_enable(true);
+						this.btn_Return.set_text(ReturnBtnText);
+					}
+				}
+				if(nLineRow>=0)																	//결재라인이 있고
+				{
+					if(this.dsApprovalDoc.getColumn(0, "DOC_STATUS")=="RETURN"
+						|| this.dsApprovalDoc.getColumn(0, "DOC_STATUS")=="FINISH")
+					{
+						this.div_Approval.form.btn_Comment.set_enable(false);
+						this.div_Approval.form.cb_Apply.set_enable(false);
+					}
+					else if(this.dsApprovalLine.getColumn(nLineRow, "APPROVAL_STATUS")=="WAITING"	//대기상태일경우 결재의견등록 가능
+						|| this.dsApprovalLine.getColumn(nLineRow+1, "APPROVAL_STATUS")=="WAITING")	//상위결재가 안끝났을경우 등록 가능
+					{
+						this.div_Approval.form.btn_Comment.set_enable(true);
+						this.div_Approval.form.cb_Apply.set_enable(true);
+					}
+					else if(nCommnetRow<0														//결재의견이 없을경우 결재의견등록 가능
+						||this.dsApprovalCommnet.getColumn(nLineRow, "APPLY_FLAG")=="0")		//사전원가표 반영이 아닐경우 수정가능
+					{
+						this.div_Approval.form.btn_Comment.set_enable(true);
+					}
+				}
+
+				if(nCommnetRow>=0
+					&&(this.dsApprovalLine.getColumn(nLineRow, "APPROVAL_STATUS")=="WAITING"
+					||this.dsApprovalCommnet.getColumn(nLineRow, "APPLY_FLAG")=="0"))
+				{
+					this.div_Approval.form.cb_Apply.set_value(this.dsApprovalCommnet.getColumn(nCommnetRow, "APPLY_FLAG"));
+					this.div_Approval.form.ta_Comment.set_value(this.dsApprovalCommnet.getColumn(nCommnetRow, "CONTENTS"));
+				}
+				
+				this.fn_ReporrtView();
+				break;
+			case "CA_Approval_R01" :
+				this.AD_SEQ = this.dsApprovalSeq.getColumn(0,"AD_SEQ");
+			case "CA_Approval_R02" :
+			case "CA_Approval_R03" :
+				this.fn_SelecctApprovalDoc();
+				break;
+		}
+	}
+ };
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sDocStatus = this.dsApprovalDoc.getColumn(this.dsApprovalDoc.rowposition, "DOC_STATUS");
+	this.commUtil.popupClose(sDocStatus);
+};
+
+this.btn_Approval_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.fv_DOC_KIND=="COSTSHEET_1")
+	{
+		//견적서 파일 유무 확인
+		this.gfnAddSendParameter("PROJECT_CODE", this.fv_FILE_SOURCE_SEQ);
+		
+		// 조회용 Output dataset 세팅
+		this.gfnAddOutputDataset("dsFileCnt", "dsOutput");
+		this.gfnCommonTransaction("Get_FileCnt", "SS_Presales_S05", null, false);
+		
+		if(this.dsFileCnt.getColumn(0, "CNT")==0)
+		{
+			alert(this.gfnGetTransTxt(1203,"견적서 파일이 첨부 되지 않았습니다."));// 견적서 첨부 후 진행 바랍니다.");
+			//return;
+		}
+	} else if(this.fv_DOC_KIND=="ESTIMATE") {
+		//견적서 파일 유무 확인
+		this.gfnAddSendParameter("AD_SEQ", this.AD_SEQ);
+		
+		// 조회용 Output dataset 세팅
+		this.gfnAddOutputDataset("dsCurOrd", "dsOutput");
+		this.gfnCommonTransaction("Get_CurOrd", "CA_Approval_S03", null, false);
+		
+		var EmpNo = nexacro.getApplication().gdsUserInfo.getColumn(0,"EMP_NO");
+		var nLineRow = this.dsApprovalLine.findRow("EMP_NO", EmpNo);
+		var sOrd = this.dsApprovalLine.getColumn(nLineRow, "ORD");
+		
+		if(sOrd > this.dsCurOrd.getColumn(this.dsCurOrd.rowposition, "CUR_ORD")) {
+			return;
+		}
+	}
+	
+	if(this.btn_Approval.text==this.gfnGetTransTxt(577,"상신") ||this.btn_Approval.text==this.gfnGetTransTxt(2189,"재상신"))	//상신
+		this.fn_InsertApprovalDoc();	
+	else if(this.btn_Approval.text==this.gfnGetTransTxt(2186,"결재취소"))	//결재취소		
+		 this.fn_SaveApprovalLine("CANCEL");
+	else											//결재
+	{
+		this.fn_SaveApprovalLine("APPROVAL");
+		//결재의견등록
+		this.fn_SaveApprovalComment();
+	}
+};
+
+this.btn_Return_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//반려
+	 this.fn_SaveApprovalLine("RETURN");
+};
+
+this.div_Approval_btn_Comment_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//결재의견등록
+	this.fn_SaveApprovalComment();
+};
+
+this.btn_ReReport_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.commUtil.gfnGetMobile())
+	{
+		this.alert(this.gfnGetTransTxt(1204,"모바일에서는 사용할수 없는 기능읍니다."));
+	}
+	else if(this.fv_DOC_KIND=="COSTSHEET_1")
+	{
+		this.parent.FV_PROJECT_CODE = this.fv_FILE_SOURCE_SEQ;
+		this.parent.parent.set_height(665);
+		this.parent.parent.set_width(1350);
+		this.commUtil.popupClose("RE_REPORT");
+	}
+};
+
+this.btn_Preview_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.dsPrtApprovalDoc.applyChange();
+	this.dsPrtApprovalLine.applyChange();
+	this.dsPrtApprovalCommnet.applyChange();
+		
+	this.arrInDataSet = this.parent.pv_inDs;
+	this.arrParamData = this.parent.pv_paramDt;
+	this.arrParamData = this.fv_arrParamData;
+	
+	// 결재라인, 결재의견 추가 처리	
+	this.arrInDataSet.push(["dsPrtApprovalDoc", this.dsPrtApprovalDoc]);
+	this.arrInDataSet.push(["dsPrtApprovalLine", this.dsPrtApprovalLine]);
+	this.arrInDataSet.push(["dsPrtApprovalCommnet", this.dsPrtApprovalCommnet]);
+	
+	this.gfnPopupReportViewer(this.fv_rptFileNm);
+};]]></Script>
+    <Objects>
+      <Dataset id="dsApprovalDoc">
+        <ColumnInfo>
+          <Column id="AD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="DOC_NO" type="string" size="200"/>
+          <Column id="DOC_KIND" type="string" size="20"/>
+          <Column id="DOC_KIND_NAME" type="string" size="100"/>
+          <Column id="SUBJECT" type="string" size="500"/>
+          <Column id="DOC_STATUS" type="string" size="20"/>
+          <Column id="DOC_STATUS_NAME" type="string" size="100"/>
+          <Column id="CONTENTS" type="string" size="1073741823"/>
+          <Column id="SOURCE_CD" type="string" size="30"/>
+          <Column id="SOURCE_DATA" type="string" size="30"/>
+          <Column id="INSERT_DATE" type="datetime" size="23"/>
+          <Column id="INSERT_EMP_NO" type="string" size="60"/>
+          <Column id="INSERT_EMP_NAME" type="string" size="255"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsApprovalLine">
+        <ColumnInfo>
+          <Column id="AD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="ORD" type="int" size="11"/>
+          <Column id="LINE_KIND" type="string" size="20"/>
+          <Column id="LINE_KIND_NAME" type="string" size="100"/>
+          <Column id="EMP_NO" type="string" size="20"/>
+          <Column id="EMP_NM" type="string" size="255"/>
+          <Column id="GRADE_NAME" type="string" size="100"/>
+          <Column id="DUTY_NAME" type="string" size="100"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="APPROVAL_STATUS" type="string" size="20"/>
+          <Column id="APPROVAL_STATUS_NAME" type="string" size="100"/>
+          <Column id="APPROVAL_FLAG" type="string" size="1"/>
+          <Column id="APPROVAL_DATE" type="datetime" size="23"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsApprovalCommnet">
+        <ColumnInfo>
+          <Column id="AC_SEQ" type="bigdecimal" size="20"/>
+          <Column id="AD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="CONTENTS" type="string" size="1073741823"/>
+          <Column id="APPLY_FLAG" type="string" size="1"/>
+          <Column id="INSERT_DATE" type="datetime" size="23"/>
+          <Column id="INSERT_EMP_NO" type="string" size="60"/>
+          <Column id="INSERT_EMP_NM" type="string" size="255"/>
+          <Column id="INSERT_DEPT_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsApprovalSeq"/>
+      <Dataset id="dsInsertApproval">
+        <ColumnInfo>
+          <Column id="DOC_KIND" type="STRING" size="256"/>
+          <Column id="SOURCE_CD" type="STRING" size="256"/>
+          <Column id="SOURCE_DATA" type="STRING" size="256"/>
+          <Column id="ARBITRARILY_CODE" type="STRING" size="256"/>
+          <Column id="ARBITRARILY_DATA" type="STRING" size="256"/>
+          <Column id="CONTENTS" type="STRING" size="256"/>
+          <Column id="SUBJECT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPrtApprovalDoc">
+        <ColumnInfo>
+          <Column id="AD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="DOC_NO" type="string" size="200"/>
+          <Column id="DOC_KIND" type="string" size="20"/>
+          <Column id="DOC_KIND_NAME" type="string" size="100"/>
+          <Column id="SUBJECT" type="string" size="500"/>
+          <Column id="DOC_STATUS" type="string" size="20"/>
+          <Column id="DOC_STATUS_NAME" type="string" size="100"/>
+          <Column id="CONTENTS" type="string" size="1073741823"/>
+          <Column id="SOURCE_CD" type="string" size="30"/>
+          <Column id="SOURCE_DATA" type="string" size="30"/>
+          <Column id="INSERT_DATE" type="datetime" size="23"/>
+          <Column id="INSERT_EMP_NO" type="string" size="60"/>
+          <Column id="INSERT_EMP_NAME" type="string" size="255"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPrtApprovalLine">
+        <ColumnInfo>
+          <Column id="LINE_CNT" type="STRING" size="256"/>
+          <Column id="DUTY_1" type="STRING" size="256"/>
+          <Column id="EMP_NO_1" type="STRING" size="256"/>
+          <Column id="EMP_NM_1" type="STRING" size="256"/>
+          <Column id="STATUS_1" type="STRING" size="256"/>
+          <Column id="APPROVAL_DT_1" type="STRING" size="256"/>
+          <Column id="DUTY_2" type="STRING" size="256"/>
+          <Column id="EMP_NO_2" type="STRING" size="256"/>
+          <Column id="EMP_NM_2" type="STRING" size="256"/>
+          <Column id="STATUS_2" type="STRING" size="256"/>
+          <Column id="APPROVAL_DT_2" type="STRING" size="256"/>
+          <Column id="DUTY_3" type="STRING" size="256"/>
+          <Column id="EMP_NO_3" type="STRING" size="256"/>
+          <Column id="EMP_NM_3" type="STRING" size="256"/>
+          <Column id="STATUS_3" type="STRING" size="256"/>
+          <Column id="APPROVAL_DT_3" type="STRING" size="256"/>
+          <Column id="DUTY_4" type="STRING" size="256"/>
+          <Column id="EMP_NO_4" type="STRING" size="256"/>
+          <Column id="EMP_NM_4" type="STRING" size="256"/>
+          <Column id="STATUS_4" type="STRING" size="256"/>
+          <Column id="APPROVAL_DT_4" type="STRING" size="256"/>
+          <Column id="DUTY_5" type="STRING" size="256"/>
+          <Column id="EMP_NO_5" type="STRING" size="256"/>
+          <Column id="EMP_NM_5" type="STRING" size="256"/>
+          <Column id="STATUS_5" type="STRING" size="256"/>
+          <Column id="APPROVAL_DT_5" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPrtApprovalCommnet">
+        <ColumnInfo>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="EMP_NM" type="STRING" size="256"/>
+          <Column id="CONTENTS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_ProjectPrt"/>
+      <Dataset id="ds_ContractProdPrt"/>
+      <Dataset id="ds_PurchaseProdPrt"/>
+      <Dataset id="ds_ContractSiPrt"/>
+      <Dataset id="ds_PurchaseSiPrt"/>
+      <Dataset id="dsFileCnt"/>
+      <Dataset id="dsCurOrd">
+        <ColumnInfo>
+          <Column id="CUR_ORD" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

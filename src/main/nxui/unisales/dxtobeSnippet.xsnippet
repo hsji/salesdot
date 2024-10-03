@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Snippets version="2.0">
+  <Script>
+    <Snippet name="/*" shortcut="" description="">/*
+ *	$end$
+ */
+ </Snippet>
+    <Snippet name="/**" shortcut="" description="">/************************************************************************
+ * $end$
+ ************************************************************************/
+</Snippet>
+    <Snippet name="///" shortcut="" description="">//////////////////////////////////////////////////////////////////////////</Snippet>
+    <Snippet name="alert();" shortcut="al" description="">this.alert($end$);</Snippet>
+    <Snippet name="do { } while();" shortcut="do" description="">do {
+$tab$$end$
+} while();</Snippet>
+    <Snippet name="function() {}" shortcut="func" description="">function ($end$)
+{
+$tab$
+};</Snippet>
+    <Snippet name="gfnAlert" shortcut="gfnAlert" description="this.gfnAlert">this.gfnAlert($end$);</Snippet>
+    <Snippet name="gfnExcelExport" shortcut="gfnExcelExport" description="this.gfnExcelExport">var sSubTitle = "아이디 : ";&#13;
+if(this.gfnIsNull(this.divSearch.form.edtId.value)) sSubTitle += "전체 ";&#13;
+else  sSubTitle += this.divSearch.form.edtId.value +" ";&#13;
+sSubTitle += " 이름 : ";&#13;
+if(this.gfnIsNull(this.divSearch.form.edtName.value)) sSubTitle += "전체 ";&#13;
+else  sSubTitle += this.divSearch.form.edtName.value +" ";&#13;
+&#13;
+this.gfnExcelExport(this.grdList, "sampleExcel", "sampleExcelExportImport", "EXCEL2007","",sSubTitle, true, "");</Snippet>
+    <Snippet name="gfnExcelImport" shortcut="gfnExcelImport" description="this.gfnExcelImport">this.gfnExcelImport("dsList", "sampleExcel", "A4", "fnExcelImportCallback", "sampleExcel", "EXCEL2007", "A3:D3", this.grdList);</Snippet>
+    <Snippet name="gfnOpenPopup" shortcut="gfnOpenPopup" description="this.gfnOpenPopup">var sTitle = "모달팝업(Default)";&#13;
+var oArg   = {pvString:"abcdedd", pvNumber:555555, pvDataset:this.dsData};&#13;
+var oOption = {&#13;
+	top:100&#13;
+	,left:100			//top,left 지정하지않음 center,middle 적용&#13;
+	,width:700&#13;
+	,height:394			//width,height 지정하지 않음 popup form size적용&#13;
+	,popuptype:"modal"	//modal,modaless&#13;
+	,autosize:false&#13;
+	,title:sTitle&#13;
+	,resize:false&#13;
+	,titlebar:true};&#13;
+var sPopupCallBack = "fnPopupCallback";&#13;
+this.gfnOpenPopup("popupModalDefault", "sample::samplePopupP.xfdl", oArg, sPopupCallBack, oOption);</Snippet>
+    <Snippet name="gfnTransaction" shortcut="gfnTransaction" description="this.gfnTransaction">this.dsBoardCond.clearData();&#13;
+&#13;
+var strSvcId    = "searchBoardList";&#13;
+var strSvcUrl   = "searchBoardList.do";&#13;
+var inData      = "dsCond=dsBoardCond";&#13;
+var outData     = "dsBoardInfo=dsList";&#13;
+var strArg      = "";&#13;
+var callBackFnc = "fnCallback";&#13;
+&#13;
+this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값&#13;
+					strSvcUrl , 	// trabsaction을 요청할 주소&#13;
+					inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭&#13;
+					outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭&#13;
+					strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"&#13;
+					callBackFnc); 	// 통신방법 정의 [생략가능]</Snippet>
+    <Snippet name="gfnValidation" shortcut="gfnValidation" description="this.gfnValidation">// 정합성 체크&#13;
+this.gfnClearValidation(this.dsList);&#13;
+&#13;
+this.gfnSetValidation(this.dsList, "ID"			, "아이디"				, "required,minlength:3,maxlength:8");&#13;
+this.gfnSetValidation(this.dsList, "SSN"		, "주민번호"			, "required,isssn");&#13;
+this.gfnSetValidation(this.dsList, "DATE_FROM"	, "시작일자,종료일자"	, "required,date");&#13;
+this.gfnSetValidation(this.dsList, "DATE_TO"	, "종료일자,시작일자"	, "required,date,fromto:DATE_FROM");&#13;
+this.gfnSetValidation(this.dsList, "MAX_NUM"	, "금액"				, "required,digits,maxlengthdec:7:2");&#13;
+this.gfnSetValidation(this.dsList, "DECIMAL"	, "최대값"				, "required,digits,max:10");&#13;
+this.gfnSetValidation(this.dsList, "COMPARE_1"	, "COMPARE_1,COMPARE_2"	, "comparebig:COMPARE_2");&#13;
+&#13;
+// Dataset의 변경된 Row Validation check&#13;
+if (this.gfnValidation(this.grdCheck, "U") == false) return;</Snippet>
+    <Snippet name="if () {}" shortcut="if" description="">if ($end$)
+{
+$tab$
+}</Snippet>
+    <Snippet name="if () {} else {}" shortcut="ifel" description="">if ($end$)
+{
+$tab$
+}
+else
+{
+$tab$
+}</Snippet>
+    <Snippet name="standard" shortcut="" description="">/**&#13;
+*  DevPACK&#13;
+*  @FileName 	$FILE_BASE$.$FILE_EXT$&#13;
+*  @Creator 	TOBESOFT&#13;
+*  @CreateDate 	$DATE$&#13;
+*  @Desction   &#13;
+************** 소스 수정 이력 ***********************************************&#13;
+* Date					Modifier					Description&#13;
+*******************************************************************************&#13;
+* $DATE$			TOBESOFT					최초생성&#13;
+*******************************************************************************&#13;
+*/&#13;
+&#13;
+/*******************************************************************************************************************************&#13;
+ * FORM 변수 선언 영역&#13;
+*******************************************************************************************************************************/&#13;
+&#13;
+/*******************************************************************************************************************************&#13;
+ * FORM EVENT 영역(onload, onbeforeclose..)&#13;
+*******************************************************************************************************************************/&#13;
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)&#13;
+{&#13;
+	this.gfnFormOnload(obj,e); //필수함수&#13;
+	$end$&#13;
+};&#13;
+&#13;
+/*******************************************************************************************************************************&#13;
+ * 공통함수영역 (cfnSearch : 조회 / cfnAdd : 추가 / cfnDel : 삭제 / cfnSave : 저장 / cfnPrint : 인쇄 / cfnExecl : 엑셀..)&#13;
+*******************************************************************************************************************************/&#13;
+//조회&#13;
+this.cfnSearch = function ()&#13;
+{&#13;
+	//TODO..&#13;
+};&#13;
+&#13;
+//추가&#13;
+this.cfnAdd = function ()&#13;
+{&#13;
+	//TODO..&#13;
+};&#13;
+&#13;
+//삭제&#13;
+this.cfnDel = function ()&#13;
+{&#13;
+	//TODO..&#13;
+};&#13;
+&#13;
+//저장&#13;
+this.cfnSave = function ()&#13;
+{&#13;
+	//TODO..&#13;
+};&#13;
+&#13;
+/*******************************************************************************************************************************&#13;
+ * Transaction 서비스호출 처리 영역&#13;
+*******************************************************************************************************************************/&#13;
+&#13;
+/*******************************************************************************************************************************&#13;
+ * Callback 영역 (Transaction, popup, message..)&#13;
+*******************************************************************************************************************************/&#13;
+&#13;
+/*******************************************************************************************************************************&#13;
+ * 사용자 Function 영역&#13;
+*******************************************************************************************************************************/&#13;
+&#13;
+/*******************************************************************************************************************************&#13;
+ * 각 COMPONENT 별 EVENT 영역&#13;
+*******************************************************************************************************************************/</Snippet>
+    <Snippet name="switch() { case : break..." shortcut="switch" description="">switch($end$) {
+case :
+$tab$break;
+case :
+$tab$break;
+default:
+}</Snippet>
+    <Snippet name="while () {}" shortcut="while" description="">while ($end$)
+{
+$tab$
+}</Snippet>
+  </Script>
+  <Xcss>
+    <Group name="Attribute">
+      <Snippet name="-nexa-background-odd" shortcut="-nexa-background-odd" description="">$tab$-nexa-background-odd : #ffffaa;</Snippet>
+      <Snippet name="-nexa-border" shortcut="-nexa-border" description="">$tab$-nexa-border : 1px solid #999999;</Snippet>
+      <Snippet name="-nexa-color-odd" shortcut="-nexa-color-odd" description="">$tab$-nexa-color-odd : red;</Snippet>
+      <Snippet name="-nexa-edge" shortcut="-nexa-edge" description="">$tab$-nexa-edge : url("theme://images/Titlebar_bg.png") 5px 5px;</Snippet>
+      <Snippet name="-nexa-edge-odd" shortcut="-nexa-edge-odd" description="">$tab$-nexa-edge-odd : url("theme://images/Titlebar_bg.png") 5px 5px;</Snippet>
+      <Snippet name="-nexa-icon" shortcut="-nexa-icon" description="">$tab$-nexa-icon : url("theme://images/Titlebar_bg.png");</Snippet>
+      <Snippet name="-nexa-icon-position" shortcut="-nexa-icon-position" description="">$tab$-nexa-icon-position : left;</Snippet>
+      <Snippet name="-nexa-padding" shortcut="-nexa-padding" description="">$tab$-nexa-padding : 5px 5px 5px 5px;</Snippet>
+      <Snippet name="-nexa-text-align" shortcut="-nexa-text-align" description="">$tab$-nexa-text-align : left;</Snippet>
+      <Snippet name="-nexa-text-padding" shortcut="-nexa-text-padding" description="">$tab$-nexa-text-padding : 5px 5px 5px 5px;</Snippet>
+      <Snippet name="-nexa-vertical-align" shortcut="-nexa-vertical-align" description="">$tab$-nexa-vertical-align : top;</Snippet>
+      <Snippet name="-nexa-word-wrap" shortcut="-nexa-word-wrap" description="">$tab$-nexa-word-wrap : char;</Snippet>
+      <Snippet name="background" shortcut="background" description="">$tab$background : #ffffaa;</Snippet>
+      <Snippet name="border-radius" shortcut="border-radius" description="">$tab$border-radius : 5px 5px 5px 5px;</Snippet>
+      <Snippet name="box-shadow" shortcut="box-shadow" description="">$tab$box-shadow : 5px 5px 3px #ffffff;</Snippet>
+      <Snippet name="color" shortcut="color" description="">$tab$color : transparent;</Snippet>
+      <Snippet name="cursor" shortcut="cursor" description="">$tab$cursor : default;</Snippet>
+      <Snippet name="font" shortcut="font" description="">$tab$font : 9pt "Tahoma";</Snippet>
+      <Snippet name="letter-spacing" shortcut="letter-spacing" description="">$tab$letter-spacing : normal;</Snippet>
+      <Snippet name="opacity" shortcut="opacity" description="">$tab$opacity : 0.8;</Snippet>
+      <Snippet name="text-decoration" shortcut="text-decoration" description="">$tab$text-decoration : underline;</Snippet>
+      <Snippet name="word-spacing" shortcut="word-spacing" description="">$tab$word-spacing : 30px;</Snippet>
+    </Group>
+    <Group name="Selector">
+      <Snippet name="Band" shortcut=".Band" description="">.Band
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="Button" shortcut=".Button" description="">.Button
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="Calendar" shortcut=".Calendar" description="">.Calendar
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="Cell" shortcut=".Cell" description="">.Cell
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="CheckBox" shortcut=".CheckBox" description="">.CheckBox
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="Combo" shortcut=".Combo" description="">.Combo
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="ComboControl" shortcut=".ComboControl" description="">.ComboControl
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="DatePicker" shortcut=".DatePicker" description="">.DatePicker
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="Div" shortcut=".Div" description="">.Div
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="Edit" shortcut=".Edit" description="">.Edit
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="FileDownload" shortcut=".FileDownload" description="">.FileDownload
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="FileUpload" shortcut=".FileUpload" description="">.FileUpload
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="FlashPlayer" shortcut=".FlashPlayer" description="">.FlashPlayer
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="Grid" shortcut=".Grid" description="">.Grid
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="GroupBox" shortcut=".GroupBox" description="">.GroupBox
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="ImageViewer" shortcut=".ImageViewer" description="">.ImageViewer
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="ListBox" shortcut=".ListBox" description="">.ListBox
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="Menu" shortcut=".Menu" description="">.FlashPlayer
+{
+$tab$$end$
+}
+</Snippet>
+      <Snippet name="Radio" shortcut=".Radio" description="">.Radio
+{
+$tab$$end$
+}
+</Snippet>
+    </Group>
+    <Group name="Status">
+      <Snippet name="deactivate" shortcut="deactivate" description="">[status=deactivate]</Snippet>
+      <Snippet name="disabled" shortcut="disabled" description="">[status=disabled]</Snippet>
+      <Snippet name="focused" shortcut="focused" description="">[status=focused]</Snippet>
+      <Snippet name="mouseover" shortcut="mouseover" description="">[status=mouseover]</Snippet>
+      <Snippet name="readonly" shortcut="readonly" description="">[status=readonly]</Snippet>
+    </Group>
+    <Snippet name="/*" shortcut="" description="">/***** $end$ *****/
+</Snippet>
+    <Snippet name="/**" shortcut="" description="">/************************************************************************
+ * $end$
+ ************************************************************************/
+</Snippet>
+    <Snippet name="File header" shortcut="" description="">/*******************************************************
+  PROJECT NAME : $end$
+  CREATION DATES : $YEAR$.$MONTH$.$DAY$
+  DRAFTER :
+  DISTRIBUTION DATE :
+  AMENDER :
+  MODIIFICATION DATES :
+*******************************************************/
+</Snippet>
+  </Xcss>
+</Snippets>

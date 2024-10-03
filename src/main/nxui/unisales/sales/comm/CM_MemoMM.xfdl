@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="CM_MemoMM" width="886" height="564" titletext="Memo" cssclass="frm_popBg" onload="CM_MemoMM_onload">
+    <Layouts>
+      <Layout height="564" mobileorientation="landscape" width="886">
+        <Grid id="grd_memo" taborder="7" left="9" top="73" width="425" bottom="46" binddataset="ds_client" cssclass="grd_POP_Memo" autofittype="col" onheadclick="grd_memo_onheadclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="114"/>
+                <Column size="80"/>
+                <Column size="143"/>
+                <Column size="81"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="출처"/>
+                <Cell col="1" text="일련번호"/>
+                <Cell col="2" text="타이틀"/>
+                <Cell col="3" text="최종수정일"/>
+              </Band>
+              <Band id="body">
+                <Cell celltype="none" displaytype="text" edittype="readonly" text="bind:CAPTION" combodisplay="edit"/>
+                <Cell col="1" text="bind:SOURCE_SEQ"/>
+                <Cell col="2" style="align:left middle;" text="bind:TITLE" edittype="text"/>
+                <Cell col="3" style="align:right;" text="bind:INSERT_DATE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static02" taborder="7" left="0" height="38" cssclass="sta_POP_BtnBg" bottom="1" right="0"/>
+        <Static id="Static18" taborder="3" left="1" top="35" height="31" cssclass="sta_POP_GroupBg" right="1"/>
+        <Button id="btn_close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_close_onclick"/>
+        <Static id="Static03" taborder="2" text="MEMO" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title"/>
+        <Static id="Static00" taborder="4" text="Static00" left="440" top="35" width="1" background="#bbbbbb" bottom="1"/>
+        <Static id="Static01" taborder="5" text="전체 메모 목록을 표시합니다." left="11" top="39" width="274" height="22" cssclass="sta_POP_info01"/>
+        <Div id="div_sub" taborder="1" left="0" top="35" right="0" bottom="1" background="#ffffff" border="0px none">
+          <Layouts>
+            <Layout>
+              <Static id="Static18" taborder="2" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" right="0"/>
+              <Button id="btn_lgCls" taborder="0" left="-1" top="0" width="15" height="31" cssclass="btn_POP_RtCls" onclick="div_sub_btn_lgCls_onclick"/>
+              <Static id="sta_title" taborder="1" left="16" top="5" height="22" cssclass="sta_POP_Subject" right="0"/>
+              <TextArea id="txt_memo" taborder="4" left="8" top="38" right="8" bottom="45"/>
+              <Static id="Static00" taborder="3" left="0" height="38" cssclass="sta_POP_BtnBg" bottom="0" right="0"/>
+              <Button id="btn_newMemo" taborder="5" text="신규" width="60" height="24" right="144" bottom="7" cssclass="btn_WF_tran" onclick="div_sub_btn_newMemo_onclick"/>
+              <Button id="btn_delete" taborder="6" text="삭제" width="60" height="24" right="76" bottom="7" cssclass="btn_WF_tran" onclick="div_sub_btn_delete_onclick"/>
+              <Button id="btn_save" taborder="7" text="저장" width="60" height="24" right="8" bottom="7" cssclass="btn_WF_tran" onclick="div_sub_btn_save_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 공통
+ * 02. 화면명   : 메모(MemoMM)
+ * 03. 화면설명 : 업무관련 메모를 관리한다. 
+ * 04. 작성일   : 2018.08.07
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *     
+************************************************************************************************/
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommUtil.xjs";
+include "Script::CommGrid.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommSystem.xjs";
+include "Script::ext_CommEco.xjs";
+include "Script::ext_WebEditor.xjs";
+
+/************************************************************************************************
+ * 전역 변수 영역
+************************************************************************************************/
+
+this.wbContents;
+this.pvSourceCd;
+this.pvSourceSeq;
+this.ord;
+
+
+/************************************************************************************************
+ * FORM 영역
+************************************************************************************************/
+
+this.CM_MemoMM_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//호출한 부모영역의 내용... 
+	if (!this.gfnIsEmpty(this.parent.pvSourceCd))
+	{
+		this.pvSourceCd = this.parent.pvSourceCd;
+		this.pvSourceSeq = this.parent.pvSourceSeq;
+	}
+
+	this.fnInit();
+}
+
+this.fnInit = function()
+{
+	this.fnMemoSearch();
+}
+
+/************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnPopupCallBack = function (popupId, popupArg)
+{
+	popupArg = this.commUtil.popupReturn();
+	if(!Eco.isEmpty(popupArg))
+	{
+		switch(popupId)
+		{
+			case "popStakeHolders":
+				
+				break;
+			case "popFileManager":
+				
+				break;
+			case "CommChangeReason":
+				
+				break;	
+				
+		}
+	}
+}
+
+
+/************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 조회
+this.fnMemoSearch = function()
+{	
+	return;
+	
+	var strSvcID = "CM_MemoMM_S01";
+	var strModelNm = "CM_MemoMM_S01";
+	this.gfnAddOutputDataset("ds_client", "dsOutput");
+	this.gfnAddSendParameter("SOURCE_CD", this.pvSourceCd);
+	this.gfnAddSendParameter("SOURCE_SEQ", this.pvSourceSeq);
+	this.gfnCommonTransaction(strSvcID, strModelNm, this.grd_memo);
+}
+
+// 콜백함수
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+ 	if(nErrorCode != 0)
+ 	{
+ 		return;
+ 	}
+ 	else
+ 	{
+		if(strSvcID=="CM_MemoMM_S01") 
+		{  
+			this.gfnCompInit(this);
+			this.wbContents = this.ds_client.getColumn(this.ds_client.rowposition, "DESCRIPTION");
+			
+			// 메모 없으면 Row 추가
+			if (this.ds_client.rowcount <= 0)
+			{
+				this.ds_client.set_enableevent(false);
+				var aRow = this.ds_client.addRow();
+				this.ds_client.setColumn(aRow, "SOURCE_CD" , this.pvSourceCd);
+				this.ds_client.setColumn(aRow, "SOURCE_SEQ", this.pvSourceSeq);
+				this.ds_client.set_enableevent(true);
+				// this.div_sub.sta_title.set_text("");
+			}
+		}
+ 		else if(strSvcID=="CM_MemoMM_R01") 
+ 		{
+			this.gfnCompInit(this);
+			this.fnMemoSearch();
+ 		}
+	}
+}
+
+/************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+// 영역확장 축소 버튼. 
+this.div_sub_btn_lgCls_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(obj.cssclass == "btn_POP_LfCls") 
+	{	
+		this.div_sub.set_left(0);
+		obj.set_cssclass("btn_POP_RtCls");
+	} 
+	else 
+	{
+		this.div_sub.set_left(441);
+		obj.set_cssclass("btn_POP_LfCls");
+	}
+}
+
+
+
+//row추가
+this.div_sub_btn_newMemo_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_client.set_enableevent(false);
+	var aRow = this.ds_client.addRow();
+	this.ds_client.setColumn(aRow, "SOURCE_CD" , this.pvSourceCd);
+	this.ds_client.setColumn(aRow, "SOURCE_SEQ", this.pvSourceSeq);
+	this.ds_client.set_enableevent(true);
+	// this.div_sub.sta_title.set_text("");
+}
+
+
+// 저장
+this.div_sub_btn_save_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+ 	alert("서비스 준비중");
+	return;
+	
+	
+	if(confirm("저장하시겠습니까?"))
+ 	{
+		var strSvcID = "CM_MemoMM_R01";
+		var strModelNm = "CM_MemoMM_R01";
+		//메모리스트 그리드
+		this.gfnAddInputDataset("ds_client", "dsInput");
+		this.gfnCommonTransaction(strSvcID, strModelNm);
+	} 
+}
+
+
+// 삭제
+this.div_sub_btn_delete_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.ds_client.deleteRow(this.ds_client.rowposition);
+	this.ds_client_onrowposchanged();
+}
+
+
+
+
+// 메모 그리드클릭시.. 
+this.ds_client_onrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+ 	var nRow = this.dsClient.rowposition;
+ 	// this.div_sub.sta_title.set_text(this.dsClient.getColumn(nRow, "TITLE"));
+}
+
+
+this.ds_client_canrowposchange = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{	
+ 	if(this.ds_client.getRowType(e.oldrow)==2 || this.ds_client.getRowType(e.oldrow)==4)
+ 	{
+		var strDESCRIPTION = this.ds_client.getColumn(e.oldrow, "DESCRIPTION");
+		if(strDESCRIPTION==undefined || strDESCRIPTION.length == 0){
+			this.ds_client.deleteRow(e.oldrow);
+		}
+	}
+}
+
+
+// 취소, 닫기버튼
+this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+}
+
+this.grd_memo_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_client" onrowposchanged="ds_client_onrowposchanged" canrowposchange="ds_client_canrowposchange">
+        <ColumnInfo>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="CD_CODE" type="STRING" size="10"/>
+          <Column id="MN_SEQ" type="bigdecimal" size="18"/>
+          <Column id="EMP_NO" type="string" size="8"/>
+          <Column id="SOURCE_CD" type="string" size="30"/>
+          <Column id="SOURCE_SEQ" type="bigdecimal" size="18"/>
+          <Column id="TITLE" type="string" size="255"/>
+          <Column id="DESCRIPTION" type="string" size="32767"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="datetime" size="23"/>
+          <Column id="INSERT_EMP_NO" type="string" size="60"/>
+          <Column id="INSERT_DEPT_CD" type="string" size="60"/>
+          <Column id="INSERT_MODEL" type="string" size="100"/>
+        </ColumnInfo>
+        <Rows/>
+      </Dataset>
+      <Dataset id="dsInput">
+        <ColumnInfo>
+          <Column id="MN_SEQ" type="int" size="255"/>
+          <Column id="SOURCE_CD" type="string" size="30"/>
+          <Column id="SOURCE_SEQ" type="int" size="18"/>
+          <Column id="DESCRIPTION" type="string" size="4000"/>
+        </ColumnInfo>
+        <Rows/>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_sub.form.txt_memo" propid="value" datasetid="ds_client" columnid="DESCRIPTION"/>
+      <BindItem id="item1" compid="div_sub.form.sta_title" propid="text" datasetid="ds_client" columnid="TITLE"/>
+    </Bind>
+  </Form>
+</FDL>

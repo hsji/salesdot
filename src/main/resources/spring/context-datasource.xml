@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd"> 
+    
+    <!-- 
+    <util:properties id="dataSourceConfig" location="classpath:db-connection.properties"/>
+    -->
+    
+     
+    <!-- 
+       - DataSource  
+       		- 둘 이상의 데이터소스를 사용해야 하는 경우 해당 데이터소스를 별도의 이름으로 정의하여
+       		해당 데이터소스를 사용하는 SqlMapClient 혹은 SqlSession에 데이터소스를 지정해서 사용해야 한다. 
+     -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+        <property name="url" value="jdbc:log4jdbc:mariadb://127.0.0.1:3336/salesdot" />
+        <property name="username" value="salesadm"/>
+        <property name="password" value="salesq4321"/>
+    </bean>
+	
+	<!-- jasypt 
+	<bean id="environmentVariablesConfiguration" class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+		<property name="algorithm" value="PBEWithMD5AndDES" />
+		<property name="password" value="DXTOBE0901" />
+	</bean>
+
+	<bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+		<property name="config" ref="environmentVariablesConfiguration" />
+	</bean>
+
+	<bean id="propertyConfigurer" class="org.jasypt.spring3.properties.EncryptablePropertyPlaceholderConfigurer">
+		<constructor-arg ref="configurationEncryptor" />
+		<property name="locations">
+			<list>
+				<value>classpath:db-connection.properties</value>
+		</property>
+	</bean>
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="${db.driver}"/>
+		<property name="url" 	 	 value="${db.url}" />
+		<property name="username" 		 value="${db.username}" />
+		<property name="password" 		 value="${db.password}" />
+	</bean>
+	-->
+</beans>

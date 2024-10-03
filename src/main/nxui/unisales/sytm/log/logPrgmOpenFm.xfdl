@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="logPrgmOpenFm" width="1050" height="736" titletext="메뉴&amp;프로그램 호출 현황" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Div id="divSearch" taborder="0" left="0" top="0" height="79" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Combo id="Combo01" taborder="5" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="6" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="7" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="8" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="4" text="조회" width="48" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick" bottom="10" height="28"/>
+              <Static id="staTitle00" taborder="9" text="시스템" left="0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="cboSysGubun" taborder="0" text="cbo00" left="staTitle00:0" top="12" width="250" height="24"/>
+              <Static id="staTitle01" taborder="10" text="기간" left="cboSysGubun:0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel"/>
+              <PeriodCalendar id="pCalFromTo" taborder="2" left="staTitle01:0" top="12" width="250" height="24"/>
+              <Static id="staTitle00_00" taborder="11" text="부서" left="0" top="staTitle00:5" width="74" height="24" cssclass="sta_WF_SchLabel"/>
+              <Div id="divDept" taborder="1" text="div00" left="staTitle00_00:0" top="cboSysGubun:5" width="250" height="24" url="common::cmmDeptSearch.xfdl"/>
+              <Static id="staTitle00_00_00" taborder="12" text="사용자" left="divDept:0" top="41" width="74" height="24" cssclass="sta_WF_SchLabel"/>
+              <Div id="divUser" taborder="3" text="div00" left="staTitle00_00_00:0" top="pCalFromTo:5" width="250" height="24" url="common::cmmUserSearch.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle01" taborder="1" text="메뉴&amp;프로그램 호출 현황" left="0" height="43" cssclass="sta_WF_Title" top="79" width="216"/>
+        <Grid id="grdList" taborder="2" left="0" top="122" right="20" bottom="0" binddataset="dsList" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="120"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="150"/>
+                <Column size="100"/>
+                <Column size="150"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="로그일시"/>
+                <Cell col="1" text="부서명"/>
+                <Cell col="2" text="사번/ID"/>
+                <Cell col="3" text="사용자명"/>
+                <Cell col="4" text="직위"/>
+                <Cell col="5" text="모듈명"/>
+                <Cell col="6" text="메뉴ID"/>
+                <Cell col="7" text="메뉴명"/>
+                <Cell col="8" text="프로그램ID"/>
+                <Cell col="9" text="프로그램명"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ALOG_DTTM" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss"/>
+                <Cell col="1" text="bind:DEPT_NM"/>
+                <Cell col="2" text="bind:EMP_NO"/>
+                <Cell col="3" text="bind:USER_NM"/>
+                <Cell col="4" text="bind:WKGD_CD"/>
+                <Cell col="5" text="bind:MODULE_CD"/>
+                <Cell col="6" text="bind:MENU_ID"/>
+                <Cell col="7" text="bind:MENU_NM"/>
+                <Cell col="8" text="bind:PRGM_ID"/>
+                <Cell col="9" text="bind:PRGM_NM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.cboSysGubun" propid="value" datasetid="dsCond" columnid="SYTM_FLAG_CD"/>
+      <BindItem id="item1" compid="divSearch.form.pCalFromTo.form.calFrom" propid="value" datasetid="dsCond" columnid="FROM_DT"/>
+      <BindItem id="item2" compid="divSearch.form.pCalFromTo.form.calTo" propid="value" datasetid="dsCond" columnid="TO_DT"/>
+      <BindItem id="item3" compid="divSearch.form.divDept.form.edtCode" propid="value" datasetid="dsCond" columnid="DEPT_CD"/>
+      <BindItem id="item4" compid="divSearch.form.divUser.form.edtUserId" propid="value" datasetid="dsCond" columnid="USER_ID"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="SYTM_FLAG_CD" type="STRING" size="256"/>
+          <Column id="FROM_DT" type="STRING" size="256"/>
+          <Column id="TO_DT" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="SYTM_FLAG_CD" type="STRING" size="256"/>
+          <Column id="ALOG_DTTM" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="WKGD_CD" type="STRING" size="256"/>
+          <Column id="PRGM_ID" type="STRING" size="256"/>
+          <Column id="PRGM_NM" type="STRING" size="256"/>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+          <Column id="MENU_NM" type="STRING" size="256"/>
+          <Column id="MODULE_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	logPrgmOpenFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/28
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/28			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvApplication				= nexacro.getApplication(); 			//조회된 데이타의 시스템 구분값
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드조회
+	var param = [
+			, {biztype : "Combo", code : "SM00", objid : this.divSearch.form.cboSysGubun}							// 시스템구분	
+			, {biztype : "Grid",  code : "SM05", objid : this.grdList, bindcolumn : "WKGD_CD", edit : "false"}		// grid 직급코드
+			, {biztype : "Grid" , code : "SM01", objid : this.grdList, bindcolumn:"MODULE_CD", edit : "false"}		// 모듈
+	];
+	this.gfnGetCommonCode(param);
+	
+	//날짜세팅
+	var sToday = this.gfnGetDate();
+	this.divSearch.form.pCalFromTo.setFromDate(this.gfnAddDate(sToday,-7));
+	this.divSearch.form.pCalFromTo.setToDate(sToday);
+	
+	//from-to module필수세팅
+	this.divSearch.form.pCalFromTo.form.calFrom.set_cssclass("essential");
+	this.divSearch.form.pCalFromTo.form.calTo.set_cssclass("essential");
+	
+	//부서 정보 세팅
+	//this.divSearch.form.divDept.form.fnSetDept(sDept);
+	
+	//사용자 정보 세팅
+	//this.divSearch.form.divDept.form.fnSetDept(sUser);	
+	
+	//활성/비활성화
+	//this.divSearch.form.divDept.form.fnSetEnable(bEnable);
+	//this.divSearch.form.divDept.form.fnSetEnable(bEnable);	
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if( this.fnSearchValidation()){
+		this.fnTranSearch();
+	}
+};
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "selectPrgmOpenLog";
+	var strSvcUrl   = "selectPrgmOpenLog.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+	case "selectSytmLoginLog":
+		//trace(this.dsList.saveXML());
+		break;
+	default: break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//조회조건 validation
+this.fnSearchValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsCond);
+
+	this.gfnSetValidation(this.dsCond, "FROM_DT", "기간"	, "required");
+	this.gfnSetValidation(this.dsCond, "TO_DT"	, "기간"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsCond, "A") == false) return false;
+	else return true;
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+]]></Script>
+  </Form>
+</FDL>

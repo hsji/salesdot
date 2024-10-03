@@ -1,0 +1,719 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="docMain" width="1400" height="720" titletext="New Form" onload="docMain_onload">
+    <Layouts>
+      <Layout height="720" width="1400">
+        <Div id="divSearch" taborder="0" left="10.00" top="10" height="87" cssclass="div_WF_Search" text="" right="10">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle00" taborder="1" text="회의그룹" left="0" top="11" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="Combo01" taborder="2" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="3" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="4" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="5" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="0" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Combo id="cboDocTree" taborder="10" text="cbo00" left="staTitle00:0.00" top="10" width="194" height="27" innerdataset="dsDept" codecolumn="DT_CD" datacolumn="DT_NAME"/>
+              <Static id="staTitle02" taborder="6" text="작성자" left="cboDocTree:0" top="11" width="87" height="24" cssclass="sta_WF_SchLabel"/>
+              <Static id="staTitle03_00" taborder="7" text="작성일" left="280" top="45" width="87" height="24" cssclass="sta_WF_SchLabel"/>
+              <Div id="divCalPeriod" taborder="8" left="staTitle03_00:0" top="45" width="290" height="27" url="common::cmmPeriodCalendar.xfdl" text=""/>
+              <Button id="btnDelDate" taborder="9" left="divCalPeriod:2" top="46" width="20" height="23" background="url('theme://images/img_titlebar_Close.png') no-repeat center center" border="0px none" onclick="divSearch_btnDelDate_onclick"/>
+              <Button id="btnDelUser" taborder="16" left="659" top="13" width="20" height="23" background="url('theme://images/img_titlebar_Close.png') no-repeat center center" border="0px none" onclick="divSearch_btnDelUser_onclick"/>
+              <Static id="staTitle03_00_00" taborder="11" text="제목" left="btnDelUser:15" top="11" width="68" height="24" cssclass="sta_WF_SchLabel"/>
+              <Edit id="edtMsgTxt00" taborder="12" left="staTitle03_00_00:0" top="10" width="290" height="27" onkeyup="searchEdit_onkeyup"/>
+              <Static id="staTitle00_00" taborder="13" text="열람상태" left="0" top="46" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="cboDocTree00" taborder="14" text="cbo00" left="86" top="45" width="194" height="27" innerdataset="dsResultCode" codecolumn="CODE" datacolumn="NAME"/>
+              <Div id="divUser" taborder="15" text="div00" left="staTitle02:0" top="10" width="290" height="27" url="meet::cmmUserSearch.xfdl" visible="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdList" taborder="1" left="10.00" top="140" bottom="60" right="10" binddataset="dsList" autofittype="col" selecttype="row" oncellclick="grdList_oncellclick" oncelldblclick="grdList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="62"/>
+                <Column size="97"/>
+                <Column size="97"/>
+                <Column size="97"/>
+                <Column size="105"/>
+                <Column size="244"/>
+                <Column size="113"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="순서"/>
+                <Cell col="1" text="회의일"/>
+                <Cell col="2" text="등록일"/>
+                <Cell col="3" text="작성자명"/>
+                <Cell col="4" text="회의ID"/>
+                <Cell col="5" text="회의명"/>
+                <Cell col="6" text="회의장소"/>
+                <Cell col="7" text="미리보기"/>
+                <Cell col="8" text="열람상태"/>
+                <Cell col="9" text="열람내역"/>
+                <Cell col="10" text="서명"/>
+                <Cell col="11" text="편집"/>
+              </Band>
+              <Band id="body">
+                <Cell expr="dataset.parent.fvStart +currow"/>
+                <Cell col="1" text="bind:MTG_DATE" displaytype="mask" maskeditformat="@@@@-@@-@@" maskedittype="string"/>
+                <Cell col="2" text="bind:INPT_DTTM" displaytype="mask" maskeditformat="@@@@-@@-@@ @@:@@" maskedittype="string"/>
+                <Cell col="3" text="bind:USER_NAME"/>
+                <Cell col="4" text="bind:DOC_ID" textAlign="left"/>
+                <Cell col="5" text="bind:DOC_TITLE" textAlign="left"/>
+                <Cell col="6" text="bind:PLACE_NAME" textAlign="left"/>
+                <Cell col="7" displaytype="imagecontrol" background="url('theme://images/btn_WF_Search.png') no-repeat center center" cursor="pointer"/>
+                <Cell col="8" text="bind:MTG_RESULT_TYPE" displaytype="combotext" combodataset="dsResultCode00" combocodecol="CODE" combodatacol="NAME"/>
+                <Cell col="9" cursor="pointer" displaytype="imagecontrol" background="url('theme://images/btn_WF_Search.png') no-repeat center center"/>
+                <Cell col="10" combodataset="dsMstatus" combocodecol="code" combodatacol="name" displaytype="expr:ACNT&gt;0?'buttoncontrol':'none'" expr="ACNT&gt;0?'서명':''"/>
+                <Cell col="11" combodataset="dsRstatus" combocodecol="code" combodatacol="name" displaytype="expr:EDIT_YN=='Y'?'buttoncontrol':''" expr="EDIT_YN=='Y'?'편집':''"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divPaging" taborder="2" text="div00" left="10" right="10" url="common::cmmPaging.xfdl" height="30" bottom="10"/>
+        <Button id="btnAdd" taborder="3" text="작성" top="104" width="82" height="30" cssclass="btn_TFDM_Add" visible="true" btnType="E" right="10" onclick="divDetail_btnEdit_onclick" background="#ffffff"/>
+        <Button id="btnAdd00" taborder="4" text="서명변경" top="104" width="111" height="30" cssclass="btn_TFDM_Add" visible="true" btnType="E" right="btnAdd:7" background="#ffffff" onclick="btnAdd00_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="DOC_TITLE" type="STRING" size="256"/>
+          <Column id="IN_FDATE" type="STRING" size="256"/>
+          <Column id="IN_TDATE" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="BIZ_CODE" type="STRING" size="256"/>
+          <Column id="SYS_CODE" type="STRING" size="256"/>
+          <Column id="MTG_RESULT_TYPE" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="START_NUM" type="STRING" size="256"/>
+          <Column id="END_NUM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="USED_FLAG" type="undefined" size="0"/>
+          <Column id="MTG_END_TM" type="string" size="32"/>
+          <Column id="PDF_PAGE" type="int" size="4"/>
+          <Column id="MTG_DATE" type="string" size="32"/>
+          <Column id="MTG_RESULT_TYPE" type="undefined" size="0"/>
+          <Column id="MTG_RESULT_CN" type="string" size="32"/>
+          <Column id="CLSDR_MTG_AT" type="string" size="32"/>
+          <Column id="ETC_MATTER" type="undefined" size="0"/>
+          <Column id="HOST_NAME" type="string" size="32"/>
+          <Column id="HOST_ID" type="string" size="32"/>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="DOC_TITLE" type="string" size="32"/>
+          <Column id="INPT_DTTM" type="string" size="32"/>
+          <Column id="EXPIRE_DATE" type="string" size="32"/>
+          <Column id="EDIT_INFO" type="undefined" size="0"/>
+          <Column id="DOC_ID" type="string" size="32"/>
+          <Column id="PDF_FILE_NM" type="undefined" size="0"/>
+          <Column id="MTG_CNT" type="int" size="4"/>
+          <Column id="WORK_NAME" type="string" size="32"/>
+          <Column id="MTG_MTR_CN" type="string" size="32"/>
+          <Column id="MTG_BEGIN_TM" type="string" size="32"/>
+          <Column id="MTG_PLACE_CD" type="string" size="32"/>
+          <Column id="MTG_SEQ" type="int" size="4"/>
+          <Column id="READNG_AT" type="string" size="32"/>
+          <Column id="HOST_TYPE" type="string" size="32"/>
+          <Column id="USER_NAME" type="string" size="32"/>
+          <Column id="PLACE_NAME" type="string" size="32"/>
+          <Column id="HOST_WORK_NAME" type="string" size="32"/>
+          <Column id="CHGE_ID" type="string" size="32"/>
+          <Column id="MTG_AT" type="undefined" size="0"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="PDF_ORIG_FILE_NM" type="undefined" size="0"/>
+          <Column id="PDF_FILE_PATH_NM" type="undefined" size="0"/>
+          <Column id="READNG_DATE" type="string" size="32"/>
+          <Column id="INPT_ID" type="string" size="32"/>
+          <Column id="EDIT_YN" type="STRING" size="256"/>
+          <Column id="ACNT" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCount" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="TOTALCNT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsResultCode">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">전체</Col>
+          </Row>
+          <Row>
+            <Col id="NAME">완료</Col>
+            <Col id="CODE">Z</Col>
+          </Row>
+          <Row>
+            <Col id="NAME">반송</Col>
+            <Col id="CODE">R</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">P</Col>
+            <Col id="NAME">열람중</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsDept">
+        <ColumnInfo>
+          <Column id="DT_YN" type="string" size="32"/>
+          <Column id="ST_CD" type="string" size="32"/>
+          <Column id="DT_LVL" type="int" size="4"/>
+          <Column id="DT_NAME" type="string" size="32"/>
+          <Column id="SortOrder" type="string" size="32"/>
+          <Column id="HIPO_DT_CD" type="string" size="32"/>
+          <Column id="CHGE_ID" type="string" size="32"/>
+          <Column id="DT_CD" type="string" size="32"/>
+          <Column id="SYS_CODE" type="string" size="32"/>
+          <Column id="BIZ_CODE" type="string" size="32"/>
+          <Column id="INPT_DTTM" type="STRING" size="256"/>
+          <Column id="DT_ORDR" type="int" size="4"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsResultCode00">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">진행중</Col>
+          </Row>
+          <Row>
+            <Col id="NAME">완료</Col>
+            <Col id="CODE">Z</Col>
+          </Row>
+          <Row>
+            <Col id="NAME">반송</Col>
+            <Col id="CODE">R</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">P</Col>
+            <Col id="NAME">열람중</Col>
+          </Row>
+          <Row>
+            <Col id="CODE"/>
+            <Col id="NAME">진행중</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  메일발송 현황
+*  @FileName 	docResult.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2024/03/04
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2024/03/04			DXTOBE						최초생성
+*******************************************************************************
+*/
+this.fvRedrawPos = -1;
+this.fvPage  = -1;
+this.fvStart = -1;
+this.fvEnd   = -1;
+
+this.fvBoardInfo = { pageCnt : 20};
+this.docMain_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	var date = this.gfnGetDate();
+	this.divSearch.form.divCalPeriod.form.fnInitValue({"fromdate" : this.gfnAddDate(date,-7),
+											"todate" : date});
+											
+	this.divPaging.form.staTitle.set_visible(false);
+	this.divPaging.form.cboCnt.set_value(20);
+	this.divPaging.form.cboCnt.set_visible(false);
+	
+	this.fnDocGroupSearch();
+	
+	this.cfnSearch();
+};
+
+//조회
+this.cfnSearch = function ()
+{
+	//조회버튼으로 조회
+	this.dsList.clearData();
+	this.dsCount.clearData();
+	
+	this.fvPage  = 1;
+	this.fvStart = 1;
+	this.fvEnd   = this.fvBoardInfo.pageCnt;
+	this.dsCond.setColumn(0, "DEPT_CD", this.gfnGetUserInfo("DEPT_CD"));
+	this.fnTranCountSearch();
+	this.fnTranSearch();
+};
+
+/**
+* @function fnMtgListSearch  <br>
+* description 열람가능정보를 확인하기 위해 조직 구성 TREE 조회
+*/
+this.fnTranCountSearch = function ()
+{
+	this.gfnSetMap("meet", "MyMeetPageCount");
+	
+	var strSvcId    = "selectMyMeetCount";
+	var strSvcUrl   = "searchCommonBaseService.do";
+	var inData      = "dsCond=dsCond dsMap=dsMap";
+	var outData     = "dsCount=dsList";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/**
+* @function fnMtgListSearch  <br>
+* description 열람가능정보를 확인하기 위해 조직 구성 TREE 조회
+*/
+this.fnTranSearch = function ()
+{
+	this.dsCond.setColumn(0, "START_NUM", this.fvStart);
+	this.dsCond.setColumn(0, "END_NUM", this.fvEnd);
+	
+	this.gfnSetMap("meet", "MyMeetPageList");
+	
+	var strSvcId    = "selectMyMeetList";
+	var strSvcUrl   = "searchCommonBaseService.do";
+	var inData      = "dsCond=dsCond dsMap=dsMap";
+	var outData     = "dsList=dsList";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+
+/**
+* @function fnDocGroupSearch  <br>
+* description 문서그룹조회 
+*/
+this.fnDocGroupSearch = function ()
+{
+	this.gfnSetMap("meet", "DocuTreeList");
+	
+	var strSvcId    = "searchDocuTree";
+	var strSvcUrl   = "searchCommonBaseService.do";
+	var inData      = "dsCond=dsCond dsMap=dsMap";
+	var outData     = "dsDept=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+
+/**
+* @function fnGetDeptList  <br>
+* description 쿼리에서 조직을 in으로 조회 - 리스트 담기
+*/
+this.fnGetDeptList = function ()
+{
+	var arrList = [];
+	var nRow = this.dsList.rowposition;
+	arrList.push("'" + this.dsList.getColumn(nRow, "BIZ_CODE") + "'");
+	var curLvl = this.dsList.getColumn(nRow, "DT_LVL");
+	
+	var lvl;
+	if(nRow >= 0) {
+		for(var i=nRow+1,len=this.dsList.rowcount;i<len;i++) {
+			lvl = this.dsList.getColumn(i, "DT_LVL");
+			if(lvl <= curLvl) continue;
+			arrList.push("'" + this.dsList.getColumn(i, "BIZ_CODE") + "'");
+		}
+	}
+	var deptList = "(" + arrList.join(",") + ")";
+	this.dsCond.setColumn(0, "DOC_LIST", deptList);
+};
+/**
+* @function fnDocSearch  <br>
+* description 그룹별 문서 조회
+*/
+this.fnDocSearch = function (v)
+{
+	if(v) {
+		this.fvRedrawPos = this.dsList.rowposition;
+	}
+
+	this.fnGetDeptList();	// 하위조직 담기
+
+	this.dsCond.setColumn(0, "LIMIT", nCount * 3);
+	
+	this.gfnSetMap("meet", "MeetList");
+	
+	var strSvcId    = "searchDocuContents";
+	var strSvcUrl   = "searchCommonBaseService.do";
+	var inData      = "dsCond=dsCond dsMap=dsMap";
+	var outData     = "dsDocInfo=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+/**
+* @function fnDocSearch  <br>
+* description 그룹별 문서 조회
+*/
+this.fnDocSearch = function (v)
+{
+	var strSvcId    = "searchDocMailHistory";
+	var strSvcUrl   = "searchDocMailHistory.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsDocList=dsDocList dsHistory=dsHistory dsReceiveInfo=dsReceiveInfo";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/**
+* @function fnCallback  <br>
+* description 서비스콜백
+*/
+this.fvTranCnt = 0;
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "selectMyMeetCount" :
+		case "selectMyMeetList" :
+			this.fvTranCnt++;
+			if(this.fvTranCnt >= 2) {
+				var nTotal = this.dsCount.getColumn(0, "TOTALCNT");
+				this.divPaging.form.fnCreatePage(this.grdList, "fnPageCallback", this.fvPage, "", nTotal);
+				this.fvTranCnt = 0;
+			}
+			break;
+		case "searchDocuTree" :
+			this.dsDept.setColumn(0, "DT_CD", "");
+			this.divSearch.form.cboDocTree.set_index(0);
+			break;
+		case "searchResultDocList":
+			var sId = this.gfnGetUserInfo("USER_ID");
+			if(sId == "ylk" || sId == "jihs" || sId == "jh.lee") {
+			} else {
+				this.dsList.filter("BIZ_CODE!='1010040'");
+			}		
+			break;
+		case "searchDocMailHistory":
+			
+			break;
+		default :
+	}
+};
+
+/**
+* @function fnPopupCallback  <br>
+* description 팝업코르백
+*/
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	switch(sPopupId) {
+		case "mgtTreePu":
+			if( !this.gfnIsNull(sRtn) ){
+				var aRtn= sRtn.split("|");
+				
+				this.getOwnerFrame().pvMainUrl = "meet::mtgResult.xfdl";
+				this.getOwnerFrame().pvDocId = null;
+				this.getOwnerFrame().pvSyscode = aRtn[3];
+				this.getOwnerFrame().pvBizcode = aRtn[4];
+
+				this.getOwnerFrame().form.divWork.set_url("meet::mtgNewFm.xfdl");				
+			}
+			break;			
+		default:break;
+	}
+};
+
+//paging
+this.fnPageCallback = function (nPage, nRecrod)
+{
+	this.fvPage  = nPage;
+	this.fvStart = ((this.fvPage-1)*nRecrod) + 1;
+	this.fvEnd   = this.fvPage*nRecrod;
+	
+	this.fnTranSearch();
+};
+
+this.grdList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col < 6) {
+	
+	} else if(e.col == 7) {
+		var sTitle  = "회의록열람";
+		var nRow	= this.dsList.rowposition;
+		var oArg    = { pvUUID:		this.dsList.getColumn(nRow,"DOC_ID"),
+						pvSysCode:	this.dsList.getColumn(nRow,"SYS_CODE"),
+						pvBizCode:	this.dsList.getColumn(nRow,"BIZ_CODE")
+					  };
+		var oOption = {title:sTitle , titlebar:true};
+		var sPopupCallBack = "fnPopupCallback";
+		this.gfnOpenPopup("docView1", "meet::mtgViewPu.xfdl", oArg, sPopupCallBack, oOption);	
+	} else if(e.col == 9) {
+		var sTitle  = "참석자 열람정보";
+		var nRow	= this.dsList.rowposition;
+		var oArg    = { pvDocId:		this.dsList.getColumn(nRow,"DOC_ID"),
+						pvSysCode:	this.dsList.getColumn(nRow,"SYS_CODE"),
+						pvBizCode:	this.dsList.getColumn(nRow,"BIZ_CODE"),
+						pvPage:	this.dsList.getColumn(nRow,"PDF_PAGE")
+					  };
+		var oOption = {title:sTitle , titlebar:true};
+		var sPopupCallBack = "fnPopupCallback";
+		this.gfnOpenPopup("docView2", "meet::mtgReadStatusPu.xfdl", oArg, sPopupCallBack, oOption);	
+	} else if(e.col == 10) {
+		var sTitle  = "회의록열람";
+		var nRow	= this.dsList.rowposition;
+		if(this.dsList.getColumn(this.dsList.rowposition, "ACNT") > 0) {
+			var oArg    = { pvUUID:		this.dsList.getColumn(nRow,"DOC_ID"),
+							pvSysCode:	this.dsList.getColumn(nRow,"SYS_CODE"),
+							pvBizCode:	this.dsList.getColumn(nRow,"BIZ_CODE"),
+							pvPage:	this.dsList.getColumn(nRow,"PDF_PAGE")
+						  };
+			var oOption = {title:sTitle , titlebar:true};
+			var sPopupCallBack = "fnPopupCallback";
+			this.gfnOpenPopup("docView3", "meet::mtgUserSignPu.xfdl", oArg, sPopupCallBack, oOption);	
+		}
+	} else if(e.col == 11) {
+		var sTitle  = "회의록편집";
+		var nRow	= this.dsList.rowposition;
+		if(this.dsList.getColumn(this.dsList.rowposition, "EDIT_YN") == "Y") {
+			this.getOwnerFrame().pvMainUrl = "meet::mtgResult.xfdl";
+			this.getOwnerFrame().pvDocId = this.dsList.getColumn(nRow,"DOC_ID");
+			this.getOwnerFrame().pvSyscode = this.dsList.getColumn(nRow,"SYS_CODE");
+			this.getOwnerFrame().pvBizcode = this.dsList.getColumn(nRow,"BIZ_CODE");
+
+			this.getOwnerFrame().form.divWork.set_url("meet::mtgNewFm.xfdl");	
+		}
+	}
+};
+
+// row change
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(e.newrow >= 0) {
+		var docId = obj.getColumn(e.newrow, "DOC_ID");
+		if(this.gfnIsNull(docId) == false) {
+			this.dsCond.setColumn(0, "DOC_ID", docId);
+			this.fnDocSearch();
+		} else {
+			this.dsDocList.clearData();
+			this.dsHistory.clearData();
+			this.dsReceiveInfo.clearData()
+		}
+	}
+};
+
+
+
+this.Grid00_00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 7) {
+		var pos = this.dsReceiveInfo.rowposition;
+		var rStatus = this.dsReceiveInfo.getColumn(pos, "R_STATUS");
+		if(rStatus == "Z" || rStatus == "K" || rStatus == "U") {
+			var sTitle  = "문서보기";
+			var docId   = this.dsDocList.getColumn(0,"DOC_ID");
+			var Doctitle  = this.dsDocList.getColumn(0,"DOC_TITLE");
+			var sysCode = this.dsDocList.getColumn(0,"SYS_CODE");
+			var bizCode = this.dsDocList.getColumn(0,"BIZ_CODE");
+			var seq 	= this.dsHistory.getColumn(this.dsHistory.rowposition,"SEND_SEQ")+"";
+			var oArg    = { pvUUID:		docId,
+							pvSysCode:	sysCode,
+							pvBizCode:	bizCode,
+							pvTitle :	Doctitle,
+							pvSeq :	seq,
+							pvUserId:	this.dsReceiveInfo.getColumn(pos,"USER_ID")
+						  };
+						  console.log(oArg);
+			var oOption = {title:sTitle , titlebar:true};
+			var sPopupCallBack = "fnPopupCallback";
+			this.gfnOpenPopup("docView", "docForm::docViewPu.xfdl", oArg, sPopupCallBack, oOption);	
+		}
+	}
+};
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+// 사용자 삭제
+this.divSearch_btnDelUser_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.divSearch.form.divUser.form.fnInit();
+};
+// 일자 삭제
+this.divSearch_btnDelDate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.divSearch.form.divCalPeriod.form.fnInitValue();
+};
+
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col <= 6) {
+		var sTitle  = "회의록열람";
+		var nRow	= this.dsList.rowposition;
+		var oArg    = { pvDocId:		this.dsList.getColumn(nRow,"DOC_ID"),
+						pvSysCode:	this.dsList.getColumn(nRow,"SYS_CODE"),
+						pvBizCode:	this.dsList.getColumn(nRow,"BIZ_CODE")
+					  };
+		var oOption = {title:sTitle , titlebar:true};
+		var sPopupCallBack = "fnPopupCallback";
+		this.gfnOpenPopup("docView", "meet::mtgDetailFm.xfdl", oArg, sPopupCallBack, oOption);		
+	}	
+};
+
+this.fnSelectGroup = function()
+{
+	var sTitle  = "회의그룹 선택";
+	var oArg    = {
+		pvSearchValue:""
+		,pvSearchScopeCd:""
+	};
+	var oOption = {title:sTitle
+				  ,titlebar:true};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup("mgtTreePu", "meet::mtgTreePu.xfdl", oArg, sPopupCallBack, oOption);
+};
+
+this.divDetail_btnEdit_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSelectGroup();
+};
+
+this.btnAdd00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+		var sTitle  = "서명등록";
+		var oArg    = {};
+		var oOption = {title:sTitle
+					,titlebar:true};
+		var sPopupCallBack = "fnPopupCallback";
+		this.gfnOpenPopup("mtgSignRegPu", "meet::mtgSignRegPu.xfdl", oArg, sPopupCallBack, oOption);	
+};
+
+this.fnRefresh = function() {
+	this.cfnSearch();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item4" compid="divSearch.form.cboDocTree" propid="value" datasetid="dsCond" columnid="BIZ_CODE"/>
+      <BindItem id="item0" compid="divSearch.form.edtMsgTxt00" propid="value" datasetid="dsCond" columnid="DOC_TITLE"/>
+      <BindItem id="item1" compid="divSearch.form.cboDocTree00" propid="value" datasetid="dsCond" columnid="MTG_RESULT_TYPE"/>
+      <BindItem id="item2" compid="divSearch.form.divUser.form.edtCode" propid="value" datasetid="dsCond" columnid="INPT_ID"/>
+      <BindItem id="item3" compid="divSearch.form.divCalPeriod.form.cal_fr" propid="value" datasetid="dsCond" columnid="IN_FDATE"/>
+      <BindItem id="item5" compid="divSearch.form.divCalPeriod.form.cal_to" propid="value" datasetid="dsCond" columnid="IN_TDATE"/>
+    </Bind>
+  </Form>
+</FDL>

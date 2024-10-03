@@ -1,0 +1,83 @@
+@import url(./font-style.css);
+
+body, html {
+	height: 100%;
+	margin: 0;
+}
+
+.Reader-Button {
+	background: linear-gradient(#84A9F9, #6E92F6)!important;
+	border: 0 !important;
+}
+.Reader-Toolbar-Group.Center {
+	margin: 5px auto 0 !important;
+}
+
+.Zoom-Out-Button, .Zoom-In-Button {
+	background-color: transparent !important;
+}
+
+.Reader-Toolbar-Group > ul > li .Toolbar-Label > a {
+	filter: brightness(0.1);
+}
+
+.Reader-Toolbar {
+	height: 56px !important;
+	background: linear-gradient(#84A9F9, #6E92F6)!important;
+	border-radius:0 !important;
+}
+.Reader-Toolbar-Group.Center {
+	position: relative;
+	z-index: 10000;
+}
+
+#PreviewReaderViewerContainer {
+	top: 56px !important;
+	left: 302px !important;
+	height: calc(100% - 56px) !important;
+}
+.Preview-Compoment.Editor-Component {
+	height: calc(100% - 106px) !important;
+}
+
+.min-w1200 {
+	width:100%;
+	min-width:1200px;
+	overflow-x: auto;
+}
+.Reader-Toolbar-Group .Toolbar-Field.Page-Number {
+	background: linear-gradient(#84A9F9, #6E92F6)!important;
+	border: 0px;
+}
+
+/* 1101 병욱추가*/
+.Reader-Field-Input-Mode-Button {
+	background-color: transparent !important;
+}
+
+/* 1101 병욱추가*/
+.Reader-Memo-Input-Mode-Button {
+	background-color: transparent !important;
+}
+
+/* 1101 병욱추가*/
+.Reader-Memo-Add-Mode-Button {
+	background-color: transparent !important;
+}
+
+#ReaderPDFViewer {
+	background-color: rgba(237, 237, 240, 1);
+}
+
+#TemplatePDFViewer {
+	background-color: rgba(237, 237, 240, 1);
+}
+
+#ReaderViewerContainer {
+	inset: 56px 0 0 0 !important;
+	height: calc(100% - 56px - 81px) !important; /* 상하단 툴바 px 빼기 */
+}
+
+.Reader-Bottom-Container {
+	z-index: 80 !important;
+}

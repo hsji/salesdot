@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="BottomFrame" width="1070" height="36" titletext="Bottom" cssclass="frm_WF_Frame">
+    <Layouts>
+      <Layout height="36" mobileorientation="landscape" width="1070">
+        <Static id="Static00" taborder="0" left="20" top="0" height="1" right="20" cssclass="sta_BF_Line"/>
+        <Static id="Static01" taborder="1" text="데이터가 처리되었습니다." top="7" cssclass="sta_BT_Default" left="23" right="0" bottom="0"/>
+        <Static id="Static02" taborder="2" text="에러메세지입니다." top="57" width="1067" height="29" cssclass="sta_BF_Error" left="23" visible="false"/>
+        <Static id="Static03" taborder="3" text="경고메세지입니다." top="97" width="1067" height="29" cssclass="sta_BF_Warning" left="23" visible="false"/>
+        <Static id="Static04" taborder="4" text="정보메세지입니다." top="137" width="1067" height="29" cssclass="sta_BF_Info" left="23" visible="false"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AH_QuestionList" width="1280" height="720" titletext="문의관리" onload="AH_QuestionList_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Div id="div_Search" taborder="0" left="8" top="8" height="40" cssclass="div_WF_SchList" right="24" text="">
+          <Layouts>
+            <Layout>
+              <Static id="stc_CategoryCode" taborder="2" text="질문유형" left="8" top="9" width="58" height="22" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_CategoryCode" taborder="0" left="stc_CategoryCode:8" top="9" width="150" height="22" codecolumn="CODE" datacolumn="CAPTION" innerdataset="ds_cmm_CategoryCode" onitemchanged="div_Search_cmb_CategoryCode_onitemchanged"/>
+              <Button id="btn_Excel" taborder="3" text="Excel" top="9" height="22" cssclass="btn_WF_Excel" width="68" right="157" onclick="common_onclick"/>
+              <Button id="btn_Search" taborder="1" text="조회" top="9" width="58" height="22" cssclass="btn_WF_SchText" right="btn_Excel:8" onclick="common_onclick"/>
+              <Button id="btn_MarketExcel" taborder="4" text="마켓팅 동의 데이터" top="9" height="22" cssclass="btn_WF_Excel" width="141" left="btn_Excel:8" onclick="common_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_paging" taborder="2" left="8" height="24" bottom="10" url="Common::COM_Paging.xfdl" right="24"/>
+        <Grid id="grd_QuestionList" taborder="1" left="8" autofittype="col" autosizingtype="none" right="24" top="56" bottom="div_paging:8" onheadclick="grd_CheckServerList_onheadclick" autoenter="select" binddataset="ds_QuestionList" oncelldblclick="grd_QuestionList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="200"/>
+                <Column size="150"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="질문유형"/>
+                <Cell col="2" text="문의자"/>
+                <Cell col="3" text="기업/기관명"/>
+                <Cell col="4" text="유입경로"/>
+                <Cell col="5" text="담당자 이메일"/>
+                <Cell col="6" text="등록일자"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow + 1"/>
+                <Cell col="1" text="bind:CATEGORY_CODE" combodataset="ds_cmm_CategoryCode" combodatacol="CAPTION" combocodecol="CODE" displaytype="combotext" textAlign="left"/>
+                <Cell col="2" text="bind:CUSTOMER_NAME"/>
+                <Cell col="3" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:INFLOW_PATH_CODE" displaytype="combotext" combodataset="ds_cmm_InflowPathCode" combodatacol="CAPTION" combocodecol="CODE" textAlign="left"/>
+                <Cell col="5" text="bind:MANAGER_EMAIL" textAlign="left"/>
+                <Cell col="6" text="bind:INSERT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_QuestionExcelList" taborder="3" left="1316" autofittype="none" autosizingtype="none" right="-1284" top="60" bottom="38" onheadclick="grd_CheckServerList_onheadclick" autoenter="select" binddataset="ds_QuestionExcelList" oncelldblclick="grd_QuestionList_oncelldblclick" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="150"/>
+                <Column size="80"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="250"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="질문유형"/>
+                <Cell col="2" text="문의자"/>
+                <Cell col="3" text="기업/기관명"/>
+                <Cell col="4" text="유입경로"/>
+                <Cell col="5" text="문의 연락처"/>
+                <Cell col="6" text="문의 이메일"/>
+                <Cell col="7" text="담당자 이메일"/>
+                <Cell col="8" text="등록일자"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow + 1"/>
+                <Cell col="1" text="bind:CATEGORY_CODE" combodataset="ds_cmm_CategoryCode" combodatacol="CAPTION" combocodecol="CODE" displaytype="combotext" textAlign="left"/>
+                <Cell col="2" text="bind:CUSTOMER_NAME"/>
+                <Cell col="3" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:INFLOW_PATH_CODE" displaytype="combotext" combodataset="ds_cmm_InflowPathCode" combodatacol="CAPTION" combocodecol="CODE" textAlign="left"/>
+                <Cell col="5" text="bind:TEL_HP" textAlign="left"/>
+                <Cell col="6" text="bind:EMAIL" textAlign="left"/>
+                <Cell col="7" text="bind:MANAGER_EMAIL" textAlign="left"/>
+                <Cell col="8" text="bind:INSERT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_cmm_CategoryCode">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_InflowPathCode">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_QuestionList">
+        <ColumnInfo>
+          <Column id="QL_SEQ" type="STRING" size="256"/>
+          <Column id="CATEGORY_CODE" type="STRING" size="256"/>
+          <Column id="CUSTOMER_NAME" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="TEL_HP" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="INFLOW_PATH_CODE" type="STRING" size="256"/>
+          <Column id="CONTENTS" type="STRING" size="256"/>
+          <Column id="MANAGER_EMAIL" type="STRING" size="256"/>
+          <Column id="MARKETING_AGREED" type="STRING" size="256"/>
+          <Column id="USE_PRODUCT_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_QuestionListCnt" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="TOTAL_COUNT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_QuestionExcelList">
+        <ColumnInfo>
+          <Column id="QL_SEQ" type="STRING" size="256"/>
+          <Column id="CATEGORY_CODE" type="STRING" size="256"/>
+          <Column id="CUSTOMER_NAME" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="TEL_HP" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="INFLOW_PATH_CODE" type="STRING" size="256"/>
+          <Column id="CONTENTS" type="STRING" size="256"/>
+          <Column id="MANAGER_EMAIL" type="STRING" size="256"/>
+          <Column id="MARKETING_AGREED" type="STRING" size="256"/>
+          <Column id="USE_PRODUCT_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 홈페이지관리
+ * 02. 화면명   : 문의 탭페이지(AH_QuestionList)
+ * 03. 화면설명 : 문의 탭페이지
+ * 04. 작성일   : 2022.09.01
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.bFirst = true;		// 페이징공통 컴포넌트 초기화 처리 Flag
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.AH_QuestionList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+};
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+// 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_CategoryCode",	"CATEGORY_CODE"); 		// 질문유형
+	this.gfnAddCodeDataset("ds_cmm_InflowPathCode",	"INFLOW_PATH_CODE"); 	// 유입경로
+	
+	this.gfnCodeTransaction();
+};
+ 
+// 화면 로딩 시 페이징 초기
+this.fnSetPaging = function()
+{
+	// 기본 display 페이지 설정
+	this.div_paging.form.div_goPage.form.cbo_pageListCnt.set_value(30)
+	this.div_paging.form.fn_loadInit(0, 10, true, this);
+	
+	this.fnSearchCnt();
+};
+ 
+// [필수공통함수] 페이징공통화면에서 초기화 검색시 호출하는 함수
+this.fnPagingInit = function()
+{
+	this.fnSearchCnt();
+};
+
+// [필수공통함수] 공통 페이징화면에서 호출하는 함수
+this.fnPagingSearch = function(nStartNum, nEndNum)
+{
+	this.fnSearch(nStartNum, nEndNum);
+};  
+ 
+// 조회 Reset 
+this.fnResetSearch = function()
+{
+	this.bFirst = true;
+	this.div_paging.form.fn_goFirst();
+}; 
+ 
+ // 조회 CNT
+this.fnSearchCnt = function()
+{
+	var sCategoryCode = this.div_Search.form.cmb_CategoryCode.value;
+	
+	this.gfnAddSendParameter("CATEGORY_CODE", sCategoryCode);
+	
+	this.gfnAddOutputDataset("ds_QuestionListCnt", "dsOutput");	
+	this.gfnCommonTransaction("Search_QuestionList_Cnt", "AH_QuestionList_S01_Cnt");
+};
+ 
+// 조회
+this.fnSearch = function(nStartNum, nEndNum)
+{
+	var sCategoryCode = this.div_Search.form.cmb_CategoryCode.value;
+	
+	this.gfnAddSendParameter("START_NO", nStartNum);
+	this.gfnAddSendParameter("END_NO", nEndNum);
+	this.gfnAddSendParameter("CATEGORY_CODE", sCategoryCode);
+	
+	this.gfnAddOutputDataset("ds_QuestionList", "dsOutput");	
+	this.gfnCommonTransaction("Search_QuestionList", "AH_QuestionList_S01", this.grd_QuestionList);
+};
+
+// 상세
+this.fnQuestionDet = function(vMode)
+{
+	var sQlSeq = this.ds_QuestionList.getColumn(this.ds_QuestionList.rowposition, "QL_SEQ");
+	var Argument = {pvQlSeq:sQlSeq, pvMode:vMode};
+	this.commUtil.popup(this, "popupQuestionPopup", "Admin::AH_QuestionListPopup.xfdl", -1, -1, 900, 600, true, false, false, Argument, "fnPopupCallBack");
+};
+
+// 엑셀 조회
+this.fnExcelData = function()
+{
+	var sCategoryCode = this.div_Search.form.cmb_CategoryCode.value;
+	
+	this.gfnAddSendParameter("CATEGORY_CODE", sCategoryCode);
+	
+	this.gfnAddOutputDataset("ds_QuestionExcelList", "dsOutput");	
+	this.gfnCommonTransaction("Search_QuestionExcelList", "AH_QuestionList_S02", this.grd_QuestionExcelList);
+};
+
+// 엑셀
+this.fnExcel = function()
+{
+	var objGrd = this.grd_QuestionExcelList;
+	
+	var sFileNm = "문의 목록";
+	var sQuestionNm = this.div_Search.form.cmb_CategoryCode.text;
+	sFileNm += "(" + sQuestionNm + ")";
+	
+	if(nexacro.getApplication().id=="ACEp")
+	{
+		this.parent.parent.parent.parent.parent.fn_excelExport(this, objGrd, sFileNm);
+	}
+	else
+	{
+		this.gfn_excelExport(this, objGrd, sFileNm);
+	}
+};
+
+// 마켓팅 동의 엑셀 팝업
+this.fnMarketingAgreedExcel = function()
+{
+	this.commUtil.popup(this, "popupQuestionMarketingAgreedPopup", "Admin::AH_QuestionMarketingAgreedListPopup.xfdl", -1, -1, 400, 300, true, false, false, null, "fnPopupCallBack");
+};
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if (nErrorCode<0) {
+		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		return;
+	} else {
+		switch (strSvcID) 
+		{
+			case "gfnGetCode" :			
+				// QNA 상품들만 필터링
+				this.ds_cmm_CategoryCode.filter("VAL1 != 'NO_QNA'");
+				this.div_Search.form.cmb_CategoryCode.set_index(0);
+				
+				this.fnSetPaging();
+				//this.fnSearch();
+				break;
+			case "Search_QuestionList_Cnt" :
+				this.fnSearch(1, this.div_paging.form.fv_pageListCnt);
+				break;
+			
+			case "Search_QuestionList" :
+				if(this.bFirst) {
+					// [필수] 전체건수 설정
+					this.div_paging.form.fn_init(this.ds_QuestionListCnt.getColumn(0, "TOTAL_COUNT"), 10, true, this);
+					this.bFirst = false;
+				}
+				break;
+			case "Search_QuestionExcelList" :
+				this.fnExcel();
+				break;
+		}
+	}
+};
+  
+// 팝업 콜백
+this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		this.recentVariant = Variant;
+		switch(sPopupId)
+		{
+			case "popupQuestionPopup" : // 문의 상세
+				//this.fnSearch();
+			break;
+			case "popupQuestionMarketingAgreedPopup" : // 마켓팅 동의 팝업
+			break;
+		}
+	}
+}
+
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{	
+		case "btn_Search":	// 조회
+			this.fnResetSearch();
+			break;
+		case "btn_Excel":	// 엑셀
+			this.fnExcelData();
+			break;
+		case "btn_MarketExcel":	// 마켓팅 동의 팝업
+			this.fnMarketingAgreedExcel();
+			break;
+	}
+};
+
+// 상세 팝업 이벤트
+this.grd_QuestionList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnQuestionDet("U");
+};
+
+// 질문유형 변경 이벤트
+this.div_Search_cmb_CategoryCode_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnResetSearch();
+};
+]]></Script>
+  </Form>
+</FDL>

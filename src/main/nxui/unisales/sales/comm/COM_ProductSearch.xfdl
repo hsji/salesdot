@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="COM_ProductSearch" width="205" height="24" titletext="부서조회" onload="form_onload">
+    <Layouts>
+      <Layout height="24" width="205">
+        <Edit id="edtCode" taborder="0" left="0" top="0" width="50%" height="24" cssclass="edi_WF_Search" uUse="false" onkeyup="edtCode_onkeyup" maxlength="7" onchanged="edtCode_onchanged"/>
+        <Button id="btnSearch" taborder="1" left="edtCode:-28" top="0" width="28" height="24" cssclass="btn_WF_EdiSch" onclick="btnSearch_onclick"/>
+        <Edit id="edtName" taborder="2" left="edtCode:3" top="0" height="24" cssclass="edi_WF_Search" readonly="true" right="0"/>
+        <Edit id="edtCompany" taborder="3" left="53.00" top="81" width="140" height="20" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCommonCond">
+        <ColumnInfo>
+          <Column id="SRCH" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCommonList"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	COM_ProductSearch.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/28
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/28			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvSearchScopeCd = "";
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	if( this.parent.uEssential=="true"){
+		this.edtCode.set_cssclass("essential");
+	}
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranDeptList = function ()
+{
+	if (this.gfnIsNull(this.edtCode.value)) {
+		this.edtName.set_value("");
+		return;
+	}
+	
+	var sContractType = this.divSearch.form.cmb_SelectType.value;
+	this.fnSetParentProduct();
+	
+	this.gfnAddSendParameter("COMPANY_CODE"	, this.parent.COMPANY_CODE);
+	this.gfnAddSendParameter("CONTRACT_TYPE"	, this.parent.CONTRACT_TYPE);
+	this.gfnAddSendParameter("SRCH_TEXT"	, this.edtCode.value);
+	
+	this.gfnSetMap("nextBaseMapper", "ProductOne", "dsCommonList");
+	
+	this.gfnCommonTransaction("selectCommonDeptList", "selectNextList.do");
+
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "selectCommonDeptList":
+			this.fnSetResult();
+			break;
+		default:break;
+	}
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	switch(sPopupId) {
+		case "productMgPu":
+			if( !this.gfnIsNull(sRtn) ){
+				var aRtn= sRtn.split("|");
+				this.edtCode.set_value(aRtn[0]);
+				this.edtName.set_value(aRtn[1]);
+			}
+			break;
+		default:break;
+	}
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "nodata":
+			//this.edtCode.set_enableevent(true);
+			this.edtCode.set_value("");
+			this.edtName.set_value("");
+			this.edtCode.setFocus();
+			break;	
+		default:break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//조회결과세팅
+this.fnSetResult = function ()
+{
+	if( this.dsCommonList.getRowCount() == 1){
+		var sCode = this.dsCommonList.getColumn(0, "CODE");
+		var sName = this.dsCommonList.getColumn(0, "NAME");
+		
+		this.edtCode.set_value(sCode);
+		this.edtName.set_value(sName);
+		
+// 		this.gfnAlert("msg.err.nodata", [""], "nodata", "fnMsgCallback");
+ 		return;
+	} else {
+		this.btnSearch.click();
+	}
+	
+// 	var sCode = this.dsCommonList.getColumn(0, "CODE");
+// 	var sName = this.dsCommonList.getColumn(0, "NAME");
+// 	
+// 	this.edtCode.set_value(sCode);
+// 	this.edtName.set_value(sName);
+// 	
+// 	if(this.parent.parent.btnSearch) this.parent.parent.btnSearch.setFocus();
+	//this.edtCode.set_enableevent(true);
+};
+
+// 활성화/비활성화
+this.fnSetEnable = function (bEnable)
+{
+	this.edtCode.set_enable(bEnable);
+	this.btnSearch.set_enable(bEnable);	
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.edtCode_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode==13) this.fnTranDeptList();
+};
+
+this.edtCode_onkillfocus = function(obj:nexacro.Edit,e:nexacro.KillFocusEventInfo)
+{
+	this.fnTranDeptList(); 
+};
+
+this.btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sTitle  = "제품 선택";
+	var oArg    = {
+		pvCompanyCd:this.parent.COMPANY_CODE,
+		pvContractType:this.parent.CONTRACT_TYPE,
+		pvSearchValue:this.edtCode.value
+	};
+	var oOption = {title:sTitle
+				  ,titlebar:true};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup("productMgPu", "sales::comm/productListPu.xfdl", oArg, sPopupCallBack, oOption);
+};
+
+this.fnSetCompany = function (v)
+{
+	this.edtCompany.set_value(v);
+	this.parent.COMPANY_CODE = v;
+};
+
+
+this.edtCode_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	if(!obj.value || obj.value == "") {
+		this.edtName.value = "";
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

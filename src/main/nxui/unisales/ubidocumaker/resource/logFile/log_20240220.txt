@@ -1,0 +1,10 @@
+[uuid_1708410970830][docuJsonSave][성공]
+[uuid_1708410970830][docuMailSend][성공][수신자명(playguility@gmail.com)]http://localhost:8080/ubidocumaker/docuMail.html?p=uuid_1708410970830&q=2dc6b0c08b344537f033fcb32608c4bcfc7e2fd89b22765c58f4e67739a39c6b&r=81400b5185a5d48d5ee824014375ce2e&f=agreement.pdf&sq=3a23f39a661bf2b74a365fe49ba39519c2309b8ab75eee91ff08d5f207b8e9b2&sr=ac80b1c26bc039e83dad20443d61a97e
+[uuid_1708414842737][docuJsonSave][성공]
+[uuid_1708414842737][docuMailSend][성공][수신자명(playguility@gmail.com)]http://localhost:8080/ubidocumaker/docuMail.html?p=uuid_1708414842737&q=2dc6b0c08b344537f033fcb32608c4bcfc7e2fd89b22765c58f4e67739a39c6b&r=81400b5185a5d48d5ee824014375ce2e&f=5962F004112D0D893A91E56C409F3059&sq=3a23f39a661bf2b74a365fe49ba39519c2309b8ab75eee91ff08d5f207b8e9b2&sr=ac80b1c26bc039e83dad20443d61a97e
+[uuid_1708414842737][docuPdfSave][성공][수신자명(playguility@gmail.com)]
+[uuid_1708414842737][docuPdfSave][성공][수신자명(playguility@gmail.com)]
+[uuid_1708414842737][docuPdfSave][성공][발신자명(guilty@ubireport.com)]
+[uuid_1708414842737][docuPdfSave][성공][발신자명(guilty@ubireport.com)]
+[uuid_1708427406311][docuJsonSave][성공]
+[uuid_1708427446829][docuJsonSave][성공]

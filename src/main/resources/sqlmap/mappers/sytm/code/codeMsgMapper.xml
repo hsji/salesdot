@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="codeMsgMapper">
+
+<!--  MAP 시스템 메시지 조회 -->
+<select id="searchSystemMsg" parameterType="java.util.Map" resultType="java.util.Map">
+/* searchSystemMsg */
+	SELECT 
+		MSGE_CD
+	   , MSGE_FLAG_CD 
+	   , KORN_MSGE
+	   , ENGL_MSGE 
+	   , USED_YN
+	   , INPT_ID 
+	   , CHGE_ID 
+	FROM T_SYTM_MSG
+	WHERE 1=1 
+	<if test="MSGE != null and MSGE != ''">
+	    AND KORN_MSGE like CONCAT('%', #{MSGE}, '%')
+	</if>
+	<if test="MSGE_FLAG_CD != null and MSGE_FLAG_CD != ''">
+	    AND MSGE_FLAG_CD like CONCAT('%', #{MSGE_FLAG_CD}, '%')
+	</if> 
+	<if test="MSGE_CD != null and MSGE_CD != ''">
+	    AND MSGE_CD like CONCAT('%', #{MSGE_CD}, '%')
+	</if>
+	ORDER BY MSGE_FLAG_CD, MSGE_CD DESC 
+</select>
+    
+<!--  MAP 신규등록 메시지 코드 존재여부 체크 -->
+<select id="checkNewMsgCode" parameterType="java.util.List" resultType="java.util.Map">
+/* checkNewMsgCode */
+SELECT MSGE_CD
+FROM T_SYTM_MSG
+WHERE MSGE_CD IN
+<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+    #{item.MSGE_CD}
+</foreach>  
+</select>
+
+<!--  MAP 신규 메시지 저장 -->
+<insert id="insertMsg" parameterType="java.util.Map">
+/* insertMsg */
+	INSERT INTO T_SYTM_MSG	
+	(
+	    MSGE_CD
+	    , MSGE_FLAG_CD 
+	    , KORN_MSGE
+	    , ENGL_MSGE 
+	    , USED_YN
+	    , INPT_ID 
+	    , INPT_DTTM 
+	    , INPT_IP
+	    , CHGE_ID 
+	    , CHGE_DTTM 
+	    , CHGE_IP
+	)VALUES(
+	    #{MSGE_CD}
+	  , #{MSGE_FLAG_CD}
+	  , #{KORN_MSGE}
+	  , #{ENGL_MSGE}
+	  , #{USED_YN}
+	  , #{USER_ID_SRV}
+	  , NOW()
+	  , #{USER_CON_IPADDR_SRV}
+	  , #{USER_ID_SRV}
+	  , NOW()
+	  , #{USER_CON_IPADDR_SRV}
+	) ON DUPLICATE KEY 
+		UPDATE 
+			 MSGE_FLAG_CD    = #{MSGE_FLAG_CD}
+			, KORN_MSGE      = #{KORN_MSGE}
+			, ENGL_MSGE      = #{ENGL_MSGE}
+			, USED_YN        = #{USED_YN}
+			, CHGE_ID        = #{USER_ID_SRV}
+			, CHGE_DTTM      = NOW()
+			, CHGE_IP        = #{USER_CON_IPADDR_SRV}
+	;
+</insert>
+
+<!--  MAP 메세지 수정 -->   
+<update id="updateMsg" parameterType="java.util.Map">
+/* updateMsg */
+UPDATE T_SYTM_MSG 
+SET 
+	 MSGE_FLAG_CD    = #{MSGE_FLAG_CD}
+	, KORN_MSGE      = #{KORN_MSGE}
+	, ENGL_MSGE      = #{ENGL_MSGE}
+	, USED_YN        = #{USED_YN}
+	, CHGE_ID        = #{USER_ID_SRV}
+	, CHGE_DTTM      = NOW()
+	, CHGE_IP        = #{USER_CON_IPADDR_SRV}
+WHERE MSGE_CD 		 = #{MSGE_CD}
+</update> 
+    
+<!--  MAP 메세지 삭제 -->   
+<delete id="deleteMsg" parameterType="java.util.Map">
+/* deleteMsg */
+DELETE FROM T_SYTM_MSG 
+WHERE MSGE_CD=#{MSGE_CD}
+</delete>
+              
+</mapper>

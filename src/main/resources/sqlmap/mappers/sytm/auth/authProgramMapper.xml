@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--MySQL-->
+
+<mapper namespace="authProgramMapper">
+<select id="searchProgramList" parameterType="java.util.List" resultType="java.util.Map">
+	SELECT /* searchProgramList */
+		CP.COMPANY_CD
+	    , CP.PRGM_ID
+	    , CP.MODULE_CD
+	    , CP.PRGM_NM
+	    , CP.PRGM_TYPE_CD
+	    , CP.PRGM_EXPL
+	    , CP.PRGM_PATH
+	    , CP.USED_YN
+	    , CP.ANEW_BTTN_USED_YN
+	    , CP.INQR_BTTN_USED_YN
+	    , CP.DELE_BTTN_USED_YN
+	    , CP.SAVE_BTTN_USED_YN
+	    , CP.PRNT_BTTN_USED_YN
+	    , CP.EXCL_BTTN_USED_YN
+	    , CP.INIT_BTTN_USED_YN
+	    , CASE WHEN COALESCE(PB.ADDBTN_CNT,0) = 0 THEN '0' ELSE '1' END AS ADD_BTN_YN
+	    , CP.REMK
+	    ,CASE WHEN COALESCE(CP.PRGM_HELP, '') = '' THEN '' ELSE 'Y' END AS HELP_FLAG
+	FROM T_SYTM_PRGM CP
+		LEFT OUTER JOIN (
+			SELECT
+				COUNT(*) AS ADDBTN_CNT
+				,PRGM_ID
+			FROM T_SYTM_PRGM_ADD_BTN
+		    <if test="COMPANY_CD != null and COMPANY_CD != '' ">
+		    WHERE COMPANY_CD = #{COMPANY_CD}
+		    </if>			
+			GROUP BY PRGM_ID
+		)PB
+		ON CP.PRGM_ID = PB.PRGM_ID 
+	WHERE 1=1	
+	    <if test="PRGM_ID != null and PRGM_ID != '' ">
+	    AND CP.PRGM_ID LIKE CONCAT('%', #{PRGM_ID}, '%')
+	    </if>
+	    <if test="PRGM_NM != null and PRGM_NM != '' ">
+	    AND CP.PRGM_NM LIKE CONCAT('%', #{PRGM_NM}, '%')
+	    </if>
+	    <if test="PRGM_TYPE_CD != null and PRGM_TYPE_CD != '' ">
+	    AND CP.PRGM_TYPE_CD LIKE #{PRGM_TYPE_CD}
+	    </if>
+	    <if test="MODULE_CD != null and MODULE_CD != '' ">
+	    AND CP.MODULE_CD LIKE #{MODULE_CD}
+	    </if>
+	    AND CP.COMPANY_CD = #{COMPANY_CD}
+	ORDER BY SUBSTRING(CP.PRGM_ID,1,1) DESC, CP.MODULE_CD , CP.PRGM_ID
+</select>
+
+<insert id="insertProgramList" parameterType="java.util.Map">
+	INSERT INTO T_SYTM_PRGM
+	(
+		COMPANY_CD
+	    , PRGM_ID
+	    , MODULE_CD
+	    , PRGM_NM
+	    , PRGM_TYPE_CD
+	    , PRGM_EXPL
+	    , PRGM_PATH
+	    , USED_YN
+	    , ANEW_BTTN_USED_YN
+	    , INQR_BTTN_USED_YN
+	    , DELE_BTTN_USED_YN
+	    , SAVE_BTTN_USED_YN
+	    , PRNT_BTTN_USED_YN
+	    , EXCL_BTTN_USED_YN
+	    , INIT_BTTN_USED_YN
+	    , REMK
+	    , INPT_ID
+	    , INPT_IP
+	    , INPT_DTTM
+	    , CHGE_ID
+	    , CHGE_IP
+	    , CHGE_DTTM
+	)VALUES(
+		#{COMPANY_CD}
+	    , #{PRGM_ID}
+	    , #{MODULE_CD}
+	    , #{PRGM_NM}
+	    , #{PRGM_TYPE_CD}
+	    , #{PRGM_EXPL}
+	    , #{PRGM_PATH}
+	    , #{USED_YN}
+	    , #{ANEW_BTTN_USED_YN}
+	    , #{INQR_BTTN_USED_YN}
+	    , #{DELE_BTTN_USED_YN}
+	    , #{SAVE_BTTN_USED_YN}
+	    , #{PRNT_BTTN_USED_YN}
+	    , #{EXCL_BTTN_USED_YN}
+	    , #{INIT_BTTN_USED_YN}
+	    , #{REMK}
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	)
+</insert>
+
+<update id="updateProgramList" parameterType="java.util.Map">
+	UPDATE T_SYTM_PRGM
+	SET
+	    PRGM_NM              = #{PRGM_NM}
+	    , MODULE_CD		  	 = #{MODULE_CD}
+	    , PRGM_TYPE_CD       = #{PRGM_TYPE_CD}
+	    , PRGM_EXPL          = #{PRGM_EXPL}
+	    , PRGM_PATH          = #{PRGM_PATH}
+	    , USED_YN            = #{USED_YN}
+	    , ANEW_BTTN_USED_YN  = #{ANEW_BTTN_USED_YN}
+	    , INQR_BTTN_USED_YN  = #{INQR_BTTN_USED_YN}
+	    , DELE_BTTN_USED_YN  = #{DELE_BTTN_USED_YN}
+	    , SAVE_BTTN_USED_YN  = #{SAVE_BTTN_USED_YN}
+	    , PRNT_BTTN_USED_YN  = #{PRNT_BTTN_USED_YN}
+	    , EXCL_BTTN_USED_YN  = #{EXCL_BTTN_USED_YN}
+	    , INIT_BTTN_USED_YN  = #{INIT_BTTN_USED_YN}
+	    , REMK               = #{REMK}
+	    , CHGE_ID            = #{USER_ID_SRV}
+	    , CHGE_IP            = #{USER_CON_IPADDR_SRV}
+	    , CHGE_DTTM          = NOW()
+	WHERE PRGM_ID = #{PRGM_ID}
+	AND   COMPANY_CD = #{COMPANY_CD}
+</update>
+
+<delete id="deleteProgramList" parameterType="java.util.Map">
+	DELETE FROM T_SYTM_PRGM 
+	WHERE PRGM_ID = #{PRGM_ID}
+	AND   COMPANY_CD = #{COMPANY_CD}
+</delete>
+
+<delete id="deleteProgramAddBtnListAll" parameterType="java.util.Map">
+	DELETE FROM T_SYTM_PRGM_ADD_BTN 
+	WHERE PRGM_ID = #{PRGM_ID}
+	AND   COMPANY_CD = #{COMPANY_CD}
+</delete>
+
+<select id="searchProgramAddBtnList" parameterType="java.util.List" resultType="java.util.Map">
+	SELECT 
+		COMPANY_CD
+		, PRGM_ID
+		, BTTN_ID
+		, SORT_CD
+		, SORT_ORDR
+		, BTTN_NM
+		, BTTN_ENGL_NM
+		, BTTN_STYLE
+		, USED_YN
+	FROM T_SYTM_PRGM_ADD_BTN
+	WHERE PRGM_ID = #{PRGM_ID}
+	AND   COMPANY_CD = #{COMPANY_CD}
+	ORDER BY SORT_CD, SORT_ORDR
+</select>
+
+<insert id="insertProgramAddBtnList" parameterType="java.util.Map">
+	INSERT INTO T_SYTM_PRGM_ADD_BTN
+	(
+		COMPANY_CD
+		, PRGM_ID
+		, BTTN_ID
+		, SORT_CD
+		, SORT_ORDR
+		, BTTN_NM
+		, BTTN_ENGL_NM
+		, BTTN_STYLE
+		, USED_YN
+		, INPT_ID
+		, INPT_IP
+		, INPT_DTTM
+		, CHGE_ID
+		, CHGE_IP
+		, CHGE_DTTM
+	)VALUES(
+		#{COMPANY_CD}
+		, #{PRGM_ID}
+		, #{BTTN_ID}
+		, #{SORT_CD}
+		, #{SORT_ORDR}
+		, #{BTTN_NM}
+		, #{BTTN_ENGL_NM}
+		, #{BTTN_STYLE}
+		, #{USED_YN}
+		, #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	)
+</insert>
+
+<update id="updateProgramAddBtnList" parameterType="java.util.Map">
+	UPDATE T_SYTM_PRGM_ADD_BTN
+	SET
+		SORT_CD 	   = #{SORT_CD}
+		, SORT_ORDR    = #{SORT_ORDR}
+		, BTTN_NM 	   = #{BTTN_NM}
+		, BTTN_ENGL_NM = #{BTTN_ENGL_NM}
+		, BTTN_STYLE   = #{BTTN_STYLE}
+		, USED_YN 	   = #{USED_YN}
+		, CHGE_ID      = #{USER_ID_SRV}
+		, CHGE_IP      = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM    = NOW()
+	WHERE PRGM_ID 	  = #{PRGM_ID}
+		AND BTTN_ID   = #{BTTN_ID}	
+		AND   COMPANY_CD = #{COMPANY_CD}
+</update>
+
+<delete id="deleteProgramAddBtnList" parameterType="java.util.Map">
+	DELETE FROM T_SYTM_PRGM_ADD_BTN 
+	WHERE PRGM_ID = #{PRGM_ID}
+		AND BTTN_ID = #{BTTN_ID}
+		AND   COMPANY_CD = #{COMPANY_CD}
+</delete>
+
+<!--[2023.08.21 추가] 메뉴경로 : 시스템관리 > 권한 관리 > 프로그램 관리 : 메뉴얼 관리 버튼  -->
+<select id="searchManual" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+		INPT_ID,
+		PRGM_ID,
+		PRGM_NM,
+		PRGM_HELP
+	FROM T_SYTM_PRGM
+	WHERE PRGM_ID = #{PRGM_ID}
+	AND   COMPANY_CD = #{COMPANY_CD}
+</select>
+
+<!--[2023.08.21 추가] 메뉴경로 : 시스템관리 > 권한 관리 > 프로그램 관리 : 메뉴얼 관리 버튼  -->
+<select id="saveManual" parameterType="java.util.Map">
+	UPDATE T_SYTM_PRGM SET
+	PRGM_HELP = #{PRGM_HELP}
+	WHERE PRGM_ID = #{PRGM_ID}
+	AND   COMPANY_CD = #{COMPANY_CD}
+</select>
+</mapper>

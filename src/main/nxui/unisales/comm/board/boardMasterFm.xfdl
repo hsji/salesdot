@@ -1,0 +1,490 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="boardMasterFm" width="1050" height="736" titletext="게시판관리" onload="form_onload" cssclass="frm_WF_Frame">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Static id="Static04_00" taborder="0" top="0" width="20" cssclass="sta_WF_GSize" visible="false" text="W20" right="0" bottom="0"/>
+        <Div id="divSearch" taborder="5" left="0" top="0" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Combo id="Combo01" taborder="3" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="4" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="5" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Button id="btnSearch" taborder="2" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Static id="staTitle00" taborder="7" text="등록일자" left="0" top="12" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <PeriodCalendar id="PFromToCal" taborder="0" left="staTitle00:0" top="12" width="250" height="24"/>
+              <Static id="sta00" taborder="6" text="검색어" left="PFromToCal:0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="cboGubun" taborder="0" left="sta00:0" top="12" width="80" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" value="01" text="제목" index="0">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">01</Col>
+                      <Col id="datacolumn">제목</Col>
+                    </Row>
+                    <Row>
+                      <Col id="datacolumn">내용</Col>
+                      <Col id="codecolumn">02</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">03</Col>
+                      <Col id="datacolumn">작성자</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Edit id="edtCond" taborder="1" left="cboGubun:3" top="12" width="244" height="24"/>
+            </Layout>
+            <Layout name="Layout0"/>
+          </Layouts>
+        </Div>
+        <Static id="staTitle01" taborder="2" text="게시판" left="-2" height="43" top="divSearch:0" right="20" cssclass="sta_WF_Title"/>
+        <Grid id="grdList" taborder="1" left="0" top="staTitle01:0" bottom="0" autofittype="col" binddataset="dsList" uFunction="filter,find,!sort" width="420">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="120"/>
+                <Column size="300"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="게시판 유형"/>
+                <Cell col="1" text="게시판 명"/>
+                <Cell col="2" text="사용여부"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:BLBD_SECT_CD"/>
+                <Cell col="1" text="bind:BLBD_NM"/>
+                <Cell col="2" text="bind:USED_YN" displaytype="checkboxcontrol"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grdDetailList" taborder="3" left="grdList:20" top="staTitle01:0" right="Static04_00:0" bottom="33" binddataset="dsDetailList" cellcombopopuptype="none" cellsizingtype="col" oncellclick="grdDetailList_oncellclick" uFunction="filter,find" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="500"/>
+                <Column size="48"/>
+                <Column size="65"/>
+                <Column size="48"/>
+                <Column size="150"/>
+                <Column size="150"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="제목"/>
+                <Cell col="2" text="댓글수"/>
+                <Cell col="3" text="파일유무"/>
+                <Cell col="4" text="조회수"/>
+                <Cell col="5" text="작성자"/>
+                <Cell col="6" text="등록일자"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow +1" textAlign="center"/>
+                <Cell col="1" text="bind:TITLE"/>
+                <Cell col="2" text="bind:REPLY_CNT" textAlign="center"/>
+                <Cell col="3" text="bind:FILE_YN" textAlign="center" displaytype="checkboxcontrol"/>
+                <Cell col="4" text="bind:INQ_CNT" textAlign="center"/>
+                <Cell col="5" text="bind:INPT_EMP_NO" textAlign="left"/>
+                <Cell col="6" text="bind:INPT_DTTM" textAlign="center" displaytype="date" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divPaging" taborder="4" text="div00" left="grdList:20" right="20" url="common::cmmPaging.xfdl" height="24" bottom="0"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="BLBD_CD" type="STRING" size="256"/>
+          <Column id="BLBD_NM" type="STRING" size="256"/>
+          <Column id="BLBD_SECT_CD" type="STRING" size="256"/>
+          <Column id="ANSW_YN" type="STRING" size="256"/>
+          <Column id="ANSW_LEVL" type="STRING" size="256"/>
+          <Column id="APND_YN" type="STRING" size="256"/>
+          <Column id="REPLY_YN" type="STRING" size="256"/>
+          <Column id="PAGE_CNT" type="STRING" size="256"/>
+          <Column id="MGR_CD" type="STRING" size="256"/>
+          <Column id="MGR_EMP_NO" type="STRING" size="256"/>
+          <Column id="MGR_NM" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCmdYn">
+        <ColumnInfo>
+          <Column id="cmdCode" type="STRING" size="256"/>
+          <Column id="cmdNm" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="cmdNm">전체</Col>
+          </Row>
+          <Row>
+            <Col id="cmdCode">1</Col>
+            <Col id="cmdNm">사용</Col>
+          </Row>
+          <Row>
+            <Col id="cmdCode">0</Col>
+            <Col id="cmdNm">미사용</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsDetailList">
+        <ColumnInfo>
+          <Column id="BLBD_CD" type="STRING" size="256"/>
+          <Column id="NOTI_NO" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="CNTN" type="STRING" size="256"/>
+          <Column id="INQ_CNT" type="STRING" size="256"/>
+          <Column id="FILE_ID" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+          <Column id="INPT_DTTM" type="STRING" size="256"/>
+          <Column id="INPT_IP" type="STRING" size="256"/>
+          <Column id="CHGE_ID" type="STRING" size="256"/>
+          <Column id="CHGE_DTTM" type="STRING" size="256"/>
+          <Column id="CHGE_IP" type="STRING" size="256"/>
+          <Column id="INPT_EMP_NO" type="STRING" size="256"/>
+          <Column id="REPLY_CNT" type="STRING" size="256"/>
+          <Column id="FILE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDetailCond">
+        <ColumnInfo>
+          <Column id="srchBoardCd" type="STRING" size="256"/>
+          <Column id="srchGubun" type="STRING" size="256"/>
+          <Column id="FROM_DATE" type="STRING" size="256"/>
+          <Column id="TO_DATE" type="STRING" size="256"/>
+          <Column id="srchCond" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCondPage">
+        <ColumnInfo>
+          <Column id="START_NUM" type="STRING" size="256"/>
+          <Column id="END_NUM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCount">
+        <ColumnInfo>
+          <Column id="TOTALCNT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsUpdateInq">
+        <ColumnInfo>
+          <Column id="BLBD_CD" type="STRING" size="256"/>
+          <Column id="NOTI_NO" type="STRING" size="256"/>
+          <Column id="INQ_CNT" type="INT" size="256"/>
+          <Column id="STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.PFromToCal.form.calFrom" propid="value" datasetid="dsDetailCond" columnid="FROM_DATE"/>
+      <BindItem id="item6" compid="divSearch.form.PFromToCal.form.calTo" propid="value" datasetid="dsDetailCond" columnid="TO_DATE"/>
+      <BindItem id="item7" compid="divSearch.form.cboGubun" propid="value" datasetid="dsDetailCond" columnid="srchGubun"/>
+      <BindItem id="item8" compid="divSearch.form.edtCond" propid="value" datasetid="dsDetailCond" columnid="srchCond"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	boardMasterFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2023/04/05
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2023/04/05			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+//페이징
+this.fvPage  = 1;
+this.fvStart = 1;
+this.fvEnd   = 1;
+this.fvAutnYn = "Y"; // 수정, 삭제 권한부여 임의의 파라미터변수									
+
+this.fvBoardInfo = {};
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	this.divSearch.form.cboGubun.set_index(0);
+	
+	var sToday = this.gfnGetDate();
+	this.dsDetailCond.setColumn(0,"FROM_DATE", this.gfnAddDate(sToday,-365));
+	this.dsDetailCond.setColumn(0,"TO_DATE",this.gfnGetLastDate(sToday.substr(0,6)));
+	
+	//공통코드
+	var param = [{biztype : "Grid",  code : "CM01", objid : this.grdList, bindcolumn : "BLBD_SECT_CD", edit : "false"}	// grid 메시지 구분
+	];
+	this.gfnGetCommonCode(param);
+	
+	// 게시판 조회
+	this.fnTranSearch();
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+//조회
+this.cfnSearch = function()
+{
+	// 게시판 상세조회
+	this.fnTranDetailSearch();
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	this.dsList.clearData();
+
+	var strSvcId    = "searchBoardList";
+	var strSvcUrl   = "searchBoardList.do";
+	var inData      = "";
+	var outData     = "dsList=dsList";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction(strSvcId , strSvcUrl , inData , outData , strArg, callBackFnc); 	
+};
+
+//상세 조회
+this.fnTranDetailSearch = function ()
+{
+	// 데이터 초기화
+	this.dsDetailList.clearData()
+	this.dsCount.clearData();
+	
+	// 상세 게시판 페이징 세팅
+	this.dsCondPage.setColumn(0, "START_NUM", this.fvStart);
+	this.dsCondPage.setColumn(0, "END_NUM", this.fvEnd);
+	
+	var strSvcId    = "searchDetailBoard";
+	var strSvcUrl   = "searchBoardContent.do";
+	var inData      = "dsCond=dsDetailCond dsCondPage=dsCondPage";
+	var outData     = "dsDetailList=dsList dsCount=dsCount";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction(strSvcId , strSvcUrl , inData , outData , strArg, callBackFnc); 	
+};
+
+//조회수 업데이트
+this.fnTranUpdateInqCnt = function ()
+{
+	var strSvcId    = "saveBoardContents";
+	var strSvcUrl   = "saveBoardContents.do";
+	var inData      = "dsList=dsUpdateInq:U";
+	var outData     = "";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction(strSvcId , strSvcUrl , inData , outData , strArg, callBackFnc); 	
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction callback
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchBoardList":
+			break;
+		case "searchDetailBoard":
+			var nTotal = this.dsCount.getColumn(0, "TOTALCNT");
+			// 페이징 세팅 및 데이터 갯수 세팅
+			this.divPaging.form.fnCreatePage(this.grdDetailList, "fnPageCallback", this.fvPage, "", nTotal);
+			break;
+		case "saveBoardContents":
+			this.fnOpenBoardP();	
+		default:break;
+	}
+};
+
+//paging callback
+this.fnPageCallback = function (nPage, nRecrod)
+{
+	this.fvPage  = nPage;
+	this.fvStart = ((this.fvPage-1)*nRecrod) + 1;
+	this.fvEnd   = this.fvPage*nRecrod;
+	
+	this.fnTranDetailSearch();
+};
+
+//popup callback
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	if (!this.gfnIsNull(sRtn))
+	{
+		this.fnTranDetailSearch();
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//입력/조회 팝업 오픈
+this.fnOpenBoardP = function ()
+{
+	var sTitle = "게시글";
+	var oOption = {title:sTitle
+					,titlebar:true};
+
+	//게시판조회
+	var	popupId = "readBoard";
+	var	popupUrl = "comm::board/boardReadPu.xfdl";
+	var nRow   = this.dsDetailList.rowposition;
+	// 넘길 아규먼트 값
+	var oArg   = {pvAnswYn 		: this.fvBoardInfo.answYn
+				  ,pvApndYn		: this.fvBoardInfo.apndYn
+				  ,pvReplyYn    : this.fvBoardInfo.replyYn
+				  ,pvTitle 		: this.fvBoardInfo.blbdNm
+				  ,pvBoardCd	: this.fvBoardInfo.blbdCd
+				  ,pvNotiNo		: this.dsDetailList.getColumn(nRow, "NOTI_NO")
+				  ,pvMgrCd	 	: this.fvBoardInfo.mgrCd
+				  ,pvAutnYn	    : this.fvAutnYn	// 게시판관리 팝업 > 수정, 삭제 권한부여 임의의 파라미터 추가	 
+				};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup(popupId, popupUrl, oArg, sPopupCallBack, oOption);
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{	
+	// dsDetailList 데이터가 0보다 클 경우
+	if (obj.getRowCount() > 0)
+	{
+		this.fvBoardInfo = {
+			blbdCd 	 : obj.getColumn(obj.rowposition, "BLBD_CD")
+			,blbdNm  : obj.getColumn(obj.rowposition, "BLBD_NM")
+			,answYn  : obj.getColumn(obj.rowposition, "ANSW_YN")
+			,apndYn  : obj.getColumn(obj.rowposition, "APND_YN")
+			,pageCnt : obj.getColumn(obj.rowposition, "PAGE_CNT")
+			,replyYn : obj.getColumn(obj.rowposition, "REPLY_YN")
+			,mgrCd	 : obj.getColumn(obj.rowposition, "MGR_CD")
+		};
+		// 서버에 데이터 넘겨줄 게시판 코드 세팅
+		this.dsDetailCond.setColumn(0, "srchBoardCd", this.fvBoardInfo.blbdCd);
+		// 페이징 값 
+		this.fvEnd  = this.fvBoardInfo.pageCnt;
+		this.divPaging.form.cboCnt.set_value(this.fvEnd);
+		
+		// 상세 게시판 조회
+		this.fnTranDetailSearch();
+	}
+};
+
+// 상세 그리드 셀 클릭 이벤트
+this.grdDetailList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{	
+	var nRow = e.row;
+	
+	this.dsUpdateInq.clearData();
+	var nTargetRow = this.dsUpdateInq.addRow();
+	
+	this.dsUpdateInq.copyRow(nTargetRow, this.dsDetailList, nRow);
+	this.dsUpdateInq.setColumn(nTargetRow, "STATUS", "updateInqCount");
+	
+	// 팝업 조회
+	this.fnTranUpdateInqCnt();
+};
+
+]]></Script>
+  </Form>
+</FDL>

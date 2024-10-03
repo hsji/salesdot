@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CF_LinkFileSearch" width="700" height="400" titletext="링크파일검색" cssclass="frm_popBg" onload="CF_LinkFileSearch_onload">
+    <Layouts>
+      <Layout height="400" mobileorientation="landscape" width="700">
+        <Grid id="grdFileKind" taborder="0" left="4" top="39" width="180" height="320" binddataset="ds_NextFileType">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="35"/>
+                <Column size="142"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="파일종류" TL_SEQ="168"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow+1"/>
+                <Cell col="1" text="bind:CAPTION" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_FileList" taborder="1" left="grdFileKind:4" top="39" height="320" right="4" autofittype="col" binddataset="ds_FileList">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="60"/>
+                <Column size="394"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="링크선택" TL_SEQ="1907"/>
+                <Cell col="2" text="파일명" TL_SEQ="330"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow+1"/>
+                <Cell col="1" displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell col="2" textAlign="left" text="bind:FILE_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static02" taborder="2" text="링크파일 검색" cssclass="sta_POP_Title" left="10" top="10" width="99" height="15" TL_SEQ="1906"/>
+        <Button id="btn_Destroy" taborder="3" cssclass="btn_POP_Cls" top="10" width="15" height="15" onclick="btn_Close_onclick" right="14" hotkey="ESCAPE" tooltiptext="ESC"/>
+        <Static id="Static06" taborder="5" cssclass="sta_POP_BtnBg" left="1" height="36" bottom="1" right="0"/>
+        <Button id="btn_Close" taborder="4" text="닫기" cssclass="btn_WF_cancel" height="22" onclick="btn_Close_onclick" right="10" bottom="7" width="80" tooltiptext="ESC" TL_SEQ="59"/>
+        <Button id="btn_Confirm" taborder="6" text="선택" width="60" height="22" cssclass="btn_WF_tran" right="btn_Close:7" bottom="7" onclick="btn_Confirm_onclick" TL_SEQ="113"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_NextFileType" onrowposchanged="ds_NextFileType_onrowposchanged">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_FileList">
+        <ColumnInfo>
+          <Column id="CHK" type="string" size="255"/>
+          <Column id="SOURCE_CD" type="string" size="255"/>
+          <Column id="SOURCE_SEQ" type="string" size="255"/>
+          <Column id="STATUS_CD" type="string" size="255"/>
+          <Column id="FM_SEQ" type="string" size="255"/>
+          <Column id="FILE_TYPE" type="string" size="255"/>
+          <Column id="FILE_NAME" type="string" size="255"/>
+          <Column id="SAVE_FILE_NAME" type="string" size="255"/>
+          <Column id="SAVE_PATH" type="string" size="255"/>
+          <Column id="DEL_FLAG" type="string" size="255"/>
+          <Column id="STATUS" type="string" size="255"/>
+          <Column id="INSERT_EMP_NAME" type="string" size="255"/>
+          <Column id="INSERT_DATE" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 공통 - 파일관리
+ * 02. 화면명   : 파일관리(CM_FileMM)
+ * 03. 화면설명 : 파일관리를 위한 공통 팝업화면
+ * 04. 작성일   : 2018.08.13
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommUtil.xjs"
+include "Script::ExtFileUpDownload.xjs"
+include "Script::ext_CommEco.xjs"
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+ this.FV_SOURCE_CD;
+ this.FV_SOURCE_SEQ;
+ 
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.CF_LinkFileSearch_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.FV_SOURCE_CD = this.parent.pv_SourceCd;
+	this.FV_SOURCE_SEQ = this.parent.pv_SourceSeq;
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+};
+
+ 
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+  this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_NextFileType", "FILE_" + this.FV_SOURCE_CD, true);
+	this.gfnCodeTransaction();
+}
+
+ // 조회
+ this.fn_QueryData = function()
+ {
+ 	// 조건값 셋팅
+	this.gfnAddSendParameter("SOURCE_CD",	this.FV_SOURCE_CD);
+	this.gfnAddSendParameter("SOURCE_SEQ",	this.FV_SOURCE_SEQ);
+
+
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("ds_FileList", "ds_File");
+	this.gfnCommonTransaction("Select", "CF_NFileMM_S02", this.grd_ContractList);
+ }
+ 
+ // 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	if (nErrorCode<0) {
+		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		return;
+	} else {
+		switch (strSvcID) 
+		{
+			case "gfnGetCode" :
+				this.ds_NextFileType.set_enableevent(false);
+				//this.ds_NextFileType.insertRow(0);
+				//this.ds_NextFileType.setColumn(0, "CAPTION", "전체");
+				this.ds_NextFileType.set_enableevent(true);
+				this.ds_NextFileType.set_rowposition(0);
+				this.fn_QueryData();
+				break;
+			case "Select" :
+				this.ds_FileList.filter("");
+				break;
+		}
+	}
+ };
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ 
+this.fnSetReturn = function()
+{
+	this.ds_FileList.filter("CHK=='1'");
+	var ds = this.ds_FileList;
+			
+	var dsReturn = new nexacro.Dataset();
+	dsReturn.assign(ds);
+	dsReturn.clearData();
+	
+	for (var i=0; i<ds.rowcount; i++) {
+		var newrow = dsReturn.addRow();
+		dsReturn.copyRow(newrow, ds, i);
+	}
+	
+	this.commUtil.popupClose(dsReturn);
+}
+
+
+ 
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+
+this.ds_NextFileType_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var sStatusCd = obj.getColumn(e.newrow, "CODE");
+	if (this.gfnIsEmpty(sStatusCd)) {
+		this.ds_FileList.filter("");
+	} else {
+		this.ds_FileList.filter("STATUS_CD=='"+sStatusCd+"'");
+	}
+};
+
+this.btn_Confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+	var nFindRow = this.ds_FileList.findRow("CHK", "1");
+	if (nFindRow < 0) {
+		this.alert(this.gfnGetTransTxt(1221, "링크할 파일을 선택해 주세요"));
+		return;
+	}
+	
+	this.fnSetReturn();
+};
+]]></Script>
+  </Form>
+</FDL>

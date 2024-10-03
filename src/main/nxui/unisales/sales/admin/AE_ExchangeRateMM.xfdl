@@ -1,0 +1,636 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AE_ExchangeRateMM" width="1280" height="720" titletext="환율관리" onload="AE_ExchangeRateMM_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Div id="div_Search" taborder="0" left="8" top="8" height="40" cssclass="div_WF_SchList" right="8" text="">
+          <Layouts>
+            <Layout>
+              <Button id="btn_Excel" taborder="1" text="Excel" top="9" height="22" cssclass="btn_WF_Excel" width="68" right="8" onclick="common_onclick"/>
+              <Button id="btn_Search" taborder="0" text="조회" top="9" width="58" height="22" cssclass="btn_WF_SchText" right="btn_Excel:8" onclick="common_onclick" TL_SEQ="118"/>
+              <Button id="btn_Save" taborder="2" text="저장" top="9" width="58" height="22" cssclass="btn_WF_tran" right="btn_Search:8" onclick="common_onclick" TL_SEQ="115"/>
+              <Static id="stc_Currency" taborder="3" text="통화" left="8" top="9" width="69" height="18" cssclass="sta_WF_DetailTit" TL_SEQ="12472"/>
+              <Combo id="cmb_Currency" taborder="4" left="stc_Currency:8" top="9" width="183" height="22" innerdataset="ds_cmm_Currency" codecolumn="CURRENCY_CODE" datacolumn="CURRENCY_FULL_NAME" onitemchanged="div_Search_cmb_Currency_onitemchanged"/>
+              <Static id="stc_YYYYMM" taborder="5" text="조회년월" left="cmb_Currency:8" top="9" width="69" height="18" cssclass="sta_WF_DetailTit" TL_SEQ="962"/>
+              <Calendar id="cal_Year" taborder="7" left="stc_YYYYMM:8" top="9" width="65" height="22" dateformat="yyyy" editformat="yyyy" type="spin" headformat="yyyy" onchanged="div_Search_cal_Year_onchanged"/>
+              <CheckBox id="chk_NoneDate" taborder="6" text="기간무시" left="cal_Year:8" top="9" width="74" height="20" falsevalue="0" truevalue="1" onchanged="div_Search_chk_NoneDate_onchanged" TL_SEQ="122" value="0"/>
+              <Static id="stc_Intro" taborder="8" text="為替レート確定時に「基準日付」を選択した後、確定可否を選択保存" top="9" height="22" right="btn_Save:8" font="normal bold 10pt/normal &quot;Arial&quot;" width="376"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_ServerInfo" taborder="3" top="56" height="30" cssclass="sta_POP_GroupBg" width="362" left="8"/>
+        <Grid id="grd_CurrencyList" taborder="1" left="8" top="stc_ServerInfo:0" width="362" autofittype="col" bottom="8" binddataset="dsCurrencyList">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="통화코드" TL_SEQ="12474"/>
+                <Cell col="1" text="기준통화명" TL_SEQ="12475"/>
+                <Cell col="2" text="통화약어" TL_SEQ="12476"/>
+                <Cell col="3" text="통화기호" TL_SEQ="22687"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CURRENCY_CODE" edittype="none"/>
+                <Cell col="1" text="bind:CURRENCY_NAME" edittype="text"/>
+                <Cell col="2" text="bind:CURRENCY_ABBREVIATION" edittype="text"/>
+                <Cell col="3" text="bind:CURRENCY_SIGN" edittype="text"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_ServerInfo00" taborder="6" top="56" height="30" cssclass="sta_POP_GroupBg" left="378" right="8"/>
+        <Grid id="grd_ExchangeRate" taborder="2" left="grd_CurrencyList:8" top="stc_ServerInfo00:0" autofittype="col" right="8" bottom="8" binddataset="dsExchangeRate">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="350"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="년월" TL_SEQ="12478"/>
+                <Cell col="1" text="기준통화" TL_SEQ="12479"/>
+                <Cell col="2" text="상대통화" TL_SEQ="12480"/>
+                <Cell col="3" text="환율" TL_SEQ="12520"/>
+                <Cell col="4" text="적용일자" TL_SEQ="12481"/>
+                <Cell col="5" text="확정여부" TL_SEQ="22557"/>
+                <Cell col="6" text="비고" TL_SEQ="45"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:YYYYMM" edittype="mask" calendardateformat="yyyy-MM-dd" calendareditformat="yyyy-MM-dd" maskeditformat="####-##" displaytype="mask" maskedittype="string"/>
+                <Cell col="1" text="bind:BASE_CURRENCY" displaytype="combotext" edittype="none" combodataset="dsCurrencyList" combodatacol="CURRENCY_FULL_NAME" combocodecol="CURRENCY_CODE"/>
+                <Cell col="2" text="bind:COUNTER_CURRENCY" displaytype="expr:CONFIRM_FLAG == '1' ? 'combotext' : 'combocontrol'" edittype="expr:CONFIRM_FLAG == '1' ? 'none' : 'combo'" combodataset="dsCurrencyCopy" combodatacol="CURRENCY_FULL_NAME" combocodecol="CURRENCY_CODE" textAlign="left"/>
+                <Cell col="3" text="bind:EXCHAGE_RATE" edittype="expr:CONFIRM_FLAG == '1' ? 'none' : 'mask'" maskeditformat="##0.0000" displaytype="mask" textAlign="right"/>
+                <Cell col="4" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:INSERT_DATE"/>
+                <Cell col="5" text="bind:CONFIRM_FLAG" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell col="6" text="bind:REMARKS" edittype="text" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_CurrencyTit" taborder="4" text="통화정보" left="16" top="63" width="95" height="16" cssclass="sta_POP_GroupTit" TL_SEQ="12473"/>
+        <Button id="btn_CurrencyDel" taborder="9" text="삭제" top="61" width="58" height="22" onclick="common_onclick" left="303" TL_SEQ="117"/>
+        <Button id="btn_CurrencyAdd" taborder="5" text="추가" top="61" height="22" onclick="common_onclick" right="btn_CurrencyDel:8" TL_SEQ="528" width="58"/>
+        <Static id="stc_ExchangeRateTit" taborder="7" text="환율정보" left="386" top="63" height="16" cssclass="sta_POP_GroupTit" TL_SEQ="12477" width="59"/>
+        <Static id="stc_ConfirmDate" taborder="14" text="기준일자 :" top="62" width="69" height="18" cssclass="sta_WF_DetailTit" TL_SEQ="504" left="stc_ExchangeRateTit:8"/>
+        <Button id="btn_ExchangeRateAdd" taborder="8" text="추가" top="61" width="58" height="22" onclick="common_onclick" TL_SEQ="528" right="82"/>
+        <Button id="btn_ExchangeRateDel" taborder="10" text="삭제" top="61" width="58" height="22" onclick="common_onclick" TL_SEQ="117" left="btn_ExchangeRateAdd:8"/>
+        <Button id="btn_BatchRate" taborder="11" text="일괄데이터 생성" top="61" width="98" height="22" onclick="common_onclick" right="btn_ExchangeRateAdd:8" TL_SEQ="12526"/>
+        <Calendar id="cal_ConfirmDate" taborder="15" top="60" height="22" width="98" left="stc_ConfirmDate:8"/>
+        <Static id="stc_CounterCurrency" taborder="13" text="상대통화 :" top="62" width="69" height="18" cssclass="sta_WF_DetailTit" TL_SEQ="12480" left="cal_ConfirmDate:8"/>
+        <Combo id="cmb_CounterCurrency" taborder="12" text="Combo00" top="60" width="98" height="22" innerdataset="dsCounterCurrency" codecolumn="CURRENCY_CODE" datacolumn="CURRENCY_FULL_NAME" onitemchanged="cmb_CounterCurrency_onitemchanged" left="stc_CounterCurrency:8"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCurrencyList" onrowposchanged="dsCurrencyList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="CURRENCY_CODE" type="STRING" size="256"/>
+          <Column id="CURRENCY_NAME" type="STRING" size="256"/>
+          <Column id="CURRENCY_ABBREVIATION" type="STRING" size="256"/>
+          <Column id="CURRENCY_FULL_NAME" type="STRING" size="256"/>
+          <Column id="CURRENCY_SIGN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsExchangeRate" oncolumnchanged="dsExchangeRate_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="ER_SEQ" type="INT" size="256"/>
+          <Column id="YYYYMM" type="STRING" size="256"/>
+          <Column id="BASE_CURRENCY" type="STRING" size="256"/>
+          <Column id="COUNTER_CURRENCY" type="STRING" size="256"/>
+          <Column id="EXCHAGE_RATE" type="BIGDECIMAL" size="256"/>
+          <Column id="CONFIRM_FLAG" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCurrencyCopy" onrowposchanged="dsCurrencyCopy_onrowposchanged">
+        <ColumnInfo>
+          <Column id="CURRENCY_CODE" type="STRING" size="256"/>
+          <Column id="CURRENCY_NAME" type="STRING" size="256"/>
+          <Column id="CURRENCY_ABBREVIATION" type="STRING" size="256"/>
+          <Column id="CURRENCY_FULL_NAME" type="STRING" size="256"/>
+          <Column id="CURRENCY_SIGN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Currency">
+        <ColumnInfo>
+          <Column id="CURRENCY_CODE" type="STRING" size="256"/>
+          <Column id="CURRENCY_NAME" type="STRING" size="256"/>
+          <Column id="CURRENCY_ABBREVIATION" type="STRING" size="256"/>
+          <Column id="CURRENCY_FULL_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCurrency">
+        <ColumnInfo>
+          <Column id="CURRENCY_CODE" type="STRING" size="256"/>
+          <Column id="CURRENCY_NAME" type="STRING" size="256"/>
+          <Column id="CURRENCY_ABBREVIATION" type="STRING" size="256"/>
+          <Column id="CURRENCY_FULL_NAME" type="STRING" size="256"/>
+          <Column id="CURRENCY_SIGN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ConfirmFlag">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">확정</Col>
+            <Col id="CAPTION_JAP">確定</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">미확정</Col>
+            <Col id="CAPTION_JAP">未指定</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCounterCurrency">
+        <ColumnInfo>
+          <Column id="CURRENCY_CODE" type="STRING" size="256"/>
+          <Column id="CURRENCY_NAME" type="STRING" size="256"/>
+          <Column id="CURRENCY_ABBREVIATION" type="STRING" size="256"/>
+          <Column id="CURRENCY_FULL_NAME" type="STRING" size="256"/>
+          <Column id="CURRENCY_SIGN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 환율관리
+ * 02. 화면명   : 환율관리(AE_ExchangeRateMM)
+ * 03. 화면설명 : 환율관리
+ * 04. 작성일   : 2023.08.14
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.SAVE_CURROW; // 저장 시 현재 위치
+this.fvCounter_CurCode; // 상대통화 저장용 변수
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.AE_ExchangeRateMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	
+	this.fnFormInit();
+	this.fnCurrencyList();		
+	this.fnSearchCurrencyList();
+};
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+this.fnCurrencyList = function()
+{
+	this.gfnAddOutputDataset("ds_cmm_Currency", "dsOutput");	
+	this.gfnCommonTransaction("currencyList", "AE_ExchangeRateMM_S01");
+};
+
+// 통화 조회
+this.fnSearchCurrencyList = function()
+{	
+	this.dsCurrencyList.set_enableevent(false);
+	var sCurrency = this.div_Search.form.cmb_Currency.value;
+	
+	this.gfnAddSendParameter("CURRENCY_CODE", sCurrency);
+	this.gfnAddOutputDataset("dsCurrencyList", "dsOutput");	
+	this.gfnCommonTransaction("SearchCurrencyList", "AE_ExchangeRateMM_S01");
+}; 
+ 
+ // 환율 조회
+this.fnSearchExchageRate = function()
+{
+	var curRow = this.dsCurrencyList.rowposition;
+	var sBaseCurrency = this.dsCurrencyList.getColumn(curRow, "CURRENCY_CODE");
+	var sYYYY = this.div_Search.form.cal_Year.value;
+	var sNoneDate = this.div_Search.form.chk_NoneDate.value;
+	
+	this.gfnAddSendParameter("BASE_CURRENCY", sBaseCurrency);
+	this.gfnAddSendParameter("YYYY", sYYYY);
+	this.gfnAddSendParameter("NONE_DATE", sNoneDate);
+	this.gfnAddOutputDataset("dsExchangeRate", "dsOutput");	
+	this.gfnCommonTransaction("SearchExchageRate", "AE_ExchangeRateMM_S02", this.grd_ExchangeRate);
+};
+
+// 환율 추가
+this.fnExchangeRateAdd = function(sCurrencyCode)
+{
+	var nRow = this.dsExchangeRate.addRow();
+	this.dsExchangeRate.setColumn(nRow, "BASE_CURRENCY", sCurrencyCode);
+	this.dsExchangeRate.setColumn(nRow, "CONFIRM_FLAG", "0");
+	
+	this.fnSetCurrencyDelBtn();
+};
+
+// 저장
+this.fnSave = function()
+{
+	this.SAVE_CURROW = this.dsCurrencyList.rowposition;
+	
+	this.gfnAddInputDataset("dsCurrencyList",  "dsCurrencyList");
+	this.gfnAddInputDataset("dsExchangeRate",  "dsExchangeRate");
+	this.gfnCommonTransaction("Save", "AE_ExchangeRateMM_R01");
+};
+
+// 엑셀
+this.fnExcel = function()
+{
+	var objGrd = this.grd_QuestionExcelList;
+	
+	var sFileNm = this.gfnGetTransTxt(22686,"문의 목록");
+	var sQuestionNm = this.div_Search.form.cmb_CategoryCode.text;
+	sFileNm += "(" + sQuestionNm + ")";
+	
+	if(nexacro.getApplication().id=="ACEp")
+	{
+		this.parent.parent.parent.parent.parent.fn_excelExport(this, objGrd, sFileNm);
+	}
+	else
+	{
+		this.gfn_excelExport(this, objGrd, sFileNm);
+	}
+};
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if (nErrorCode<0) {
+		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		return;
+	} else {
+		switch (strSvcID) 
+		{
+			case "currencyList" : 
+				this.dsCurrency.copyData(this.ds_cmm_Currency);
+				var nRow = this.ds_cmm_Currency.insertRow(0);
+				this.ds_cmm_Currency.setColumn(nRow, "CURRENCY_NAME", "全体");
+				this.ds_cmm_Currency.setColumn(nRow, "CURRENCY_FULL_NAME", "全体");
+				break;
+			case "SearchCurrencyList" :			
+				if(!this.gfnIsEmpty(this.SAVE_CURROW)) {
+					this.dsCurrencyList.set_rowposition(this.SAVE_CURROW);
+					this.SAVE_CURROW = ""; // 초기화
+				}
+				
+				this.dsCurrencyList.set_enableevent(true);
+				this.fnSearchExchageRate();
+				break;
+			case "SearchExchageRate" :
+				this.dsCurrencyCopy.clearData();
+				
+				var curRow = this.dsCurrencyList.rowposition;
+				var sBaseCurrency = this.dsCurrencyList.getColumn(curRow, "CURRENCY_CODE");
+				
+				this.dsCurrencyCopy.copyData(this.dsCurrency);
+				
+				this.dsCurrencyCopy.filter("CURRENCY_CODE!='"+sBaseCurrency+"'");
+				
+				//상대통화 복사
+				this.dsCounterCurrency.clearData();
+				this.dsCounterCurrency.copyData(this.dsCurrencyCopy,true);
+				
+				var nRow = this.dsCounterCurrency.insertRow(0);
+				this.dsCounterCurrency.setColumn(nRow, "CURRENCY_CODE", "ALL");
+				this.dsCounterCurrency.setColumn(nRow, "CURRENCY_NAME", "全体");
+				this.dsCounterCurrency.setColumn(nRow, "CURRENCY_FULL_NAME", "全体");
+				
+				//기존에 선택된 상대통화가 있다면 해당 통화로 상대통화 설정
+				var nCounterCurRow = this.dsCounterCurrency.findRow("CURRENCY_CODE",this.fvCounter_CurCode);
+				if(nCounterCurRow >= 0) {
+					this.cmb_CounterCurrency.set_index(nCounterCurRow);
+					this.fnSetCounterCurrency(this.fvCounter_CurCode);
+				} else {	//없다면 전체로 설정
+					this.cmb_CounterCurrency.set_index(nRow);
+					this.fnSetCounterCurrency("ALL");
+				}
+				
+				this.fnSetCurrencyDelBtn();
+				break;
+			case "Save" : 
+				alert(this.gfnGetTransTxt(1170,"저장 되었습니다."));
+				this.fnCurrencyList();
+				this.fnSearchCurrencyList();
+				break;
+		}
+	}
+};
+
+this.fnSetCurrencyDelBtn = function()
+{
+	if(this.dsExchangeRate.rowcount > 0) this.btn_CurrencyDel.set_enable(false);
+	else this.btn_CurrencyDel.set_enable(true);
+};
+
+// 데이터 체크
+this.fnDataCheck = function(sOldrow)
+{
+	var bResult = false;
+	
+	if (this.gfnIsUpdateDs(this.dsExchangeRate)) 
+	{
+		if (this.confirm(this.gfnGetTransTxt(12530, "변경된 환율정보 데이터가 존재 합니다 계속 진행 하시겠습니까?")))	{
+			this.dsExchangeRate.reset();
+			bResult = true;
+		} else {
+			this.dsCurrencyList.set_enableevent(false);
+			if(this.gfnIsEmpty(sOldrow)) this.dsCurrencyList.set_rowposition(this.dsCurrencyList.rowposition);
+			else this.dsCurrencyList.set_rowposition(sOldrow);
+			this.dsCurrencyList.set_enableevent(true);
+		}
+	}
+	else 
+	{
+		bResult = true;
+	}
+	
+	return bResult;
+};
+
+// 엑셀 다운로드
+this.fnExcel = function()
+{
+	var sCurrencyName = this.dsCurrencyList.getColumn(this.dsCurrencyList.rowposition, "CURRENCY_NAME");
+	var objGrd = this.grd_ExchangeRate;
+	var sFileNm = sCurrencyName + this.gfnGetTransTxt(12477, " 환율정보");
+	
+	this.gfn_excelExport(this, objGrd, sFileNm);
+};
+
+// Validation
+this.fnValidation = function()
+{
+	/*
+		체크 데이터 
+		dsCurrencyList : CURRENCY_NAME, CURRENCY_ABBREVIATION
+		dsExchangeRate : YYYYMM, COUNTER_CURRENCY, EXCHAGE_RATE
+	*/
+	var bResult = this.gfnIsUpdateDs(this.dsCurrencyList);
+	
+	if(bResult) {
+		for(var i = 0; i < this.dsCurrencyList.rowcount; i++) {
+			if(this.gfnIsEmpty(this.dsCurrencyList.getColumn(i, "CURRENCY_NAME"))) { this.alert(this.gfnGetTransTxt(12482, "기준통화명은 필수 입력 항목입니다.")); return false;}
+			else if(this.gfnIsEmpty(this.dsCurrencyList.getColumn(i, "CURRENCY_ABBREVIATION"))) { this.alert(this.gfnGetTransTxt(12527, "통화약어는 필수 입력 항목입니다.")); return false;}
+		}
+	} 
+	
+	bResult = this.gfnIsUpdateDs(this.dsExchangeRate);
+	
+	if(bResult) {
+		for(var i = 0; i < this.dsExchangeRate.rowcount; i++) {
+			if(this.gfnIsEmpty(this.dsExchangeRate.getColumn(i, "YYYYMM"))) { this.alert(this.gfnGetTransTxt(12484, "년월은 필수 입력 항목입니다.")); return false;}
+			else if(this.gfnIsEmpty(this.dsExchangeRate.getColumn(i, "COUNTER_CURRENCY"))) { this.alert(this.gfnGetTransTxt(12528, "상대통화는 필수 입력 항목입니다.")); return false;}
+			else if(this.gfnIsEmpty(this.dsExchangeRate.getColumn(i, "EXCHAGE_RATE"))) { this.alert(this.gfnGetTransTxt(12486, "환율은 필수 입력 항목입니다.")); return false;}
+		}
+	}
+	
+	return true;
+};
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ this.fnFormInit = function()
+ {
+	var objDate = new Date();
+	var nYear = objDate.getFullYear();
+	this.div_Search.form.cal_Year.set_value(String(nYear));	
+	
+	this.div_Search.form.chk_NoneDate.set_value("1");
+	
+	var sToday = this.gfnToday();
+	this.cal_ConfirmDate.set_value(sToday);
+ };
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{	
+		case "btn_Search":	// 조회
+			this.fnSearchCurrencyList();
+			break;
+			
+		case "btn_CurrencyAdd" : // 통화 추가
+			this.dsCurrencyList.addRow();
+			break;
+			
+		case "btn_CurrencyDel" : // 통화 삭제
+			if(this.confirm(this.gfnGetTransTxt(12531, "선택하신 통화를 삭제 하시겠습니까? 확인 클릭 후 저장버튼 클릭 시 삭제가 됩니다.")))
+			{
+				var curRow = this.dsCurrencyList.rowposition;
+				this.dsCurrencyList.deleteRow(curRow);
+			}
+			break;
+		
+		case "btn_ExchangeRateAdd" : // 환율정보 추가
+			var currencyCode = this.dsCurrencyList.getColumn(this.dsCurrencyList.rowposition, "CURRENCY_CODE");
+			if(this.gfnIsEmpty(currencyCode)) {
+				alert(this.gfnGetTransTxt(12487, "통화코드를 먼저 저장 해주세요.")); 
+				return;
+			} else {
+				this.fnExchangeRateAdd(currencyCode);
+			}
+			break;
+			
+		case "btn_ExchangeRateDel" : // 환율정보 삭제
+			if(this.confirm(this.gfnGetTransTxt(12488, "선택하신 환율정보를 삭제 하시겠습니까?")))
+			{
+				var curRow = this.dsExchangeRate.rowposition;
+				this.dsExchangeRate.deleteRow(curRow);
+			}
+			break;
+			
+		case "btn_Save" : // 저장
+			if(this.fnValidation()) {
+				if(!this.fnDuplicateCheck()) this.fnSave();
+				else alert(this.gfnGetTransTxt(1631, "중복 데이터가 존재 합니다.")); return;
+			}
+			break;
+			
+		case "btn_Excel":	// 엑셀
+			this.fnExcel();
+			break;
+			
+		case "btn_BatchRate":	// 일괄 데이터 생성
+			this.fnBatchRate();
+			break;
+	}
+};
+
+this.dsCurrencyList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(this.fnDataCheck(e.oldrow)) this.fnSearchExchageRate();
+};
+
+this.div_Search_cmb_Currency_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSearchCurrencyList();
+};
+
+this.div_Search_chk_NoneDate_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	this.fnSearchExchageRate();
+};
+
+this.div_Search_cal_Year_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	this.fnSearchExchageRate();
+};
+
+// 일괄 환율 데이터 생성
+this.fnBatchRate = function()
+{
+	var sCurrencyCode = this.dsCurrencyList.getColumn(this.dsCurrencyList.rowposition, "CURRENCY_CODE");
+	var sCurrencyAbbreviation = this.dsCurrencyList.getColumn(this.dsCurrencyList.rowposition, "CURRENCY_ABBREVIATION");
+	var sYear = this.div_Search.form.cal_Year.value;
+	var sCounterCurrency = this.cmb_CounterCurrency.value;
+	var sCounterCurrencyNm = this.cmb_CounterCurrency.text;
+	sYear = sYear.substr(0, 4);
+	
+	if(this.gfnIsEmpty(sCounterCurrency)) {
+		alert(this.gfnGetTransTxt(12532, "상대통화를 선택 후 일괄 생성 해주세요."));
+		return;
+	} else {
+		if(this.confirm(sYear + this.gfnGetTransTxt(12529, "년도 데이터를 일괄 생성 시 해당 년도 기존에 있는 데이터는 삭제 후 생성이 됩니다. 진행 하시겠습니까?"))) {
+			this.dsExchangeRate.filter("YYYYMM.toString().toUpperCase().indexOf('" + sYear + "') >=0 && COUNTER_CURRENCY=='" + sCounterCurrency +"'");
+			this.dsExchangeRate.deleteAll();
+			
+			for(var i = 1; i <= 12; i++) {
+				var sMonth = this.lpad(i, 2, "0");
+				var nRow = this.dsExchangeRate.addRow();
+				
+				this.dsExchangeRate.setColumn(nRow, "BASE_CURRENCY", sCurrencyCode);
+				this.dsExchangeRate.setColumn(nRow, "CONFIRM_FLAG", "0");
+				this.dsExchangeRate.setColumn(nRow, "YYYYMM", sYear + sMonth);
+				this.dsExchangeRate.setColumn(nRow, "COUNTER_CURRENCY", sCounterCurrency);
+				
+				// 기준통화가 "엔"이고 상대통화가 "원화"인 경우
+				if(sCurrencyAbbreviation == "JPY" && sCounterCurrency == "003") this.dsExchangeRate.setColumn(nRow, "EXCHAGE_RATE", 10.0000);
+			}
+		}
+		this.dsExchangeRate.filter("");
+		this.fnSetCurrencyDelBtn();
+	}
+};
+
+/**
+ * 좌측문자열채우기
+ * @params
+ *  - str : 원 문자열
+ *  - padLen : 최대 채우고자 하는 길이
+ *  - padStr : 채우고자하는 문자(char)
+ */
+this.lpad = function(str, padLen, padStr) {
+    if (padStr.length > padLen) {
+        return str;
+    }
+    str += ""; // 문자로
+    padStr += ""; // 문자로
+    while (str.length < padLen)
+        str = padStr + str;
+    str = str.length >= padLen ? str.substring(0, padLen) : str;
+    return str;
+};
+
+this.dsExchangeRate_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "CONFIRM_FLAG") {
+		var str = ""
+		if(e.newvalue == "1") {
+			var sToday = this.gfnToday();
+			var sConfirmDate = this.cal_ConfirmDate.value;
+			var sExchageRate = this.dsExchangeRate.getColumn(this.dsExchangeRate.rowposition, "EXCHAGE_RATE");
+			var sCounterCurrency = this.dsExchangeRate.getColumn(this.dsExchangeRate.rowposition, "COUNTER_CURRENCY");
+			var sCounterCurrencyIdx = this.ds_cmm_Currency.findRow("CURRENCY_CODE", sCounterCurrency);
+			var sCounterCurrencyNm = this.ds_cmm_Currency.getColumn(sCounterCurrencyIdx, "CURRENCY_NAME");
+			
+			str = sToday + ' 서울외국환중개 ' + sConfirmDate.substr(4, 2) + "月" +  sConfirmDate.substr(6, 2) + "日付の "+ sCounterCurrencyNm + "基準て為替レート " + sExchageRate.toFixed(4);
+		} 
+		this.dsExchangeRate.setColumn(this.dsExchangeRate.rowposition, "REMARKS", str);
+	}
+};
+
+// 중복 체크
+this.fnDuplicateCheck = function()
+{
+	var sDuplicateFlag = false;
+	var sameCnt = 0; 
+	
+	for(var i = 0; i < this.dsCurrencyList.getRowCount(); i++) {
+		var sCurrencyName = this.dsCurrencyList.getColumn(i, "CURRENCY_NAME"); 
+		var sCurrencyAbbrevition = this.dsCurrencyList.getColumn(i, "CURRENCY_ABBREVIATION");
+		
+		for(var j = 0; j < this.dsCurrencyList.getRowCount(); j++) {
+			if(i != j) {
+				var sCompareCurrencyName = this.dsCurrencyList.getColumn(j, "CURRENCY_NAME"); 
+				var sCompareCurrencyAbbrevition = this.dsCurrencyList.getColumn(j, "CURRENCY_ABBREVIATION");
+				
+				if(sCurrencyName.trim() == sCompareCurrencyName.trim()) {
+					sameCnt++; 
+					sDuplicateFlag = true;
+				} else if(sCurrencyAbbrevition.trim() == sCompareCurrencyAbbrevition.trim()) {
+					sameCnt++;  
+					sDuplicateFlag = true;
+				}
+			}
+		}
+	}
+	
+	return sDuplicateFlag;
+};
+this.cmb_CounterCurrency_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSetCounterCurrency(e.postvalue);
+};
+
+//환율정보 필터
+this.fnSetCounterCurrency = function(nCurrencyCode) {
+	if(nCurrencyCode== "ALL" || (this.gfnIsEmpty(nCurrencyCode) == true)) {
+		this.dsExchangeRate.filter("");
+	} else {
+		this.dsExchangeRate.filter("COUNTER_CURRENCY == '" + nCurrencyCode +"'");
+	}
+	this.fvCounter_CurCode = nCurrencyCode;
+}]]></Script>
+  </Form>
+</FDL>

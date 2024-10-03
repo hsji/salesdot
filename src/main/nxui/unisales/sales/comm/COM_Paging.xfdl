@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="CommPaging" classname="CommPaging" left="0" top="0" width="969" height="24" titletext="페이징" onload="CommPaging_onload">
+    <Layouts>
+      <Layout>
+        <Button id="btn_goPre" taborder="0" cssclass="btn_WF_pagingPrev" top="0" width="24" height="24" onclick="btn_goPre_onclick" left="26" visible="false"/>
+        <Button id="btn_goPreFirst" taborder="1" cssclass="btn_WF_pagingPrev2" top="0" width="24" height="24" onclick="btn_goPreFirst_onclick" left="0" visible="false"/>
+        <Button id="btn_goNext" taborder="2" cssclass="btn_WF_pagingNext" left="406" top="0" width="24" height="24" onclick="btn_goNext_onclick" visible="false"/>
+        <Button id="btn_goNextEnd" taborder="3" cssclass="btn_WF_pagingNext2" left="432" top="0" width="24" height="24" onclick="btn_goNextEnd_onclick" visible="false"/>
+        <Button id="btn_page_1" taborder="4" text="1" cssclass="btn_WF_paging" left="54" top="0" width="33" height="24" onclick="btn_page_onclick" pageidx="1" visible="false"/>
+        <Button id="btn_page_2" taborder="5" text="2" cssclass="btn_WF_paging" left="89" top="0" width="33" height="24" onclick="btn_page_onclick" pageidx="2" visible="false"/>
+        <Button id="btn_page_3" taborder="6" text="3" cssclass="btn_WF_paging" left="124" top="0" width="33" height="24" onclick="btn_page_onclick" pageidx="3" visible="false"/>
+        <Button id="btn_page_4" taborder="7" text="4" cssclass="btn_WF_paging" left="159" top="0" width="33" height="24" onclick="btn_page_onclick" pageidx="4" visible="false"/>
+        <Button id="btn_page_5" taborder="8" text="5" cssclass="btn_WF_paging" left="194" top="0" width="33" height="24" onclick="btn_page_onclick" pageidx="5" visible="false"/>
+        <Button id="btn_page_6" taborder="9" text="6" onclick="btn_page_onclick" cssclass="btn_WF_paging" left="229" top="0" width="33" height="24" pageidx="6" visible="false"/>
+        <Button id="btn_page_7" taborder="10" text="7" cssclass="btn_WF_paging" left="264" top="0" width="33" height="24" onclick="btn_page_onclick" pageidx="7" visible="false"/>
+        <Button id="btn_page_8" taborder="11" text="8" cssclass="btn_WF_paging" left="299" top="0" width="33" height="24" onclick="btn_page_onclick" pageidx="8" visible="false"/>
+        <Button id="btn_page_9" taborder="12" text="9" cssclass="btn_WF_paging" left="334" top="0" width="33" height="24" onclick="btn_page_onclick" pageidx="9" visible="false"/>
+        <Button id="btn_page_10" taborder="13" text="10" cssclass="btn_WF_paging" left="369" top="0" width="33" height="24" onclick="btn_page_onclick" pageidx="10" visible="false"/>
+        <Div id="div_goPage" taborder="18" top="1" width="343" height="22" left="600" visible="false">
+          <Layouts>
+            <Layout>
+              <Edit id="edt_totPage" taborder="0" value="9,999" readonly="true" oneditclick="Edit00_oneditclick" left="54" top="0" width="40" height="22" style="align:right middle;"/>
+              <Button id="btn_goPage" taborder="1" text="페이지이동" left="96" top="0" width="74" height="22" onclick="div_goPage_btn_goPage_onclick" TL_SEQ="22650"/>
+              <Edit id="edt_curPage" taborder="2" value="9,999" oneditclick="Edit00_oneditclick" left="0" top="0" width="40" height="22" style="align:right middle;" onkeyup="div_goPage_edt_curPage_onkeyup" autoselect="true" inputtype="number"/>
+              <Static id="Static00" taborder="3" text="/" left="40" top="0" width="14" height="22" style="align:center middle;"/>
+              <Combo id="cbo_pageListCnt" taborder="4" left="172" top="0" width="57" height="22" innerdataset="@ds_pageListCnt" codecolumn="cd" datacolumn="nm" value="20" text="20" index="1" onitemchanged="div_goPage_cbo_pageListCnt_onitemchanged"/>
+              <Static id="Static01" taborder="5" left="232" top="4" width="95" height="16" text="개씩 보기" TL_SEQ="22651"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_totCnt" taborder="19" text="9,999" visible="false" left="511" top="5" width="32" height="16" style="border:0 none #808080ff ;align:right middle;"/>
+        <Div id="div_CntPreSt" taborder="25" left="460" top="0" width="50" height="24" text="Div00" style="border:0 none #808080ff ;">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" taborder="0" text="(" left="0" top="6" width="5" height="14" style="border:0 none #808080ff ;"/>
+              <Static id="Static02" taborder="1" text="총" left="6" top="6" width="30" height="14" style="border:0 none #808080ff ;align:center middle;" TL_SEQ="22649"/>
+              <Static id="Static03" taborder="2" text=" :" left="36" top="6" width="12" height="14" style="border:0 none #808080ff ;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_CntEndSt" taborder="26" left="544" top="0" width="50" height="24" text="Div01" style="border:0 none #808080ff ;">
+          <Layouts>
+            <Layout>
+              <Static id="Static01" taborder="0" text=")" left="40" top="6" width="7" height="14" style="border:0 none #808080ff ;"/>
+              <Static id="Static04" taborder="1" text="건" left="2" top="6" width="38" height="14" style="border:0 none #808080ff ;align:center middle;" TL_SEQ="51"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_pageListCnt" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="cd" type="STRING" size="256"/>
+          <Column id="nm" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="cd">10</Col>
+            <Col id="nm">10</Col>
+          </Row>
+          <Row>
+            <Col id="cd">20</Col>
+            <Col id="nm">20</Col>
+          </Row>
+          <Row>
+            <Col id="cd">30</Col>
+            <Col id="nm">30</Col>
+          </Row>
+          <Row>
+            <Col id="cd">40</Col>
+            <Col id="nm">40</Col>
+          </Row>
+          <Row>
+            <Col id="cd">50</Col>
+            <Col id="nm">50</Col>
+          </Row>
+          <Row>
+            <Col id="cd">100</Col>
+            <Col id="nm">100</Col>
+          </Row>
+          <Row>
+            <Col id="cd">200</Col>
+            <Col id="nm">200</Col>
+          </Row>
+          <Row>
+            <Col id="cd">500</Col>
+            <Col id="nm">500</Col>
+          </Row>
+          <Row>
+            <Col id="cd">1000</Col>
+            <Col id="nm">1000</Col>
+          </Row>
+          <Row>
+            <Col id="cd">2000</Col>
+            <Col id="nm">2000</Col>
+          </Row>
+          <Row>
+            <Col id="cd">3000</Col>
+            <Col id="nm">3000</Col>
+          </Row>
+          <Row>
+            <Col id="cd">4000</Col>
+            <Col id="nm">4000</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="CommPaging" propid="text" datasetid="gdsLanguage" columnid="PageMove"/>
+      <BindItem id="item1" compid="div_goPage.btn_goPage" propid="text" datasetid="gdsLanguage" columnid="PageMove"/>
+      <BindItem id="item2" compid="div_goPage.Static01" propid="text" datasetid="gdsLanguage" columnid="QuantityOfView"/>
+      <BindItem id="item3" compid="div_CntPreSt.Static02" propid="text" datasetid="gdsLanguage" columnid="Total"/>
+      <BindItem id="item4" compid="div_CntEndSt.Static04" propid="text" datasetid="gdsLanguage" columnid="Count"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[
+include "Script::CommSystem.xjs";
+
+this.fv_totCnt		= 0;			// 전체 로우 수
+this.fv_totPageCnt	= 30;			// 전체페이지 수
+this.fv_curPage		= 0;			// 현재페이지
+this.fv_startPage	= 1;			// 페이징버튼리스트 시작페이지
+this.fv_endPage		= 1;			// 페이징버튼리스트 마지막페이지
+this.fv_pageBtnCnt	= 10;			// 페이징버튼 갯수(최대갯수 10개)
+this.fv_pageListCnt = 20;			// 한페이지에 Display될 Row 개수
+
+this.fv_bVisibleGoPage = true;		// 페이지 이동영역 Visible 처리
+this.fv_parent;
+
+this.CommPaging_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//this.fn_init();
+}
+
+this.fn_loadInit = function(nTotCnt, nPageBtnCnt, bVisibleGoPage, objForm)
+{
+	this.fv_parent = objForm;
+	
+	if(this.gfnIsEmpty(nTotCnt)) {
+		this.fv_totCnt 		= 0;
+	} else {
+		this.fv_totCnt 		= nTotCnt;
+	}
+	
+	if(!this.gfnIsEmpty(nPageBtnCnt)) {
+		this.fv_pageBtnCnt = nPageBtnCnt;
+	} 
+
+	if(!this.gfnIsEmpty(bVisibleGoPage)) {
+		this.fv_bVisibleGoPage = bVisibleGoPage;
+	} 
+	
+	this.btn_goPreFirst.set_visible(true);
+	this.btn_goPre.set_visible(true);	
+	
+	this.fv_pageListCnt = this.div_goPage.form.cbo_pageListCnt.value;
+	
+	var nMod = nexacro.toNumber(this.fv_totCnt)%this.fv_pageListCnt;
+	var nTotPageCnt;
+
+	if(nMod == 0) {
+		nTotPageCnt = nexacro.floor(nexacro.toNumber(this.fv_totCnt)/this.fv_pageListCnt);
+	} else {
+		nTotPageCnt = nexacro.floor(nexacro.toNumber(this.fv_totCnt)/this.fv_pageListCnt)+1;
+	}
+
+	this.fv_totPageCnt 	= nTotPageCnt;
+
+	//var sTotCnt = this.fv_totCnt;
+	var sTotCnt = this.fnFormatNumber(this.fv_totCnt, 3);
+	
+	var nLen 	= String(sTotCnt).length;
+	var nWidth 	= 4 + (6*nLen);
+	
+	this.sta_totCnt.set_width(nWidth);
+
+	this.sta_totCnt.set_visible(true);
+	this.sta_totCnt.set_text(sTotCnt);
+	
+	for(var i=1;i<=10;i++)
+	{
+		var objBtn = eval("this.btn_page_"+i);
+		
+		if(i < this.fv_pageBtnCnt) {
+			objBtn.set_visible(true);
+		} else if(i == this.fv_pageBtnCnt) {
+			var nR = objBtn.getOffsetRight();
+			
+			this.btn_goNext.move(nR+4, 0);
+			this.btn_goNextEnd.move(this.btn_goNext.getOffsetRight()+2, 0);
+			this.div_CntPreSt.move(this.btn_goNextEnd.getOffsetRight()+10, 0);
+			this.sta_totCnt.move(this.div_CntPreSt.getOffsetRight()+2, 5);
+			this.div_CntEndSt.move(this.sta_totCnt.getOffsetRight()+2, 0);
+
+			//this.div_goPage.move(this.btn_goNextEnd.getOffsetRight()+10, 1);
+			this.div_goPage.move(this.div_CntEndSt.getOffsetRight()+10, 1);
+			
+			objBtn.set_visible(true);
+			this.btn_goNext.set_visible(true);
+			this.btn_goNextEnd.set_visible(true);
+		}
+	}
+	
+	this.div_goPage.set_visible(this.fv_bVisibleGoPage);
+
+	this.fn_setInit(1);
+	//this.fn_callParentSearch(this.btn_page_1.pageidx, this.btn_page_1.text);
+}
+
+this.fn_init = function(nTotCnt, nPageBtnCnt, bVisibleGoPage, objForm)
+{
+	if(this.gfnIsEmpty(nTotCnt)) {
+		this.fv_totCnt 		= 0;
+	} else {
+		this.fv_totCnt 		= nTotCnt;
+	}
+	
+	// 삭제예정------------------------------
+	if(!this.gfnIsEmpty(objForm)) {
+		this.fv_parent = objForm;
+	}
+	
+	if(!this.gfnIsEmpty(nPageBtnCnt)) {
+		this.fv_pageBtnCnt = nPageBtnCnt;
+	} 
+
+	if(!this.gfnIsEmpty(bVisibleGoPage)) {
+		this.fv_bVisibleGoPage = bVisibleGoPage;
+	}
+	// 삭제예정------------------------------
+
+	this.btn_goPreFirst.set_visible(true);
+	this.btn_goPre.set_visible(true);	
+	
+	var nMod = nexacro.toNumber(this.fv_totCnt)%this.fv_pageListCnt;
+	var nTotPageCnt;
+
+	if(nMod == 0) {
+		nTotPageCnt = nexacro.floor(nexacro.toNumber(this.fv_totCnt)/this.fv_pageListCnt);
+	} else {
+		nTotPageCnt = nexacro.floor(nexacro.toNumber(this.fv_totCnt)/this.fv_pageListCnt)+1;
+	}
+
+	this.fv_totPageCnt 	= nTotPageCnt;
+
+	//var sTotCnt = this.fv_totCnt;
+	var sTotCnt = this.fnFormatNumber(this.fv_totCnt, 3);
+		
+	var nLen 	= String(sTotCnt).length;
+	var nWidth 	= 4 + (6*nLen);
+	
+	this.sta_totCnt.set_width(nWidth);
+
+	this.sta_totCnt.set_visible(true);
+	this.sta_totCnt.set_text(sTotCnt);
+	
+	for(var i=1;i<=10;i++)
+	{
+		var objBtn = eval("this.btn_page_"+i);
+		
+		if(i < this.fv_pageBtnCnt) {
+			objBtn.set_visible(true);
+		} else if(i == this.fv_pageBtnCnt) {
+			var nR = objBtn.getOffsetRight();
+			
+			this.btn_goNext.move(nR+4, 0);
+			this.btn_goNextEnd.move(this.btn_goNext.getOffsetRight()+2, 0);
+			this.div_CntPreSt.move(this.btn_goNextEnd.getOffsetRight()+10, 0);
+			this.sta_totCnt.move(this.div_CntPreSt.getOffsetRight()+2, 5);
+			this.div_CntEndSt.move(this.sta_totCnt.getOffsetRight()+2, 0);
+
+			//this.div_goPage.move(this.btn_goNextEnd.getOffsetRight()+10, 1);
+			this.div_goPage.move(this.div_CntEndSt.getOffsetRight()+10, 1);
+			
+			objBtn.set_visible(true);
+			this.btn_goNext.set_visible(true);
+			this.btn_goNextEnd.set_visible(true);
+		}
+	}
+	
+	this.div_goPage.set_visible(this.fv_bVisibleGoPage);
+
+	this.fn_setInit(1);
+	//this.fn_callParentSearch(this.btn_page_1.pageidx, this.btn_page_1.text);
+}
+
+this.fn_goFirst = function()
+{
+	this.fv_startPage 	= 1;
+	this.fv_curPage 	= this.fv_startPage;
+	this.fn_setInit(1);
+	this.fv_parent.fnPagingInit();
+}
+
+// nCurPage : 현재 조회된 페이지(포커스 대상)
+this.fn_setInit = function(nCurPage)
+{
+	var nStartPage 	= this.fv_startPage;
+	
+	this.div_goPage.form.edt_totPage.set_value(this.fv_totPageCnt);
+	
+	for(var i=1;i<=this.fv_pageBtnCnt;i++)
+	{
+		var objBtn = eval("this.btn_page_"+i);
+		var nPageCnt = i + (nexacro.toNumber(this.fv_startPage) - 1);
+				
+		if(nPageCnt < this.fv_totPageCnt) {
+			this.fv_endPage = nPageCnt;
+			objBtn.set_enable(true);
+		} else if(nPageCnt == this.fv_totPageCnt) {
+			this.fv_endPage = nPageCnt;
+			objBtn.set_enable(true);
+		} else {	
+			objBtn.set_enable(false);
+		}
+
+		objBtn.set_text(nStartPage);
+		nStartPage++;
+	}
+	
+	if(this.fv_endPage < this.fv_totPageCnt) {
+		this.btn_goNext.set_enable(true);
+		this.btn_goNextEnd.set_enable(true);
+		
+	} else {
+		this.btn_goNext.set_enable(false);
+		this.btn_goNextEnd.set_enable(false);
+	}
+	
+	if(this.fv_startPage > 1) {
+		this.btn_goPre.set_enable(true);
+		this.btn_goPreFirst.set_enable(true);
+	} else {
+		this.btn_goPre.set_enable(false);
+		this.btn_goPreFirst.set_enable(false);
+	}
+	
+	this.setPageBtnStatus(nCurPage);
+}
+
+// 페이지버튼 현재페이지 선택표시
+this.setPageBtnStatus = function(nCurPage)
+{
+	for(var i=1;i<=this.fv_pageBtnCnt;i++)
+	{
+		var objBtn = eval("this.btn_page_"+i);
+		
+		if(nCurPage == i) {
+			objBtn.set_cssclass("btn_WF_paging_S");
+			this.div_goPage.form.edt_curPage.set_value(objBtn.text);
+			//objBtn.setFocus();
+		} else {
+			objBtn.set_cssclass("btn_WF_paging");
+		}
+	}	
+}
+
+this.btn_page_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fn_callParentSearch(obj.pageidx, obj.text);
+}
+
+this.fn_callParentSearch = function(nPageIdx, nPageNum)
+{
+	this.fv_curPage = nexacro.toNumber(nPageNum);
+
+	this.setPageBtnStatus(nPageIdx);
+	
+	var nStartNum 	= ((nexacro.toNumber(nPageNum)-1) * this.fv_pageListCnt)+1;
+	var nEndNum	= nexacro.toNumber(nPageNum) * this.fv_pageListCnt;
+	
+// 	if(this.gfnGetIsWorkFrame(this)) {
+// 		this.getOwnerFrame().form.div_work.fnPagingSearch(nStartNum, nEndNum);
+// 	} else {
+// 		//this.getOwnerFrame().form.fnPagingSearch(nStartNum, nEndNum);
+// 		this.parent.fnPagingSearch(nStartNum, nEndNum);
+// 	}	
+
+	this.fv_parent.fnPagingSearch(nStartNum, nEndNum);
+}
+
+// 앞으로
+this.btn_goPre_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fv_startPage 	= this.fv_startPage - this.fv_pageBtnCnt;
+	this.fv_curPage 	= this.fv_startPage;
+	this.fn_setInit(1);
+	this.fn_callParentSearch(this.btn_page_1.pageidx, this.btn_page_1.text);
+}
+
+// 뒤로
+this.btn_goNext_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fv_startPage 	= this.fv_startPage + this.fv_pageBtnCnt;
+	this.fv_curPage 	= this.fv_startPage;
+	this.fn_setInit(1);
+	this.fn_callParentSearch(this.btn_page_1.pageidx, this.btn_page_1.text);
+}
+
+this.btn_goPreFirst_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fn_goFirst();
+}
+
+this.btn_goNextEnd_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nMod = this.fv_totPageCnt%this.fv_pageListCnt;
+
+	if(nMod == 0) {
+		this.fv_startPage 	= ((nexacro.floor(this.fv_totPageCnt/this.fv_pageBtnCnt)-1)*this.fv_pageBtnCnt) + 1;
+	} else {
+		this.fv_startPage 	= (nexacro.floor(this.fv_totPageCnt/this.fv_pageBtnCnt)*this.fv_pageBtnCnt) + 1;
+	}
+
+	this.fv_curPage 	= this.fv_startPage;
+	this.fn_setInit(1);
+	this.fn_callParentSearch(this.btn_page_1.pageidx, this.btn_page_1.text);
+}
+
+this.div_goPage_btn_goPage_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fn_goPage();
+}
+
+this.fn_goPage = function()
+{
+	var nPageIdx;
+	var nPageNum;
+	
+	if(this.gfnIsEmpty(this.div_goPage.form.edt_curPage.text)) {
+		this.div_goPage.form.edt_curPage.set_value(1);
+	}
+	
+	nPageNum 	= this.div_goPage.form.edt_curPage.text;
+	
+	if(this.fv_totPageCnt < nPageNum) {
+		alert("최대페이지 오버!!");
+		return;
+	} else if(nPageNum <= 0) {
+		this.div_goPage.form.edt_curPage.set_value(1);
+		nPageNum = 1;
+	}
+	
+	nPageIdx 	= nPageNum%this.fv_pageBtnCnt;
+	
+	var nMod = nPageNum%this.fv_pageBtnCnt;
+	if(nMod == 0) {
+		this.fv_startPage 	= ((nexacro.floor(nPageNum/this.fv_pageBtnCnt)-1)*this.fv_pageBtnCnt) + 1;
+		nPageIdx = this.fv_pageBtnCnt;
+	} else {
+		this.fv_startPage 	= (nexacro.floor(nPageNum/this.fv_pageBtnCnt)*this.fv_pageBtnCnt) + 1;
+	}
+	
+	this.fv_curPage 	= nPageNum;
+	this.fn_setInit(nPageIdx);
+	
+	this.fn_callParentSearch(nPageIdx, nPageNum);
+}
+
+this.div_goPage_edt_curPage_onkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) {
+		this.fn_goPage();
+	}
+}
+
+this.div_goPage_cbo_pageListCnt_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	this.fv_pageListCnt = obj.value;
+	
+	if(this.fv_pageListCnt == "100000000"){
+		alert("전체조회는 검색조건에 저장되지 않습니다.");
+	}
+	
+	var nMod = this.fv_totCnt%this.fv_pageListCnt;
+	var nTotPageCnt;
+
+	if(nMod == 0) {
+		nTotPageCnt = nexacro.floor(nexacro.toNumber(this.fv_totCnt)/this.fv_pageListCnt);
+	} else {
+		nTotPageCnt = nexacro.floor(nexacro.toNumber(this.fv_totCnt)/this.fv_pageListCnt)+1;
+	}	
+	
+	this.fv_totPageCnt 	= nTotPageCnt;
+	
+	this.fn_goFirst();
+}
+
+//숫자와 콤마를 찍을자리수를 매개변수로 받음 
+this.fnFormatNumber = function(v1,v2)
+{ 
+	var str = new Array(); //콤마스트링을 조합할 배열 
+	
+	v1 = String(v1); //숫자를 스트링으로 변환 
+	
+	for(var i=1;i<=v1.length;i++){ //숫자의 길이만큼 반복 
+		if(i%v2) str[v1.length-i]=v1.charAt(v1.length-i); //자리수가 아니면 숫자만삽입 
+		else  str[v1.length-i]=','+v1.charAt(v1.length-i); //자리수 이면 콤마까지 삽입 
+	} 
+
+	return str.join('').replace(/^,/,''); //스트링을 조합하여 반환 
+} 
+
+
+
+]]></Script>
+  </Form>
+</FDL>

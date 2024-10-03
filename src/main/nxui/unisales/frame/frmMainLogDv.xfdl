@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmMainLogDv" width="505" height="284" titletext="접속현황(CHART)" stepitemsize="15" stepitemgap="10" onload="form_onload" canstepchange="main_step1_canstepchange" ontimer="main_step1_ontimer">
+    <Layouts>
+      <Layout height="284" mobileorientation="landscape" width="505" stepcount="3">
+        <Static id="staTitle00" taborder="0" text="OS별 접속 현황" left="28" top="11" width="156" height="45" cssclass="sta_MF_tile"/>
+        <Static id="staTitle01" taborder="1" text="브라우저별 접속 현황" left="28" top="11" width="156" height="40" positionstep="1" cssclass="sta_MF_tile"/>
+        <Static id="staTitle02" taborder="2" text="해상도별 접속 현황" left="28" top="11" width="156" height="40" positionstep="2" cssclass="sta_MF_tile"/>
+        <Button id="btnMore00" taborder="3" top="15" width="48" height="41" right="21" cssclass="btn_MF_More" onclick="btnMore_onclick"/>
+        <Button id="btnMore01" taborder="4" top="15" width="48" height="41" right="20" cssclass="btn_MF_More" positionstep="1" onclick="btnMore_onclick"/>
+        <Button id="btnMore02" taborder="5" top="15" width="48" height="41" right="20" cssclass="btn_MF_More" positionstep="2" onclick="btnMore_onclick"/>
+        <ChartJS id="pctBrowser" taborder="6" left="28" top="staTitle01:0" ight="21" bottom="30" positionstep="1" visible="false" duration="1500" right="21"/>
+        <ChartJS id="pctOs" taborder="7" left="28" top="staTitle00:0" right="21" bottom="30" duration="1500" visible="false"/>
+        <ChartJS id="pctScreen" taborder="8" left="28" top="staTitle02:0" right="21" bottom="30" positionstep="2" visible="false" duration="1500"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsOs">
+        <ColumnInfo>
+          <Column id="OS_CD" type="STRING" size="256"/>
+          <Column id="OS_CNT" type="BIGDECIMAL" size="256"/>
+          <Column id="OS_SELECT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBrowser">
+        <ColumnInfo>
+          <Column id="BROWSER_CD" type="STRING" size="256"/>
+          <Column id="BROWSER_CNT" type="BIGDECIMAL" size="256"/>
+          <Column id="BROWSER_SELECT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsScreen">
+        <ColumnInfo>
+          <Column id="SCREEN" type="STRING" size="256"/>
+          <Column id="SCREEN_CNT" type="STRING" size="256"/>
+          <Column id="SCREEN_SELECT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	frmMainLogDv.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/15
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/15			TOBESOFT					최초생성
+*******************************************************************************
+*/
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvChart = [this.pctOs, this.pctBrowser, this.pctScreen];
+this.fvStep = 0;
+this.elapseTime = 5000;
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnTranSearch();
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "selectMainLog";
+	var strSvcUrl   = "selectMainLog.do";
+	var inData      = "";
+	var outData     = "dsOs=dsOs dsBrowser=dsBrowser dsScreen=dsScreen";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "selectMainLog":
+			this.fnShowChart(true);
+			this.setTimer(0, this.elapseTime);
+			
+			break;
+		default:break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnShowChart = function (bShow)
+{
+	for (var i=0; i<this.fvChart.length; i++) {
+		this.fvChart[i].set_visible(bShow);
+	}
+	
+	if(bShow){
+		var nCurStep = this.getStepIndex();
+		this.fnDrawChart(nCurStep);
+	}
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.main_step1_canstepchange = function(obj:nexacro.Form,e:nexacro.StepChangeEventInfo)
+{
+	var nIdx = e.postindex;
+	var oChart = this.fvChart[nIdx];
+	this.fnDrawChart(nIdx);
+};
+
+this.btnMore_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//레프트Sync
+	var sTopCommBtnId = "TOP_10400000";
+	var oBtn = nexacro.getApplication().gvFrmTop.form.divTopBtn.form.components[sTopCommBtnId];
+	oBtn.click();
+		
+	//메뉴로이동
+	nexacro.getApplication().gvFrmLeft.form.fnFormOpen("10401017");
+};
+
+this.main_step1_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+	if (e.timerid == 0)
+	{
+		if (this.fvStep == 2) {
+			this.fvStep = 0;
+			this.stepselector.set_stepindex(0);
+		}
+		else {
+			this.stepselector.set_stepindex(++this.fvStep);
+		}
+	}
+};
+
+this.fnDrawChart = function(nIdx) {
+	var chart;
+	var ds, label, col;
+	if(nIdx == 0) {
+		chart = this.pctOs;
+		ds = this.dsOs;
+		col = 'OS_CNT';
+		label = "expr:OS_CD + ' ' + (OS_CNT/dataset.getSum('OS_CNT')*100).toFixed(0) + '%'";
+	}
+	else if(nIdx == 1) {
+		chart = this.pctBrowser;
+		ds = this.dsBrowser;
+		col = 'BROWSER_CNT';
+		label = "expr:BROWSER_CD + ' ' + (BROWSER_CNT/dataset.getSum('BROWSER_CNT')*100).toFixed(0) + '%'";
+	} else if(nIdx == 2) {
+		chart = this.pctScreen;
+		ds = this.dsScreen;
+		col = 'SCREEN_CNT';
+		label = "expr:SCREEN + ' ' + (SCREEN_CNT/dataset.getSum('SCREEN_CNT')*100).toFixed(0) + '%'";
+	}
+	
+	var canvas = chart.getCanvas();
+	var cvs = canvas.id;
+	DxChart.reset(canvas);
+	var pie = new DxChartPie({
+		id: cvs,
+		elem : canvas,
+		binddataset : ds,
+		data: ['bind:' + col],
+		options: {
+			labels: { Data: [label], Sticks : 'line' },
+			tooltips: { Data : '%{property:labelsData[%{index}]}: %{value}%' },
+			colorsStroke: 'white',
+			line: { Width: 0 },
+			shadow: { Use: true, Style : '2px 2px 3px #cccccc' }
+		}
+	}).drawAni("roundRobin");
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="bizProgramMgPopup" width="930" height="390" titletext="프로그램 관리(추가버튼관리팝업)" onload="form_onload">
+    <Layouts>
+      <Layout height="390" mobileorientation="landscape" width="930">
+        <Static id="Static04_01" taborder="0" left="0" top="0" width="25" cssclass="sta_WF_GSize" visible="false" text="W 25" bottom="0"/>
+        <Static id="Static04_01_00" taborder="1" top="0" width="25" cssclass="sta_WF_GSize" visible="false" text="W 25" bottom="0" right="0"/>
+        <Div id="divSearch" taborder="2" left="25" top="20" height="50" cssclass="div_WF_Search" text="" right="25">
+          <Layouts>
+            <Layout>
+              <Button id="btnSearch" taborder="1" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Static id="staTitle00" taborder="1" text="프로그램ID" left="0" top="12" width="98" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Edit id="edtProgId" taborder="2" left="98" top="12" width="140" height="24" readonly="true"/>
+              <Static id="staTitle01" taborder="3" text="프로그램명" left="238" top="12" width="98" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Edit id="edtProgNm" taborder="4" left="336" top="12" width="140" height="24" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="3" text="추가버튼" left="25" top="divSearch:0" height="43" cssclass="sta_WF_Title" right="355"/>
+        <Div id="divCmmnBtn" taborder="4" text="div00" top="divSearch:10" width="467" height="33" right="25">
+          <Layouts>
+            <Layout>
+              <Button id="btnDel" taborder="1" text="행삭제" top="0" width="71" height="28" cssclass="btn_WF_Delete" right="0" onclick="divCmmnBtn_btnDel_onclick"/>
+              <Button id="btnAdd" taborder="0" text="행추가" top="0" height="28" cssclass="btn_WF_Add" left="308" right="btnDel:3" onclick="divCmmnBtn_btnAdd_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdList" taborder="5" left="25" top="Static00:0" autoenter="select" bottom="68" cellsizingtype="col" binddataset="dsList" right="25" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="59"/>
+                <Column size="60"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="버튼ID" cssclass="essential"/>
+                <Cell col="1" text="버튼명" cssclass="essential"/>
+                <Cell col="2" text="버튼 영문명"/>
+                <Cell col="3" text="버튼 스타일"/>
+                <Cell col="4" text="정렬순서" cssclass="essential"/>
+                <Cell col="5" text="사용여부"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:BTTN_ID" displaytype="expr:dataset.getRowType(currow)==2?'editcontrol':'normal'" edittype="expr:dataset.getRowType(currow)==2?'text':'none'" editimemode="alpha" editinputtype="english,digit" editautoselect="true"/>
+                <Cell col="1" edittype="normal" text="bind:BTTN_NM" editlengthunit="utf8" textAlign="left" verticalAlign="middle" editautoselect="true" displaytype="editcontrol" editimemode="hangul"/>
+                <Cell col="2" text="bind:BTTN_ENGL_NM" edittype="normal" editautoselect="true" displaytype="editcontrol" editimemode="alpha"/>
+                <Cell col="3" displaytype="editcontrol" edittype="text" text="bind:BTTN_STYLE" editautoselect="true" editimemode="alpha"/>
+                <Cell col="4" displaytype="editcontrol" edittype="normal" editfilter="digit" text="bind:SORT_ORDR" editlengthunit="utf8" editautoselect="true" editinputtype="digit"/>
+                <Cell col="5" displaytype="checkboxcontrol" edittype="checkbox" text="bind:USED_YN" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnClose" taborder="6" text="닫기" height="28" width="50" fittocontents="width" right="25" bottom="20" onclick="btnClose_onclick"/>
+        <Button id="btnSave" taborder="7" text="저장" height="28" width="68" fittocontents="width" cssclass="btn_WF_CrudSave" right="btnClose:3" bottom="20" onclick="btnSave_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	bizProgramMgPopup.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/03/23
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/03/23			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvProgId = "";
+this.fvCompanyCd = "";
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//넘겨받은값 세팅
+	this.fvProgId = this.getOwnerFrame().pvProgId;
+	this.fvCompanyCd = this.getOwnerFrame().pvCompanyCd;
+	console.log("#",this.fvCompanyCd);
+	//검색조건세팅
+	this.dsCond.clearData();
+	var nRow = this.dsCond.addRow();
+	this.dsCond.setColumn(nRow, "COMPANY_CD", this.fvCompanyCd);
+	this.dsCond.setColumn(nRow, "PRGM_ID", this.fvProgId);
+	this.dsCond.setColumn(nRow, "PRGM_NM", this.getOwnerFrame().pvProgNm);	
+	this.cfnSearch(); //자동조회
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	this.fnTranSearch();
+};
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "searchProgramAddBtnList";
+	var strSvcUrl   = "searchProgramAddBtnList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "saveProgramAddBtnList";
+	var strSvcUrl   = "saveProgramAddBtnList.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchProgramAddBtnList":
+		case "saveProgramAddBtnList":
+			break;
+		default:break;
+	}
+};
+//message..
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "closesave":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}else{
+				this.close();
+			}
+			break;
+		case "saveProg":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}else{
+				this.fnTranSave();
+			}
+			break;
+		case "validCode":
+			this.dsList.setColumn(this.dsList.rowposition, "BTTN_ID", "");
+			this.grdList.setCellPos(0);
+			this.grdList.showEditor(true);
+		default:break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//validation
+this.fnValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+	
+	this.gfnSetValidation(this.dsList, "BTTN_ID"	 , "버튼ID"			, "required");
+	this.gfnSetValidation(this.dsList, "BTTN_NM"	 , "버튼명"		, "required");
+	this.gfnSetValidation(this.dsList, "SORT_CD"	 , "버튼위치"		, "required");
+	this.gfnSetValidation(this.dsList, "SORT_ORDR"	 , "정렬순서"		, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.grdList, "U") == false) {
+		return false;
+	}else{
+		return true;
+	}
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		this.gfnAlert("confirm.before.closesave", [""], "closesave", "fnMsgCallback");
+	}else{
+		this.close();
+	}
+};
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.divCmmnBtn_btnAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsList.addRow();
+	
+	this.dsList.setColumn(nRow, "SORT_CD", "10");
+	this.dsList.setColumn(nRow, "USED_YN", "1");
+	this.dsList.setColumn(nRow, "PRGM_ID", this.fvProgId);
+	this.dsList.setColumn(nRow, "COMPANY_CD", this.fvCompanyCd);
+	
+	this.grdList.setCellPos(0);
+	this.grdList.showEditor(true);
+};
+
+this.divCmmnBtn_btnDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.dsList.rowcount == 0){
+		return;
+	}
+	
+	this.dsList.deleteRow(this.dsList.rowposition);
+};
+
+this.btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+	
+	if(this.fnValidation()){	
+		// 자료를 저장하시겠습니까?
+		this.gfnAlert("confirm.save", [""], "saveProg", "fnMsgCallback");
+		return;
+	}
+};
+
+this.dsList_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if( e.columnid=="BTTN_ID"){
+		if(this.gfnIsNull(e.newvalue)) return;
+		
+		var nRow = obj.findRow("BTTN_ID", e.newvalue);
+		if( nRow > -1){
+			this.gfnAlert("msg.exist", ["입력하신 프로그램아이디"], "validCode","fnMsgCallback");
+			return;
+		}
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsList" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" cancolumnchange="dsList_cancolumnchange">
+        <ColumnInfo>
+          <Column id="PRGM_ID" type="string" size="32"/>
+          <Column id="BTTN_ID" type="STRING" size="256"/>
+          <Column id="BTTN_NM" type="string" size="50"/>
+          <Column id="BTTN_ENGL_NM" type="STRING" size="256"/>
+          <Column id="BTTN_STYLE" type="STRING" size="256"/>
+          <Column id="SORT_CD" type="string" size="2"/>
+          <Column id="SORT_ORDR" type="int" size="39"/>
+          <Column id="USED_YN" type="string" size="1"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCond" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="PRGM_ID" type="STRING" size="256"/>
+          <Column id="PRGM_NM" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtProgId" propid="value" datasetid="dsCond" columnid="PRGM_ID"/>
+      <BindItem id="item1" compid="divSearch.form.edtProgNm" propid="value" datasetid="dsCond" columnid="PRGM_NM"/>
+    </Bind>
+  </Form>
+</FDL>

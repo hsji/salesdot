@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="samplenext" width="1280" height="720" titletext="New Form" onload="samplenext_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <WebView id="wbv00" taborder="0" left="17" top="21" width="1215" height="662"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.samplenext_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.wbv00.set_url("http://localhost:8080/dxtobe/next/index.html");
+};
+]]></Script>
+  </Form>
+</FDL>

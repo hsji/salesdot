@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AT_TranslationInfoPopup" width="600" height="510" titletext="번역정보 추가팝업" cssclass="frm_popBg" onload="AT_TranslationInfoPopup_onload">
+    <Layouts>
+      <Layout height="510" mobileorientation="landscape" width="600">
+        <Static id="st_Title" taborder="0" text="번역 추가" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="22647"/>
+        <Static id="Static01" taborder="1" left="0" right="0" bottom="0" cssclass="sta_POP_BtnBg" height="30"/>
+        <Button id="btn_Cancel" taborder="2" height="22" cssclass="btn_WF_cancel" text="닫기" right="8" width="65" bottom="3" onclick="common_onclick" TL_SEQ="59"/>
+        <Button id="btn_Close" taborder="3" top="8" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="common_onclick" text="" escapebutton="true"/>
+        <Div id="div_TranslationInfo" taborder="4" left="8" top="46" right="8" bottom="Static01:8" cssclass="div_WF_detailBg">
+          <Layouts>
+            <Layout>
+              <Static id="stc_TLDataKor" taborder="0" text="국문" left="8" top="8" width="80" height="90" cssclass="sta_WF_DetailTit" TL_SEQ="22607"/>
+              <TextArea id="ta_TLDataKor" taborder="1" left="96" top="8" height="90" right="8"/>
+              <Static id="stc_TLDataJap" taborder="2" text="일문" left="8" top="106" width="80" height="90" cssclass="sta_WF_DetailTit" TL_SEQ="22608"/>
+              <TextArea id="ta_TLDataJap" taborder="3" left="96" top="106" height="90" right="8"/>
+              <Static id="stc_TLDataEng" taborder="4" text="영문" left="8" top="204" width="80" height="90" cssclass="sta_WF_DetailTit" TL_SEQ="22609"/>
+              <TextArea id="ta_TLDataEng" taborder="5" left="96" top="204" height="90" right="8"/>
+              <Static id="stc_UseFlag" taborder="6" text="사용여부" left="8" top="302" width="80" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="669"/>
+              <Radio id="rd_UseFlag" taborder="7" left="96" top="302" width="478" height="25" innerdataset="ds_cmm_UseFlag" codecolumn="CODE" datacolumn="CAPTION" columncount="0" rowcount="1" value="1" text="사용" index="0" TL_FLAG="1"/>
+              <Static id="stc_Remark" taborder="8" text="비고" left="8" top="332" width="80" height="68" cssclass="sta_WF_DetailTit" TL_SEQ="45"/>
+              <TextArea id="ta_Remark" taborder="9" left="96" top="332" width="478" height="68"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_Save" taborder="5" text="등록" left="454" cssclass="btn_WF_tran" right="btn_Cancel:8" bottom="3" height="22" onclick="common_onclick" TL_SEQ="585"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_cmm_UseFlag">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">사용</Col>
+            <Col id="CAPTION_JAP">使用</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">미사용</Col>
+            <Col id="CAPTION_JAP">未使用</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsTranslationInfo">
+        <ColumnInfo>
+          <Column id="TL_SEQ" type="STRING" size="256"/>
+          <Column id="TL_DATA_KOR" type="STRING" size="256"/>
+          <Column id="TL_DATA_JAP" type="STRING" size="256"/>
+          <Column id="TL_DATA_ENG" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 변역관리
+ * 02. 화면명   : 번역정보 상세팝업(AT_TranslationInfoPopup)
+ * 03. 화면설명 : 번역정보 상세
+ * 04. 작성일   : 2023.02.03
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.AT_TranslationInfoPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);	//	사용자 Grid
+	this.fnInit();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInit = function()
+{
+	this.dsTranslationInfo.clearData();
+	var nRow = this.dsTranslationInfo.addRow();
+	// 사용여부
+	this.dsTranslationInfo.setColumn(nRow, "USE_FLAG", '1');
+};
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 체크 사항
+this.fnValidation = function()
+{
+	var curRow = this.dsTranslationInfo.rowposition;
+	var sDataKor = this.dsTranslationInfo.getColumn(curRow, "TL_DATA_KOR");
+	
+	// 체크 항목 : 국문
+	if(this.gfnIsEmpty(this.dsTranslationInfo.getColumn(curRow, "TL_DATA_KOR"))) { alert(this.gfnGetTransTxt(22614, "국문은 필수 입력 항목입니다.")); this.div_TranslationInfo.form.ta_TLDataKor.setFocus(); return false;}
+	
+	return true;
+};
+
+// 저장
+this.fnSave = function()
+{
+	this.gfnAddInputDataset ("dsTranslationInfo",	"dsInput");
+	this.gfnCommonTransaction("Save", "AT_TranslationInfo_R01");
+};
+
+ // 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if (nErrorCode<0) {
+		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		return;
+	} else {
+		switch (strSvcID) 
+		{
+			case "Save" :
+				alert(this.gfnGetTransTxt(1170,"저장 되었습니다."));
+				this.commUtil.popupClose("Save");
+			break;
+		}
+	}
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_Save" : // 저장
+			if(this.fnValidation()) this.fnSave();
+			break;
+		
+		case "btn_Close": case "btn_Cancel":
+			//this.close();
+			this.commUtil.popupClose("");
+			break;
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_TranslationInfo.form.ta_TLDataKor" propid="value" datasetid="dsTranslationInfo" columnid="TL_DATA_KOR"/>
+      <BindItem id="item1" compid="div_TranslationInfo.form.ta_TLDataJap" propid="value" datasetid="dsTranslationInfo" columnid="TL_DATA_JAP"/>
+      <BindItem id="item2" compid="div_TranslationInfo.form.ta_TLDataEng" propid="value" datasetid="dsTranslationInfo" columnid="TL_DATA_ENG"/>
+      <BindItem id="item3" compid="div_TranslationInfo.form.rd_UseFlag" propid="value" datasetid="dsTranslationInfo" columnid="USE_FLAG"/>
+      <BindItem id="item4" compid="div_TranslationInfo.form.ta_Remark" propid="value" datasetid="dsTranslationInfo" columnid="REMARK"/>
+    </Bind>
+  </Form>
+</FDL>

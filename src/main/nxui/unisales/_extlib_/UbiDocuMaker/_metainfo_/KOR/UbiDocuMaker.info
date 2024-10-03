@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MetaInfo version="2.0">
+  <Object id="UbiDocuMaker">
+    <ObjectInfo inheritance="nexacro.CompositeComponent" classname="nexacro.UbiDocuMaker" shorttypename="UbiDocuMaker" csstypename="UbiDocuMaker" csscontrolname="UbiDocuMakerControl" group="Component" subgroup="Component ( default )" csspseudo="true" container="true" tabstop="true" cssstyle="true" defaultwidth="480" defaultheight="390" registration="allow" edittype="action" useinitvalue="true" popup="false" edittypecomponent="" dblclickevent="onclick" requirement="IE8,IE9,IE10,IE11,Edge,Chrome,Safari,Firefox,Opera,Windows NRE,macOS NRE,Android NRE,iOS/iPadOS NRE,Android Default Web Browser,iOS/iPadOS Default Web Browser" description="주간 달력" icon="doc.ico"/>
+    <PropertyInfo>
+      <Property name="editorFileName" readonly="false" initonly="false" hidden="false" control="false" expr="false" bind="false" unused="false" mandatory="false" group="Misc." edittype="String" defaultvalue="docuEditor.html" description="에디터의 html 파일명을 기술합니다. 예:docuEditor.html"/>
+      <Property name="viewType" readonly="false" initonly="false" hidden="false" control="false" expr="false" bind="false" unused="false" mandatory="false" group="Misc." edittype="Enum" enuminfo="ubiSelectType" defaultvalue="dmedit" description="에디터와 뷰어모드를 선택합니다."/>
+      <Property name="viewerFileName" readonly="false" initonly="false" hidden="false" control="false" expr="false" bind="false" unused="false" mandatory="false" group="Misc." edittype="String" defaultvalue="docuViewerOnly.html" description="뷰어의 html 파일명을 기술합니다. 예:docuViewer.html"/>
+      <Property name="editorPath" readonly="false" initonly="false" hidden="false" control="false" expr="false" bind="false" unused="false" mandatory="false" group="Misc." edittype="String"/>
+      <Property name="bizFormUrl" readonly="false" initonly="false" hidden="false" control="false" expr="false" bind="false" unused="false" mandatory="false" group="Misc." edittype="String" description="공통업무연계시 업무화면을 정의합니다. 공통팝업"/>
+      <Property name="autoSaveMsg" readonly="false" initonly="false" hidden="false" control="false" expr="false" bind="false" unused="false" mandatory="false" group="Misc." edittype="Boolean" defaultvalue="true"/>
+    </PropertyInfo>
+    <CSSInfo>
+      <PropertyInfo/>
+    </CSSInfo>
+    <StatusInfo/>
+    <MethodInfo>
+      <Method name="setDebugMode" async="false" unused="false" description="디버거모드를 설정합니다.">
+        <Syntax text="setDebugMode(bDebug)">
+          <Return/>
+          <Arguments>
+            <Argument name="bDebug" type="Boolean"/>
+          </Arguments>
+        </Syntax>
+      </Method>
+      <Method name="setFormerInfo" async="false" unused="false" description="작성자 및 수신자그룹을 설정한 데이터셋을 설정합니다.">
+        <Syntax text="setFormerInfo(objDataset)">
+          <Return/>
+          <Arguments>
+            <Argument name="objDataset" type="Object"/>
+          </Arguments>
+        </Syntax>
+      </Method>
+      <Method name="setFieldInfo" async="false" unused="false" description="문서의 기본정보필드를 설정할 dataset을 받는다">
+        <Syntax text="setFieldInfo(objDataset)">
+          <Return/>
+          <Arguments>
+            <Argument name="objDataset" type="Object"/>
+          </Arguments>
+        </Syntax>
+      </Method>
+      <Method name="setDocInfo" async="false" unused="false" description="문서기본정보 dataset을 설정합니다.">
+        <Syntax text="setDocInfo(objDataset)">
+          <Return/>
+          <Arguments>
+            <Argument name="objDataset" type="Object"/>
+          </Arguments>
+        </Syntax>
+      </Method>
+      <Method name="setCallback" async="false" unused="false" description="에디터에서 발생하는 event에 대하여 CallBack 함수를 선언합니다.">
+        <Syntax text="setCallback(scope, oFunction)">
+          <Return/>
+          <Arguments>
+            <Argument name="scope" type="Object"/>
+            <Argument name="oFunction" type="Object"/>
+          </Arguments>
+        </Syntax>
+      </Method>
+      <Method name="loadEditor" async="false" unused="false" description="에디터를 실행합니다.  setDocInfo를 먼저 수행하도록 합니다.">
+        <Syntax text="loadEditor()">
+          <Return/>
+          <Arguments/>
+        </Syntax>
+      </Method>
+      <Method name="getDocInfo" async="false" unused="false" description="문서정보를 가져옵니다">
+        <Syntax text="getDocInfo()">
+          <Return type="Object" description="Json형태의 문서정보입니다"/>
+          <Arguments/>
+        </Syntax>
+      </Method>
+      <Method name="sendMail" async="false" unused="false" description="메일을 발송합니다.">
+        <Syntax text="sendMail(objDocInfo, objReceiverInfo)">
+          <Return/>
+          <Arguments>
+            <Argument name="objDocInfo" type="Object"/>
+            <Argument name="objReceiverInfo" type="Object"/>
+          </Arguments>
+        </Syntax>
+      </Method>
+      <Method name="saveEditor" async="false" unused="false" description="문서편집정보를 저장합니다.">
+        <Syntax text="saveEditor()">
+          <Return/>
+          <Arguments/>
+        </Syntax>
+      </Method>
+    </MethodInfo>
+    <EventHandlerInfo>
+      <EventHandler name="onnotify" group="Event" unused="false" requirement="Edge,Chrome,Safari,Firefox,Opera" description="에디터에서 발생하는 event입니다">
+        <Syntax text="onnotify(obj:nexacro.UbiDocuMaker, e:nexacro.UbiDocuMakerNotifyEventInfo)">
+          <Return type="" description=""/>
+          <Arguments>
+            <Argument name="obj" type="nexacro.UbiDocuMaker" in="false" out="false" option="false" variable="false" description="Event가 발생한 Object."/>
+            <Argument name="e" type="nexacro.UbiDocuMakerNotifyEventInfo" in="false" out="false" option="false" variable="false" description="Event Object."/>
+          </Arguments>
+        </Syntax>
+      </EventHandler>
+    </EventHandlerInfo>
+  </Object>
+</MetaInfo>

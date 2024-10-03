@@ -1,0 +1,116 @@
+@import url(./font-style.css);
+
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+}
+
+#outerContainer{
+    background-color: rgba(237, 237, 240, 1);
+}
+
+.Editor-Component-Active-Button {
+    z-index: 100 !important;
+}
+
+.Zoom-Out-Button,
+.Zoom-In-Button {
+    background-color: transparent !important;
+}
+
+/* ===================================================================================================
+   reser 1024
+=================================================================================================== */
+body {
+    background-color: #fff !important;
+}
+
+
+.User-Component-List-Conatiner {
+    border: solid 2px #E9BD74 !important;
+    margin-bottom: 6px;
+}
+
+.User-Component-List>li:first-child>span {
+    background-image: url(../images/icon_people.png);
+    background-position: 0 3px !important;
+    background-repeat: no-repeat;
+    background-size: 14px;
+    padding-left: 20px;
+}
+
+
+
+/* templateMod.scss reset 1024*/
+.Editor-Toolbar {
+    /* background-color: #E0A038 !important; */
+    /*background-color: #69aaec !important;*/
+    background: linear-gradient(#84A9F9, #6E92F6);
+}
+
+.Editor-Toolbar-Group.Center>span {
+    color: #ffffff !important;
+}
+
+.Toolbar-Button-Divider {
+    background-color: #ffffff !important;
+}
+
+.Editor-Component_Box div ul>li>span.tit,
+.Editor-Toolbar-Group.Center>span,
+.Attribute-Contents-Row .Title,
+.Attribute-Contents-Row-CheckBox-Container,
+.Template-Button,
+.Editor-Toolbar-Group.Right #scaleSelectContainer.Toolbar-Label,
+.User-Component-List>li,
+.User-Component-List>li:nth-child(1) {
+    font-family: 'Noto Sans', 'Malgun Gothic', Dotum, Helvetica, 'Apple SD Gothic Neo', Sans-serif !important;
+}
+
+.Editor-Component_Box div ul>li>span.tit {
+    font-weight: 500 !important;
+}
+
+/* .align-start {
+    align-items: flex-start !important;
+} */
+
+.min-w1200 {
+    width: 100%;
+    min-width: 1200px;
+    overflow-x: auto;
+}
+
+/*
+파일업로드
+*/
+.dragAndDropDiv {
+    border: 4px dashed #92AAB0;
+    width: calc(100% - 28px);
+    height: calc(100% - 28px);
+    min-height: 300px;
+    color: #92AAB0;
+    text-align: center;
+    vertical-align: middle;
+    margin: 10px;
+    font-size: 200%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dragAndDropDiv_content {
+    text-align: center;
+}
+
+/*
+임시 처리
+ */
+.Upload-Button,
+.Preview-Button{
+    display: none;
+}

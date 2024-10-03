@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="AL_AreaUnitMM" width="1360" height="575" titletext="지역별 금액 관리">
+    <Layouts>
+      <Layout height="575" mobileorientation="landscape" width="1360">
+        <Div id="div_ClientList" taborder="0" text="" left="8" top="8" height="43" cssclass="div_WF_SchList" right="8">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <Grid id="grd_ClientList" taborder="1" left="8" top="59" binddataset="Dataset00" autofittype="col" right="8" bottom="8" oncelldblclick="grd_ClientList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="112"/>
+                <Column size="112"/>
+                <Column size="154"/>
+                <Column size="122"/>
+                <Column size="78"/>
+                <Column size="181"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="적용년도"/>
+                <Cell col="1" text="지역코드"/>
+                <Cell col="2" text="지역이름"/>
+                <Cell col="3" text="금액"/>
+                <Cell col="4" text="사용여부"/>
+                <Cell col="5" text="비고"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:Column0"/>
+                <Cell col="1" text="bind:Column1"/>
+                <Cell col="2" text="bind:Column2"/>
+                <Cell col="3" text="bind:Column3"/>
+                <Cell col="4" text="bind:Column4"/>
+                <Cell col="5" text="bind:Column5"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

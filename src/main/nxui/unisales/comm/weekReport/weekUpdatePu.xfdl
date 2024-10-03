@@ -1,0 +1,604 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="boardUpdatePu" width="950" height="758" titletext="게시판 수정 팝업" onload="form_onload" ontimer="bizBoardInputPopup_ontimer">
+    <Layouts>
+      <Layout height="758" mobileorientation="landscape" width="950">
+        <Static id="staBoardTitle" taborder="0" text="주간보고" left="25" top="0" height="43" cssclass="sta_WF_Title" width="265"/>
+        <Div id="divContents" taborder="1" left="25" top="staBoardTitle:10" right="25" minheight="589" maxheight="" height="617">
+          <Layouts>
+            <Layout>
+              <Static id="staBg00" taborder="0" text="Static02" left="0" top="0" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staBg01" taborder="1" text="Static02" left="0" top="staBg00:-1" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle00" taborder="2" text="작성자" left="0" top="0" width="83" height="34" cssclass="sta_WF_Label"/>
+              <Static id="staTitle02" taborder="3" text="년월" left="0" top="staTitle00:-1" width="83" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtInpId" taborder="4" left="staTitle00:4" top="4" width="188" height="26" readonly="true"/>
+              <Div id="divFile" taborder="5" text="div00" left="0" right="0" height="149" top="99">
+                <Layouts>
+                  <Layout>
+                    <Static id="staBg03" taborder="0" text="Static02" left="0" top="0" cssclass="sta_WF_LabelBg" right="0" bottom="0"/>
+                    <Static id="staTitle04" taborder="1" text="첨부파일" left="0" top="0" width="83" cssclass="sta_WF_Label" bottom="0"/>
+                    <Button id="btnFileDel" taborder="2" text="전체삭제" top="5" width="62" height="22" cssclass="btn_WF_Detail" right="5" onclick="divContents_divFile_btnFileDel_onclick"/>
+                    <Button id="btnFile" taborder="3" text="파일찾기" top="5" width="62" height="22" cssclass="btn_WF_Detail" right="btnFileDel:5" onclick="divContents_divFile_btnFile_onclick"/>
+                    <Grid id="grdFile" taborder="4" left="staTitle04:4" top="btnFile:5" right="5" bottom="5" binddataset="dsUpload" autofittype="col" oncellclick="divContents_divFile_grdFile_oncellclick" ondrop="divContents_divFile_grdFile_ondrop">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="545"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="32"/>
+                          </Rows>
+                          <Band id="body">
+                            <Cell text="bind:OTXT_FILE_NM" textAlign="left"/>
+                            <Cell col="1" text="삭제" displaytype="buttoncontrol" edittype="button"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Static id="sta00" taborder="5" text="★ 주간보고 문서는 첫번째 파일로 등록하도록 합니다. (MS Word)" left="90" top="6" width="655" height="17"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="staBg01_00" taborder="6" text="Static02" left="0" top="66" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staTitle02_00" taborder="7" text="제목" left="0" top="66" width="83" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edtTitle00" taborder="8" left="87" top="70" height="26" right="5"/>
+              <Static id="staTitle02_01" taborder="9" text="팀" left="360" top="0" width="83" height="34" cssclass="sta_WF_Label"/>
+              <WeekByMonthCalendar id="WeekByMonthCalendar00" taborder="10" left="87" top="37" width="140" height="26"/>
+              <Combo id="cboTeam" taborder="11" text="cbo00" left="453" top="4" width="232" height="26" innerdataset="dsTeam" codecolumn="CODE" datacolumn="NAME" enable="false"/>
+              <Static id="staBg00_00" taborder="12" text="Static02" left="0" top="247" cssclass="sta_WF_LabelBg" right="0" height="364"/>
+              <Static id="staTitle03" taborder="14" text="내용" left="0" top="247" width="83" cssclass="sta_WF_Label" height="364"/>
+              <WebBrowser id="webEditor" taborder="13" left="157" top="265" right="103" onloadcompleted="divContents_divCont_webEditor_onloadcompleted" onusernotify="divContents_divCont_webEditor_onusernotify" height="339"/>
+              <Static id="sta00_00" taborder="15" left="275" top="42" width="52" height="19" text="주차"/>
+              <Edit id="edt00" taborder="16" left="238" top="39" width="27" height="23" enable="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divButton" taborder="2" text="div00" top="divContents:20" right="25" height="28" width="265">
+          <Layouts>
+            <Layout>
+              <Button id="btnClose" taborder="0" text="닫기" height="28" width="50" fittocontents="width" right="0" top="0" onclick="divButton_btnClose_onclick"/>
+              <Button id="btnSave" taborder="1" text="저장" height="28" width="68" fittocontents="width" right="btnClose:4" top="0" onclick="divButton_btnSave_onclick" cssclass="btn_WF_CrudSave"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staBottom" taborder="3" left="0" top="divButton:0" height="20" right="0"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	boardUpdatePu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/03/09
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/03/09			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvApndYn    = ""; //첨부파일유무
+this.fvTitle  	 = ""; //게시판 타이틀
+this.fvFile      = null; //file Dataset
+this.fvList      = null; //board Dataset
+this.fvLoginUser = ""; //로그인유저ID
+this.fvLoginUserEmpNo = ""; //로그인유저EMP_NO
+this.fvOpenType  = "";
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	if(this.opener) {
+		this.dsTeam.copyData(this.opener.dsTeam);
+	}
+	
+	var t = "";
+	if(this.getOwnerFrame().pvOpenType == "read") {
+		t = "조회";
+	} else if(this.getOwnerFrame().pvOpenType == "add") {
+		t = "등록";
+	} else if(this.getOwnerFrame().pvOpenType == "edit") {
+		t = "수정";
+	}
+	this.staBoardTitle.set_text(this.staBoardTitle.text + t);
+	
+	//받아온값 세팅
+	this.fvNo = this.getOwnerFrame().pvNo;
+	if(this.fvNo) {
+		if(this.getOwnerFrame().pvOpenType == "read") {
+			this.fnReadOnly();
+			var oWeb = this.divContents.form.webEditor;
+			this.gfnCreateHtmlViewer(oWeb);	
+		} else {
+			var oWeb = this.divContents.form.webEditor;
+			this.gfnCreateWebEditor(oWeb);
+		}
+		this.dsCond.setColumn(0, "RPT_NO", this.getOwnerFrame().pvNo);
+		this.fnSearch();
+	} else {
+		this.dsList.addRow();
+		this.dsList.setColumn(0, "DEPT_CD", this.gfnGetUserInfo("DEPT_CD"));
+		this.dsList.setColumn(0, "USER_NAME", this.gfnGetUserInfo("USER_NAME"));
+		var oWeb = this.divContents.form.webEditor;
+		this.gfnCreateWebEditor(oWeb);
+	}
+
+	//formSize조정
+	this.fnSetFormInit();
+	
+	
+	var pThis = this;
+	this.divContents.form.WeekByMonthCalendar00.selectCallBack = function(a, b) {
+		var t = a.substr(0,4) + "년 " + a.substr(4,2) + "월 ";
+		t = t + b + "주차 ";
+		t = t + pThis.divContents.form.cboTeam.text + " 주간보고";
+		//pThis.divContents.form.edt00.set_value(parseInt(b));
+		pThis.dsList.setColumn(0, "RPT_CNT", b);
+		pThis.divContents.form.edtTitle00.set_value(t);
+	};
+
+};
+
+this.fnReadOnly = function() {
+	this.fvOpenType = "read";
+	this.divContents.form.WeekByMonthCalendar00.set_enable(false);
+	this.divContents.form.edtTitle00.set_enable(false);
+	this.divContents.form.divFile.form.btnFile.set_visible(false);
+	this.divContents.form.divFile.form.btnFileDel.set_visible(false);
+	this.divButton.form.btnSave.set_visible(false);
+	this.divContents.form.divFile.form.grdFile.setFormatColProperty(1,"size",0);
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+this.fnSearch = function ()
+{
+	this.gfnSetMap("board", "WeekReport");
+	
+	var strSvcId    = "selectWeekReport";
+	var strSvcUrl   = "searchCommonBaseService.do";
+	var inData      = "dsCond=dsCond dsMap=dsMap";
+	var outData     = "dsList=dsList";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+						
+	this.gfnSetMap("board", "WeekReportFile");
+	
+	var strSvcId    = "selectWeekReportFile";
+	var strSvcUrl   = "searchCommonBaseService.do";
+	var inData      = "dsCond=dsCond dsMap=dsMap";
+	var outData     = "dsUpload=dsList";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]						
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//파일업로드
+this.fnFileUploadTran = function ()
+{
+	var sBoardId = this.dsList.getColumn(0,"BLBD_CD");
+	var sFileId = this.dsList.getColumn(0, "FILE_ID");
+	if(this.gfnIsNull(sFileId)) sFileId = "";
+	
+	this.futFile.setPostData("FILE_ID" , sFileId);
+	
+	this.futFile.upload("svcUrl::weekReportFileUpload.do");
+};
+
+//내용저장
+this.fnTranSave = function ()
+{
+	this.gfnSetMap("board", "WeekReport");
+	
+	var strSvcId    = "saveBoardContents";
+	var strSvcUrl   = "saveCommonBaseService.do";
+	var inData      = "dsList=dsList:A dsMap=dsMap";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+this.fnTranDeleteFile = function ()
+{
+	var strSvcId    = "deleteweekReportFile";
+	var strSvcUrl   = "deleteweekReportFile.do";
+	var inData      = "dsList=dsUpload:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction callback
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "selectWeekReport" :
+			var date = this.dsList.getColumn(0, "RPT_YEAR");
+			date = date + this.dsList.getColumn(0, "RPT_MONTH") + "01";
+			this.divContents.form.WeekByMonthCalendar00.setDate(date);
+			this.setTimer(0,300);
+			break;
+		case "saveBoardContents":
+			//저장
+			this.gfnAlert("msg.save.success", [], "saveAfter", "fnMsgCallback");
+			break;
+		case "deleteweekReportFile":
+			this.gfnAlert("msg.delete.success", [], "deleteAfter", "fnMsgCallback");
+			break;
+		default:break;
+	}
+};
+
+//message callback
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "deleteFileUpdate":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}
+			var nRow 	 = this.dsUpload.rowposition;
+			var nRowType = this.dsUpload.getRowType(nRow);
+			var sFileNm  = this.dsUpload.getColumn(nRow, "OTXT_FILE_NM");
+			
+			this.dsUpload.deleteRow(nRow);
+			this.fnTranDeleteFile();
+			break;
+		case "deleteFileAllUpdate":
+			//입력모드일경우 지금 첨부된 파일이므로 그냥 삭제
+			var nCount = this.dsUpload.getCaseCount('dataset.getRowType(rowidx)==2');
+			var nTotalCnt = this.dsUpload.getRowCount();
+			if ( nCount > 0 ){
+				this.futFile.clearFileList();
+			}
+			this.dsUpload.deleteAll();
+			if( nCount == nTotalCnt){
+				this.fnFileInit();
+			}else{
+				this.fnTranDeleteFile();
+			}
+			break;
+		case "saveAfter":
+			if (sRtn)
+			{
+				this.opener.cfnSearch();
+				this.close();
+			}
+			break;
+		case "deleteAfter":
+			if (sRtn)
+			{
+				this.fnFileInit();
+			}
+			break;	
+		default: 
+			break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//초기 폼 세팅
+this.fnSetFormInit = function ()
+{
+	//게시판 제목설정
+	//this.staBoardTitle.set_text(this.fvTitle+" ");
+	this.resetScroll();
+	
+	if(this.fvApndYn=="0"){
+		//첨부파일 사용하지 않는 게시판 가리기
+		this.divContents.form.divFile.set_height(0);
+		this.divContents.form.divCont.set_bottom(0);
+		this.divContents.form.resetScroll();
+	}else{
+		//첨부파일영역 사이즈 조절
+		this.fnFileInit();
+	}
+};
+
+//div사이즈 조절
+this.fnFileInit = function ()
+{
+// 	var nRowCnt = this.dsUpload.getRowCount();
+// 	if(nRowCnt == 0 ) nRowCnt = 1;
+// 	var nHeigth = ( 32 * nRowCnt ) + 39;	
+// 	
+// 	this.divContents.form.divFile.set_height(nHeigth);
+// 	this.divContents.form.resetScroll();
+// 	
+// 	var nDivMainHeight = this.divContents.form.divFile.getOffsetBottom()+5;
+// 	this.divContents.set_height(nDivMainHeight);
+// 	this.resetScroll();
+};
+
+
+//파일세팅
+this.fnSetFile = function (aVFiles)
+{
+	var nLen = aVFiles.length;
+
+	var sFileId = "";
+	var oFile = null;
+		
+	for(var i=0; i<nLen; i++){
+		sFileId = aVFiles[i].filename;
+		oFile   = aVFiles[i];
+		
+		//중복확인
+		if(this.futFile.existFile(oFile)){
+			sFileId += "_" + this.dsUpload.getRowCount();
+		}
+		this.futFile.addFile(sFileId, oFile);
+		var nRow = this.dsUpload.addRow();
+		this.dsUpload.setColumn(nRow, "OTXT_FILE_NM", sFileId);
+	}
+	
+	this.fnFileInit();
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//웹브라우저 온로드 컴플리트
+this.divContents_divCont_webEditor_onloadcompleted = function(obj:nexacro.WebBrowser,e:nexacro.WebLoadCompEventInfo)
+{
+	if(this.fvOpenType == "read") {
+		//내용세팅
+		var sContents = this.dsList.getColumn(0, "CNTN");
+		var oWeb = this.divContents.form.webEditor;
+		this.gfnSetHtmlView(oWeb, sContents);
+	}
+};
+
+this.isLoad=false;
+//웹브라우저 유저노티
+this.divContents_divCont_webEditor_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+	if (e.userdata=="instanceReady" && !this.isLoad){
+		obj.callMethod("init", obj.getOffsetHeight()-40);
+		this.isLoad=true;
+		this.setTimer(0,300);
+	}
+};
+
+//저장버튼클릭
+this.divButton_btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var date = this.divContents.form.WeekByMonthCalendar00.getDate();	
+	if(this.gfnIsNull(date) == false) {
+		this.dsList.setColumn(0, "RPT_YEAR", date.substr(0,4));
+		this.dsList.setColumn(0, "RPT_MONTH", date.substr(4,2));
+		//this.dsList.setColumn(0, "RPT_CNT", parseInt(this.divContents.form.edt00.value));
+	} else {
+		this.dsList.setColumn(0, "RPT_YEAR", "");
+		this.dsList.setColumn(0, "RPT_MONTH", "");
+		this.dsList.setColumn(0, "RPT_CNT", 1);
+	}
+	
+	var sCont = "";
+	sCont = this.divContents.form.webEditor.callMethod("getData");	
+
+	this.dsList.setColumn(0, "CNTN", sCont);
+	
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+
+	this.gfnSetValidation(this.dsList, "RPT_YEAR", "년월"	, "required");
+	this.gfnSetValidation(this.dsList, "RPT_MONTH", "년월"	, "required");
+	//this.gfnSetValidation(this.dsList, "DEPT_CD", "팀"	, "required");
+	this.gfnSetValidation(this.dsList, "TITLE", "제목"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsList, "U") == false) return;
+	
+	if(this.dsUpload.rowcount == 0) {
+		this.gfnAlert("msg.err.nofile", []);
+		return;
+	}
+	
+	if(!this.gfnDsIsUpdated(this.dsUpload)&&!this.gfnDsIsUpdated(this.dsList)){
+			// 저장할 데이터가 없습니다.
+			this.gfnAlert("msg.save.nochange");
+			return;
+	}else{
+		if(this.gfnDsIsUpdated(this.dsUpload) && this.gfnDsIsUpdated(this.dsList)){
+			//file변경
+			if(this.futFile.filelist.length > 0){
+				this.fnFileUploadTran();
+			}
+		} else {
+			if(this.gfnDsIsUpdated(this.dsList)){
+				//내용변경
+				this.fnTranSave();
+			}
+		}
+	}
+};
+
+//닫기버튼클릭
+this.divButton_btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+//첨부파일 삭제 버튼 클릭
+this.divContents_divFile_grdFile_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var nRow = e.row;
+	if(e.cell == 1){
+		var nStatus = this.dsUpload.getRowType(nRow);
+		if( nStatus == 2){
+			//새로추가된 파일은 그냥 삭제
+			var sFileNm = this.dsUpload.getColumn(nRow, "OTXT_FILE_NM");
+			this.futFile.removeFile(sFileNm);
+			this.dsUpload.deleteRow(nRow);
+			this.fnFileInit();
+		}else{
+			//이미 서버에 저장된 파일은 파일 삭제 진행
+			this.gfnAlert("confirm.before.filedelete",[],"deleteFileUpdate", "fnMsgCallback");
+		}
+	} else {
+		var fileId = this.dsUpload.getColumn(this.dsUpload.rowposition, "FILE_ID");
+		if(this.gfnIsNull(fileId) == false) {
+			var sFileNm 	= this.dsUpload.getColumn(e.row, "OTXT_FILE_NM");
+			var sSaveFileNm = this.dsUpload.getColumn(e.row, "SAVE_FILE_NM");
+			this.fdtFile.setPostData("saveFileName"	, "weekreport/" + sSaveFileNm);
+			this.fdtFile.setPostData("orgFileName"	, sFileNm);
+			
+			this.fdtFile.set_downloadfilename(sFileNm)
+			this.fdtFile.download("svcUrl::fileDownload.do");
+		}
+	}
+};
+
+
+//첨부파일 전체 삭제
+this.divContents_divFile_btnFileDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnAlert("confirm.before.filedeleteall",[],"deleteFileAllUpdate", "fnMsgCallback");
+};
+
+//파일 드래그 앤 드랍 
+this.divContents_divFile_grdFile_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
+{
+	this.fnSetFile(e.filelist);
+};
+
+//첨부파일 선택
+this.divContents_divFile_btnFile_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fdgFile.open("file upload..", FileDialog.MULTILOAD);
+};
+
+//파일다이얼로그 클로즈
+this.fdgFile_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	if( e.reason == 3 ){
+		//멀티업로드일경우
+		this.fnSetFile(e.virtualfiles);
+	}
+};
+
+//파일업로드트랜스퍼 온 에러 
+this.futFile_onerror = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferErrorEventInfo)
+{
+	this.gfnAlert("msg.server.error.msg" ,[e.errormsg]);
+};
+
+//파일업로드트랜스퍼 온 서세스
+this.futFile_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventInfo)
+{
+	this.futFile.clearFileList();
+	this.dsList.setColumn(0, "FILE_ID", e.datasets[0].getColumn(0,"FILE_ID"));
+	this.fnTranSave();
+};
+
+this.bizBoardInputPopup_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+	if(e.timerid == 0){
+		this.killTimer(0);
+		
+		// 로딩 후 처리
+		var sCntn = this.dsList.getColumn(0, "CNTN");
+		if(!this.gfnIsNull(sCntn)){
+			this.divContents.form.webEditor.callMethod("setData", sCntn);
+		}
+	}	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="RPT_MONTH" type="string" size="32"/>
+          <Column id="KORN_NM" type="string" size="32"/>
+          <Column id="FILE_CNT" type="bigdecimal" size="8"/>
+          <Column id="RPT_NO" type="int" size="4"/>
+          <Column id="RPT_YEAR" type="string" size="32"/>
+          <Column id="REG_DATE" type="undefined" size="0"/>
+          <Column id="TITLE" type="string" size="32"/>
+          <Column id="FILE_ID" type="undefined" size="0"/>
+          <Column id="INPT_DTTM" type="undefined" size="0"/>
+          <Column id="DEPT_CD" type="string" size="32"/>
+          <Column id="RPT_CNT" type="INT" size="0"/>
+          <Column id="CNTN" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <FileDialog id="fdgFile" onclose="fdgFile_onclose"/>
+      <FileUpTransfer id="futFile" onsuccess="futFile_onsuccess" onerror="futFile_onerror"/>
+      <Dataset id="dsUpload">
+        <ColumnInfo>
+          <Column id="FILE_ID" type="STRING" size="256"/>
+          <Column id="FILE_SEQ" type="STRING" size="256"/>
+          <Column id="SAVE_FILE_NM" type="STRING" size="256"/>
+          <Column id="OTXT_FILE_NM" type="STRING" size="256"/>
+          <Column id="FILE_SIZE" type="STRING" size="256"/>
+          <Column id="FILE_TYPE" type="STRING" size="256"/>
+          <Column id="FILE_PATH_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTeam">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="RPT_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="RPT_NO"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <FileDownTransfer id="fdtFile" url="svcUrl::fileDownload.do" onerror="fdtFile_onerror" onsuccess="fdtFile_onsuccess"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item6" compid="divContents.form.edtInpId" propid="value" datasetid="dsList" columnid="USER_NAME"/>
+      <BindItem id="item0" compid="divContents.form.cboTeam" propid="value" datasetid="dsList" columnid="DEPT_CD"/>
+      <BindItem id="item1" compid="divContents.form.edtTitle00" propid="value" datasetid="dsList" columnid="TITLE"/>
+      <BindItem id="item3" compid="divContents.form.edt00" propid="value" datasetid="dsList" columnid="RPT_CNT"/>
+    </Bind>
+  </Form>
+</FDL>

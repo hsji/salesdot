@@ -1,0 +1,1253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AA_AuditResultPopup" width="1280" height="560" titletext="내부회계관리제도 결과등록" cssclass="frm_popBg" onload="AA_AuditResultPopup_onload">
+    <Layouts>
+      <Layout height="560" mobileorientation="landscape" width="1280">
+        <Button id="btn_Close" taborder="0" top="8" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="comm_Click" text="" escapebutton="true"/>
+        <Static id="stc_BottomFrame" taborder="1" left="2" height="35" right="1" bottom="1" cssclass="sta_POP_BtnBg" onclick="stc_BottomFrame_onclick"/>
+        <Static id="Static00" taborder="2" left="8" top="5" width="182" height="22" color="white" cssclass="sta_POP_Title " text="내부회계관리제도 결과등록"/>
+        <Button id="btn_Cancel" taborder="3" text="닫기" left="1202" top="531" width="65" height="22" cssclass="btn_WF_cancel" onclick="comm_Click"/>
+        <Button id="btn_Save" taborder="4" text="저장" left="1124" top="531" width="65" height="22" cssclass="btn_WF_tran" onclick="btn_Save_onclick"/>
+        <Grid id="grd_Export2" taborder="5" left="1375" top="223" width="431" height="153" binddataset="ds_Export2" visible="false" border="2px solid #fd5d2a, 0px none #808080, 1px solid #ccd0d3">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="197"/>
+                <Column size="55"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="NAME"/>
+                <Cell col="1"/>
+                <Cell col="2" colspan="6" text="VALUE"/>
+              </Band>
+              <Band id="body">
+                <Cell colspan="2" text="bind:NAME" textAlign="left"/>
+                <Cell col="2" colspan="6" text="bind:VALUE" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Export3" taborder="6" left="1375" top="396" width="265" height="64" binddataset="ds_Export3" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="48"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="NAME"/>
+                <Cell col="1"/>
+                <Cell col="2" text="VALUE"/>
+              </Band>
+              <Band id="body">
+                <Cell colspan="2" text="bind:NAME"/>
+                <Cell col="2" text="bind:VALUE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Export4" taborder="7" left="1372" top="472" width="398" height="32" binddataset="ds_Export4" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="110"/>
+                <Column size="102"/>
+                <Column size="31"/>
+                <Column size="29"/>
+                <Column size="33"/>
+                <Column size="31"/>
+                <Column size="25"/>
+                <Column size="28"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell colspan="2" text="bind:NAME" textAlign="left"/>
+                <Cell col="2" colspan="6" text="bind:VALUE" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Export5" taborder="8" left="1375" top="525" width="515" height="120" binddataset="ds_Export5" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="152"/>
+                <Column size="140"/>
+                <Column size="37"/>
+                <Column size="35"/>
+                <Column size="31"/>
+                <Column size="35"/>
+                <Column size="36"/>
+                <Column size="29"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell colspan="2" text="bind:NAME" textAlign="left"/>
+                <Cell col="2" colspan="6" text="bind:VALUE" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_Export6" taborder="9" left="1372" top="660" width="518" height="34" binddataset="ds_Export6" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="142"/>
+                <Column size="93"/>
+                <Column size="59"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="30"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell colspan="8" text="bind:NAME" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div_RequestContract" taborder="10" left="4" top="38" text="" height="72" enable="true" cssclass="div_WF_detailBg" right="4">
+          <Layouts>
+            <Layout>
+              <Static id="stc_title01" taborder="0" text="MajorProcess" left="8" top="8" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_MajorProcess" taborder="1" left="stc_title01:8" top="8" height="22" readonly="true" right="985"/>
+              <Static id="stc_title02" taborder="2" text="SubProcess" left="edt_MajorProcess:8" top="8" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_SubProcess" taborder="3" left="stc_title02:8" top="8" height="22" readonly="true" right="595"/>
+              <Static id="stc_title03" taborder="4" text="위험번호" left="edt_SubProcess:8" top="8" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_RiskNum" taborder="5" left="stc_title03:8" top="8" height="22" readonly="true" right="405"/>
+              <Static id="stc_title04" taborder="6" text="통제번호" left="edt_RiskNum:8" top="8" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_CtlNum" taborder="7" left="stc_title04:8" top="8" height="22" readonly="true" right="210"/>
+              <Static id="stc_title05" taborder="8" text="문서번호" left="edt_CtlNum:8" top="8" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_AuditNum" taborder="9" left="stc_title05:8" top="8" height="22" readonly="true" right="10"/>
+              <Static id="stc_title06" taborder="10" text="수행빈도" left="8" top="stc_title01:8" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_CtlCFR" taborder="11" left="stc_title06:8" top="38" height="22" readonly="true" right="985"/>
+              <Static id="stc_title07" taborder="13" text="통제유형" left="edt_CtlCFR:8" top="38" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_CtlType" taborder="12" left="stc_title07:8" top="38" height="22" readonly="true" right="795"/>
+              <Static id="stc_title08" taborder="14" text="샘플수" left="edt_CtlType:8" top="38" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_SampleCnt" taborder="15" left="stc_title08:8" top="38" height="22" readonly="true" right="595"/>
+              <Static id="stc_title09" taborder="16" text="표본기간" left="edt_SampleCnt:8" top="38" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_SampleDate" taborder="17" left="stc_title09:8" top="38" height="22" readonly="true" right="210"/>
+              <Static id="stc_title10" taborder="18" text="테스트수행자" left="edt_SampleDate:8" top="38" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_EmpNm" taborder="19" left="stc_title10:8" top="38" height="22" readonly="true" right="10"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_title02" left="8" top="72" width="64" height="30"/>
+              <Div id="div_Contract" left="80" top="72" height="30" right="4"/>
+              <Static id="stc_Project_Name00" left="8" top="38" width="64" height="30"/>
+              <Edit id="edt_ProjectName" left="80" top="38" height="30" right="4"/>
+              <Edit id="edt_MajorProcess" left="80" top="4" height="30" right="4"/>
+              <Static id="stc_title01" height="30" left="8" top="4" width="64"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_TestStep" taborder="11" left="5" text="" enable="true" width="756" height="147" top="113" cssclass="div_WF_detailBg" formscrollbartype="none">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_TestStep" taborder="0" left="0" top="30" binddataset="ds_TestStep" treeinitstatus="expand,all" treeusecheckbox="false" right="0" bottom="0" cellsizingtype="col" oncelldblclick="div_TestStep_grd_TestStep_oncelldblclick" autofittype="col" extendsizetype="row">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="649"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="43"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="일련번호"/>
+                      <Cell col="1" text="테스트 절차"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow + 1"/>
+                      <Cell col="1" text="bind:TEST_STEP_DESC" wordWrap="char" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Project_Name02" left="8" top="141" width="64" height="30" text="담당자"/>
+              <Static id="stc_Contract_Date00" top="39" height="30" right="100" width="60" text="요청일"/>
+              <MaskEdit id="msk_DtRequest" top="39" height="30" width="92" right="4"/>
+              <Static id="stc_Project_Name03" top="73" width="60" height="30" right="100"/>
+              <Edit id="edt_EmpReg" top="73" width="92" height="30" right="4"/>
+              <TextArea id="ta_ReqContents" left="81" top="175" right="4" bottom="4"/>
+              <Static id="stc_Contract_Date04" left="8" top="244" width="64" height="22"/>
+              <Combo id="cmb_EmpList" left="81" top="141" height="30" right="30"/>
+              <Static id="stc_VoucherNo" top="107" width="60" height="30" right="100" text="바우처"/>
+              <Edit id="edt_VoucherNo" top="107" width="66" height="30" right="30"/>
+              <Div id="div_EmpRequest" left="81" top="141" height="30" right="4"/>
+              <Button id="btn_PopupVoucherNo" top="107" width="26" height="30" right="4"/>
+              <Static id="Static05" left="8" top="107" width="64" height="30" textAlign="right"/>
+              <Combo id="cmb_MinTo" left="253" top="107" width="42" height="30"/>
+              <Combo id="cmb_HourTo" left="211" top="107" width="42" height="30"/>
+              <Calendar id="cal_DtTo" left="81" top="107" width="130" height="30"/>
+              <Edit id="edt_ProductName" left="81" top="39" height="30" width="214"/>
+              <Calendar id="cal_DtFrom" width="130" left="81" top="73" height="30"/>
+              <Combo id="cmb_MinFrom" left="253" top="73" width="42" height="30"/>
+              <Combo id="cmb_HourFrom" left="211" top="73" width="42" height="30"/>
+              <Static id="stc_Contract_Date" height="30" left="8" top="73" width="64"/>
+              <Static id="stc_Contract_Date01" height="30" left="8" top="39" width="64"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static01" taborder="12" left="5" top="113" height="31" cssclass="sta_POP_GroupBg" width="756" text=""/>
+        <Static id="stc_title11_01" taborder="13" text="테스트 절차" left="16" top="121" width="122" height="15" cssclass="sta_POP_GroupTit"/>
+        <Button id="btn_ExcelExport" taborder="14" text="Excel" height="22" right="607" width="68" cssclass="btn_WF_Excel" onclick="div_Search_btn_ExcelExport_onclick" bottom="420"/>
+        <Button id="btn_Search01" taborder="15" text="조회" left="681" top="118" width="68" height="22" cssclass="btn_WF_SchText" onclick="fn_QueryData"/>
+        <Div id="div_File" taborder="16" left="div_TestStep:8" text="" enable="true" height="147" top="113" cssclass="div_WF_detailBg" formscrollbartype="none" right="4">
+          <Layouts>
+            <Layout>
+              <Div id="div_Attachment03" taborder="0" left="0" top="30" right="0" bottom="0" url="Common::COM_AceAttachment.xfdl" BINDDATASET="ds_FileList" USE_DELETE_ALL="false" OPEN_ADD_DIALOG="false" USE_LINK_TYPE="false" USE_MULTI_FILE="true" USE_NEXT_FILE_TYPE="false" SOURCE_TYPE="AMT" text="" USE_FILE_TYPE="true"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Project_Name02" left="8" top="141" width="64" height="30" text="담당자"/>
+              <Static id="stc_Contract_Date00" top="39" height="30" right="100" width="60" text="요청일"/>
+              <MaskEdit id="msk_DtRequest" top="39" height="30" width="92" right="4"/>
+              <Static id="stc_Project_Name03" top="73" width="60" height="30" right="100"/>
+              <Edit id="edt_EmpReg" top="73" width="92" height="30" right="4"/>
+              <TextArea id="ta_ReqContents" left="81" top="175" right="4" bottom="4"/>
+              <Static id="stc_Contract_Date04" left="8" top="244" width="64" height="22"/>
+              <Combo id="cmb_EmpList" left="81" top="141" height="30" right="30"/>
+              <Static id="stc_VoucherNo" top="107" width="60" height="30" right="100" text="바우처"/>
+              <Edit id="edt_VoucherNo" top="107" width="66" height="30" right="30"/>
+              <Div id="div_EmpRequest" left="81" top="141" height="30" right="4"/>
+              <Button id="btn_PopupVoucherNo" top="107" width="26" height="30" right="4"/>
+              <Static id="Static05" left="8" top="107" width="64" height="30" textAlign="right"/>
+              <Combo id="cmb_MinTo" left="253" top="107" width="42" height="30"/>
+              <Combo id="cmb_HourTo" left="211" top="107" width="42" height="30"/>
+              <Calendar id="cal_DtTo" left="81" top="107" width="130" height="30"/>
+              <Edit id="edt_ProductName" left="81" top="39" height="30" width="214"/>
+              <Calendar id="cal_DtFrom" width="130" left="81" top="73" height="30"/>
+              <Combo id="cmb_MinFrom" left="253" top="73" width="42" height="30"/>
+              <Combo id="cmb_HourFrom" left="211" top="73" width="42" height="30"/>
+              <Static id="stc_Contract_Date" height="30" left="8" top="73" width="64"/>
+              <Static id="stc_Contract_Date01" height="30" left="8" top="39" width="64"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static02" taborder="17" left="769" top="113" height="31" cssclass="sta_POP_GroupBg" text="" right="2"/>
+        <Static id="stc_title11_00_00" taborder="18" text="모집단 리스트" left="778" top="121" width="122" height="15" cssclass="sta_POP_GroupTit"/>
+        <Div id="div_Result" taborder="19" left="4" top="div_TestStep:8" height="130" cssclass="div_WF_detailBg" right="4">
+          <Layouts>
+            <Layout>
+              <Static id="Static03" taborder="0" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" text="" right="0"/>
+              <Static id="stc_title11_01" taborder="1" text="결과" left="13" top="7" width="122" height="15" cssclass="sta_POP_GroupTit"/>
+              <Button id="btn_AllChk" taborder="2" text="일괄확인" left="1187" top="5" width="73" height="19" cssclass="btn_WF_tran" onclick="div_Result_btn_AllChk_onclick"/>
+              <Grid id="grd_Result" taborder="3" left="0" top="30" right="0" bottom="0" cellsizingtype="col" binddataset="ds_Result" treeinitstatus="expand,all" treeusecheckbox="false" oncellclick="div_Result_grd_Result_oncellclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="423"/>
+                      <Column size="48"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="50"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="일련번호"/>
+                      <Cell col="1" text="샘플명"/>
+                      <Cell col="2" text="1"/>
+                      <Cell col="3" text="결과"/>
+                      <Cell col="4" text="첨부파일"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow + 1"/>
+                      <Cell col="1" text="bind:PROOF_SERIAL_NUM" tooltiptext="bind:PROOF_SERIAL_NUM" tooltiptype="inplace" edittype="expr:strUseAuth=='3'?'none':'text'"/>
+                      <Cell col="2" text="bind:TS_RESULT1" displaytype="combotext" edittype="expr:strUseAuth=='3'?'none':'combo'" combodataset="ds_TestResult" combodatacol="CAPTION" combocodecol="CODE"/>
+                      <Cell col="3" text="bind:TEST_RESULT_CD" displaytype="combotext" combodataset="ds_TestResult" combodatacol="CAPTION" combocodecol="CODE"/>
+                      <Cell col="4" text="expr:첨부 ('+dataset.getColumn(currow, &quot;FILE_CNT&quot;)+')'" displaytype="buttoncontrol" edittype="button"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button id="btn_ResultDelRow" taborder="4" left="1234" top="33" width="16" height="16" cssclass="btn_POP_Del" onclick="div_Result_btn_ResultDelRow_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_Improvement" taborder="20" left="4" top="div_Result:8" height="112" right="4" cssclass="div_WF_detailBg">
+          <Layouts>
+            <Layout>
+              <Static id="Static04" taborder="0" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" text="" right="0"/>
+              <Static id="stc_title11_01" taborder="1" text="예외사항" left="13" top="7" width="122" height="15" cssclass="sta_POP_GroupTit"/>
+              <Grid id="grd_Improvement" taborder="2" left="0" top="31" right="0" bottom="0" binddataset="ds_Improvement" treeinitstatus="expand,all" treeusecheckbox="false" cellsizingtype="col" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="569"/>
+                      <Column size="597"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="28"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="일련번호"/>
+                      <Cell col="1" text="발견사항"/>
+                      <Cell col="2" text="개선안"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow + 1"/>
+                      <Cell col="1" text="bind:DISCOVERY_DESC" displaytype="text" edittype="textarea" tooltiptext="bind:DISCOVERY_DESC" tooltiptype="inplace" textAlign="left"/>
+                      <Cell col="2" text="bind:IMPROVEMENT_METHOD_DESC" edittype="textarea" displaytype="text" tooltiptext="bind:IMPROVEMENT_METHOD_DESC" tooltiptype="inplace" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button id="btn_DelRow" taborder="4" left="1234" top="35" width="16" height="16" cssclass="btn_POP_Del" onclick="div_Improvement_btn_DelRow_onclick"/>
+              <Button id="btn_AddRow" taborder="3" left="1206" top="35" height="16" cssclass="btn_POP_Add" right="44" onclick="div_Improvement_btn_AddRow_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_title11_01_00" taborder="21" text="운영의 효과성에 대한 결론" left="17" top="532" width="172" height="15" cssclass="sta_POP_GroupTit"/>
+        <Combo id="cb_Lifecycle" taborder="22" value="SMS" text="문자발송" index="0" left="203" top="530" width="150" height="22" innerdataset="ds_AppraisalResult" datacolumn="CAPTION" codecolumn="CODE"/>
+        <Grid id="grd_Export1" taborder="23" left="210" top="644" width="587" height="127" binddataset="ds_Export1" visible="false" color="#405980">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell colspan="8" text="bind:VALUE" textAlign="left" background="#191970" color="white"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_WorkFinish" taborder="24" text="완료" left="1187" top="119" width="73" height="19" cssclass="btn_WF_tran" onclick="btn_WorkFinish_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 내부회계관리제도 - 진행현황결과
+* 02. 화면명   : 진행현황결과(AA_AuditResultPopup)
+* 03. 화면설명 : 진행현황결과
+* 04. 작성일   : 2021.06.09
+* 05. 작성자   : 박종언
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+var strSMSeq;
+var strAuditSeq;
+var objVFList = new Array();
+var bUpdateFlag = false;
+var strUseAuth = '3';	// '1':관리자, '2':평가자, '3':TP작성자
+
+//첨부파일 사용 변수
+var strSourceType = "AMT";	//	모집단 리스트 첨부파일(테스트 절차)
+var strSourceCode;
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AA_AuditResultPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	strSMSeq	= this.parent.strSMSeq;
+	strAuditSeq = this.parent.strAuditSeq;
+	strSourceType = "AMT";
+	strSourceCode = strAuditSeq;
+	
+	// COM_AceAttachment에 SOURCE_CODE, SOURCE_CODE1 값 넘기기 위한 작업
+	this.div_File.form.div_Attachment03.SOURCE_CODE = strAuditSeq;		// 문서 또는 일련번호
+	this.div_File.form.div_Attachment03.SOURCE_CODE1 = strSMSeq;		// 회차
+	this.div_File.form.div_Attachment03.SOURCE_TYPE = strSourceType;	// AMT
+	
+	// COM_AceAttachment 실행
+	this.div_File.form.div_Attachment03.form.fn_Init("load");
+	
+	this.fn_CodeData();
+};
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else
+	{
+		if(strSvcID=="gfnGetCode") {
+			this.fn_QueryData();
+		}
+		else if(strSvcID=="Search") {
+			this.fn_Display();
+			this.fn_RedrowResultGrid();
+			var nRowCnt = this.ds_AM_List.getColumn(0, "REAL_SAMPLE_CNT");
+			nRowCnt -= this.ds_Result.rowcount;
+			
+			if (nRowCnt < 0)
+			{
+				var nCmpVal = this.ds_Result.rowcount - (nRowCnt*-1); 
+				
+				for ( var i=this.ds_Result.rowcount; i>=nCmpVal; i--)
+				{
+					this.ds_Result.deleteRow(i);
+				}
+			}
+			else 
+			{
+				for (var i=0; i<nRowCnt; i++)
+				{
+					var nRow = this.ds_Result.addRow();
+					this.ds_Result.setColumn(nRow, "SM_SEQ",			strSMSeq);
+					this.ds_Result.setColumn(nRow, "AUDIT_SEQ",  	strAuditSeq);
+					
+					for (var j=0; j<this.ds_TestStep.rowcount; j++)
+					{
+						this.ds_Result.setColumn(nRow, "RTS_SEQ"+(j+1),  this.ds_TestStep.getColumn(j, "TS_SEQ"));
+					}
+				}
+			}
+			bUpdateFlag = false;
+		}
+		else if (strSvcID=="AMM_Test_Save")
+		{
+			alert("저장되었습니다.");
+			this.fn_QueryData();
+		}
+	}
+};
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 01 공통코드 조회
+this.fn_CodeData = function()
+{
+	this.gfnAddCodeDataset("ds_TestResult", "TEST_RESULT2");   			// 수행빈도
+    this.gfnAddCodeDataset("ds_AppraisalResult", "APPRAISAL_RESULT");	// 통제유형
+	this.gfnCodeTransaction(); // 공통 코드 조회
+};
+
+// 02 Datail 조회
+this.fn_QueryData = function()
+{
+	// Parameter 셋팅
+ 	this.gfnAddSendParameter("SM_SEQ",		strSMSeq);
+ 	this.gfnAddSendParameter("AUDIT_SEQ",	strAuditSeq);
+ 	
+ 	// FILE 첨부 조회 입력값
+ 	this.gfnAddSendParameter("SOURCE_TYPE",	strSourceType); // AMT
+ 	this.gfnAddSendParameter("SOURCE_CODE",	strAuditSeq);	// 문서번호(내부감사일련번호)
+ 	this.gfnAddSendParameter("SOURCE_CODE1",	strSMSeq);	// 회차
+
+	/* 조회용 Output Dataset 셋팅 
+		1. AM_MASTER_DETAIL_SEL
+		2. AM_TEST_STEP_FILE_MASTER ( 파일은 다른 곳에서 셋팅 )
+		3. AM_TEST_STEP_SEL
+		4. AM_RESULT_SEL
+		5. AM_IMPROVEMENT_METHOD_SEL
+	*/
+	this.gfnAddOutputDataset("ds_AM_List"	, "dsAmListOutput");
+	this.gfnAddOutputDataset("ds_FileList"	, "dsFileListOutput");
+	this.gfnAddOutputDataset("ds_TestStep"	, "dsTsOutput");
+	this.gfnAddOutputDataset("ds_Result"	, "dsResOutput");
+	this.gfnAddOutputDataset("ds_Improvement"	, "dsImprovOutput");
+	
+	// 공통 Transaction
+	this.gfnCommonTransaction("Search", "AA_AuditResult_S01");
+};
+
+//화면 셋팅
+this.fn_Display = function()
+{
+	/*	strUseAuth(권한) :   1(관리자)  2(평가자)  3(TP작성자)  */
+	var app = nexacro.getApplication();
+	var strEmpNo = app.gdsUserInfo.getColumn(0, "EMP_NO");
+    var strDeptNo = app.gdsUserInfo.getColumn(0, "DEPT_CD");
+
+	if ( this.ds_AM_List.getColumn(0, "APPRAISAL_EMPNO") == strEmpNo) strUseAuth = '2';
+	else if(this.commUtil.getFormAuthority(313,1)) // 전산관리자, 송용호팀장 관리자 권한
+	{
+		strUseAuth = '1';
+	}
+	
+	//trace("strUseAuth:["+strUseAuth+"]");
+	if (strUseAuth == '3')
+	{
+		this.div_Improvement.form.btn_AddRow.set_visible(false);
+		this.div_Improvement.form.btn_DelRow.set_visible(false);
+		this.div_Result.form.btn_ResultDelRow.set_visible(false);
+		this.div_Improvement.form.grd_Improvement.set_readonly(true);
+		this.cb_Lifecycle.set_readonly(true);
+		this.div_Result.form.btn_AllChk.set_visible(false);	// 일괄확인 버튼 비활성화 
+	}
+};
+
+//권한에 따른 displaytype , edittype 설정
+this.fn_ModType = function(modType, tgCol, strUseAuth)
+{
+	var reVal = "";
+	if(tgCol == 'PROOF_SERIAL_NUM')
+	{
+		if(modType == 'edittype')
+		{
+			if(strUseAuth == '3') reVal = 'none';
+			else reVal = 'text';
+		}	
+	}
+	else if(tgCol == 'TS_RESULT')
+	{
+		if(modType == 'displaytype')
+		{
+			if(strUseAuth == '3') reVal = 'combotext';
+			else reVal = 'combocontrol';
+		}
+		else if(modType = 'edittype')
+		{
+			if(strUseAuth == '3') reVal = 'none';
+			else reVal = 'combo';
+		}
+	}
+	return reVal;
+};
+
+//결과 체크 컬럼 셋팅
+this.fn_RedrowResultGrid = function()
+{
+	var strGrdFormat = "";
+	var strDyColumnFormat = "";
+	var strDyHeadColFormat = "";
+	var strDyBodyColFormat = "";
+	var TestColCnt = this.ds_TestStep.rowcount;
+	if (TestColCnt <=0) return;
+	
+	for (var i=0; i<TestColCnt; i++)
+	{
+		if (i==0) continue;
+		strDyColumnFormat += '		<Column size="50" />\n';
+		strDyHeadColFormat += '		<Cell col="'+(i+2)+'" text="'+(i+1)+'"/>\n';
+		strDyBodyColFormat += '		<Cell col="'+(i+2)+'" text="bind:TS_RESULT'+(i+1)+'" combodataset="ds_TestResult" combocodecol="CODE" combodatacol="CAPTION" displaytype="'+this.fn_ModType('displaytype', 'TS_RESULT', strUseAuth)+'" edittype="'+this.fn_ModType('edittype', 'TS_RESULT', strUseAuth)+'"/>\n';
+	}
+	
+	//trace("strUseAuth:["+strUseAuth+"]");
+	strGrdFormat = '<Formats>\n';
+	strGrdFormat += '	<Format id="default">\n';
+	strGrdFormat += '	  <Columns>\n';
+	strGrdFormat += '		<Column size="60" />\n';
+	strGrdFormat += '		<Column size="300" />\n';
+	strGrdFormat += '		<Column size="60" />\n';
+	strGrdFormat += strDyColumnFormat;
+	strGrdFormat += '		<Column size="70" />\n';
+	strGrdFormat += '		<Column size="80" />\n';
+	strGrdFormat += '	  </Columns>\n';
+	strGrdFormat += '	  <Rows>\n';
+	strGrdFormat += '		<Row size="24" band="head" />\n';
+	strGrdFormat += '		<Row size="24" />\n';
+	strGrdFormat += '	  </Rows>\n';
+	strGrdFormat += '	  <Band id="head">\n';
+	strGrdFormat += '		<Cell text="일련번호"/>\n';
+	strGrdFormat += '		<Cell col="1" text="샘플명"/>\n';
+	strGrdFormat += '		<Cell col="2" text="1"/>\n';
+	strGrdFormat +=	strDyHeadColFormat;
+	strGrdFormat += '		<Cell col="'+(TestColCnt+2)+'" text="결과"/>\n';
+	strGrdFormat += '		<Cell col="'+(TestColCnt+3)+'" text="첨부파일"/>\n';
+	strGrdFormat += '	  </Band>\n';
+	strGrdFormat += '	  <Band id="body">\n';
+	strGrdFormat += '		<Cell text="expr:currow&#32;+&#32;1"/>\n';
+	strGrdFormat += '		<Cell col="1" textAlign="left" text="bind:PROOF_SERIAL_NUM" edittype="'+this.fn_ModType('edittype', 'PROOF_SERIAL_NUM', strUseAuth)+'" tooltiptype="inplace" tooltiptext="bind:PROOF_SERIAL_NUM" />\n';
+	strGrdFormat += '		<Cell col="2" text="bind:TS_RESULT1" combodataset="ds_TestResult" combocodecol="CODE" combodatacol="CAPTION" displaytype="'+ this.fn_ModType('displaytype', 'TS_RESULT', strUseAuth) +'" edittype="'+this.fn_ModType('edittype', 'TS_RESULT', strUseAuth) + '" />\n';
+	strGrdFormat += strDyBodyColFormat;
+	strGrdFormat += '		<Cell col="'+(TestColCnt+2)+'" displaytype="combotext" text="bind:TEST_RESULT_CD" combodataset="ds_TestResult" combocodecol="CODE" combodatacol="CAPTION"/>\n';
+	strGrdFormat += '		<Cell col="'+(TestColCnt+3)+'" displaytype="buttoncontrol" edittype="button" text="expr:dataset.getColumn(currow,&#32;&quot;FILE_CNT&quot;)&#32;&gt;&#32;0?&apos;첨부&#32;(&apos;+dataset.getColumn(currow,&#32;&quot;FILE_CNT&quot;)+&apos;)&apos;&#32;:&#32;&apos;첨부&apos;"/>\n';
+	strGrdFormat += '	  </Band>\n';
+	strGrdFormat += '	</Format>\n';
+	strGrdFormat += '	</Formats>\n';
+	this.div_Result.form.grd_Result.set_formats(strGrdFormat);
+	this.div_Result.form.grd_Result.set_autofittype("col");
+};
+
+this.fn_SaveData = function()
+{	
+	// 저장용 Input Dataset 셋팅
+	/*
+		1. AM_MASTER_UPDATE
+		2. AM_RESULT
+		3. AM_IMPROVEMENT_METHOD
+		4. FILE_MASTER		
+	*/
+	this.gfnAddInputDataset("ds_AM_List",		"dsAmList");
+	this.gfnAddInputDataset("ds_Result",		"dsResult");
+	this.gfnAddInputDataset("ds_Improvement",	"dsImprovement");
+	//this.gfnAddInputDataset("ds_FileList",		"dsFileList");
+	
+	// 공통 Transaction
+	this.gfnCommonTransaction("AMM_Test_Save", "AA_AuditResult_R01");
+}
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		case "btn_Close" : 
+			this.commUtil.popupClose("");
+			break;
+		case "btn_Cancel" :
+			if ( bUpdateFlag && confirm("변경된 내용이 있습니다. 저장하시겠습니까?") )	this.fn_SaveData();
+			else 
+			{
+				this.opener.fn_QueryData(); // 메인 화면 조회 
+				this.commUtil.popupClose("");
+			}
+			break;
+	}
+};
+
+//테스트 절차 상세 팝업 
+this.div_TestStep_grd_TestStep_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var sArgument = 
+	{
+		 strReviewDoc 	 	: this.ds_AM_List.getColumn(0, "REVIEW_DOC_DESC")
+		,strTestMethod		: this.ds_AM_List.getColumn(0, "TEST_METHOD_DESC")
+	}
+	this.commUtil.popup(this, "TestStepPopup", "Admin::AA_TestStepPopup.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+};
+
+//결과 리스트 수정시 발생 이벤트
+this.ds_Result_oncolumnchanged = function(obj:Dataset, e:DSColChangeEventInfo)
+{
+	if (e.columnid.substr(0,9) == "TS_RESULT")
+	{
+		var nTestCnt = this.ds_TestStep.rowcount;
+		
+		var nSumPoint = 0;
+		for (var i=0; i<nTestCnt; i++)
+		{
+			var strTestResultVal = this.ds_Result.getColumn(e.row, "TS_RESULT"+(i+1));
+			if (this.gfnIsEmpty(strTestResultVal))	strTestResultVal = "0";
+			
+			nSumPoint += nexacro.toNumber(strTestResultVal);
+		}
+		
+		if (nSumPoint == (nTestCnt*2))	this.ds_Result.setColumn(e.row, "TEST_RESULT_CD", "2");
+		else							this.ds_Result.setColumn(e.row, "TEST_RESULT_CD", "1");
+	}
+}
+
+//예외사항 추가
+this.div_Improvement_btn_AddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.ds_Improvement.rowposition;
+	if (nRow < 0)	nRow = 0;
+	var nAddRow = this.ds_Improvement.insertRow(nRow+1);
+	this.ds_Improvement.setColumn(nAddRow, "SM_SEQ",		strSMSeq);
+	this.ds_Improvement.setColumn(nAddRow, "AUDIT_SEQ",  strAuditSeq);
+};
+
+
+//예외사항 삭제
+this.div_Improvement_btn_DelRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_Improvement.rowcount <= 0 )
+	{
+		alert("삭제할 데이터가 없습니다.");
+		return;	
+	}
+	
+	var nRow = this.ds_Improvement.rowposition;
+	if (nRow < 0)	nRow = 0;
+	if (!confirm("[일련번호 "+(nRow+1)+"] 예외사항을 삭제 하시겠습니까?")) return;
+	this.ds_Improvement.deleteRow(this.ds_Improvement.rowposition);
+};
+
+//저장
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	bUpdateFlag = false;
+	this.fn_SaveData();
+};
+
+//값 수정시 UpdateFlag 변경
+this.ds_AM_List_onvaluechanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if (!bUpdateFlag) bUpdateFlag = true;
+};
+
+//값 수정시 UpdateFlag 변경
+this.ds_Result_onvaluechanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if (!bUpdateFlag) bUpdateFlag = true;
+};
+
+//값 수정시 UpdateFlag 변경
+this.ds_Improvement_onvaluechanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if (!bUpdateFlag) bUpdateFlag = true;
+};
+
+//값 수정시 UpdateFlag 변경
+this.ds_FileList_onvaluechanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if (!bUpdateFlag) bUpdateFlag = true;
+};
+
+//일괄 체크 
+this.div_Result_btn_AllChk_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRowCnt = this.ds_Result.rowcount;
+	var nColCnt = this.ds_TestStep.rowcount;
+	var sBtnText = this.div_Result.form.btn_AllChk.text;
+	var sAllVal = "";
+	
+	if (sBtnText == "일괄확인")
+	{
+		sAllVal = "2";
+		this.div_Result.form.btn_AllChk.set_text("일괄취소");
+	}
+	else
+	{
+		sAllVal = "";
+		this.div_Result.form.btn_AllChk.set_text("일괄확인");
+	}
+	//trace("Col_Cnt:["+nColCnt+"] Row_Cnt:["+nRowCnt+"]");
+	
+	if (nRowCnt >0)
+	{
+		for (var i=0; i<nRowCnt; i++)
+		{
+			for (var j=0; j<nColCnt; j++)
+			{
+				var sColNm = "TS_RESULT"+(j+1);
+				this.ds_Result.setColumn(i, sColNm, sAllVal);
+			}
+			this.ds_Result.setColumn(i, "TEST_RESULT_CD", sAllVal);
+		}
+	}
+};
+
+
+//엑셀 다운로드
+this.div_Search_btn_ExcelExport_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	this.ds_Export1.setColumn(0,"VALUE",this.ds_Export1.getColumn(0,"NAME"));
+	this.ds_Export1.setColumn(1,"VALUE",this.ds_Export1.getColumn(1,"NAME"));
+	this.ds_Export1.setColumn(2,"VALUE",this.ds_Export1.getColumn(2,"NAME")+this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"AUDIT_SEQ"));
+	this.ds_Export1.setColumn(3,"VALUE",this.ds_Export1.getColumn(3,"NAME")+this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"MAJOR_PROCESS_NM"));
+	this.ds_Export1.setColumn(4,"VALUE",this.ds_Export1.getColumn(4,"NAME")+this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"SUB_PROCESS_NM"));
+	this.ds_Export1.setColumn(5,"VALUE",this.ds_Export1.getColumn(5,"NAME")+this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"APPRAISAL_EMPNM"));
+	this.ds_Export1.setColumn(6,"VALUE",this.ds_Export1.getColumn(6,"NAME")+this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"CONTROL_SEQ"));
+	
+	this.ds_Export2.setColumn(0,"VALUE",this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"CONTROL_CFR_NM"));
+	this.ds_Export2.setColumn(2,"VALUE",this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"CONTROL_TYPE_NM"));
+	this.ds_Export2.setColumn(4,"VALUE",this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"SAMPLE_CNT"));
+	this.ds_Export2.setColumn(6,"VALUE",this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"SAMPLE_DATE"));
+		
+	this.ds_Export3.setColumn(1,"NAME",this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"CONTROL_SEQ"));
+	this.ds_Export3.setColumn(1,"VALUE",this.ds_AppraisalResult.getColumn(this.ds_AppraisalResult.rowposition,"CAPTION"));
+	
+	/* Export 설정 */
+	var objEnv = nexacro.getEnvironment();
+	var strServiceURL = objEnv.services["ServiceURL"].url;
+	
+	this.ExcelExportObject = null;
+	this.ExcelExportObject = new ExcelExportObject("ExcelExportObject", this);
+	
+	//파일명 셋팅 : 통제번호
+	var sFileNm = this.ds_AM_List.getColumn(this.ds_AM_List.rowposition,"CONTROL_SEQ");
+	
+	this.ExcelExportObject.set_exporttype(nexacro.ExportTypes.EXCEL2007);
+	this.ExcelExportObject.set_exportfilename(sFileNm);
+	this.ExcelExportObject.set_exporturl(strServiceURL+"xeni/XExportImport");
+	this.ExcelExportObject.addEventHandler("onsuccess", this.ExcelExportObject_onsuccess, this);
+	this.ExcelExportObject.addEventHandler("onerror", this.ExcelExportObject_onerror, this);
+	
+	/* Export 부가설정 */
+	var constExportItemType = nexacro.ExportItemTypes.GRID;
+	var strExportHead = "allband";
+	var strExportSelect = "allrecord";
+	var strExportMerge = "suppress";
+	var strExportValue = "allstyle";
+	var strExportImage = "none";
+	var strExceptStyle = "none";
+	var strExportSize = "both";
+	var strAcceptStyle = "cellline";
+	
+	/*
+		export Grid = export item source
+		대상 그리드 셋팅
+	*/
+	var objGrid1 = this.grd_Export1;
+	var objGrid2 = this.grd_Export2;
+	var objGrid3 = this.div_TestStep.form.grd_TestStep;
+	var objGrid4 = this.grd_Export4;
+	var objGrid5 = this.div_Result.form.grd_Result;
+	var objGrid6 = this.grd_Export5;
+	var objGrid7 = this.div_Improvement.form.grd_Improvement;
+	var objGrid8 = this.grd_Export6;
+	var objGrid9 = this.grd_Export3;
+	
+	//export item ranges 
+	//strRange 셋팅 grd_Export1 , addExportItem 
+	var rCnt = 2;
+	var strRange = "Sheet1!A";
+    this.ExcelExportObject.addExportItem(constExportItemType, objGrid1, strRange+rCnt, strExportHead, strExportSelect, strExportMerge, strExportValue, strExportImage, strExceptStyle, strExportSize, strAcceptStyle);
+	
+	//strRange 셋팅 grd_Export2 , addExportItem 
+	rCnt = rCnt + this.grd_Export1.rowcount + 1;
+	this.ExcelExportObject.addExportItem(constExportItemType, objGrid2, strRange+rCnt, "nohead", strExportSelect, strExportMerge, "onlyvalue", strExportImage, strExceptStyle, strExportSize, strAcceptStyle);
+	
+	//strRange 셋팅 grd_TestStep , addExportItem 
+	rCnt = rCnt + this.grd_Export2.rowcount;
+	this.ExcelExportObject.addExportItem(constExportItemType, objGrid3, strRange+rCnt, strExportHead, strExportSelect, strExportMerge, strExportValue, strExportImage, strExceptStyle, strExportSize, strAcceptStyle);
+	
+	//strRange 셋팅 grd_Export4 , addExportItem 
+	rCnt = rCnt + this.div_TestStep.form.grd_TestStep.rowcount + 2;
+ 	this.ExcelExportObject.addExportItem(constExportItemType, objGrid4, strRange+rCnt,"nohead", strExportSelect, strExportMerge, "onlyvalue", strExportImage, strExceptStyle, strExportSize, strAcceptStyle);
+	
+	//strRange 셋팅 grd_Result , addExportItem 
+	rCnt = rCnt + this.grd_Export4.rowcount;
+ 	this.ExcelExportObject.addExportItem(constExportItemType, objGrid5, strRange+rCnt, strExportHead, strExportSelect, strExportMerge, strExportValue, strExportImage, strExceptStyle, strExportSize, strAcceptStyle);
+	
+	//strRange 셋팅 grd_Export5 , addExportItem 
+	rCnt = rCnt + this.div_Result.form.grd_Result.rowcount + 1;
+ 	this.ExcelExportObject.addExportItem(constExportItemType, objGrid6, strRange+rCnt,"nohead", strExportSelect, strExportMerge, "onlyvalue", strExportImage, strExceptStyle, strExportSize, strAcceptStyle);
+	
+	//strRange 셋팅 grd_Improvement , addExportItem 
+	rCnt = rCnt + this.grd_Export5.rowcount;
+  	this.ExcelExportObject.addExportItem(constExportItemType, objGrid7, strRange+rCnt, strExportHead, strExportSelect, strExportMerge, strExportValue, strExportImage, strExceptStyle, strExportSize, strAcceptStyle);
+	
+	//strRange 셋팅 grd_Export6 , addExportItem 
+	rCnt = rCnt + this.div_Improvement.form.grd_Improvement.rowcount + 2;
+ 	this.ExcelExportObject.addExportItem(constExportItemType, objGrid8, strRange+rCnt,"nohead", strExportSelect, strExportMerge, "onlyvalue", strExportImage, strExceptStyle, strExportSize, strAcceptStyle);
+	
+	//strRange 셋팅 grd_Export3 , addExportItem 
+	rCnt = rCnt + this.grd_Export6.rowcount;
+ 	this.ExcelExportObject.addExportItem(constExportItemType, objGrid9, strRange+rCnt,"nohead", strExportSelect, strExportMerge, strExportValue, strExportImage, strExceptStyle, strExportSize, strAcceptStyle);
+	
+	this.ExcelExportObject.exportData();
+};
+
+this.ExcelExportObject_onsuccess = function(obj:nexacro.ExcelExportObject,e:nexacro.ExcelExportEventInfo)
+{
+	//this.alert("Excel Export Success !!")
+};
+
+this.ExcelExportObject_onerror = function(obj:nexacro.ExcelExportObject,e:nexacro.ExcelExportErrorEventInfo)
+{
+	this.alert( "Excel Export Error Type:["+ e.errortype + "] Error Msg:["+e.errormsg+"]");
+};
+
+//결과 그리드에서 첨부 버튼 클릭 
+this.div_Result_grd_Result_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var TestColCnt = this.ds_TestStep.rowcount;
+	if (e.col == (TestColCnt+3))
+	{
+		var nRTSeq = this.ds_Result.getColumn(e.row, "RT_SEQ");
+		var strProofSerialNum = this.ds_Result.getColumn(e.row, "PROOF_SERIAL_NUM");
+		if (this.gfnIsEmpty(nRTSeq))
+		{
+			alert("평가자의 평가가 선행 되어야 첨부파일을 첨부 할수 있습니다.");
+			return;
+		}
+		
+		var sArgument = 
+		{
+			 strSMSeq 	 	: strSMSeq
+			,strAuditSeq	: strAuditSeq
+			,nRTSeq			: nRTSeq
+			,strProofSerialNum	: strProofSerialNum
+		}
+		this.commUtil.popup(this, "FileUploadPopup", "Admin::AA_FileUploadPopup.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+	}
+};
+
+//모집단 파일 첨부 완료
+this.btn_WorkFinish_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var bRtn = confirm("모집단 리스트 첨부를 완료 하시겠습니까?");
+	if (bRtn)	this.ds_AM_List.setColumn(0, "POPULATION_RESULT_CD", 1);
+};
+/****************************************/
+/* 모집단 리스트 첨부파일 처리 		*/ 
+/****************************************/
+//결과 로우 삭제
+this.div_Result_btn_ResultDelRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.ds_Result.rowcount;
+	var tgRow = this.div_Result.form.grd_Result.currentrow;
+	if (nRow <= 0) 
+	{
+		alert("삭제할 데이터가 없습니다.");
+		return;
+	}
+	
+	var strProofSerialNum = this.ds_Result.getColumn(tgRow, "PROOF_SERIAL_NUM");
+	if (!confirm("[ "+(tgRow+1)+" : "+ strProofSerialNum +"] 결과를 삭제 하시겠습니까?")) return;
+	this.ds_Result.deleteRow(tgRow);
+};
+
+/****************************************/
+/* 모집단 리스트 첨부파일 처리 부분 미 완료 */ 
+/****************************************/
+//파일 다운로드
+this.div_File_grd_TestStepAttach_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var strFmSeq = this.ds_FileList.getColumn(e.row, "FM_SEQ");
+	var strFileName = this.ds_FileList.getColumn(e.row, "FILE_NAME");
+	this.gfnFileDownload(strFmSeq, strFileName, strSourceType, strSourceCode);
+};
+
+/************************************************************************************************
+* 팝업 TRANSACTION 및 추가 FUNCTION 영역 
+************************************************************************************************/
+//팝업 콜백 함수
+this.fnPopupCallBack = function(popupId, popupArg)
+{
+	popupArg = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(popupArg))
+	{
+		return;
+	}
+	else
+	{
+		switch(popupId)
+		{
+			case "TestStepPopup" :
+				break;
+			case "FileUploadPopup" :
+				if(!this.gfnIsEmpty(popupArg)) this.fn_QueryData();
+				break;
+		}
+	}
+};]]></Script>
+    <Objects>
+      <Dataset id="ds_AM_List" onvaluechanged="ds_AM_List_onvaluechanged">
+        <ColumnInfo>
+          <Column id="SM_SEQ" type="STRING" size="256"/>
+          <Column id="AUDIT_SEQ" type="STRING" size="256"/>
+          <Column id="CONTROL_SEQ" type="STRING" size="256"/>
+          <Column id="RISK_SEQ" type="STRING" size="256"/>
+          <Column id="MAJOR_PROCESS_CD" type="STRING" size="256"/>
+          <Column id="SUB_PROCESS_CD" type="STRING" size="256"/>
+          <Column id="MAJOR_PROCESS_NM" type="STRING" size="256"/>
+          <Column id="SUB_PROCESS_NM" type="STRING" size="256"/>
+          <Column id="CONTROL_CFR_CD" type="STRING" size="256"/>
+          <Column id="CONTROL_CFR_NM" type="STRING" size="256"/>
+          <Column id="CONTROL_TYPE_CD" type="STRING" size="256"/>
+          <Column id="CONTROL_TYPE_NM" type="STRING" size="256"/>
+          <Column id="SAMPLE_CNT" type="STRING" size="256"/>
+          <Column id="REAL_SAMPLE_CNT" type="STRING" size="256"/>
+          <Column id="APPRAISAL_EMPNO" type="STRING" size="256"/>
+          <Column id="APPRAISAL_EMPNM" type="STRING" size="256"/>
+          <Column id="APPRAISAL_RESULT" type="STRING" size="256"/>
+          <Column id="SAMPLE_DATE" type="STRING" size="256"/>
+          <Column id="REVIEW_DOC_DESC" type="STRING" size="256"/>
+          <Column id="TEST_METHOD_DESC" type="STRING" size="256"/>
+          <Column id="POPULATION_RESULT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Result" oncolumnchanged="ds_Result_oncolumnchanged" onvaluechanged="ds_Result_onvaluechanged">
+        <ColumnInfo>
+          <Column id="SM_SEQ" type="STRING" size="256"/>
+          <Column id="AUDIT_SEQ" type="STRING" size="256"/>
+          <Column id="RT_SEQ" type="STRING" size="256"/>
+          <Column id="PROOF_SERIAL_NUM" type="STRING" size="256"/>
+          <Column id="TEST_RESULT_CD" type="STRING" size="256"/>
+          <Column id="RTS_SEQ1" type="STRING" size="256"/>
+          <Column id="TS_RESULT1" type="STRING" size="256"/>
+          <Column id="RTS_SEQ2" type="STRING" size="256"/>
+          <Column id="TS_RESULT2" type="STRING" size="256"/>
+          <Column id="RTS_SEQ3" type="STRING" size="256"/>
+          <Column id="TS_RESULT3" type="STRING" size="256"/>
+          <Column id="RTS_SEQ4" type="STRING" size="256"/>
+          <Column id="TS_RESULT4" type="STRING" size="256"/>
+          <Column id="RTS_SEQ5" type="STRING" size="256"/>
+          <Column id="TS_RESULT5" type="STRING" size="256"/>
+          <Column id="RTS_SEQ6" type="STRING" size="256"/>
+          <Column id="TS_RESULT6" type="STRING" size="256"/>
+          <Column id="RTS_SEQ7" type="STRING" size="256"/>
+          <Column id="TS_RESULT7" type="STRING" size="256"/>
+          <Column id="RTS_SEQ8" type="STRING" size="256"/>
+          <Column id="TS_RESULT8" type="STRING" size="256"/>
+          <Column id="RTS_SEQ9" type="STRING" size="256"/>
+          <Column id="TS_RESULT9" type="STRING" size="256"/>
+          <Column id="RTS_SEQ10" type="STRING" size="256"/>
+          <Column id="TS_RESULT10" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_TestResult">
+        <ColumnInfo>
+          <Column id="CM_CODE" type="STRING" size="256"/>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="DESCRIPTION" type="STRING" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="VAL1" type="STRING" size="256"/>
+          <Column id="VAL2" type="STRING" size="256"/>
+          <Column id="VAL3" type="STRING" size="256"/>
+          <Column id="VAL4" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Export3">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="VALUE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">통제번호</Col>
+            <Col id="VALUE">결론</Col>
+          </Row>
+          <Row>
+            <Col id="NAME"/>
+            <Col id="VALUE"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_Export6">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="VALUE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">8. 운영의 효과성에 대한 결론</Col>
+            <Col id="VALUE"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_BefDept">
+        <ColumnInfo>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_TestStep">
+        <ColumnInfo>
+          <Column id="SM_SEQ" type="STRING" size="256"/>
+          <Column id="AUDIT_SEQ" type="STRING" size="256"/>
+          <Column id="TS_SEQ" type="STRING" size="256"/>
+          <Column id="TEST_STEP_DESC" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Improvement" onvaluechanged="ds_Improvement_onvaluechanged">
+        <ColumnInfo>
+          <Column id="SM_SEQ" type="STRING" size="256"/>
+          <Column id="AUDIT_SEQ" type="STRING" size="256"/>
+          <Column id="IM_SEQ" type="STRING" size="256"/>
+          <Column id="DISCOVERY_DESC" type="STRING" size="256"/>
+          <Column id="IMPROVEMENT_METHOD_DESC" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_AppraisalResult">
+        <ColumnInfo>
+          <Column id="CM_CODE" type="STRING" size="256"/>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="DESCRIPTION" type="STRING" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="VAL1" type="STRING" size="256"/>
+          <Column id="VAL2" type="STRING" size="256"/>
+          <Column id="VAL3" type="STRING" size="256"/>
+          <Column id="VAL4" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_FileList" onvaluechanged="ds_FileList_onvaluechanged">
+        <ColumnInfo>
+          <Column id="FM_SEQ" type="STRING" size="256"/>
+          <Column id="SOURCE_TYPE" type="STRING" size="256"/>
+          <Column id="SOURCE_CODE" type="STRING" size="256"/>
+          <Column id="SOURCE_CODE1" type="STRING" size="256"/>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+          <Column id="DESCRIPTION" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMPNO" type="STRING" size="256"/>
+          <Column id="INSERT_DEPT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Export2">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="VALUE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">1. 수행빈도</Col>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="VALUE"/>
+            <Col id="NAME"/>
+          </Row>
+          <Row>
+            <Col id="NAME">2. 통제유형</Col>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="VALUE"/>
+            <Col id="NAME"/>
+          </Row>
+          <Row>
+            <Col id="NAME">3. 표본수</Col>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="VALUE"/>
+            <Col id="NAME"/>
+          </Row>
+          <Row>
+            <Col id="NAME">4. 표본기간</Col>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="NAME"/>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="NAME">5. 테스트 절차</Col>
+            <Col id="VALUE"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_Export5">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="VALUE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">   √</Col>
+            <Col id="VALUE">: 예외사항 없이 수행됨</Col>
+          </Row>
+          <Row>
+            <Col id="NAME">   X</Col>
+            <Col id="VALUE">: 회계팀-101102-00001</Col>
+          </Row>
+          <Row>
+            <Col id="VALUE">-&gt; 증빙고유번호 : 전표번호등. 증빙을 식별할 수 있는 고유번호</Col>
+            <Col id="NAME"/>
+          </Row>
+          <Row>
+            <Col id="NAME"/>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="NAME">7. 예외사항</Col>
+            <Col id="VALUE">-&gt; 예외사항 발견시 기술한다.</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_Export4">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="VALUE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">6. 결과</Col>
+            <Col id="VALUE">&lt;표본정보&gt;</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_Export1">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="VALUE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">테스트 프로그램(Test Program)</Col>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="NAME">회사명 : 주식회사 투비소프트</Col>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="NAME">문서 Index : </Col>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="NAME">Major Process : </Col>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="NAME">Sub_Process : </Col>
+            <Col id="VALUE"/>
+          </Row>
+          <Row>
+            <Col id="NAME">테스트 수행자 : </Col>
+            <Col id="VALUE"/>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item1" compid="cb_Lifecycle" propid="value" datasetid="ds_AM_List" columnid="APPRAISAL_RESULT"/>
+      <BindItem id="item0" compid="div_RequestContract.form.edt_MajorProcess" propid="value" datasetid="ds_AM_List" columnid="MAJOR_PROCESS_NM"/>
+      <BindItem id="item2" compid="div_RequestContract.form.edt_SubProcess" propid="value" datasetid="ds_AM_List" columnid="SUB_PROCESS_NM"/>
+      <BindItem id="item3" compid="div_RequestContract.form.edt_RiskNum" propid="value" datasetid="ds_AM_List" columnid="RISK_SEQ"/>
+      <BindItem id="item4" compid="div_RequestContract.form.edt_CtlNum" propid="value" datasetid="ds_AM_List" columnid="CONTROL_SEQ"/>
+      <BindItem id="item5" compid="div_RequestContract.form.edt_AuditNum" propid="value" datasetid="ds_AM_List" columnid="AUDIT_SEQ"/>
+      <BindItem id="item6" compid="div_RequestContract.form.edt_CtlCFR" propid="value" datasetid="ds_AM_List" columnid="CONTROL_CFR_NM"/>
+      <BindItem id="item7" compid="div_RequestContract.form.edt_CtlType" propid="value" datasetid="ds_AM_List" columnid="CONTROL_TYPE_NM"/>
+      <BindItem id="item8" compid="div_RequestContract.form.edt_SampleCnt" propid="value" datasetid="ds_AM_List" columnid="SAMPLE_CNT"/>
+      <BindItem id="item9" compid="div_RequestContract.form.edt_SampleDate" propid="value" datasetid="ds_AM_List" columnid="SAMPLE_DATE"/>
+      <BindItem id="item10" compid="div_RequestContract.form.edt_EmpNm" propid="value" datasetid="ds_AM_List" columnid="APPRAISAL_EMPNM"/>
+    </Bind>
+  </Form>
+</FDL>

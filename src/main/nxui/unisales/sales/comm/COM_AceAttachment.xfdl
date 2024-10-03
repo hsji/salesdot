@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="COM_Attachment" width="496" height="310" onload="COM_Attachment_onload">
+    <Layouts>
+      <Layout height="310" mobileorientation="landscape" width="496" screenid="Desktop_screen">
+        <Button id="btn_PopFileMM" taborder="4" text="파일등록" top="0" onclick="div_Multi_btn_PopFileMM_onclick" left="0" right="0" bottom="0" visible="false"/>
+        <Div id="div_Single" taborder="1" left="0" top="0" height="58" right="0">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_File" taborder="0" binddataset="ds_File" oncelldblclick="grd_List_oncelldblclick" left="0" top="0" oncellclick="grd_List_oncellclick" right="0" bottom="0" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="274"/>
+                      <Column size="48"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:FILE_NAME" textAlign="left"/>
+                      <Cell col="1" displaytype="buttoncontrol" edittype="button" text="expr:dataset.getRowType(currow) == 2 ? &quot;등록&quot; : &quot;삭제&quot;"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+            <Layout name="portrait"/>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="2" left="519" top="27" width="186" height="80" expr="&quot;Single File Mode 권장사이즈\n -width:310\n -height:58&quot;" visible="false"/>
+        <Static id="Static01" taborder="3" left="519" top="83" width="186" height="80" expr="&quot;Multi File Mode 권장사이즈\n -width:310\n -height:*&quot;" visible="false" text=""/>
+        <Div id="div_Multi" taborder="0" left="0" top="0" right="0" bottom="0">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_Files" taborder="1" binddataset="ds_File" autofittype="col" oncellclick="grd_List_oncellclick" oncelldblclick="grd_List_oncelldblclick" left="0" top="0" border="1px solid #cfcfcf" formatid="default" bottom="0" right="0">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="239"/>
+                      <Column size="74"/>
+                      <Column size="101"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="TYPE"/>
+                      <Cell col="1" text="파일명"/>
+                      <Cell col="2" text="등록자" textAlign="center"/>
+                      <Cell col="3" text="등록일" textAlign="left"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:ATTACH_KIND" combodataset="ds_CD_FILE_TYPE" combocodecol="CODE" combodatacol="CAPTION" displaytype="combotext"/>
+                      <Cell col="1" text="bind:FILE_NAME" textAlign="left"/>
+                      <Cell col="2" text="bind:INSERT_EMPNM" displaytype="normal" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="3" text="bind:INSERT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="300"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="38" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="TYPE"/>
+                      <Cell col="1" text="파일명"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:STATUS_CD" combodataset="ds_CD_NEXT_FILE_TYPE" combocodecol="CODE" combodatacol="CAPTION" displaytype="combotext"/>
+                      <Cell col="1" text="bind:FILE_NAME" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button id="btn_PopFileMM" taborder="0" text="파일등록" top="2" right="3" width="72" height="21" onclick="div_Multi_btn_PopFileMM_onclick"/>
+            </Layout>
+            <Layout name="portrait">
+              <Button id="btn_PopFileMM" top="4" width="80" height="30" right="4"/>
+              <Grid id="grd_Files" formatid="mobile"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+      <Layout name="portrait" screenid="Mobile_screen" width="480" height="310" mobileorientation="portrait"/>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: xxx
+* 02. 화면명		: xxx
+* 03. 화면설명 		: xxx
+* 04. 작성일   	: 2018.xx.xx
+* 05. 작성자   	: xxx
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+//옵션 기본값 정의
+this.opts = {								// 필수 / datatype / 설명
+				 BINDDATASET:null			// X / srting / 옵션값을 바인드할 데이터셋명
+				,SOURCE_TYPE:null			// O / string / 파일을 저장하려는 소스 코드 ( 파일 구분 )
+				,SOURCE_CODE:null			// O / string / 파일을 저장하려는 번호 또는 문서번호
+				,SOURCE_CODE1:null			// X / string / 파일 저장 회차
+				,FM_SEQ:null				// X / string / 파일 저장한 일련번호(파일 일련번호)
+				,STATUS_CD:null				// X / string / 저장된 파일을 구분할 세번째 키 값 (공통코드 NEXT_FILE_TYPE)
+				
+				,USE_NEXT_FILE_TYPE:true	// X / bool / 공통코드 NEXT_FILE_TYPE을 사용할지 여부 (저장 시 사용, 조회는 STATUS_CD에 따라 다름)
+				,USE_LINK_TYPE:false		// X / bool / 링크 형태의 파일을 사용할지 여부 (구NEXT의 매출계약에서만 사용가능, 구현여부 고민필요)
+				,USE_MULTI_FILE:true		// X / bool / 다중파일 선택, 저장 가능여부
+				,USE_OPEN_ADD_DIALOG:false	// X / bool / 파일등록 팝업 시 파일선택 화면 즉시 출력여부 (동작안함)
+				,USE_DELETE_ALL:false		// X / bool / 파일등록 팝업 시 등록된 파일을 모두 삭제할지 여부 (삭제 후 저장까지 즉시처리)					
+				,USE_BUTTON_ONLY:false		// X / bool / 버튼 형태로만 사용할 경우 (파일보기[n], 파일등록)				
+				,USE_READONLY:false			// X / bool / 파일보기전용으로 등록버튼 안보이게 처리
+				,USE_FILE_TYPE:false		// X / bool / 파일 종류 보여질지 여부 ( 첨부, 전자결재 )
+			}
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.COM_AceAttachment_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	
+};
+
+// 로드 하기 위한 필요한 값을 셋팅하기 위해서 Form onload 사용 x
+this.fn_Init =function(evtAction)
+{
+	this.opts["SOURCE_CODE"] = this.parent.SOURCE_CODE;
+	this.opts["SOURCE_CODE1"] = this.parent.SOURCE_CODE1;
+	this.opts["SOURCE_TYPE"] = this.parent.SOURCE_TYPE;
+	this.opts["BINDDATASET"] = this.parent.BINDDATASET;
+	this.opts["USE_NEXT_FILE_TYPE"] = !this.gfnIsEmpty(this.parent.USE_NEXT_FILE_TYPE) ? nexacro._toBoolean(this.parent.USE_NEXT_FILE_TYPE) : true;
+	this.opts["USE_LINK_TYPE"] = !this.gfnIsEmpty(this.parent.USE_LINK_TYPE) ? nexacro._toBoolean(this.parent.USE_LINK_TYPE) : false;
+	this.opts["USE_MULTI_FILE"] = this.gfnIsEmpty(this.parent.USE_MULTI_FILE) ? nexacro._toBoolean(this.parent.USE_MULTI_FILE) : true;
+	this.opts["USE_OPEN_ADD_DIALOG"] = !this.gfnIsEmpty(this.parent.USE_OPEN_ADD_DIALOG) ? nexacro._toBoolean(this.parent.USE_OPEN_ADD_DIALOG) : false;
+	this.opts["USE_DELETE_ALL"] = !this.gfnIsEmpty(this.parent.USE_DELETE_ALL) ? nexacro._toBoolean(this.parent.USE_DELETE_ALL) : false;
+	this.opts["USE_BUTTON_ONLY"] = !this.gfnIsEmpty(this.parent.USE_BUTTON_ONLY) ? nexacro._toBoolean(this.parent.USE_BUTTON_ONLY) : false;
+	this.opts["USE_READONLY"] = !this.gfnIsEmpty(this.parent.USE_READONLY) ? nexacro._toBoolean(this.parent.USE_READONLY) : false;
+	this.opts["USE_FILE_TYPE"] = !this.gfnIsEmpty(this.parent.USE_FILE_TYPE) ? nexacro._toBoolean(this.parent.USE_FILE_TYPE) : false;
+	
+	// 첫 로드하는 시점 : 화면 셋팅하는 func 실행
+	if(!this.gfnIsEmpty(evtAction))
+	{
+		if(evtAction=="load")
+		{
+			this.fnInitForm();
+		}
+	}	
+}
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.grd_List_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var ds = obj.getBindDataset();
+	var btnNm = obj.getCellText(e.row, e.cell);
+
+	if(obj.name == "grd_File")
+	{
+		if(btnNm == "등록")		//등록
+		{
+			this.commUtil.popupAceFileMaster(this, this.opts, "fnPopupCallBack");
+		}
+		else if(btnNm == "삭제")	//단건 삭제
+		{
+			if(confirm("등록된 파일을 삭제하시겠습니까?"))
+			{
+				this.opts.USE_DELETE_ALL = true;
+				this.commUtil.popupAceFileMaster(this, this.opts, "fnPopupCallBack");
+				delete this.opts.USE_DELETE_ALL;
+			}		
+		}
+	}
+};
+
+this.grd_List_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnFileDownload();
+};
+
+this.div_Multi_btn_PopFileMM_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupAceFileMaster(this, this.opts, "fnPopupCallBack");
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInitForm = function()
+{
+	//var pOpts = this.parent;
+	var pOpts = this.opts;
+	
+	//this.fnGetCode();
+	
+	//스크롤바 제거
+	this.set_scrollbartype("none none");
+	
+	//버튼 형태로만 사용할 경우
+	if(this.opts.USE_BUTTON_ONLY)
+	{
+		this.btn_PopFileMM.set_visible(true);
+		this.div_Single.set_visible(false);
+		this.div_Multi.set_visible(false);
+	}else{
+		//Multi or Single 첨부
+		if(this.opts.USE_MULTI_FILE)
+		{
+			this.div_Multi.move(0, 0, null, null, 0, 0);
+			this.div_Single.set_visible(false);
+			this.div_Multi.set_visible(true);
+
+			//NEXT_FILE_TYPE 미사용 시 처리
+			if(!this.opts.USE_NEXT_FILE_TYPE)
+			{
+				this.div_Multi.form.grd_Files.setFormatColProperty(0,"size",0);
+			}
+		}else{
+			this.div_Single.move(0, 0, null, null, 0, 0);
+			this.div_Multi.set_visible(false);
+			this.div_Single.set_visible(true);		
+		}	
+	}	
+	
+	//조회전용으로 등록버튼 안나오게
+	if(this.opts.USE_READONLY)
+		this.div_Multi.form.btn_PopFileMM.set_visible(false);
+	
+	//파일종류 컬럼 보일지 여부 체크
+	if(this.opts.USE_FILE_TYPE)
+		this.div_Multi.form.grd_Files.setFormatColProperty(0,"size",0);
+		
+	
+//	var keyCols = new Array("SOURCE_TYPE", "SOURCE_CODE", "SOURCE_CODE1");
+	var keyCols = new Array();
+	//DS Bind 사용 시 처리   ex) BINDDATASET : dsName ,  SOURCE_SEQ : columnName
+	if( 
+		( this.opts.hasOwnProperty("BINDDATASET") && !this.gfnIsEmpty(this.opts.BINDDATASET) )//	&& 
+		//( this.opts.hasOwnProperty("SOURCE_CD")   && !this.gfnIsEmpty(this.opts.SOURCE_CD)   )	&& 
+		//( this.opts.hasOwnProperty("SOURCE_SEQ")  && !this.gfnIsEmpty(this.opts.SOURCE_SEQ)  ) 
+	 )
+	{
+ 		var ds = this._getDatasetObject(this.opts.BINDDATASET);	
+		var _bindds_oncolumnchanged = function(obj, e)
+		{
+			for(var i = 0, iL = keyCols.length; i < iL; i++)
+			{
+				if(	pOpts.hasOwnProperty(keyCols[i]) && !this.gfnIsEmpty(ds.getColumnInfo(keyCols[i])) )
+				{
+					if(e.columnid == keyCols[i])
+					{
+						this.opts[keyCols[i]] = e.newvalue;
+					}
+				}else{
+					if(e.columnid == keyCols[i])
+					{
+						this.opts[keyCols[i]] = "";
+					}
+				}
+			}
+			if( obj.rowposition >= 0 )
+			{
+				this.fnSearch();//파일 조회
+			}
+		}
+		var _bindds_onload = function(obj, e)
+		{
+			this.ds_File.clearData();
+			for(var i = 0, iL = keyCols.length; i < iL; i++)
+			{
+				if(	pOpts.hasOwnProperty(keyCols[i]) && !this.gfnIsEmpty(ds.getColumnInfo(keyCols[i])) && ds.rowposition >= 0 )
+				{
+					var _val = obj.getColumn(obj.rowposition, keyCols[i]);
+					if(!this.gfnIsEmpty(_val))
+					{
+						this.opts[keyCols[i]] = _val;
+					}
+				}else{
+					this.opts[keyCols[i]] = "";
+				}
+			}
+			if( obj.rowposition >= 0 )
+			{
+				this.fnSearch();//파일 조회
+			}
+		}
+		var _bindds_onrowposchanged = function(obj, e)
+		{
+			for(var i = 0, iL = keyCols.length; i < iL; i++)
+			{
+				if(	!this.gfnIsEmpty(obj.getColumnInfo(keyCols[i])) )
+				{
+					this.opts[keyCols[i]] = obj.getColumn(e.newrow, keyCols[i]);
+				}
+			}
+			if( obj.rowposition >= 0 )
+			{
+				this.fnSearch();//파일 조회
+			}
+		}
+
+		ds.addEventHandler("oncolumnchanged", _bindds_oncolumnchanged	, this);							
+		ds.addEventHandler("onload"			, _bindds_onload			, this);
+		ds.addEventHandler("onrowposchanged", _bindds_onrowposchanged	, this);
+		
+		if( ds.rowposition >= 0 )
+		{
+			this.fnSearch();//파일 조회
+		}
+	}else{
+		this.fnSearch();
+	}
+	//컴포넌트 사이즈를 div에 맞춤
+	/*this.move(0, 0, null, null, 0, 0);
+	this.resetScroll();
+	*/
+}
+
+this.fnClearFile = function()
+{
+	this.ds_File.clearData();
+}
+
+this.fnPopupCallBack = function (sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if (sPopupId == "popFileManager") 
+	{
+		if( Variant == "DELETE ALL")
+		{
+			alert("삭제되었습니다.");
+		}
+		this.fnSearch(true);
+	}
+	else if (Variant == "save") 
+	{
+		this.fnSearch(true);
+	}
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_CD_FILE_TYPE", "ATTACH_KIND");
+	this.gfnCodeTransaction();
+}
+
+this.fnSearch = function(bForce)//bForce 키 변경여부 무시 재조회 
+{	
+	var args = this.opts;
+	args.DS_OUT_NAME	= "ds_File";
+	args.ARR_GRD		= null;//[this.grd_List]
+	
+	if( this.gfnIsEmpty(args["SOURCE_TYPE"]) 
+	 || this.gfnIsEmpty(args["SOURCE_CODE"]) 
+	 || this.gfnIsEmpty(args["SOURCE_CODE1"]) )
+	{
+		this.fnClearFile();//클리어
+	}else{
+		if(bForce)
+		{
+			this.gfnGetAceFiles("Search",args);
+		}else{
+			this.gfnGetAceFiles("Search",args);
+		}		
+	}	
+}
+
+// 파일다운
+this.fnFileDownload = function()
+{
+	var nSeq = this.ds_File.getColumn(this.ds_File.rowposition, "FM_SEQ");
+	this.gfnAceFileDownload(nSeq);
+};
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		return;
+	}
+	else 
+	{
+		if(strSvcID=="Search") 
+		{
+			//그리드에 스크롤이 생길경우 파일등록버튼을 왼쪽으로 밀어줌
+			if(this.div_Multi.form.grd_Files.vscrollbar.trackbar.getOffsetHeight()>0)
+				this.div_Multi.form.btn_PopFileMM.set_right(20);
+			else 
+				this.div_Multi.form.btn_PopFileMM.set_right(3);
+				
+			var nFileCnt = this.ds_File.getRowCount();
+			if(this.opts.USE_BUTTON_ONLY)
+			{
+				if(nFileCnt > 0)
+				{
+					this.btn_PopFileMM.set_text("파일보기["+nFileCnt+"]");
+				}else{
+					this.btn_PopFileMM.set_text("파일등록");
+				}				
+			}
+			if(!this.opts.USE_MULTI_FILE && nFileCnt == 0)
+			{
+				this.ds_File.addRow();
+			}
+		}
+		else if(strSvcID=="gfnGetCode") 
+		{
+			//trace(this.ds_CD_NEXT_FILE_TYPE.saveXML());
+		}
+	}
+}
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_CD_FILE_TYPE"/>
+      <Dataset id="ds_File" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onrowposchanged="ds_File_onrowposchanged" oncolumnchanged="ds_File_oncolumnchanged" onvaluechanged="ds_File_onvaluechanged">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="FM_SEQ" type="STRING" size="256"/>
+          <Column id="SOURCE_TYPE" type="STRING" size="256"/>
+          <Column id="SOURCE_CODE" type="STRING" size="256"/>
+          <Column id="SOURCE_CODE1" type="STRING" size="256"/>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+          <Column id="DESCRIPTION" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMPNO" type="STRING" size="256"/>
+          <Column id="INSERT_DEPT" type="STRING" size="256"/>
+          <Column id="STATUS_CD" type="STRING" size="256"/>
+          <Column id="ATTACH_KIND" type="STRING" size="256"/>
+          <Column id="INSERT_EMPNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

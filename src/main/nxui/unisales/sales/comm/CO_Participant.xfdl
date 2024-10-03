@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CO_Participant" width="800" height="500" titletext="공유자 검색" cssclass="frm_popBg" onload="CO_Participant_onload">
+    <Layouts>
+      <Layout height="500" mobileorientation="landscape" width="800">
+        <Static id="stc_title" taborder="0" text="공유자 검색" left="8" top="5" width="141" height="22" color="white" cssclass="sta_POP_Title "/>
+        <Button id="btn_Close" taborder="1" top="8" width="15" height="15" right="8" cssclass="btn_POP_Cls" text="" onclick="common_onclick" escapebutton="true"/>
+        <Div id="div_Search" taborder="2" left="4" top="39" height="40" cssclass="div_WF_SchList" right="8">
+          <Layouts>
+            <Layout>
+              <Button id="btn_Del" taborder="0" text="삭제" top="8" width="60" height="22" visible="true" onclick="common_onclick" right="8"/>
+              <Static id="stc_Search" taborder="1" text="검색어" left="8" top="8" width="59" height="19" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_SearchTxt" taborder="2" left="75" top="8" width="229" height="19" onkeydown="div_Search_edt_SearchTxt_onkeydown"/>
+              <Button id="btn_Search" taborder="3" text="검색" left="312" top="8" width="60" height="22" onclick="common_onclick"/>
+              <Button id="btn_Add" taborder="4" text="추가" top="8" width="60" height="22" visible="true" onclick="common_onclick" right="btn_Del:8"/>
+            </Layout>
+            <Layout name="portrait">
+              <Combo id="cmb_Condition" height="30" left="4" top="4" width="72"/>
+              <Edit id="edt_Search" height="30" left="76" top="4" width="159"/>
+              <Button id="btn_Search" height="30" left="235" top="4" width="30"/>
+              <Button id="btn_Cc" height="30" top="4" width="50" right="btn_Bcc:4"/>
+              <Button id="btn_To" height="30" top="4" width="70" right="btn_Cc:4"/>
+              <Button id="btn_Del" height="30" top="4" width="70" right="4"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_BottomFrame" taborder="4" left="1" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg"/>
+        <Div id="div_Organization" taborder="3" left="8" top="div_Search:8" right="190" bottom="stc_BottomFrame:8">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_Organization" taborder="0" left="0" top="0" autofittype="col" right="0" bottom="0" treeinitstatus="expand,all" treeusecheckbox="false" binddataset="ds_Organization">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="250"/>
+                      <Column size="48"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:NAME" displaytype="treeitemcontrol" edittype="tree" treecheck="bind:ISCHECKED" treelevel="bind:LVL"/>
+                      <Cell col="1" displaytype="checkboxcontrol" edittype="checkbox" text="bind:ISCHECKED" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_Cancel" taborder="5" text="닫기" width="60" height="22" cssclass="btn_WF_cancel" right="8" bottom="8" onclick="common_onclick" TL_SEQ="59"/>
+        <Button id="btn_Confirm" taborder="6" text="확인" width="60" height="22" cssclass="btn_WF_tran" right="btn_Cancel:8" bottom="8" onclick="common_onclick" TL_SEQ="158"/>
+        <Div id="div_Selected" taborder="7" top="87" height="367" width="174" left="div_Organization:8">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_Selected" taborder="0" left="0" top="0" autofittype="col" right="0" bottom="0" binddataset="ds_selected">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:NAME"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_selected">
+        <ColumnInfo>
+          <Column id="MSP_SEQ" type="STRING" size="256"/>
+          <Column id="MS_SEQ" type="STRING" size="256"/>
+          <Column id="PARTICIPANT_KIND" type="STRING" size="256"/>
+          <Column id="PARTICIPANT_NO" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Organization">
+        <ColumnInfo>
+          <Column id="ISCHECKED" type="STRING" size="256"/>
+          <Column id="KIND" type="STRING" size="256"/>
+          <Column id="VALUE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="LVL" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 공통 - 공통
+ * 02. 화면명   : 공유자 검색 (CO_Participant_S01)
+ * 03. 화면설명 : 공유자 검색 팝업
+ * 04. 작성일   : 2023.04.17
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs"; 
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+//부모창 없을 경우 default값 
+this.myDept 		= nexacro.getApplication().gdsGlobal.setColumn(0, "CO_NM");		
+this.myDeptCD 		= "F01"
+this.myEmpNO 		= "";
+this.myEmpNM		= "";
+
+
+this.ORG_TXT = "";
+this.empKind = "T";
+this.holdOffice = "1";
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.CO_Participant_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.fnFormInit();
+	
+	var app = nexacro.getApplication();
+	
+	if(app.gdsUserInfo.rowcount>0)
+	{
+		this.myDept		= this.gfnIsEmpty(app.gdsUserInfo.getColumn(0,"DEPT_NM")) ? this.myDept : app.gdsUserInfo.getColumn(0,"DEPT_NM");
+		this.myDeptCD 	= this.gfnIsEmpty(app.gdsUserInfo.getColumn(0,"DEPT_CD")) ? this.myDeptCD : app.gdsUserInfo.getColumn(0,"DEPT_CD");
+		this.myEmpNO 	= this.gfnIsEmpty(app.gdsUserInfo.getColumn(0,"EMP_NO")) ? this.myEmpNO : app.gdsUserInfo.getColumn(0,"EMP_NO");
+		this.myEmpNM	= this.gfnIsEmpty(app.gdsUserInfo.getColumn(0,"EMP_NM")) ? this.myEmpNM: app.gdsUserInfo.getColumn(0,"EMP_NM");
+	}
+	
+	this.fnSearch();
+};
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+	if(!this.gfnIsEmpty(this.parent.pvDs)) {
+		this.ds_selected.copyData(this.parent.pvDs);
+	}
+};
+
+this.fnSearch = function()
+{	
+	var strSvcID = "searchOrganization";
+	var strModelNm = "CO_Participant_S01";
+		
+	this.gfnAddOutputDataset("ds_Organization", "dsOutput");
+	this.gfnCommonTransaction(strSvcID, strModelNm, this.div_Organization.form.grd_Organization);
+};
+
+//해당유저에 포커스를 준다.
+this.fnSetFocus = function(empNO)
+{
+	var objDs = this.ds_Organization;
+		
+	if(!this.gfnIsEmpty(empNO))
+	{
+		objDs.set_rowposition(objDs.findRow("VALUE", empNO));
+	}
+};
+
+//검색 
+this.fnSearchEmp = function()
+{	
+	var sSearchTxt = this.div_Search.form.edt_SearchTxt.value;
+	var objDs = this.ds_Organization;
+	var curRow = objDs.rowposition;
+	
+	if(!this.gfnIsEmpty(sSearchTxt)) {
+		var strFindColumnName = "NAME";
+		var strExpr = strFindColumnName+".toUpperCase().indexOf('"+ sSearchTxt.toUpperCase() +"')>-1";
+		
+		if(sSearchTxt == this.ORG_TXT) {
+			curRow += 1;
+		} else {
+			curRow = 0;
+			this.ORG_TXT = sSearchTxt;
+		}
+		
+		objDs.set_rowposition(objDs.findRowExpr(strExpr, curRow));
+	} else {
+		alert("검색어를 입력 후 검색 해주세요.");
+	}
+};
+
+//체크선택된 ds의 값들을 중복 체크하여 ds_selected에 넣어준다.
+this.fnInsert = function()
+{ 	
+	var findRow = -1;
+	var objDs = this.ds_Organization;
+	var objSelectDs = this.ds_selected;
+	
+	for(var i = 0; i < objDs.rowcount; i++) {
+		var sValue = objDs.getColumn(i, "VALUE");
+		
+		if(objDs.getColumn(i, "ISCHECKED") == "1") {
+			findRow = objSelectDs.findRow("PARTICIPANT_NO", sValue);
+			if( findRow == -1 ) {
+				var sKind = objDs.getColumn(i, "KIND");
+				var sName = objDs.getColumn(i, "NAME");
+				var nRow = objSelectDs.addRow();
+				objSelectDs.setColumn(nRow, "PARTICIPANT_KIND", sKind);
+				objSelectDs.setColumn(nRow, "PARTICIPANT_NO", sValue);
+				objSelectDs.setColumn(nRow, "NAME", sName);
+			}
+		}
+	}
+};
+
+// 삭제
+this.fnDeleted = function()
+{
+	var curRow = this.ds_selected.rowposition;
+	if( curRow == -1 ) {
+		alert("삭제할 대상이 없습니다.");
+	} else {
+		this.ds_selected.deleteRow(curRow);
+	}
+};
+/************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+//직원 리스트를 가지고 온다
+this.fnSearchEmpList = function()
+{	
+	var strSvcID = "searchEmpList";
+	var strModelNm = "CO_Organization_S01";
+	
+	this.gfnAddSendParameter("TYPE", "2"); //TYPE 1:부서조회 2:직원리스트조회 3.직원검색
+	this.gfnAddSendParameter("EMP_KIND", this.empKind); //T:Tobe직원만
+	this.gfnAddSendParameter("HOLD_OFFICE", this.holdOffice); //1:현재종사자
+		
+	this.gfnAddOutputDataset("ds_employee", "ds_employee");
+	this.gfnCommonTransaction(strSvcID, strModelNm, this.grd_CompanyOrganizationEmployeeInfo);
+}
+
+//회사 조직도 리스트
+this.fnSearchDeptList = function()
+{	
+	var strSvcID = "searchDeptList";
+	var strModelNm = "CO_Organization_S01";
+	
+	this.gfnAddSendParameter("TYPE", "1"); //TYPE 1:부서조회 2:직원리스트조회 3.직원검색
+	this.gfnAddSendParameter("EMP_KIND", this.empKind); //T:Tobe직원만
+	this.gfnAddSendParameter("HOLD_OFFICE", this.holdOffice); //1:현재종사자
+		
+	this.gfnAddOutputDataset("ds_department", "ds_department");
+	this.gfnCommonTransaction(strSvcID, strModelNm, this.div_Dept.form.grd_Dept);
+}
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	if(nErrorCode != 0)
+	{
+		return;
+	}
+	else
+	{
+		switch(strSvcID)
+		{
+			case "searchOrganization":
+				this.fnSetFocus(this.myEmpNO);
+				break;
+		}
+	}
+}
+
+/************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_Add": //추가버튼
+			this.fnInsert();
+			break;
+		
+		case "btn_Del": //삭제버튼
+			this.fnDeleted();
+			break;
+			
+		case "btn_Search": //검색버튼
+			this.fnSearchEmp();
+			break
+		
+		case "btn_Confirm": //확인버튼
+			this.commUtil.popupClose(this.ds_selected);
+			break;
+			
+		case "btn_Cancel": //취소버튼
+			this.close();
+			break;
+		
+		case "btn_Close": // X버튼
+			this.commUtil.popupClose(new nexacro.Dataset());
+			break;
+			
+		default :
+			this.alert(this.gfnGetTransTxt(1231, "준비중입니다."));
+			break;
+	}
+};
+
+
+this.div_Search_edt_SearchTxt_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) 
+	{
+		this.fnSearchEmp(); 
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

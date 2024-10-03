@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CE_EMailSend" width="900" height="574" titletext="E-Mail 발송" cssclass="frm_popBg" onload="CE_EMailSend_onload">
+    <Layouts>
+      <Layout height="574" mobileorientation="landscape" width="900">
+        <Static id="stc_Sales_List03" taborder="30" cssclass="sta_WF_detailLbl01" top="114" text="" left="4" width="540" height="418"/>
+        <Static id="stc_Sales_List02" taborder="29" cssclass="sta_WF_detailLbl01" top="37" text="" left="545" height="496" width="297"/>
+        <Static id="stc_Sales_List01" taborder="28" cssclass="sta_WF_detailLbl01" top="75" text="" left="4" width="540" height="40"/>
+        <Static id="stc_Sales_List00" taborder="27" cssclass="sta_WF_detailLbl01" top="37" text="" left="4" width="540" height="40"/>
+        <Static id="stc_GbReceiver" taborder="6" top="41" height="36" cssclass="sta_POP_GroupBg" width="297" right="4"/>
+        <Static id="stc_BottomFrame" taborder="0" left="0" height="38" right="1" bottom="1" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Send" taborder="1" text="보내기" width="72" height="22" cssclass="btn_WF_tran" right="9" bottom="9" onclick="comm_Click"/>
+        <Button id="btn_Close" taborder="2" top="9" width="15" height="15" right="12" cssclass="btn_POP_Cls" onclick="comm_Click" escapebutton="true"/>
+        <Static id="stc_Sender" taborder="3" text="발신자" top="46" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="13"/>
+        <Static id="stc_Title" taborder="4" text="제목" top="81" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="13"/>
+        <Static id="stc_GbReceiverText" taborder="5" text="받는 사람" top="51" width="65" height="15" cssclass="sta_POP_GroupTit" right="225"/>
+        <Static id="stc_GbReference" taborder="7" top="200" height="36" cssclass="sta_POP_GroupBg" width="297" right="4"/>
+        <Static id="stc_GbReferenceText" taborder="8" text="참 조" top="209" width="72" height="15" cssclass="sta_POP_GroupTit" right="218"/>
+        <Static id="stc_GbHideReference" taborder="9" top="371" height="36" cssclass="sta_POP_GroupBg" width="297" right="4"/>
+        <Static id="stc_GbHideReferenceText" taborder="10" text="숨은 참조 " top="381" width="71" height="14" cssclass="sta_POP_GroupTit" right="219"/>
+        <Button id="btn_SelectReceiver" taborder="11" text="수신자 선택" top="45" width="94" height="24" onclick="comm_Click" right="310"/>
+        <Edit id="edt_Name" taborder="12" left="70" top="46" width="135" height="22"/>
+        <Edit id="edt_Email" taborder="13" left="209" top="46" height="22" right="412"/>
+        <Edit id="edt_Title" taborder="14" left="69" top="81" height="22" text="제목을 입력하세요." displaynulltext="제목을 입력하세요" right="310"/>
+        <Edit id="edt_InputEmailByReceiver" taborder="15" top="81" height="22" text="이메일 주소 직접 입력." displaynulltext="이메일 주소 직접 입력" onkeydown="comm_Keydown" right="62" width="239"/>
+        <Button id="btn_InputEmailByReceiverPlus" taborder="16" width="16" height="16" top="84" onclick="comm_Click" cssclass="btn_POP_Add" right="36"/>
+        <Button id="btn_InputEmailByReceiverMinus" taborder="17" height="16" width="16" top="84" onclick="comm_Click" cssclass="btn_POP_Del" right="12"/>
+        <Grid id="grd_InputEmailByReceiver" taborder="18" top="107" width="298" height="90" binddataset="ds_to" autofittype="col" cellmovingtype="col" cellsizingtype="col" right="3">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="이름"/>
+                <Cell col="1" text="이메일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:NAME"/>
+                <Cell col="1" text="bind:EMAIL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_EmailReference" taborder="19" top="267" width="298" height="101" binddataset="ds_cc" autofittype="col" cellmovingtype="col" cellsizingtype="col" right="3">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="이름"/>
+                <Cell col="1" text="이메일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:NAME"/>
+                <Cell col="1" text="bind:EMAIL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Edit id="edt_EmailReference" taborder="20" top="240" width="239" height="22" text="이메일 주소 직접 입력." displaynulltext="이메일 주소 직접 입력" onkeydown="comm_Keydown" right="62"/>
+        <Button id="btn_EmailReferencePlus" taborder="21" width="16" height="16" top="243" onclick="comm_Click" cssclass="btn_POP_Add" right="36"/>
+        <Button id="btn_EmailReferenceMinus" taborder="22" height="16" width="16" top="243" onclick="comm_Click" cssclass="btn_POP_Del" right="12"/>
+        <Button id="btn_EmailHideReferenceMinus" taborder="23" height="16" width="16" top="413" onclick="comm_Click" cssclass="btn_POP_Del" right="12"/>
+        <Button id="btn_EmailHideReferencePlus" taborder="24" width="16" height="16" top="413" onclick="comm_Click" cssclass="btn_POP_Add" right="36"/>
+        <Edit id="edt_EmailHideReference" taborder="25" top="410" width="239" height="22" text="이메일 주소 직접 입력." displaynulltext="이메일 주소 직접 입력" onkeydown="comm_Keydown" right="62"/>
+        <Grid id="grd_EmailHideReference" taborder="26" top="436" width="297" binddataset="ds_bcc" autofittype="col" cellmovingtype="col" cellsizingtype="col" bottom="43" right="4">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="이름"/>
+                <Cell col="1" text="이메일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:NAME"/>
+                <Cell col="1" text="bind:EMAIL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00" taborder="31" text="E-Mail발송" left="8" top="5" width="96" height="22" color="white" cssclass="sta_POP_Title"/>
+        <WebBrowser id="wb_WebEditor" left="12" top="107" taborder="32" enable="true" onloadcompleted="wb_WebEditor_onloadcompleted" onusernotify="wb_WebEditor_onusernotify" right="310" bottom="43"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 공통 - 공통
+* 02. 화면명		: E-mail 발송 (CE_EMailSend_R01)
+* 03. 화면설명 	: 
+* 04. 작성일   	: 2018.08.08
+* 05. 작성자   	: 안주환
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs"; 
+include "Script::ext_WebEditor.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.strHtml = "";
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.CE_EMailSend_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.fnFormInit();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+	var app = nexacro.getApplication();
+	this.edt_Name.set_value(app.gdsUserInfo.getColumn(0, "EMP_NM"));
+	this.edt_Email.set_value(app.gdsUserInfo.getColumn(0, "EMAIL"));
+	
+	if(this.parent.key == "EmailSend")
+	{
+		for(var i = 0; i<this.parent.dsInput.rowcount; i++)
+		{
+			var nRow = this.ds_to.addRow();
+			this.ds_to.setColumn(nRow, "NAME", this.parent.dsInput.getColumn(i, "EMP_NAME"));
+			this.ds_to.setColumn(nRow, "EMAIL", this.parent.dsInput.getColumn(i, "EMAIL"));
+		}
+	}
+	
+	var objWB = this.wb_WebEditor;
+	var strEditorKind = "A";
+	commWebEditor.gfnCreateWebEditor(objWB, this.strHtml, strEditorKind);	
+}
+
+this.fnAddReceiver = function(objDs,objEdit)
+{
+	var nRow;
+	
+	if(this.fnCheckAddress(objEdit.value)) 
+	{
+		if(objDs.findRow("EMAIL", objEdit.value) == -1){
+			nRow = objDs.addRow();
+			objDs.setColumn(nRow, "NAME", "-");
+			objDs.setColumn(nRow, "EMAIL", objEdit.value);
+		}
+	}
+	objEdit.set_value("");
+}
+
+this.fnCheckAddress = function(eMail)
+{
+	var reg_email = new RegExp(/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{2,5}$/);
+	
+	if(reg_email.test(eMail)) 
+		return true;
+	else 
+		alert("올바른 이메일 주소를 입력하여 주십시오.");
+	
+	return false;
+}
+
+//유효성 체크 - 제목x//내용ok//발신자x//받는사람ok//참조x//숨은참조x
+this.fnCheckValidation = function()
+{
+	if(this.ds_to.rowcount < 1)
+	{
+		alert("받는 사람을 선택해 주세요.");
+		return false; //받는사람
+	}
+	else if(this.gfnIsEmpty(this.strHtml))
+	{
+		alert("내용을 입력해 주세요.");
+		return false; //내용ok
+	}
+	
+	alert("이메일을 발송합니다.");
+	
+	return true;
+}
+
+this.fnIsDuplicate = function(fromDs, toDs)
+{
+	var nRow;
+	
+	for(var j = 0 ; j < fromDs.rowcount ; j++)
+	{
+		nRow = toDs.findRow("EMP_NO", fromDs.getColumn(j,"EMP_NO"));
+		if( nRow == -1 ) 
+		{
+			nRow = toDs.addRow();
+			toDs.copyRow(nRow, fromDs, j);
+			toDs.setColumn(nRow, "EMP_NO", fromDs.getColumn(j, "DEPT_CD"));
+		}
+	}
+}
+
+this.fnSendEmail = function()
+{
+	var arrEmailInfo = new Array();
+	
+	/* TO 설정 */
+	arrEmailInfo[0] = {};
+	arrEmailInfo[0].pvType = "TO";
+	arrEmailInfo[0].pvUserKind = "BASE";
+	arrEmailInfo[0].pvUserCode = this.ds_to;
+	
+	/* CC 설정 */
+	arrEmailInfo[1] = {};
+	arrEmailInfo[1].pvType = "CC";
+	arrEmailInfo[1].pvUserKind = "BASE";
+	arrEmailInfo[1].pvUserCode = this.ds_cc;	
+	
+	/* BCC 설정 */
+	arrEmailInfo[2] = {};
+	arrEmailInfo[2].pvType = "BCC";
+	arrEmailInfo[2].pvUserKind = "BASE";
+	arrEmailInfo[2].pvUserCode = this.ds_bcc;
+	
+	this.gfnAddEmailList(arrEmailInfo);
+	
+	var sTitle = "";
+	if (!this.gfnIsEmpty(this.edt_Title.value)) sTitle=this.edt_Title.value;
+		this.gfnSendEmail ("SendEmail", "APPOINT", this.edt_Email.value, sTitle, this.strHtml);
+}
+
+
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if(nErrorCode != 0)
+	{
+		return;
+	}
+	else
+	{
+		switch(strSvcID){
+		case "SendEmail" :
+			alert("Email발송완료");
+			this.close();
+			break;	
+		}
+	}
+}
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnPopupCallBack = function (popupId, popupArg)
+{
+	popupArg = this.commUtil.popupReturn();
+	if(!this.gfnIsEmpty(popupArg))
+	{
+		switch(popupId){
+		case "popOrganization":
+			var sToType, sEmailValidation;
+			
+			//popupArg의 데이터 기반 Dataset생성
+			var ds = new Dataset();
+			ds.loadXML(popupArg);
+			
+			//중복체크
+			var fnChkValidation = function(dsTarget, row)
+			{
+				sEmailValidation = ds.getColumn(row, "EMAIL");
+				var nRow = dsTarget.findRow("EMAIL", sEmailValidation);
+				
+				if(nRow == -1) 
+				{
+					var nRow = dsTarget.addRow();
+					dsTarget.setColumn(nRow, "NAME", ds.getColumn(row, "EMP_NM"));
+					dsTarget.setColumn(nRow, "EMAIL", ds.getColumn(row, "EMAIL"));
+				}
+			}
+			
+			for(var i = 0; i<ds.rowcount; i++) 
+			{
+				sToType = ds.getColumn(i, "TO_TYPE");
+				
+				//TO_TYPE에 따라 분기 : Dataset 생성
+				if(sToType == "TO") 
+				{
+					fnChkValidation(this.ds_to, i);
+				}
+				else if(sToType== "CC") 
+				{
+					fnChkValidation(this.ds_cc, i);						
+				}
+				else if(sToType == "BCC") 
+				{
+					fnChkValidation(this.ds_bcc, i);
+				}
+			}
+			break;
+		}
+	}
+}
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) 
+	{
+		case "btn_InputEmailByReceiverPlus" :
+			this.fnAddReceiver(this.ds_to, this.edt_InputEmailByReceiver);
+			break;
+		case "btn_EmailReferencePlus" :
+			this.fnAddReceiver(this.ds_cc, this.edt_EmailReference);
+			break;
+		case "btn_EmailHideReferencePlus" : 
+			this.fnAddReceiver(this.ds_bcc, this.edt_EmailHideReference);
+			break;
+		case "btn_InputEmailByReceiverMinus" :
+			this.ds_to.deleteRow(this.ds_to.rowposition);		
+			break;
+		case "btn_EmailReferenceMinus" :
+			this.ds_cc.deleteRow(this.ds_cc.rowposition);		
+			break;
+		case "btn_EmailHideReferenceMinus" : 
+			this.ds_bcc.deleteRow(this.ds_bcc.rowposition);	
+			break;
+		case "btn_Send" :
+			var objWB = this.wb_WebEditor;
+			this.strHtml = commWebEditor.gfnGetContents(objWB);
+						
+			if(this.fnCheckValidation()) {
+				if(this.confirm("Email 발송하시겠습니까?")) {
+					this.fnSendEmail();
+				}
+			}
+				
+			break;
+		case "btn_Close" : 
+			this.close();
+			break;
+		case "btn_RecentSendList" : 
+			this.pdiv_RecentSendList.trackPopup();
+			break;
+		case "btn_SelectReceiver" : 
+			this.commUtil.popupOrganization(this, "popOrganization", "fnPopupCallBack", "EMAIL", null, "1"); 
+			break;
+	}
+};
+
+this.comm_Keydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) {
+		switch(obj.name) 
+		{
+			case "edt_InputEmailByReceiver" :
+				this.fnAddReceiver(this.ds_to, this.edt_InputEmailByReceiver);
+				break;
+			case "edt_EmailReference" : 
+				this.fnAddReceiver(this.ds_cc, this.edt_EmailReference);
+				break;
+			case "edt_EmailHideReference" :
+				this.fnAddReceiver(this.ds_bcc, this.edt_EmailHideReference);
+				break;
+		}
+	}
+};
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_to">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cc">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_bcc">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_email">
+        <ColumnInfo>
+          <Column id="SUBJECT" type="STRING" size="255"/>
+          <Column id="FROM" type="STRING" size="255"/>
+          <Column id="FROM_NM" type="STRING" size="255"/>
+          <Column id="CONTENT" type="STRING" size="255"/>
+          <Column id="HTML_YN" type="STRING" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_RecentData"/>
+    </Objects>
+  </Form>
+</FDL>

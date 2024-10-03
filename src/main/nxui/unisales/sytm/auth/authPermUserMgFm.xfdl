@@ -1,0 +1,524 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="authPermUserMgFm" width="1050" height="736" titletext="권한별 사용자 관리" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1050">
+        <Div id="divSearch" taborder="0" left="0" top="0" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="staCompany" taborder="10" text="회사구분" left="0" top="12" width="87" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="cboCompany" taborder="9" text="알림" left="staCompany:0" top="12" width="139" height="24" index="1" value="INF" innerdataset="gdsCompany" codecolumn="SSC_CD" datacolumn="SSC_CD_KORN_NM"/>
+              <Static id="staTitle00" taborder="3" text="시스템" left="cboCompany:0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="Combo01" taborder="4" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="5" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="6" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="7" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="2" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Combo id="cboSysGubun" taborder="0" text="cbo00" left="staTitle00:0" top="12" width="180" height="24"/>
+              <Static id="staTitle01" taborder="8" text="권한명" left="cboSysGubun:0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Edit id="edtPermNm" taborder="1" left="staTitle01:0" top="12" width="140" height="24"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle00" taborder="1" text="권한 그룹" left="0" top="divSearch:0" height="43" cssclass="sta_WF_Title" width="306"/>
+        <Grid id="grdAuthList" taborder="2" left="0" top="staTitle00:0" bottom="0" width="426" binddataset="dsList" autoenter="select" cellclickbound="cell" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="60"/>
+                <Column size="117"/>
+                <Column size="35"/>
+                <Column size="250"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell edittype="normal" displaytype="normal" text="권한코드"/>
+                <Cell col="1" text="권한명"/>
+                <Cell col="2" text="여부"/>
+                <Cell col="3" text="비고"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="text" text="bind:PERM_ID" textAlign="center" edittype="expr:dataset.getRowType(currow)==2?'text':'none'"/>
+                <Cell col="1" edittype="text" text="bind:PERM_GRP_NM" displaytype="editcontrol"/>
+                <Cell col="2" text="bind:USED_YN" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="3" text="bind:REMK" displaytype="editcontrol" edittype="text"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grdUserList" taborder="3" left="grdAuthList:20" top="93" right="20" autofittype="col" treeusecheckbox="false" binddataset="dsPremTarget" bottom="0" cellclickbound="cell" onheadclick="grdUserList_onheadclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="250"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="사번/ID"/>
+                <Cell col="1" text="사용자명"/>
+                <Cell col="2" text="부서명"/>
+                <Cell col="3" text="비고"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:EMP_NO" textAlign="left"/>
+                <Cell col="1" text="bind:KORN_NM" textAlign="left"/>
+                <Cell col="2" text="bind:DEPT_NM" textAlign="left"/>
+                <Cell col="3" text="bind:REMK" displaytype="editcontrol" edittype="text" editmaxlength="1000"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="staTitle01" taborder="4" text="사용자" left="grdAuthList:20" top="50" height="43" cssclass="sta_WF_Title" right="20"/>
+        <Div id="divCmmBtnCud" taborder="5" text="div00" left="306" top="60" width="119" height="28">
+          <Layouts>
+            <Layout>
+              <Button id="btnSave" taborder="0" text="저장" top="0" height="28" right="0" width="50" onclick="divCmmBtnCud_btnSave_onclick"/>
+              <Button id="btnDel" taborder="1" top="0" height="28" right="btnSave:3" width="28" onclick="divCmmBtnCud_btnDel_onclick" cssclass="btn_WF_DeleteSm"/>
+              <Button id="btnAdd" taborder="2" top="0" height="28" right="btnDel:3" width="28" onclick="divCmmBtnCud_btnAdd_onclick" cssclass="btn_WF_AddSm"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	authPermUserMgFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/04/05
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/04/05			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+                       
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드조회
+	var param = [
+			, {biztype : "Combo", code : "SM00", objid : this.divSearch.form.cboSysGubun}		// 시스템구분
+	];
+	this.gfnGetCommonCode(param);
+	
+	// 버튼 권한 제어
+	this.gfnSetCommBtn(this.divCmmnBtn);
+	
+	var arrComp = [this.divSearch.form.cboCompany];
+	this.gfnSetAuthorityCompany(arrComp);	
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsPremTarget)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";					//메세지ID
+		var arrArg = [""];										//메세지취환될값 배열[생략가능]
+		var sPopId = "search";									//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";						//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+	
+		// 변경된 정보가 있습니다.\n저장 하시겠습니까?
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);
+	}
+	else {
+		this.fnTranSearch();
+	}
+};
+
+//신규
+this.cfnAdd = function ()
+{
+	if( this.dsList.getRowCount() == 0 ) return;
+	
+	//사용자리스트 조회 팝업 오픈
+	var sTitle = "사용자 선택";
+	var oArg   = {pvCompanyCd:this.dsList.getColumn(this.dsList.rowposition, "COMPANY_CD")
+				, pvPermId :this.dsList.getColumn(this.dsList.rowposition, "PERM_ID")
+				, pvSysFlagCd :this.dsList.getColumn(this.dsList.rowposition, "SYTM_FLAG_CD")};
+				
+	var oOption = {title:sTitle,titlebar:true};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup("authPermUserPu", "sytm::auth/authPermUserPu.xfdl", oArg, sPopupCallBack, oOption);
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsPremTarget.rowcount == 0){
+		return;
+	}
+	
+	this.dsPremTarget.deleteRow(this.dsPremTarget.rowposition);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsPremTarget) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+	
+	// 자료를 저장하시겠습니까?
+	this.gfnAlert("confirm.save", [""], "save", "fnMsgCallback");
+	return;
+};
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "searchPremList";
+	var strSvcUrl   = "searchPremList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//이용자 목록 조회
+this.fnTranUserList = function ()
+{
+	var strSvcId    = "searchPremUserList";
+	var strSvcUrl   = "searchPremUserList.do";
+	var inData      = "dsCondDetail=dsCondDetail";
+	var outData     = "dsPremTarget=dsPremTarget";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "savePremUserList";
+	var strSvcUrl   = "savePremUserList.do";
+	var inData      = "dsPremTarget=dsPremTarget:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//권한목록 수정 저장
+this.fnTranSavePrem = function ()
+{
+	var strSvcId    = "savePremGrpList";
+	var strSvcUrl   = "savePremGrpList.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchPremList":
+		case "searchPremUserList":
+			break;
+		case "savePremUserList":
+			this.fnTranUserList();
+			break;
+		default: break;
+	}
+};
+
+//message callback 
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "delete":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}else{
+				this.dsPremTarget.deleteRow(this.dsPremTarget.rowposition);
+				this.fnTranSave();
+			}
+			break;
+		case "save":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}else{
+				this.fnTranSave();
+			}
+		case "savePrem":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}
+			this.fnTranSavePrem();
+			break;
+		case "search":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}else{
+				this.fnTranSearch();
+			}
+			break;
+		case "beforeRowPosChange":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.dsList.set_enableevent(false);
+			this.dsList.set_rowposition(this.dsList.uNewRow);
+			this.fnSetPermTargetSearchCond(this.dsList.uNewRow);
+			this.dsList.set_enableevent(true);
+		default: break;
+	}
+};
+
+//popup callback
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	switch(sPopupId) {
+		case "authPermUserPu":
+			break;
+		default: break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnSetPermTargetSearchCond = function (nNewRow)
+{
+	this.dsCondDetail.clearData();
+	var nRow = this.dsCondDetail.addRow();
+	
+	this.dsCondDetail.setColumn(nRow, "COMPANY_CD"		, this.dsList.getColumn(nNewRow, "COMPANY_CD"));
+	this.dsCondDetail.setColumn(nRow, "PERM_ID"		, this.dsList.getColumn(nNewRow, "PERM_ID"));
+	this.dsCondDetail.setColumn(nRow, "SYTM_FLAG_CD", this.dsList.getColumn(nNewRow, "SYTM_FLAG_CD"));
+	
+	this.fnTranUserList();
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if( e.newrow > -1){
+		this.fnSetPermTargetSearchCond(e.newrow);
+	}
+};
+
+this.dsList_canrowposchange = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.dsList.uNewRow = e.newrow;
+	this.dsList.uOldRow = e.oldrow;
+	
+	// 마스터 row변경전 상세정보 저장유무 확인
+	if (this.gfnDsIsUpdated(this.dsPremTarget)) {
+		//해당 row의 위치를 이동하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		this.gfnAlert("confirm.before.moveropos", [""], "beforeRowPosChange", "fnMsgCallback");
+		return false;
+	}
+};
+
+//권한그룹 삭제
+this.divCmmBtnCud_btnDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.dsList.rowcount == 0){
+		return;
+	}
+	
+	this.dsList.deleteRow(this.dsList.rowposition);
+};
+
+//권한그룹 추가
+this.divCmmBtnCud_btnAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsList.addRow();
+	this.dsList.setColumn(nRow, "COMPANY_CD", this.divSearch.form.cboCompany.value);
+	this.dsList.setColumn(nRow, "SYTM_FLAG_CD", this.divSearch.form.cboSysGubun.value);
+	this.dsList.setColumn(nRow, "USED_YN", "1");
+	
+	this.grdAuthList.setCellPos(0);
+	this.grdAuthList.showEditor(true);
+};
+
+//validation
+this.fnValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+	this.gfnSetValidation(this.dsList, "COMPANY_CD"	 	 , "회사"		, "required");
+	this.gfnSetValidation(this.dsList, "PERM_ID"	 	 , "권한코드"		, "required");
+	this.gfnSetValidation(this.dsList, "PERM_GRP_NM"	 , "권한명"		, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.grdAuthList, "U") == false) {
+		return false;
+	}else{
+		return true;
+	}
+};
+
+//권한그룹저장
+this.divCmmBtnCud_btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+	
+	if(this.fnValidation()){	
+		// 자료를 저장하시겠습니까?
+		this.gfnAlert("confirm.save", [""], "savePrem", "fnMsgCallback");
+		return;
+	}
+};
+
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="PREM_NM" type="STRING" size="256"/>
+          <Column id="SYTM_FLAG_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged" canrowposchange="dsList_canrowposchange"/>
+      <Dataset id="dsPremTarget"/>
+      <Dataset id="dsCondDetail">
+        <ColumnInfo>
+          <Column id="PERM_ID" type="STRING" size="256"/>
+          <Column id="SYTM_FLAG_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.cboSysGubun" propid="value" datasetid="dsCond" columnid="SYTM_FLAG_CD"/>
+      <BindItem id="item1" compid="divSearch.form.edtPermNm" propid="value" datasetid="dsCond" columnid="PREM_NM"/>
+      <BindItem id="item2" compid="divSearch.form.cboCompany" propid="value" datasetid="dsCond" columnid="COMPANY_CD"/>
+    </Bind>
+  </Form>
+</FDL>

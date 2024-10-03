@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SC_CompanyMerge" width="500" height="475" titletext="회사 병합" cssclass="frm_popBg" onload="SC_CompanyMerge_onload">
+    <Layouts>
+      <Layout height="475" mobileorientation="landscape" width="500">
+        <Button id="btn_Close" taborder="0" top="8" width="15" height="15" right="11" cssclass="btn_POP_Cls" onclick="comm_Click" text="" escapebutton="true"/>
+        <Static id="stc_BottomFrame" taborder="1" left="2" height="35" right="1" bottom="1" cssclass="sta_POP_BtnBg"/>
+        <Static id="Static00" taborder="2" text="회사 병합" left="8" top="5" width="164" height="22" color="white" cssclass="sta_POP_Title " TL_SEQ="2272"/>
+        <Static id="stc_CompanyReg1" taborder="3" cssclass="sta_WF_detailBg" top="39" text="" left="4" bottom="467" right="4"/>
+        <Static id="stc_SourceCompany" taborder="4" text="Source Company" left="12" top="50" width="104" height="22" textAlign="right" cssclass="sta_WF_detailLbl01"/>
+        <Static id="stc_TargetCompany" taborder="5" text="Target Company" left="12" top="100" width="104" height="22" textAlign="right" cssclass="sta_WF_detailLbl01"/>
+        <Div id="div_SourceCompany" taborder="6" top="50" height="22" kind="COMPANY" async="false" mode="" left="200" url="Common::COM_Search.xfdl" right="12" user_onchanged="fn_SetCompanyCode"/>
+        <Static id="stc_SourceCompany00" taborder="10" left="322" top="div_SourceCompany:8" width="44" height="12" textAlign="right" cssclass="sta_WF_detailLbl01" background="url('theme://images/btn_WF_SchOpen2.png') no-repeat center center"/>
+        <Div id="div_TargetCompany" taborder="7" top="stc_SourceCompany00:8" height="22" kind="COMPANY" async="false" mode="" left="200" url="Common::COM_Search.xfdl" right="12" user_onchanged="fn_SetCompanyCode"/>
+        <Button id="btn_Cancel" taborder="8" text="닫기" width="60" height="22" cssclass="btn_WF_cancel" right="8" bottom="8" onclick="comm_Click" TL_SEQ="59"/>
+        <Button id="btn_Save" taborder="9" text="저장" width="60" height="22" cssclass="btn_WF_tran" right="btn_Cancel:8" bottom="8" onclick="comm_Click" TL_SEQ="115"/>
+        <Edit id="edt_SourceCompany" taborder="11" left="120" top="50" width="80" height="22" readonly="true"/>
+        <Edit id="edt_TargetCompany" taborder="12" left="120" top="100" width="80" height="22" readonly="true"/>
+        <Static id="stc_GbSalesProd1" taborder="14" cssclass="sta_POP_GroupBg" left="4" top="137" height="32" right="4"/>
+        <Grid id="grd_ContractList" taborder="13" left="4" top="stc_GbSalesProd1:0" autofittype="col" right="4" cellmovingtype="col" cellsizingtype="col" bottom="40" binddataset="dsList" oncelldblclick="tab_Info_tpg_Contract_grd_ContractList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="170"/>
+                <Column size="170"/>
+                <Column size="70"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="원본" TL_SEQ="2277"/>
+                <Cell col="1" text="변경" TL_SEQ="1953"/>
+                <Cell col="2" text="병합일자" TL_SEQ="2278"/>
+                <Cell col="3" text="작업자" TL_SEQ="254"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SOURCE_COMPANY_NAME" textAlign="left"/>
+                <Cell col="1" text="bind:TARGET_COMPANY_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="3" text="bind:INSERT_EMP_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_SalesProd1" taborder="15" text="[회사 병합 이력]" left="10" top="145" width="134" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2279"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 
+* 02. 화면명   : 
+* 03. 화면설명 : 
+* 04. 작성일   : 
+* 05. 작성자   : 
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.SC_CompanyMerge_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.fnFormInit();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{	
+	this.fnSearch();
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnSearch = function()
+{	
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("dsList", "dsOutput");
+		
+	this.gfnCommonTransaction("Select", "SC_CompanyMerge_S01");
+};
+
+this.fnSave = function() 
+{		
+	this.dsInput.clearData();
+	this.dsInput.addRow();
+	this.dsInput.setColumn(0, "SOURCE_COMPANY_CODE", this.div_SourceCompany.getCode());
+	this.dsInput.setColumn(0, "TARGET_COMPANY_CODE", this.div_TargetCompany.getCode());
+	this.dsInput.setColumn(0, "TARGET_COMPANY_NAME", this.div_TargetCompany.getData());
+	
+	this.gfnAddInputDataset("dsInput", "dsInput");
+		
+	this.gfnCommonTransaction("Save", "SC_CompanyMerge_R01");
+};
+
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		if(strSvcID=="Save") 
+		{	
+			alert(this.gfnGetTransTxt(2280,"회사병합이 완료되었습니다.\n@1@ ▶ @2@",[this.div_SourceCompany.getData(), this.div_TargetCompany.getData()]));
+			this.fnSearch();
+		}
+	}
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		case "btn_Close" : 
+		case "btn_Cancel" : 		
+			this.commUtil.popupClose("");
+			break;
+		case "btn_Save" : 		
+			this.fnSave();
+			break;
+	}
+};
+
+this.fn_SetCompanyCode = function(obj, e)
+{
+	switch(obj.name)
+	{
+		case "div_SourceCompany" : 
+			this.edt_SourceCompany.set_value(this.div_SourceCompany.getCode());
+			break;
+		case "div_TargetCompany" : 
+			this.edt_TargetCompany.set_value(this.div_TargetCompany.getCode());
+			break;
+	}
+};]]></Script>
+    <Objects>
+      <Dataset id="dsInput">
+        <ColumnInfo>
+          <Column id="SOURCE_COMPANY_CODE" type="STRING" size="256"/>
+          <Column id="TARGET_COMPANY_CODE" type="STRING" size="256"/>
+          <Column id="TARGET_COMPANY_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="SOURCE_COMPANY_CODE" type="string" size="20"/>
+          <Column id="SOURCE_COMPANY_NAME" type="string" size="100"/>
+          <Column id="TARGET_COMPANY_CODE" type="string" size="20"/>
+          <Column id="TARGET_COMPANY_NAME" type="string" size="100"/>
+          <Column id="INSERT_DATE" type="datetime" size="23"/>
+          <Column id="INSERT_EMP_NO" type="string" size="60"/>
+          <Column id="INSERT_EMP_NAME" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

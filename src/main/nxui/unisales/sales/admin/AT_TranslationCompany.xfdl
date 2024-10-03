@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AT_TranslationCompany" width="1280" height="720" titletext="번역회사목록" onload="AT_TranslationCompany_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Div id="div_Search" taborder="0" left="8" top="8" height="40" cssclass="div_WF_SchList" right="8" text="">
+          <Layouts>
+            <Layout>
+              <Static id="stc_TranslationKind" taborder="4" left="8" top="9" width="58" height="22" cssclass="sta_WF_DetailTit" text="번역 여부" TL_SEQ="22602"/>
+              <Combo id="cmb_TranslationKind" taborder="5" left="stc_TranslationKind:8" top="9" width="187" height="22" innerdataset="ds_cmm_TranslationKind" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Search_cmb_TranslationKind_onitemchanged"/>
+              <Static id="stc_TLData" taborder="0" text="회사명" left="cmb_TranslationKind:8" top="9" width="58" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="148"/>
+              <Button id="btn_Search" taborder="1" text="조회" top="9" width="58" height="22" cssclass="btn_WF_SchText" right="74" onclick="common_onclick" TL_SEQ="118"/>
+              <Button id="btn_Save" taborder="2" text="저장" top="9" height="22" onclick="common_onclick" right="btn_Search:8" width="58" cssclass="btn_WF_tran" TL_SEQ="115"/>
+              <Edit id="edt_TLData" taborder="3" left="stc_TLData:8" top="9" width="300" height="22" onkeydown="div_Search_edt_TLData_onkeydown"/>
+              <Button id="btn_Excel" taborder="6" text="Excel" top="9" height="22" cssclass="btn_WF_Excel" width="58" left="btn_Search:8" onclick="common_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_paging" taborder="2" left="8" height="24" url="Common::COM_Paging.xfdl" right="24" bottom="10"/>
+        <Static id="stc_TranslationListBg" taborder="4" left="8" top="58" width="800" height="31" cssclass="sta_POP_GroupBg"/>
+        <Grid id="grd_TranslationList" taborder="1" left="8" top="stc_TranslationListBg:0" autofittype="col" bottom="div_paging:8" binddataset="dsTranslationCompanyList" width="800">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="150"/>
+                <Column size="300"/>
+                <Column size="300"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="회사코드" TL_SEQ="147"/>
+                <Cell col="1" text="회사명" TL_SEQ="148"/>
+                <Cell col="2" text="일문 회사명" TL_SEQ="2314"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COMPANY_CODE"/>
+                <Cell col="1" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:COMPANY_NAME_JAP" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_TranslationExcelList" taborder="3" left="1370" top="58" autofittype="none" right="-1354" bottom="42" visible="false" binddataset="dsTranslationCompanyExcelList">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="100"/>
+                <Column size="300"/>
+                <Column size="300"/>
+                <Column size="300"/>
+                <Column size="400"/>
+                <Column size="400"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No" TL_SEQ="167"/>
+                <Cell col="1" text="회사코드" TL_SEQ="147"/>
+                <Cell col="2" text="회사명" TL_SEQ="148"/>
+                <Cell col="3" text="일문 회사명" TL_SEQ="2314"/>
+                <Cell col="4" text="TAG"/>
+                <Cell col="5" text="비고" TL_SEQ="45"/>
+                <Cell col="6" text="일문 비고" TL_SEQ="22645"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow + 1"/>
+                <Cell col="1" text="bind:COMPANY_CODE"/>
+                <Cell col="2" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:COMPANY_NAME_JAP" textAlign="left"/>
+                <Cell col="4" text="bind:TAG" textAlign="left"/>
+                <Cell col="5" text="bind:REMARKS" textAlign="left"/>
+                <Cell col="6" text="bind:REMARKS_JAP" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_TranslationListTit" taborder="5" text="회사목록" left="16" top="66" width="152" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="22642"/>
+        <Static id="stc_TranslationListBg00" taborder="7" left="816" top="58" height="31" cssclass="sta_POP_GroupBg" right="8"/>
+        <Div id="div_InsertInfo" taborder="9" bottom="div_paging:8" height="22" left="816" right="8">
+          <Layouts>
+            <Layout>
+              <Static id="stc_InsertEmpNm" taborder="0" text="등록자" left="6" top="0" width="80" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="81"/>
+              <Edit id="edt_InsertEmpNm" taborder="1" left="94" top="0" width="130" height="22" readonly="true"/>
+              <Static id="stc_InsertDate" taborder="2" text="등록일" left="232" top="0" width="80" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="77"/>
+              <Calendar id="cal_InsertDate" taborder="3" left="320" top="0" width="128" height="22" readonly="true" dateformat="yyyy-MM-dd"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_TranslationDet" taborder="6" top="stc_TranslationListBg00:0" text="" bottom="div_InsertInfo:8" left="grd_TranslationList:8" right="8">
+          <Layouts>
+            <Layout>
+              <Static id="stc_CompanyCd" taborder="0" text="회사코드" left="6" top="9" width="80" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="147"/>
+              <Edit id="edt_CompanyCd" taborder="1" left="stc_CompanyCd:8" top="9" height="22" right="8" readonly="true"/>
+              <Static id="stc_CompanyJap" taborder="4" text="일문 회사명" left="6" top="137" width="80" cssclass="sta_WF_DetailTit" bottom="332" TL_SEQ="2314"/>
+              <Static id="stc_Remark" taborder="8" text="비고" left="6" top="stc_CompanyJap:8" width="80" cssclass="sta_WF_DetailTit" bottom="169" TL_SEQ="45"/>
+              <Static id="stc_RemarksJap" taborder="6" text="일문 비고" left="6" top="stc_Remark:8" width="80" height="155" cssclass="sta_WF_DetailTit" TL_SEQ="22645"/>
+              <Static id="stc_Company" taborder="2" text="국문 회사명" left="6" top="39" width="80" cssclass="sta_WF_DetailTit" bottom="stc_CompanyJap:8" TL_SEQ="22644"/>
+              <TextArea id="ta_CompanyJap" taborder="5" left="stc_CompanyJap:8" top="137" right="8" bottom="332"/>
+              <TextArea id="ta_Remark" taborder="9" left="94" top="ta_CompanyJap:8" right="8" readonly="false" height="155"/>
+              <TextArea id="ta_RemarksJap" taborder="7" left="stc_RemarksJap:8" top="ta_Remark:8" height="155" right="8"/>
+              <TextArea id="ta_Company" taborder="3" left="stc_Company:8" top="39" right="8" bottom="ta_CompanyJap:8" readonly="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_TranslationListTit00" taborder="8" text="번역 회사정보" left="828" top="66" width="152" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="22643"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsTranslationCompanyList">
+        <ColumnInfo>
+          <Column id="COMPANY_CODE" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME_JAP" type="STRING" size="256"/>
+          <Column id="TAG" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="REMARKS_JAP" type="STRING" size="256"/>
+          <Column id="TRANS_TARGET" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTranslationCompanyListCnt">
+        <ColumnInfo>
+          <Column id="TOTAL_COUNT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTranslationCompanyExcelList">
+        <ColumnInfo>
+          <Column id="COMPANY_CODE" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME_JAP" type="STRING" size="256"/>
+          <Column id="TAG" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="REMARKS_JAP" type="STRING" size="256"/>
+          <Column id="TRANS_TARGET" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_TranslationKind">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 번역관리
+ * 02. 화면명   : 번역메뉴목록 탭(AT_TranslationCompany)
+ * 03. 화면설명 : 번역메뉴목록
+ * 04. 작성일   : 2023.02.06
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.gUseAuth;
+this.bFirst = true;		// 페이징공통 컴포넌트 초기화 처리 Flag
+this.curStartNum = 1;	// 현재 게시글 시작 번호
+this.curEndNum;			// 현재 게시글 마지막 번호
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.AT_TranslationCompany_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();			// 공통코드 조회
+};
+
+// 권한 처리 
+this.fnAuthConfig = function()
+{
+	this.gUseAuth = this.parent.parent.parent.FV_AUTH;
+	this.fnFormInit();
+};
+
+this.fnFormInit = function()
+{
+	// 번역여부 : "전체" 
+	this.div_Search.form.cmb_TranslationKind.set_index(0);
+	
+	// 조회 설정
+	this.div_paging.form.fn_loadInit(0, 10, true, this);
+	this.fnSearchCnt();
+};
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+// 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_TranslationKind",	"NO_TRANSLATION_KIND", true); 		// 미 번역 종류
+	this.gfnCodeTransaction();
+};
+
+// [필수공통함수] 페이징공통화면에서 초기화 검색시 호출하는 함수
+this.fnPagingInit = function()
+{
+	this.fnSearchCnt();
+};
+
+// [필수공통함수] 공통 페이징화면에서 호출하는 함수
+this.fnPagingSearch = function(nStartNum, nEndNum)
+{
+	this.fnSearch(nStartNum, nEndNum);
+}; 
+
+// 조회 Reset 
+this.fnResetSearch = function()
+{
+	this.bFirst = true;
+	this.div_paging.form.fn_goFirst();
+};
+
+// 조회 CNT
+this.fnSearchCnt = function()
+{
+	var sData = this.div_Search.form.edt_TLData.value;
+	var sTranslationKind = this.div_Search.form.cmb_TranslationKind.value;
+	
+	this.gfnAddSendParameter("DATA", sData);
+	this.gfnAddSendParameter("TRANSLATION_KIND", sTranslationKind);
+	
+	this.gfnAddOutputDataset("dsTranslationCompanyListCnt", "dsOutput");	
+	this.gfnCommonTransaction("Search_TranslationCompany_Cnt", "AT_TranslationCompany_S01_Cnt");
+};
+
+// 조회
+this.fnSearch = function(nStartNum, nEndNum)
+{
+	var sData = this.div_Search.form.edt_TLData.value;
+	var sTranslationKind = this.div_Search.form.cmb_TranslationKind.value;
+	
+	// 저장 후 리 로딩시 필요
+	this.curStartNum = nStartNum;
+	this.curEndNum = nEndNum;
+	
+	this.gfnAddSendParameter("START_NO", nStartNum);
+	this.gfnAddSendParameter("END_NO", nEndNum);
+	this.gfnAddSendParameter("DATA", sData);
+	this.gfnAddSendParameter("TRANSLATION_KIND", sTranslationKind);
+	
+	this.gfnAddOutputDataset("dsTranslationCompanyList", "dsOutput");	
+	this.gfnCommonTransaction("Search_TranslationCompany", "AT_TranslationCompany_S01", this.grd_TranslationList);
+};
+
+// Validation
+this.fnValidation = function()
+{
+	/*
+		필수 값 : 	 COMPANY_NAME
+	*/
+	var bResult = this.gfnIsUpdateDs(this.dsTranslationCompanyList);
+	
+	if(bResult) {
+		for(var i = 0; i < this.dsTranslationCompanyList.rowcount; i++) {
+			var sCompany = this.dsTranslationCompanyList.getColumn(i, "COMPANY_NAME");
+			
+			if(this.gfnIsEmpty(sCompany)) {
+				alert(this.gfnGetTransTxt(22646,"국문 회사명은 필수 값입니다."));
+				this.div_TranslationDet.form.ta_Company.setFocus();
+				return;
+			}
+		}
+		
+		this.fnSetData();
+	} else {
+		alert(this.gfnGetTransTxt(1215,"변경된 내역이 없습니다."));
+	}
+};
+
+// 데이터 셋팅
+this.fnSetData = function()
+{
+	this.dsTranslationCompanyList.set_enableevent(false);
+	
+	for(var i = 0; i < this.dsTranslationCompanyList.rowcount; i++) {
+		var sRowType = this.dsTranslationCompanyList.getRowType(i);
+		
+		// 변경 사항이 있는 것들만 체크
+		if(sRowType == 4) {
+			var sTranTarget = this.dsTranslationCompanyList.getColumn(i, "TRANS_TARGET");
+			var sCompany = this.dsTranslationCompanyList.getColumn(i, "COMPANY_NAME");
+			var sOrgCompany = this.dsTranslationCompanyList.getOrgColumn(i, "COMPANY_NAME");
+			var sCompanyJap = this.dsTranslationCompanyList.getColumn(i, "COMPANY_NAME_JAP");
+			var sOrgCompanyJap = this.dsTranslationCompanyList.getOrgColumn(i, "COMPANY_NAME_JAP");
+			
+			/*
+				TRANS_TARGET :	JAP  일문 기입 대상
+								KOR  국문 기입 대상
+								NONE 
+			*/
+			if(sTranTarget == "JAP") {
+				if(!this.gfnIsEmpty(sCompanyJap)) this.dsTranslationCompanyList.setColumn(i, "TRANS_TARGET", "NONE");
+			} else if(sTranTarget == "KOR") {
+				if(!this.gfnIsEmpty(sCompany)) this.dsTranslationCompanyList.setColumn(i, "TRANS_TARGET", "NONE");
+			} else {
+				// 두개 데이터 모두 바꾼 경우 같은 데이터라고 인식
+				if(sCompany != sOrgCompany && sCompanyJap != sOrgCompanyJap) continue;
+				else if(sCompany != sOrgCompany) this.dsTranslationCompanyList.setColumn(i, "TRANS_TARGET", "JAP");
+				else if(sCompanyJap != sOrgCompanyJap) this.dsTranslationCompanyList.setColumn(i, "TRANS_TARGET", "KOR");
+			}
+		}
+	}
+	
+	this.dsTranslationCompanyList.set_enableevent(true);
+	
+	this.fnSave();
+};
+
+// 저장
+this.fnSave = function()
+{
+	this.gfnAddInputDataset("dsTranslationCompanyList", "dsInput");
+	this.gfnCommonTransaction("Save", "AT_TranslationCompany_R01");
+};
+
+// 엑셀 데이터 조회
+this.fnExcelData = function()
+{
+	var sData = this.div_Search.form.edt_TLData.value;
+	var sTranslationKind = this.div_Search.form.cmb_TranslationKind.value;
+	
+	this.gfnAddSendParameter("DATA", sData);
+	this.gfnAddSendParameter("TRANSLATION_KIND", sTranslationKind);
+	
+	this.gfnAddOutputDataset("dsTranslationCompanyExcelList", "dsOutput");	
+	this.gfnCommonTransaction("Search_TranslationCompanyExcelList", "AT_TranslationCompany_S02", this.grd_TranslationExcelList);
+};
+
+// 엑셀
+this.fnExcel = function()
+{
+	var objGrd = this.grd_TranslationExcelList;
+	var sFileNm = this.gfnGetTransTxt(22601,"번역회사목록");
+	var sSTranslationKindNm = this.div_Search.form.cmb_TranslationKind.text;
+	sFileNm += "(" + sSTranslationKindNm + ")";
+	
+	this.gfn_excelExport(this, objGrd, sFileNm);
+};
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if (nErrorCode<0) {
+		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		return;
+	} else {
+		switch (strSvcID) 
+		{
+			case "gfnGetCode" :			
+				// 일문만 영문 X
+				this.ds_cmm_TranslationKind.filter("CODE!='ENG'");
+				
+				// 권한 처리
+				this.fnAuthConfig();
+				break;
+			case "Search_TranslationCompany_Cnt" :
+				this.fnSearch(1, this.div_paging.form.fv_pageListCnt);
+				break;
+			case "Search_TranslationCompany" :
+				if(this.bFirst) {
+					// [필수] 전체건수 설정
+					this.div_paging.form.fn_init(this.dsTranslationCompanyListCnt.getColumn(0, "TOTAL_COUNT"), 10, true, this);
+					this.bFirst = false;
+				}
+				break;
+			case "Search_TranslationCompanyExcelList" :
+				this.fnExcel();
+				break;
+			case "Save" :
+				this.fnSearch(this.curStartNum, this.curEndNum);
+				break;
+		}
+	}
+};
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{	
+		case "btn_Search":	// 조회
+			this.fnResetSearch();
+			//this.fnSearchCnt();
+			break;
+		case "btn_Save":	// 저장
+			this.fnValidation();
+			break;
+		case "btn_Excel":	// 엑셀
+			this.fnExcelData();
+			break;
+	}
+};
+
+// 엔터 쳤을 경우 이벤트 
+this.div_Search_edt_TLData_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.fnResetSearch();
+	}
+};
+
+// 번역 대상 변경 이벤트
+this.div_Search_cmb_TranslationKind_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnResetSearch();
+};
+
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_TranslationDet.form.edt_CompanyCd" propid="value" datasetid="dsTranslationCompanyList" columnid="COMPANY_CODE"/>
+      <BindItem id="item1" compid="div_TranslationDet.form.ta_Company" propid="value" datasetid="dsTranslationCompanyList" columnid="COMPANY_NAME"/>
+      <BindItem id="item2" compid="div_TranslationDet.form.ta_CompanyJap" propid="value" datasetid="dsTranslationCompanyList" columnid="COMPANY_NAME_JAP"/>
+      <BindItem id="item3" compid="div_TranslationDet.form.ta_Remark" propid="value" datasetid="dsTranslationCompanyList" columnid="REMARKS"/>
+      <BindItem id="item4" compid="div_TranslationDet.form.ta_RemarksJap" propid="value" datasetid="dsTranslationCompanyList" columnid="REMARKS_JAP"/>
+      <BindItem id="item5" compid="div_InsertInfo.form.edt_InsertEmpNm" propid="value" datasetid="dsTranslationCompanyList" columnid="INSERT_EMP_NM"/>
+      <BindItem id="item6" compid="div_InsertInfo.form.cal_InsertDate" propid="value" datasetid="dsTranslationCompanyList" columnid="INSERT_DATE"/>
+    </Bind>
+  </Form>
+</FDL>

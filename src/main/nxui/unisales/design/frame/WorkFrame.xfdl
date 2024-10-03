@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmWork" width="1070" height="772" titletext="Work" cssclass="frm_WF_Frame">
+    <Layouts>
+      <Layout height="772" mobileorientation="landscape" width="1070">
+        <Div id="Div00" taborder="0" text="업무영역" left="20" top="52" right="0" bottom="20" maxheight="" maxwidth="" url="design::template/Temp02.xfdl" minwidth="1050" cssclass="div_WF_Frame"/>
+        <Div id="Div01" taborder="1" left="20" top="0" height="52" url="design::frame/Workcomm.xfdl" right="20"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

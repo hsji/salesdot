@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AH_BoardList" width="1280" height="720" titletext="게시판관리" onload="AH_BoardList_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Div id="div_Search" taborder="0" left="8" top="8" height="40" cssclass="div_WF_SchList" right="24" text="">
+          <Layouts>
+            <Layout>
+              <Static id="stc_LanguageCode" taborder="3" text="언어구분" left="8" top="9" width="58" height="22" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_LanguageCode" taborder="1" left="stc_LanguageCode:8" top="9" width="150" height="22" innerdataset="ds_cmm_LanguageCode" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Search_cmb_LanguageCode_onitemchanged"/>
+              <Static id="stc_BoardCode" taborder="0" text="게시판" left="cmb_LanguageCode:8" top="9" width="58" height="22" cssclass="sta_WF_DetailTit"/>
+              <Button id="btn_Excel" taborder="4" text="Excel" top="9" height="22" cssclass="btn_WF_Excel" width="68" right="8" onclick="common_onclick"/>
+              <Button id="btn_Search" taborder="2" text="조회" top="9" width="58" height="22" cssclass="btn_WF_SchText" right="btn_Excel:8" onclick="common_onclick"/>
+              <Combo id="cmb_BoardCode" taborder="5" left="stc_BoardCode:8" top="9" width="150" height="22" text="" innerdataset="ds_cmm_BoardCode" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Search_cmb_BoardCode_onitemchanged"/>
+              <Static id="stc_Subject" taborder="6" text="제목" left="cmb_BoardCode:8" top="9" width="58" height="22" cssclass="sta_WF_DetailTit"/>
+              <Edit id="edt_Subject" taborder="7" left="stc_Subject:8" top="9" width="360" height="22" onkeydown="div_Search_edt_Subject_onkeydown"/>
+              <Button id="btn_Insert" taborder="8" text="등록" top="9" height="23" cssclass="btn_WF_tran" right="btn_Search:8" width="59" onclick="common_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_paging" taborder="2" left="8" height="24" bottom="10" url="Common::COM_Paging.xfdl" right="24"/>
+        <Grid id="grd_BoardList" taborder="1" left="8" autofittype="col" autosizingtype="none" right="24" top="56" bottom="div_paging:8" autoenter="select" binddataset="ds_BoardList" oncelldblclick="grd_BoardList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="120"/>
+                <Column size="450"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="상단고정"/>
+                <Cell col="2" text="제목"/>
+                <Cell col="3" text="작성자"/>
+                <Cell col="4" text="작성일"/>
+                <Cell col="5" text="수정일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow + 1"/>
+                <Cell col="1" text="bind:TOP_FIXED_FLAG" displaytype="combotext" combodataset="ds_cmm_TopFiedFlag" combodatacol="CAPTION" combocodecol="CODE"/>
+                <Cell col="2" text="bind:SUBJECT" textAlign="left"/>
+                <Cell col="3" text="bind:INSERT_EMP_NM"/>
+                <Cell col="4" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="5" displaytype="date" text="bind:UPDATE_DATE" calendardateformat="yyyy-MM-dd" calendardisplayinvalidtype="default" calendardisplaynulltype="none"/>
+              </Band>
+            </Format>
+            <Format id="NOTICE">
+              <Columns>
+                <Column size="48"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="450"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="상단고정"/>
+                <Cell col="2" text="팝업사용"/>
+                <Cell col="3" text="제목"/>
+                <Cell col="4" text="작성자"/>
+                <Cell col="5" text="작성일"/>
+                <Cell col="6" text="수정일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow + 1"/>
+                <Cell col="1" text="bind:TOP_FIXED_FLAG" displaytype="combotext" combodataset="ds_cmm_TopFiedFlag" combodatacol="CAPTION" combocodecol="CODE"/>
+                <Cell col="2" text="bind:POPUP_FLAG" displaytype="combotext" combodataset="ds_cmm_PopupFlag" combodatacol="CAPTION" combocodecol="CODE"/>
+                <Cell col="3" text="bind:SUBJECT" textAlign="left"/>
+                <Cell col="4" text="bind:INSERT_EMP_NM"/>
+                <Cell col="5" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="6" displaytype="date" text="bind:UPDATE_DATE" calendardateformat="yyyy-MM-dd" calendardisplayinvalidtype="default" calendardisplaynulltype="none"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_BoardExcelList" taborder="3" left="1320" autofittype="col" autosizingtype="none" right="-1288" top="56" bottom="42" autoenter="select" binddataset="ds_BoardExcelList" oncelldblclick="grd_BoardList_oncelldblclick" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="120"/>
+                <Column size="450"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="상단고정"/>
+                <Cell col="2" text="제목"/>
+                <Cell col="3" text="작성자"/>
+                <Cell col="4" text="작성일"/>
+                <Cell col="5" text="수정일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow + 1"/>
+                <Cell col="1" text="bind:TOP_FIXED_FLAG" displaytype="combotext" combodataset="ds_cmm_TopFiedFlag" combodatacol="CAPTION" combocodecol="CODE"/>
+                <Cell col="2" text="bind:SUBJECT" textAlign="left"/>
+                <Cell col="3" text="bind:INSERT_EMP_NM"/>
+                <Cell col="4" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="5" displaytype="date" text="bind:UPDATE_DATE" calendardateformat="yyyy-MM-dd" calendardisplayinvalidtype="default" calendardisplaynulltype="none"/>
+              </Band>
+            </Format>
+            <Format id="NOTICE">
+              <Columns>
+                <Column size="48"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="450"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="상단고정"/>
+                <Cell col="2" text="팝업사용"/>
+                <Cell col="3" text="제목"/>
+                <Cell col="4" text="작성자"/>
+                <Cell col="5" text="작성일"/>
+                <Cell col="6" text="수정일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow + 1"/>
+                <Cell col="1" text="bind:TOP_FIXED_FLAG" displaytype="combotext" combodataset="ds_cmm_TopFiedFlag" combodatacol="CAPTION" combocodecol="CODE"/>
+                <Cell col="2" text="bind:POPUP_FLAG" displaytype="combotext" combodataset="ds_cmm_PopupFlag" combodatacol="CAPTION" combocodecol="CODE"/>
+                <Cell col="3" text="bind:SUBJECT" textAlign="left"/>
+                <Cell col="4" text="bind:INSERT_EMP_NM"/>
+                <Cell col="5" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="6" displaytype="date" text="bind:UPDATE_DATE" calendardateformat="yyyy-MM-dd" calendardisplayinvalidtype="default" calendardisplaynulltype="none"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_cmm_LanguageCode">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_BoardCode">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_TopFiedFlag">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">미사용</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">사용</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cmm_PopupFlag">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">미사용</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">사용</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_BoardList">
+        <ColumnInfo>
+          <Column id="RN" type="STRING" size="256"/>
+          <Column id="BL_SEQ" type="STRING" size="256"/>
+          <Column id="LANGUAGE_CODE" type="STRING" size="256"/>
+          <Column id="BOARD_CODE" type="STRING" size="256"/>
+          <Column id="SUBJECT" type="STRING" size="256"/>
+          <Column id="TOP_FIXED_FLAG" type="STRING" size="256"/>
+          <Column id="POPUP_FLAG" type="STRING" size="256"/>
+          <Column id="POPUP_CODE" type="STRING" size="256"/>
+          <Column id="EXPRESSION_CODE" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="CONTENTS" type="STRING" size="256"/>
+          <Column id="DELETE_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NM" type="STRING" size="256"/>
+          <Column id="INSERT_MODEL" type="STRING" size="256"/>
+          <Column id="UPDATE_DATE" type="STRING" size="256"/>
+          <Column id="UPDATE_EMP_NO" type="STRING" size="256"/>
+          <Column id="UPDATE_MODEL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_BoardListCnt" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="TOTAL_COUNT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_BoardExcelList">
+        <ColumnInfo>
+          <Column id="RN" type="STRING" size="256"/>
+          <Column id="BL_SEQ" type="STRING" size="256"/>
+          <Column id="LANGUAGE_CODE" type="STRING" size="256"/>
+          <Column id="BOARD_CODE" type="STRING" size="256"/>
+          <Column id="SUBJECT" type="STRING" size="256"/>
+          <Column id="TOP_FIXED_FLAG" type="STRING" size="256"/>
+          <Column id="POPUP_FLAG" type="STRING" size="256"/>
+          <Column id="POPUP_CODE" type="STRING" size="256"/>
+          <Column id="EXPRESSION_CODE" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="CONTENTS" type="STRING" size="256"/>
+          <Column id="DELETE_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NM" type="STRING" size="256"/>
+          <Column id="INSERT_MODEL" type="STRING" size="256"/>
+          <Column id="UPDATE_DATE" type="STRING" size="256"/>
+          <Column id="UPDATE_EMP_NO" type="STRING" size="256"/>
+          <Column id="UPDATE_MODEL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 홈페이지관리
+ * 02. 화면명   : 게시판 탭페이지(AH_BoardList)
+ * 03. 화면설명 : 게시판 탭페이지
+ * 04. 작성일   : 2022.09.01
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.gUseAuth = "ALL";
+this.bFirst = true;		// 페이징공통 컴포넌트 초기화 처리 Flag
+this.curStartNum = 1;	// 현재 게시글 시작 번호
+this.curEndNum;			// 현재 게시글 마지막 번호
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.AH_BoardList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+};
+
+// 권한 처리 
+this.fnAuthConfig = function()
+{
+	this.gUseAuth = this.parent.parent.parent.FV_AUTH;
+	
+	if(this.gUseAuth != "ALL")
+	{
+		this.ds_cmm_BoardCode.filter("VAL1.indexOf('"+ this.gUseAuth +"') > -1 ");
+	}
+	
+	this.div_Search.form.cmb_BoardCode.set_index(0);
+	this.fnSetGrdFormat(this.div_Search.form.cmb_BoardCode.value);
+	
+	// 기본 display 페이지 설정
+	this.div_paging.form.div_goPage.form.cbo_pageListCnt.set_value(30);
+	this.div_paging.form.fn_loadInit(0, 10, true, this);
+
+	this.fnSearchCnt();
+};
+
+// 그리드 포맷 설정
+this.fnSetGrdFormat = function(value)
+{
+	if(value == "NOTICE") this.grd_BoardList.set_formatid("NOTICE");
+	else this.grd_BoardList.set_formatid("default");
+};
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+// 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_LanguageCode",	"LANGUAGE_CODE"); 		// 언어구분
+	this.gfnAddCodeDataset("ds_cmm_BoardCode",		"BOARD_CODE"); 			// 게시판구분
+	
+	this.gfnCodeTransaction();
+};
+ 
+// [필수공통함수] 페이징공통화면에서 초기화 검색시 호출하는 함수
+this.fnPagingInit = function()
+{
+	this.fnSearchCnt();
+};
+
+// [필수공통함수] 공통 페이징화면에서 호출하는 함수
+this.fnPagingSearch = function(nStartNum, nEndNum)
+{
+	this.fnSearch(nStartNum, nEndNum);
+}; 
+
+// 조회 Reset 
+this.fnResetSearch = function()
+{
+	this.bFirst = true;
+	this.div_paging.form.fn_goFirst();
+};
+
+// 조회 CNT
+this.fnSearchCnt = function()
+{
+	var sLanuageCd = this.div_Search.form.cmb_LanguageCode.value;
+	var sBoardCd = this.div_Search.form.cmb_BoardCode.value;
+	var sSubject = this.div_Search.form.edt_Subject.value;
+	
+	this.gfnAddSendParameter("LANGUAGE_CODE", sLanuageCd);
+	this.gfnAddSendParameter("BOARD_CODE"	, sBoardCd);
+	this.gfnAddSendParameter("SUBJECT"		, sSubject);
+	
+	this.gfnAddOutputDataset("ds_BoardListCnt", "dsOutput");	
+	this.gfnCommonTransaction("Search_BoardList_Cnt", "AH_BoardList_S01_Cnt");
+};
+
+// 조회
+this.fnSearch = function(nStartNum, nEndNum)
+{
+	var sLanuageCd = this.div_Search.form.cmb_LanguageCode.value;
+	var sBoardCd = this.div_Search.form.cmb_BoardCode.value;
+	var sSubject = this.div_Search.form.edt_Subject.value;
+	
+	// 상세 화면에서 저장 후 리 로딩시 필요
+	this.curStartNum = nStartNum;
+	this.curEndNum = nEndNum;
+	
+	this.gfnAddSendParameter("START_NO", nStartNum);
+	this.gfnAddSendParameter("END_NO", nEndNum);
+	this.gfnAddSendParameter("LANGUAGE_CODE", sLanuageCd);
+	this.gfnAddSendParameter("BOARD_CODE"	, sBoardCd);
+	this.gfnAddSendParameter("SUBJECT"		, sSubject);
+	
+	this.gfnAddOutputDataset("ds_BoardList", "dsOutput");	
+	this.gfnCommonTransaction("Search_BoardList", "AH_BoardList_S01", this.grd_BoardList);
+};
+
+// 상세
+this.fnBoardDet = function(vMode)
+{
+	var sBlSeq;
+	if(vMode == "U") sBlSeq = this.ds_BoardList.getColumn(this.ds_BoardList.rowposition, "BL_SEQ");
+	
+	var Argument = {pvBlSeq:sBlSeq, pvMode:vMode, pvUseAuth:this.gUseAuth};
+	this.commUtil.popup(this, "popupBoardPopup", "Admin::AH_BoardListPopup.xfdl", -1, -1, 900, 800, true, false, false, Argument, "fnPopupCallBack");
+};
+
+// 엑셀 데이터 조회
+this.fnExcelData = function()
+{
+	var sLanuageCd = this.div_Search.form.cmb_LanguageCode.value;
+	var sBoardCd = this.div_Search.form.cmb_BoardCode.value;
+	var sSubject = this.div_Search.form.edt_Subject.value;
+	
+	this.gfnAddSendParameter("LANGUAGE_CODE", sLanuageCd);
+	this.gfnAddSendParameter("BOARD_CODE"	, sBoardCd);
+	this.gfnAddSendParameter("SUBJECT"		, sSubject);
+	
+	this.gfnAddOutputDataset("ds_BoardExcelList", "dsOutput");	
+	this.gfnCommonTransaction("Search_BoardExcelList", "AH_BoardList_S02", this.grd_BoardExcelList);
+};
+
+// 엑셀
+this.fnExcel = function()
+{
+	var objGrd = this.grd_BoardExcelList;
+	
+	var sFileNm = "게시판 목록";
+	var sSBoardNm = this.div_Search.form.cmb_BoardCode.text;
+	sFileNm += "(" + sSBoardNm + ")";
+	
+	if(nexacro.getApplication().id=="ACEp")
+	{
+		this.parent.parent.parent.parent.parent.fn_excelExport(this, objGrd, sFileNm);
+	}
+	else
+	{
+		this.gfn_excelExport(this, objGrd, sFileNm);
+	}
+};
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if (nErrorCode<0) {
+		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		return;
+	} else {
+		switch (strSvcID) 
+		{
+			case "gfnGetCode" :			
+				this.div_Search.form.cmb_LanguageCode.set_index(0);
+				
+				// 권한 처리
+				this.fnAuthConfig();
+				break;
+			case "Search_BoardList_Cnt" :
+				this.fnSearch(1, this.div_paging.form.fv_pageListCnt);
+				break;
+			case "Search_BoardList" :
+				if(this.bFirst) {
+					// [필수] 전체건수 설정
+					this.div_paging.form.fn_init(this.ds_BoardListCnt.getColumn(0, "TOTAL_COUNT"), 10, true, this);
+					this.bFirst = false;
+				}
+				break;
+			case "Search_BoardExcelList" :
+				this.fnExcel();
+				break;
+		}
+	}
+};
+  
+// 팝업 콜백
+this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		this.recentVariant = Variant;
+		switch(sPopupId)
+		{
+			case "popupBoardPopup" : // 게시글 상세
+				this.fnSearch(this.curStartNum, this.curEndNum);
+			break;
+		}
+	}
+};
+
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{	
+		case "btn_Search":	// 조회
+			this.fnResetSearch();
+			//this.fnSearchCnt();
+			break;
+		case "btn_Excel":	// 엑셀
+			this.fnExcelData();
+			break;
+		case "btn_Insert":	// 등록
+			this.fnBoardDet("I");
+			break;
+	}
+};
+
+// 상세 팝업 이벤트
+this.grd_BoardList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnBoardDet("U");
+};
+
+// 게시판 변경 이벤트
+this.div_Search_cmb_BoardCode_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSetGrdFormat(e.postvalue);
+	this.fnResetSearch();
+};
+
+// 언어구분 변경 이벤트
+this.div_Search_cmb_LanguageCode_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnResetSearch();
+};
+
+// 엔터 쳤을 경우 이벤트 
+this.div_Search_edt_Subject_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.fnResetSearch();
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

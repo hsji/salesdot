@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="" xmlns:th="http://www.thymeleaf.org" dir="ltr">
+<head>
+    <meta name="_csrf">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>UbiDocuMaker-Editor</title>
+    <link rel="stylesheet" type="text/css" href="./css/color-picker.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/select2.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/ui/docuEditor.css">
+    <style>
+            .dragAndDropDiv {
+                border: 2px dashed #92AAB0;
+                width: 650px;
+                height: 200px;
+                color: #92AAB0;
+                text-align: center;
+                vertical-align: middle;
+                padding: 10px 0px 10px 10px;
+                font-size:200%;
+                display: table-cell;
+            }
+    </style>
+    <script src="./js/jquery-1.9.1.min.js"></script>
+    <script src="./js/pdf_form/flatpickr.min.js"></script>
+    <script src="./js/pdf_form/polyfills.js"></script>
+    <script src="./js/pdf_form/polyfillsIE.js"></script>
+    <script src="./js/pdf_form/snap.svg.js"></script>
+    <script src="./js/pdf_form/snap.svg.free_transform.js"></script>
+    <script src="./js/pdf_form/select2/select2.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf_viewer.js"></script>
+    <script src="./js/pdf_form/pdfjs/grab-to-pan.js"></script>
+    <script src="./js/pdf_form/dist/polly.bundle.js"></script>
+    <script src="./js/pdf_form/dist/templatemod.bundle.js"></script>
+    <script src="./js/pdf_form/dist/templatemodSass.bundle.js"></script>
+
+    <script type="text/javascript">
+
+      var appUrl = self.location.protocol + '//' + self.location.host;
+
+      var uuid = 'uuid_' + Date.now();//사용자고유Key
+      var biz_no = "";//업무코드
+
+      var urlParams = new URL(location.href).searchParams;
+      var uploadFileName = urlParams.get('uploadFileName');  
+			
+      var pdfFileUrl = appUrl + '/pdfView?uploadFileName=' + uploadFileName;//원본pdf
+      var jsonDataUrl = null;//원본json
+      var jsonSaveUrl = '/docuJsonSave';//API
+
+      var userInfo = [{'displayUserName': '수신자', 'userUUID': uuid, 'isFormer': 'N'}];//참여자정보
+      var fieldInfo = [];
+      var signOption = {'useDrawSign': 'true', 'useImageSign': 'true', 'useRegSign': 'true'};//서명아이템 탭 보임 옵션
+
+      var jsonData = null;
+      var mailStep = false;
+      
+      $(document).ready(function(){
+          var objDragAndDrop = $(".dragAndDropDiv");
+          
+          $(document).on("dragenter",".dragAndDropDiv",function(e){
+              e.stopPropagation();
+              e.preventDefault();
+              $(this).css('border', '2px solid #0B85A1');
+          });
+          $(document).on("dragover",".dragAndDropDiv",function(e){
+              e.stopPropagation();
+              e.preventDefault();
+          });
+          $(document).on("drop",".dragAndDropDiv",function(e){
+              
+              $(this).css('border', '2px dotted #0B85A1');
+              e.preventDefault();
+              var files = e.originalEvent.dataTransfer.files;
+          
+              handleFileUpload(files,objDragAndDrop);
+          });
+          
+          $(document).on('dragenter', function (e){
+              e.stopPropagation();
+              e.preventDefault();
+          });
+          $(document).on('dragover', function (e){
+            e.stopPropagation();
+            e.preventDefault();
+            objDragAndDrop.css('border', '2px dotted #0B85A1');
+          });
+          $(document).on('drop', function (e){
+              e.stopPropagation();
+              e.preventDefault();
+          });
+          //drag 영역 클릭시 파일 선택창
+          objDragAndDrop.on('click',function (e){
+              $('input[type=file]').trigger('click');
+          });
+
+          $('input[type=file]').on('change', function(e) {
+              var files = e.originalEvent.target.files;
+              handleFileUpload(files,objDragAndDrop);
+          });
+          
+          function handleFileUpload(files,obj)
+          {
+             //for (var i = 0; i < files.length; i++)
+             for (var i = 0; i < 1; i++)
+             {
+                  var fd = new FormData();
+                  fd.append('file', files[i]);
+                  fd.append('userUUID', uuid);
+           		var fileName = files[i].name;
+           		var fileSize = files[i].size;
+           		
+           		if(fileName.toLowerCase().indexOf('.pdf') < 0 ) {
+           			alert("PDF 파일을 업로드 해주시기 바랍니다.");
+           			return;
+           		}
+           		
+                  var status = new createStatusbar(obj); //Using this we can set progress.
+                  status.setFileNameSize(fileName,fileSize);
+                  sendFileToServer(fd,status, fileName);
+           
+             }
+          }
+          
+          var rowCount=0;
+          function createStatusbar(obj){
+                  
+              rowCount++;
+              var row="odd";
+              if(rowCount %2 ==0) row ="even";
+              this.statusbar = $("<div class='statusbar "+row+"'></div>");
+              this.filename = $("<div class='filename'></div>").appendTo(this.statusbar);
+              this.size = $("<div class='filesize'></div>").appendTo(this.statusbar);
+              this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
+              this.abort = $("<div class='abort'>중지</div>").appendTo(this.statusbar);
+              
+              obj.after(this.statusbar);
+           
+              this.setFileNameSize = function(name,size){
+                  var sizeStr="";
+                  var sizeKB = size/1024;
+                  if(parseInt(sizeKB) > 1024){
+                      var sizeMB = sizeKB/1024;
+                      sizeStr = sizeMB.toFixed(2)+" MB";
+                  }else{
+                      sizeStr = sizeKB.toFixed(2)+" KB";
+                  }
+           
+                  this.filename.html(name);
+                  this.size.html(sizeStr);
+              }
+              
+              this.setProgress = function(progress){       
+                  var progressBarWidth =progress*this.progressBar.width()/ 100;  
+                  this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
+                  if(parseInt(progress) >= 100)
+                  {
+                      this.abort.hide();
+                  }
+              }
+              
+              this.setAbort = function(jqxhr){
+                  var sb = this.statusbar;
+                  this.abort.click(function()
+                  {
+                      jqxhr.abort();
+                      sb.hide();
+                  });
+              }
+          }
+          
+          function sendFileToServer(formData,status,fileName)
+          {
+          	console.log(formData);
+          	console.log(fileName);
+              var uploadURL = "/fUpload"; //Upload URL
+              var extraData ={}; //Extra Data.
+              var jqXHR=$.ajax({
+                      xhr: function() {
+                      var xhrobj = $.ajaxSettings.xhr();
+                      console.log(xhrobj);
+                      if (xhrobj.upload) {
+                              xhrobj.upload.addEventListener('progress', function(event) {
+                                  var percent = 0;
+                                  var position = event.loaded || event.position;
+                                  var total = event.total;
+                                  if (event.lengthComputable) {
+                                      percent = Math.ceil(position / total * 100);
+                                  }
+                                  //Set progress
+                                  status.setProgress(percent);
+                              }, false);
+                          }
+                      return xhrobj;
+                  },
+                  url: uploadURL,
+                  type: "POST",
+                  contentType:false,
+                  processData: false,
+                  cache: false,
+                  data: formData,
+                  success: function(data){
+                  	console.log(data);
+                  	
+                      if(data!=""){
+                      	var url = "./docuEditor3.html?uploadFileName=" + data + "&uuid=" + uuid;
+                      	url = encodeURI(url);
+                      	location.href = url;
+                      }           
+                  }
+              }); 
+           
+              status.setAbort(jqXHR);
+          }
+          
+      });
+
+      window.onload = function() {
+
+    	if(isEmpty(uploadFileName)){
+    		return;
+    	}
+        //pdf 파일 읽는 라이브러리 경로 지정.
+        pdfjsLib.GlobalWorkerOptions.workerSrc = './js/pdf_form/pdfjs/pdf.worker.min.js';
+
+        //UbiDocuMaker의 ROOT DOM지정
+        let DOM = document.querySelector('body div ');
+
+        //텍스트 프로퍼티 js파일 지정.
+        templatemod.changeTranslatorFileLocation('./js/pdf_form/i18n/');
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', jsonDataUrl, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function() {
+
+          if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 404)) {
+            if (xhr.status === 200) {
+              try {
+                jsonData = JSON.parse(xhr.responseText);
+
+                //if (jsonData.pdfFileUrl != undefined && jsonData.pdfFileUrl != '')
+//                  pdfFileUrl = jsonData.pdfFileUrl;
+              } catch (e) {}
+            } else if (xhr.status === 404) {
+            }
+
+            /* UbiDocuMaker Editor 시작 함수
+
+            인자1. ROOT dom
+            인자2. PDF경로
+            인자3. 서명 참여자 정보 (displayUserName: 참여자이름 , userUUID: 참여자 고유값 , isFormer: N(=참여자)
+            인자4. 필드 정보 (사용X)
+            인자5. 서명아이템(sign) 등록된서명 탭 보임/안보임 옵션 데이터
+            인자6. 초기 JSON 데이터(null이면 필드 그리지 X)
+             */
+            templatemod.initDocument(DOM, pdfFileUrl, userInfo, fieldInfo, signOption, jsonData);
+          }
+        };
+        xhr.send(null);
+      };
+
+      /*
+      '편집 내용 저장' 버튼
+       */
+      function jsonSave() {
+        var jsonData = JSON.parse(templatemod.getJsonData());
+	        jsonData.pdfFileUrl = pdfFileUrl;
+	        jsonData.uuid = uuid;
+        var postData = {'json_data' : jsonData, 'uuid' : uuid, 'biz_no' : biz_no }
+        console.debug(jsonData);
+        console.debug(postData);
+        $.ajax({
+  	      type: "post",
+  	      url: jsonSaveUrl,
+  	      data: JSON.stringify(postData),
+  	      dataType: "json",
+  	      contentType: 'application/json; charset=utf-8',
+  	      success: function(data) {
+  	        console.log(data);
+  	        if(data.code=='200'){
+  				console.log('Json save success.');
+  				mailStep = true;
+  				alert('편집 정보가 저장되었습니다.');  	        	
+  	        }
+  	      },
+  	      error: function(request,status,error) {
+  	    	console.log("code:"+request.status);
+  	    	console.log("message:"+request.responseText);
+  	    	console.log("error:"+error);
+  	      }
+  	    });
+      };
+      
+
+      function mailSend() {
+    	 if(mailStep) {
+	    	 
+    		 var sender_nm = "발송자이름";
+    		 var template_title = "문서제목";
+	    	 var message = "알림내용";
+	    	 
+	    	 var sname = "발신자명";
+	    	 var semail = "guilty@ubireport.com";
+
+	    	 var rname = "수신자명";
+	    	 var remail = "playguility@gmail.com";
+	    	 var rphone = "01047168226";
+	    	 var expired_date = "2500-12-31";
+	    	 var begin_date = "2024-01-01";
+	    	 
+	    	 var sendData = {'sender_nm' : sender_nm, 'template_title' : template_title, 'message' : message,
+	    			 		 'receiver' : {'name' : rname, 'email' : remail ,'phone' : rphone},
+	    			 		 'sender' : {'name' : sname, 'email' : semail },
+	    			         'expired_date' : expired_date , 'begin_date' : begin_date,
+	    			         'fileName' : uploadFileName, 'uuid' : uuid};
+	    	 
+	    	 console.log(sendData);
+	    	 $.ajax({
+	    	      type: "post",
+	    	      url: "/docuMailSend",
+	    	      data: JSON.stringify(sendData),
+	    	      dataType: "json",
+	    	      contentType: 'application/json; charset=utf-8',
+	    	      success: function(data) {
+	    	    	console.log(data);
+	    	    	if(data.code=='200'){
+	    	        	alert('메일이 발송 되었습니다.');
+	    	    	}
+	    	      },
+	    	      error: function(request,status,error) {
+	    	  	    	console.log("code:"+request.status);
+	    	  	    	console.log("message:"+request.responseText);
+	    	  	    	console.log("error:"+error);
+	    	  	  }
+	    	 });
+    	 }else{
+    		 alert("편집 후 [편집 내용 저장] 을 클릭 후 이용해 주시기 바랍니다.");
+    	 }
+      }
+      
+      function isEmpty(text) {
+	    	if (text == ""
+	        	|| text == null
+	        	|| text == undefined
+	        	|| (text != null && typeof text == "object" && !Object
+	        	.keys(text).length)) {
+	        	    return true;
+	        	}
+	        	return false;
+	    }
+    </script>
+</head>
+<body>
+<div class="min-w1200" style="display: flex; width: 100%; height: 100%; overflow: visible; flex-direction: column;">
+    <div id="outerContainer" class="Outer-Container">
+        <div id="MainContainer" class="Main-Container">
+            <div class="Editor-Toolbar">
+
+                <div class="Editor-Toolbar-Group Left Button-List" style="">
+                    <button data-i18n="Template.undoBtn" class="Template-Button Transparent Toolbar-Border Undo-Button">
+                        <i class="Undo-Button">실행취소</i>
+                    </button>
+                    <button data-i18n="Template.redoBtn"
+                            class="Template-Button Transparent Toolbar-Border Redo-Button">
+                        <i class="Redo-Button">다시실행</i>
+                    </button>
+                </div>
+
+                <!--  Title -->
+                <div class="Editor-Toolbar-Group Center MAIN-TITLE">
+                    <span></span>
+                </div>
+
+                <!--  Toolbar -->
+                <div class="Editor-Toolbar-Group Right Button-List">
+                    <ul>
+                        <li>
+                            <div>
+                                <button class="Template-Button Transparent Align-Left-Button"><i class=""></i></button>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <button class="Template-Button Transparent Align-Center-Button"><i class=""></i>
+                                </button>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <button class="Template-Button Transparent Align-Right-Button"><i class=""></i></button>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div>
+                                <div class="Toolbar-Button-Divider"></div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div>
+                                <button class="Template-Button Transparent Align-Top-Button "><i class=""></i></button>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <button class="Template-Button Transparent Align-Middle-Button "><i class=""></i>
+                                </button>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <button class="Template-Button Transparent Align-Bottom-Button "><i class=""></i>
+                                </button>
+                            </div>
+                        </li>
+
+                        <li><span id="scaleSelectContainer" class="Toolbar-Label"><a>100%</a></span></li>
+                        <li>
+                            <div>
+                                <button class="Template-Button Transparent Zoom-Out-Button" id="Zoom-Out-Button"><i
+                                        class=""></i></button>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <button class="Template-Button Transparent Zoom-In-Button" id="Zoom-In-Button"><i
+                                        class=""></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="Scale-Seletor-Container Template-Hide" id="Scale-Seletor">
+                        <select>
+                            <option value="0.3">30%</option>
+                            <option value="0.5">50%</option>
+                            <option value="0.8">80%</option>
+                            <option value="1">100%</option>
+                            <option value="1.2">120%</option>
+                            <option value="1.5">150%</option>
+                            <option value="2">200%</option>
+                            <option value="3">300%</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="Editor-Component" id="Editor-Component">
+                <div class="Editor-Component_Box">
+                    <div>
+                        <ul style="touch-action: none;">
+                            <li data-index=3 class=""><span data-i18n="Template.labelFieldTool"
+                                                            class="tit label-field-ico">레이블</span></li>
+                            <li data-index=1><span data-i18n="Template.textFieldTool"
+                                                   class="tit text-field-ico">텍스트</span></li>
+                            <li data-index=2 class=""><span data-i18n="Template.multilineFieldTool"
+                                                            class="tit multiline-field-ico">멀티라인</span></li>
+                            <li data-index=9 class=""><span data-i18n="Template.imageFieldTool"
+                                                            class="tit image-field-ico">이미지</span></li>
+                            <li data-index=0><span data-i18n="Template.signFieldTool"
+                                                   class="tit sign-field-ico">서명</span></li>
+                            <li data-index=4 class=""><span data-i18n="Template.checkFieldTool"
+                                                            class="tit check-field-ico">체크</span></li>
+                            <li data-index=5 class=""><span data-i18n="Template.radioFieldTool"
+                                                            class="tit radio-field-ico">라디오</span></li>
+                            <li data-index=6 class=""><span data-i18n="Template.comboFieldTool"
+                                                            class="tit combo-field-ico">콤보</span></li>
+                            <li data-index=7><span data-i18n="Template.dateFieldTool"
+                                                   class="tit date-field-ico">날짜</span></li>
+                            <li data-index=8><span data-i18n="Template.numberFieldTool"
+                                                   class="tit number-field-ico">숫자</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="Editor-User-Component_Box" id="Editor-User-Component_Box"></div>
+            </div>
+
+            <div class="Editor-Component-Active-Button" id="Editor-Component-Active-Button">
+                <div class="Button-Icon-Component"><span class="Arrow-Btn Reverse-Btn"></span></div>
+            </div>
+
+            <div id="TemplateViewerContainer" class="Viewer-Container">
+                <div id="TemplatePDFViewer" class="pdfViewer"></div>
+                <div id="fileUpload" class="dragAndDropDiv">Drag & Drop Files Here or Browse Files<BR><BR>or<BR><BR>Click Here</div>
+        		<input type="file" name="fileUpload" id="fileUpload" style="display:none;" multiple/>
+            </div>
+
+            <div class="Editor-Bottom-Container" style="z-index: 999;">
+                <div class="Button-List">
+                    <button type="button" data-i18n="Template.templateSave1" class="Template-Button Confirm"
+                            onclick="jsonSave()">편집 내용 저장
+                    </button>
+                    <button type="button" data-i18n="Template.templateSave1" class="Template-Button Confirm"
+                            onclick="mailSend()">메일 발송
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

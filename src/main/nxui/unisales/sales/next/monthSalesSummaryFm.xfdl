@@ -1,0 +1,1227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="statusOP" width="1200" height="736" titletext="MainFrame" onload="form_onload" onsize="form_onsize" cssclass="frm_WF_Frame" onkeydown="frmMain_onkeydown" ontimer="frmMain_ontimer">
+    <Layouts>
+      <Layout height="736" width="1200">
+        <Div id="divSearch" taborder="0" left="10.00" top="10" height="50" cssclass="div_WF_Search" text="" right="10">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle00" taborder="1" text="년도" left="0" top="11" width="72" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="Combo01" taborder="2" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="3" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="4" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="5" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="0" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Calendar id="calMonth" taborder="8" left="staTitle00:0" top="10" width="114" height="27" dateformat="yyyy" editformat="yyyy" type="spin" onspin="divSearch_calMonth_onspin"/>
+              <Static id="staTitle02" taborder="6" text="조회구분" left="calMonth:20" top="11" width="87" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="cboType" taborder="7" text="담당자별" left="staTitle02:0" top="10" width="194" height="27" innerdataset="dsCode" codecolumn="CODE" datacolumn="NAME" index="0" value="EMP" onitemchanged="divSearch_cboType_onitemchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdList" taborder="1" left="10" top="100" right="10" bottom="10" formatid="EMP" binddataset="dsOutput" oncelldblclick="grdList_oncelldblclick">
+          <Formats>
+            <Format id="CONTRACT">
+              <Columns>
+                <Column size="150" band="left"/>
+                <Column size="150" band="left"/>
+                <Column size="200" band="left"/>
+                <Column size="250" band="left"/>
+                <Column size="80" band="left"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="158"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150" band="right"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="고객사" TL_SEQ="32"/>
+                <Cell col="1" text="산업구분" TL_SEQ="476"/>
+                <Cell col="2" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="3" text="계약명" TL_SEQ="33"/>
+                <Cell col="4" text="분류" TL_SEQ="2287"/>
+                <Cell col="5" text="1월" TL_SEQ="477"/>
+                <Cell col="6" text="2월" TL_SEQ="478"/>
+                <Cell col="7" text="3월" TL_SEQ="479"/>
+                <Cell col="8" text="4월" TL_SEQ="480"/>
+                <Cell col="9" text="5월" TL_SEQ="481"/>
+                <Cell col="10" text="6월" TL_SEQ="482"/>
+                <Cell col="11" text="상반기" TL_SEQ="460"/>
+                <Cell col="12" text="7월" TL_SEQ="483"/>
+                <Cell col="13" text="8월" TL_SEQ="484"/>
+                <Cell col="14" text="9월" TL_SEQ="485"/>
+                <Cell col="15" text="10월" TL_SEQ="486"/>
+                <Cell col="16" text="11월" TL_SEQ="487"/>
+                <Cell col="17" text="12월" TL_SEQ="488"/>
+                <Cell col="18" text="하반기" TL_SEQ="461"/>
+                <Cell col="19" text="년합계" TL_SEQ="2288"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COMPANY_NAME" suppress="1" textAlign="left"/>
+                <Cell col="1" text="bind:INDUSTRY" textAlign="left" suppress="2"/>
+                <Cell col="2" text="bind:PROJECT_NAME" textAlign="left" suppress="3"/>
+                <Cell col="3" text="bind:CONTRACT_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:CONTRACT_TYPE_NAME"/>
+                <Cell col="5" text="bind:CL_01" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="6" text="bind:CL_02" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="7" text="bind:CL_03" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="8" text="bind:CL_04" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="9" text="bind:CL_05" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="10" text="bind:CL_06" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="11" text="bind:CL_H01" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="12" text="bind:CL_07" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="13" text="bind:CL_08" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="14" text="bind:CL_09" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="15" text="bind:CL_10" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="16" textAlign="right" text="bind:CL_11" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="17" text="bind:CL_12" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="18" text="bind:CL_H02" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="19" text="bind:CL_Y" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+              </Band>
+              <Band id="summary">
+                <Cell rowspan="6" colspan="4" text="합계" TL_SEQ="437"/>
+                <Cell col="4" text="제품" TL_SEQ="62"/>
+                <Cell col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="9" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_05&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="16" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="19" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="4" text="용역" TL_SEQ="17"/>
+                <Cell row="1" col="5" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="16" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="1" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="19" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="4" text="기술서비스" TL_SEQ="407"/>
+                <Cell row="2" col="5" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="16" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="2" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="19" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="4" text="유지" TL_SEQ="2290"/>
+                <Cell row="3" col="5" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="16" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="3" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="19" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="4" text="상품/기타" TL_SEQ="2291"/>
+                <Cell row="4" col="5" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_05&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_06&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_07&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_08&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_09&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_10&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="16" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_11&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="4" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_12&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="19" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Y&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="5" col="4" text="총계" TL_SEQ="2289" background="#FFFF00"/>
+                <Cell row="5" col="5" expr="dataset.getSum(&quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="6" expr="dataset.getSum(&quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="7" displaytype="mask" expr="dataset.getSum(&quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="8" displaytype="mask" expr="dataset.getSum(&quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="9" displaytype="mask" expr="dataset.getSum(&quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="10" displaytype="mask" expr="dataset.getSum(&quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="11" displaytype="mask" expr="dataset.getSum(&quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="12" displaytype="mask" expr="dataset.getSum(&quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="13" displaytype="mask" expr="dataset.getSum(&quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="14" displaytype="mask" expr="dataset.getSum(&quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="15" displaytype="mask" expr="dataset.getSum(&quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="16" displaytype="mask" textAlign="right" expr="dataset.getSum(&quot;CL_11&quot;)" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="17" displaytype="mask" expr="dataset.getSum(&quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="18" displaytype="mask" expr="dataset.getSum(&quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="19" displaytype="mask" expr="dataset.getSum(&quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+              </Band>
+            </Format>
+            <Format id="PROJECT">
+              <Columns>
+                <Column size="200" band="left"/>
+                <Column size="200" band="left"/>
+                <Column size="300" band="left"/>
+                <Column size="80" band="left"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="158"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150" band="right"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="고객사" TL_SEQ="32"/>
+                <Cell col="1" text="산업구분" TL_SEQ="476"/>
+                <Cell col="2" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="3" text="분류" TL_SEQ="2287"/>
+                <Cell col="4" text="1월" TL_SEQ="477"/>
+                <Cell col="5" text="2월" TL_SEQ="478"/>
+                <Cell col="6" text="3월" TL_SEQ="479"/>
+                <Cell col="7" text="4월" TL_SEQ="480"/>
+                <Cell col="8" text="5월" TL_SEQ="481"/>
+                <Cell col="9" text="6월" TL_SEQ="482"/>
+                <Cell col="10" text="상반기" TL_SEQ="460"/>
+                <Cell col="11" text="7월" TL_SEQ="483"/>
+                <Cell col="12" text="8월" TL_SEQ="484"/>
+                <Cell col="13" text="9월" TL_SEQ="485"/>
+                <Cell col="14" text="10월" TL_SEQ="486"/>
+                <Cell col="15" text="11월" TL_SEQ="487"/>
+                <Cell col="16" text="12월" TL_SEQ="488"/>
+                <Cell col="17" text="하반기" TL_SEQ="461"/>
+                <Cell col="18" text="년합계" TL_SEQ="2288"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COMPANY_NAME" suppress="1" textAlign="left"/>
+                <Cell col="1" text="bind:INDUSTRY" textAlign="left" suppress="2"/>
+                <Cell col="2" text="bind:PROJECT_NAME" textAlign="left" suppress="3"/>
+                <Cell col="3" text="bind:CONTRACT_TYPE_NAME"/>
+                <Cell col="4" text="bind:CL_01" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="5" text="bind:CL_02" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="6" text="bind:CL_03" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="7" text="bind:CL_04" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="8" text="bind:CL_05" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="9" text="bind:CL_06" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="10" text="bind:CL_H01" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="11" text="bind:CL_07" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="12" text="bind:CL_08" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="13" text="bind:CL_09" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="14" text="bind:CL_10" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="15" textAlign="right" text="bind:CL_11" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="16" text="bind:CL_12" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="17" text="bind:CL_H02" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="18" text="bind:CL_Y" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+              </Band>
+              <Band id="summary">
+                <Cell rowspan="6" colspan="3" text="합계" TL_SEQ="437"/>
+                <Cell col="3" text="제품" TL_SEQ="62"/>
+                <Cell col="4" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="5" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="8" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_05&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="15" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="3" text="용역" TL_SEQ="17"/>
+                <Cell row="1" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="5" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="15" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="1" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="3" text="기술서비스" TL_SEQ="407"/>
+                <Cell row="2" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="5" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="15" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="2" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="3" text="유지" TL_SEQ="2290"/>
+                <Cell row="3" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="5" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="15" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="3" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="3" text="상품/기타" TL_SEQ="2291"/>
+                <Cell row="4" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="5" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_05&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_06&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_07&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_08&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_09&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_10&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="15" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_11&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="4" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_12&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="18" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Y&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="5" col="3" text="총계" TL_SEQ="2289" background="#FFFF00"/>
+                <Cell row="5" col="4" expr="dataset.getSum(&quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="5" expr="dataset.getSum(&quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="6" displaytype="mask" expr="dataset.getSum(&quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="7" displaytype="mask" expr="dataset.getSum(&quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="8" displaytype="mask" expr="dataset.getSum(&quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="9" displaytype="mask" expr="dataset.getSum(&quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="10" displaytype="mask" expr="dataset.getSum(&quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="11" displaytype="mask" expr="dataset.getSum(&quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="12" displaytype="mask" expr="dataset.getSum(&quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="13" displaytype="mask" expr="dataset.getSum(&quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="14" displaytype="mask" expr="dataset.getSum(&quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="15" displaytype="mask" textAlign="right" expr="dataset.getSum(&quot;CL_11&quot;)" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="16" displaytype="mask" expr="dataset.getSum(&quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="17" displaytype="mask" expr="dataset.getSum(&quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="18" displaytype="mask" expr="dataset.getSum(&quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+              </Band>
+            </Format>
+            <Format id="CLIENT">
+              <Columns>
+                <Column size="200" band="left"/>
+                <Column size="200" band="left"/>
+                <Column size="80" band="left"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="158"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150" band="right"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="고객사" TL_SEQ="32"/>
+                <Cell col="1" text="산업구분" TL_SEQ="476"/>
+                <Cell col="2" text="분류" TL_SEQ="2287"/>
+                <Cell col="3" text="1월" TL_SEQ="477"/>
+                <Cell col="4" text="2월" TL_SEQ="478"/>
+                <Cell col="5" text="3월" TL_SEQ="479"/>
+                <Cell col="6" text="4월" TL_SEQ="480"/>
+                <Cell col="7" text="5월" TL_SEQ="481"/>
+                <Cell col="8" text="6월" TL_SEQ="482"/>
+                <Cell col="9" text="상반기" TL_SEQ="460"/>
+                <Cell col="10" text="7월" TL_SEQ="483"/>
+                <Cell col="11" text="8월" TL_SEQ="484"/>
+                <Cell col="12" text="9월" TL_SEQ="485"/>
+                <Cell col="13" text="10월" TL_SEQ="486"/>
+                <Cell col="14" text="11월" TL_SEQ="487"/>
+                <Cell col="15" text="12월" TL_SEQ="488"/>
+                <Cell col="16" text="하반기" TL_SEQ="461"/>
+                <Cell col="17" text="년합계" TL_SEQ="2288"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COMPANY_NAME" suppress="1" textAlign="left"/>
+                <Cell col="1" text="bind:INDUSTRY" textAlign="left" suppress="2"/>
+                <Cell col="2" text="bind:CONTRACT_TYPE_NAME" suppress="3"/>
+                <Cell col="3" text="bind:CL_01" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="4" text="bind:CL_02" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="5" text="bind:CL_03" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="6" text="bind:CL_04" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="7" text="bind:CL_05" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="8" text="bind:CL_06" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="9" text="bind:CL_H01" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="10" text="bind:CL_07" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="11" text="bind:CL_08" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="12" text="bind:CL_09" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="13" text="bind:CL_10" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="14" textAlign="right" text="bind:CL_11" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="15" text="bind:CL_12" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="16" text="bind:CL_H02" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="17" text="bind:CL_Y" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+              </Band>
+              <Band id="summary">
+                <Cell rowspan="6" colspan="2" text="합계" TL_SEQ="437"/>
+                <Cell col="2" text="제품" TL_SEQ="62"/>
+                <Cell col="3" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="7" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_05&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="14" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="2" text="용역" TL_SEQ="17"/>
+                <Cell row="1" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="14" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="1" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="2" text="기술서비스" TL_SEQ="407"/>
+                <Cell row="2" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="14" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="2" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="2" text="유지" TL_SEQ="2290"/>
+                <Cell row="3" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="14" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="3" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="2" text="상품/기타" TL_SEQ="2291"/>
+                <Cell row="4" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_05&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_06&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_07&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_08&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_09&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_10&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="14" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_11&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="4" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_12&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Y&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="5" col="2" text="총계" TL_SEQ="2289" background="#FFFF00"/>
+                <Cell row="5" col="3" expr="dataset.getSum(&quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="4" expr="dataset.getSum(&quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="5" displaytype="mask" expr="dataset.getSum(&quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="6" displaytype="mask" expr="dataset.getSum(&quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="7" displaytype="mask" expr="dataset.getSum(&quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="8" displaytype="mask" expr="dataset.getSum(&quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="9" displaytype="mask" expr="dataset.getSum(&quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="10" displaytype="mask" expr="dataset.getSum(&quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="11" displaytype="mask" expr="dataset.getSum(&quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="12" displaytype="mask" expr="dataset.getSum(&quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="13" displaytype="mask" expr="dataset.getSum(&quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="14" displaytype="mask" textAlign="right" expr="dataset.getSum(&quot;CL_11&quot;)" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="15" displaytype="mask" expr="dataset.getSum(&quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="16" displaytype="mask" expr="dataset.getSum(&quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="17" displaytype="mask" expr="dataset.getSum(&quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+              </Band>
+            </Format>
+            <Format id="EMP">
+              <Columns>
+                <Column size="130" band="left"/>
+                <Column size="80" band="left"/>
+                <Column size="80" band="left"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="158"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150" band="right"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="부서" TL_SEQ="74"/>
+                <Cell col="1" text="영업대표" TL_SEQ="55"/>
+                <Cell col="2" text="분류" TL_SEQ="2287"/>
+                <Cell col="3" text="1월" TL_SEQ="477"/>
+                <Cell col="4" text="2월" TL_SEQ="478"/>
+                <Cell col="5" text="3월" TL_SEQ="479"/>
+                <Cell col="6" text="4월" TL_SEQ="480"/>
+                <Cell col="7" text="5월" TL_SEQ="481"/>
+                <Cell col="8" text="6월" TL_SEQ="482"/>
+                <Cell col="9" text="상반기" TL_SEQ="460"/>
+                <Cell col="10" text="7월" TL_SEQ="483"/>
+                <Cell col="11" text="8월" TL_SEQ="484"/>
+                <Cell col="12" text="9월" TL_SEQ="485"/>
+                <Cell col="13" text="10월" TL_SEQ="486"/>
+                <Cell col="14" text="11월" TL_SEQ="487"/>
+                <Cell col="15" text="12월" TL_SEQ="488"/>
+                <Cell col="16" text="하반기" TL_SEQ="461"/>
+                <Cell col="17" text="년합계" TL_SEQ="2288"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DEPT_NAME" suppress="1"/>
+                <Cell col="1" text="bind:SALES_EMP_NAME" suppress="2"/>
+                <Cell col="2" text="bind:CONTRACT_TYPE_NAME"/>
+                <Cell col="3" text="bind:CL_01" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="4" text="bind:CL_02" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="5" text="bind:CL_03" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="6" text="bind:CL_04" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="7" text="bind:CL_05" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="8" text="bind:CL_06" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="9" text="bind:CL_H01" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="10" text="bind:CL_07" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="11" text="bind:CL_08" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="12" text="bind:CL_09" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="13" text="bind:CL_10" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="14" textAlign="right" text="bind:CL_11" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="15" text="bind:CL_12" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="16" text="bind:CL_H02" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+                <Cell col="17" text="bind:CL_Y" textAlign="right" displaytype="mask" maskeditformat="#,#0"/>
+              </Band>
+              <Band id="summary">
+                <Cell rowspan="6" colspan="2" text="합계" TL_SEQ="437"/>
+                <Cell col="2" text="제품" TL_SEQ="62"/>
+                <Cell col="3" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="7" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_05&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="14" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="2" text="용역" TL_SEQ="17"/>
+                <Cell row="1" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="14" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="1" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="2" text="기술서비스" TL_SEQ="407"/>
+                <Cell row="2" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="14" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="2" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="2" text="유지" TL_SEQ="2290"/>
+                <Cell row="3" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="14" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="3" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="2" text="상품/기타" TL_SEQ="2291"/>
+                <Cell row="4" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="4" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_05&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_06&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_07&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_08&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_09&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="13" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_10&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="14" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_11&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="4" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_12&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="17" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Y&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="5" col="2" text="총계" TL_SEQ="2289" background="#FFFF00"/>
+                <Cell row="5" col="3" expr="dataset.getSum(&quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="4" expr="dataset.getSum(&quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="5" displaytype="mask" expr="dataset.getSum(&quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="6" displaytype="mask" expr="dataset.getSum(&quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="7" displaytype="mask" expr="dataset.getSum(&quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="8" displaytype="mask" expr="dataset.getSum(&quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="9" displaytype="mask" expr="dataset.getSum(&quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="10" displaytype="mask" expr="dataset.getSum(&quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="11" displaytype="mask" expr="dataset.getSum(&quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="12" displaytype="mask" expr="dataset.getSum(&quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="13" displaytype="mask" expr="dataset.getSum(&quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="14" displaytype="mask" textAlign="right" expr="dataset.getSum(&quot;CL_11&quot;)" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="15" displaytype="mask" expr="dataset.getSum(&quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="16" displaytype="mask" expr="dataset.getSum(&quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="17" displaytype="mask" expr="dataset.getSum(&quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+              </Band>
+            </Format>
+            <Format id="DEPT">
+              <Columns>
+                <Column size="130" band="left"/>
+                <Column size="80" band="left"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="158"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150" band="right"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+                <Row size="30" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="부서" TL_SEQ="74"/>
+                <Cell col="1" text="분류" TL_SEQ="2287"/>
+                <Cell col="2" text="1월" TL_SEQ="477"/>
+                <Cell col="3" text="2월" TL_SEQ="478"/>
+                <Cell col="4" text="3월" TL_SEQ="479"/>
+                <Cell col="5" text="4월" TL_SEQ="480"/>
+                <Cell col="6" text="5월" TL_SEQ="481"/>
+                <Cell col="7" text="6월" TL_SEQ="482"/>
+                <Cell col="8" text="상반기" TL_SEQ="460"/>
+                <Cell col="9" text="7월" TL_SEQ="483"/>
+                <Cell col="10" text="8월" TL_SEQ="484"/>
+                <Cell col="11" text="9월" TL_SEQ="485"/>
+                <Cell col="12" text="10월" TL_SEQ="486"/>
+                <Cell col="13" text="11월" TL_SEQ="487"/>
+                <Cell col="14" text="12월" TL_SEQ="488"/>
+                <Cell col="15" text="하반기" TL_SEQ="461"/>
+                <Cell col="16" text="년합계" TL_SEQ="2288"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DEPT_NAME" suppress="1"/>
+                <Cell col="1" text="bind:CONTRACT_TYPE_NAME"/>
+                <Cell col="2" text="bind:CL_01" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="3" text="bind:CL_02" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="4" text="bind:CL_03" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="5" text="bind:CL_04" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="6" text="bind:CL_05" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="7" text="bind:CL_06" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="8" text="bind:CL_H01" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="9" text="bind:CL_07" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="10" text="bind:CL_08" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="11" text="bind:CL_09" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="12" text="bind:CL_10" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="13" textAlign="right" text="bind:CL_11" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="14" text="bind:CL_12" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="15" text="bind:CL_H02" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+                <Cell col="16" text="bind:CL_Y" textAlign="right" maskeditformat="#,#0" displaytype="mask"/>
+              </Band>
+              <Band id="summary">
+                <Cell rowspan="6" text="합계" TL_SEQ="437"/>
+                <Cell col="1" text="제품" TL_SEQ="62"/>
+                <Cell col="2" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="4" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="6" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_05&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="13" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='P'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="1" text="용역" TL_SEQ="17"/>
+                <Cell row="1" col="2" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="4" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="13" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="1" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="1" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='S'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="1" text="기술서비스" TL_SEQ="407"/>
+                <Cell row="2" col="2" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="4" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="13" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="2" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="2" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='T'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="1" text="유지" TL_SEQ="2290"/>
+                <Cell row="3" col="2" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="4" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="13" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="3" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="3" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='M'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="1" text="상품/기타" TL_SEQ="2291"/>
+                <Cell row="4" col="2" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="3" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="4" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_03&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="5" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_04&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="6" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_05&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="7" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_06&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="8" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H01&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="9" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_07&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="10" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_08&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="11" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_09&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="12" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_10&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="13" displaytype="mask" textAlign="right" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_11&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_11&quot;)" maskeditformat="#,#0"/>
+                <Cell row="4" col="14" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_12&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="15" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_H02&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="4" col="16" displaytype="mask" expr="dataset.getCaseSum(&quot;CONTRACT_TYPE=='G'&quot;, &quot;CL_Y&quot;) + dataset.getCaseSum(&quot;CONTRACT_TYPE=='E'&quot;, &quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0"/>
+                <Cell row="5" col="1" text="총계" TL_SEQ="2289" background="#FFFF00"/>
+                <Cell row="5" col="2" expr="dataset.getSum(&quot;CL_01&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="3" expr="dataset.getSum(&quot;CL_02&quot;)" displaytype="mask" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="4" displaytype="mask" expr="dataset.getSum(&quot;CL_03&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="5" displaytype="mask" expr="dataset.getSum(&quot;CL_04&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="6" displaytype="mask" expr="dataset.getSum(&quot;CL_05&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="7" displaytype="mask" expr="dataset.getSum(&quot;CL_06&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="8" displaytype="mask" expr="dataset.getSum(&quot;CL_H01&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="9" displaytype="mask" expr="dataset.getSum(&quot;CL_07&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="10" displaytype="mask" expr="dataset.getSum(&quot;CL_08&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="11" displaytype="mask" expr="dataset.getSum(&quot;CL_09&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="12" displaytype="mask" expr="dataset.getSum(&quot;CL_10&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="13" displaytype="mask" textAlign="right" expr="dataset.getSum(&quot;CL_11&quot;)" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="14" displaytype="mask" expr="dataset.getSum(&quot;CL_12&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="15" displaytype="mask" expr="dataset.getSum(&quot;CL_H02&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+                <Cell row="5" col="16" displaytype="mask" expr="dataset.getSum(&quot;CL_Y&quot;)" textAlign="right" maskeditformat="#,#0" background="#FFFF00"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnExcelDown" taborder="2" text="엑셀다운로드" top="66" width="119" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" onclick="divCmmnBtn_btnExcelDown_onclick" right="10"/>
+        <Static id="staTitle01" taborder="3" text="세금계산서 기준 매출현황" left="10" width="650" height="45" top="55" cssclass="sta_WF_Title"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	statusVM1.xfdl
+*  @Creator 	
+*  @CreateDate 	
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvCurMonth = "";
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj);
+	
+	var date = this.gfnGetDate();
+	this.fvCurMonth = date.substr(0,6);
+	this.divSearch.form.calMonth.set_value(this.fvCurMonth + "31");
+	
+	this.grdList.set_formatid("EMP");
+	
+	this.staTitle01.set_text(date.substr(0,4) + "년도 세금계산서 기준 매출현황");
+};
+
+//조회
+this.cfnSearch = function ()
+{
+	var selDate = this.divSearch.form.calMonth.value;
+	var selYear = selDate.substr(0,4);
+	var curYear = this.fvCurMonth.substr(0,4);
+	if(curYear > selYear) {
+		this.dsParam1.setColumn(0, "END_MONTH", selYear + "1231");
+	} else {
+		this.dsParam1.setColumn(0, "END_MONTH", this.fvCurMonth + "31");
+	}
+	this.fnTranSearch();
+};
+
+
+//max size 변경
+this.form_onsize = function(obj:nexacro.Form,e:nexacro.SizeEventInfo)
+{
+
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+this.fnTranSearch = function()
+{
+	this.gfnInitNextGlobalDataset(this.dsGlobal);
+	
+	this.dsParam1.applyChange();
+	
+	// https://nextcns.tobesoft.com/FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_SalesMonthly_S01&format=xml&version=xplatform&compress=false HTTP/1.1
+	var strSvcId 	= "month";
+	var strSvcUrl 	= "nextService.do";
+	var inData 		= "dsGlobal=dsGlobal:A dsParam=dsParam1:A";
+	var outData 	= "dsOutput=dsOutput";
+	var strArg 		= "trxUrl=" + nexacro.wrapQuote("FrontControllerServlet.do?service=xupservice&domain=NEXTp&model=MI_SalesMonthly_S01&format=xml&version=xplatform&compress=false");
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, "fnCallback");
+
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg, oJson)
+{
+	switch(sSvcId) {
+		case "month":
+			break;					
+		default:
+			break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdList, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");	
+};
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+// 구분 변경
+this.divSearch_cboType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.grdList.set_formatid(e.postvalue);
+	this.dsOutput.clearData();
+};
+
+this.divSearch_calMonth_onspin = function(obj:nexacro.Calendar,e:nexacro.CalendarSpinEventInfo)
+{
+	this.dsOutput.clearData();		
+	this.staTitle01.set_text(e.postvalue.substr(0,4) + "년도 세금계산서 기준 매출현황");
+};
+
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var objDsId = obj.binddataset;
+	var objDs = this.lookup(objDsId);
+
+	var sCellText = obj.getCellProperty("body", e.cell, "text");
+	var sMonth = sCellText.split("_")[1];
+
+	if(nexacro.isNumeric(sMonth)) //년합계 제외
+	{
+		if(sCellText.indexOf("bind:CL_") != -1 && objDs.getColumn(e.row, sCellText.split(":")[1]) != 0)
+		{
+			var selDate = this.divSearch.form.calMonth.value;
+			var selYear = selDate.substr(0,4);
+			
+			var sTitle = "매출상세";
+			var oArg = {
+								"END_MONTH" : selYear+sMonth,
+								"CONTRACT_TYPE" : objDs.getColumn(objDs.rowposition, "CONTRACT_TYPE"),
+								"FORMAT" : this.divSearch.form.cboType.value,
+								"DEPT_CD" : objDs.getColumn(objDs.rowposition, "DEPT_CD"),
+								"EMP_NO" : objDs.getColumn(objDs.rowposition, "SALES_EMP_NO"),
+								"CLIENT_CODE" : objDs.getColumn(objDs.rowposition, "CLIENT_CODE"),
+								"PROJECT_CODE" : objDs.getColumn(objDs.rowposition, "PROJECT_CODE"),
+								"CONTRACT_NO" : objDs.getColumn(objDs.rowposition, "CONTRACT_NO")
+							};
+			var oOption = {title:sTitle
+						,titlebar:true};
+			var sPopupCallBack = "fnPopupCallback";
+			this.gfnOpenPopup("orgUserDetail", "sales::next/salesDetailPu.xfdl", oArg, sPopupCallBack, oOption);				
+		}
+	}	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsParam1">
+        <ColumnInfo>
+          <Column id="TYPE" type="string" size="256"/>
+          <Column id="FORMAT" type="string" size="256"/>
+          <Column id="END_MONTH" type="string" size="256"/>
+          <Column id="DEPT_LEVEL" type="string" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="TYPE">TAX</Col>
+            <Col id="DEPT_LEVEL">1</Col>
+            <Col id="FORMAT">EMP</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsOutput">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="40"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="INDUSTRY" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="120"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CL_01" type="bigdecimal" size="40"/>
+          <Column id="CL_02" type="bigdecimal" size="40"/>
+          <Column id="CL_03" type="bigdecimal" size="40"/>
+          <Column id="CL_04" type="bigdecimal" size="40"/>
+          <Column id="CL_05" type="bigdecimal" size="40"/>
+          <Column id="CL_06" type="bigdecimal" size="40"/>
+          <Column id="CL_07" type="bigdecimal" size="40"/>
+          <Column id="CL_08" type="bigdecimal" size="40"/>
+          <Column id="CL_09" type="bigdecimal" size="40"/>
+          <Column id="CL_10" type="bigdecimal" size="40"/>
+          <Column id="CL_11" type="bigdecimal" size="40"/>
+          <Column id="CL_12" type="bigdecimal" size="40"/>
+          <Column id="CL_H01" type="bigdecimal" size="40"/>
+          <Column id="CL_H02" type="bigdecimal" size="40"/>
+          <Column id="CL_Y" type="bigdecimal" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsItem">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="CD_CODE" type="string" size="20"/>
+          <Column id="CAPTION" type="string" size="100"/>
+          <Column id="BUSINESS_TYPE" type="string" size="20"/>
+          <Column id="GOAL" type="bigdecimal" size="20"/>
+          <Column id="RESULT" type="bigdecimal" size="20"/>
+          <Column id="GOAL_Y" type="bigdecimal" size="20"/>
+          <Column id="RESULT_Y" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsGlobal">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NM" type="string" size="100"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="DEPT_NM" type="string" size="100"/>
+          <Column id="EMAIL" type="string" size="268"/>
+          <Column id="MOBILE" type="string" size="44"/>
+          <Column id="OFFICE" type="string" size="20"/>
+          <Column id="GRADE_CD" type="string" size="30"/>
+          <Column id="GRADE_NM" type="string" size="100"/>
+          <Column id="DUTY_CD" type="string" size="30"/>
+          <Column id="DUTY_NM" type="string" size="100"/>
+          <Column id="EMP_KIND" type="string" size="255"/>
+          <Column id="CO_CD" type="string" size="30"/>
+          <Column id="CO_NM" type="string" size="100"/>
+          <Column id="LOGIN_SYS" type="string" size="10"/>
+          <Column id="LANGUAGE" type="string" size="10"/>
+          <Column id="MODEL_ID" type="string" size="50"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCode">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">EMP</Col>
+            <Col id="NAME">담당자별</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">DEPT</Col>
+            <Col id="NAME">부서별</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">CLIENT</Col>
+            <Col id="NAME">고객사별</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">PROJECT</Col>
+            <Col id="NAME">프로젝트별</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">CONTRACT</Col>
+            <Col id="NAME">계약별</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item6" compid="divSearch.form.cboType" propid="value" datasetid="dsParam1" columnid="FORMAT"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memoMapper">
+<!--mySQL  -->
+<!-- ******************************************************게시판 게시글******************************************************************** -->
+<!-- 메모 조회 -->
+<select id="searchMemoList" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT USER_ID, KEYSEQ, SEQ, LVL_NO, LVL_COLOR, LVL_BGCOLOR, LVL_FONT, LVL_NAME, MEMO_TITLE, MEMO_CONTENTS, '' AS EDITCOL, 0 AS RTYPE
+		   , CHGE_DTTM
+	FROM T_COMM_MEMO
+	WHERE USER_ID = #{USER_ID_SRV}
+	<if test="SEARCHDATA != null and SEARCHDATA != '' ">
+    	AND (MEMO_TITLE LIKE CONCAT('%', #{SEARCHDATA} ,'%') OR MEMO_CONTENTS LIKE CONCAT('%', #{SEARCHDATA} ,'%'))
+    </if>	
+    ORDER BY SEQ
+</select>
+
+<!-- 메모 조회 -->
+<select id="searchMemoMaxSeq" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT MAX(KEYSEQ)  AS MAXKEYSEQ, 
+	       MAX(SEQ) AS MAXSEQ
+	FROM T_COMM_MEMO
+	WHERE USER_ID = #{USER_ID_SRV}
+</select>
+
+<!-- 메모 조회 -->
+<select id="searchMemoDetail" parameterType="java.util.Map" resultType="java.util.Map"> 
+	SELECT USER_ID, KEYSEQ, SEQ, LVL_NO, LVL_COLOR, LVL_BGCOLOR, LVL_FONT, LVL_NAME, MEMO_TITLE ,MEMO_CONTENTS, CHGE_DTTM
+	      ,(SELECT MAX(SEQ) FROM T_COMM_MEMO) AS MAXSEQ
+	FROM T_COMM_MEMO
+	WHERE USER_ID = #{USER_ID_SRV}
+	AND   KEYSEQ = #{KEYSEQ}
+</select>
+
+<!-- 메모 추가 -->  
+<insert id="insertMemoContents" parameterType="java.util.Map">
+	INSERT INTO T_COMM_MEMO
+	(
+		USER_ID, KEYSEQ, SEQ, LVL_NO, LVL_COLOR, LVL_BGCOLOR, LVL_FONT, LVL_NAME, MEMO_TITLE, MEMO_CONTENTS, INPT_ID, INPT_IP, INPT_DTTM, CHGE_ID, CHGE_IP, CHGE_DTTM
+	)VALUES(
+		 #{USER_ID_SRV}
+		, #{KEYSEQ} 
+		, #{SEQ}
+		, #{LVL_NO}
+		, #{LVL_COLOR}
+		, #{LVL_BGCOLOR}
+		, #{LVL_FONT}
+		, #{LVL_NAME}
+		, #{MEMO_TITLE}
+		, #{MEMO_CONTENTS}
+		, #{USER_ID_SRV}
+		, #{USER_CON_IPADDR_SRV}
+		, NOW()
+		, #{USER_ID_SRV}
+		, #{USER_CON_IPADDR_SRV}
+		, NOW()
+	)
+</insert> 
+
+<!-- 메모 -->
+<update id="updateMemoContents" parameterType="java.util.Map">
+	UPDATE 
+		T_COMM_MEMO
+	SET
+		  SEQ = #{SEQ}  
+		, LVL_NO = #{LVL_NO}
+		, LVL_COLOR = #{LVL_COLOR}
+		, LVL_BGCOLOR = #{LVL_BGCOLOR}
+		, LVL_FONT = #{LVL_FONT}
+		, LVL_NAME = #{LVL_NAME}
+		, MEMO_TITLE 	= #{MEMO_TITLE}
+		, MEMO_CONTENTS = #{MEMO_CONTENTS}
+		, CHGE_ID       = #{USER_ID_SRV}
+		, CHGE_DTTM     = NOW()
+		, CHGE_IP       = #{USER_CON_IPADDR_SRV}		
+	WHERE KEYSEQ = #{KEYSEQ}
+ 	 AND  USER_ID = #{USER_ID_SRV}
+</update>
+
+<!--  MAP 사용자 정보 삭제 -->   
+<delete id="deleteMemoContents" parameterType="java.util.Map">
+	DELETE FROM T_COMM_MEMO 
+	WHERE KEYSEQ = #{KEYSEQ}
+ 	 AND  USER_ID = #{USER_ID_SRV}
+</delete>
+
+
+</mapper>

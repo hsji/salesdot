@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AC_ServerCheckDetPopup" width="600" height="250" titletext="복사할 데이터 설정" cssclass="frm_popBg" onload="AC_ServerCheckDetPopup_onload">
+    <Layouts>
+      <Layout height="250" mobileorientation="landscape" width="600">
+        <Static id="st_Title" taborder="0" text="계정목록" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title"/>
+        <Button id="btn_Close" taborder="1" top="10" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="btn_Close_onclick" escapebutton="true"/>
+        <Static id="Static01" taborder="3" left="0" right="0" bottom="0" cssclass="sta_POP_BtnBg" height="29"/>
+        <Grid id="grd_AccountList" taborder="2" left="0" top="35" autofittype="col" binddataset="dsAccountList" right="0" bottom="Static01:0" onheadclick="grd_AccountList_onheadclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="120"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" text="0"/>
+                <Cell col="1" text="서버명"/>
+                <Cell col="2" text="계정"/>
+                <Cell col="3" text="적용 패스워드"/>
+                <Cell col="4" text="이전 패스워드"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="checkbox" displaytype="checkboxcontrol" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:CHK"/>
+                <Cell col="1" text="bind:SERVER_NAME" tooltiptext="bind:SERVER_NAME"/>
+                <Cell col="2" text="bind:ACCOUNT"/>
+                <Cell col="3" text="bind:NEW_PW"/>
+                <Cell col="4" text="bind:OLD_PW"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_Cancel" taborder="4" height="22" cssclass="btn_WF_cancel" text="취소" right="8" onclick="btn_Cancel_onclick" width="65" bottom="3"/>
+        <Button id="btn_OK" taborder="5" height="22" cssclass="btn_WF_tran" text="적용" right="80" width="65" bottom="3" onclick="btn_OK_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsServerCheckDet">
+        <ColumnInfo>
+          <Column id="SCD_SEQ" type="STRING" size="256"/>
+          <Column id="SCL_SEQ" type="STRING" size="256"/>
+          <Column id="SAL_SEQ" type="STRING" size="256"/>
+          <Column id="ACCOUNT" type="STRING" size="256"/>
+          <Column id="NEW_PW" type="STRING" size="256"/>
+          <Column id="OLD_PW" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsAccountList">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="SAL_SEQ" type="STRING" size="256"/>
+          <Column id="SERVER_NAME" type="STRING" size="256"/>
+          <Column id="ACCOUNT" type="STRING" size="256"/>
+          <Column id="NEW_PW" type="STRING" size="256"/>
+          <Column id="OLD_PW" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsConfirmData">
+        <ColumnInfo>
+          <Column id="SCL_SEQ" type="STRING" size="256"/>
+          <Column id="SAL_SEQ" type="STRING" size="256"/>
+          <Column id="ACCOUNT" type="STRING" size="256"/>
+          <Column id="NEW_PW" type="STRING" size="256"/>
+          <Column id="OLD_PW" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 서버점검관리
+* 02. 화면명		: 서버점검 체크리스트 데이터 복사 설정 팝업
+* 03. 화면설명 	: 서버점검 체크리스트 데이터 복사 설정 팝업
+						
+* 04. 작성일   	: 2022.04.27
+* 05. 작성자   	: 박종언
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_Report.xjs"
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+var curYYYYMM = ""; // 조회 년월
+var sSclSeq = ""; // 체크리스트 일련번호
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.AC_ServerCheckDetPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.dsAccountList.copyData(this.parent.dsAccountList);
+	this.dsServerCheckDet.copyData(this.parent.dsServerCheckDet);
+	curYYYYMM = this.parent.curYYYYMM;
+	sSclSeq = this.parent.sSclSeq;
+	this.fnCompareList();
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.btn_Cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+};
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 기존에 등록 된 계정과 계정 목록 비교
+this.fnCompareList = function()
+{
+	var sAccountCnt = this.dsAccountList.rowcount;
+	for(var i = 0; i < sAccountCnt; i++)
+	{
+		var sSalSeq = this.dsServerCheckDet.getColumn(i, "SAL_SEQ");
+		var findRow = this.dsAccountList.findRow("SAL_SEQ", sSalSeq);
+		if(findRow > -1) this.dsAccountList.setColumn(findRow, "CHK", "1");
+	}
+}
+
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		if(strSvcID == "CopyData")
+		{
+			alert(curYYYYMM + " 년월 데이터 복사 완료 되었습니다.");
+			this.commUtil.popupClose("copy");
+		}
+	}
+};
+
+this.btn_OK_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sAccountCnt = this.dsAccountList.rowcount;
+	for(var i = 0; i < sAccountCnt; i++)
+	{
+		var sChked = this.dsAccountList.getColumn(i, "CHK");
+		if(sChked == "1")
+		{
+			var nRow = this.dsConfirmData.addRow();
+			this.dsConfirmData.copyRow(nRow, this.dsAccountList, i);
+			if(!this.gfnIsEmpty(sSclSeq)) this.dsConfirmData.setColumn(nRow, "SCL_SEQ", sSclSeq);
+		}
+	}
+	
+	this.commUtil.popupClose(this.dsConfirmData);
+};
+
+this.grd_AccountList_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if (e.col == 0) {
+		var sHeadChk = obj.getCellText( -1, e.cell);
+		if (sHeadChk == "0")	sHeadChk = "1";
+		else					sHeadChk = "0";
+
+		obj.setCellProperty( "head", e.cell, "text", sHeadChk);
+		this.dsAccountList.set_enableevent(false);
+		for (var i=0; i<this.dsAccountList.rowcount; i++) {
+			this.dsAccountList.setColumn(i, "CHK", sHeadChk);
+		}
+		this.dsAccountList.set_enableevent(true);
+	} 
+};
+]]></Script>
+  </Form>
+</FDL>

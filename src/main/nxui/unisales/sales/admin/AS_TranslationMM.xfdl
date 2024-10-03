@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AS_TranslationMM" width="1280" height="580" titletext="번역관리" onload="AS_TranslationMM_onload">
+    <Layouts>
+      <Layout height="580" mobileorientation="landscape" width="1280">
+        <Div id="div_Search01" taborder="0" text="" left="8" top="8" height="40" right="8" cssclass="div_WF_SchList" formscrollbartype="none none" formscrolltype="none">
+          <Layouts>
+            <Layout>
+              <Static id="stc_title15" taborder="0" text="번역종류" left="12" top="8" width="53" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_MajorProcessSel" taborder="1" left="stc_title15:11" top="8" width="102" height="22" innerdataset="ds_comm_TLType_all" datacolumn="CAPTION" codecolumn="CODE" onitemchanged="fnSearch"/>
+              <Combo id="cmb_ResultKind" taborder="2" left="258" top="8" width="102" height="22" text="전체" value="A" index="0" onitemchanged="cmb_ResultKind_onitemchanged"/>
+              <Button id="btn_search" taborder="3" text="조회" top="8" height="22" cssclass="btn_WF_SchText" right="8" width="52" onclick="common_onclick"/>
+              <Button id="btn_save" taborder="4" text="저장" top="8" width="59" height="23" cssclass="btn_WF_tran" enable="true" right="68" onclick="common_onclick"/>
+              <Edit id="edt_ContractName02" taborder="5" left="361" top="8" height="22" right="581"/>
+              <Static id="stc_title15_00" taborder="6" text="번역종류" left="192" top="8" width="53" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_ResultKind00" taborder="7" left="701" top="8" width="102" height="22" innerdataset="innerdataset" datacolumn="datacolumn" codecolumn="codecolumn" text="전체" value="A" index="0" onitemchanged="cmb_ResultKind_onitemchanged">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">A</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">모집단등록여부</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">샘플등록여부</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">첨부파일등록여부</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">4</Col>
+                      <Col id="datacolumn">검토확인여부</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Button id="btn_Insert" taborder="8" text="추가" top="8" height="22" onclick="common_onclick" cssclass="btn_WF_tran" right="200" width="59"/>
+              <Button id="btn_Delete" taborder="9" text="삭제" top="8" height="22" onclick="common_onclick" cssclass="btn_WF_tran" right="134" width="59"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_Project" taborder="1" left="8" top="56" right="8" binddataset="ds_AM_List" cellsizingtype="col" cellmovingtype="col" autofittype="col" treeinitstatus="expand,all" treeusecheckbox="false" bottom="194" oncelldblclick="grd_Project_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="55"/>
+                <Column size="80"/>
+                <Column size="250"/>
+                <Column size="250"/>
+                <Column size="250"/>
+                <Column size="60"/>
+                <Column size="317"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="TL_SEQ"/>
+                <Cell col="1" text="번역종류"/>
+                <Cell col="2" text="국문"/>
+                <Cell col="3" text="일문"/>
+                <Cell col="4" text="영문"/>
+                <Cell col="5" text="사용여부"/>
+                <Cell col="6" text="비고"/>
+              </Band>
+              <Band id="body">
+                <Cell/>
+                <Cell col="1"/>
+                <Cell col="2"/>
+                <Cell col="3"/>
+                <Cell col="4"/>
+                <Cell col="5" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="6"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div_ContractInfo" taborder="2" text="" cssclass="div_WF_detailBg" left="8" right="8" bottom="10" height="178">
+          <Layouts>
+            <Layout>
+              <Static id="stc_ContractName" taborder="0" text="국문" left="4" top="33" width="75" height="28" cssclass="sta_WF_detailLbl01" textAlign="right"/>
+              <Edit id="edt_ContractName" taborder="1" left="81" top="36" height="22" right="11"/>
+              <Static id="stc_ContractName00" taborder="2" text="일문" left="4" top="62" width="75" height="28" cssclass="sta_WF_detailLbl01" textAlign="right"/>
+              <Edit id="edt_ContractName00" taborder="3" left="81" top="65" height="22" right="11"/>
+              <Static id="stc_ContractName01" taborder="4" text="영문" left="4" top="91" width="75" height="28" cssclass="sta_WF_detailLbl01" textAlign="right"/>
+              <Edit id="edt_ContractName01" taborder="5" left="81" top="94" height="22" right="11"/>
+              <Static id="stc_PayMethod" taborder="6" text="번역종류" left="4" top="4" width="75" height="28" cssclass="sta_WF_detailLbl01" textAlign="right"/>
+              <Combo id="cmb_PayMethod" taborder="7" text="" left="81" top="7" width="300" height="22" innerdataset="ds_cmm_PayMethod" codecolumn="CODE" datacolumn="CAPTION"/>
+              <CheckBox id="chb_Export" taborder="8" text="사용여부" top="7" width="84" height="22" cssclass="sta_WF_DetailTit" right="791"/>
+              <Static id="stc_Explain" taborder="9" text="비고" left="4" top="123" width="75" height="46" cssclass="sta_WF_detailLbl01"/>
+              <Edit id="edt_Explain" taborder="10" left="81" top="123" width="1170" height="46"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="div_ContractInfo.form.cal_FreeMaEndDate" propid="value" datasetid="ds_MainContract" columnid="DELIVERY_DATE"/>
+      <BindItem id="item1" compid="div_ContractInfo.form.cal_OpenDate" propid="value" datasetid="ds_MainContract" columnid="OPEN_DATE"/>
+      <BindItem id="item2" compid="div_ContractInfo.form.cal_LICDate" propid="value" datasetid="ds_MainContract" columnid="ISSUE_DATE"/>
+      <BindItem id="item3" compid="div_ContractInfo.form.chb_Annual" propid="value" datasetid="ds_MainContract" columnid="ANNUAL_FLAG"/>
+      <BindItem id="item4" compid="div_ContractInfo.form.cal_StartDt" propid="value" datasetid="ds_MainContract" columnid="START_DATE2"/>
+      <BindItem id="item5" compid="div_ContractInfo.form.cal_EndDt" propid="value" datasetid="ds_MainContract" columnid="END_DATE2"/>
+      <BindItem id="item6" compid="div_ContractInfo.form.cal_ResultDt" propid="value" datasetid="ds_MainContract" columnid="RESULT_DATE"/>
+      <BindItem id="item8" compid="div_ContractInfo.form.edt_ContractName" propid="value" datasetid="ds_MainContract" columnid="CONTRACT_NAME"/>
+      <BindItem id="item7" compid="div_ContractInfo.form.edt_ContractName00" propid="value" datasetid="ds_MainContract" columnid="CONTRACT_NAME"/>
+      <BindItem id="item9" compid="div_ContractInfo.form.edt_ContractName01" propid="value" datasetid="ds_MainContract" columnid="CONTRACT_NAME"/>
+      <BindItem id="item10" compid="div_ContractInfo.form.cmb_PayMethod" propid="value" datasetid="ds_MainContract" columnid="PAY_METHOD"/>
+      <BindItem id="item11" compid="div_ContractInfo.form.chb_Export" propid="value" datasetid="ds_MainContract" columnid="EXPORT_FLAG"/>
+      <BindItem id="item13" compid="div_Search01.form.edt_ContractName02" propid="value" datasetid="ds_MainContract" columnid="CONTRACT_NAME"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_comm_TLType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CAPTION">전체</Col>
+            <Col id="CODE">ALL</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">COMPONENT</Col>
+            <Col id="CAPTION">항목</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">CONFIRM</Col>
+            <Col id="CAPTION">Confirm(메시지)</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">ALERT</Col>
+            <Col id="CAPTION">Alert(메시지)</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list"/>
+      <Dataset id="ds_comm_TLType_all">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 관리>데이터관리
+ * 02. 화면명   : 번역관리(AS_TranslationMM)
+ * 03. 화면설명 : NEXT 다국어 지원을 위한 항목, 메시지 국문 번역 등록
+ * 04. 작성일   : 2022.12.15
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+ 
+ 
+ 
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.AS_TranslationMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+};
+
+
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+   // 공통코드 조회
+ this.fnGetCode = function()
+ {
+	this.gfnAddCodeDataset("ds_comm_TLType_all", "TL_TYPE", true);
+	this.gfnAddCodeDataset("ds_comm_TLType",	 "TL_TYPE");
+	this.gfnCodeTransaction();
+ }
+ 
+ 
+ // 조회
+ this.fn_QueryData = function()
+ {
+	if (!this.fn_getValidation("S"))	return;
+		
+	// 조건값 셋팅
+	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
+		
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("ds_list", "ds_output");
+	this.gfnCommonTransaction("Select", "AS_TranslationMM_S01", this.grd_ContractList);
+ };
+ 
+ 
+ 
+  // 저장 처리
+ this.fn_SaveData = function ()
+ {
+	if (!this.fn_getValidation("T")) return;	
+	
+	this.FV_SAVE_CURROW = this.ds_MainContract.rowposition;
+	
+	//저장용 Input Dataset 세팅
+	this.gfnAddInputDataset("ds_list",		"ds_input", "U");
+
+	
+	this.gfnCommonTransaction("Save", "AS_TranslationMM_R01");
+ }
+ 
+ 
+ // 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	if (nErrorCode<0) {
+		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		return;
+	} else {
+		switch (strSvcID) 
+		{
+			case "gfnGetCode" :			
+				this.ds_cmm_ServerGrade.insertRow(0);
+				this.ds_cmm_ServerGrade.setColumn(0, "CAPTION", " ");
+				break;
+				
+			case "Select" :				
+				this.FV_PARENT_FORM.fnAuthConfig();
+				if (this.ds_MainContract.rowcount == 0 && this.commUtil.getFormAuthority(242,8))
+				{
+					/*신규프로젝트 추가시 조회되는 계약이 없음, 
+					추가, 삭제 권한이 있을경우 계약 자동으로 1개 추가(초기화 문제때문에)*/
+					this.fn_AddRecord();
+				}				
+				
+				if (this.FV_SAVE_CURROW > 0) {
+					// 저장 처리시 이전 Row로 rowposition 위치 이동(rowposition:0 무시)
+					var nRow = this.FV_SAVE_CURROW;
+					this.FV_SAVE_CURROW = 0;
+					
+					this.div_ContractInfo.form.div_Attachment.set_enableevent(false);
+					this.ds_MainContract.set_enableevent(false);
+					this.ds_MainContract.set_rowposition(nRow);
+					
+					// 첨부파일 버튼 초기화
+					//this.div_ContractInfo.form.div_Attachment.form.fnSearch();
+					this.fnSetFileInit();
+					this.ds_MainContract.set_enableevent(true);
+					this.div_ContractInfo.form.div_Attachment.set_enableevent(true);
+					
+					// 세부 조회
+					this.fn_ContractDetailQueryData (nRow);
+				}
+				
+				break;
+			
+		}
+	}
+ };
+
+
+
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+
+
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (obj.text == "btn_Insert") {
+		this.ds_list.addRow();
+		
+	} else if (obj.text == "btn_Delete") {
+		this.ds_list.deleteRow(this.ds_list.rowposition);
+	} else if (obj.text == "btn_save") {
+		this.fn_SaveData();
+	} else if (obj.text == "btn_search") {
+		this.fn_QueryData();
+	}
+};
+
+]]></Script>
+  </Form>
+</FDL>

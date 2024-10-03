@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="orgUserListPu" width="690" height="630" titletext="사용자전체조회" onload="form_onload">
+    <Layouts>
+      <Layout height="630" mobileorientation="landscape" width="690">
+        <Div id="divSearch" taborder="0" left="25" top="20" height="50" cssclass="div_WF_Search" text="" right="25">
+          <Layouts>
+            <Layout>
+              <Static id="sta00_00" taborder="0" text="사용자명" left="0" top="12" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <Edit id="edtUserNm" taborder="1" left="sta00_00:0" top="12" width="100" height="24" onkeyup="divSearch_edtName_onkeyup" oninput="divSearch_edtName_oninput"/>
+              <Static id="sta00" taborder="2" text="사번/ID" left="edtUserNm:0" top="12" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <Edit id="edtEmpNo" taborder="3" left="sta00:0" top="12" width="100" height="24" onkeyup="divSearch_edtName_onkeyup" oninput="divSearch_edtName_oninput"/>
+              <Static id="staTitle00" taborder="4" text="재직상태" left="edtEmpNo:0" top="12" width="86" height="24" cssclass="sta_WF_SchLabel"/>
+              <Combo id="cboHoofStat" taborder="5" text="재직" left="staTitle00:0" top="12" width="80" height="24" index="-1" value="HO" uUse="false"/>
+              <Button id="btnSearch" taborder="6" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="1" text="사용자" left="25" top="70" height="43" cssclass="sta_WF_Title" right="25"/>
+        <Grid id="grdList" taborder="2" left="25" top="Static00:0" right="25" bottom="68" binddataset="dsList" autofittype="col" oncelldblclick="grdList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="160"/>
+                <Column size="120"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="부서코드"/>
+                <Cell col="1" text="부서명"/>
+                <Cell col="2" text="사번/ID"/>
+                <Cell col="3" text="사용자명"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DEPT_CD"/>
+                <Cell col="1" text="bind:DEPT_NM"/>
+                <Cell col="2" text="bind:EMP_NO"/>
+                <Cell col="3" text="bind:KORN_NM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnConfirm" taborder="3" text="확인" height="28" width="50" fittocontents="width" cssclass="btn_WF_Crud" right="78" bottom="20" onclick="btnConfirm_onclick"/>
+        <Button id="btnClose" taborder="4" text="취소" height="28" width="50" fittocontents="width" right="25" bottom="20" onclick="btnClose_onclick"/>
+        <Static id="Static04" taborder="5" left="165" top="70" width="30" height="43" cssclass="sta_WF_GSize" visible="false" text="H43"/>
+        <Static id="Static04_01" taborder="6" left="0" top="0" width="25" cssclass="sta_WF_GSize" visible="false" text="W 25" bottom="0"/>
+        <Static id="Static04_01_00" taborder="7" top="0" width="25" cssclass="sta_WF_GSize" visible="false" text="W 25" bottom="0" right="0"/>
+        <Static id="Static04_00" taborder="8" left="166" top="0" width="30" height="20" cssclass="sta_WF_GSize" visible="false" text="H20"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	orgUserListPu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/28
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/28			TOBESOFT					최초생성
+* 2022/10/18			TOBESOFT					재직상태추가
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	var param = 
+	[
+		  {biztype : "Combo", code : "SM08", selecttype : "A", objid : this.divSearch.form.cboHoofStat}				// 재직상태
+	];
+	this.gfnGetCommonCode(param);	
+	
+	this.fvSearchValue = this.getOwnerFrame().pvSearchValue;
+	this.cfnSearch(); //자동조회
+};
+
+this.afterCommCodeLoad = function()
+{
+	this.divSearch.form.cboHoofStat.set_value("HO");
+}
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*****************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	//this.dsCond.clearData();
+	this.dsList.clearData();
+	
+	var strSvcId    = "searchUserInfo";
+	var strSvcUrl   = "searchUserInfo.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchUserInfo":
+			if(!this.gfnIsNull(this.fvSearchValue)){
+				var nFindRow = this.dsList.findRow("EMP_NO",this.fvSearchValue);
+				if( nFindRow>-1) this.dsList.set_rowposition(nFindRow);
+			}
+			break;
+		default:break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnClose = function (nRow)
+{
+	var sCd = this.dsList.getColumn(nRow, "EMP_NO");
+	var sNm = this.dsList.getColumn(nRow, "KORN_NM");
+	var sUserId = this.dsList.getColumn(nRow, "USER_ID");
+	var sWorkNm = this.dsList.getColumn(nRow, "WKGD_NM");
+	var EMAIL = this.dsList.getColumn(nRow, "EMAIL");
+	var CELL_NUMB = this.dsList.getColumn(nRow, "CELL_NUMB");
+	var rtn = sCd +"|" + sNm +"|"+sUserId + "|" + sWorkNm + "|" + EMAIL + "|" + CELL_NUMB;
+
+	this.close(rtn);
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnClose(e.row);
+};
+
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnClose(this.dsList.rowposition);
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close("");
+};
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="HOOF_STAT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="KORN_NM" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtEmpNo" propid="value" datasetid="dsCond" columnid="EMP_NO"/>
+      <BindItem id="item1" compid="divSearch.form.edtUserNm" propid="value" datasetid="dsCond" columnid="USER_NM"/>
+      <BindItem id="item2" compid="divSearch.form.cboHoofStat" propid="value" datasetid="dsCond" columnid="HOOF_STAT_CD"/>
+    </Bind>
+  </Form>
+</FDL>

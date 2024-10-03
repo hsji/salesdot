@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="orgUserListPu" width="460" height="440" titletext="사용자전체조회" onload="form_onload">
+    <Layouts>
+      <Layout height="440" mobileorientation="landscape" width="460">
+        <Static id="Static00" taborder="0" text="발송정보" left="25.00" top="0" height="43" cssclass="sta_TFDM_Title" right="25"/>
+        <Grid id="grdList" taborder="1" left="25" top="Static00:0" right="25" bottom="68" binddataset="dsHistory" autofittype="col" oncelldblclick="grdList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="139"/>
+                <Column size="51"/>
+                <Column size="202"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="발송일시"/>
+                <Cell col="1" text="순번"/>
+                <Cell col="2" text="제목"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SEND_DTTM" displaytype="mask" maskeditformat="@@@@-@@-@@ @@:@@:@@" maskedittype="string"/>
+                <Cell col="1" text="bind:SEND_SEQ"/>
+                <Cell col="2" text="bind:SEND_TITLE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnConfirm" taborder="2" text="선택" height="28" width="50" fittocontents="width" cssclass="btn_TFDM_Crud" right="78" bottom="20" onclick="btnConfirm_onclick"/>
+        <Button id="btnClose" taborder="3" text="취소" height="28" width="50" fittocontents="width" right="25" bottom="20" onclick="btnClose_onclick" cssclass="btn_TFDM_Crud"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  발송히스토리 리스트 - docMailPu에서 사용
+*  @FileName 	ubiCmmHistory.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2024/03/05
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2024/03/05			DXTOBE						최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.dsHistory.copyData(this.opener.dsHistory);
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*****************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnClose = function (nRow)
+{
+	if(nRow >= 0) {
+		this.opener.dsHistory.set_rowposition(nRow);	// 부모창 row position set
+		this.close("OK");
+	} else {
+		this.close();
+	}
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnClose(e.row);
+};
+
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnClose(this.dsHistory.rowposition);
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close("");
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="HOOF_STAT_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="KORN_NM" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsHistory">
+        <ColumnInfo>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="SEND_SEQ" type="STRING" size="256"/>
+          <Column id="SEND_DTTM" type="STRING" size="256"/>
+          <Column id="SEND_TITLE" type="STRING" size="256"/>
+          <Column id="SEND_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

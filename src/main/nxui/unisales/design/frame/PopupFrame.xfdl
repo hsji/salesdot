@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="PopupFrame" width="800" height="600" titletext="Popup" cssclass="frm_POP_Bg">
+    <Layouts>
+      <Layout height="600" mobileorientation="landscape" width="800">
+        <Div id="Div00" taborder="1" left="0" top="0" height="40" right="0" cssclass="div_POP_TitleBg">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" taborder="0" text="팝업타이틀" left="20" top="5" width="617" height="30" cssclass="sta_POP_Title"/>
+              <Button id="Button00" taborder="1" top="5" width="34" height="31" cssclass="btn_POP_Close" right="8"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="Div01" taborder="1" text="Div01" left="25" top="40" height="52" right="25" url="design::frame\Workcomm.xfdl"/>
+        <Div id="Div02" taborder="2" left="0" top="72" right="0" bottom="0" url="design::template\Temp17_1.xfdl" text=""/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

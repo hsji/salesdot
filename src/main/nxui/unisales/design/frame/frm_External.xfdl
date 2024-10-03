@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frm_Pop" width="1280" height="40" titletext="New Form">
+    <Layouts>
+      <Layout height="40" width="1280">
+        <Div id="Div00" taborder="0" left="0" top="0" height="40" cssclass="div_POP_TitleBg" right="0">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" taborder="0" text="타이틀" left="20" top="5" width="617" height="30" cssclass="sta_WF_ExTitle"/>
+              <Button id="Button00" taborder="1" top="5" width="31" height="31" cssclass="btn_POP_Close" right="8"/>
+              <Button id="Button01" taborder="2" top="5" width="31" height="31" cssclass="btn_MDI_In" right="Button00:0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

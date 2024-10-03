@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Temp19" width="320" height="230" titletext="사용자설정 팝업" onload="form_onload">
+    <Layouts>
+      <Layout height="230" mobileorientation="landscape" width="320">
+        <Button id="btnConfirm" taborder="0" text="저장" height="28" width="50" fittocontents="width" cssclass="btn_WF_Crud" right="25" onclick="btnConfirm_onclick" bottom="20"/>
+        <Button id="btnClose" taborder="1" text="취소" height="28" width="50" fittocontents="width" right="78" onclick="btnClose_onclick" bottom="20"/>
+        <Button id="btn00" taborder="2" text="테마 설정" left="30" top="20" width="130" height="32" cssclass="btn_WF_TabS"/>
+        <Button id="btn00_00" taborder="3" text="비밀번호 변경" top="20" width="130" height="32" cssclass="btn_WF_Tab" left="160"/>
+        <Div id="div00" taborder="4" left="30" top="62" height="100" right="30">
+          <Layouts>
+            <Layout>
+              <Static id="sta00" taborder="0" left="30" top="8" width="75" height="55" cssclass="sta_WF_Light"/>
+              <Static id="sta00_00" taborder="1" left="151" top="8" width="75" height="55" cssclass="sta_WF_Dark"/>
+              <Radio id="rdo00" taborder="2" left="27" top="67" width="231" height="21" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" value="0" text="라이트모드" index="0">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">0</Col>
+                      <Col id="datacolumn">라이트모드</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">다크모드</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div00_00" taborder="5" left="359" top="68" height="100" right="-299">
+          <Layouts>
+            <Layout>
+              <Static id="sta03" taborder="0" left="0" top="0" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Edit id="edt05" taborder="1" left="125" top="5" height="24" password="true" right="5"/>
+              <Static id="sta03_00" taborder="2" left="0" top="33" height="34" cssclass="sta_WF_LabelBg" text="" right="0"/>
+              <Static id="sta02_00" taborder="3" text="새 비밀번호" left="-4" top="33" width="125" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edt05_00" taborder="4" left="125" top="38" height="24" password="true" right="5"/>
+              <Static id="sta03_00_00" taborder="5" left="0" top="66" height="34" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="sta02_00_00" taborder="6" text="새 비밀번호 확인" left="-4" top="66" width="125" height="34" cssclass="sta_WF_Label"/>
+              <Edit id="edt05_00_00" taborder="7" left="125" top="71" height="24" password="true" right="5"/>
+              <Static id="sta02" taborder="8" text="현재 비밀번호" left="-4" top="0" width="125" height="34" cssclass="sta_WF_Label"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	Temp09_01.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/01/05
+*  @Desction    팝업연결용 화면
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/01/05			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvSearch = "";	// 부모에서 넘긴 검색조건
+ 
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	// 초기화
+	this.fnInit();
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+/**
+ * @description 초기화
+*/
+this.fnInit = function()
+{
+	this.fvSearch = this.getOwnerFrame().pvSearch;
+	
+	if (!this.gfnIsNull(this.fvSearch)) 
+	{
+		this.dsGrid.filter("NAME.indexOf('" + this.fvSearch + "') > -1");
+	}
+	
+	this.grdList.set_binddataset("dsGrid");
+	
+	this.dsGrid.set_rowposition(0);
+}
+
+/**
+ * @description 사용자 검색
+*/
+this.fnSearch = function()
+{
+	var sSearch = this.divSearch.form.edtName.value;
+	
+	if (this.gfnIsNull(sSearch)) sSearch = "";
+	
+	this.dsGrid.filter("NAME.indexOf('" + sSearch + "') > -1");
+}
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+/**
+ * @description 취소 버튼 클릭 이벤트
+*/
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnClosePopup();
+};
+
+/**
+ * @description 확인 버튼 클릭 이벤트
+*/
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsGrid.rowposition;
+	
+	var sId = this.dsGrid.getColumn(nRow, "ID");
+	var sName = this.dsGrid.getColumn(nRow, "NAME");
+	
+	var rtnValue = {
+	     rtnId:sId
+		,rtnName:sName
+	}
+		
+	this.gfnClosePopup(JSON.stringify(rtnValue));
+};
+
+/**
+ * @description 그리드셀 더블클릭 이벤트
+*/
+this.grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var nRow = this.dsGrid.rowposition;
+	
+	var sId = this.dsGrid.getColumn(nRow, "ID");
+	var sName = this.dsGrid.getColumn(nRow, "NAME");
+	
+	var rtnValue = {
+	     rtnId:sId
+		,rtnName:sName
+	}
+		
+	this.gfnClosePopup(JSON.stringify(rtnValue));
+};
+
+/**
+ * @description 조회 버튼 클릭 이벤트
+*/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 사용자 검색
+	this.fnSearch();
+};
+
+/**
+ * @description 검색 엔터키 이벤트
+*/
+this.divSearch_edtName_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	// 엔터키일 경우
+	if (e.keycode == 13)
+	{
+		// 사용자 검색
+		this.fnSearch();
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

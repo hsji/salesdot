@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AH_QuestionManagerList" width="1280" height="720" titletext="문의담당자관리" onload="AH_QuestionManagerList_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Div id="div_Search" taborder="0" left="8" top="8" height="40" cssclass="div_WF_SchList" right="24" text="">
+          <Layouts>
+            <Layout>
+              <Static id="stc_CategoryCode" taborder="2" text="질문유형" left="8" top="9" width="58" height="22" cssclass="sta_WF_DetailTit"/>
+              <Combo id="cmb_CategoryCode" taborder="0" left="74" top="9" width="150" height="22" innerdataset="ds_cmm_CategoryCode" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Search_cmb_CategoryCode_onitemchanged"/>
+              <Button id="btn_Excel" taborder="3" text="Excel" top="9" height="22" cssclass="btn_WF_Excel" width="68" right="8" onclick="common_onclick"/>
+              <Button id="btn_Search" taborder="1" text="조회" top="9" width="58" height="22" cssclass="btn_WF_SchText" right="btn_Excel:8" onclick="common_onclick"/>
+              <Button id="btn_Insert" taborder="4" text="등록" top="9" height="23" cssclass="btn_WF_tran" right="btn_Search:8" onclick="common_onclick" width="59"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_QuestionManagerList" taborder="1" left="8" autofittype="col" autosizingtype="none" right="24" top="56" bottom="8" autoenter="select" binddataset="ds_QuestionManagerList" oncelldblclick="grd_QuestionManagerList_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="50"/>
+                <Column size="120"/>
+                <Column size="150"/>
+                <Column size="120"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="질문유형"/>
+                <Cell col="2" text="담당자 이메일"/>
+                <Cell col="3" text="담당자"/>
+                <Cell col="4" text="작성자"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow + 1"/>
+                <Cell col="1" text="bind:CATEGORY_CODE" textAlign="left" displaytype="combotext" combodataset="ds_cmm_CategoryCode" combodatacol="CAPTION" combocodecol="CODE"/>
+                <Cell col="2" text="bind:MANAGER_EMAIL" textAlign="left"/>
+                <Cell col="3" text="bind:EMP_NM"/>
+                <Cell col="4" text="bind:INSERT_EMP_NM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 홈페이지관리
+ * 02. 화면명   : 문의담당자 탭페이지(AH_QuestionManagerList)
+ * 03. 화면설명 : 문의담당자 탭페이지
+ * 04. 작성일   : 2022.09.01
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.AH_QuestionManagerList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+};
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+// 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_CategoryCode",	"CATEGORY_CODE", true);		// 질문유형
+	this.gfnCodeTransaction();
+};
+ 
+// 조회
+this.fnSearch = function()
+{
+	var sCategoryCode = this.div_Search.form.cmb_CategoryCode.value;
+	
+	this.gfnAddSendParameter("CATEGORY_CODE", sCategoryCode);
+	
+	this.gfnAddOutputDataset("ds_QuestionManagerList", "dsOutput");	
+	this.gfnCommonTransaction("Search_QuestionManagerList", "AH_QuestionManagerList_S01", this.grd_QuestionManagerList);
+};
+
+// 상세
+this.fnQuestionManagerDet = function(vMode)
+{
+	var sQmlSeq = this.ds_QuestionManagerList.getColumn(this.ds_QuestionManagerList.rowposition, "QML_SEQ");
+	var Argument = {pvQmlSeq:sQmlSeq, pvMode:vMode};
+	this.commUtil.popup(this, "popupQuestionManagerListdPopup", "Admin::AH_QuestionManagerListPopup.xfdl", -1, -1, 500, 250, true, false, false, Argument, "fnPopupCallBack");
+};
+
+// 엑셀
+this.fnExcelData = function()
+{
+	var objGrd = this.grd_QuestionManagerList;
+	
+	var sFileNm = "문의담당자 목록";
+	var sCategoryNm = this.div_Search.form.cmb_CategoryCode.text;
+	sFileNm += "(" + sCategoryNm + ")";
+	
+	if(nexacro.getApplication().id=="ACEp")
+	{
+		this.parent.parent.parent.parent.parent.fn_excelExport(this, objGrd, sFileNm);
+	}
+	else
+	{
+		this.gfn_excelExport(this, objGrd, sFileNm);
+	}
+};
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if (nErrorCode<0) {
+		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		return;
+	} else {
+		switch (strSvcID) 
+		{
+			case "gfnGetCode" :			
+				this.div_Search.form.cmb_CategoryCode.set_index(0);
+				this.fnSearch();
+				break;
+			case "Search_QuestionManagerList" :
+				
+				break;
+		}
+	}
+};
+  
+// 팝업 콜백
+this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		this.recentVariant = Variant;
+		switch(sPopupId)
+		{
+			case "popupQuestionManagerListdPopup" : // 문의담당자 상세
+				this.fnSearch();
+			break;
+		}
+	}
+};
+
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{	
+		case "btn_Search":	// 조회
+			this.fnSearch();
+			break;
+		case "btn_Excel":	// 엑셀
+			this.fnExcelData();
+			break;
+		case "btn_Insert":	// 등록
+			this.fnQuestionManagerDet("I");
+			break;
+	}
+};
+
+// 상세 팝업 이벤트
+this.grd_QuestionManagerList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnQuestionManagerDet("U");
+};
+
+// 질문유형 변경 이벤트
+this.div_Search_cmb_CategoryCode_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSearch();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_cmm_CategoryCode">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_QuestionManagerList">
+        <ColumnInfo>
+          <Column id="QML_SEQ" type="STRING" size="256"/>
+          <Column id="CATEGORY_CODE" type="STRING" size="256"/>
+          <Column id="CATEGORY_NM" type="STRING" size="256"/>
+          <Column id="MANAGER_EMAIL" type="STRING" size="256"/>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="EMP_NM" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NM" type="STRING" size="256"/>
+          <Column id="UPDATE_DATE" type="STRING" size="256"/>
+          <Column id="UPDATE_EMP_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

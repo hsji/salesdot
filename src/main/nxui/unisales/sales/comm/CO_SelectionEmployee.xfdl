@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="CO_SelectionEmployee" width="313" height="488" titletext="New Form" onload="CO_SelectionEmployee_onload">
+    <Layouts>
+      <Layout height="488" mobileorientation="landscape" width="313">
+        <Static id="stc_GbDetailInfo" taborder="0" left="0" height="31" cssclass="sta_POP_GroupBg" text="" top="0" right="0"/>
+        <Static id="stc_GbDetailInfoText00" taborder="1" text="선택대상자" left="11" width="112" height="15" cssclass="sta_POP_GroupTit" top="9"/>
+        <Grid id="grd_SelectionEmployee" taborder="2" left="0" right="0" bottom="0" binddataset="ds_selected" autofittype="col" oncelldblclick="grd_SelectionEmployee_oncelldblclick" top="31">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="이름"/>
+                <Cell col="1" text="직책"/>
+                <Cell col="2" text="부서"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:EMP_NM"/>
+                <Cell col="1" text="bind:CAPTION"/>
+                <Cell col="2" text="bind:DEPT_NM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[include "Script::CommGrid.xjs"; 
+
+this.CO_SelectionEmployee_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+};
+
+this.grd_SelectionEmployee_oncelldblclick = function(obj:nexacro.Grid, e:nexacro.GridClickEventInfo)
+{	
+	var objDs = this.lookup(obj.binddataset);
+	objDs.deleteRow(e.row);
+};
+
+
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_PurchaseContractTypeSelect" width="350" height="304" titletext="계약구분 선택" cssclass="frm_popBg" onload="SP_PurchaseContractTypeSelect_onload">
+    <Layouts>
+      <Layout height="304" mobileorientation="landscape" width="350">
+        <Static id="stc_BottomFrame" taborder="2" left="1" height="37" right="1" bottom="1" cssclass="sta_POP_BtnBg" text=""/>
+        <Button id="btn_Exit" taborder="0" text="닫기" cssclass="btn_WF_tran" width="50" height="28" bottom="10" right="20" onclick="btn_Exit_onclick" TL_SEQ="59"/>
+        <Button id="btn_Confirm" taborder="1" text="선택" cssclass="btn_WF_Crud" height="28" width="50" bottom="10" right="76" onclick="btn_Confirm_onclick" defaultbutton="true" TL_SEQ="113"/>
+        <Radio id="rdo_ContractType" taborder="3" left="70.00" top="34" innerdataset="ds_CD_CONTRACT_TYPE" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME" columncount="1" right="82" bottom="65"/>
+        <Combo id="cboCompany" taborder="4" text="알림" left="87" top="12" width="139" height="24" index="1" value="INF" innerdataset="gdsCompany" codecolumn="SSC_CD" datacolumn="SSC_CD_KORN_NM" onitemchanged="divSearch_cboCompany_onitemchanged"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_CD_CONTRACT_TYPE">
+        <ColumnInfo>
+          <Column id="HIPO_PRODUCT_NAME" type="string" size="32"/>
+          <Column id="PRODUCT_ORDER" type="int" size="4"/>
+          <Column id="UNIT_COST" type="float" size="8"/>
+          <Column id="GOODS_FLAG" type="string" size="32"/>
+          <Column id="REMARKS" type="string" size="32"/>
+          <Column id="PRODUCT_CODE" type="string" size="32"/>
+          <Column id="RELATED_COMPANY_CODE" type="string" size="32"/>
+          <Column id="COMPANY_CODE" type="string" size="32"/>
+          <Column id="MAIN_PRODUCT_CODE" type="string" size="32"/>
+          <Column id="MAIN_PRODUCT_FLAG" type="string" size="32"/>
+          <Column id="PRODUCT_COMPANY_CODE" type="string" size="32"/>
+          <Column id="PRODUCT_NAME_SHORT" type="string" size="32"/>
+          <Column id="PRODUCT_NAME_ENG" type="string" size="32"/>
+          <Column id="ROYALTY_TYPE" type="string" size="32"/>
+          <Column id="SELECT_FLAG" type="string" size="32"/>
+          <Column id="SortOrder" type="string" size="32"/>
+          <Column id="NO_PURCHASE_FLAG" type="string" size="32"/>
+          <Column id="PRODUCT_NAME" type="string" size="32"/>
+          <Column id="PRODUCT_LVL" type="int" size="4"/>
+          <Column id="HIPO_PRODUCT_CODE" type="string" size="32"/>
+          <Column id="CONTRACT_TYPE" type="string" size="32"/>
+          <Column id="MA_FLAG" type="string" size="32"/>
+          <Column id="DELETE_FLAG" type="string" size="32"/>
+          <Column id="RELATED_COMPANY_NAME" type="string" size="32"/>
+          <Column id="PRODUCT_COMPANY_NAME" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: xxx
+* 02. 화면명		: xxx
+* 03. 화면설명 		: xxx
+* 04. 작성일   	: 2018.xx.xx
+* 05. 작성자   	: xxx
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+
+this.SP_PurchaseContractTypeSelect_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	
+	var arrComp = [this.cboCompany];
+	this.gfnSetAuthorityCompany(arrComp);	
+	
+	this.fnInitForm();
+
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.btn_Exit_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+this.btn_Confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close(this.rdo_ContractType.value);
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInitForm = function()
+{
+	this.fnGetCode();
+}
+
+this.fnPopupCallBack = function (popupId, popupArg)
+{
+	popupArg = this.commUtil.popupReturn();
+	
+	switch(popupId)
+	{
+		case "" :			
+			//this.fnSearch();
+		default:
+			break;
+	}
+}
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{
+	//this.gfnAddCodeDataset("ds_CD_CONTRACT_TYPE", "CONTRACT_TYPE");
+	//this.gfnCodeTransaction();
+	
+	// 24.10.3 제품 수수료로 변경
+	this.gfnAddSendParameter("DELETE_FLAG"	, '0');
+	this.gfnAddSendParameter("PRODUCT_LVL"	, 1);
+	this.gfnAddSendParameter("COMPANY_CODE"	, this.cboCompany.value);
+	this.gfnAddSendParameter("CONTRACT_TYPE"	, this.getOwnerFrame().sContractType);
+	
+	this.gfnSetMap("nextBaseMapper", "ProductTreeList", "ds_CD_CONTRACT_TYPE");
+	
+	this.gfnCommonTransaction("gfnGetCode", "selectNextList.do"/*"AP_SalesProductMM_S05"*/);	
+}
+
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		return;
+	}
+	else 
+	{
+		if(strSvcID=="gfnGetCode") 
+		{
+			console.log(this.ds_CD_CONTRACT_TYPE.saveXML());
+			console.log(this.parent.sFilterExpr);
+			 
+			
+			if(this.parent.hasOwnProperty("sFilterExpr"))
+			{
+				this.ds_CD_CONTRACT_TYPE.set_enableevent(false);
+				var sExpr = this.parent.sFilterExpr;
+				this.ds_CD_CONTRACT_TYPE.filter(sExpr);
+				this.ds_CD_CONTRACT_TYPE.set_enableevent(true);
+			}
+			
+			
+			if(this.ds_CD_CONTRACT_TYPE.getRowCount() > 0)
+			{
+				this.rdo_ContractType.set_index(0);				
+			}
+			this.rdo_ContractType.setFocus();
+		}
+	}
+}
+
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,764 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="bizBoardReadPopup" width="950" height="700" titletext="게시판 조회" onload="form_onload">
+    <Layouts>
+      <Layout height="700" mobileorientation="landscape" width="950">
+        <Static id="staBoardTitle" taborder="0" text="사용자 리스트" left="25" top="0" height="43" cssclass="sta_WF_Title" right="807" fittocontents="width" width="118"/>
+        <Div id="divContents" taborder="1" text="div00" left="25" top="staBoardTitle:0" right="25" minheight="589" maxheight="" height="589" visible="false">
+          <Layouts>
+            <Layout>
+              <Static id="staTitle000" taborder="0" text="제목" left="0" top="0" width="83" height="38" cssclass="sta_WF_Label"/>
+              <Static id="staTitle001" taborder="1" text="작성자" left="0" top="37" width="83" height="38" cssclass="sta_WF_Label"/>
+              <Static id="staTitle002" taborder="2" text="조회수" left="0" top="74" width="83" height="38" cssclass="sta_WF_Label"/>
+              <Static id="staTitle" taborder="3" left="staTitle000:-1" top="0" height="38" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staInpId" taborder="4" left="staTitle001:-1" top="37" height="38" cssclass="sta_WF_LabelBg" right="450"/>
+              <Static id="staInqCnt" taborder="5" left="staTitle002:-1" top="74" height="38" cssclass="sta_WF_LabelBg" right="450"/>
+              <Static id="staTitle003" taborder="6" text="작성일" left="staInpId:-1" top="37" width="83" height="38" cssclass="sta_WF_Label"/>
+              <Static id="staTitle004" taborder="7" text="댓글수" left="staInqCnt:-1" top="74" width="83" height="38" cssclass="sta_WF_Label"/>
+              <Static id="staInpDttm" taborder="8" left="staTitle003:-1" top="37" height="38" cssclass="sta_WF_LabelBg" right="0"/>
+              <Static id="staReplyCnt" taborder="9" left="staTitle004:-1" top="74" height="38" cssclass="sta_WF_LabelBg" right="0"/>
+              <Div id="divCont" taborder="10" text="div00" left="0" top="111" right="0" minheight="350" maxheight="" height="350">
+                <Layouts>
+                  <Layout>
+                    <Static id="staBg000" taborder="1" text="Static02" left="0" top="0" cssclass="sta_WF_LabelBg" right="0" bottom="0"/>
+                    <Static id="staTitle000" taborder="0" text="내용" left="0" top="0" width="83" cssclass="sta_WF_Label" bottom="0"/>
+                    <WebBrowser id="webEditor" taborder="2" left="staTitle000:4" top="5" right="5" bottom="5" onloadcompleted="divContents_divCont_webEditor_onloadcompleted"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="divFile" taborder="11" text="div00" left="0" right="0" height="44" top="divCont:-1">
+                <Layouts>
+                  <Layout>
+                    <Static id="staBg000" taborder="0" left="0" top="0" cssclass="sta_WF_LabelBg" right="0" usedecorate="true" bottom="0" onclick="divCont_divFile_btnDown_onclick" visible="true" text=""/>
+                    <Static id="staTitle000" taborder="1" text="첨부파일" left="0" top="0" width="83" cssclass="sta_WF_Label" bottom="0"/>
+                    <Grid id="grdFile" taborder="2" left="staTitle000:4" top="5" right="5" bottom="5" binddataset="dsFile" autofittype="col" oncellclick="divCont_divFile_grdFile_oncellclick" cssclass="grd_MF_Notice">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="450"/>
+                            <Column size="100"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="32"/>
+                          </Rows>
+                          <Band id="body">
+                            <Cell text="bind:OTXT_FILE_NM"/>
+                            <Cell col="1" text="다운로드" displaytype="buttoncontrol" edittype="button"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="divReply" taborder="12" text="div00" left="0" right="0" height="182" top="divFile:-1">
+                <Layouts>
+                  <Layout>
+                    <Static id="staReplyTitle" taborder="0" text="댓글" left="0" top="0" height="43" cssclass="sta_WF_SubTitle" right="0"/>
+                    <Grid id="grdReplyList" taborder="1" left="0" top="staReplyTitle:0" height="1" right="0" binddataset="dsReply" autofittype="col" autosizingtype="row" extendsizetype="row" maxheight="" nodatatext="등록된 댓글이 없습니다." uFunction="!nodata" cssclass="grd_WF_Comment" autoenter="select" oncellclick="divCont_divReply_grdReplyList_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="657"/>
+                            <Column size="30"/>
+                            <Column size="30"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="20"/>
+                            <Row size="24"/>
+                            <Row size="20"/>
+                          </Rows>
+                          <Band id="body">
+                            <Cell colspan="2" text="bind:INPT_EMP_NO" cssclass="cell_WF_Id"/>
+                            <Cell col="2" edittype="expr:(INPT_ID==dataset.parent.fvLoginUser||dataset.parent.fvMgrCd==dataset.parent.fvLoginUser)?'button':'none'" cssclass="expr:(INPT_ID==dataset.parent.fvLoginUser||dataset.parent.fvMgrCd==dataset.parent.fvLoginUser)?'cell_WF_MoreBtn':''" displaytype="expr:(INPT_ID==dataset.parent.fvLoginUser||dataset.parent.fvMgrCd==dataset.parent.fvLoginUser)?'buttoncontrol':'none'"/>
+                            <Cell row="1" text="bind:REPLY_CNTN" displaytype="expr:STATUS=='update'?'textareacontrol':'normal'" wordWrap="char" textAlign="left" edittype="expr:STATUS=='update'?'textarea':'none'" textareaacceptsenter="true" textareaautoselect="true"/>
+                            <Cell row="1" col="1" displaytype="expr:STATUS=='update'?'buttoncontrol':'none'" edittype="expr:STATUS=='update'?'button':'none'" text="expr:STATUS=='update'?'취소':''"/>
+                            <Cell row="1" col="2" text="expr:STATUS=='update'?'저장':''" displaytype="expr:STATUS=='update'?'buttoncontrol':'none'" edittype="expr:STATUS=='update'?'button':'none'"/>
+                            <Cell row="2" colspan="3" text="bind:CHGE_DTTM" displaytype="date" calendardateformat="yyyy-MM-dd HH:mm" cssclass="cell_WF_Line" calendareditformat="yyyy-MM-dd HH:mm" textAlign="left"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Div id="divInputReply" taborder="2" left="0" top="grdReplyList:0" right="0" height="138">
+                      <Layouts>
+                        <Layout>
+                          <Static id="staInputReplyBg" taborder="3" left="0" top="0" cssclass="sta_WF_GBg01" right="0" bottom="0"/>
+                          <Static id="staUserNm" taborder="0" left="20" top="10" height="28" cssclass="sta_WF_Comment" right="118" text=""/>
+                          <TextArea id="txaReply" taborder="1" left="20" height="70" right="20" top="staUserNm:10"/>
+                          <Button id="btnAddReply" taborder="2" text="댓글 등록" width="88" fittocontents="width" cssclass="btn_WF_Re" right="20" height="28" top="11" onclick="divContents_divReply_divInputReply_btnAddReply_onclick"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <PopupDiv id="pdivReplyUpdate" visible="false" top="5" width="71" height="57" cssclass="pdiv_WF_List" right="218" formscrollbartype="none none" formscrolltype="none">
+                      <Layouts>
+                        <Layout>
+                          <Grid id="grdReplyUpdate" taborder="0" left="0" top="0" cssclass="grd_WF_List" binddataset="dsReplyPopupMenu" autofittype="col" scrollbartype="none none" right="0" bottom="0" scrolltype="none" oncellclick="divContents_divReply_pdivReplyUpdate_grdReplyUpdate_oncellclick">
+                            <Formats>
+                              <Format id="default">
+                                <Columns>
+                                  <Column size="70"/>
+                                </Columns>
+                                <Rows>
+                                  <Row size="28"/>
+                                </Rows>
+                                <Band id="body">
+                                  <Cell text="bind:ACTION"/>
+                                </Band>
+                              </Format>
+                            </Formats>
+                          </Grid>
+                        </Layout>
+                      </Layouts>
+                    </PopupDiv>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divBtn" taborder="2" right="25" width="237" height="28" top="divContents:20">
+          <Layouts>
+            <Layout>
+              <Button id="btnClose" taborder="0" text="닫기" height="28" width="50" right="0" onclick="btnClose_onclick" top="0"/>
+              <Button id="btnDelete" taborder="1" text="삭제" height="28" width="69" right="btnClose:3" top="0" onclick="divBtn_btnDelete_onclick" cssclass="btn_WF_CrudDelete"/>
+              <Button id="btnModi" taborder="2" text="수정" height="28" width="69" right="btnDelete:3" top="0" onclick="divBtn_btnModi_onclick" cssclass="btn_WF_CrudModify"/>
+              <Button id="btnRepl" taborder="3" text="답글" height="28" width="50" right="btnModi:3" top="0" onclick="divBtn_btnRepl_onclick" cssclass="btn_WF_Crud"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staBottom" taborder="3" left="0" top="divBtn:0" height="20" right="0"/>
+        <Div id="divBtn00" taborder="4" right="25" width="237" height="28" top="7">
+          <Layouts>
+            <Layout>
+              <Button id="btnClose" taborder="0" text="닫기" height="28" width="50" right="0" onclick="btnClose_onclick" top="0"/>
+              <Button id="btnDelete" taborder="1" text="삭제" height="28" width="69" right="btnClose:3" top="0" onclick="divBtn_btnDelete_onclick" cssclass="btn_WF_CrudDelete"/>
+              <Button id="btnModi" taborder="2" text="수정" height="28" width="69" right="btnDelete:3" top="0" onclick="divBtn_btnModi_onclick" cssclass="btn_WF_CrudModify"/>
+              <Button id="btnRepl" taborder="3" text="답글" height="28" width="50" right="btnModi:3" top="0" onclick="divBtn_btnRepl_onclick" cssclass="btn_WF_Crud"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="divContents.form.staTitle" propid="text" datasetid="dsList" columnid="TITLE"/>
+      <BindItem id="item1" compid="divContents.form.staInpId" propid="text" datasetid="dsList" columnid="INPT_EMP_NO"/>
+      <BindItem id="item2" compid="divContents.form.staInqCnt" propid="text" datasetid="dsList" columnid="INQ_CNT"/>
+      <BindItem id="item3" compid="divContents.form.staReplyCnt" propid="text" datasetid="dsList" columnid="REPLY_CNT"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsReplyPopupMenu">
+        <ColumnInfo>
+          <Column id="ACTION" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="ACTION">수정</Col>
+          </Row>
+          <Row>
+            <Col id="ACTION">삭제</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="BOARD_CD" type="STRING" size="256"/>
+          <Column id="NOTI_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="INPT_EMP_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsFile"/>
+      <Dataset id="dsReply"/>
+      <FileDownTransfer id="fdtFile" url="svcUrl::fileDownload.do" onerror="fdtFile_onerror" onsuccess="fdtFile_onsuccess"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	bizBoardReadPopup.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/03/09
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/03/09			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvAnswYn   = ""; //답변유무
+this.fvApndYn   = ""; //첨부파일유무
+this.fvReplyYn  = ""; //리플유무
+this.fvTitle    = ""; //게시판타이틀
+this.fvBoardCd  = ""; //게시판코드
+this.fvNotiNo   = ""; //게시물번호
+this.fvOpenType = ""; //오픈타입
+this.fvLoginUser = ""; //로그인유저ID
+this.fvLoginUserEmpNo = "";//로그인유저EMP_NO
+this.fvMgrCd	 = ""; //관리자 ID
+this.fvReplyGridMinHeight = 0;	// 댓글 그리드의 최소 높이
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	this.fvAnswYn   = this.getOwnerFrame().pvAnswYn; //답변유무
+	this.fvApndYn   = this.getOwnerFrame().pvApndYn; //첨부파일유무
+	this.fvReplyYn  = this.getOwnerFrame().pvReplyYn; //리플유무
+	this.fvTitle    = this.getOwnerFrame().pvTitle; //게시판타이틀
+	this.fvBoardCd  = this.getOwnerFrame().pvBoardCd; //게시판코드
+	this.fvNotiNo   = this.getOwnerFrame().pvNotiNo; //게시물번호
+	this.fvOpenType = this.getOwnerFrame().pvOpenType; //오픈타입
+	this.fvLoginUser = nexacro.getApplication().gdsUser.getColumn(0, "USER_ID");
+	this.fvLoginUserEmpNo = nexacro.getApplication().gdsUser.getColumn(0,"USER_NAME") 
+							+"(" + nexacro.getApplication().gdsUser.getColumn(0, "EMP_NO")+ ")";
+	this.fvMgrCd	= this.getOwnerFrame().pvMgrCd; //관리자20210629 추가
+	
+	//타이틀설정
+	this.staBoardTitle.set_text(this.fvTitle+" ");
+	this.resetScroll();
+	
+	//게시물 내용조회
+	this.fnGetContentsTran();
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//게시물내용가져오기
+this.fnGetContentsTran = function ()
+{
+	this.dsCond.clearData();
+	var nRow = this.dsCond.addRow();
+	this.dsCond.setColumn(nRow, "BOARD_CD", this.fvBoardCd);
+	this.dsCond.setColumn(nRow, "NOTI_NO", this.fvNotiNo);
+	
+	var strSvcId    = "searchBoardContentDetail";
+	var strSvcUrl   = "searchBoardContentDetail.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList dsFile=dsFile dsReply=dsReply";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//삭제
+this.fnTranDelete = function ()
+{
+	var strSvcId    = "delete";
+	var strSvcUrl   = "saveBoardContents.do";
+	var inData      = "dsList=dsList:A";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//댓글조회
+this.fnTranSearchReply = function ()
+{
+	var strSvcId    = "searchReplyList";
+	var strSvcUrl   = "searchReplyList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsReply=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+// 댓글 추가/삭제/수정
+this.fnTranSaveReply = function(sAction)
+{
+	var strSvcId = "";
+	
+	if (sAction == "add") {
+		strSvcId = "addReply";
+	} else if (sAction == "update") {
+		strSvcId = "updateReply";
+	} else if (sAction == "delete") {
+		strSvcId = "deleteReply";
+	}
+
+	var strSvcUrl   = "saveReply.do";
+	var inData      = "dsList=dsReply:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchBoardContentDetail":
+			this.fnSetFormInit();
+			break;
+		case "delete":
+			this.gfnAlert("msg.delete.success", [], "deleteAfter", "fnMsgCallback");
+			break;
+		case "addReply":
+			// 댓글창 초기화
+			this.divContents.form.divReply.form.divInputReply.form.txaReply.set_value("");
+			// 댓글 재조회
+			this.fnTranSearchReply();
+			break;
+		case "updateReply":
+			this.fvReplyRowPos = -1;
+			// 댓글 재조회
+			this.fnTranSearchReply();
+			break;
+		case "deleteReply":
+			this.fvReplyRowPos = -1;
+			// 댓글 재조회
+			this.fnTranSearchReply();
+			break;
+		case "searchReplyList":
+			this.divContents.form.divReply.form.grdReplyList.set_enableevent(true);
+			this.divContents.form.divReply.form.grdReplyList.set_enableredraw(true);
+			
+			this.divContents.form.divReply.form.grdReplyList.set_autosizingtype("none");
+			this.divContents.form.divReply.form.grdReplyList.set_autosizingtype("row");
+			
+			// 댓글 그리드 높이 가변 설정
+			this.fnSetReplySize();
+			break;
+		default:
+			break;
+	}
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "delete":
+			if(sRtn=="false" || sRtn==false || this.gfnIsNull(sRtn)){
+				return;
+			}
+			this.dsList.setColumn(0, "STATUS", "delete");
+			this.fnTranDelete();
+			break;
+		case "deleteReply":
+			if(sRtn=="false" ||sRtn==false || this.gfnIsNull(sRtn)){
+				return;
+			}
+			this.dsReply.setColumn(this.fvReplyRowPos, "STATUS", "delete");
+			this.fnTranSaveReply("delete");
+			break;
+		case "editReplyCancel":
+			if(sRtn=="false" ||sRtn==false || this.gfnIsNull(sRtn)){
+				return;
+			}
+			
+			// 댓글 수정상태를 일반상태로 복귀
+			var nFindRow = this.dsReply.findRow("STATUS", "update");
+			
+			this.dsReply.reset();
+			this.divContents.form.divReply.form.grdReplyList.redrawExprCell();
+			
+			// 댓글 그리드 높이 가변 설정
+			this.divContents.form.divReply.form.grdReplyList.autoSizeRow(nFindRow);
+			
+			// 댓글 수정상태로 변경
+			this.fnSetReplyUpdateStatus();
+			break;
+		case "deleteAfter":
+			if (sRtn)
+			{
+				this.close();
+			}
+	}
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	switch(sPopupId) {
+		case "addBoardRepl":
+			this.close();
+			break;
+		case "updateBoard":
+			this.fnGetContentsTran();
+			break;
+		default:break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+this.fnSetFormInit = function ()
+{
+
+	// HTML Viewer를 생성
+	var oWeb = this.divContents.form.divCont.form.webEditor;
+	this.gfnCreateHtmlViewer(oWeb);	
+
+	// 작성일시 셋팅
+	var sInputDate = this.dsList.getColumn(0, "INPT_DTTM").toString();
+	sInputDate = sInputDate.substr(0,4) + "-" + sInputDate.substr(4,2) + "-" + sInputDate.substr(6,2) + " "
+	           + sInputDate.substr(8,2) + ":" + sInputDate.substr(10,2)+ ":" + sInputDate.substr(12,2);
+	this.divContents.form.staInpDttm.set_text(sInputDate);
+	
+	//리플작성자세팅
+	this.divContents.form.divReply.form.divInputReply.form.staUserNm.set_text(this.fvLoginUserEmpNo);
+	
+	//사이징처리
+	//첨부파일&리플 둘다 사용안할 경우
+	if( this.fvApndYn =="0" && this.fvReplyYn=="0"){
+		this.divContents.set_bottom(68);
+		this.divContents.form.divReply.set_height(0);
+		this.divContents.form.divFile.set_height(0);
+		this.divContents.form.divCont.set_bottom(0);	
+		this.divContents.form.resetScroll();
+		this.resetScroll();
+	}else{
+		var nApndSize  = this.fnGetApndSize();
+		var nReplySize = this.fnGetReplySize();
+		
+		this.divContents.form.divReply.set_height(nReplySize);
+		this.divContents.form.divFile.set_height(nApndSize);
+		this.divContents.form.resetScroll();
+		
+		var nTotal = 0;
+		if(this.fvReplyYn =="1"){
+			nTotal = this.divContents.form.divReply.getOffsetBottom();
+		}else if(this.fvReplyYn=="0"){
+			nTotal = this.divContents.form.divFile.getOffsetBottom();
+			if( nTotal < this.divContents.getOffsetHeight()){
+				var nTerm = this.divContents.getOffsetHeight() - nTotal;
+				this.divContents.form.divCont.set_height(nTerm+this.divContents.form.divCont.getOffsetHeight());
+				this.divContents.form.resetScroll();
+			}
+		}
+		this.divContents.set_height(nTotal);
+		this.resetScroll();
+	}
+	this.divContents.set_visible(true);
+	
+	//답변 사용안함
+	if(this.fvAnswYn=="0"){
+		this.divBtn.form.btnRepl.set_visible(false);
+		this.divBtn.form.btnRepl.set_width(0);
+		
+		//2022.03.11 팝업 상단 divBtn00 생성
+		this.divBtn00.form.btnRepl.set_visible(false);
+		this.divBtn00.form.btnRepl.set_width(0);
+	}else{
+		this.divBtn.form.btnRepl.set_visible(true);
+		this.divBtn.form.btnRepl.set_width(50);
+		
+		//2022.03.11 팝업 상단 divBtn00 생성
+		this.divBtn00.form.btnRepl.set_visible(true);
+		this.divBtn00.form.btnRepl.set_width(50);
+	}
+	
+	//user확인 수정/삭제 버튼
+	var sInputUser = this.dsList.getColumn(0,"INPT_ID");
+	if( this.fvLoginUser == sInputUser || this.fvMgrCd == this.fvLoginUser){
+		this.divBtn.form.btnModi.set_visible(true);
+		this.divBtn.form.btnDelete.set_visible(true);
+		this.divBtn.form.btnModi.set_width(50);
+		this.divBtn.form.btnDelete.set_width(69);
+
+		this.divBtn.form.btnRepl.set_right("btnModi:3");
+
+		//2022.03.11 팝업 상단 divBtn00 생성
+		this.divBtn00.form.btnModi.set_visible(true);
+		this.divBtn00.form.btnDelete.set_visible(true);
+		this.divBtn00.form.btnModi.set_width(50);
+		this.divBtn00.form.btnDelete.set_width(69);
+		this.divBtn00.form.btnRepl.set_right("btnModi:3");
+	}else{
+		this.divBtn.form.btnModi.set_visible(false);
+		this.divBtn.form.btnDelete.set_visible(false);
+		this.divBtn.form.btnModi.set_width(0);
+		this.divBtn.form.btnDelete.set_width(0);
+
+		this.divBtn.form.btnRepl.set_right("btnClose:3");
+		
+		//2022.03.11 팝업 상단 divBtn00 생성
+		this.divBtn00.form.btnModi.set_visible(false);
+		this.divBtn00.form.btnDelete.set_visible(false);
+		this.divBtn00.form.btnModi.set_width(0);
+		this.divBtn00.form.btnDelete.set_width(0);
+		this.divBtn00.form.btnRepl.set_right("btnClose:3");
+	}
+	
+	this.divBtn.form.resetScroll();
+};
+
+
+//첨부파일 사이즈 조정
+this.fnGetApndSize = function ()
+{
+	var nApndSize = 0;
+	if( this.fvApndYn=="1" ){
+		var nRowCnt = this.dsFile.getRowCount();
+		if(nRowCnt == 0 ) nRowCnt = 1;
+		nApndSize = ( 32 * nRowCnt ) + 12;
+	}
+	return nApndSize;
+};
+
+//리플영역 사이즈 조절
+this.fnGetReplySize = function ()
+{
+	var nReplySize = 0;
+	if( this.fvReplyYn == "1"){
+		var nReplyGridHeight = 0; // 그리드 높이
+		if (this.dsReply.getRowCount() > 0) {
+			nReplyGridHeight = this.divContents.form.divReply.form.grdReplyList.getRealRowFullSize("body");
+		} else {
+			nReplyGridHeight = this.fvReplyGridMinHeight;
+		}
+		// 댓글 그리드 높이 설정
+		this.divContents.form.divReply.form.grdReplyList.setOffsetHeight(nReplyGridHeight + 2);
+		this.divContents.form.divReply.form.resetScroll();
+		nReplySize = nReplyGridHeight + 2 + this.divContents.form.divReply.form.divInputReply.getOffsetHeight() + 48;
+	}
+	return nReplySize;
+};
+
+
+//댓글창 높이조절
+this.fnSetReplySize = function ()
+{
+	var nReplySize = this.fnGetReplySize();
+	this.divContents.form.divReply.set_height(nReplySize);
+	this.divContents.form.resetScroll();
+	var nTotal = this.divContents.form.divReply.getOffsetBottom();
+	this.divContents.set_height(nTotal);
+	this.resetScroll();
+};
+
+// 댓글 수정상태로 변경
+this.fnSetReplyUpdateStatus = function()
+{
+	this.dsReply.setColumn(this.fvReplyRowPos, "STATUS", "update");
+	this.divContents.form.divReply.form.grdReplyList.setRealRowSize(this.fvReplyRowPos, 70, 1);
+	
+	this.divContents.form.divReply.form.pdivReplyUpdate.closePopup();
+	
+	// 댓글 그리드 높이 가변 설정
+	this.fnSetReplySize();
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//웹에디터
+this.divContents_divCont_webEditor_onloadcompleted = function(obj:nexacro.WebBrowser,e:nexacro.WebLoadCompEventInfo)
+{
+	//내용세팅
+	var sContents = this.dsList.getColumn(0, "CNTN");
+	var oWeb = this.divContents.form.divCont.form.webEditor;
+	this.gfnSetHtmlView(oWeb, sContents);
+};
+
+//닫기버튼
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+//답글버튼
+this.divBtn_btnRepl_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sTitle = "게시글";
+	var oOption = {title:sTitle
+					,titlebar:true};
+
+	//게시판추가
+	var popupId = "addBoardRepl";
+	var oArg   = { pvApndYn		: this.fvApndYn
+				  ,pvTitle 		: this.fvTitle
+				  ,pvInputId	: nexacro.getApplication().gdsUser.getColumn(0, "USER_ID")
+				  ,pvInputEmpNo : nexacro.getApplication().gdsUser.getColumn(0, "EMP_NO")
+				  ,pvContTitle	: "└ Re : " + this.dsList.getColumn(0, "TITLE")
+				  ,pvBoardCd	: this.dsList.getColumn(0, "BLBD_CD")
+				  ,pvOpenType	: "add"
+				  ,pvHrank		: this.dsList.getColumn(0, "NOTI_NO")
+				  ,pvAnswLvl    : this.dsList.getColumn(0, "ANSW_LEVL") + 1
+			  };
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup(popupId, "comm::board/boardPu.xfdl", oArg, sPopupCallBack, oOption);
+};
+
+//수정버튼
+this.divBtn_btnModi_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sTitle = "게시글";
+	var oOption = {title:sTitle
+					,titlebar:true};
+
+	//게시판추가
+	var popupId = "updateBoard";
+	var oArg   = { pvApndYn		: this.fvApndYn
+				  ,pvTitle 		: this.fvTitle
+				  ,pvFile		: this.dsFile
+				  ,pvList       : this.dsList
+				  ,pvOpenType   : "update"
+			  };
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup(popupId, "comm::board/boardUpdatePu.xfdl", oArg, sPopupCallBack, oOption);
+};
+
+//삭제버튼
+this.divBtn_btnDelete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnAlert("confirm.before.delete",[],"delete", "fnMsgCallback");
+};
+
+//답글등록버튼
+this.divContents_divReply_divInputReply_btnAddReply_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 댓글 텍스트
+	var sReplyTxts = this.divContents.form.divReply.form.divInputReply.form.txaReply.value;
+	
+	if (this.gfnIsNull(sReplyTxts)) {
+		this.gfnAlert("msg.err.validator.required", ["댓글 내용"]);
+	} else {
+		this.divContents.form.divReply.form.grdReplyList.set_enableevent(false);
+		this.divContents.form.divReply.form.grdReplyList.set_enableredraw(false);
+		var nRow = this.dsReply.addRow();
+
+		this.dsReply.setColumn(nRow, "STATUS", "add");
+		this.dsReply.setColumn(nRow, "BLBD_CD", this.fvBoardCd);
+		this.dsReply.setColumn(nRow, "NOTI_NO", this.fvNotiNo);
+		this.dsReply.setColumn(nRow, "REPLY_CNTN", this.divContents.form.divReply.form.divInputReply.form.txaReply.value);
+		
+		// 댓글 추가
+		this.fnTranSaveReply("add");
+	}
+};
+
+//댓글그리드 클릭
+this.divCont_divReply_grdReplyList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var sCellDisplyType = obj.getCellPropertyValue(e.row, e.cell, "edittype");
+	if (sCellDisplyType != "button") return;
+		
+	this.fvReplyRowPos = obj.getDatasetRow(e.row);
+	
+	// 댓글의 ... 버튼 클릭한 경우 수정/삭제 팝업메뉴 호출
+	if (e.cell == 1) {
+		var objPdivPopupMenu = this.divContents.form.divReply.form.pdivReplyUpdate;
+		
+		this.dsReplyPopupMenu.set_rowposition(-1);
+		
+		var arrPos = obj.getCellRect(e.row, e.cell);
+		var nx = nexacro.toNumber(arrPos.left);
+		var ny = nexacro.toNumber(arrPos.bottom);
+		nx = nx - objPdivPopupMenu.getOffsetWidth() + obj.getFormatColSize(1);
+		
+		objPdivPopupMenu.trackPopupByComponent(obj, nx, ny);
+	// 댓글 수정 상태에서 취소버튼 클릭한 경우
+	} else if (e.cell == 3) {
+		this.dsReply.reset();
+		var nRowCnt = this.dsReply.getRowCount();
+		this.divContents.form.divReply.form.grdReplyList.set_autosizingtype("none");
+		this.divContents.form.divReply.form.grdReplyList.set_autosizingtype("row");
+		
+		// 그리드 높이 가변 설정
+		this.fnSetReplySize();
+	// 댓글 수정 상태에서 저장버튼 클릭한 경우
+	} else if (e.cell == 4) {
+		// 댓글 텍스트
+		obj.updateToDataset();
+		var sReplyTxts = this.dsReply.getColumn(this.fvReplyRowPos, "REPLY_CNTN");
+		
+		if (this.gfnIsNull(sReplyTxts)) {
+			this.gfnAlert("msg.err.validator.required", ["댓글 내용"]);
+		} else {
+			// 댓글 저장
+			this.fnTranSaveReply("update");
+		}
+	}
+};
+
+//댓글 수정/삭제
+this.divContents_divReply_pdivReplyUpdate_grdReplyUpdate_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 수정
+	if (e.row == 0) {
+		if (this.dsReply.findRow("STATUS", "update") > -1) {
+			this.gfnAlert("msg.confirm", ["내용 입력을 취소하시겠습니까?"], "editReplyCancel", "fnMsgCallback");
+		} else {
+			// 댓글 수정상태로 변경
+			this.fnSetReplyUpdateStatus();
+		}
+	// 삭제
+	} else if (e.row == 1) {
+		this.gfnAlert("confirm.before.comment", [], "deleteReply", "fnMsgCallback");//댓글을 삭제하시겠습니까?
+	}
+};
+
+//첨부파일다운로드
+this.divCont_divFile_grdFile_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//file download
+	if( e.cell == 1){
+		var sFileId 	= this.dsFile.getColumn(e.row, "FILE_ID");
+		var sFileNm 	= this.dsFile.getColumn(e.row, "OTXT_FILE_NM");
+		var sSaveFileNm = this.dsFile.getColumn(e.row, "SAVE_FILE_NM");
+		if( !this.gfnIsNull(sFileId)){
+			this.fdtFile.setPostData("saveFileName"	, sSaveFileNm);
+			this.fdtFile.setPostData("orgFileName"	, sFileNm);
+			
+			this.fdtFile.set_downloadfilename(sFileNm)
+			this.fdtFile.download("svcUrl::fileDownload.do");
+		}else{
+			this.gfnAlert("msg.err.nofile");
+			return;
+		}
+	}
+};
+
+//파일다운로드트랜스퍼 온에러
+this.fdtFile_onerror = function(obj:nexacro.FileDownTransfer,e:nexacro.FileDownTransferErrorEventInfo)
+{
+	//TODO..
+};
+//파일다운로드트랜스퍼 온서세스
+this.fdtFile_onsuccess = function(obj:nexacro.FileDownTransfer,e:nexacro.FileDownTransferEventInfo)
+{
+	//TODO..
+};
+
+]]></Script>
+  </Form>
+</FDL>

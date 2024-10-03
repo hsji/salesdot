@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AR_RelatedSubDomainListPopup" width="360" height="480" titletext="관련 서브도메인 목록" cssclass="frm_popBg" onload="AR_RelatedSubDomainListPopup_onload">
+    <Layouts>
+      <Layout height="480" mobileorientation="landscape" width="360">
+        <Static id="stc_PopupTop" taborder="0" text="관련 서브도메인 목록" left="8" top="8" width="136" height="20" cssclass="sta_POP_Title"/>
+        <Button id="btn_Close" taborder="1" top="8" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="btn_Close_onclick" escapebutton="true"/>
+        <Static id="stc_PopupBottom" taborder="3" left="0" right="0" cssclass="sta_POP_BtnBg" onclick="stc_PopupBottom_onclick" bottom="0" height="40"/>
+        <Button id="btn_ClosePopup" taborder="2" text="닫기" height="22" right="8" width="55" bottom="8" onclick="btn_Close_onclick"/>
+        <Div id="div_RelatedSubDomainList" taborder="4" left="4" top="stc_PopupTop:12" cssclass="div_WF_detailBg" right="4" bottom="stc_PopupBottom:4">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_RelatedSubDomainList" taborder="0" left="8" top="8" bottom="8" right="8" binddataset="ds_SubDomain" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="서브 도메인"/>
+                      <Cell col="1" text="도메인"/>
+                      <Cell col="2" text="사용부서"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:SUB_DOMAIN" edittype="none"/>
+                      <Cell col="1" text="bind:DOMAIN_NAME" displaytype="normal" edittype="none"/>
+                      <Cell col="2" text="bind:USE_DEPT_NM" displaytype="normal" edittype="none"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="div_RelatedSubDomainList.form.edt_ServerName" propid="value" datasetid="ds_ServerRequest" columnid="SERVER_NAME"/>
+      <BindItem id="item1" compid="div_RelatedSubDomainList.form.edt_ServerAlias" propid="value" datasetid="ds_ServerRequest" columnid="SERVER_NAME_ALIAS"/>
+      <BindItem id="item2" compid="div_RelatedSubDomainList.form.cmb_Platform" propid="value" datasetid="ds_ServerRequest" columnid="PLATFORM"/>
+      <BindItem id="item3" compid="div_RelatedSubDomainList.form.cmb_OS" propid="value" datasetid="ds_ServerRequest" columnid="OS"/>
+      <BindItem id="item4" compid="div_RelatedSubDomainList.form.medt_CPU" propid="value" datasetid="ds_ServerRequest" columnid="CPU"/>
+      <BindItem id="item5" compid="div_RelatedSubDomainList.form.medt_Ram" propid="value" datasetid="ds_ServerRequest" columnid="RAM"/>
+      <BindItem id="item6" compid="div_RelatedSubDomainList.form.cmb_Disk_Type_1" propid="value" datasetid="ds_ServerRequest" columnid="DISK_TYPE_1"/>
+      <BindItem id="item7" compid="div_RelatedSubDomainList.form.medt_Disk_Volume_1" propid="value" datasetid="ds_ServerRequest" columnid="DISK_VOLUME_1"/>
+      <BindItem id="item8" compid="div_RelatedSubDomainList.form.cmb_Disk_Type_2" propid="value" datasetid="ds_ServerRequest" columnid="DISK_TYPE_2"/>
+      <BindItem id="item9" compid="div_RelatedSubDomainList.form.medt_Disk_Volume_2" propid="value" datasetid="ds_ServerRequest" columnid="DISK_VOLUME_2"/>
+      <BindItem id="item10" compid="div_RelatedSubDomainList.form.cmb_Manage_Dept" propid="value" datasetid="ds_ServerRequest" columnid="MANAGE_DEPT_CD"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_SubDomain">
+        <ColumnInfo>
+          <Column id="SUB_DOMAIN" type="STRING" size="256"/>
+          <Column id="DOMAIN_NAME" type="STRING" size="256"/>
+          <Column id="USE_DEPT_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 
+* 02. 화면명   : 관련 서브도메인 목록(AR_RelatedSubDomainListPopup)
+* 03. 화면설명 : 
+* 04. 작성일   : 2023/12/26
+* 05. 작성자   : 이상원
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AR_RelatedSubDomainListPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnSearchRelatedSubDomain();
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+//관련 서브도메인 조회
+this.fnSearchRelatedSubDomain = function () {
+	this.gfnAddSendParameter("SIL_SEQ",this.parent.SIL_SEQ);
+	
+	this.gfnAddOutputDataset("ds_SubDomain","ds_SubDomain");
+	
+	this.gfnCommonTransaction("fnSearchRelatedSubDomain", "AR_ServerListMM_S03");
+}
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{ 
+	{
+		switch(strSvcID) 
+		{
+			case "fnSearchRelatedSubDomain":
+				break;
+			default:
+				break;
+		}
+	}
+}
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("cancel");
+};
+/************************************************************************************************
+* 팝업 TRANSACTION 및 추가 FUNCTION 영역 
+************************************************************************************************/
+
+/************************************************************************************************
+* 팝업 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+
+
+]]></Script>
+  </Form>
+</FDL>

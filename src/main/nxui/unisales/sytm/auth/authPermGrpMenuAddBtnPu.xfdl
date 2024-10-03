@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="authPermGrpMenuAddBtnPu" width="780" height="640" titletext="권한그룹별 권한 관리(추가버튼관리팝업)" onload="form_onload">
+    <Layouts>
+      <Layout height="640" mobileorientation="landscape" width="780">
+        <Div id="divSearch" taborder="0" left="25" top="20" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnSearch" taborder="1" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick"/>
+              <Static id="staTitle00" taborder="1" text="권한ID" left="0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Edit id="edtPremId" taborder="2" left="staTitle00:00" top="12" width="120" height="24" readonly="true"/>
+              <Static id="staTitle01" taborder="3" text="메뉴ID" left="edtPremId:0" top="12" width="74" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Edit id="edtMenuId" taborder="4" left="staTitle01:0" top="12" width="120" height="24" readonly="true"/>
+              <Static id="staTitle02" taborder="5" text="프로그램ID" left="edtMenuId:0" top="12" width="98" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Edit id="edtPrgmId" taborder="6" left="staTitle02:0" top="12" width="120" height="24" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="1" text="권한 등록 프로그램 추가 버튼" left="25" top="70" height="43" cssclass="sta_WF_Title" right="25"/>
+        <Grid id="grdList" taborder="2" left="25" top="Static00:0" autoenter="select" bottom="322" cellsizingtype="col" binddataset="dsPrem" right="25" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="50"/>
+                <Column size="60"/>
+              </Columns>
+              <Rows>
+                <Row size="35" band="head"/>
+                <Row size="35"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="버튼 ID"/>
+                <Cell col="1" text="버튼명"/>
+                <Cell col="2" text="버튼영문명"/>
+                <Cell col="3" text="버튼스타일"/>
+                <Cell col="4" text="순서"/>
+                <Cell col="5" text="사용여부"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:BTTN_ID" editlimit="0"/>
+                <Cell col="1" edittype="none" text="bind:BTTN_NM" editlimit="0" editlengthunit="utf8" textAlign="left" verticalAlign="middle"/>
+                <Cell col="2" text="bind:BTTN_ENGL_NM"/>
+                <Cell col="3" text="bind:BTTN_STYLE"/>
+                <Cell col="4" displaytype="normal" edittype="none" editfilter="digit" text="bind:SORT_ORDR" editlimit="0" editlengthunit="utf8"/>
+                <Cell col="5" displaytype="checkboxcontrol" edittype="none" text="bind:USED_YN" editlimit="0"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00_00" taborder="3" text="권한 미등록 프로그램 추가 버튼" left="25" top="grdList:0" height="43" cssclass="sta_WF_Title" width="247"/>
+        <Button id="btnDown" taborder="4" top="grdList:7" cssclass="btn_WF_Down" height="29" left="376" width="29" onclick="btnDown_onclick"/>
+        <Div id="divCmmnBtn" taborder="5" top="grdList:10" width="210" height="28" text="" right="25" visible="false">
+          <Layouts>
+            <Layout>
+              <Button id="btnDel" taborder="1" text="행삭제" top="0" height="28" cssclass="btn_WF_Delete" width="72" right="0" onclick="divCmmnBtn_btnDel_onclick" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grdMenuList" taborder="6" left="25" top="Static00_00:0" autoenter="select" bottom="68" cellsizingtype="col" binddataset="dsPrgm" right="25" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="50"/>
+                <Column size="60"/>
+              </Columns>
+              <Rows>
+                <Row size="35" band="head"/>
+                <Row size="35"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="버튼 ID"/>
+                <Cell col="1" text="버튼명"/>
+                <Cell col="2" text="버튼영문명"/>
+                <Cell col="3" text="버튼스타일"/>
+                <Cell col="4" text="순서"/>
+                <Cell col="5" text="사용여부"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:BTTN_ID" editlimit="0"/>
+                <Cell col="1" edittype="none" text="bind:BTTN_NM" editlimit="0" editlengthunit="utf8" textAlign="left" verticalAlign="middle"/>
+                <Cell col="2" text="bind:BTTN_ENGL_NM"/>
+                <Cell col="3" text="bind:BTTN_STYLE"/>
+                <Cell col="4" displaytype="normal" edittype="none" editfilter="digit" text="bind:SORT_ORDR" editlimit="0" editlengthunit="utf8"/>
+                <Cell col="5" displaytype="checkboxcontrol" edittype="none" text="bind:USED_YN" editlimit="0"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnClose" taborder="7" text="닫기" height="28" width="50" fittocontents="width" right="25" bottom="20" onclick="btnClose_onclick"/>
+        <Button id="btnUp" taborder="8" height="29" left="346" top="325" width="29" cssclass="btn_WF_Up" onclick="btnUp_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	authPermGrpMenuAddBtnPu.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/04/05
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/04/05			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	var oFrame = this.getOwnerFrame();
+	this.dsCond.clearData();
+	
+	var nRow = this.dsCond.addRow();
+	this.dsCond.setColumn(nRow, "COMPANY_CD"	, oFrame.pvCompanyCd);
+	this.dsCond.setColumn(nRow, "PERM_ID"		, oFrame.pvPremId);
+	this.dsCond.setColumn(nRow, "SYTM_FLAG_CD"	, oFrame.pvSytmFlagCd);
+	this.dsCond.setColumn(nRow, "MENU_ID"		, oFrame.pvMenuId);
+	this.dsCond.setColumn(nRow, "PRGM_ID"		, oFrame.pvPrgmId);
+	this.cfnSearch();
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+this.cfnSearch = function ()
+{
+	this.fnTranSearch();
+};
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "searchPremGrpAddBtnList";
+	var strSvcUrl   = "searchPremGrpAddBtnList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsPrem=dsPrem dsPrgm=dsPrgm";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+//저장
+this.fnTranSave = function ()
+{
+	var strSvcId    = "savePremGrpAddBtnList";
+	var strSvcUrl   = "savePremGrpAddBtnList.do";
+	var inData      = "dsPrem=dsPrem:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchPremGrpAddBtnList":
+			break;
+		case "savePremGrpAddBtnList":
+			this.cfnSearch();
+			break;
+		default: break;
+	}
+};
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+		return;
+	}
+			
+	switch(sMsgId) {
+		case "regiButton":
+			this.fnInsertRegiBtn();
+			break;
+		case "unregiButton":
+			this.fnDeleteRegiBtn();
+			break;
+		default:break;
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//추가로직
+this.fnInsertRegiBtn = function ()
+{
+	var nRow = this.dsPrem.addRow();
+	this.dsPrem.copyRow(nRow, this.dsPrgm, this.dsPrgm.rowposition);
+	this.dsPrem.setColumn(nRow, "COMPANY_CD"		, this.dsCond.getColumn(0, "COMPANY_CD"));
+	this.dsPrem.setColumn(nRow, "PERM_ID"		, this.dsCond.getColumn(0, "PERM_ID"));
+	this.dsPrem.setColumn(nRow, "SYTM_FLAG_CD"	, this.dsCond.getColumn(0, "SYTM_FLAG_CD"));
+	this.dsPrem.setColumn(nRow, "MENU_ID"		, this.dsCond.getColumn(0, "MENU_ID"));
+	this.dsPrem.setColumn(nRow, "SORT_CD"		, this.dsPrgm.getColumn(this.dsPrgm.rowposition, "SORT_CD"));
+	
+	this.fnTranSave();
+};
+
+//삭제로직
+this.fnDeleteRegiBtn = function ()
+{
+	var nRow = this.dsPrem.rowposition;
+	this.dsPrem.deleteRow(nRow);
+	this.fnTranSave();
+};
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close()
+};
+
+this.btnUp_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsPrgm.rowposition;
+	if( nRow > -1){
+		this.gfnAlert("confirm.before.regi.button", [""], "regiButton", "fnMsgCallback");
+	}else{
+		this.gfnAlert("msg.err.grid.noselect");
+	}
+};
+
+this.btnDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsPrem.rowposition;
+	if( nRow > -1){
+		this.gfnAlert("confirm.before.unregi.button", [""], "unregiButton", "fnMsgCallback");
+	}else{
+		this.gfnAlert("msg.err.grid.noselect");
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="PERM_ID" type="STRING" size="256"/>
+          <Column id="SYTM_FLAG_CD" type="STRING" size="256"/>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+          <Column id="PRGM_ID" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsPrem">
+        <ColumnInfo>
+          <Column id="PERM_ID" type="STRING" size="256"/>
+          <Column id="SYTM_FLAG_CD" type="STRING" size="256"/>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+          <Column id="PRGM_ID" type="STRING" size="256"/>
+          <Column id="ORDR" type="STRING" size="256"/>
+          <Column id="SORT_CD" type="STRING" size="256"/>
+          <Column id="SORT_ORDR" type="STRING" size="256"/>
+          <Column id="BTTN_NM" type="STRING" size="256"/>
+          <Column id="BTTN_ENGL_NM" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPrgm">
+        <ColumnInfo>
+          <Column id="PRGM_ID" type="STRING" size="256"/>
+          <Column id="ORDR" type="STRING" size="256"/>
+          <Column id="SORT_CD" type="STRING" size="256"/>
+          <Column id="SORT_ORDR" type="STRING" size="256"/>
+          <Column id="BTTN_NM" type="STRING" size="256"/>
+          <Column id="BTTN_ENGL_NM" type="STRING" size="256"/>
+          <Column id="USED_YN" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtPremId" propid="value" datasetid="dsCond" columnid="PERM_ID"/>
+      <BindItem id="item1" compid="divSearch.form.edtMenuId" propid="value" datasetid="dsCond" columnid="MENU_ID"/>
+      <BindItem id="item2" compid="divSearch.form.edtPrgmId" propid="value" datasetid="dsCond" columnid="PRGM_ID"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,624 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="sampleRest" width="1280" height="736" titletext="sampleRest" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1280">
+        <Div id="divSearch" taborder="0" left="0" top="0" height="54" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Combo id="Combo01" taborder="3" left="56" width="185" height="28" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="4" left="282" width="185" height="28" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="5" left="521" width="184" height="28" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="6" left="785" top="-158" width="184" height="28" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="2" text="조회" top="12" width="48" height="28" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick" visible="true"/>
+              <Static id="staSearchTitle00" taborder="7" text="아이디" left="0" top="12" width="74" height="28" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Edit id="edtId" taborder="0" left="staSearchTitle00:0" top="12" width="140" height="28"/>
+              <Static id="staSearchTitle01" taborder="8" text="성명" left="edtId:0" top="12" width="62" height="28" cssclass="sta_WF_SchLabel"/>
+              <Edit id="edtName" taborder="1" left="staSearchTitle01:0" top="12" width="140" height="28"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static04_00" taborder="1" top="0" width="20" cssclass="sta_WF_GSize" visible="false" text="W20" right="0" bottom="20"/>
+        <Static id="staTitle" taborder="3" text="사용자 정보 조회" left="0" top="54" width="342" height="43" cssclass="sta_WF_Title"/>
+        <Static id="Static04" taborder="4" left="140" top="54" width="30" height="43" cssclass="sta_WF_GSize" visible="false" text="H43"/>
+        <Grid id="grdList" taborder="2" left="0" top="97" binddataset="dsList" bottom="0" right="20" autoenter="select" cellsizingtype="col" uFunction="filterNew,sort">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="84"/>
+                <Column size="290"/>
+                <Column size="217"/>
+                <Column size="229"/>
+                <Column size="414"/>
+              </Columns>
+              <Rows>
+                <Row size="37" band="head"/>
+                <Row size="37"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="1" text="아이디"/>
+                <Cell col="2" text="성명"/>
+                <Cell col="3" text="부서"/>
+                <Cell col="4" text="비고"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="checkbox" displaytype="checkboxcontrol" text="bind:CHK"/>
+                <Cell col="1" text="bind:ID" displaytype="expr:dataset.getRowType(currow)=='2'?'editcontrol':'normal'" edittype="expr:dataset.getRowType(currow)=='2'?'text':'none'" editautoselect="true"/>
+                <Cell col="2" text="bind:NAME" edittype="text" displaytype="editcontrol" editautoselect="true"/>
+                <Cell col="3" text="bind:DEPARTMENT" edittype="text" displaytype="editcontrol" editautoselect="true"/>
+                <Cell col="4" text="bind:DESCRIPTION" edittype="text" displaytype="editcontrol" editautoselect="true"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div00" taborder="5" text="div00" left="0" top="400" width="487" height="320" background="pink" visible="false">
+          <Layouts>
+            <Layout>
+              <Button id="btnSelectTr" taborder="0" text="select" left="13" top="252" width="115" height="65" onclick="btnSelectTr_onclick"/>
+              <Button id="btnUpdate" taborder="1" text="updateSave" left="243" top="253" width="112" height="31" onclick="btnUpdate_onclick"/>
+              <Button id="btnDelete" taborder="2" text="deleteSave" left="243" top="285" width="112" height="31" onclick="btnDelete_onclick"/>
+              <Button id="btnSaveAll" taborder="3" text="save" left="356" top="252" width="115" height="65" onclick="btnSaveAll_onclick"/>
+              <Grid id="grdTr" taborder="4" left="12" top="49" width="459" autofittype="col" binddataset="dsList4" height="199">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="48"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="id"/>
+                      <Cell col="1" text="name"/>
+                      <Cell col="2" text="department"/>
+                      <Cell col="3" text="description"/>
+                      <Cell col="4" text="chk"/>
+                      <Cell col="5"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:id" edittype="normal"/>
+                      <Cell col="1" text="bind:name" edittype="normal"/>
+                      <Cell col="2" text="bind:department" edittype="normal"/>
+                      <Cell col="3" text="bind:description" edittype="normal"/>
+                      <Cell col="4" text="bind:chk" edittype="normal"/>
+                      <Cell col="5" text="expr:dataset.getRowType(currow)"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button id="btnAddTr" taborder="5" text="add" left="129" top="253" width="112" height="31" onclick="btnAddTr_onclick"/>
+              <Button id="btnDelTr" taborder="6" text="delete" left="129" top="285" width="112" height="31" onclick="btnDelTr_onclick"/>
+              <Static id="sta00" taborder="7" text=" Transaction 방식 TEST" left="20" top="4" width="202" height="39"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	sampleRest.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2023/04/18
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2023/04/18			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvUrl = "";
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	this.fvUrl = nexacro.getEnvironment().services["svcUrl"].url;
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function()
+{
+	this.fnSearch();
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	this.dsList.addRow();
+	
+	this.grdList.setCellPos(0);
+	this.grdList.showEditor(true);
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	var nRow = this.dsList.rowposition;
+	if( nRow<0 ) return;
+	
+	this.dsList.deleteRow(nRow);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+	
+	// validation 체크 후
+	if (this.fnValidation()) {
+		// 서버 중복 체크
+		this.gfnAlert("confirm.save", [""], "save", "fnMsgCallback");
+	}
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnSearch = function ()
+{
+	var objData = this.gfnDataset2JSON(this.dsSearch, 0);
+	
+	var sParam = this.fnMakeParam(objData);
+
+	var param = {
+		'httpheader' : this.gfnGetHeaders(), 
+	}
+
+	this.dataObjectRest.request("SEARCH", "GET", this.fvUrl + "rest/emp/select.do" + sParam, param);
+};
+
+//저장
+this.fnSave = function ()
+{
+	this.dsList.applyChange();	//dataObjectRest_ondatachanged 발생
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	if (sMsgId == "save")
+	{
+		if (sRtn)
+		{
+			this.fnSave();
+		}
+	}
+	else if ( sMsgId=="validId")
+	{
+		this.dsList.setColumn(this.dsList.rowposition, "ID", "");
+		this.grdList.setCellPos(0);
+		this.grdList.showEditor(true);
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//정합성체크
+this.fnValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsList);
+	
+	this.gfnSetValidation(this.dsList, "ID"	   , "아이디"	, "required");
+	this.gfnSetValidation(this.dsList, "NAME"  , "이름"		, "required");
+	
+ 	// Dataset의 변경된 Row Validation check
+  	if (this.gfnValidation(this.grdList, "U") == false) return false;
+
+	return true;
+};
+
+//GET방식 파라미터 생성
+this.fnMakeParam = function(objData)
+{
+	var strParams = this.gfnToQueryString(objData);
+
+	if (!this.gfnIsNull(strParams))
+	{
+		return '?' + strParams;
+	}
+
+	return;
+}
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+//ID중복체크
+this.dsList_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if ( e.columnid=="ID")
+	{
+		if(this.gfnIsNull(e.newvalue)) return;
+		
+		var nRow = this.dsList.findRow("ID", e.newvalue);
+		if( nRow > -1)
+		{
+			this.gfnAlert("msg.exist", ["입력하신 아이디"],"validId","fnMsgCallback");
+			return;
+		}
+	}
+};
+
+this.dataObjectRest_onload = function(obj:nexacro.DataObject,e:nexacro.DataObjectLoadEventInfo)
+{
+//	trace("dataObjectRest_onload");
+};
+
+this.dataObjectRest_onsuccess = function(obj:nexacro.DataObject,e:nexacro.DataObjectEventInfo)
+{
+	if (e.statuscode == 200 && e.method == "GET")
+	{
+     //   trace("dataObjectRest_onsuccess:"+ obj.getAllResponseHeaders())
+	}
+    else
+    {
+        e.preventDefault();
+		trace("dataObjectRest_onsuccess " + e.serviceid + " : " + e.statuscode);
+    }
+};
+
+this.dataObjectRest_onerror = function(obj:nexacro.DataObject,e:nexacro.DataObjectErrorEventInfo)
+{
+	trace("dataObjectRest_onerror " + e.statuscode +":"+e.errormsg);
+};
+
+this.dataObjectRest_ondatachanged = function(obj:nexacro.DataObject,e:nexacro.DataObjectDataChangedEventInfo)
+{
+	trace("dataObjectRest_ondatachanged >> ");
+
+	var updatelist = e.infoarray;
+	for (var i = 0; i < updatelist.length; i++)
+	{
+		var item = updatelist[i];
+		var uid = item.uid;
+		var method = (item.type == "add") ? "POST" : (item.type == "update") ? "PUT" : "DELETE";
+		var senddata = JSON.stringify(item.data);
+		var id = item.data.id;
+		var param = {
+			'httpheader' : this.gfnGetHeaders(), 
+			'postdata' : senddata 
+		}
+		
+		// request
+		if (method == "POST")
+			this.dataObjectRest.request(uid, method, this.fvUrl + "rest/emp/create.do", param);
+		else if (method == "PUT")
+			this.dataObjectRest.request(uid, method, this.fvUrl + "rest/emp/update.do", param);
+		else 
+			this.dataObjectRest.request(uid, method, this.fvUrl + "rest/emp/delete/"+id+".do");
+	}	
+};
+
+this.dataObjectRest_onvaluechanged = function(obj:nexacro.DataObject,e:nexacro.DataObjectValueChangedEventInfo)
+{
+	trace("dataObjectRest_onvaluechanged >> ");
+	/*
+	var uid = e.uid;
+	var method = "PUT";
+	
+	var objddata = {};
+	objddata["id"] = obj.getObjectByPath(e.dataobjectpath)[e.index]["id"];
+	objddata["name"] = obj.getObjectByPath(e.dataobjectpath)[e.index]["name"];
+	objddata["department"] = obj.getObjectByPath(e.dataobjectpath)[e.index]["department"];
+	objddata["description"] = obj.getObjectByPath(e.dataobjectpath)[e.index]["description"];
+//	objddata[e.key] = e.value;	// changed column
+	
+	var senddata = JSON.stringify(objddata);
+	
+    var param = {
+		'httpheader' : this.gfnGetHeaders(), 
+		'postdata' : senddata 
+	}
+
+	this.dataObjectRest.request(uid, method, this.fvUrl + "rest/emp/update", param);
+	*/
+};
+
+//////////////////////////////////////////////////////////////////////////////////////트랜잭션 스타일 시작
+
+this.btnSelectTr_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSearchRest(); 
+};
+
+this.btnUpdate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsList4.rowposition;
+	var objData = this.gfnDataset2JSON(this.dsList4, nRow);
+	
+	switch(this.dsList4.getRowType(nRow)) 
+	{
+		case Dataset.ROWTYPE_INSERT :  
+			this.fnCreateList(objData);
+			break;
+		case Dataset.ROWTYPE_UPDATE :
+			this.fnUpdateList(objData);
+			break;
+	}
+};
+
+this.btnDelete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnDeleteList(this.dsList4);
+};
+
+this.btnSaveAll_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objDs = this.dsList4;
+	// 리스트 생성
+	var arrData = new Array();
+	arrData = this.gfnDataset2JSONList(objDs, "U");		
+		
+	if (arrData.length == 0)	
+	{
+		alert("수정된 데이터가 없습니다.");
+		return;
+	}
+		
+	this.fn_save(arrData, objDs);
+};
+
+this.btnAddTr_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.dsList4.addRow();
+};
+
+this.btnDelTr_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.dsList4.deleteRow(this.dsList4.rowposition);
+};
+
+this.fnSearchRest = function ()
+{
+	var strUrl = 'rest/emp/select.do';
+	var objData = this.gfnDataset2JSON(this.dsSearch, 0);
+	
+	var objReqData = {
+						"serviceid"	: "select",
+						"dataobject" : this.dataObjectTR,
+						"method"	: "GET",
+						"requesturl" : strUrl,
+						"postdata" : objData
+	}
+	
+	this.gfnRequestDataObject(this, objReqData, function(strSvcId, nErrorCode, objResolveData) {
+ 		var strRequestUrl = objResolveData["url"];
+ 		var strStatusCode = objResolveData["status"];
+ 		var objResponseData = objResolveData["data"];
+		
+		if (nErrorCode < 0)
+		{
+			return;
+		}
+		
+		this.gfnObject2Dataset(objResolveData["data"].data, this.dsList4);
+	});
+}
+
+this.fnCreateList = function(objData)
+{
+	var strUrl = 'rest/emp/create.do';
+
+	var objReqData = {
+						"serviceid"	: "create",
+						"dataobject" : this.dataObjectTR,
+						"method"	: "POST",
+						"requesturl" : strUrl,
+						"postdata" : objData
+	}
+	
+	this.gfnRequestDataObject(this, objReqData, "fnCallbackDataObject");
+}
+
+this.fnUpdateList = function(objData)
+{
+	var strUrl = 'rest/emp/update.do';
+
+	var objReqData = {
+						"serviceid"	: "update",
+						"dataobject" : this.dataObjectTR,
+						"method"	: "PUT",
+						"requesturl" : strUrl,
+						"postdata" : objData
+	}
+	
+	this.gfnRequestDataObject(this, objReqData, "fnCallbackDataObject");
+}
+
+this.fnDeleteList = function(objDs)
+{
+	var sId = objDs.getColumn(objDs.rowposition, "id");
+	var strUrl = 'rest/emp/delete/'+ sId + '.do';
+
+	var objReqData = {
+						"serviceid"	: "delete",
+						"dataobject" : this.dataObjectTR,
+						"method"	: "DELETE",
+						"requesturl" : strUrl
+	}
+	
+	this.gfnRequestDataObject(this, objReqData, function(strSvcId, nErrorCode, objResolveData) {
+		var strRequestUrl = objResolveData["url"];
+		var strStatusCode = objResolveData["status"];
+		var objResponseData = objResolveData["data"];
+		
+		if (nErrorCode < 0)
+		{
+			return;
+		}
+		this.alert("저장완료");
+		objDs.deleteRow(objDs.rowposition);
+		objDs.applyChange();
+	});
+}
+
+this.fnSave = function(arrData, objDs)
+{
+	var strUrl = "rest/emp/save.do";
+	var objReqData = {
+						"serviceid"	: "save",
+						"dataobject" : this.dataObjectTR,
+						"method"	: "PUT",
+						"requesturl" : strUrl,
+						"postdata" : arrData
+	};
+	
+	this.gfnRequestDataObject(this, objReqData, function(strSvcId, nErrorCode, objResolveData) {
+	
+		if (nErrorCode < 0)
+		{
+			return;
+		}
+		else
+		{
+			this.alert("저장완료");
+			this.fnSearchRest();
+		}
+	});
+}
+
+
+this.fnCallbackDataObject = function(strSvcId, nErrorCode, objResolveData)
+{
+	trace(strSvcId + " , " + nErrorCode );
+//	trace(objResolveData);
+	this.fnSearchRest();
+}
+
+////////////////////////////////////////////////////////////////////////////////////// 트랜잭션 스타일 끝
+]]></Script>
+    <Objects>
+      <DataObject id="dataObjectRest" onload="dataObjectRest_onload" onsuccess="dataObjectRest_onsuccess" onerror="dataObjectRest_onerror" ondatachanged="dataObjectRest_ondatachanged" onvaluechanged="dataObjectRest_onvaluechanged"/>
+      <Dataset id="dsSearch" oncolumnchanged="dsSearch_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <DataObject id="dataObjectTR"/>
+      <Dataset id="dsList4">
+        <ColumnInfo>
+          <Column id="id" datapath="@.id" type="STRING" size="256"/>
+          <Column id="name" datapath="@.name" type="STRING" size="256"/>
+          <Column id="department" datapath="@.department" type="STRING" size="256"/>
+          <Column id="description" datapath="@.description" type="STRING" size="256"/>
+          <Column id="test0" datapath="@.test" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList" binddataobject="dataObjectRest" dataobjectbindmode="twoway" dataobjectpath="$.data[*]" cancolumnchange="dsList_cancolumnchange">
+        <ColumnInfo>
+          <Column id="ID" datapath="@.ID" type="STRING" size="256"/>
+          <Column id="DESCRIPTION" datapath="@.DESCRIPTION" type="STRING" size="256"/>
+          <Column id="NAME" datapath="@.NAME" type="STRING" size="256"/>
+          <Column id="ROWTYPE" datapath="@.ROWTYPE" type="STRING" size="256"/>
+          <Column id="DEPARTMENT" datapath="@.DEPARTMENT" type="STRING" size="256"/>
+          <Column id="CHK" datapath="@.CHK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divSearch.form.edtId" propid="value" datasetid="dsSearch" columnid="ID"/>
+      <BindItem id="item1" compid="divSearch.form.edtName" propid="value" datasetid="dsSearch" columnid="NAME"/>
+    </Bind>
+  </Form>
+</FDL>

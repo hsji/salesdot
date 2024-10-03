@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SM_PresaleType" width="300" height="250" titletext="New Form" onload="form_onload">
+    <Layouts>
+      <Layout height="250" horizontalgap="0" mobileorientation="landscape" spacing="0px" tabletemplate="1* / 1*" verticalgap="0" width="300">
+        <Static id="sta00" taborder="4" left="20" top="63" height="119" border="1px solid #dddddd" background="#eeeeee" borderRadius="10px" right="20"/>
+        <Radio id="rd_kind" taborder="0" left="90.00" top="84" height="76" innerdataset="ds_Kind" codecolumn="CODE" datacolumn="CAPTION" index="0" text="확인" value="01" right="56" TL_FLAG="1"/>
+        <Button id="btnClose" taborder="2" text="취소" height="28" width="50" fittocontents="width" right="20" bottom="20" onclick="btnClose_onclick"/>
+        <Button id="btnConfirm" taborder="1" text="확인" height="28" width="50" fittocontents="width" cssclass="btn_WF_Crud" right="btnClose:3" bottom="20" onclick="btnConfirm_onclick"/>
+        <Static id="Static00" taborder="3" text="프로젝트 추가 유형선택" left="25.00" top="7" height="43" cssclass="sta_WF_Title" right="20"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_Kind">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="CAPTION_ENG" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">01</Col>
+            <Col id="CAPTION">신규 프로젝트</Col>
+            <Col id="CAPTION_JAP">新規プロジェクト</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">02</Col>
+            <Col id="CAPTION">추가 계약</Col>
+            <Col id="CAPTION_JAP">追加契約</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	this.rd_kind.set_index(this.getOwnerFrame().pvIndex);
+};
+
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close(this.rd_kind.value);
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+  </Form>
+</FDL>

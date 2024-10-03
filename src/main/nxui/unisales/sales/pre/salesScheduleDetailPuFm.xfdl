@@ -1,0 +1,564 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="salesScheduleMgFm" width="870" height="700" titletext="공통코드관리" onload="form_onload">
+    <Layouts>
+      <Layout height="700" mobileorientation="landscape" width="870">
+        <Edit id="edtCustomer" taborder="2" left="149" top="60" width="161" height="24" cssclass="essential" uUse="false" onkeyup="edtCode_onkeyup" enable="false"/>
+        <Static id="Static00" taborder="0" text="프로젝트 활동" left="25" top="5" height="43" cssclass="sta_WF_Title" right="284"/>
+        <Static id="sta00" taborder="1" text="고객명" left="30" top="60" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Static id="sta00_00" taborder="3" text="프로젝트명" left="313" top="60" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtProjectName" taborder="4" left="433" top="60" height="24" maxlength="10" inputtype="digit,alpha" cssclass="essential" right="25" enable="false"/>
+        <Static id="sta00_01" taborder="5" text="프로젝트코드" left="30" top="92" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtProjectCode" taborder="6" left="149" top="92" height="24" imemode="alpha" maxlength="30" width="161" cssclass="essential" enable="false"/>
+        <Static id="sta00_01_01" taborder="7" text="스케쥴 구분" left="30" top="125" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Static id="sta00_01_01_00" taborder="8" text="제목" left="30" top="158" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Edit id="edtUserNmEng00_00" taborder="9" left="149" top="158" height="24" imemode="alpha" maxlength="30" right="25"/>
+        <Combo id="cboSchedule" taborder="10" text="cbo00" left="149" top="125" height="24" cssclass="essential" right="560"/>
+        <WebBrowser id="webEditor" taborder="11" left="150" top="193" right="25" bottom="196" border="1px solid #cccccc" onusernotify="webEditor_onusernotify"/>
+        <TextArea id="txa00" taborder="12" left="92" top="320" width="28" height="40" visible="false"/>
+        <Static id="sta00_01_01_01_01" taborder="13" text="비고" left="30" top="193" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Button id="btnSave" taborder="14" text="저장" height="28" width="68" fittocontents="width" right="74" top="659" onclick="divButton_btnSave_onclick" cssclass="btn_WF_CrudSave"/>
+        <Button id="btnClose" taborder="15" text="닫기" height="28" width="50" fittocontents="width" right="20" top="659" onclick="divButton_btnClose_onclick"/>
+        <Button id="btnFileDel" taborder="17" text="전체삭제" top="514" width="62" height="22" cssclass="btn_WF_Detail" right="25" onclick="divContents_divFile_btnFileDel_onclick"/>
+        <Button id="btnFile" taborder="16" text="파일찾기" top="514" width="62" height="22" cssclass="btn_WF_Detail" right="btnFileDel:5" onclick="divContents_divFile_btnFile_onclick"/>
+        <Grid id="grdFile" taborder="18" left="150" top="543" right="25" binddataset="dsFile" autofittype="col" oncellclick="divContents_divFile_grdFile_oncellclick" ondrop="divContents_divFile_grdFile_ondrop" cssclass="grd_MF_Notice" height="102">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="614"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="32"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="bind:OTXT_FILE_NM"/>
+                <Cell col="1" text="삭제" displaytype="buttoncontrol" edittype="button"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="sta00_01_01_01_01_00" taborder="19" text="첨부파일" left="30" top="544" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Static id="sta00_00_00" taborder="20" text="일자" left="313" top="92" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <PeriodCalendar id="PFromToCal" taborder="0" left="433" top="92" width="250" height="24"/>
+        <Static id="sta00_01_01_01" taborder="21" text="상태구분" left="313" top="125" width="106" height="24" cssclass="sta_WF_LabelnoLine"/>
+        <Combo id="cboScheduleStatus" taborder="22" text="cbo00" left="432" top="125" height="24" cssclass="essential" right="277"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsDetailCond" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="PRJT_CODE" type="STRING" size="256"/>
+          <Column id="PRJT_NAME" type="STRING" size="256"/>
+          <Column id="SCHD_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsDetail" firefirstcount="0">
+        <ColumnInfo>
+          <Column id="PRJT_CODE" type="string" size="32"/>
+          <Column id="SCHD_CODE" type="string" size="32"/>
+          <Column id="SCHD_TITLE" type="string" size="32"/>
+          <Column id="REMK" type="string" size="32"/>
+          <Column id="SCHD_STATUS" type="string" size="32"/>
+          <Column id="SCHD_SDATE" type="string" size="32"/>
+          <Column id="SCHD_EDATE" type="string" size="32"/>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="PRJT_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsFile">
+        <ColumnInfo>
+          <Column id="PRJT_CODE" type="string" size="32"/>
+          <Column id="OTXT_FILE_NM" type="string" size="32"/>
+          <Column id="FILE_SIZE" type="int" size="4"/>
+          <Column id="SCHD_CODE" type="string" size="32"/>
+          <Column id="FILE_ID" type="string" size="32"/>
+          <Column id="FILE_TYPE" type="string" size="32"/>
+          <Column id="SAVE_FILE_NM" type="string" size="32"/>
+          <Column id="FILE_SEQ" type="int" size="4"/>
+          <Column id="FILE_PATH_NM" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <FileDialog id="fdgFile" onclose="fdgFile_onclose"/>
+      <FileUpTransfer id="futFile" onsuccess="futFile_onsuccess" onerror="futFile_onerror"/>
+      <FileDownTransfer id="fdtFile" url="svcUrl::fileDownload.do"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	salesScheduleMgFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/08
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/08			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvRowPositionMain = -1;
+this.fvRowPositionSub  = -1;
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//공통코드
+	var param = [
+			  {biztype : "Combo", code : "SM29", objid : this.cboSchedule}							// 스케쥴
+			  ,{biztype : "Combo", code : "SM30", objid : this.cboScheduleStatus}			// 스케쥴상태
+	];
+	
+	this.pType  = this.getOwnerFrame().pType;
+	
+	this.edtCustomer.set_value(this.getOwnerFrame().pCustName);
+	this.edtProjectName.set_value(this.getOwnerFrame().pPrjName);
+	
+	if(this.pType == "add") {
+		this.dsDetail.addRow();
+		this.dsDetail.setColumn(0, "PRJT_CODE",	this.getOwnerFrame().pPrjCode);
+		this.dsDetail.setColumn(0, "CLIENT_CODE",	this.getOwnerFrame().pCustCode);
+		
+		var sToday = this.gfnGetDate();
+		this.dsDetail.setColumn(0, "SCHD_SDATE",	sToday);
+		this.dsDetail.setColumn(0, "SCHD_EDATE",	sToday);
+	} else if(this.pType == "update") {
+		this.dsDetailCond.setColumn(0, "PRJT_CODE",	this.getOwnerFrame().pPrjCode);
+		this.dsDetailCond.setColumn(0, "CLIENT_CODE",	this.getOwnerFrame().pCustCode);
+		this.dsDetailCond.setColumn(0, "SCHD_CODE",	this.getOwnerFrame().pSchedCode);
+		
+		this.fnTranSearch();
+	} else {
+		
+		alert("error================");
+		this.close();
+	}	
+	this.gfnGetCommonCode(param);
+	
+	var oWeb = this.webEditor;
+	this.gfnCreateWebEditor(oWeb);	
+	
+};
+
+this.afterCommCodeLoad = function() {
+	if(this.pType == "add") {
+		var ds = this.opener.dsDetail;
+		var combods = this[this.cboSchedule.innerdataset];
+		for(var i=0;i<ds.rowcount;i++) {
+			var nRow = combods.findRow("SSC_CD", ds.getColumn(i, "SCHD_CODE"));
+			if(nRow>=0) {
+				combods.deleteRow(nRow);
+			}
+		}
+	} else {
+		this.cboSchedule.set_enable(false);
+	}
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if (this.gfnDsIsUpdated(this.dsList)) {
+		// 검색을 진행하면 변경된 데이터가 사라집니다. \n계속 진행 하시겠습니까?
+		var sMsgId = "confirm.before.search";		//메세지ID
+		var arrArg = [""];							//메세지취환될값 배열[생략가능]
+		var sPopId = "search";						//메세지팝업ID[생략가능]	*해당화면에서 메시지 중복사용시 구분되는값을 넣어줘야함
+		var sMsgCallback = "fnMsgCallback";			//메세지콜백[생략가능] 		* confirm성 메시지를 사용 시 반드시 필요
+	
+		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);	
+	}else{
+		this.fnTranSearch();
+	}
+};
+
+//추가
+this.cfnAdd = function ()
+{
+	var nRow = this.dsList.addRow();
+};
+
+//삭제
+this.cfnDel = function ()
+{
+	if (this.dsList.rowcount == 0) {
+		return;
+	}
+	this.dsList.deleteRow(this.dsList.rowposition);
+};
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false && this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if(this.fnValid()){
+		this.gfnAlert("confirm.save", [""], "save", "fnMsgCallback");
+	}
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//master 조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "searchProjectDetailList";
+	var strSvcUrl   = "searchProjectDetailList.do";
+	var inData      = "dsDetailCond=dsDetailCond";
+	var outData     = "dsDetail=dsDetail dsFile=dsFile";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//저장
+this.fnTranSave = function ()
+{
+	var sCont = "";
+	sCont = this.webEditor.callMethod("getData");	
+	this.dsDetail.setColumn(0, "REMK", sCont);
+	
+	if(this.gfnDsIsUpdated(this.dsDetail) == false){
+		return;
+	}	
+	
+	var strSvcId    = "saveProjectDetailInfo";
+	var strSvcUrl   = "saveProjectDetailInfo.do";
+	var inData      = "dsDetail=dsDetail:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+this.fnTranDeleteFile = function ()
+{
+	var strSvcId    = "deleteSalesFile";
+	var strSvcUrl   = "deleteSalesFile.do";
+	var inData      = "dsList=dsFile:U";
+	var outData     = "";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//파일업로드
+this.fnFileUploadTran = function ()
+{
+	var PRJT_CODE = this.dsDetail.getColumn(0,"PRJT_CODE");
+	var SCHD_CODE = this.dsDetail.getColumn(0, "SCHD_CODE");
+	
+	this.futFile.setPostData("PRJT_CODE", PRJT_CODE);
+	this.futFile.setPostData("SCHD_CODE" , SCHD_CODE);
+	
+	this.futFile.upload("svcUrl::saleFileUpload.do");
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchCustomerList":
+			break;
+		case "saveCustomerInfo":
+			this.fnTranSearch();
+			break;
+		case "saveProjectDetailInfo":
+			this.opener.fnTranSearch();
+			this.close();
+			break;
+		default: break;
+	}
+};
+
+//popup
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	
+};
+
+//message
+this.fnMsgCallback = function (sMsgId, sRtn)
+{
+	switch(sMsgId) {
+		case "save":
+			if (this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false) {
+				return;
+			}
+			this.fnTranSave();
+			break;
+		case "deleteFileUpdate":
+			if(this.gfnIsNull(sRtn)|| sRtn=="false"||sRtn == false){
+				return;
+			}
+			var nRow 	 = this.dsFile.rowposition;
+			var nRowType = this.dsFile.getRowType(nRow);
+			var sFileNm  = this.dsFile.getColumn(nRow, "OTXT_FILE_NM");
+			
+			this.dsFile.deleteRow(nRow);
+			this.fnTranDeleteFile();
+			break;			
+		case "deleteFileAllUpdate":
+			//입력모드일경우 지금 첨부된 파일이므로 그냥 삭제
+			var nCount = this.dsFile.getCaseCount('dataset.getRowType(rowidx)==2');
+			var nTotalCnt = this.dsFile.getRowCount();
+			if ( nCount > 0 ){
+				this.futFile.clearFileList();
+			}
+			this.dsFile.deleteAll();
+			if( nCount == nTotalCnt){
+				this.fnFileInit();
+			}else{
+				this.fnTranDeleteFile();
+			}
+			break;			
+		default: break;
+	}
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//조회
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch(); //조회
+};
+
+
+this.fud00_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
+{
+	var items = obj._items;
+	var ds = this.dsList;
+	if(items[0] && items[0]._files && items[0]._files[0]) {
+		var reader = new FileReader();
+		reader.readAsDataURL(items[0]._files[0]);
+		reader.onload = function(e) {
+			ds.setColumn(0, "CLIENT_PIC", e.target.result);
+		};	
+	}	
+};
+
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle00.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdMaster, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");	
+};
+
+this.divContents_divFile_btnFile_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fdgFile.open("file upload..", FileDialog.MULTILOAD);
+};
+
+this.fdgFile_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	if( e.reason == 3 ){
+		//멀티업로드일경우
+		this.fnSetFile(e.virtualfiles);
+	}	
+};
+
+
+//div사이즈 조절
+this.fnFileInit = function ()
+{
+	return;	// 팝업이라 무작정 늘림 안됨.
+	var nRowCnt = this.dsFile.getRowCount();
+	if(nRowCnt == 0 ) nRowCnt = 1;
+	var nHeigth = ( 32 * nRowCnt ) + 39;	
+	
+	this.grdFile.set_height(nHeigth);
+	this.resetScroll();
+};
+
+
+//파일세팅
+this.fnSetFile = function (aVFiles)
+{
+	var nLen = aVFiles.length;
+
+	var sFileId = "";
+	var oFile = null;
+		console.log(aVFiles);
+	for(var i=0; i<nLen; i++){
+		sFileId = aVFiles[i].filename;
+		oFile   = aVFiles[i];
+		
+		//중복확인
+		if(this.futFile.existFile(oFile)){
+			sFileId += "_" + this.dsFile.getRowCount();
+		}
+		console.log(sFileId);
+		this.futFile.addFile(sFileId, oFile);
+		var nRow = this.dsFile.addRow();
+		this.dsFile.setColumn(nRow, "OTXT_FILE_NM", sFileId);
+	}
+	
+	this.fnFileInit();
+};
+
+
+//파일업로드트랜스퍼 온 에러 
+this.futFile_onerror = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferErrorEventInfo)
+{
+	this.gfnAlert("msg.server.error.msg" ,[e.errormsg]);
+};
+
+//파일업로드트랜스퍼 온 서세스
+this.futFile_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventInfo)
+{
+	this.futFile.clearFileList();
+	if(this.gfnDsIsUpdated(this.dsDetail)){
+		this.fnTranSave();
+	} else {
+			this.opener.fnTranSearch();
+			this.close();	
+	}
+};
+
+this.divContents_divFile_btnFileDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnAlert("confirm.before.filedeleteall",[],"deleteFileAllUpdate", "fnMsgCallback");
+};
+
+this.divButton_btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sCont = "";
+	if(this.webEditor.visible){
+		sCont = this.webEditor.callMethod("getData");	
+	}else if(this.txa00.visible){
+		sCont = this.txa00.value;
+	}
+
+	this.dsDetail.setColumn(0, "REMK", sCont);
+	
+	// 정합성 체크
+	this.gfnClearValidation(this.dsDetail);
+
+	this.gfnSetValidation(this.dsDetail, "SCHD_CODE" , "스케쥴구분"	, "required");
+	this.gfnSetValidation(this.dsDetail, "SCHD_STATUS" , "상태구분"	, "required");
+	this.gfnSetValidation(this.dsDetail, "SCHD_TITLE", "제목"	, "required");
+	this.gfnSetValidation(this.dsDetail, "REMK" , "내용"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsDetail, "U") == false) return false;
+	
+	if(!this.gfnDsIsUpdated(this.dsFile)&&!this.gfnDsIsUpdated(this.dsDetail)){
+			// 저장할 데이터가 없습니다.
+			this.gfnAlert("msg.save.nochange");
+			return;
+	}else{
+		if(this.gfnDsIsUpdated(this.dsFile)){
+			//file변경
+			if(this.futFile.filelist.length > 0){
+				this.fnFileUploadTran();
+			}
+		} else {
+			if(this.gfnDsIsUpdated(this.dsDetail)){
+				//내용변경
+				this.fnTranSave();
+			}
+		}
+	}	
+};
+
+this.divButton_btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+this.webEditor_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+	if (e.userdata=="instanceReady" && !this.isLoad){
+		obj.callMethod("init", obj.getOffsetHeight()-20);
+		this.isLoad=true;
+		var sCntn = this.dsDetail.getColumn(0, "REMK");
+		if(!this.gfnIsNull(sCntn)){
+			this.webEditor.callMethod("setData", sCntn);
+		}
+	}		
+};
+
+this.divContents_divFile_grdFile_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var nRow = e.row;
+	if(e.cell == 1){
+		var nStatus = this.dsFile.getRowType(nRow);
+		if( nStatus == 2){
+			//새로추가된 파일은 그냥 삭제
+			var sFileNm = this.dsFile.getColumn(nRow, "OTXT_FILE_NM");
+			this.futFile.removeFile(sFileNm);
+			this.dsFile.deleteRow(nRow);
+			this.fnFileInit();
+		}else{
+			//이미 서버에 저장된 파일은 파일 삭제 진행
+			this.gfnAlert("confirm.before.filedelete",[],"deleteFileUpdate", "fnMsgCallback");
+		}
+	} else if(e.cell == 0){
+		var sFileId 	= this.dsFile.getColumn(e.row, "FILE_ID");
+		var sFileNm 	= this.dsFile.getColumn(e.row, "OTXT_FILE_NM");
+		var sSaveFileNm = this.dsFile.getColumn(e.row, "SAVE_FILE_NM");
+		if( !this.gfnIsNull(sFileId)){
+			this.fdtFile.setPostData("saveFileName"	, sSaveFileNm);
+			this.fdtFile.setPostData("orgFileName"	, sFileNm);
+			
+			this.fdtFile.set_downloadfilename(sFileNm)
+			this.fdtFile.download("svcUrl::fileDownload.do");	
+		}
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="cboSchedule" propid="value" datasetid="dsDetail" columnid="SCHD_CODE"/>
+      <BindItem id="item1" compid="edtUserNmEng00_00" propid="value" datasetid="dsDetail" columnid="SCHD_TITLE"/>
+      <BindItem id="item2" compid="PFromToCal.form.calFrom" propid="value" datasetid="dsDetail" columnid="SCHD_SDATE"/>
+      <BindItem id="item3" compid="PFromToCal.form.calTo" propid="value" datasetid="dsDetail" columnid="SCHD_EDATE"/>
+      <BindItem id="item4" compid="cboScheduleStatus" propid="value" datasetid="dsDetail" columnid="SCHD_STATUS"/>
+    </Bind>
+  </Form>
+</FDL>

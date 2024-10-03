@@ -1,0 +1,1345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="authPermMapper">
+<!--mySQL-->
+
+<!--***************************************************************** 데이터그룹 관리 -->
+<!-- 데이터그룹 관리 사용자 목록 조회 -->
+<select id="authDataGrpSearchUserList" parameterType="java.util.List" resultType="java.util.Map">
+	SELECT US.COMPANY_CD
+		, US.USER_ID
+		, US.KORN_NM
+		, US.DEPT_CD
+		, DP.DEPT_KORN_NM AS DEPT_NM
+	FROM T_SYTM_USER US
+		INNER JOIN T_SYTM_DEPT DP
+			ON US.DEPT_CD = DP.DEPT_CD
+	WHERE 1=1		
+	<if test="USER_ID != null and USER_ID != '' ">
+	    AND US.USER_ID LIKE CONCAT('%',#{USER_ID},'%')
+	</if>
+	<if test="COMPANY_CD != null and COMPANY_CD != '' ">
+	    AND US.COMPANY_CD = #{COMPANY_CD}
+	</if>
+</select>
+
+<!-- 데이터그룹 관리 부서 목록 조회 -->
+<select id="authDataGrpSearchDeptList" parameterType="java.util.List" resultType="java.util.Map">
+	SELECT AA.COMPANY_CD
+		,AA.DEPT_CD
+		,AA.HIPO_DEPT_CD
+		,AA.DEPT_KORN_NM
+		,AA.DEPT_ENGL_NM
+		,AA.DEPT_LVL
+		,'0' AS CHK
+	FROM T_SYTM_DEPT AA
+	WHERE AA.DEPT_CD NOT IN(
+	    SELECT 
+	        PD.DEPT_CD
+	    FROM COM_PERM_DATA PD
+	    WHERE PD.USER_ID = #{USER_ID}
+	        AND PD.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+	    )
+	<if test="COMPANY_CD != null and COMPANY_CD != '' ">
+	    AND AA.COMPANY_CD = #{COMPANY_CD}
+	</if>
+	START WITH AA.DEPT_LVL = '0'
+	CONNECT BY PRIOR AA.DEPT_CD = AA.HIPO_DEPT_CD
+</select>
+
+<!-- 데이터그룹 관리 데이터 그룹 목록 조회 -->
+<select id="authDataGrpSearchDataGrpList" parameterType="java.util.List" resultType="java.util.Map">
+	SELECT 
+	    CPD.USER_ID
+	    , CPD.DEPT_CD
+	    , CPD.SYTM_FLAG_CD
+	    , CPD.UNDR_DEPT_INCL_YN
+	    , CD.DEPT_NM
+	    , CD.DEPT_PATH
+	    , '0' AS CHK
+	FROM
+	 ( SELECT 
+	        USER_ID
+	        ,DEPT_CD
+	        ,SYTM_FLAG_CD
+	        ,UNDR_DEPT_INCL_YN
+	    FROM COM_PERM_DATA 
+	    WHERE USER_ID = #{USER_ID}
+	        AND SYTM_FLAG_CD =#{SYTM_FLAG_CD} 
+	    )CPD
+	,( SELECT 
+	        DEPT_CD
+	        ,DEPT_KORN_NM AS DEPT_NM
+	        ,SUBSTR(SYS_CONNECT_BY_PATH(DEPT_KORN_NM, '>'), 2) AS DEPT_PATH 
+	    FROM T_SYTM_DEPT
+	    START WITH DEPT_LVL = '0' 
+	    CONNECT BY PRIOR DEPT_CD = HIPO_DEPT_CD
+	 )CD
+	WHERE CPD.DEPT_CD = CD.DEPT_CD
+</select>
+
+<!-- 데이터그룹 관리 데이터 그룹 목록 추가 -->
+<insert id="insertAuthDataGrpList" parameterType="java.util.Map">
+	INSERT INTO COM_PERM_DATA
+	(
+	    USER_ID
+	    , DEPT_CD
+	    , SYTM_FLAG_CD
+	    , UNDR_DEPT_INCL_YN
+	    , INPT_ID
+	    , INPT_IP
+	    , INPT_DTTM
+	    , CHGE_ID
+	    , CHGE_IP
+	    , CHGE_DTTM
+	)VALUES(
+	    #{USER_ID}
+	    , #{DEPT_CD}
+	    , #{SYTM_FLAG_CD}
+	    , '0'
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	)
+</insert>
+
+<!-- 데이터그룹 관리 데이터 그룹 목록 삭제 -->
+<delete id="deleteAuthDataGrpList" parameterType="java.util.Map">
+DELETE FROM COM_PERM_DATA
+WHERE USER_ID = #{USER_ID}
+	AND DEPT_CD = #{DEPT_CD}
+	AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+</delete>
+
+<!--***************************************************************** 그룹 권한 메뉴 관리 -->
+<!-- 그룹 권한 메뉴 관리 권한그룹관리 조회 -->
+<select id="premGrpList" parameterType="java.util.List" resultType="java.util.Map">
+	SELECT /* premGrpList */
+		COMPANY_CD
+		, PERM_ID
+		, SYTM_FLAG_CD
+		, PERM_GRP_NM
+		, USED_YN
+		, PERM_GRP_EXPL
+		, REMK
+	FROM T_SYTM_PERM_GRP
+	WHERE SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+		AND PERM_GRP_NM LIKE CONCAT('%',COALESCE(#{PREM_NM}, ''),'%')
+		AND COMPANY_CD = #{COMPANY_CD}
+</select>
+
+<!-- 그룹 권한 메뉴 관리 할당 메뉴 조회 -->
+<select id="premGrpRegiMenuList" parameterType="java.util.List" resultType="java.util.Map">
+WITH RECURSIVE TREE_MAIN /*premGrpRegiMenuList*/
+     AS (SELECT A.COMPANY_CD
+     			, A.SYTM_FLAG_CD /* 시스템구분코드 */
+                , A.MENU_ID/* 메뉴ID */
+                , A.MODULE_CD/* 모듈*/
+                , A.MENU_NM/* 메뉴명 */
+                , A.MENU_ENGL_NM
+                , A.MENU_WHLE_NM
+                , A.HIPO_MENU_ID/* 상위메뉴ID */
+                , A.MENU_LVL /* 메뉴레벨 */
+                , A.MENU_ORDR
+                , A.MENU_FLAG_CD
+                , A.PRGM_ID
+                , A.PARM
+                , A.USED_YN
+                , A.REMK
+                 ,CAST(RIGHT(CONCAT('00', CAST(A.MENU_ORDR AS CHAR(255))), 3) AS CHAR(255)) AS MENU_SORT	/* MENU 정렬 */
+           FROM T_SYTM_MENU A
+          WHERE HIPO_MENU_ID = '0000000000'
+          AND COMPANY_CD = #{COMPANY_CD}
+         UNION ALL
+         SELECT B.COMPANY_CD
+         		, B.SYTM_FLAG_CD
+                , B.MENU_ID
+                , B.MODULE_CD
+                , B.MENU_NM
+                , B.MENU_ENGL_NM
+                , B.MENU_WHLE_NM
+                , B.HIPO_MENU_ID
+                , B.MENU_LVL
+                , B.MENU_ORDR
+                , B.MENU_FLAG_CD
+                , B.PRGM_ID
+                , B.PARM
+                , B.USED_YN
+                , B.REMK
+                ,CONCAT(CAST(C.MENU_SORT AS CHAR(255)),'|',CAST(RIGHT(CONCAT('00', CAST(B.MENU_ORDR AS CHAR(255))), 3) AS CHAR(255))) AS MENU_SORT
+           FROM T_SYTM_MENU B
+                INNER JOIN TREE_MAIN C
+                        ON B.HIPO_MENU_ID = C.MENU_ID
+                           AND C.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+          WHERE B.COMPANY_CD = #{COMPANY_CD}
+          )
+SELECT MENU.COMPANY_CD
+	   , MENU.SYTM_FLAG_CD
+       , MENU.MENU_ID
+       , MENU.MODULE_CD
+       , MENU.MENU_NM
+       , MENU.MENU_ENGL_NM
+       , MENU.MENU_WHLE_NM
+       , MENU.HIPO_MENU_ID
+       , MENU.MENU_LVL
+       , MENU.MENU_ORDR
+       , MENU.MENU_FLAG_CD
+       , MENU.PRGM_ID
+       , MENU.PARM
+       , MENU.USED_YN
+       , MENU.REMK
+       , PRGM.PRGM_NM
+       , CASE WHEN PM.PERM_ID IS NULL THEN '0' ELSE '1' END AS PERM_CHK
+       , COALESCE(PRGM.INQR_BTTN_USED_YN, '0') AS PRGM_INQR_BTTN_USED_YN
+       , COALESCE(PRGM.ANEW_BTTN_USED_YN, '0') AS PRGM_ANEW_BTTN_USED_YN       
+       , COALESCE(PRGM.SAVE_BTTN_USED_YN, '0') AS PRGM_SAVE_BTTN_USED_YN
+       , COALESCE(PRGM.DELE_BTTN_USED_YN, '0') AS PRGM_DELE_BTTN_USED_YN
+       , COALESCE(PRGM.PRNT_BTTN_USED_YN, '0') AS PRGM_PRNT_BTTN_USED_YN
+       , COALESCE(PRGM.EXCL_BTTN_USED_YN, '0') AS PRGM_EXCL_BTTN_USED_YN
+       , COALESCE(PRGM.INIT_BTTN_USED_YN, '0') AS PRGM_INIT_BTTN_USED_YN
+       , CASE WHEN MENU.PRGM_ID IS NULL THEN '0' ELSE '1' END AS PRGM_YN
+       , COALESCE(PM.PERM_ID, #{PERM_ID})           AS PERM_ID
+       , COALESCE(PM.INQR_BTTN_USED_YN, '0')   AS INQR_BTTN_USED_YN
+       , COALESCE(PM.ANEW_BTTN_USED_YN, '0')   AS ANEW_BTTN_USED_YN
+       , COALESCE(PM.SAVE_BTTN_USED_YN, '0')   AS SAVE_BTTN_USED_YN
+       , COALESCE(PM.DELE_BTTN_USED_YN, '0')   AS DELE_BTTN_USED_YN
+       , COALESCE(PM.PRNT_BTTN_USED_YN, '0')   AS PRNT_BTTN_USED_YN
+       , COALESCE(PM.EXCL_BTTN_USED_YN, '0')   AS EXCL_BTTN_USED_YN
+       , COALESCE(PM.INIT_BTTN_USED_YN, '0')   AS INIT_BTTN_USED_YN
+       , PM.SEARCH_SCOPE_CD
+  FROM TREE_MAIN MENU
+       LEFT OUTER JOIN T_SYTM_PRGM PRGM
+                    ON MENU.PRGM_ID = PRGM.PRGM_ID AND PRGM.COMPANY_CD = #{COMPANY_CD}
+       LEFT OUTER JOIN (SELECT PERM.COMPANY_CD
+       							, PERM.SYTM_FLAG_CD
+                               , PERM.MENU_ID
+                               , PERM.PERM_ID
+                               , PERM.INQR_BTTN_USED_YN
+                               , PERM.ANEW_BTTN_USED_YN
+                               , PERM.SAVE_BTTN_USED_YN
+                               , PERM.DELE_BTTN_USED_YN
+                               , PERM.PRNT_BTTN_USED_YN
+                               , PERM.EXCL_BTTN_USED_YN
+                               , PERM.INIT_BTTN_USED_YN
+                               , PERM.SEARCH_SCOPE_CD
+                          FROM T_SYTM_PERM_MENU PERM
+                         WHERE PERM.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+                         	AND PERM.COMPANY_CD = #{COMPANY_CD}
+                           AND PERM.PERM_ID = #{PERM_ID}) PM
+                    ON MENU.SYTM_FLAG_CD = PM.SYTM_FLAG_CD
+                       AND MENU.MENU_ID = PM.MENU_ID
+                       AND MENU.COMPANY_CD = #{COMPANY_CD}
+ WHERE MENU.USED_YN = '1'
+ 	AND MENU.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+ 	AND MENU.COMPANY_CD = #{COMPANY_CD}
+ ORDER BY MENU.MENU_SORT 
+</select>
+
+<!-- 그룹 권한 메뉴 관리 미할당 메뉴 조회 -->
+<select id="premGrpUnregiMenuList" parameterType="java.util.List" resultType="java.util.Map">
+SELECT A.COMPANY_CD
+	  , A.MENU_LVL						AS LEVL					/* 메뉴레벨 */
+	  , A.SYTM_FLAG_CD  				AS SYTM_FLAG_CD			/* 시스템구분코드 */
+	  , A.MENU_ID						AS MENU_ID				/* 메뉴ID */
+	  , A.MODULE_CD						AS MODULE_CD
+      , A.HIPO_MENU_ID					AS HIPO_MENU_ID			/* 상위메뉴ID */
+      , A.PRGM_ID						AS PRGM_ID				/* 프로그램ID */
+      , A.MENU_NM 						AS MENU_NM				/* 메뉴명 */
+      , COALESCE(A.MENU_ENGL_NM, A.MENU_NM) 	AS MENU_ENGL_NM			/* 메뉴영문명 */
+	  , A.MENU_WHLE_NM					AS MENU_WHLE_NM			/* 메뉴전체명 */
+	  , A.MENU_ORDR						AS MENU_ORDR			/* 메뉴순서 */
+      , A.USED_YN       				AS USED_YN       		/* 사용여부 */
+	  , A.REMK							AS REMK					/* 비고 */
+	  , A.PARM							AS PARM          		/* 파라미터 */
+	  , A.MENU_FLAG_CD					AS MENU_FLAG_CD			/* 메뉴구분코드 */
+      , '[' + A.MENU_ID + '] ' + A.MENU_NM 		AS HIPO_KOR_NM          /* 상위메뉴 한글명 */
+      , '[' + A.MENU_ID + '] ' + A.MENU_ENGL_NM 	AS HIPO_ENGL_NM    /* 상위메뉴 영문명 */
+	  , COALESCE(A.INQR_BTTN_USED_YN, '0')	AS INQR_BTTN_USED_YN	/* 조회버튼사용여부 */
+	  , COALESCE(A.ANEW_BTTN_USED_YN, '0')	AS ANEW_BTTN_USED_YN	/* 신규버튼사용여부 */
+	  , COALESCE(A.SAVE_BTTN_USED_YN, '0')	AS SAVE_BTTN_USED_YN	/* 저장버튼사용여부 */
+	  , COALESCE(A.DELE_BTTN_USED_YN, '0')	AS DELE_BTTN_USED_YN	/* 삭제버튼사용여부 */
+	  , COALESCE(A.PRNT_BTTN_USED_YN, '0')	AS PRNT_BTTN_USED_YN	/* 출력버튼사용여부 */
+	  , COALESCE(A.EXCL_BTTN_USED_YN, '0')	AS EXCL_BTTN_USED_YN	/* 엑셀버튼사용여부 */
+	  , COALESCE(A.INIT_BTTN_USED_YN, '0')	AS INIT_BTTN_USED_YN	/* 초기화버튼사용여부 */
+	  , A.PRGM_NM						AS PRGM_NM				/* 프로그램명*/
+	  , '0' 							AS CHK					/* Check Box */
+  FROM (
+		SELECT A.*
+			  , P.PRGM_NM
+			  , P.INQR_BTTN_USED_YN
+			  , P.ANEW_BTTN_USED_YN
+			  , P.SAVE_BTTN_USED_YN
+			  , P.DELE_BTTN_USED_YN
+			  , P.PRNT_BTTN_USED_YN
+			  , P.EXCL_BTTN_USED_YN
+			  , P.INIT_BTTN_USED_YN
+		  FROM T_SYTM_MENU A
+		  INNER JOIN (SELECT A.MENU_ID    AS MENU_ID  
+						   , MAX(A.ROWID) AS MENU_ROWID
+						FROM T_SYTM_MENU A
+						WHERE A.COMPANY_CD = #{COMPANY_CD}
+					   START WITH A.MENU_ID IN (SELECT X.MENU_ID
+												  FROM T_SYTM_MENU X
+												 WHERE NOT EXISTS (SELECT B.MENU_ID
+																	 FROM T_SYTM_PERM_MENU B
+																	WHERE B.PERM_ID = #{PERM_ID}
+																	  AND B.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+																	  AND X.MENU_ID = B.MENU_ID))
+					 CONNECT BY PRIOR A.HIPO_MENU_ID = A.MENU_ID
+					   GROUP BY MENU_ID
+					) B
+			 ON A.ROWID = B.MENU_ROWID
+			 AND A.COMPANY_CD = #{COMPANY_CD}
+		  LEFT OUTER JOIN 
+				(SELECT  *
+				   FROM T_SYTM_PRGM
+				  WHERE USED_YN = '1'
+				) P
+			ON A.PRGM_ID = P.PRGM_ID
+			AND P.COMPANY_CD = #{COMPANY_CD}
+		 WHERE A.USED_YN = '1'
+		   AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+		   AND A.COMPANY_CD = #{COMPANY_CD}
+		 ORDER BY A.MENU_LVL, A.MENU_ORDR
+		) A 
+START WITH A.HIPO_MENU_ID = '0000000000'
+CONNECT BY PRIOR A.MENU_ID = A.HIPO_MENU_ID
+ORDER SIBLINGS BY A.MENU_ID
+</select>
+
+<!-- 그룹권한 추가 -->
+<insert id="insertPremGrpList" parameterType="java.util.Map">
+INSERT INTO T_SYTM_PERM_GRP
+(
+	COMPANY_CD
+    , PERM_ID
+	, SYTM_FLAG_CD
+	, PERM_GRP_NM
+	, USED_YN
+	, PERM_GRP_EXPL
+	, REMK
+    , INPT_ID
+    , INPT_IP
+    , INPT_DTTM
+    , CHGE_ID
+    , CHGE_IP
+    , CHGE_DTTM
+)VALUES(
+	#{COMPANY_CD}
+    , #{PERM_ID}
+	, #{SYTM_FLAG_CD}
+	, #{PERM_GRP_NM}
+	, #{USED_YN}
+	, #{PERM_GRP_EXPL}
+	, #{REMK}
+    , #{USER_ID_SRV}
+    , #{USER_CON_IPADDR_SRV}
+    , NOW()
+    , #{USER_ID_SRV}
+    , #{USER_CON_IPADDR_SRV}
+    , NOW()
+)
+</insert>
+
+<!-- 그룹권한 수정 -->
+<update id="updatePremGrpList" parameterType="java.util.Map">
+UPDATE T_SYTM_PERM_GRP
+SET
+	PERM_GRP_NM = #{PERM_GRP_NM}
+	,REMK 		= #{REMK}
+	,USED_YN 	= #{USED_YN}
+	,CHGE_ID 	= #{USER_ID_SRV}
+	,CHGE_IP 	= #{USER_CON_IPADDR_SRV}
+	,CHGE_DTTM 	= NOW()
+WHERE PERM_ID 	= #{PERM_ID}
+	AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+	AND COMPANY_CD = #{COMPANY_CD}
+</update>
+
+<!-- 그룹권한 메뉴리스트 추가 -->
+<insert id="insertPremMenuList" parameterType="java.util.Map">
+INSERT INTO T_SYTM_PERM_MENU
+	(
+		COMPANY_CD
+    	 , PERM_ID
+	    , SYTM_FLAG_CD
+	    , MENU_ID
+	    , INQR_BTTN_USED_YN
+	    , ANEW_BTTN_USED_YN
+	    , SAVE_BTTN_USED_YN
+	    , DELE_BTTN_USED_YN
+	    , PRNT_BTTN_USED_YN
+	    , EXCL_BTTN_USED_YN
+	    , INIT_BTTN_USED_YN
+	    , SEARCH_SCOPE_CD
+	    , INPT_ID
+	    , INPT_IP
+	    , INPT_DTTM
+	    , CHGE_ID
+	    , CHGE_IP
+	    , CHGE_DTTM
+	) 
+	VALUES 
+	(
+		#{COMPANY_CD}
+		, #{PERM_ID}
+	    , #{SYTM_FLAG_CD}
+	    , #{MENU_ID}
+	    , #{INQR_BTTN_USED_YN}
+	    , #{ANEW_BTTN_USED_YN}
+	    , #{SAVE_BTTN_USED_YN}
+	    , #{DELE_BTTN_USED_YN}
+	    , #{PRNT_BTTN_USED_YN}
+	    , #{EXCL_BTTN_USED_YN}
+	    , #{INIT_BTTN_USED_YN}
+	    , #{SEARCH_SCOPE_CD}
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	)
+	ON DUPLICATE KEY UPDATE
+    	INQR_BTTN_USED_YN 	= #{INQR_BTTN_USED_YN}
+		, ANEW_BTTN_USED_YN = #{ANEW_BTTN_USED_YN}
+		, SAVE_BTTN_USED_YN = #{SAVE_BTTN_USED_YN}
+		, DELE_BTTN_USED_YN = #{DELE_BTTN_USED_YN}
+		, PRNT_BTTN_USED_YN = #{PRNT_BTTN_USED_YN}
+		, EXCL_BTTN_USED_YN = #{EXCL_BTTN_USED_YN}
+		, INIT_BTTN_USED_YN = #{INIT_BTTN_USED_YN}
+		, SEARCH_SCOPE_CD 	= #{SEARCH_SCOPE_CD}
+		, CHGE_ID 			= #{USER_ID_SRV}
+		, CHGE_IP 			= #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM 		= NOW()
+</insert>
+
+<!-- 그룹권한리스트 삭제 -->
+<delete id="deletePremGrpList" parameterType="java.util.Map">
+DELETE FROM T_SYTM_PERM_GRP
+WHERE PERM_ID = #{PERM_ID}
+    AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+    AND COMPANY_CD = #{COMPANY_CD}
+</delete>
+
+<!-- 그룹권한 메뉴 리스트 삭제 -->
+<delete id="deletePremMenuList" parameterType="java.util.Map">
+DELETE FROM T_SYTM_PERM_MENU
+WHERE PERM_ID = #{PERM_ID}
+    AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+<if test="MENU_ID != null and MENU_ID != '' ">
+    AND MENU_ID = #{MENU_ID}
+</if>
+	AND COMPANY_CD = #{COMPANY_CD}
+</delete>
+
+<!-- 그릅권한 에드버튼리스트 삭제 -->
+<delete id="deletePremMenuAddBtnList" parameterType="java.util.Map">
+DELETE FROM T_SYTM_PERM_MENU_ADD_BTN
+WHERE PERM_ID = #{PERM_ID}
+	AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+<if test="MENU_ID != null and MENU_ID != '' ">
+	AND MENU_ID = #{MENU_ID}
+</if>
+<if test="BTTN_ID != null and BTTN_ID != '' ">
+	AND BTTN_ID = #{BTTN_ID}
+</if>
+	AND COMPANY_CD = #{COMPANY_CD}
+</delete>
+
+<!--***************************************************************** 그룹 권한 메뉴 관리 추가버튼관리 팝업-->
+<select id="searchPremGrpAddBtnList" parameterType="java.util.List" resultType="java.util.Map">
+SELECT 
+	PAB.COMPANY_CD
+    , PAB.SYTM_FLAG_CD
+    , PAB.PERM_ID
+    , PAB.MENU_ID
+    , PAB.BTTN_ID
+    , PAB.SORT_CD
+    , PAB.SORT_ORDR
+    , PAB.BTTN_NM
+    , PAB.BTTN_ENGL_NM
+    , PAB.BTTN_STYLE
+    , PAB.USED_YN
+    , MN.PRGM_ID AS PRGM_ID
+FROM T_SYTM_PERM_MENU_ADD_BTN PAB
+	,T_SYTM_MENU MN
+WHERE  1=1
+	AND MN.MENU_ID 		 = PAB.MENU_ID
+	AND MN.PRGM_ID		 = #{PRGM_ID}
+    AND PAB.PERM_ID 	 = #{PERM_ID}
+    AND PAB.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+    AND PAB.MENU_ID 	 = #{MENU_ID}
+    AND PAB.COMPANY_CD 	 = #{COMPANY_CD}
+    AND MN.COMPANY_CD 	 = #{COMPANY_CD}
+</select>
+
+<select id="searchPrgmAddBtnList" parameterType="java.util.List" resultType="java.util.Map">
+SELECT
+	PAB.COMPANY_CD
+    , PAB.PRGM_ID
+	, PAB.BTTN_ID
+	, PAB.SORT_CD
+	, PAB.SORT_ORDR
+	, PAB.BTTN_NM
+	, PAB.BTTN_ENGL_NM
+	, PAB.BTTN_STYLE
+	, PAB.USED_YN
+FROM T_SYTM_PRGM_ADD_BTN PAB
+WHERE PAB.PRGM_ID = #{PRGM_ID}
+    AND PAB.BTTN_ID NOT IN (
+        SELECT PERM.BTTN_ID
+        FROM T_SYTM_PERM_MENU_ADD_BTN PERM
+        WHERE  1=1
+            AND PERM.PERM_ID 	  = #{PERM_ID}
+            AND PERM.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+            AND PERM.MENU_ID 	  = #{MENU_ID}
+            AND PERM.COMPANY_CD 	  = #{COMPANY_CD}
+    )
+    AND PAB.COMPANY_CD 	  = #{COMPANY_CD}
+</select>
+
+<insert id="insertPremGrpAddBtnList" parameterType="java.util.Map">
+INSERT INTO T_SYTM_PERM_MENU_ADD_BTN
+(
+	COMPANY_CD
+    , SYTM_FLAG_CD
+	, PERM_ID
+	, MENU_ID
+	, BTTN_ID
+	, SORT_CD
+	, SORT_ORDR
+	, BTTN_NM
+	, BTTN_ENGL_NM
+	, BTTN_STYLE
+	, USED_YN
+    , INPT_ID
+    , INPT_IP
+    , INPT_DTTM
+    , CHGE_ID
+    , CHGE_IP
+    , CHGE_DTTM
+)VALUES(
+	#{COMPANY_CD}
+    , #{SYTM_FLAG_CD}
+	, #{PERM_ID}
+	, #{MENU_ID}
+	, #{BTTN_ID}
+	, #{SORT_CD}
+	, #{SORT_ORDR}
+	, #{BTTN_NM}
+	, #{BTTN_ENGL_NM}
+	, #{BTTN_STYLE}
+	, #{USED_YN}
+    , #{USER_ID_SRV}
+    , #{USER_CON_IPADDR_SRV}
+    , NOW()
+    , #{USER_ID_SRV}
+    , #{USER_CON_IPADDR_SRV}
+    , NOW()
+)
+</insert>
+<!--***************************************************************** 권한별 사용자 관리-->
+<select id="searchPremList" parameterType="java.util.List" resultType="java.util.Map">
+	SELECT /* searchPremList */
+		COMPANY_CD
+	    ,PERM_ID
+	    ,SYTM_FLAG_CD
+	    ,PERM_GRP_NM
+	    ,USED_YN
+	    ,PERM_GRP_EXPL
+	    ,REMK
+	FROM T_SYTM_PERM_GRP
+	WHERE 1=1
+	    AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+	    AND COMPANY_CD = #{COMPANY_CD}
+	    <if test="PREM_NM != null and PREM_NM != '' ">
+	    AND PERM_GRP_NM LIKE CONCAT('%',#{PREM_NM},'%')
+	    </if>
+</select>
+
+<select id="searchPremUserList" parameterType="java.util.List" resultType="java.util.Map">
+WITH RECURSIVE CTE_DEPT AS (
+	SELECT
+			CONVERT(D.DEPT_ORDR, CHAR(100)) AS SORTORDER,
+			D.*
+		  FROM T_SYTM_DEPT D
+	     WHERE DEPT_LVL = '0'
+	     AND COMPANY_CD = #{COMPANY_CD}
+	 UNION ALL
+	    SELECT
+		 	CONCAT(CTE_DEPT.SORTORDER, '|', E.DEPT_ORDR) AS DEPT_ORDER,
+		   E.*
+	      FROM T_SYTM_DEPT E
+			INNER JOIN CTE_DEPT ON E.HIPO_DEPT_CD = CTE_DEPT.DEPT_CD AND CTE_DEPT.COMPANY_CD = #{COMPANY_CD}
+		WHERE E.COMPANY_CD = #{COMPANY_CD}
+	)
+	SELECT  /* searchPremUserList */
+		PU.COMPANY_CD
+	    , PU.SYTM_FLAG_CD
+	    , PU.PERM_ID
+	    , PU.USER_ID
+	    , PU.REMK
+	    , US.KORN_NM
+	    , US.DEPT_CD
+	    , US.EMP_NO
+	    , DP.DEPT_KORN_NM AS DEPT_NM
+	 FROM T_SYTM_PERM_USER PU
+	    ,T_SYTM_USER US
+	    ,CTE_DEPT DP
+	WHERE PU.PERM_ID = #{PERM_ID}
+	  AND PU.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+	  AND PU.USER_ID = US.USER_ID
+	  AND US.DEPT_CD = DP.DEPT_CD
+	  AND US.COMPANY_CD = #{COMPANY_CD}
+	  AND PU.COMPANY_CD = #{COMPANY_CD}
+ ORDER BY  DP.SORTORDER, US.WKDT_CD, US.WKGD_CD, US.KORN_NM
+</select>
+
+<insert id="insertPremUserList" parameterType="java.util.Map">
+	INSERT INTO T_SYTM_PERM_USER
+	(
+		COMPANY_CD
+	    , SYTM_FLAG_CD
+	    , PERM_ID
+	    , USER_ID
+	    , REMK
+	    , INPT_ID
+	    , INPT_IP
+	    , INPT_DTTM
+	    , CHGE_ID
+	    , CHGE_IP
+	    , CHGE_DTTM
+	)VALUES(
+		#{COMPANY_CD}
+	    , #{SYTM_FLAG_CD}
+	    , #{PERM_ID}
+	    , #{USER_ID}
+	    , #{REMK}
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	)
+</insert>
+
+<delete id="deletePremUserList" parameterType="java.util.Map">
+DELETE FROM T_SYTM_PERM_USER
+WHERE PERM_ID = #{PERM_ID}
+	AND USER_ID = #{USER_ID}
+	AND COMPANY_CD = #{COMPANY_CD}
+</delete>
+
+
+<update id="updatePremUserList" parameterType="java.util.Map">
+UPDATE T_SYTM_PERM_USER
+SET 
+	REMK 	   = #{REMK}
+	,CHGE_ID   = #{USER_ID_SRV}
+    ,CHGE_IP   = #{USER_CON_IPADDR_SRV}
+    ,CHGE_DTTM = NOW()
+WHERE PERM_ID  = #{PERM_ID}
+  AND USER_ID  = #{USER_ID}
+  AND COMPANY_CD = #{COMPANY_CD}
+</update>
+
+<!--***************************************************************** 권한별 사용자 관리 사용자 선택 팝업-->
+<select id="searchPermAllUser" parameterType="java.util.List" resultType="java.util.Map">
+	WITH RECURSIVE CTE_DEPT AS (
+		SELECT
+			CONVERT(D.DEPT_ORDR, CHAR(100)) AS SORTORDER,
+			D.*
+		  FROM T_SYTM_DEPT D
+		 WHERE DEPT_LVL = '0'
+		 AND D.COMPANY_CD = #{COMPANY_CD}
+	 UNION ALL
+		SELECT
+			CONCAT(CTE_DEPT.SORTORDER, '|', E.DEPT_ORDR) AS DEPT_ORDER,
+			E.*
+		  FROM T_SYTM_DEPT E
+			INNER JOIN CTE_DEPT ON E.HIPO_DEPT_CD = CTE_DEPT.DEPT_CD 
+		WHERE E.COMPANY_CD = #{COMPANY_CD}
+	)
+		SELECT 
+			US.COMPANY_CD
+    		, US.EMP_NO
+    		, US.USER_ID
+    		, US.PASSWORD
+    		, US.KORN_NM
+    		, US.ENGL_NM
+    		, US.DEPT_CD
+    		, DP.DEPT_KORN_NM AS DEPT_NM
+    		, US.USER_FLAG_CD
+    		, US.WKGD_CD
+    		, US.WKDT_CD
+    		, US.OCCU_CD
+    		, US.CHAG_WORK
+    		, US.JOIN_DATE
+    		, US.RETR_DATE
+    		, US.HOOF_STAT_CD
+    		, US.WKPL_TELP_NUMB
+    		, US.REGI_NUMB
+    		, US.BIR_DT
+    		, US.CELL_NUMB
+    		, US.HUS_TELP_NUMB
+    		, US.EMAIL
+    		, US.ZIP_NUMB
+    		, US.BASC_ADDR
+    		, US.DTL_ADDR
+			, '0' AS CHK
+		 FROM T_SYTM_USER US
+			 ,CTE_DEPT DP
+		WHERE 1=1
+		  AND US.COMPANY_CD = #{COMPANY_CD}
+		  AND US.HOOF_STAT_CD != 'RT'
+		  AND DP.DEPT_CD = US.DEPT_CD
+	<if test="USER_ID != null and USER_ID != '' ">
+    	  AND USER_ID LIKE CONCAT('%',#{USER_ID},'%')
+    </if>
+     <if test="USER_NM != null and USER_NM != '' ">
+    	  AND KORN_NM LIKE CONCAT('%',#{USER_NM},'%')
+    </if>
+  		  AND USER_ID NOT IN (
+  	   SELECT USER_ID
+  		 FROM T_SYTM_PERM_USER
+  		WHERE PERM_ID = #{PERM_ID}
+          AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+          AND COMPANY_CD = #{COMPANY_CD}
+  	)
+	 ORDER BY DP.SORTORDER, US.WKDT_CD, US.WKGD_CD, US.KORN_NM 	
+</select>
+<!--***************************************************************** 개인별 권한 관리-->
+<select id="searchPersonalPremUserList" parameterType="java.util.List" resultType="java.util.Map">
+WITH RECURSIVE CTE_Dept AS (
+	SELECT
+		CONVERT(D.DEPT_ORDR, char(100)) as SortOrder,
+		D.*
+	  FROM T_SYTM_DEPT D
+	 WHERE DEPT_LVL = '0'
+	 AND   COMPANY_CD = #{COMPANY_CD}
+ 	UNION ALL
+	SELECT
+		CONCAT(CTE_Dept.SortOrder, '|', E.DEPT_ORDR) as DEPT_ORDER,
+		E.*
+	  FROM T_SYTM_DEPT E
+ 		INNER JOIN CTE_Dept ON E.HIPO_DEPT_CD = CTE_Dept.DEPT_CD
+ 		WHERE E.COMPANY_CD = #{COMPANY_CD}
+	)
+	SELECT  /*   searchPersonalPremUserList  */
+		US.COMPANY_CD
+	    , US.EMP_NO
+	    , US.USER_ID
+	    , US.KORN_NM
+	    , US.ENGL_NM
+	    , US.DEPT_CD
+	    , DP.DEPT_KORN_NM AS DEPT_NM
+	    , US.USER_FLAG_CD
+	    , US.WKGD_CD
+	    , US.WKDT_CD
+	    , US.OCCU_CD
+	    , US.CHAG_WORK
+	    , US.JOIN_DATE
+	    , US.RETR_DATE
+	    , US.HOOF_STAT_CD
+	    , US.WKPL_TELP_NUMB
+	    , US.REGI_NUMB
+	    , US.BIR_DT
+	    , US.CELL_NUMB
+	    , US.HUS_TELP_NUMB
+	    , US.EMAIL
+	    , US.ZIP_NUMB
+	    , US.BASC_ADDR
+	    , US.DTL_ADDR
+	FROM T_SYTM_USER US
+		LEFT OUTER JOIN (
+		SELECT 
+			ROW_NUMBER() OVER (ORDER BY CTE_Dept.SortOrder) AS DEPT_ORDER, 
+			CTE_Dept.*
+		FROM CTE_Dept) DP 
+		ON US.DEPT_CD = DP.DEPT_CD
+		AND DP.COMPANY_CD = #{COMPANY_CD}
+	WHERE 1=1
+	<if test="HOOF_STAT_CD != null and HOOF_STAT_CD != ''">
+		AND US.HOOF_STAT_CD = #{HOOF_STAT_CD}
+	</if>			
+	<if test="USER_ID != null and USER_ID != '' ">
+		AND US.USER_ID = #{USER_ID}
+	</if>
+	<if test="DEPT_CD != null and DEPT_CD != '' ">
+		AND US.DEPT_CD = #{DEPT_CD}
+	</if>
+	AND US.COMPANY_CD = #{COMPANY_CD}
+	ORDER BY DP.DEPT_ORDER, US.WKDT_CD, US.WKGD_CD, US.KORN_NM
+</select>
+
+<select id="searchPersonalPremRegiMenuList" parameterType="java.util.List" resultType="java.util.Map">
+/* searchPersonalPremRegiMenuList  */
+	WITH RECURSIVE TREE_MAIN AS (
+		 SELECT 
+		 		MENU.COMPANY_CD
+		        , MENU.SYTM_FLAG_CD
+		        , MENU.MENU_ID
+		        , MENU.MODULE_CD
+		        , MENU.MENU_NM
+		        , MENU.MENU_ENGL_NM
+		        , MENU.MENU_WHLE_NM
+		        , MENU.HIPO_MENU_ID
+		        , MENU.MENU_LVL
+		        , MENU.MENU_ORDR
+		        , MENU.MENU_FLAG_CD
+		        , MENU.PRGM_ID
+		        , MENU.PARM
+		        , MENU.USED_YN
+		        , MENU.REMK
+		        , PRGM.PRGM_NM
+		        , COALESCE(PRGM.ANEW_BTTN_USED_YN, '0') AS PRGM_ANEW_BTTN_USED_YN
+		        , COALESCE(PRGM.INQR_BTTN_USED_YN, '0') AS PRGM_INQR_BTTN_USED_YN
+		        , COALESCE(PRGM.DELE_BTTN_USED_YN, '0') AS PRGM_DELE_BTTN_USED_YN
+		        , COALESCE(PRGM.SAVE_BTTN_USED_YN, '0') AS PRGM_SAVE_BTTN_USED_YN
+		        , COALESCE(PRGM.PRNT_BTTN_USED_YN, '0') AS PRGM_PRNT_BTTN_USED_YN
+		        , COALESCE(PRGM.EXCL_BTTN_USED_YN, '0') AS PRGM_EXCL_BTTN_USED_YN
+		        , COALESCE(PRGM.INIT_BTTN_USED_YN, '0') AS PRGM_INIT_BTTN_USED_YN
+		    FROM T_SYTM_MENU MENU
+		    	LEFT OUTER JOIN T_SYTM_PRGM PRGM
+					ON  MENU.PRGM_ID = PRGM.PRGM_ID
+					AND PRGM.COMPANY_CD = #{COMPANY_CD}
+		    WHERE MENU.SYTM_FLAG_CD = 'PC'  
+		    AND   MENU.COMPANY_CD = #{COMPANY_CD}
+	)
+	, SUB1 AS ( 
+	SELECT 
+		tm1.*,
+        CAST(RIGHT(CONCAT('00', CAST(tm1.MENU_ORDR AS CHAR(255))), 3) AS CHAR(255)) AS MENU_SORT	/* MENU 정렬 */
+    FROM
+        TREE_MAIN tm1
+    WHERE
+        HIPO_MENU_ID = '0000000000'
+    UNION ALL
+    SELECT
+        tm2.*,
+        CONCAT(CAST(SUB1.MENU_SORT AS CHAR(255)),'|',CAST(RIGHT(CONCAT('00', CAST(tm2.MENU_ORDR AS CHAR(255))), 3) AS CHAR(255))) AS MENU_SORT
+    FROM
+        SUB1
+    	JOIN TREE_MAIN tm2 ON
+        tm2.HIPO_MENU_ID = SUB1.MENU_ID
+	)
+	SELECT 
+		 MN.COMPANY_CD
+	    , MN.SYTM_FLAG_CD
+	    , MN.MENU_ID
+	    , CASE WHEN PM.USER_ID IS NULL THEN '0' ELSE '1' END AS PERM_CHK
+	    , MN.MODULE_CD
+	    , MN.MENU_NM
+	    , MN.MENU_ENGL_NM
+	    , MN.MENU_WHLE_NM
+	    , MN.HIPO_MENU_ID
+	    , MN.MENU_LVL
+	    , MN.MENU_ORDR
+	    , MN.MENU_FLAG_CD
+	    , MN.PRGM_ID
+	    , CASE WHEN MN.PRGM_ID IS NULL THEN '0' ELSE '1' END AS PRGM_YN  
+	    , MN.PARM
+	    , MN.USED_YN
+	    , MN.REMK
+	    , COALESCE(PM.USER_ID,  #{USER_ID}) AS USER_ID
+	    , COALESCE(PM.INQR_BTTN_USED_YN,'0') AS INQR_BTTN_USED_YN
+	    , COALESCE(PM.ANEW_BTTN_USED_YN,'0') AS ANEW_BTTN_USED_YN
+	    , COALESCE(PM.SAVE_BTTN_USED_YN,'0') AS SAVE_BTTN_USED_YN
+	    , COALESCE(PM.DELE_BTTN_USED_YN,'0') AS DELE_BTTN_USED_YN
+	    , COALESCE(PM.PRNT_BTTN_USED_YN,'0') AS PRNT_BTTN_USED_YN
+	    , COALESCE(PM.EXCL_BTTN_USED_YN,'0') AS EXCL_BTTN_USED_YN
+	    , COALESCE(PM.INIT_BTTN_USED_YN,'0') AS INIT_BTTN_USED_YN
+	    , PM.SEARCH_SCOPE_CD
+	    , MN.PRGM_NM
+	    , MN.PRGM_ANEW_BTTN_USED_YN
+	    , MN.PRGM_INQR_BTTN_USED_YN
+	    , MN.PRGM_DELE_BTTN_USED_YN
+	    , MN.PRGM_SAVE_BTTN_USED_YN
+	    , MN.PRGM_PRNT_BTTN_USED_YN
+	    , MN.PRGM_EXCL_BTTN_USED_YN
+	    , MN.PRGM_INIT_BTTN_USED_YN
+	FROM 
+		SUB1 MN
+		LEFT OUTER JOIN (
+		    SELECT 
+		        PERM.SYTM_FLAG_CD
+		        , PERM.MENU_ID
+		        , PERM.USER_ID
+		        , PERM.INQR_BTTN_USED_YN
+		        , PERM.ANEW_BTTN_USED_YN
+		        , PERM.SAVE_BTTN_USED_YN
+		        , PERM.DELE_BTTN_USED_YN
+		        , PERM.PRNT_BTTN_USED_YN
+		        , PERM.EXCL_BTTN_USED_YN
+		        , PERM.INIT_BTTN_USED_YN
+		        , PERM.SEARCH_SCOPE_CD
+		    FROM T_SYTM_USER_MENU PERM
+		    WHERE PERM.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+		        AND PERM.USER_ID = #{USER_ID}
+		        AND PERM.COMPANY_CD = #{COMPANY_CD}
+		)PM
+		ON MN.SYTM_FLAG_CD = PM.SYTM_FLAG_CD 
+			AND MN.MENU_ID = PM.MENU_ID 
+	 ORDER BY MN.MENU_SORT			
+</select>
+<select id="searchPersonalPremUnRegiMenuList" parameterType="java.util.List" resultType="java.util.Map">
+SELECT A.COMPANY_CD
+	  , A.MENU_LVL						AS LEVL					/* 메뉴레벨 */
+	  , A.SYTM_FLAG_CD  				AS SYTM_FLAG_CD			/* 시스템구분코드 */
+	  , A.MENU_ID						AS MENU_ID				/* 메뉴ID */
+	  , A.MODULE_CD						AS MODULE_CD
+      , A.HIPO_MENU_ID					AS HIPO_MENU_ID			/* 상위메뉴ID */
+      , A.PRGM_ID						AS PRGM_ID				/* 프로그램ID */
+      , A.MENU_NM 						AS MENU_NM				/* 메뉴명 */
+      , COALESCE(A.MENU_ENGL_NM, A.MENU_NM) 	AS MENU_ENGL_NM			/* 메뉴영문명 */
+	  , A.MENU_WHLE_NM					AS MENU_WHLE_NM			/* 메뉴전체명 */
+	  , A.MENU_ORDR						AS MENU_ORDR			/* 메뉴순서 */
+      , A.USED_YN       				AS USED_YN       		/* 사용여부 */
+	  , A.REMK							AS REMK					/* 비고 */
+	  , A.PARM							AS PARM          		/* 파라미터 */
+	  , A.MENU_FLAG_CD					AS MENU_FLAG_CD			/* 메뉴구분코드 */
+      , '[' + A.MENU_ID + '] ' + A.MENU_NM 		AS HIPO_KOR_NM          /* 상위메뉴 한글명 */
+      , '[' + A.MENU_ID + '] ' + A.MENU_ENGL_NM 	AS HIPO_ENGL_NM    /* 상위메뉴 영문명 */
+	  , A.INQR_BTTN_USED_YN				AS INQR_BTTN_USED_YN	/* 조회버튼사용여부 */
+	  , A.ANEW_BTTN_USED_YN				AS ANEW_BTTN_USED_YN	/* 신규버튼사용여부 */
+	  , A.SAVE_BTTN_USED_YN				AS SAVE_BTTN_USED_YN	/* 저장버튼사용여부 */
+	  , A.DELE_BTTN_USED_YN				AS DELE_BTTN_USED_YN	/* 삭제버튼사용여부 */
+	  , A.PRNT_BTTN_USED_YN				AS PRNT_BTTN_USED_YN	/* 출력버튼사용여부 */
+	  , A.EXCL_BTTN_USED_YN				AS EXCL_BTTN_USED_YN	/* 엑셀버튼사용여부 */
+	  , A.INIT_BTTN_USED_YN				AS INIT_BTTN_USED_YN	/* 초기화버튼사용여부 */
+	  , A.PRGM_NM						AS PRGM_NM				/* 프로그램명*/
+	  , '0' 							AS CHK					/* Check Box */
+	  , #{USER_ID} 						AS USER_ID
+  FROM (
+		SELECT A.*
+			  , P.PRGM_NM
+			  , P.INQR_BTTN_USED_YN
+			  , P.ANEW_BTTN_USED_YN
+			  , P.SAVE_BTTN_USED_YN
+			  , P.DELE_BTTN_USED_YN
+			  , P.PRNT_BTTN_USED_YN
+			  , P.EXCL_BTTN_USED_YN
+			  , P.INIT_BTTN_USED_YN
+		  FROM T_SYTM_MENU A
+		  INNER JOIN (SELECT A.MENU_ID    AS MENU_ID  
+						   , MAX(A.ROWID) AS MENU_ROWID
+						FROM T_SYTM_MENU A
+						WHERE A.COMPANY_CD = #{COMPANY_CD}
+					   START WITH A.MENU_ID IN (SELECT X.MENU_ID
+												  FROM T_SYTM_MENU X
+												 WHERE NOT EXISTS (SELECT B.MENU_ID
+																	 FROM T_SYTM_USER_MENU B
+																	WHERE B.USER_ID = #{USER_ID}
+																	  AND B.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+																	  AND X.MENU_ID = B.MENU_ID))
+					 CONNECT BY PRIOR A.HIPO_MENU_ID = A.MENU_ID
+					   GROUP BY MENU_ID
+					) B
+			 ON A.ROWID = B.MENU_ROWID
+		  LEFT OUTER JOIN 
+				(SELECT  *
+				   FROM T_SYTM_PRGM
+				  WHERE USED_YN = '1'
+				  AND COMPANY_CD = #{COMPANY_CD}
+				) P
+			ON A.PRGM_ID = P.PRGM_ID
+		 WHERE A.USED_YN = '1'
+		   AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+		   AND A.COMPANY_CD = #{COMPANY_CD}
+		 ORDER BY A.MENU_LVL, A.MENU_ORDR
+		) A 
+START WITH A.HIPO_MENU_ID = '0000000000'
+CONNECT BY PRIOR A.MENU_ID = A.HIPO_MENU_ID
+ORDER SIBLINGS BY A.MENU_ID
+</select>
+
+<insert id="insertPersonalPrem" parameterType="java.util.Map">
+INSERT INTO T_SYTM_USER_MENU
+	(
+		COMPANY_CD
+    	, USER_ID
+	    , SYTM_FLAG_CD
+	    , MENU_ID
+	    , INQR_BTTN_USED_YN
+	    , ANEW_BTTN_USED_YN
+	    , SAVE_BTTN_USED_YN
+	    , DELE_BTTN_USED_YN
+	    , PRNT_BTTN_USED_YN
+	    , EXCL_BTTN_USED_YN
+	    , INIT_BTTN_USED_YN
+	    , SEARCH_SCOPE_CD
+	    , INPT_ID
+	    , INPT_IP
+	    , INPT_DTTM
+	    , CHGE_ID
+	    , CHGE_IP
+	    , CHGE_DTTM
+	) 
+	VALUES
+	(
+		#{COMPANY_CD}
+		, #{USER_ID}
+	    , #{SYTM_FLAG_CD}
+	    , #{MENU_ID}
+	    , #{INQR_BTTN_USED_YN}
+	    , #{ANEW_BTTN_USED_YN}
+	    , #{SAVE_BTTN_USED_YN}
+	    , #{DELE_BTTN_USED_YN}
+	    , #{PRNT_BTTN_USED_YN}
+	    , #{EXCL_BTTN_USED_YN}
+	    , #{INIT_BTTN_USED_YN}
+	    , #{SEARCH_SCOPE_CD}
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()
+	    , #{USER_ID_SRV}
+	    , #{USER_CON_IPADDR_SRV}
+	    , NOW()) 
+	   ON DUPLICATE KEY UPDATE
+    		INQR_BTTN_USED_YN 	= #{INQR_BTTN_USED_YN}
+			, ANEW_BTTN_USED_YN = #{ANEW_BTTN_USED_YN}
+			, SAVE_BTTN_USED_YN = #{SAVE_BTTN_USED_YN}
+			, DELE_BTTN_USED_YN = #{DELE_BTTN_USED_YN}
+			, PRNT_BTTN_USED_YN = #{PRNT_BTTN_USED_YN}
+			, EXCL_BTTN_USED_YN = #{EXCL_BTTN_USED_YN}
+			, INIT_BTTN_USED_YN = #{INIT_BTTN_USED_YN}
+			, SEARCH_SCOPE_CD 	= #{SEARCH_SCOPE_CD}
+			, CHGE_ID 			= #{USER_ID_SRV}
+		    , CHGE_IP 			= #{USER_CON_IPADDR_SRV}
+		    , CHGE_DTTM 		= NOW()
+</insert>
+
+<delete id="deletePersonalPrem" parameterType="java.util.Map">
+DELETE FROM T_SYTM_USER_MENU
+WHERE SYTM_FLAG_CD 	= #{SYTM_FLAG_CD}
+	AND USER_ID		= #{USER_ID}
+	AND MENU_ID		= #{MENU_ID}
+	AND COMPANY_CD = #{COMPANY_CD}
+</delete>
+<!--***************************************************************** 개인별 권한 메뉴 관리 추가버튼관리 팝업-->
+<select id="searchPremUserAddBtnList" parameterType="java.util.List" resultType="java.util.Map">
+SELECT 
+	PAB.COMPANY_CD
+    , PAB.SYTM_FLAG_CD
+    , PAB.USER_ID
+    , PAB.MENU_ID
+    , PAB.BTTN_ID
+    , PAB.SORT_CD
+    , PAB.SORT_ORDR
+    , PAB.BTTN_NM
+    , PAB.BTTN_ENGL_NM
+    , PAB.BTTN_STYLE
+    , PAB.USED_YN
+    , MN.PRGM_ID 
+FROM T_SYTM_USER_MENU_ADD_BTN PAB
+	,T_SYTM_MENU MN
+WHERE  1=1
+	AND PAB.MENU_ID  	 = MN.MENU_ID
+    AND PAB.USER_ID 	 = #{USER_ID}
+    AND PAB.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+    AND PAB.MENU_ID 	 = #{MENU_ID}
+    AND MN.PRGM_ID	     = #{PRGM_ID}
+    AND PAB.COMPANY_CD = #{COMPANY_CD}
+    AND MN.COMPANY_CD = #{COMPANY_CD}
+</select>
+
+<select id="searchPrgmUserAddBtnList" parameterType="java.util.List" resultType="java.util.Map">
+SELECT
+	PAB.COMPANY_CD
+    , PAB.PRGM_ID
+	, PAB.BTTN_ID
+	, PAB.SORT_CD
+	, PAB.SORT_ORDR
+	, PAB.BTTN_NM
+	, PAB.BTTN_ENGL_NM
+	, PAB.BTTN_STYLE
+	, PAB.USED_YN
+FROM T_SYTM_PRGM_ADD_BTN PAB
+WHERE PAB.PRGM_ID = #{PRGM_ID}
+	AND PAB.COMPANY_CD   = #{COMPANY_CD}
+    AND PAB.BTTN_ID NOT IN (
+        SELECT PERM.BTTN_ID
+        FROM T_SYTM_USER_MENU_ADD_BTN PERM
+        WHERE  1=1
+            AND PERM.USER_ID 	  = #{USER_ID}
+            AND PERM.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+            AND PERM.MENU_ID 	  = #{MENU_ID}
+            AND PERM.COMPANY_CD   = #{COMPANY_CD}
+    )
+</select>
+
+<insert id="insertPremUserAddBtnList" parameterType="java.util.Map">
+INSERT INTO T_SYTM_USER_MENU_ADD_BTN
+(
+	COMPANY_CD
+    , SYTM_FLAG_CD
+	, USER_ID
+	, MENU_ID
+	, BTTN_ID
+	, SORT_CD
+	, SORT_ORDR
+	, BTTN_NM
+	, BTTN_ENGL_NM
+	, BTTN_STYLE
+	, USED_YN
+    , INPT_ID
+    , INPT_IP
+    , INPT_DTTM
+    , CHGE_ID
+    , CHGE_IP
+    , CHGE_DTTM
+)VALUES(
+	#{COMPANY_CD}
+    , #{SYTM_FLAG_CD}
+	, #{USER_ID}
+	, #{MENU_ID}
+	, #{BTTN_ID}
+	, #{SORT_CD}
+	, #{SORT_ORDR}
+	, #{BTTN_NM}
+	, #{BTTN_ENGL_NM}
+	, #{BTTN_STYLE}
+	, #{USED_YN}
+    , #{USER_ID_SRV}
+    , #{USER_CON_IPADDR_SRV}
+    , NOW()
+    , #{USER_ID_SRV}
+    , #{USER_CON_IPADDR_SRV}
+    , NOW()
+)
+</insert>
+
+<!-- 그릅권한 에드버튼리스트 삭제 -->
+<delete id="deletePremUserMenuAddBtnList" parameterType="java.util.Map">
+	DELETE FROM T_SYTM_USER_MENU_ADD_BTN
+	WHERE USER_ID = #{USER_ID}
+		AND SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+	<if test="MENU_ID != null and MENU_ID != '' ">
+		AND MENU_ID = #{MENU_ID}
+	</if>
+	<if test="BTTN_ID != null and BTTN_ID != '' ">
+		AND BTTN_ID = #{BTTN_ID}
+	</if>
+	AND COMPANY_CD = #{COMPANY_CD}
+</delete>
+
+<select id="searchPermPersonMenuList" parameterType="java.util.List" resultType="java.util.Map">
+/* searchPermPersonMenuList */
+with RECURSIVE TREE_MAIN AS (	
+	SELECT 		
+				A.COMPANY_CD          AS COMPANY_CD   /* COMPANY코드 */
+			  , A.SYTM_FLAG_CD        AS SYTM_FLAG_CD   /* 시스템구분코드 */
+	          , A.MENU_ID             AS MENU_ID        /* 메뉴ID */
+	          , A.MENU_NM             AS MENU_NM        /* 메뉴명 */
+	          , A.MODULE_CD 		  AS MODULE_CD		/* 모듈 0625추가*/
+	          , A.MENU_LVL            AS MENU_LVL        /* 메뉴레벨 */
+	          , A.HIPO_MENU_ID        AS HIPO_MENU_ID   /* 상위메뉴ID */
+	          , A.PRGM_ID             AS PRGM_ID        /* 프로그램ID */
+	          , A.PRGM_PATH           AS PRGM_PATH      /* 프로그램경로 */   
+	          , '' AS PRGM_FILE_NM   /* 프로그램파일명 */
+	          , A.USED_YN			  AS USED_YN		/* 메뉴사용여부 */  
+	          , A.PRGM_PATH           AS MENU_URL       /* 메뉴URL */       
+	          , A.MENU_ENGL_NM        AS MENU_ENGL_NM   /* 메뉴영문명 */
+	          , A.MENU_FLAG_CD        AS MENU_FLAG_CD   /* 메뉴구분코드 */
+	          , A.MENU_ORDR           AS MENU_ORDR      /* 메뉴순서 */
+	          , A.REMK                AS REMK           /* 비고 */
+	          , A.PARM                AS PARM           /* 파라미터 */
+	          , A.INQR_BTTN_USED_YN   AS INQR_BTTN_USED_YN  /* 조회버튼사용여부 */
+	          , A.ANEW_BTTN_USED_YN   AS ANEW_BTTN_USED_YN     /* 신규버튼사용여부 */
+	          , A.SAVE_BTTN_USED_YN   AS SAVE_BTTN_USED_YN    /* 저장버튼사용여부 */
+	          , A.DELE_BTTN_USED_YN   AS DELE_BTTN_USED_YN     /* 삭제버튼사용여부 */
+	          , A.PRNT_BTTN_USED_YN   AS PRNT_BTTN_USED_YN   /* 출력버튼사용여부 */
+	          , A.EXCL_BTTN_USED_YN   AS EXCL_BTTN_USED_YN   /* 엑셀버튼사용여부 */
+	          , A.INIT_BTTN_USED_YN   AS INIT_BTTN_USED_YN        /* 초기화버튼사용여부 */
+	          , A.SEARCH_SCOPE_CD	  AS SEARCH_SCOPE_CD  /*조회범위*/
+	    FROM (
+	        SELECT A.COMPANY_CD
+	        		  , A.SYTM_FLAG_CD
+	                  , A.MENU_ID
+	                  , A.HIPO_MENU_ID
+	                  , A.MENU_NM
+	                  , A.MENU_ENGL_NM
+	                  , A.REMK
+	                  , A.MENU_FLAG_CD
+	                  , A.MENU_ORDR
+	                  , A.MENU_LVL
+	                  , A.PARM
+	                  , B.INQR_BTTN_USED_YN
+	                  , B.ANEW_BTTN_USED_YN
+	                  , B.SAVE_BTTN_USED_YN
+	                  , B.DELE_BTTN_USED_YN
+	                  , B.PRNT_BTTN_USED_YN
+	                  , B.EXCL_BTTN_USED_YN
+	                  , B.INIT_BTTN_USED_YN
+	                  , B.SEARCH_SCOPE_CD
+	                  , A.PRGM_ID
+	                  , P.PRGM_PATH
+	                  , A.MODULE_CD /*0625추가*/
+	                  , A.USED_YN   /*0625추가*/
+	               FROM T_SYTM_MENU A
+	                 INNER JOIN (
+	                             /* 전체 권한 */
+	                             SELECT A.COMPANY_CD
+	                             	  , A.MENU_ID
+	                                  , MAX(A.INQR_BTTN_USED_YN)  AS INQR_BTTN_USED_YN
+	                                  , MAX(A.ANEW_BTTN_USED_YN)  AS ANEW_BTTN_USED_YN
+	                                  , MAX(A.SAVE_BTTN_USED_YN)  AS SAVE_BTTN_USED_YN
+	                                  , MAX(A.DELE_BTTN_USED_YN)  AS DELE_BTTN_USED_YN
+	                                  , MAX(A.PRNT_BTTN_USED_YN)  AS PRNT_BTTN_USED_YN
+	                                  , MAX(A.EXCL_BTTN_USED_YN)  AS EXCL_BTTN_USED_YN
+	                                  , MAX(A.INIT_BTTN_USED_YN)  AS INIT_BTTN_USED_YN
+	                                  , MIN(A.SEARCH_SCOPE_CD)    AS SEARCH_SCOPE_CD
+	                               FROM (
+	                                     /* 그룹별 권한  */
+	                                     SELECT C.COMPANY_CD
+	                                     	  , C.MENU_ID   AS MENU_ID
+	                                          , C.INQR_BTTN_USED_YN
+	                                          , C.ANEW_BTTN_USED_YN
+	                                          , C.SAVE_BTTN_USED_YN
+	                                          , C.DELE_BTTN_USED_YN
+	                                          , C.PRNT_BTTN_USED_YN
+	                                          , C.EXCL_BTTN_USED_YN
+	                                          , C.INIT_BTTN_USED_YN
+	                                          , C.SEARCH_SCOPE_CD
+	                                       FROM T_SYTM_PERM_GRP A
+	                                         INNER JOIN T_SYTM_PERM_USER B 
+	                                            ON A.SYTM_FLAG_CD = B.SYTM_FLAG_CD
+	                                           AND A.PERM_ID = B.PERM_ID
+	                                           AND B.USER_ID = #{USER_ID}
+	                                           AND A.COMPANY_CD = #{COMPANY_CD}
+	                                           AND B.COMPANY_CD = #{COMPANY_CD}
+	                                         INNER JOIN T_SYTM_PERM_MENU C
+	                                            ON A.SYTM_FLAG_CD = C.SYTM_FLAG_CD
+	                                           AND A.PERM_ID = C.PERM_ID
+	                                           AND A.COMPANY_CD = #{COMPANY_CD}
+	                                      WHERE A.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+	                                        AND A.USED_YN = '1'
+	                                     UNION ALL
+	                                     /* 사용자별 권한 */
+	                                     SELECT C.COMPANY_CD
+	                                     	  , C.MENU_ID
+	                                          , C.INQR_BTTN_USED_YN
+	                                          , C.ANEW_BTTN_USED_YN
+	                                          , C.SAVE_BTTN_USED_YN
+	                                          , C.DELE_BTTN_USED_YN
+	                                          , C.PRNT_BTTN_USED_YN
+	                                          , C.EXCL_BTTN_USED_YN
+	                                          , C.INIT_BTTN_USED_YN
+	                                          , C.SEARCH_SCOPE_CD
+	                                       FROM T_SYTM_USER_MENU C
+	                                      WHERE C.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+	                                        AND C.USER_ID = #{USER_ID}
+	                                        AND C.COMPANY_CD = #{COMPANY_CD}
+	                                      ) A
+	                             GROUP BY MENU_ID
+	                   ) B
+	                   ON A.MENU_ID = B.MENU_ID
+			    LEFT OUTER JOIN (SELECT COMPANY_CD, PRGM_ID, PRGM_PATH FROM T_SYTM_PRGM WHERE USED_YN = '1') P
+			      ON A.PRGM_ID = P.PRGM_ID
+			      AND A.COMPANY_CD = #{COMPANY_CD}
+			      AND P.COMPANY_CD = #{COMPANY_CD}
+	              /*WHERE A.USED_YN = '1'*/	        ) A 
+	),
+SUB1 AS (
+SELECT
+	tm1.*
+	, CAST(RIGHT(CONCAT('00', CAST(tm1.MENU_ORDR AS CHAR(255))), 3) AS CHAR(255)) AS MENU_SORT	/* MENU 정렬 */
+FROM
+	TREE_MAIN tm1
+WHERE
+	tm1.HIPO_MENU_ID = '0000000000'
+UNION ALL
+SELECT
+	tm2.*
+	,CONCAT(CAST(SUB1.MENU_SORT AS CHAR(255)),'|',CAST(RIGHT(CONCAT('00', CAST(tm2.MENU_ORDR AS CHAR(255))), 3) AS CHAR(255))) AS MENU_SORT
+FROM
+	SUB1
+	JOIN TREE_MAIN tm2 ON
+        tm2.HIPO_MENU_ID = SUB1.MENU_ID
+)
+SELECT * FROM SUB1
+ORDER BY MENU_SORT
+</select>
+
+
+<!--***************************************************************** 메뉴별 권한 관리 -->
+
+<select id="searchPermMenuGrpList" parameterType="java.util.List" resultType="java.util.Map">
+ -- searchPermMenuGrpList(메뉴별 권한 그룹 )
+	SELECT A.COMPANY_CD 
+		, B.MENU_ID
+		, A.SYTM_FLAG_CD
+		, A.PERM_ID
+		, A.PERM_GRP_NM		
+		, A.SYTM_FLAG_CD
+		, A.USED_YN
+		, A.REMK
+	FROM T_SYTM_PERM_GRP A
+		, T_SYTM_PERM_MENU B
+	WHERE 1=1
+	AND A.SYTM_FLAG_CD = B.SYTM_FLAG_CD 
+	AND A.PERM_ID = B.PERM_ID			
+    AND B.MENU_ID = #{MENU_ID}
+    AND A.COMPANY_CD = #{COMPANY_CD}
+    AND B.COMPANY_CD = #{COMPANY_CD}
+	ORDER BY PERM_ID
+
+</select>
+
+<select id="searchPermMenuUserList" parameterType="java.util.List" resultType="java.util.Map">
+-- searchPermMenuUserList(메뉴별 권한 사용자 )
+WITH RECURSIVE DP AS(
+	SELECT
+		 CAST(RIGHT(CONCAT('00', CAST(A.DEPT_ORDR AS CHAR(255))), 3) AS CHAR(255)) AS DEPT_SORT
+		,A.*
+	FROM
+		T_SYTM_DEPT A
+	WHERE A.DEPT_LVL = '0'
+	AND A.COMPANY_CD = #{COMPANY_CD}
+	UNION ALL
+	SELECT
+		 CONCAT(CAST(C.DEPT_SORT AS CHAR(255)),'|',CAST(RIGHT(CONCAT('00', CAST(B.DEPT_ORDR AS CHAR(255))), 3) AS CHAR(255))) AS DEPT_SORT
+		,B.*
+	FROM
+		T_SYTM_DEPT B
+		INNER JOIN DP C ON C.DEPT_CD = B.HIPO_DEPT_CD AND C.COMPANY_CD = #{COMPANY_CD}  
+	WHERE B.COMPANY_CD = #{COMPANY_CD}
+)
+SELECT
+	A.USER_ID,
+	B.KORN_NM AS USER_NM,
+	EMP_NO,
+	B.DEPT_CD,
+	DP.DEPT_KORN_NM AS DEPT_NM
+FROM
+	DP,
+	(
+	SELECT
+		C.MENU_ID,
+		C.USER_ID,
+		C.SYTM_FLAG_CD
+	FROM
+		T_SYTM_USER_MENU C
+	WHERE
+		C.SYTM_FLAG_CD = #{SYTM_FLAG_CD}
+		AND C.COMPANY_CD = #{COMPANY_CD}
+		AND C.MENU_ID = #{MENU_ID} ) A
+JOIN T_SYTM_USER B 
+	ON A.USER_ID = B.USER_ID
+	AND B.COMPANY_CD = #{COMPANY_CD}
+WHERE
+	B.DEPT_CD = DP.DEPT_CD
+ AND B.COMPANY_CD = #{COMPANY_CD}
+ORDER BY
+	DP.DEPT_SORT;
+
+</select>
+
+</mapper>

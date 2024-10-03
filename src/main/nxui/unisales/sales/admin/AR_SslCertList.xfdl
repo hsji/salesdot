@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AR_SslCertList" width="1280" height="620" titletext="SSL 인증서 목록" onload="AR_SslCertList_onload">
+    <Layouts>
+      <Layout height="620" mobileorientation="landscape" width="1280">
+        <Grid id="grd_SslDomain" taborder="0" left="0" top="36" width="500" bottom="5" binddataset="ds_Domain" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="60"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="200"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="일련번호"/>
+                <Cell col="1" text="도메인"/>
+                <Cell col="2" text="관리부서"/>
+                <Cell col="3" text="비고"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DL_SEQ"/>
+                <Cell col="1" text="bind:DOMAIN_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:MANAGE_DEPT_NM"/>
+                <Cell col="3" text="bind:REMARK" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_SslCertList" taborder="1" left="grd_SslDomain:8" top="36" right="0" bottom="5" binddataset="ds_SSL" autofittype="col" oncellclick="grd_SslCertList_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="서버종류"/>
+                <Cell col="1" text="인증서 종류"/>
+                <Cell col="2" text="인증서 발급일"/>
+                <Cell col="3" text="인증서 만료일"/>
+                <Cell col="4" text="인증서"/>
+                <Cell col="5" text="설치 메뉴얼"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="combotext" combodataset="ds_cmm_ServerType" combocodecol="CODE" combodatacol="CAPTION" text="bind:SERVER_TYPE"/>
+                <Cell col="1" displaytype="combotext" text="bind:CERT_TYPE" combodataset="ds_cmm_CertType" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="2" text="bind:SSL_START_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="3" text="bind:SSL_END_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="4" displaytype="buttoncontrol" edittype="button" text="다운로드"/>
+                <Cell col="5" displaytype="buttoncontrol" edittype="button" text="다운로드"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div_Domain" taborder="2" left="0" top="0" background="linear-gradient(to bottom,#f3f3f3,#d9d9d9)" border="1px solid #c8c8c8" width="500" height="36">
+          <Layouts>
+            <Layout>
+              <Static id="stc_SslDomain" taborder="0" text="도메인" left="8" top="8" width="46" height="20" cssclass="sta_POP_GroupTit"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_SslCertList" taborder="3" left="div_Domain:8" top="0" background="linear-gradient(to bottom,#f3f3f3,#d9d9d9)" border="1px solid #c8c8c8" height="36" right="0">
+          <Layouts>
+            <Layout>
+              <Static id="stc_SslCertList" taborder="0" text="SSL 인증서 목록" left="8" top="8" width="108" height="20" cssclass="sta_POP_GroupTit"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 
+* 02. 화면명   : SSL 인증서 목록(AR_SslCertList)
+* 03. 화면설명 : 
+* 04. 작성일   : 2024/01/22
+* 05. 작성자   : 이상원
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AR_SslCertList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnAddCodeDataset("ds_cmm_ServerType", "SERVER_TYPE");
+	this.gfnAddCodeDataset("ds_cmm_CertType", "SERVER_CERT_TYPE");
+	
+	this.gfnCodeTransaction();
+	this.gfnCompInit(obj);	//사용자 Grid
+};
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnSearch = function ()
+{
+	this.fnSearchSslList();
+	this.fnSearchDomainList();
+};
+//도메인 목록 조회
+this.fnSearchDomainList = function ()
+{
+	this.gfnAddOutputDataset("ds_Domain","ds_Domain");
+	
+	this.gfnCommonTransaction("fnSearchDomainList", "AR_DomainListMM_S01");
+}
+//SSL 목록 조회
+this.fnSearchSslList = function ()
+{
+	this.gfnAddOutputDataset("ds_SSL","ds_SSL");
+	
+	this.gfnCommonTransaction("fnSearchSslList", "AR_DomainListMM_S02");
+}
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{ 
+	{
+		switch(strSvcID) 
+		{
+			case "gfnGetCode":
+				this.fnSearch();
+				break;
+			case "fnSearchSslList" :
+				break;
+			case "fnSearchDomainList" :
+				break;
+			default:
+				break;
+		}
+	}
+}
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.ds_Domain_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var nDlSeq = this.ds_Domain.getColumn(e.newrow,"DL_SEQ");
+	
+	this.ds_SSL.filter("DL_SEQ == '" + nDlSeq +"'");
+};
+
+//SSL 관련 파일 다운로드 팝업
+//SLC = 인증서, SLM = 메뉴얼
+this.grd_SslCertList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var nRow = e.row;
+	var nSlSeq = this.ds_SSL.getColumn(nRow,"SL_SEQ");
+	if(this.gfnIsEmpty(nSlSeq) == true) {
+		return;
+	}
+	
+	var sSourceCd = "";
+	var sStatusCd = "";
+	if(e.cell == 4) {
+		sSourceCd = "SLC";
+		sStatusCd = "SSL_CERT";
+	} else if(e.cell == 5) {
+		sSourceCd = "SLM"
+		sStatusCd = "SSL_MENU"
+	}
+	var args = {
+					SOURCE_CD : sSourceCd
+				   ,SOURCE_SEQ : nSlSeq
+				   ,STATUS_CD : sStatusCd
+				   ,USE_MULTI_FILE:false
+			   }
+	this.commUtil.popupFileMaster(this, args, "fnPopupCallBack");
+};
+/************************************************************************************************
+* 팝업 TRANSACTION 및 추가 FUNCTION 영역 
+************************************************************************************************/
+
+/************************************************************************************************
+* 팝업 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/]]></Script>
+    <Objects>
+      <Dataset id="ds_Domain" onrowposchanged="ds_Domain_onrowposchanged">
+        <ColumnInfo>
+          <Column id="DL_SEQ" type="STRING" size="256"/>
+          <Column id="DOMAIN_NAME" type="STRING" size="256"/>
+          <Column id="MANAGE_DEPT_CD" type="STRING" size="256"/>
+          <Column id="MANAGE_DEPT_NM" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="USE_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_SSL">
+        <ColumnInfo>
+          <Column id="SL_SEQ" type="STRING" size="256"/>
+          <Column id="DL_SEQ" type="STRING" size="256"/>
+          <Column id="SSL_START_DATE" type="STRING" size="256"/>
+          <Column id="SSL_END_DATE" type="STRING" size="256"/>
+          <Column id="SERVER_TYPE" type="STRING" size="256"/>
+          <Column id="CERT_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ServerType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_CertType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_Domain.form.cmb_ServerRequestStatus" propid="value" datasetid="ds_ServerRequestListSearch" columnid="REQUEST_STATUS"/>
+      <BindItem id="item1" compid="div_Domain.form.cmb_ServerRequestDept" propid="value" datasetid="ds_ServerRequestListSearch" columnid="REQUEST_DEPT_CD"/>
+      <BindItem id="item2" compid="div_SslCertList.form.cmb_ServerRequestStatus" propid="value" datasetid="ds_ServerRequestListSearch" columnid="REQUEST_STATUS"/>
+      <BindItem id="item3" compid="div_SslCertList.form.cmb_ServerRequestDept" propid="value" datasetid="ds_ServerRequestListSearch" columnid="REQUEST_DEPT_CD"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,90 @@
+.email_comfirm {
+    width: 40%;
+    margin: 20em auto;
+}
+
+.email_comfirm .m_box {
+    padding: 1.8em 4.4em 8em !important;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 2px 12px rgba(218, 225, 241, 1);
+}
+
+.email_comfirm .m_box h1 {
+    font-size: 18px;
+    color: #7A91CD;
+    padding: 1em 0 1.4em 0;
+    border-bottom: 1px solid #D7E1F9;
+}
+
+.email_comfirm .m_box h2 {
+    font-size: 13px;
+    line-height: 18px;
+    color: #434343;
+    font-weight: 500;
+    margin: 2em 0 1em 0;
+}
+
+.email_comfirm .m_box input {
+    height: 42px;
+
+    background: transparent;
+    border: 1px solid #DADADA;
+    border-radius: 2px;
+    box-sizing: border-box;
+    color: #767676;
+    font-size: 14px;
+    padding: 0.25em 0.7em;
+    width: 100%;
+}
+
+.email_comfirm .m_box button {
+    margin: 2em 0 0 0;
+    color: #fff;
+    background: #566795;
+    height: 52px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.email_comfirm .copyrighter {
+    text-align: center;
+}
+
+.copyrighter {
+    display: block;
+    text-align: right;
+    line-height: 16px;
+    color: #ACB5CB;
+    margin: 4.8em 0 0 0;
+    font-size: 11px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    padding: 0.4em 0 3.4em 0;
+}
+
+.lockscreen {
+    background-color: #e9ecef;
+}
+
+:disabled {
+    pointer-events: none;
+    opacity: 5;
+}
+
+@media (min-width: 360px) {
+    .email_comfirm {
+        width: 80%;
+        margin: 10em auto;
+    }
+}
+
+@media (min-width: 1060px) {
+    .email_comfirm {
+        width: 40%;
+        margin: 20em auto;
+        max-width: 72em;
+    }
+
+}
+

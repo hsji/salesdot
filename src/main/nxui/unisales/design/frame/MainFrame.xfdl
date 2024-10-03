@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmMain" width="1070" height="772" titletext="Main" cssclass="frm_WF_Frame">
+    <Layouts>
+      <Layout height="772" width="1070">
+        <Div id="div00" taborder="0" left="0" top="0" right="0" bottom="0">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="img00" taborder="1" left="0" top="0" height="199" right="0" image="url('theme://images/img_MF_Banner.png')"/>
+              <Div id="div00" taborder="0" left="20" top="138" width="330" height="290" cssclass="div_MF_Box,box1" text="">
+                <Layouts>
+                  <Layout>
+                    <Button id="btn00" taborder="0" top="21" width="48" height="41" right="22" cssclass="btn_MF_More"/>
+                    <Static id="sta00" taborder="1" text="공지사항" left="28" top="11" width="159" height="45" cssclass="sta_MF_tile"/>
+                    <Grid id="grd00" taborder="2" left="25" top="68" width="281" height="202" cssclass="grd_MF_Notice" binddataset="ds00" autofittype="col">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="172"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="body">
+                            <Cell text="bind:Column0"/>
+                            <Cell col="1" text="bind:Column1" edittype="date" cssclass="cell_WF_Right,cell_WF_DecoNo"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="divCalendar" taborder="2" left="370" top="138" width="680" height="290" cssclass="div_MF_Box2,box2" ondrag="div_ondrag" background="">
+                <Layouts>
+                  <Layout>
+                    <Calendar id="cal00" taborder="0" left="33" top="20" type="monthonly" cssclass="cal_MF_Cal" usetrailingday="true" weekformat="S M T W T F S" bottom="20" right="400"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="divTodolost" taborder="3" left="680" top="138" width="370" height="290" cssclass="div_MF_BoxColor,box3" ondrag="div_ondrag">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta00" taborder="0" text="TODOLIST" left="28" top="11" width="159" height="45" cssclass="sta_MF_tile2"/>
+                    <Grid id="grd00" taborder="1" left="25" top="68" cssclass="grd_MF_Todo" autofittype="col" right="25" bottom="20" binddataset="ds01">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="23"/>
+                            <Column size="211"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="body">
+                            <Cell text="bind:Column0" displaytype="imagecontrol"/>
+                            <Cell col="1" text="bind:Column1"/>
+                            <Cell col="2" text="bind:Column2" cssclass="cell_WF_Right,cell_WF_DecoNo"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Button id="btn00" taborder="2" top="15" width="48" height="41" right="22" cssclass="btn_MF_New"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="divTodo" taborder="4" left="541" top="448" width="505" height="304" cssclass="div_MF_Box,box5" ondrag="div_ondrag">
+                <Layouts>
+                  <Layout>
+                    <Button id="btn00" taborder="0" text="개발가이드 다운로드" left="0" top="0" width="169" cssclass="btn_MF_Quick01" bottom="152"/>
+                    <Button id="btn00_00" taborder="1" text="디자인가이드 다운로드" left="169" top="0" width="168" cssclass="btn_MF_Quick02" bottom="152"/>
+                    <Button id="btn00_00_00" taborder="2" text="아이디어 게시판" left="337" top="0" width="168" cssclass="btn_MF_Quick03" bottom="152"/>
+                    <Button id="btn00_00_00_00" taborder="3" text="기술지원" left="337" top="152" width="168" height="152" cssclass="btn_MF_Quick06"/>
+                    <Button id="btn00_00_01" taborder="4" text="플레이넥사" left="169" top="152" width="168" height="152" cssclass="btn_MF_Quick05"/>
+                    <Button id="btn00_01" taborder="5" text="투비소프트" left="0" top="152" width="169" height="152" cssclass="btn_MF_Quick04"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divLoginLog" taborder="1" text="OS/브라우저/해상도별 접속 현황" left="20" top="448" width="505" height="304" ondrag="div_ondrag" cssclass="div_MF_Box,box4" url="frame::frmMainLogDv.xfdl"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds00">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+          <Column id="Column1" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Column0">가나다라마바사아</Col>
+            <Col id="Column1">2021-06-08</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">가나다라마바사아</Col>
+            <Col id="Column1">2021-06-08</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">가나다라마바사아</Col>
+            <Col id="Column1">2021-06-08</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">가나다라마바사아</Col>
+            <Col id="Column1">2021-06-08</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">가나다라마바사아</Col>
+            <Col id="Column1">2021-06-08</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">가나다라마바사아</Col>
+            <Col id="Column1">2021-06-08</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">가나다라마바사아</Col>
+            <Col id="Column1">2021-06-08</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds01">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+          <Column id="Column1" type="STRING" size="256"/>
+          <Column id="Column2" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Column1">가나다라마바</Col>
+            <Col id="Column2">10:20</Col>
+            <Col id="Column0">theme://images/grd_MF_Dot01.png</Col>
+          </Row>
+          <Row>
+            <Col id="Column1">가나다라마바</Col>
+            <Col id="Column2">10:20</Col>
+            <Col id="Column0">theme://images/grd_MF_Dot02.png</Col>
+          </Row>
+          <Row>
+            <Col id="Column1">가나다라마바</Col>
+            <Col id="Column2">10:20</Col>
+            <Col id="Column0">theme://images/grd_MF_Dot03.png</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">theme://images/grd_MF_Dot03.png</Col>
+            <Col id="Column1">가나다라마바</Col>
+            <Col id="Column2">10:20</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">theme://images/grd_MF_Dot03.png</Col>
+            <Col id="Column1">가나다라마바</Col>
+            <Col id="Column2">10:20</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

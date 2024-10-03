@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AE_Expend" width="1290" height="570" titletext="영업지출현황관리" onload="AE_Expend_onload">
+    <Layouts>
+      <Layout height="570" mobileorientation="landscape" width="1290">
+        <Div id="div_Search" taborder="0" text="" left="8" top="8" cssclass="div_WF_SchList" right="8" height="40" formscrollbartype="none none" formscrolltype="none">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Year" taborder="0" text="조회년월" left="18" top="8" width="58" height="22" cssclass="sta_WF_DetailTit" textAlign="right"/>
+              <Div id="div_Search_yyyyMM" taborder="1" left="87" top="8" width="145" height="22" url="Common::COM_yyyyMM.xfdl" user_onchanged="search_fromto_onchanged"/>
+              <Button id="btn_Search" taborder="2" text="조회" top="8" width="60" height="22" right="8" onclick="comm_Click" cssclass="btn_WF_SchText"/>
+              <Button id="btn_Save" taborder="4" text="저장" top="8" height="22" cssclass="btn_WF_tran" right="btn_Search:4" width="60" onclick="comm_Click"/>
+              <Button id="btn_ExcelExport" taborder="3" text="Excel" top="8" width="66" height="22" right="btn_Save:4" onclick="comm_Click" cssclass="btn_WF_Excel"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_Main" taborder="1" left="8" top="div_Search:4" right="8" bottom="8" binddataset="dsMain" cellsizingtype="col" cellmovingtype="col" autofittype="col" formatid="default" onexpanddown="grd_Main_onexpanddown">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="60"/>
+                <Column size="80"/>
+                <Column size="200"/>
+                <Column size="150"/>
+                <Column size="200"/>
+                <Column size="150"/>
+                <Column size="80"/>
+                <Column size="60"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="60"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="부서"/>
+                <Cell col="1" text="직원"/>
+                <Cell col="2" text="사용일"/>
+                <Cell col="3" text="전자결재 제목"/>
+                <Cell col="4" text="적요"/>
+                <Cell col="5" text="내용"/>
+                <Cell col="6" text="사용처"/>
+                <Cell col="7" text="금액"/>
+                <Cell col="8" text="부가세"/>
+                <Cell col="9" text="합계"/>
+                <Cell col="10" text="고객사"/>
+                <Cell col="11" text="프로젝트"/>
+                <Cell col="12" text="계약"/>
+                <Cell col="13" text="담당영업"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DEPT_NAME" textAlign="left" tooltiptext="bind:DEPT_NAME"/>
+                <Cell col="1" text="bind:EMP_NAME"/>
+                <Cell col="2" text="bind:AUTH_DT" displaytype="mask" maskeditformat="####-##-##" maskedittype="string"/>
+                <Cell col="3" text="bind:DOC_TITLE" textAlign="left" tooltiptext="bind:DOC_TITLE"/>
+                <Cell col="4" text="bind:SUMMARY_NM" textAlign="left" tooltiptext="bind:SUMMARY_NM"/>
+                <Cell col="5" text="bind:LINE_DESC" textAlign="left" tooltiptext="bind:LINE_DESC"/>
+                <Cell col="6" text="bind:CUST_NM" textAlign="left" tooltiptext="bind:CUST_NM"/>
+                <Cell col="7" text="bind:COST" textAlign="right" displaytype="number"/>
+                <Cell col="8" text="bind:VAT" textAlign="right" displaytype="number"/>
+                <Cell col="9" text="bind:AMT" textAlign="right" displaytype="number"/>
+                <Cell col="10" text="bind:CLIENT_NAME" textAlign="left" tooltiptext="bind:CLIENT_NAME"/>
+                <Cell col="11" text="bind:PROJECT_NAME" textAlign="left" tooltiptext="bind:PROJECT_NAME"/>
+                <Cell col="12" text="bind:CONTRACT_NAME" textAlign="left" tooltiptext="bind:CONTRACT_NAME" expandimage="expr:comp.parent.gfnIsEmpty(CONTRACT_NO)?&quot;theme://images/btn_WF_Sch.png&quot;:&quot;theme://images/btn_WF_Minus.png&quot;" expandshow="show" expandsize="22"/>
+                <Cell col="13" text="bind:SALES_EMP_NAME" textAlign="left"/>
+              </Band>
+              <Band id="summary">
+                <Cell text="합계"/>
+                <Cell col="1" colspan="5" text="합계"/>
+                <Cell col="6"/>
+                <Cell col="7" text="expr:dataset.getSum(&quot;COST&quot;)" textAlign="right" displaytype="number"/>
+                <Cell col="8" text="expr:dataset.getSum(&quot;VAT&quot;)" textAlign="right" displaytype="number"/>
+                <Cell col="9" text="expr:dataset.getSum(&quot;AMT&quot;)" textAlign="right" displaytype="number"/>
+                <Cell col="10"/>
+                <Cell col="11"/>
+                <Cell col="12"/>
+                <Cell col="13"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 영업지출현황관리
+* 03. 화면설명 : 
+* 04. 작성일   : 
+* 05. 작성자   : 
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AE_Expend_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //Grid 공통함수 호출
+	this.fnFormInit();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+	//this.fnSearch();
+	
+	var date = new Date();
+	date.addMonth(-1);
+	var preMonth = this.gfnGetDateMaskFormatString(date, "yyyyMM");
+	this.div_Search.form.div_Search_yyyyMM.setYYYYMM(preMonth);
+};
+
+// Popup 콜백
+this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		switch(sPopupId)
+		{
+			case "popupContractSearch" :  //매출계약
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				this.dsMain.setColumn(this.dsMain.rowposition, "CLIENT_NAME",  ds.getColumn(0, "CLIENT_NAME"));
+				this.dsMain.setColumn(this.dsMain.rowposition, "PROJECT_CODE",  ds.getColumn(0, "PROJECT_CODE"));
+				this.dsMain.setColumn(this.dsMain.rowposition, "PROJECT_NAME",  ds.getColumn(0, "PROJECT_NAME"));
+				this.dsMain.setColumn(this.dsMain.rowposition, "CONTRACT_NO",  ds.getColumn(0, "CONTRACT_NO"));
+				this.dsMain.setColumn(this.dsMain.rowposition, "CONTRACT_NAME",  ds.getColumn(0, "CONTRACT_NAME"));
+				this.dsMain.setColumn(this.dsMain.rowposition, "CONTRACT_TYPE",  ds.getColumn(0, "CONTRACT_TYPE"));
+				this.dsMain.setColumn(this.dsMain.rowposition, "CONTRACT_TYPE_NAME",  ds.getColumn(0, "CONTRACT_TYPE_NAME"));
+				this.dsMain.setColumn(this.dsMain.rowposition, "SALES_EMP_NO",  ds.getColumn(0, "BIZ_STAFF"));
+				this.dsMain.setColumn(this.dsMain.rowposition, "SALES_EMP_NAME",  ds.getColumn(0, "BIZ_STAFF_NAME"));
+				
+				var nFindRow = this.dsRUD.findRowExpr("EXPEND_NO=="+this.dsMain.getColumn(this.dsMain.rowposition,"EXPEND_NO") +" && LINE_NO=="+this.dsMain.getColumn(this.dsMain.rowposition,"LINE_NO"));
+				
+				if(nFindRow>0)
+				{
+					if(this.gfnIsEmpty(ds.getColumn(0, "CONTRACT_NO")))	//선택된 계약이 없으면 지출결의 연결 삭제
+						this.dsRUD.deleteRow(nFindRow);
+					else
+					{
+						this.dsRUD.setColumn(nFindRow, "CONTRACT_NO",  ds.getColumn(0, "CONTRACT_NO"));
+						this.dsRUD.setColumn(nFindRow, "ORG_CONTRACT_NO",  this.dsRUD.getOrgColumn(nFindRow, "CONTRACT_NO"));
+					}
+				}
+				else
+				{
+					var nRow = this.dsRUD.insertRow();
+					this.dsRUD.setColumn(nRow, "EXPEND_NO",  this.dsMain.getColumn(this.dsMain.rowposition,"EXPEND_NO"));
+					this.dsRUD.setColumn(nRow, "LINE_NO",  this.dsMain.getColumn(this.dsMain.rowposition,"LINE_NO"));
+					this.dsRUD.setColumn(nRow, "CONTRACT_NO",  ds.getColumn(0, "CONTRACT_NO"));
+				}
+				
+			break;
+		}
+	}
+}
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnSearch = function()
+{
+	
+	if(!this.commUtil.getAuthority(166))	/*영업지원은 전체 조회, 그외에는 본인것만*/
+		this.gfnAddSendParameter("EMP_NO",	nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NO"));
+	this.gfnAddSendParameter("YYYYMM",	this.div_Search.form.div_Search_yyyyMM.getYYYYMM());
+	this.gfnAddOutputDataset("dsMain",	"dsOutput1");
+	this.gfnAddOutputDataset("dsRUD",	"dsOutput2");
+	this.gfnCommonTransaction("Select",	"AE_Expend_S01", this.grd_Main);
+};
+
+this.fnSave = function()
+{
+	this.gfnAddInputDataset("dsRUD",	"dsInput", "U");
+	this.gfnCommonTransaction("Save",	"AE_Expend_R01");
+};
+
+this.fnCallBack = function (strSvcId, nErrorCode, strErrorMsg)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcId + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMsg);
+		return;
+	}
+	else if(strSvcId == "Select")
+	{
+	
+	}
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) 
+	{
+		case "btn_ExcelExport" :
+			this.gfn_excelExport(this, this.grd_Main);			
+			break;
+		case "btn_Search" : 	
+			this.fnSearch();
+			break;
+		case "btn_Save" : 	
+			this.fnSave();
+			break;
+	}
+};
+
+this.search_fromto_onchanged = function(obj,e)
+{
+
+}
+
+this.grd_Main_onexpanddown = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	if(this.gfnIsEmpty(this.dsMain.getColumn(e.row, "CONTRACT_NO")))	
+	{
+		this.commUtil.popupProjectSearch(this, "popupContractSearch", "fnPopupCallBack", {searchtype:"N"});
+	}
+	else
+	{
+		var nFindRow = this.dsRUD.findRowExpr("EXPEND_NO=="+this.dsMain.getColumn(e.row,"EXPEND_NO") +" && LINE_NO=="+this.dsMain.getColumn(e.row,"LINE_NO"));
+		this.dsRUD.deleteRow(nFindRow);	
+		
+		this.dsMain.setColumn(e.row, "CLIENT_NAME",  "");
+		this.dsMain.setColumn(e.row, "PROJECT_CODE",  "");
+		this.dsMain.setColumn(e.row, "PROJECT_NAME",  "");
+		this.dsMain.setColumn(e.row, "CONTRACT_NO",  "");
+		this.dsMain.setColumn(e.row, "CONTRACT_NAME",  "");
+		this.dsMain.setColumn(e.row, "CONTRACT_TYPE",  "");
+		this.dsMain.setColumn(e.row, "CONTRACT_TYPE_NAME",  "");
+		this.dsMain.setColumn(e.row, "SALES_EMP_NO",  "");
+		this.dsMain.setColumn(e.row, "SALES_EMP_NAME",  "");
+	}
+};]]></Script>
+    <Objects>
+      <Dataset id="dsMain">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="EXPORT_FLAG" type="string" size="1"/>
+          <Column id="EXPORT_NAME" type="string" size="4"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="SALES_EMP_NO" type="string" size="60"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CONTRACT_MAIN" type="string" size="100"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_DATE" type="datetime" size="23"/>
+          <Column id="START_DATE" type="datetime" size="23"/>
+          <Column id="END_DATE" type="datetime" size="23"/>
+          <Column id="CON_MEN_MONTH" type="bigdecimal" size="8"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="CONTRACT_MAIN_PURCHASE" type="string" size="100"/>
+          <Column id="CONTRACT_MAIN_NAME_PURCHASE" type="string" size="100"/>
+          <Column id="CONTRACT_DATE_PURCHASE" type="datetime" size="23"/>
+          <Column id="CONTRACT_PRICE_PURCHASE" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsRUD"/>
+    </Objects>
+  </Form>
+</FDL>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+<head>
+    <meta name="_csrf">
+    <meta charset="utf-8">
+    <title>UbiDocuMaker-Viewer</title>
+    <link rel="stylesheet" type="text/css" href="./css/color-picker.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/select2.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/ui/reader.css">
+    <script src="./js/jquery-1.9.1.min.js"></script>
+    <script src="./js/jquery-ui-1.10.3.min.js"></script>
+    <script src="./js/pdf_form/fabric.js"></script>
+    <script src="./js/pdf_form/flatpickr.min.js"></script>
+    <script src="./js/pdf_form/polyfills.js"></script>
+    <script src="./js/pdf_form/polyfillsIE.js"></script>
+    <script src="./js/pdf_form/snap.svg.js"></script>
+    <script src="./js/pdf_form/snap.svg.free_transform.js"></script>
+    <script src="./js/pdf_form/TweenMax.min.js"></script>
+    <script src="./js/pdf_form/select2/select2.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf.min.js"></script>
+    <script src="./js/pdf_form/pdfjs/pdf_viewer.js"></script>
+    <script src="./js/pdf_form/pdfjs/grab-to-pan.js"></script>
+    <script src="./js/pdf_form/dist/polly.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/dist/readermod.bundle.nomin.js"></script>
+    <script src="./js/pdf_form/dist/readermodSass.bundle.nomin.js"></script>
+    <script type="text/javascript">
+    
+    var urlParams = new URL(location.href).searchParams;
+    var uuid = urlParams.get('p');
+    var fileName = urlParams.get('f'); 
+    var q = urlParams.get('q');
+    var r = urlParams.get('r');
+    var sq = urlParams.get('sq');
+    var sr = urlParams.get('sr');
+
+	  var appUrl = self.location.protocol + '//' + self.location.host;
+
+      var pdfFileUrl = appUrl + '/pdfView?uploadFileName=' + fileName;
+      var jsonDataUrl = appUrl + '/ubidocumaker/resource/jsonFile/' + uuid + '/edit.json';
+      var pdfSaveUrl = '/docuPdfSave';//API
+
+      var regStampImage = [
+        '/image/ubistamp01.png',
+      ];
+      var regStampJson = '/ubidocumaker/resource/jsonFile/' + uuid + '/regStamp.json';
+      var jsonData = null;
+
+      window.onload = function() {
+
+        //pdf 파일 읽는 라이브러리 경로 지정.
+        pdfjsLib.GlobalWorkerOptions.workerSrc = './js/pdf_form/pdfjs/pdf.worker.min.js';
+
+        //UbiDocuMaker의 ROOT DOM지정
+        let DOM = document.querySelector('body ');
+
+        //텍스트 프로퍼티 js파일 지정.
+        readermod.changeTranslatorFileLocation('./js/pdf_form/i18n/');
+        readermod.initDocument(DOM);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', jsonDataUrl, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function() {
+
+          if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 404)) {
+            if (xhr.status === 200) {
+              try {
+                jsonData = JSON.parse(xhr.responseText);
+              } catch (e) {}
+            } else if (xhr.status === 404) {
+            }
+
+            /* UbiDocuMaker Viewer 시작 함수
+
+            인자1. PDF경로
+            인자2. JSON경로
+            인자3. 서명아이템 등록된서명 옵션 데이터
+             */
+            //readermod.loadDocument(pdfFileUrl, jsonData, regStampImage);	// 등록된 도장 이미지 정보를 URL배열로 가져오는 경우
+            readermod.loadDocument(pdfFileUrl, jsonData, regStampJson);		// 등록된 도장 이미지 정보를 Json 데이타에서 가져오는 경우
+          }
+        };
+        xhr.send(null);
+      };
+
+      /*
+      '계약서 제출' 버튼
+       */
+      function docuSave() {
+        if (!readermod.isRequiredFieldValueEmpty()) {
+
+          var jsonData = JSON.parse(readermod.getJsonData());
+          var postData = {'uuid' : uuid, 'json_data' : jsonData, 'pdf_nm' : fileName, 'recevier' : {'name' : r, 'email' : q }, 'sender' : {'name' : sr, 'email' : sq } }
+          console.debug(postData);
+          $.ajax({
+      	      type: "post",
+      	      url: pdfSaveUrl,
+      	      data: JSON.stringify(postData),
+      	      dataType: "json",
+      	      contentType: 'application/json; charset=utf-8',
+      	      success: function(data) {
+      	        console.log(data);
+      	        if(data.code=='200'){
+                    console.debug('PDF save success.');
+      				mailStep = true;
+      				alert('편집 정보가 저장되었습니다.');  	        	
+      	        }
+      	      }
+      	    });   
+        } else {
+          alert('필수 입력 항목이 입력되지 않았습니다.');
+          return;
+        }
+      };
+
+
+    </script>
+
+</head>
+<body>
+<div id="outerContainer" class="Outer-Container Reader">
+    <div id="MainContainer" class="Main-Container">
+
+        <div id="ReaderViewerContainer" class="Viewer-Container">
+            <div id="ReaderPDFViewer" class="pdfViewer"></div>
+        </div>
+
+        <div class="Reader-Toolbar">
+            <div class="Reader-Toolbar-Group Center Button-List">
+                <ul>
+                    <li>
+                        <div>
+                            <button class="Reader-Button Transparent Circle Goto-First-Button" id="Goto-First-Button"><i
+                                    class=""></i></button>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <button class="Reader-Button Transparent Circle Goto-Prev-Button" id="Goto-Prev-Button"><i
+                                    class=""></i></button>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <button class="Reader-Button Transparent Circle Goto-Next-Button" id="Goto-Next-Button"><i
+                                    class=""></i></button>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <button class="Reader-Button Transparent Circle Goto-Last-Button" id="Goto-Last-Button"><i
+                                    class=""></i></button>
+                        </div>
+                    </li>
+                    <li><input type="number" id="pageNumber" class="Toolbar-Field Page-Number" title="페이지" value="1"
+                               size="4" min="1" data-l10n-id="page" autocomplete="off" max="14" readOnly><span
+                            id="Num-Pages" class="Toolbar-Label"> / 1</span></li>
+
+                    <li>
+                        <div>
+                            <div class="Toolbar-Button-Divider"></div>
+                        </div>
+                    </li>
+
+                    <li><span id="scaleSelectContainer" class="Toolbar-Label"><a>100%</a></span></li>
+                    <li>
+                        <div>
+                            <button class="Reader-Button Transparent Zoom-Out-Button" id="Zoom-Out-Button"><i
+                                    class=""></i></button>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <button class="Reader-Button Transparent Zoom-In-Button" id="Zoom-In-Button"><i
+                                    class=""></i></button>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div>
+                            <div class="Toolbar-Button-Divider" style="display:none"></div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div>
+                            <button class="Reader-Button Transparent Reader-Field-Input-Mode-Button Selected"
+                                    id="Reader-Field-Input-Mode-Button"><i class=""></i></button>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <button class="Reader-Button Transparent Reader-Memo-Input-Mode-Button"
+                                    id="Reader-Memo-Input-Mode-Button"><i class=""></i></button>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <button class="Reader-Button Transparent Reader-Memo-Add-Mode-Button"
+                                    id="Reader-Memo-Add-Mode-Button"><i class=""></i></button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="Scale-Seletor-Container Template-Hide" id="Scale-Seletor">
+            <select>
+                <option value="0.3">30%</option>
+                <option value="0.5">50%</option>
+                <option value="0.8">80%</option>
+                <option value="1">100%</option>
+                <option value="1.2">120%</option>
+                <option value="1.5">150%</option>
+                <option value="2">200%</option>
+                <option value="3">300%</option>
+
+            </select>
+        </div>
+
+
+        <div class="Reader-Bottom-Container">
+            <div class="Button-List">
+                <button type="button" data-i18n="" class="Reader-Button Confirm  Margin-Right-5" onclick="docuSave()">
+                    계약서 제출
+                </button>
+            </div>
+        </div>
+
+
+        <div class="Sign-Popup Template-Hide" id="signElement">
+            <span class="Popup-Bg-Wrap"></span>
+            <div class="Sign-Layerpop">
+                <div class="Popup-Head">
+                    <h3 data-i18n="Reader.signText" class="Popup-Head Title">서명</h3>
+                </div>
+                <div class="Popup-Body">
+                    <div class="Sign-Tab-Container">
+                        <ul class="Popup-Tab-Main">
+                            <li id="signDrawTabButton" class="on"><span data-i18n="Reader.drawSignText">펜</span></li>
+                            <li id="stampSignTabButton" class="tab_stamp"><span
+                                    data-i18n="Reader.imageSignText">이미지</span></li>
+                            <li id="registeredSignTabButton" class="tab_reg_sign"><span data-i18n="Reader.regSignText">등록된 이미지</span>
+                            </li>
+                        </ul>
+
+                        <div class="Tab-Contents " id="signDrawArea"
+                             data-tab-name="signDrawTab">
+                            <div class="Sign-Area Draw-Area">
+                                <div class="innerbox">
+                                    <span class="Signpad-Wrap"></span>
+                                    <canvas class="Signpad" id="drawComponent"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="Tab-Contents Template-Hide tab_stamp"
+                             id="stampSignArea" data-tab-name="stampSignTab">
+                            <div class="Sign-Area">
+                                <div class="innerbox">
+                                    <div class="img_upload_area" id="imageUploadArea">
+                                        <div class="corner_point_area">
+                                            <div class="innerbox">
+                                                <div class="bg_area" id="stampImageSpan">
+                                                    <i class="img"> <img id="stampImageTag" src="" alt=""></i>
+                                                    <span class="txt_guide"><span
+                                                            data-i18n="Reader.imageSignFileSelect">파일 선택</span></span>
+                                                </div>
+                                                <input type="file" id="stampFileInput" class="hidden"
+                                                       style="display: none" accept="image/*">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="Tab-Contents Template-Hide tab_reg_sign" id="registeredSignArea"
+                             data-tab-name="registeredSignTab">
+                            <!-- 이미지 URL을 입력하는 input과 '확인' 버튼 자리 -->
+                            <!-- <input type="text" id="imageURLInput" placeholder="이미지 URL 입력"> -->
+                            <!-- <button id="addImageButton">확인</button> -->
+
+                            <div class="Sign-Area Draw-Area" id="registeredArea">
+                                <div class="registeredSignWrap">
+                                    <ul class="signTypeList" clonekey="registeredCompanyList">
+                                        <li class="Template-Hide">
+                                            <div class="canvas_wrap">
+                                                <canvas clonekey="registeredSample"></canvas>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Popup-Foot">
+                    <button type="button" data-i18n="Reader.initText" class="btn_common btn_left btn_reset"
+                            id="drawTypeInitButton">초기화
+                    </button>
+                    <button type="button" data-i18n="Reader.cancelText" class="btn_common btn_cancel" id="cancelButton">
+                        취소
+                    </button>
+                    <button type="button" data-i18n="Reader.confirmText" class="btn_common" id="drawRegistButton">확인
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

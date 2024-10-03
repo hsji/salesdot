@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ubiSignRegPu" width="366" height="370" titletext="New Form" onload="ubiSignRegPu_onload">
+    <Layouts>
+      <Layout height="370" horizontalgap="0" mobileorientation="landscape" spacing="0px" tabletemplate="1* / 1*" verticalgap="0" width="366">
+        <Button id="btnConfirm" taborder="0" text="저장" height="28" width="50" fittocontents="width" cssclass="btn_WF_Crud" right="63" bottom="9" onclick="btnConfirm_onclick"/>
+        <Button id="btnClose" taborder="1" text="취소" height="28" width="50" fittocontents="width" right="10" bottom="9" onclick="btnClose_onclick"/>
+        <Tab id="Tab00" taborder="2" tabindex="0" left="10" top="10" height="313" right="10">
+          <Tabpages>
+            <Tabpage id="Tabpage1" text="서명등록">
+              <Layouts>
+                <Layout>
+                  <Div id="DivSign" taborder="0" left="10" top="10" right="10" bottom="35" border="1px solid #dddddd" borderRadius="5px" background="#ffffff" formscrolltype="none" formscrollbartype="none none"/>
+                  <Button id="btnClear" taborder="1" text="지우기" height="25" width="57" fittocontents="width" right="11" bottom="5" onclick="Tab00_Tabpage1_btnClear_onclick"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage2" text="서명이미지등록">
+              <Layouts>
+                <Layout>
+                  <ImageViewer id="img00" taborder="0" left="10" top="10" border="1px solid #dddddd" stretch="fixaspectratio" right="10" bottom="35"/>
+                  <FileUpload id="fud00" taborder="1" top="233" width="80" height="24" itemheight="24" buttonsize="80" buttontext="사진등록" onitemchanged="fud00_onitemchanged" right="11" filefilter="*.png;*.gif"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="Tab00.Tabpage2.form.img00" propid="image" datasetid="dsList" columnid="USER_SIGNIMAGE"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[this.fvIsExist = true;
+this.fvIsDrawingFlag = false;
+this.fvIsDrawing = false;
+this.fvX = 0;
+this.fvY = 0;
+
+this.ubiSignRegPu_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.dsCond.setColumn(0, "USER_ID", this.gfnGetUserInfo("USER_ID"));
+	
+	this.fnMakeCanvas();
+	this.fnSignSearch();
+};
+
+this.fnMakeCanvas = function ()
+{
+	var mainDiv = this.Tab00.Tabpage1.form.DivSign.form;
+	var x = this.Tab00.Tabpage1.form.DivSign.form.getOffsetWidth();
+	var y = this.Tab00.Tabpage1.form.DivSign.form.getOffsetHeight();
+	
+	var control_elem = mainDiv.getElement();
+	var	sid = "canvas00";
+	var canvas;
+	canvas = new nexacro.CanvasComponent(sid, 0, 0, x-10, y-10);
+	canvas.set_name(sid);
+	canvas.set_id(sid);
+	mainDiv.addChild(sid, canvas);
+	canvas.show();
+	canvas.addEventHandler("onmousemove", this.fnCanvasMouseMove, this);
+	canvas.addEventHandler("onlbuttondown", this.fnCanvasMouseDown, this);
+	canvas.addEventHandler("onlbuttonup", this.fnCanvasMouseUp, this);
+	canvas.bringToFront();
+	canvas.set_enableevent(true);
+	
+	var context = canvas._canvas;
+	context.clearRect(0, 0, x, y);
+	context.setElementStrokeStyle("#000000");
+	context.setElementLineWidth(2);
+};
+
+this.Tab00_Tabpage1_btnClear_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var x = this.Tab00.Tabpage1.form.DivSign.form.getOffsetWidth();
+	var y = this.Tab00.Tabpage1.form.DivSign.form.getOffsetHeight();
+	var ctx = this.Tab00.Tabpage1.form.DivSign.form.canvas00._canvas;
+	ctx.clearRect(0, 0, x, y);
+	this.fvIsExist = false;	
+};
+
+
+// canvas
+this.fnCanvasMouseMove = function(obj, e) {
+	if(this.fvIsExist) return;
+
+    if (this.fvIsDrawing) {
+        this.drawSign(this.fvX, this.fvY, e.clientx, e.clienty);
+        this.fvX = e.clientx;
+        this.fvY = e.clienty;
+    }
+};
+this.fnCanvasMouseDown = function(obj, e) {
+	if(this.fvIsExist) return;
+
+    this.fvX = e.clientx;
+    this.fvY = e.clienty;
+    this.fvIsDrawing = true;
+};
+this.fnCanvasMouseUp = function(obj, e) {
+	if(this.fvIsExist) return;
+    if (this.fvIsDrawing) {
+        this.drawSign(this.fvX, this.fvY, e.clientx, e.clienty);
+        this.fvX = 0;
+        this.fvY = 0;
+        this.fvIsDrawing = false;
+    }
+};
+
+this.drawSign = function(x1, y1, x2, y2) {
+	var ctx = this.Tab00.Tabpage1.form.DivSign.form.canvas00._canvas;
+    if (ctx != null) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
+		this.fvIsDrawingFlag = true;
+    }
+}
+
+//저장
+this.cfnSave = function ()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsList) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+	this.fnSignSave();
+};
+
+/**
+* @function fnSignSearch  <br>
+* description 서명정보 조회
+*/
+this.fnSignSearch = function ()
+{
+	var strSvcId    = "searchUserSign";
+	var strSvcUrl   = "searchUserSign.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/**
+* @function fnSignSave  <br>
+* description 서명저장
+*/
+this.fnSignSave = function ()
+{
+	var strSvcId    = "saveUserSign";
+	var strSvcUrl   = "saveUserSign.do";
+	var inData      = "dsList=dsList:U";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/**
+* @function fnCallback  <br>
+* description 서비스콜백
+*/
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchUserSign":
+			if(this.dsList.rowcount == 0) {
+				this.dsList.addRow();
+				this.dsList.setColumn(0, "USER_ID", this.gfnGetUserInfo("USER_ID"));
+				this.fvIsExist = false;
+			} else {
+				if(this.gfnIsNull(this.dsList.getColumn(0, "USER_SIGN"))) {
+					this.fvIsExist = false;
+				} else {
+					this.fvIsExist = true;
+					var canvas = this.Tab00.Tabpage1.form.DivSign.form.canvas00;
+					var ctx = canvas._canvas;
+					var cx = parseInt(this.Tab00.Tabpage1.form.DivSign.form.getOffsetWidth()/2);
+					var cy = parseInt(this.Tab00.Tabpage1.form.DivSign.form.getOffsetHeight()/2);
+					// NEXA
+// 					var img = {};
+// 					var _imageload_callback = function (url, w, h, imgnode) {
+// 						img.width = w;
+// 						img.height = h;
+// 						img.imagewidth = w;
+// 						img.imageheight = h;						
+// 						ctx.drawImage(img, 0, 0);
+// 					};
+// 					img.src = this.dsList.getColumn(0, "USER_SIGN");
+// 					console.log(img.src);
+// 					img.handle = nexacro._getImageObject(img.src, _imageload_callback, this, "", false);
+					
+					// HTML ONLY
+					var img = new Image();
+					img.src = this.dsList.getColumn(0, "USER_SIGN");
+					var webContext = ctx.handle._draw_ctx;
+					img.onload = function(e)
+					{
+						webContext.drawImage(img, 0,0,img.width,img.height);	//cx - (img.width / 2), cy - obj.radius + 35);
+					}
+				}
+			}
+			break;
+		case "saveUserSign":
+			break;
+		default :
+	}
+};
+
+// 저장
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.fvIsDrawingFlag) {
+		var canvas = this.Tab00.Tabpage1.form.DivSign.form.canvas00;
+		var context = canvas._canvas;
+		var img = context.toDataURL("image/png");
+		if(img.src) {
+			this.dsList.setColumn(0, "USER_SIGN", img.src);
+		}
+	}
+	this.cfnSave();
+};
+
+this.fud00_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
+{
+	var items = obj._items;
+	var ds = this.dsList;
+	if(items[0] && items[0]._files && items[0]._files[0]) {
+		var file = items[0]._files[0];
+		if(file.name.indexOf(".png") < 0 && file.name.indexOf(".gif") < 0 && file.name.indexOf(".jpg") < 0) {
+			this.gfnAlert("msg.err.nosupportimage", [], "");
+			return;
+		}
+		if(file.size > 1024000) {
+			this.gfnAlert("msg.err.filesize", ["1MB"], "");
+			return;
+		}
+		var reader = new FileReader();
+		reader.readAsDataURL(items[0]._files[0]);
+		reader.onload = function(e) {
+			ds.setColumn(0, "USER_SIGNIMAGE", e.target.result);
+		};	
+	}	
+};
+
+
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="USER_SIGN" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="USER_SIGNIMAGE" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

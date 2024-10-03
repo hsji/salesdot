@@ -1,0 +1,662 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="workDailyFm" width="1200" height="736" titletext="주간 일일업무 현황" onload="form_onload">
+    <Layouts>
+      <Layout height="736" mobileorientation="landscape" width="1200">
+        <Div id="divSearch" taborder="0" left="0" top="0" height="50" cssclass="div_WF_Search" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Combo id="Combo01" taborder="1" left="56" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo02" taborder="2" left="282" width="185" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="Combo03" taborder="3" left="521" width="184" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" readonly="false" value="1" top="-158">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Calendar id="Calendar00" taborder="4" left="785" top="-158" width="184" height="24" value="20190308" dateformat="yyyy-MM-dd ddd" readonly="false"/>
+              <Button id="btnSearch" taborder="0" text="조회" width="48" cssclass="btn_WF_Search" right="25" onclick="divSearch_btnSearch_onclick" bottom="10" height="28"/>
+              <Static id="staTitle01" taborder="5" text="기준일자" left="0" top="12" width="107" height="24" cssclass="sta_WF_SchLabel"/>
+              <Calendar id="cal00" taborder="6" left="107" top="11" width="150" height="27" onchanged="divSearch_cal00_onchanged"/>
+              <Static id="staTitle00_00_00" taborder="7" text="담당자" left="264" top="14" width="74" height="24" cssclass="sta_WF_SchLabel"/>
+              <Div id="divUser" taborder="8" text="div00" left="staTitle00_00_00:20" top="14" width="250" height="24" url="common::cmmUserSearch.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle01" taborder="1" text="주간 일일업무 현황" left="0" height="43" cssclass="sta_WF_Title" top="divSearch:0" width="264"/>
+        <Div id="div00" taborder="2" text="div00" left="0" top="97" right="20" bottom="20">
+          <Layouts>
+            <Layout>
+              <Grid id="grdList" taborder="0" left="0" top="0" binddataset="dsGridTarget" autoenter="select" width="1199" height="183" autosizingtype="row" cellsizingtype="row" extendsizetype="row">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="32" band="head"/>
+                      <Row size="50"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell rowspan="2" font="bold 13px/normal &quot;noto&quot;,&quot;Malgun Gothic&quot;,&quot;Arial&quot;" color="#000000"/>
+                      <Cell col="1" colspan="2" text="월요일" font="bold 13px/normal &quot;noto&quot;,&quot;Malgun Gothic&quot;,&quot;Arial&quot;" background="#132C30" color="#ffffff"/>
+                      <Cell col="3" colspan="2" text="화요일" font="bold 13px/normal &quot;noto&quot;,&quot;Malgun Gothic&quot;,&quot;Arial&quot;" background="#132C30" color="#ffffff"/>
+                      <Cell col="5" colspan="2" text="수요일" font="bold 13px/normal &quot;noto&quot;,&quot;Malgun Gothic&quot;,&quot;Arial&quot;" background="#132C30" color="#ffffff"/>
+                      <Cell col="7" colspan="2" text="목요일" font="bold 13px/normal &quot;noto&quot;,&quot;Malgun Gothic&quot;,&quot;Arial&quot;" background="#132C30" color="#ffffff"/>
+                      <Cell col="9" colspan="2" text="금요일" font="bold 13px/normal &quot;noto&quot;,&quot;Malgun Gothic&quot;,&quot;Arial&quot;" background="#132C30" color="#ffffff"/>
+                      <Cell row="1" col="1" text="업무내용"/>
+                      <Cell row="1" col="2" text="분"/>
+                      <Cell row="1" col="3" text="업무내용"/>
+                      <Cell row="1" col="4" text="분"/>
+                      <Cell row="1" col="5" text="업무내용"/>
+                      <Cell row="1" col="6" text="분"/>
+                      <Cell row="1" col="7" text="업무내용"/>
+                      <Cell row="1" col="8" text="분"/>
+                      <Cell row="1" col="9" text="업무내용"/>
+                      <Cell row="1" col="10" text="분"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="center" autosizerow="limitmin" text="bind:WORK_TYPE" suppress="1"/>
+                      <Cell col="1" text="bind:CTN0" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="2" text="bind:TIME0" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="3" text="bind:CTN1" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="4" text="bind:TIME1" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="5" text="bind:CTN2" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="6" text="bind:CTN2" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="7" text="bind:CTN3" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="8" text="bind:TIME3" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="9" text="bind:CTN4" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="10" text="bind:TIME4" displaytype="number" edittype="mask" maskeditformat="#,###"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grdList00" taborder="1" left="0" top="grdList:5" binddataset="dsGridWork" autoenter="select" width="1199" height="121" autosizingtype="row" cellsizingtype="row" extendsizetype="row">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="center" autosizerow="limitmin" text="bind:WORK_TYPE" suppress="1"/>
+                      <Cell col="1" text="bind:CTN0" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="2" text="bind:TIME0" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="3" text="bind:CTN1" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="4" text="bind:TIME1" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="5" text="bind:CTN2" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="6" text="bind:CTN2" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="7" text="bind:CTN3" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="8" text="bind:TIME3" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="9" text="bind:CTN4" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="10" text="bind:TIME4" displaytype="number" edittype="mask" maskeditformat="#,###"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grdList00_00" taborder="2" left="0" top="grdList00:5" binddataset="dsGridAdd" autoenter="select" width="1199" height="109" autosizingtype="row" cellsizingtype="row" extendsizetype="row">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="50"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="center" autosizerow="limitmin" text="bind:WORK_TYPE" suppress="1"/>
+                      <Cell col="1" text="bind:CTN0" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="2" text="bind:TIME0" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="3" text="bind:CTN1" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="4" text="bind:TIME1" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="5" text="bind:CTN2" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="6" text="bind:CTN2" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="7" text="bind:CTN3" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="8" text="bind:TIME3" displaytype="number" maskeditformat="#,###" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="9" text="bind:CTN4" displaytype="textareacontrol" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="10" text="bind:TIME4" displaytype="number" edittype="mask" maskeditformat="#,###"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grdList00_00_00" taborder="3" left="0" top="grdList00_00:10" autoenter="select" width="1199" height="109" binddataset="dsWorkSum">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                      <Column size="350"/>
+                      <Column size="40"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40"/>
+                      <Row size="40"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell rowspan="2" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="center" autosizerow="limitmin" suppress="1" text="TOTAL"/>
+                      <Cell col="1" text="목표시간" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="2" displaytype="number" maskeditformat="#,###" expr="comp.parent.parent.parent.fnGetTarget(0)" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="3" text="목표시간" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="4" displaytype="number" maskeditformat="#,###" expr="comp.parent.parent.parent.fnGetTarget(1)" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="5" text="목표시간" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="6" expr="comp.parent.parent.parent.fnGetTarget(2)" border="0px none,1px solid #000000,0px none,0px none" displaytype="number"/>
+                      <Cell col="7" text="목표시간" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="8" displaytype="number" maskeditformat="#,###" expr="comp.parent.parent.parent.fnGetTarget(3)" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell col="9" text="목표시간" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell col="10" displaytype="number" maskeditformat="#,###" expr="comp.parent.parent.parent.fnGetTarget(4)"/>
+                      <Cell row="1" col="1" text="업무시간" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell row="1" col="2" displaytype="number" maskeditformat="#,###" expr="comp.parent.parent.parent.fnGetWork(0)" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell row="1" col="3" text="업무시간" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell row="1" col="4" displaytype="number" maskeditformat="#,###" expr="comp.parent.parent.parent.fnGetWork(1)" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell row="1" col="5" text="업무시간" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell row="1" col="6" expr="comp.parent.parent.parent.fnGetWork(2)" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell row="1" col="7" text="업무시간" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell row="1" col="8" displaytype="number" maskeditformat="#,###" expr="comp.parent.parent.parent.fnGetWork(3)" border="0px none,1px solid #000000,0px none,0px none"/>
+                      <Cell row="1" col="9" text="업무시간" displaytype="normal" calendardateformat="yyyy-MM-dd HH:mm:ss" textAlign="left" autosizerow="limitmin"/>
+                      <Cell row="1" col="10" displaytype="number" maskeditformat="#,###" expr="comp.parent.parent.parent.fnGetWork(4)"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnExcelDown" taborder="3" text="엑셀다운로드" top="61" width="119" height="28" cssclass="btn_WF_ExcelSave" right="20" onclick="btnExcelDown_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="WORK_FDATE" type="STRING" size="256"/>
+          <Column id="WORK_TDATE" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="WORK_TIME" type="int" size="4"/>
+          <Column id="WORK_CONTENTS" type="string" size="32"/>
+          <Column id="WORK_TYPE" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="WORK_SEQ" type="int" size="4"/>
+          <Column id="WORK_DATE" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsWork" oncolumnchanged="dsWork_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="WORK_TIME" type="int" size="4"/>
+          <Column id="WORK_CONTENTS" type="string" size="32"/>
+          <Column id="WORK_TYPE" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="WORK_SEQ" type="int" size="4"/>
+          <Column id="WORK_DATE" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsAddWork" oncolumnchanged="dsAddWork_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="WORK_TIME" type="int" size="4"/>
+          <Column id="WORK_CONTENTS" type="string" size="32"/>
+          <Column id="WORK_TYPE" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="WORK_SEQ" type="int" size="4"/>
+          <Column id="WORK_DATE" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds00"/>
+      <Dataset id="dsTargetWork" oncolumnchanged="dsTargetWork_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="WORK_TIME" type="int" size="4"/>
+          <Column id="WORK_CONTENTS" type="string" size="32"/>
+          <Column id="WORK_TYPE" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="WORK_SEQ" type="int" size="4"/>
+          <Column id="WORK_DATE" type="string" size="32"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsWorkSum">
+        <ColumnInfo>
+          <Column id="WORK_TIME" type="int" size="4"/>
+          <Column id="WORK_CONTENTS" type="string" size="32"/>
+          <Column id="WORK_TYPE" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="WORK_SEQ" type="int" size="4"/>
+          <Column id="WORK_DATE" type="string" size="32"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="WORK_CONTENTS"/>
+            <Col id="WORK_TYPE"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsWorkTargetSum">
+        <ColumnInfo>
+          <Column id="WORK_TIME" type="int" size="4"/>
+          <Column id="WORK_CONTENTS" type="string" size="32"/>
+          <Column id="WORK_TYPE" type="string" size="32"/>
+          <Column id="USER_ID" type="string" size="32"/>
+          <Column id="WORK_SEQ" type="int" size="4"/>
+          <Column id="WORK_DATE" type="string" size="32"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="WORK_CONTENTS">TOTAL</Col>
+            <Col id="WORK_TYPE">Y</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsGridTarget">
+        <ColumnInfo>
+          <Column id="WORK_TYPE" type="STRING" size="256"/>
+          <Column id="CTN0" type="STRING" size="256"/>
+          <Column id="TIME0" type="INT" size="256"/>
+          <Column id="CTN1" type="STRING" size="256"/>
+          <Column id="TIME1" type="INT" size="256"/>
+          <Column id="CTN2" type="STRING" size="256"/>
+          <Column id="TIME2" type="INT" size="256"/>
+          <Column id="CTN3" type="STRING" size="256"/>
+          <Column id="TIME3" type="INT" size="256"/>
+          <Column id="CTN4" type="STRING" size="256"/>
+          <Column id="TIME4" type="INT" size="256"/>
+          <Column id="CTN5" type="STRING" size="256"/>
+          <Column id="TIME5" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsGridWork">
+        <ColumnInfo>
+          <Column id="WORK_TYPE" type="STRING" size="256"/>
+          <Column id="CTN0" type="STRING" size="256"/>
+          <Column id="TIME0" type="INT" size="256"/>
+          <Column id="CTN1" type="STRING" size="256"/>
+          <Column id="TIME1" type="INT" size="256"/>
+          <Column id="CTN2" type="STRING" size="256"/>
+          <Column id="TIME2" type="INT" size="256"/>
+          <Column id="CTN3" type="STRING" size="256"/>
+          <Column id="TIME3" type="INT" size="256"/>
+          <Column id="CTN4" type="STRING" size="256"/>
+          <Column id="TIME4" type="INT" size="256"/>
+          <Column id="CTN5" type="STRING" size="256"/>
+          <Column id="TIME5" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsGridAdd">
+        <ColumnInfo>
+          <Column id="WORK_TYPE" type="STRING" size="256"/>
+          <Column id="CTN0" type="STRING" size="256"/>
+          <Column id="TIME0" type="INT" size="256"/>
+          <Column id="CTN1" type="STRING" size="256"/>
+          <Column id="TIME1" type="INT" size="256"/>
+          <Column id="CTN2" type="STRING" size="256"/>
+          <Column id="TIME2" type="INT" size="256"/>
+          <Column id="CTN3" type="STRING" size="256"/>
+          <Column id="TIME3" type="INT" size="256"/>
+          <Column id="CTN4" type="STRING" size="256"/>
+          <Column id="TIME4" type="INT" size="256"/>
+          <Column id="CTN5" type="STRING" size="256"/>
+          <Column id="TIME5" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item4" compid="divSearch.form.divUser.form.edtUserId" propid="value" datasetid="dsCond" columnid="USER_ID"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	logSytmLoginFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/06/28
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/06/28			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.fvToday = null;
+this.fvDate = [];
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	//날짜세팅
+	this.fvToday = this.gfnGetDate();
+	this.divSearch.form.cal00.set_value(this.fvToday);	
+	this.getMonday();
+	
+	this.divSearch.form.cal00.set_value(this.fvToday);	
+	
+	this.div00.form.grdList.set_width(100 + (390*5) + 3);
+	this.div00.form.grdList00.set_width(100 + (390*5) + 3);
+	this.div00.form.grdList00_00.set_width(100 + (390*5) + 3);
+	this.div00.form.grdList00_00_00.set_width(100 + (390*5) + 3);
+	
+};
+
+
+this.getMonday = function () {
+	var cald = this.divSearch.form.cal00.value;
+	var d = new Date(this.fnDateFormat(cald));
+	var d2 = new Date(this.fnDateFormat(cald));
+
+	var day = d.getDay(),
+		diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+	var monday =  new Date(d.setDate(diff));
+	var strMonday = this.gfnGetDate("date", "", monday);
+	diff = d2.getDate() - day + (day == 0 ? -2 : 5); // adjust when day is sunday
+	var friday =  new Date(d2.setDate(diff));
+	var strFriday = this.gfnGetDate("date", "", friday);
+
+	this.dsCond.setColumn(0, "WORK_FDATE", strMonday);
+	this.dsCond.setColumn(0, "WORK_TDATE", strFriday);
+	
+	this.fnGridHead(monday);
+
+}
+this.fnDateFormat = function (monday)
+{
+	return monday.substr(0,4) + "-" + monday.substr(4,2) + "-" + monday.substr(6,2);
+};
+
+this.fnGridHead = function(monday)
+{
+	var mon = this.gfnGetDate("date", "", monday);
+	this.fvDate[0] = mon;
+	var col = 1;
+	var arrDay = ["월","화","수","목","금"];
+	for(var i=0;i<5;i++) {
+		this.div00.form.grdList.setCellProperty("head", col, "text", this.fnDateFormat(mon) + " " + arrDay[i]);
+		mon = this.gfnAddDate(mon, 1);
+		this.fvDate[i+1] = mon;
+		col = col+1;
+	}
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+//조회
+this.cfnSearch = function ()
+{
+	if( this.fnSearchValidation()){
+		this.fnTranSearch();
+	}
+};
+this.fnSearchValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsCond);
+
+	this.gfnSetValidation(this.dsCond, "WORK_FDATE", "기간"	, "required");
+	this.gfnSetValidation(this.dsCond, "WORK_TDATE", "기간"	, "required");
+	this.gfnSetValidation(this.dsCond, "USER_ID", "사용자"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsCond, "A") == false) return false;
+	else return true;
+};
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	var strSvcId    = "searchWeekWorkList";
+	var strSvcUrl   = "searchWeekWorkList.do";
+	var inData      = "dsCond=dsCond";
+	var outData     = "dsList=dsList";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	if(nErrCd < 0) return;
+	switch(sSvcId) {
+		case "searchWeekWorkList":
+			this.fnSplitData();
+			break;
+		default: break;
+	}
+};
+
+this.fnSplitData = function() {
+
+	this.dsGridTarget.clearData();
+	this.dsGridWork.clearData();
+	this.dsGridAdd.clearData();
+	
+	this.div00.form.grdList.setCellProperty("head", 0, "text",
+	this.divSearch.form.divUser.form.edtName.value);
+	var arrCnt = [];
+	for(var i=0;i<5;i++) {
+		this.dsList.filter("WORK_DATE == '" + this.fvDate[i] + "' && WORK_TYPE == 'T'");
+		
+		for(var j=0;j<this.dsList.rowcount;j++) {
+			if(this.dsGridTarget.rowcount < (j+1)) {
+				this.dsGridTarget.addRow();
+			}
+			this.dsGridTarget.setColumn(j, "CTN" + i, this.dsList.getColumn(j, "WORK_CONTENTS"));
+			this.dsGridTarget.setColumn(j, "TIME" + i, this.dsList.getColumn(j, "WORK_TIME"));
+			this.dsGridTarget.setColumn(j, "WORK_TYPE", "업무목표");
+		}
+		this.dsList.filter("WORK_DATE == '" + this.fvDate[i] + "' && WORK_TYPE == 'W'");
+		
+		for(var j=0;j<this.dsList.rowcount;j++) {
+			if(this.dsGridWork.rowcount < (j+1)) {
+				this.dsGridWork.addRow();
+			}
+			this.dsGridWork.setColumn(j, "CTN" + i, this.dsList.getColumn(j, "WORK_CONTENTS"));
+			this.dsGridWork.setColumn(j, "TIME" + i, this.dsList.getColumn(j, "WORK_TIME"));
+			this.dsGridWork.setColumn(j, "WORK_TYPE", "업무실적");
+		}
+		
+		this.dsList.filter("WORK_DATE == '" + this.fvDate[i] + "' && WORK_TYPE == 'A'");
+		for(var j=0;j<this.dsList.rowcount;j++) {
+			if(this.dsGridAdd.rowcount < (j+1)) {
+				this.dsGridAdd.addRow();
+			}
+			this.dsGridAdd.setColumn(j, "CTN" + i, this.dsList.getColumn(j, "WORK_CONTENTS"));
+			this.dsGridAdd.setColumn(j, "TIME" + i, this.dsList.getColumn(j, "WORK_TIME"));
+			this.dsGridAdd.setColumn(j, "WORK_TYPE", "추가업무");
+		}		
+	}
+	this.dsGridTarget.set_rowposition(-1);
+	this.dsGridWork.set_rowposition(-1);
+	this.dsGridAdd.set_rowposition(-1);
+	
+	var size = this.div00.form.grdList.getRealRowFullSize("body");
+	this.div00.form.grdList.set_height(64 + size + 2);
+	size = this.div00.form.grdList00.getRealRowFullSize("body");
+	this.div00.form.grdList00.set_height(size + 2);
+	size = this.div00.form.grdList00_00.getRealRowFullSize("body");
+	this.div00.form.grdList00_00.set_height(size + 2);
+	size = this.div00.form.grdList00_00_00.getRealRowFullSize("body");
+	this.div00.form.grdList00_00_00.set_height(size + 2);
+	
+// 	this.div00.form.grdList.set_height(64 + (50*this.dsGridTarget.rowcount) + 3);
+// 	this.div00.form.grdList00.set_height((50*this.dsGridWork.rowcount) + 3);
+// 	this.div00.form.grdList00_00.set_height((50*this.dsGridAdd.rowcount) + 3);
+
+	this.div00.form.resetScroll();
+	
+	this.dsWorkSum.setColumn(0, "WORK_TIME", 0);
+	this.div00.form.grdList00_00_00.redrawExprCell();
+};
+
+this.fnGetTarget = function(idx) {
+	//console.log("#######", idx, this.dsGridTarget.getColumn(0, "TIME" + idx),this.dsGridTarget.getSum("TIME" + idx));
+	return this.dsGridTarget.getSum("TIME" + idx);
+};
+
+this.fnGetWork = function(idx) {
+	var suma = this.dsGridWork.getSum("TIME" + idx);
+	var sumb = this.dsGridAdd.getSum("TIME" + idx);
+	
+	return suma + sumb;
+};
+
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+
+
+this.divSearch_cal00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	this.fvToday = obj.value;
+	this.getMonday();
+	this.dsGridTarget.clearData();
+	this.dsGridWork.clearData();
+	this.dsGridAdd.clearData();
+};
+
+this.btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle01.text;
+	
+	var arrGrid = [this.div00.form.grdList, this.div00.form.grdList00, this.div00.form.grdList00_00, this.div00.form.grdList00_00_00];
+	var arrSheet = [];
+	arrSheet[0] = "sheet!A3";
+	var n = this.dsGridTarget.rowcount;
+	var nAdd = (3 + 4 + n);
+	arrSheet[1] = "sheet!A" + nAdd;
+	n = this.dsGridWork.rowcount;
+	nAdd = (nAdd + 2 + n);
+	arrSheet[2] = "sheet!A" + nAdd;
+	nAdd = (nAdd + 2 + 1);
+	arrSheet[3] = "sheet!A" + nAdd;
+		console.log(arrSheet);
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(arrGrid, arrSheet, "", "EXCEL2007","","", true, "");	
+};
+]]></Script>
+  </Form>
+</FDL>

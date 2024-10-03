@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="TS_StaffTechnicalReg" width="1200" height="520" titletext="기술사항" onload="TS_StaffTechnicalReg_onload">
+    <Layouts>
+      <Layout height="520" mobileorientation="landscape" width="1200">
+        <Static id="stc_GbProjectCareer" taborder="0" cssclass="sta_POP_GroupBg" left="0" top="163" height="32" right="0"/>
+        <Static id="stc_ProjectCareer" taborder="1" text="프로젝트경력사항" left="0.00" top="171" width="134" height="23" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2232"/>
+        <Button id="btn_SpecialSkillMinus" taborder="34" text="행삭제" height="28" cssclass="btn_WF_Delete" width="72" onclick="divCmmnBtn_btnDel_onclick" left="528" bottom="109"/>
+        <Grid id="grd_ProjectCareer" taborder="2" binddataset="dsOutput4" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" top="196" visible="true" left="0" right="10" cellmovingtype="col" bottom="btn_SpecialSkillMinus:7">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="170"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="40"/>
+                <Column size="40"/>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="25" band="head"/>
+                <Row size="26" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="업무명" displaytype="text" edittype="text" TL_SEQ="2233"/>
+                <Cell col="1" colspan="2" displaytype="text" edittype="text" text="참여기간" TL_SEQ="2234"/>
+                <Cell col="3" rowspan="2" text="고객사" TL_SEQ="32"/>
+                <Cell col="4" rowspan="2" text="근무회사" TL_SEQ="2235"/>
+                <Cell col="5" colspan="2" text="개발분야" TL_SEQ="2236"/>
+                <Cell col="7" rowspan="2" text="역할" TL_SEQ="75"/>
+                <Cell col="8" colspan="7" text="개발환경" TL_SEQ="2237"/>
+                <Cell row="1" col="1" text="시작일" TL_SEQ="38"/>
+                <Cell row="1" col="2" text="종료일" TL_SEQ="39"/>
+                <Cell row="1" col="5" text="산업" TL_SEQ="2238"/>
+                <Cell row="1" col="6" text="응용" TL_SEQ="2239"/>
+                <Cell row="1" col="8" text="기종" TL_SEQ="2240"/>
+                <Cell row="1" col="9" text="OS"/>
+                <Cell row="1" col="10" text="언어" TL_SEQ="2241"/>
+                <Cell row="1" col="11" text="DBMS"/>
+                <Cell row="1" col="12" text="TOOL"/>
+                <Cell row="1" col="13" text="통신" TL_SEQ="2242"/>
+                <Cell row="1" col="14" text="기타" TL_SEQ="406"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="text" editautoselect="true" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="1" edittype="date" editautoselect="true" editdisplay="edit" text="bind:START_DATE" calendardateformat="yyyy-MM-dd " maskedittype="string" maskeditformat="####-##-##" displaytype="mask"/>
+                <Cell col="2" text="bind:END_DATE" edittype="date" calendardateformat="yyyy-MM-dd " maskedittype="string" maskeditformat="####-##-##" displaytype="mask"/>
+                <Cell col="3" text="bind:CLIENT_NAME" edittype="text" textAlign="left"/>
+                <Cell col="4" text="bind:COMPANY_NAME" edittype="text" textAlign="left"/>
+                <Cell col="5" text="bind:DOMAIN_INDUSTRY" edittype="checkbox" displaytype="checkboxcontrol"/>
+                <Cell col="6" text="bind:DOMAIN_APPLICATION" edittype="checkbox" displaytype="checkboxcontrol" combodataset="ds_CD_OX" combocodecol="CODE" combodatacol="CODE"/>
+                <Cell col="7" text="bind:ROLE_NAME" edittype="text" textAlign="left"/>
+                <Cell col="8" text="bind:MACHINE" edittype="text" textAlign="left"/>
+                <Cell col="9" text="bind:OS" edittype="text" textAlign="left"/>
+                <Cell col="10" text="bind:LANGUAGE" edittype="text" textAlign="left"/>
+                <Cell col="11" text="bind:DBMS" edittype="text" textAlign="left"/>
+                <Cell col="12" text="bind:TOOL" edittype="text" textAlign="left"/>
+                <Cell col="13" text="bind:COMMUNICATION" edittype="text" textAlign="left"/>
+                <Cell col="14" text="bind:REMARKS" edittype="text" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_StaffTechnicalReg1" taborder="3" cssclass="sta_WF_detailBg" text="" left="466" height="124" top="35" width="157"/>
+        <Static id="stc_GbEducation" taborder="4" cssclass="sta_POP_GroupBg" left="627.00" top="4" height="32" right="370" text=""/>
+        <Static id="stc_Education" taborder="5" text="교육" left="627.00" top="12" width="134" height="23" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2060"/>
+        <Grid id="grd_Role2" taborder="6" left="124" top="37" width="338" height="122" binddataset="dsOutput7" autofittype="col" autoenter="select">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="48"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="bind:CHK_SEL" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="1" text="bind:PRODUCT_NAME"/>
+                <Cell col="2" text="bind:ROLE_EVAL" displaytype="combocontrol" combodataset="ds_CD_E_ROLE_EVAL" combocodecol="CODE" combodatacol="CAPTION" edittype="combo"/>
+                <Cell col="3" text="bind:ROLE_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <CheckBox id="chb_UnableToInput" taborder="7" text="투입불가" left="475.00" top="133" width="83" height="18" truevalue="1" falsevalue="0" TL_SEQ="2243"/>
+        <Button id="btn_ExcelExport" taborder="8" text="Excel ↓" top="167" width="76" height="24" right="515" onclick="comm_Click" cssclass="btn_WF_Excel" tooltiptext="Excel Export" visible="false"/>
+        <Button id="btn_ExcelImport" taborder="9" text="Excel ↑" top="167" width="76" height="24" right="435" onclick="comm_Click" cssclass="btn_WF_Excel" tooltiptext="Excel Import" visible="false"/>
+        <Button id="btn_Reset" taborder="10" text="ReSet" top="167" width="76" height="24" right="267" onclick="comm_Click" cssclass="btn_WF_tran" visible="false"/>
+        <Static id="stc_Ext" taborder="11" text="특이사항" left="610.00" width="178" height="23" cssclass="sta_POP_GroupTit" TL_SEQ="245" bottom="107"/>
+        <TextArea id="txt_Ext" taborder="12" height="93" left="610" right="10" bottom="13"/>
+        <Grid id="grd_Education" taborder="13" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" top="37" visible="true" left="627" height="122" right="10" cellmovingtype="col" binddataset="dsOutput6">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="200"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="200"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="교육명" displaytype="text" edittype="text" TL_SEQ="2244"/>
+                <Cell col="1" displaytype="text" edittype="text" text="시작일" TL_SEQ="38"/>
+                <Cell col="2" text="종료일" TL_SEQ="39"/>
+                <Cell col="3" text="기관" TL_SEQ="2245"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="text" editautoselect="true" text="bind:EDU_NAME"/>
+                <Cell col="1" edittype="date" editautoselect="true" editdisplay="edit" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="2" text="bind:END_DATE" edittype="date" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="3" text="bind:INSTITUTION_NAME" edittype="text"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_SpecialSkill" taborder="14" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" visible="true" left="0.00" height="93" cellmovingtype="col" binddataset="dsOutput5" width="600" bottom="13">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="116"/>
+                <Column size="116"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="특수기술" displaytype="text" edittype="text" TL_SEQ="2246"/>
+                <Cell col="1" displaytype="text" edittype="text" text="숙련도" TL_SEQ="2247"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="normal" editautoselect="true" text="bind:SKILL_NAME"/>
+                <Cell col="1" edittype="text" editautoselect="true" editdisplay="edit" text="bind:SKILL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_SpecialSkill" taborder="15" text="특수기술" left="0.00" width="178" height="23" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2246" bottom="108"/>
+        <Static id="stc_GbProjectCareer00" taborder="16" cssclass="sta_POP_GroupBg" left="0" top="4" height="32" width="462"/>
+        <Static id="stc_ProjectCareer00" taborder="17" text="역할 및 수준" left="0.00" top="12" width="111" height="23" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2248"/>
+        <Static id="stc_GbProjectCareer01" taborder="18" cssclass="sta_POP_GroupBg" left="466" top="4" height="32" width="157"/>
+        <Static id="stc_ProjectCareer01" taborder="19" text="선호지역" left="474.00" top="12" width="62" height="23" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="2249"/>
+        <CheckBox id="chb_type1" taborder="20" text="서울" left="475" top="41" width="60" height="22" truevalue="1" falsevalue="0" TL_SEQ="2250"/>
+        <CheckBox id="chb_type2" taborder="21" text="경기" left="475" top="65" width="60" height="22" truevalue="1" falsevalue="0" TL_SEQ="2251"/>
+        <CheckBox id="chb_type3" taborder="22" text="충청" left="475" top="89" width="60" height="22" truevalue="1" falsevalue="0" TL_SEQ="2252"/>
+        <CheckBox id="chb_type5" taborder="23" text="경상" left="553.00" top="65" width="52" height="22" truevalue="1" falsevalue="0" TL_SEQ="2253"/>
+        <CheckBox id="chb_type6" taborder="24" text="강원" left="553.00" top="89" width="52" height="22" truevalue="1" falsevalue="0" TL_SEQ="2254"/>
+        <CheckBox id="chb_type4" taborder="25" text="전라" left="553.00" top="41" width="52" height="22" truevalue="1" falsevalue="0" TL_SEQ="2255"/>
+        <Edit id="edt_EmpNo" taborder="26" top="0" width="0" height="0" text="수정불가" left="-4" onkeydown="div_ClientList_edt_ClientName_onkeydown"/>
+        <Grid id="grd_Role1" taborder="27" left="0" top="37" width="125" height="122" autofittype="col" binddataset="dsOutput" oncellclick="grd_Role1_oncellclick" autoenter="select" selecttype="cell">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+                <Row size="24"/>
+                <Row size="24"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="bind:ROLE_COMM_FLAG" edittype="checkbox" displaytype="checkboxcontrol"/>
+                <Cell col="1" text="공통" TL_SEQ="2256"/>
+                <Cell row="1" text="bind:ROLE_DEV_FLAG" edittype="checkbox" displaytype="checkboxcontrol"/>
+                <Cell row="1" col="1" text="개발" TL_SEQ="700"/>
+                <Cell row="2" text="bind:ROLE_DESIGN_FLAG" edittype="checkbox" displaytype="checkboxcontrol"/>
+                <Cell row="2" col="1" text="디자인" TL_SEQ="2257"/>
+                <Cell row="3" text="bind:ROLE_UIUX_FLAG" edittype="checkbox" displaytype="checkboxcontrol"/>
+                <Cell row="3" col="1" text="UX"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_ExcelTemplate" taborder="28" text="Template" top="167" width="84" height="24" right="347" onclick="comm_Click" cssclass="btn_WF_Excel" tooltiptext="Excel Template" visible="false"/>
+        <Button id="btn_EducationMinus" taborder="30" text="행삭제" top="7" height="28" cssclass="btn_WF_Delete" width="72" right="10" onclick="divCmmnBtn_btnDel_onclick"/>
+        <Button id="btn_EducationPlus" taborder="29" text="행추가" top="7" width="72" height="28" cssclass="btn_WF_Add" right="btn_EducationMinus:5" onclick="divCmmnBtn_btnAdd_onclick"/>
+        <Button id="btn_ProjectCareerMinus" taborder="32" text="행삭제" top="165" height="28" cssclass="btn_WF_Delete" width="72" right="10" onclick="divCmmnBtn_btnDel_onclick"/>
+        <Button id="btn_ProjectCareerPlus" taborder="31" text="행추가" top="165" width="72" height="28" cssclass="btn_WF_Add" right="btn_ProjectCareerMinus:5" onclick="divCmmnBtn_btnAdd_onclick"/>
+        <Button id="btn_SpecialSkillPlus" taborder="33" text="행추가" width="72" height="28" cssclass="btn_WF_Add" right="btn_SpecialSkillMinus:5" onclick="divCmmnBtn_btnAdd_onclick" bottom="109"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_CD_E_ROLE_EVAL"/>
+      <ExcelImportObject id="ExcelImportObject" onerror="ExcelImportObject_onerror" onsuccess="ExcelImportObject_onsuccess"/>
+      <Dataset id="dsExcelImport">
+        <ColumnInfo>
+          <Column id="EPC_SEQ" type="bigdecimal" size="18"/>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="START_DATE" type="datetime" size="23"/>
+          <Column id="END_DATE" type="datetime" size="23"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="DOMAIN_INDUSTRY" type="string" size="1"/>
+          <Column id="DOMAIN_APPLICATION" type="string" size="1"/>
+          <Column id="ROLE_NAME" type="string" size="100"/>
+          <Column id="MACHINE" type="string" size="100"/>
+          <Column id="OS" type="string" size="100"/>
+          <Column id="LANGUAGE" type="string" size="100"/>
+          <Column id="DBMS" type="string" size="100"/>
+          <Column id="TOOL" type="string" size="100"/>
+          <Column id="COMMUNICATION" type="string" size="100"/>
+          <Column id="REMARKS" type="string" size="32767"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 인력정보등록 (TS_StaffInfoSearch_S01,
+								TS_StaffInfoSearch_S02,
+								TS_StaffInfoSearch_S04,
+								TS_StaffInfoSearch_R01,
+								TS_StaffInfoSearch_R02)
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.09.17
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.TS_StaffTechnicalReg_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.fnFormInit();
+	this.fnGetCode();
+};
+
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+
+}
+
+this.fnGetCode = function()
+{	
+	this.gfnAddCodeDataset("ds_CD_E_ROLE_EVAL"			,"E_ROLE_EVAL");
+	
+	// 공통코드 조회
+	this.gfnCodeTransaction();
+};
+
+//Excel Export
+this.fn_export = function()
+{
+	var dsOutput = this._getDatasetObject("dsOutput"); 
+	var empname = dsOutput.getColumn(0, "EMP_NAME");
+	this.gfn_excelExport(this, this.grd_ProjectCareer, empname + "_프로젝트경력사항.xlsx");
+}
+
+//Excel Import
+this.fn_importExcel = function ()
+{
+	//alert("제공하는 Template을 이용하여 Excel Import 하세요");
+	this.dsExcelImport.clearData();
+	var strServiceURL = nexacro.getEnvironment().services["ServiceURL"].url;	
+	this.ExcelImportObject.set_importurl(strServiceURL+"/xeni/XImport");
+	this.ExcelImportObject.importData("", "[command=getsheetdata;output=outDs;head=Sheet1!A1:Z1;body=Sheet1!A3]", "[dsExcelImport=outDs]");	
+};
+
+//Excel Template
+this.fn_Template = function ()
+{
+	var strServiceURL = nexacro.getEnvironment().services["ServiceURL"].url;	
+	this.wb_PostalSearch.set_url(strServiceURL+"NEXTp/Template/프로젝트경력사항_Template.xlsx");
+};
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+this.comm_Click = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
+{	
+	var dsOutput = this._getDatasetObject("dsOutput"); 
+	var empNo = dsOutput.getColumn(0, "EMP_NO");
+	
+	switch(obj.name)
+	{
+		case "btn_EducationPlus" : 
+			var ds = this.grd_Education.getBindDataset();
+			ds.setColumn(ds.addRow(), "EMP_NO", empNo);
+			break;
+		case "btn_EducationMinus" : 
+			var ds = this.grd_Education.getBindDataset();
+			ds.deleteRow(ds.rowposition);
+			break;
+		case "btn_SpecialSkillPlus" : 
+			var ds = this.grd_SpecialSkill.getBindDataset();
+			ds.setColumn(ds.addRow(), "EMP_NO", empNo);
+			break;
+		case "btn_SpecialSkillMinus" : 
+			var ds = this.grd_SpecialSkill.getBindDataset();
+			ds.deleteRow(ds.rowposition);
+			break;
+		case "btn_ProjectCareerPlus" : 
+			var ds = this.grd_ProjectCareer.getBindDataset();
+			var nRow = ds.insertRow(0);
+			ds.setColumn(nRow, "EMP_NO", empNo);
+			ds.setColumn(nRow, "DOMAIN_INDUSTRY", "0");
+			ds.setColumn(nRow, "DOMAIN_APPLICATION", "0");
+			break;
+		case "btn_ProjectCareerMinus" : 
+			var ds = this.grd_ProjectCareer.getBindDataset();
+			ds.deleteRow(ds.rowposition);
+			break;
+		case "btn_Reset" :
+			var ds = this.grd_ProjectCareer.getBindDataset();
+			ds.deleteAll();
+			break;
+		case "btn_ExcelImport" : 
+			this.fn_importExcel();
+			break;
+		case "btn_ExcelTemplate" : 
+			this.fn_Template();
+			break;
+		case "btn_ExcelExport" : 
+			this.fn_export();
+			break;btn_ExcelTemplate
+ 	}
+};
+
+this.grd_Role1_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var strValue;
+	var strColumn;
+	var ds1 = this.grd_Role1.getBindDataset();
+	var ds2 = this.grd_Role2.getBindDataset();
+
+	switch(e.subrow)
+	{
+		case 0:
+			strValue = "001";
+			strColumn = "ROLE_COMM_FLAG"
+			break;
+		case 1:
+			strValue = "002";
+			strColumn = "ROLE_DEV_FLAG"
+			break;
+		case 2:
+			strValue = "003";
+			strColumn = "ROLE_DESIGN_FLAG"
+			break;
+		case 3:
+			strValue = "004";
+			strColumn = "ROLE_UIUX_FLAG"
+			break;
+	}
+	ds2.filter("ROLE_CODE == '"+strValue+"'");
+	
+	if(ds1.getColumn(0, strColumn)=="0" && obj.getCurEditType()=="checkbox")
+	{		
+		if(this.confirm(this.gfnGetTransTxt(1754,"역할을 삭제 하시겠습니까?", "인력정보등록")))
+		{
+			for(var i = 0; i<ds2.rowcount; i++)
+			{
+				ds2.setColumn(i, "CHK_SEL", "0");
+				ds2.setColumn(i, "ROLE_EVAL", "");
+			}
+		}
+	}	
+};
+
+this.ExcelImportObject_onerror = function(obj:nexacro.ExcelImportObject,e:nexacro.ExcelImportErrorEventInfo)
+{
+	this.alert( "Excel Import Error Type:["+ e.errortype + "] Error Msg:["+e.errormsg+"]");
+};
+
+this.ExcelImportObject_onsuccess = function(obj:nexacro.ExcelImportObject,e:nexacro.ExcelImportEventInfo)
+{
+	var ObjDS = this.grd_ProjectCareer.getBindDataset();	
+	var dsOutput = this._getDatasetObject("dsOutput"); 
+	var empNo = dsOutput.getColumn(0, "EMP_NO");
+
+	for(var i = 0; i<this.dsExcelImport.rowcount; i++)
+	{
+		var nToRow = ObjDS.addRow();
+		var strStartDate = this.regExp(this.dsExcelImport.getColumn(i,"START_DATE"));
+		var strEndDate = this.regExp(this.dsExcelImport.getColumn(i,"END_DATE"));		
+		strStartDate = strStartDate.length==6 ? strStartDate+'01' : strStartDate;
+		strEndDate = strEndDate.length==6 ? strEndDate+'01' : strEndDate;		
+		this.dsExcelImport.setColumn(i,"START_DATE",strStartDate);
+		this.dsExcelImport.setColumn(i,"END_DATE",strEndDate);
+		
+		if(this.gfnIsEmpty(this.dsExcelImport.getColumn(i,"DOMAIN_INDUSTRY")))
+			this.dsExcelImport.setColumn(i,"DOMAIN_INDUSTRY",'0');
+		if(this.gfnIsEmpty(this.dsExcelImport.getColumn(i,"DOMAIN_APPLICATION")))
+			this.dsExcelImport.setColumn(i,"DOMAIN_APPLICATION",'0');
+		ObjDS.copyRow(nToRow, this.dsExcelImport, i);
+		var ret = ObjDS.setColumn(nToRow, "EMP_NO", empNo);
+	}
+	this.alert(this.gfnGetTransTxt(1586,"Excel Import Success !!\n 데이터 확인후 저장하세요."));
+};
+
+this.regExp = function(value){ 
+	var str = value; 
+	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi 
+	if(regExp.test(str)){
+		var t = str.replace(regExp, "") 
+		return t;
+	}else{
+		return str;
+	}
+};]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="txt_Ext" propid="value" datasetid="dsOutput" columnid="REMARKS"/>
+      <BindItem id="item5" compid="chb_type1" propid="value" datasetid="dsOutput" columnid="AREA_SE_FLAG"/>
+      <BindItem id="item6" compid="chb_type2" propid="value" datasetid="dsOutput" columnid="AREA_GG_FLAG"/>
+      <BindItem id="item7" compid="chb_type3" propid="value" datasetid="dsOutput" columnid="AREA_CC_FLAG"/>
+      <BindItem id="item8" compid="chb_type4" propid="value" datasetid="dsOutput" columnid="AREA_JL_FLAG"/>
+      <BindItem id="item9" compid="chb_type5" propid="value" datasetid="dsOutput" columnid="AREA_GS_FLAG"/>
+      <BindItem id="item10" compid="chb_type6" propid="value" datasetid="dsOutput" columnid="AREA_GW_FLAG"/>
+      <BindItem id="item11" compid="chb_UnableToInput" propid="value" datasetid="dsOutput" columnid="NON_INPUT_FLAG"/>
+      <BindItem id="item12" compid="edt_EmpNo" propid="value" datasetid="dsOutput" columnid="EMP_NO"/>
+    </Bind>
+  </Form>
+</FDL>

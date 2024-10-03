@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root xmlns="http://www.tobesoft.com/platform/dataset" ver="5000">
+  <Parameters>
+    <Parameter id="ErrorCode" type="int">0</Parameter>
+    <Parameter id="ErrorMsg" type="string">SUCC</Parameter>
+  </Parameters>
+  <Dataset id="output">
+    <ColumnInfo>
+      <Column id="domain" type="string" size="255"/>
+      <Column id="model" type="string" size="255"/>
+      <Column id="dataset" type="string" size="255"/>
+      <Column id="dataSource" type="string" size="255"/>
+    </ColumnInfo>
+    <Rows>
+      <Row>
+        <Col id="domain">metadata</Col>
+        <Col id="model">metadata</Col>
+        <Col id="dataset">metadata</Col>
+        <Col id="dataSource">DB</Col>
+        <DatasetLayout>
+          <Dataset id="output">
+            <ColumnInfo>
+              <Column id="NAME" type="string" size="255"/>
+              <Column id="TYPE" type="string" size="255"/>
+              <Column id="SIZE" type="string" size="255"/>
+              <Column id="ALIAS" type="string" size="255"/>
+              <Column id="DESCRIPTION" type="string" size="255"/>
+              <Column id="DEFAULT" type="string" size="255"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="NAME">metadata</Col>
+                <Col id="TYPE">DataSet</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+          <Dataset id="metadata">
+            <ColumnInfo>
+              <Column id="id" type="string" size="255"/>
+              <Column id="text" type="string" size="255"/>
+              <Column id="type" type="string" size="255"/>
+              <Column id="description" type="string" size="255"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="id">Name</Col>
+                <Col id="text">성명</Col>
+                <Col id="type">VARCHAR2</Col>
+                <Col id="description">한글 성명</Col>
+              </Row>
+              <Row>
+                <Col id="id">AccountNo</Col>
+                <Col id="text">계좌번호</Col>
+                <Col id="type">NUMBER</Col>
+                <Col id="description">지출결제 시 계좌번호</Col>
+              </Row>
+              <Row>
+                <Col id="id">AccountPass</Col>
+                <Col id="text">계좌비밀번호</Col>
+                <Col id="type">NUMBER</Col>
+                <Col id="description">지출결제 시 계좌의 비밀번호</Col>
+              </Row>
+              <Row>
+                <Col id="id">BaseRate</Col>
+                <Col id="text">기준금리</Col>
+                <Col id="type">NUMBER(3.2)</Col>
+                <Col id="description">한국은행 기준금리</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </DatasetLayout>
+      </Row>
+    </Rows>
+  </Dataset>
+</Root>

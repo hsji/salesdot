@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SC_CompanyTypeSelect" width="280" height="200" titletext="계약구분 선택" cssclass="frm_popBg" onload="SC_CompanyTypeSelect_onload">
+    <Layouts>
+      <Layout height="200" mobileorientation="landscape" width="280">
+        <Static id="sta00" taborder="4" left="20.00" top="33" height="115" border="1px solid #dddddd" background="#eeeeee" borderRadius="10px" right="20"/>
+        <Static id="stc_BottomFrame" taborder="2" left="1" height="37" right="1" bottom="1" cssclass="sta_POP_BtnBg" text=""/>
+        <Button id="btn_Exit" taborder="0" text="닫기" cssclass="btn_WF_tran" width="50" height="28" bottom="10" right="20" onclick="btn_Exit_onclick" TL_SEQ="59"/>
+        <Button id="btn_Confirm" taborder="1" text="선택" cssclass="btn_WF_Crud" height="28" width="50" bottom="10" right="btn_Exit:5" onclick="btn_Confirm_onclick" defaultbutton="true" TL_SEQ="113"/>
+        <Radio id="rdo_CompanyType" taborder="3" left="103.00" top="50" innerdataset="ds_CompanyType" codecolumn="CODE" datacolumn="CAPTION" columncount="1" right="60" bottom="70" TL_FLAG="1" value="CLIENT" text="고객사" index="0"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_CompanyType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="CAPTION_ENG" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CAPTION">고객사</Col>
+            <Col id="CODE">CLIENT</Col>
+            <Col id="CAPTION_JAP">パートナ社</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">계약처</Col>
+            <Col id="CODE">COMPANY</Col>
+            <Col id="CAPTION_JAP">契約先</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: xxx
+* 02. 화면명		: xxx
+* 03. 화면설명 		: xxx
+* 04. 작성일   	: 2018.xx.xx
+* 05. 작성자   	: xxx
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+
+this.SC_CompanyTypeSelect_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnInitForm();
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.btn_Exit_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close("cancel");
+};
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close("cancel");
+};
+
+this.btn_Confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch (this.rdo_CompanyType.value)
+	{
+		case "CLIENT":		
+			var sArgument = {COMPANY_CODE:this.parent.CLIENT_CODE, TAB_INDEX:3, MODE:"E"};
+			this.commUtil.popup(this, "CompanyReg", "sales::base/SC_CompanyReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+
+			break;
+		case "COMPANY":		
+			var sArgument = {COMPANY_CODE:this.parent.COMPANY_CODE, TAB_INDEX:3, MODE:"E"};
+			this.commUtil.popup(this, "CompanyReg", "sales::base/SC_CompanyReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+
+			break;
+		case "ETC":
+			this.commUtil.popupCompanySearch(this, "CompanySearch", "fnPopupCallBack", sArgument);
+			break;
+	}
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInitForm = function()
+{
+	if(this.parent.hasOwnProperty("TAB_INDEX")) {
+		if(!this.gfnIsEmpty(this.parent.TAB_INDEX)){
+			this.tab_Info.set_tabindex(this.parent.TAB_INDEX);
+		}
+	}
+}
+
+this.fnPopupCallBack = function (popupId, popupArg)
+{
+	popupArg = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(popupArg) || popupArg=="cancel" || popupArg=="close") {
+		this.close("cancel");
+	}
+	
+	switch(popupId)
+	{
+		case "CompanyReg":		// 담당자
+			this.close(popupArg);
+			break;
+		case "CompanySearch":	//회사선택
+			var ds = new nexacro.Dataset();
+			ds.loadXML(popupArg);
+			var sArgument = {COMPANY_CODE:ds.getColumn(0, "COMPANY_CODE"), TAB_INDEX:3, MODE:"E"};
+			this.commUtil.popup(this, "CompanyReg", "Sales::SC_CompanyReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+		default:
+			break;
+	}
+}
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{
+// 	this.gfnAddCodeDataset("ds_CD_CONTRACT_TYPE", "CONTRACT_TYPE");
+// 	this.gfnCodeTransaction();
+}
+
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		return;
+	}
+	else 
+	{
+// 		if(strSvcID=="gfnGetCode") 
+// 		{
+// 			if(this.parent.hasOwnProperty("sFilterExpr"))
+// 			{
+// 				this.ds_CD_CONTRACT_TYPE.set_enableevent(false);
+// 				var sExpr = this.parent.sFilterExpr;
+// 				this.ds_CD_CONTRACT_TYPE.filter(sExpr);
+// 				this.ds_CD_CONTRACT_TYPE.set_enableevent(true);
+// 			}
+// 			
+// 			
+// 			if(this.ds_CD_CONTRACT_TYPE.getRowCount() > 0)
+// 			{
+// 				this.rdo_CompanyType.set_index(0);				
+// 			}
+// 			this.rdo_CompanyType.setFocus();
+// 		}
+	}
+}
+
+]]></Script>
+  </Form>
+</FDL>

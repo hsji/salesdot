@@ -1,0 +1,701 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AM_PackageMM" width="1280" height="580" titletext="패키지관리" onload="AM_PackageMM_onload">
+    <Layouts>
+      <Layout height="580" mobileorientation="landscape" width="1280">
+        <Div id="div_PackageManagement" taborder="0" text="" left="10" top="8" height="40" cssclass="div_WF_SchList" right="10" formscrollbartype="none none" formscrolltype="none">
+          <Layouts>
+            <Layout>
+              <Button id="btn_Inquiry" taborder="0" text="조회" top="8" width="60" height="22" right="8" onclick="comm_select_onclick" cssclass="btn_WF_SchText"/>
+              <Static id="stc_ContractStatus" taborder="1" text="계약상태" left="12" top="8" height="22" textAlign="right" cssclass="sta_WF_DetailTit" visible="true" width="48"/>
+              <Combo id="cmb_ContractStatus" taborder="2" text="계약완료" left="stc_ContractStatus:8" top="8" width="120" height="22" index="0" visible="true" innerdataset="ds_SearchContractStatus" codecolumn="CODE" datacolumn="DATA" value="CONCLUDED"/>
+              <Static id="stc_PackageName" taborder="3" text="패키지명" left="cmb_ContractStatus:8" top="8" height="22" cssclass="sta_WF_DetailTit" width="48"/>
+              <Edit id="edt_PackageName" taborder="4" left="stc_PackageName:8" top="8" width="334" height="22"/>
+              <Button id="btn_InfoExcelExport" taborder="5" text="Excel" top="8" height="22" right="btn_Inquiry:8" width="66" onclick="comm_Exel_Click" cssclass="btn_WF_Excel"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_PackageInfoHeader" taborder="2" left="10" top="div_PackageManagement:10" height="30" right="10" background="linear-gradient(to bottom,#f3f3f3,#d9d9d9)" border="1px solid #c8c8c8">
+          <Layouts>
+            <Layout>
+              <Static id="stc_ServerInfoText" taborder="0" text="패키지 정보" left="10" top="7" width="95" height="16" cssclass="sta_POP_GroupTit"/>
+              <Button id="btn_PackageInfoSave" taborder="3" text="저장" top="4" height="22" onclick="common_save_onclick" right="8" width="70" cssclass="btn_WF_tran"/>
+              <Button id="btn_PackageInfoDelete" taborder="2" text="삭제" top="4" width="70" height="22" onclick="common_delete_onclick" right="btn_PackageInfoSave:8"/>
+              <Button id="btn_PackageInfoAdd" taborder="1" text="추가" top="4" width="70" height="22" right="btn_PackageInfoDelete:8" onclick="common_add_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Tab id="tab_Sub" taborder="3" tabindex="0" left="10" right="10" onchanged="Tab00_onchanged" height="300" bottom="10">
+          <Tabpages>
+            <Tabpage id="tpg_PackageManager" text="관리자 명단">
+              <Layouts>
+                <Layout>
+                  <Div id="div_PackageManagerHeader" taborder="0" left="0" top="0" height="30" right="0" background="linear-gradient(to bottom,#f3f3f3,#d9d9d9)" border="1px solid #c8c8c8">
+                    <Layouts>
+                      <Layout>
+                        <Static id="stc_ServerInfoText" taborder="0" text="관리자 정보" left="10" top="7" width="95" height="16" cssclass="sta_POP_GroupTit" onclick="Tab00_tpg_PackageManager_divPackageInfoHeader_stc_ServerInfoText_onclick"/>
+                        <Button id="btn_PackageManagerSave" taborder="3" text="저장" top="4" height="22" onclick="common_save_onclick" right="8" width="70" cssclass="btn_WF_tran"/>
+                        <Button id="btn_PackageManagerDelete" taborder="2" text="삭제" top="4" width="70" height="22" onclick="common_delete_onclick" right="btn_PackageManagerSave:8"/>
+                        <Button id="btn_PackageManagerAdd" taborder="1" text="추가" top="4" width="70" height="22" onclick="common_add_onclick" right="btn_PackageManagerDelete:8"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Grid id="grd_PackageManger" taborder="1" left="0" top="div_PackageManagerHeader:0" right="0" bottom="0" binddataset="ds_PackageManager" autofittype="col">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="150"/>
+                          <Column size="150"/>
+                          <Column size="150"/>
+                          <Column size="150"/>
+                          <Column size="150"/>
+                          <Column size="150"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="24" band="head"/>
+                          <Row size="24" band="head"/>
+                          <Row size="24"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell rowspan="2" text="회사명"/>
+                          <Cell col="1" rowspan="2" text="서비스명"/>
+                          <Cell col="2" colspan="3" text="관리자 정보"/>
+                          <Cell col="5" rowspan="2" text="비고"/>
+                          <Cell row="1" col="2" text="이름"/>
+                          <Cell row="1" col="3" text="연락처"/>
+                          <Cell row="1" col="4" text="이메일"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell text="bind:COMPANY_NM" textAlign="left" edittype="text"/>
+                          <Cell col="1" text="bind:SERVICE_NM" textAlign="left" edittype="text"/>
+                          <Cell col="2" text="bind:MANAGER_NM" textAlign="left" edittype="text"/>
+                          <Cell col="3" text="bind:MANAGER_CONTACT" textAlign="left" edittype="text"/>
+                          <Cell col="4" text="bind:MANAGER_MAIL" textAlign="left" edittype="text"/>
+                          <Cell col="5" text="bind:REMARK" textAlign="left" edittype="text"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tpg_PackageContractDoc" text="관련 결재 문서">
+              <Layouts>
+                <Layout>
+                  <Div id="div_PackageContractDocHeader" taborder="1" left="0" top="0" height="30" right="0" background="linear-gradient(to bottom,#f3f3f3,#d9d9d9)" border="1px solid #c8c8c8">
+                    <Layouts>
+                      <Layout>
+                        <Static id="stc_PackageContractDocText" taborder="0" text="관련 결재 문서 목록" left="10" top="7" width="150" height="14" cssclass="sta_POP_GroupTit" onclick="Tab00_tpg_PackageManager_divPackageInfoHeader_stc_ServerInfoText_onclick"/>
+                        <Button id="btn_PackageContractDocSave" taborder="3" text="저장" top="4" height="22" onclick="common_save_onclick" right="8" width="70" cssclass="btn_WF_tran"/>
+                        <Button id="btn_PackageContractDocDelete" taborder="2" text="삭제" top="4" width="70" height="22" onclick="common_delete_onclick" right="btn_PackageContractDocSave:8"/>
+                        <Button id="btn_PackageContractDocAdd" taborder="1" text="추가" top="4" width="70" height="22" onclick="common_add_onclick" right="btn_PackageContractDocDelete:8"/>
+                        <Button id="btn_DocExcelExport" taborder="4" text="Excel" top="4" height="22" right="btn_PackageContractDocAdd:8" width="66" onclick="comm_Exel_Click" cssclass="btn_WF_Excel"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Grid id="grd_PackageContractDoc" taborder="1" left="0" top="div_PackageContractDocHeader:-0" right="0" binddataset="ds_PackageContractDoc" autofittype="col" oncellclick="tab_Sub_tpg_PackageContractDoc_grd_PackageContractDoc_oncellclick" bottom="0">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="350"/>
+                          <Column size="700"/>
+                          <Column size="150"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="24" band="head"/>
+                          <Row size="24"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell text="패키지명"/>
+                          <Cell col="1" text="문서 명"/>
+                          <Cell col="2"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell text="bind:NAME" displaytype="normal"/>
+                          <Cell col="1" text="bind:DOC_NO" edittype="text"/>
+                          <Cell col="2" displaytype="buttoncontrol" edittype="button" text="결재 문서 보기"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+        <Grid id="grd_PackageInfo" taborder="1" left="10" top="div_PackageInfoHeader:0" right="10" binddataset="ds_PackageInfo" autofittype="col" bottom="tab_Sub:15">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="200"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="150"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="패키지명"/>
+                <Cell col="1" rowspan="2" text="서비스명"/>
+                <Cell col="2" colspan="3" text="접속 정보"/>
+                <Cell col="5" rowspan="2" text="갱신 주기"/>
+                <Cell col="6" rowspan="2" text="계약 상태"/>
+                <Cell col="7" rowspan="2" text="비고"/>
+                <Cell row="1" col="2" text="URL"/>
+                <Cell row="1" col="3" text="ID"/>
+                <Cell row="1" col="4" text="PW"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:NAME" textAlign="left" edittype="text"/>
+                <Cell col="1" textAlign="left" text="bind:SERVICE_NM" edittype="text"/>
+                <Cell col="2" text="bind:URL" textAlign="left" edittype="text"/>
+                <Cell col="3" text="bind:ID" textAlign="left" edittype="text"/>
+                <Cell col="4" text="bind:PW" textAlign="left" edittype="text"/>
+                <Cell col="5" text="bind:RENEWAL_CYCLE" displaytype="combotext" edittype="combo" combodataset="ds_RenewalCycle" combocodecol="CODE" combodatacol="DATA"/>
+                <Cell col="6" text="bind:CONTRACT_STATUS" displaytype="combotext" edittype="combo" combodataset="ds_ContractStatus" combocodecol="CODE" combodatacol="DATA"/>
+                <Cell col="7" text="bind:REMARK" textAlign="left" edittype="text"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_PiPmJoinExcel" taborder="4" left="0" top="630" binddataset="ds_PiPmJoinedExcel" visible="false" right="16" autofittype="none" height="500">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="250"/>
+                <Column size="250"/>
+                <Column size="250"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="250"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="250"/>
+                <Column size="250"/>
+                <Column size="250"/>
+                <Column size="250"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="패키지 명"/>
+                <Cell col="1" rowspan="2" text="서비스 명"/>
+                <Cell col="2" colspan="3" text="접속 정보"/>
+                <Cell col="5" rowspan="2" text="갱신 주기"/>
+                <Cell col="6" rowspan="2" text="계약 상태"/>
+                <Cell col="7" rowspan="2" text="패키지 비고"/>
+                <Cell col="8" rowspan="2" text="회사명"/>
+                <Cell col="9" rowspan="2" text="서비스명"/>
+                <Cell col="10" colspan="3" text="관리자 정보"/>
+                <Cell col="13" rowspan="2" text="관리자 비고"/>
+                <Cell row="1" col="2" text="URL"/>
+                <Cell row="1" col="3" text="ID"/>
+                <Cell row="1" col="4" text="PW"/>
+                <Cell row="1" col="10" text="이름"/>
+                <Cell row="1" col="11" text="연락처"/>
+                <Cell row="1" col="12" text="메일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:NAME" textAlign="left" suppress="1"/>
+                <Cell col="1" text="bind:PI_SERVICE_NM" textAlign="left" suppress="1"/>
+                <Cell col="2" text="bind:URL" textAlign="left" suppress="1" wordWrap="char"/>
+                <Cell col="3" text="bind:ID" textAlign="left" suppress="1"/>
+                <Cell col="4" text="bind:PW" textAlign="left" suppress="1"/>
+                <Cell col="5" text="bind:RENEWAL_CYCLE" textAlign="center" edittype="combo" displaytype="combotext" combodataset="ds_RenewalCycle" combocodecol="CODE" combodatacol="DATA"/>
+                <Cell col="6" text="bind:CONTRACT_STATUS" textAlign="center" displaytype="combotext" edittype="combo" combodataset="ds_ContractStatus" combocodecol="CODE" combodatacol="DATA"/>
+                <Cell col="7" text="bind:PI_REMARK" textAlign="left"/>
+                <Cell col="8" text="bind:COMPANY_NM" textAlign="left"/>
+                <Cell col="9" text="bind:PM_SERVICE_NM" textAlign="left"/>
+                <Cell col="10" text="bind:MANAGER_NM" textAlign="left"/>
+                <Cell col="11" text="bind:MANAGER_CONTACT" textAlign="left"/>
+                <Cell col="12" text="bind:MANAGER_MAIL" textAlign="left"/>
+                <Cell col="13" text="bind:PM_REMARK" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_PackageContractDocExcel" taborder="5" left="1358" top="172" width="654" height="390" visible="false" binddataset="ds_PackageContractDoc">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="400"/>
+                <Column size="400"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="패키지명"/>
+                <Cell col="1" text="문서 명"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:NAME"/>
+                <Cell col="1" text="bind:DOC_NO"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 패키지 관리
+* 02. 화면명   : 패키지 관리(AM_PackageMM)
+* 03. 화면설명 : 패키지관리 화면
+* 04. 작성일   : 2023/06/23
+* 05. 작성자   : 이상원
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AM_PackageMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);	//사용자 Grid
+	this.fnInit();
+};
+
+this.nPiSeq=0;
+this.nPmSeq=0;
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+//페이지 초기화 세팅
+this.fnInit = function () {
+	this.div_PackageManagement.form.edt_PackageName.value = "";
+	this.ds_PackageInfo.clearData();
+	this.ds_PackageManager.clearData();
+	this.ds_PackageContractDoc.clearData();
+	this.fnPackageInfoSelect();
+}
+
+//Excel Export
+this.fn_export = function(grid)
+{		
+	this.gfn_excelExport(this, grid);
+};
+
+//PackageInfo (패키지 정보) 조회
+this.fnPackageInfoSelect = function ()
+{	
+	// 계약 상태 검색 조건값 셋팅
+	var sContractStatus = this.div_PackageManagement.form.cmb_ContractStatus.value;
+	this.gfnAddSendParameter("CONTRACT_STATUS", sContractStatus);
+	
+	// 패키지명 검색 조건값 셋팅
+	var sPackageName = this.div_PackageManagement.form.edt_PackageName.value;
+	this.gfnAddSendParameter("PACKAGE_NAME", sPackageName);
+	
+	this.gfnAddOutputDataset("ds_PackageInfo","ds_PackageInfo");
+	this.gfnCommonTransaction("PackageInfoSelect", "AM_PackageInfo_S01");
+};
+
+//PackageInfo (패키지 정보) 저장
+this.fnPackageInfoSave = function ()
+{
+	if(this.fnPackageInfoValidation() == true) {
+		this.gfnAddInputDataset("ds_PackageInfo","ds_PackageInfo");
+		this.gfnCommonTransaction("PackageInfoSave", "AM_PackageInfo_R01");
+	}
+};
+
+//엑셀 출력을 위한 PackageInfo, PackageManager (패키지 정보 + 관리자 명단) 조회
+this.fnPackageInfoManagerJoinSelect = function ()
+{	
+	// 계약 상태 검색 조건값 셋팅
+	var sContractStatus = this.div_PackageManagement.form.cmb_ContractStatus.value;
+	this.gfnAddSendParameter("CONTRACT_STATUS", sContractStatus);
+	
+	// 패키지명 검색 조건값 셋팅
+	var sPackageName = this.div_PackageManagement.form.edt_PackageName.value;
+	this.gfnAddSendParameter("PACKAGE_NAME", sPackageName);
+	
+	this.gfnAddOutputDataset("ds_PiPmJoinedExcel","ds_PiPmJoinedExcel");
+	this.gfnCommonTransaction("PackageInfoManagerJoinSelect", "AM_PackageInfo_S02");
+};
+
+//PackageManager(관리자 명단) 조회
+this.fnPackageManagerSelect = function ()
+{
+	this.gfnAddSendParameter("PI_SEQ", this.nPiSeq);
+	this.gfnAddOutputDataset("ds_PackageManager","ds_PackageManager");
+	this.gfnCommonTransaction("PackageManagerSelect", "AM_PackageManager_S01");
+};
+
+//PackageManager(관리자 명단) 저장
+this.fnPackageManagerSave = function ()
+{
+	if(this.fnPackageManagerValidation()==true){
+		this.gfnAddInputDataset("ds_PackageManager","ds_PackageManager");
+		this.gfnCommonTransaction("PackageManagerSave", "AM_PackageManager_R01");
+	}
+};
+
+//PackageContractDoc(관련 결재 문서) 조회
+this.fnPackageContractDocSelect = function ()
+{
+	this.gfnAddSendParameter("PI_SEQ", this.nPiSeq);
+	this.gfnAddOutputDataset("ds_PackageContractDoc","ds_PackageContractDoc");
+	this.gfnCommonTransaction("PackageContractDocSelect", "AM_PackageContractDoc_S01");
+};
+
+//PackageContractDoc(관련 결재 문서) 저장
+this.fnPackageContractDocSave = function ()
+{
+	if(this.fnPackageContractDocrValidation() == true) {
+		this.gfnAddInputDataset("ds_PackageContractDoc","ds_PackageContractDoc");
+		this.gfnCommonTransaction("PackageContractDocSave", "AM_PackageContractDoc_R01");
+	}
+};
+
+/*
+ *	유효성 체크 함수 
+ */
+this.fnPackageInfoValidation = function ()
+{
+	for(var i = 0; i < this.ds_PackageInfo.rowcount; i++)
+	{
+		if(this.gfnIsEmpty(this.ds_PackageInfo.getColumn(i, "NAME"))) { alert("패키지명은 필수 입력 항목입니다."); this.grd_PackageInfo.setCellPos(0, i); this.grd_PackageInfo.showEditor(true); return false;}
+		else if(this.gfnIsEmpty(this.ds_PackageInfo.getColumn(i, "SERVICE_NM"))) { alert("서비스명은 필수 입력 항목입니다."); this.grd_PackageInfo.setCellPos(1, i); this.grd_PackageInfo.showEditor(true); return false;}
+		else if(this.gfnIsEmpty(this.ds_PackageInfo.getColumn(i, "CONTRACT_STATUS"))) { alert("계약 상태는 필수 입력 항목입니다."); this.grd_PackageInfo.setCellPos(6, i); this.grd_PackageInfo.showEditor(true); return false;}
+	}
+	return true;
+};
+
+this.fnPackageManagerValidation = function ()
+{
+	for(var i = 0; i < this.ds_PackageManager.rowcount; i++)
+	{
+		if(this.gfnIsEmpty(this.ds_PackageInfo.getColumn(this.ds_PackageInfo.rowposition, "PI_SEQ"))) { alert("패키지를 먼저 등록해주세요."); return false;}
+		else if(this.gfnIsEmpty(this.ds_PackageManager.getColumn(i, "COMPANY_NM"))) { alert("회사명은 필수 입력 항목입니다."); this.tab_Sub.tpg_PackageManager.form.grd_PackageManger.setCellPos(0, i); this.tab_Sub.tpg_PackageManager.form.grd_PackageManger.showEditor(true); return false;}
+		else if(this.gfnIsEmpty(this.ds_PackageManager.getColumn(i, "SERVICE_NM"))) { alert("관리서비스는 필수 입력 항목입니다."); this.tab_Sub.tpg_PackageManager.form.grd_PackageManger.setCellPos(1, i); this.tab_Sub.tpg_PackageManager.form.grd_PackageManger.showEditor(true); return false;}
+		else if(this.gfnIsEmpty(this.ds_PackageManager.getColumn(i, "MANAGER_NM"))) { alert("관리자명은 필수 입력 항목입니다."); this.tab_Sub.tpg_PackageManager.form.grd_PackageManger.setCellPos(2, i); this.tab_Sub.tpg_PackageManager.form.grd_PackageManger.showEditor(true); return false;}
+		else if(this.gfnIsEmpty(this.ds_PackageManager.getColumn(i, "MANAGER_CONTACT"))) { alert("연락처는 필수 입력 항목입니다."); this.tab_Sub.tpg_PackageManager.form.grd_PackageManger.setCellPos(3, i); this.tab_Sub.tpg_PackageManager.form.grd_PackageManger.showEditor(true); return false;}
+	}
+	return true;
+};
+
+this.fnPackageContractDocrValidation = function ()
+{
+	for(var i = 0; i < this.ds_PackageContractDoc.rowcount; i++)
+	{
+		if(this.gfnIsEmpty(this.ds_PackageInfo.getColumn(this.ds_PackageInfo.rowposition, "PI_SEQ"))) { alert("패키지를 먼저 등록해주세요."); return false;}
+		else if(this.gfnIsEmpty(this.ds_PackageContractDoc.getColumn(i, "DOC_NO"))) { alert("문서 명은 필수 입력 항목입니다."); this.tab_Sub.tpg_PackageContractDoc.form.grd_PackageContractDoc.setCellPos(1, i); this.tab_Sub.tpg_PackageContractDoc.form.grd_PackageContractDoc.showEditor(true); return false;}
+	}
+	return true;
+};
+
+//콜백 함수
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		if(strSvcID == "PackageInfoSelect")
+		{	
+			this.fnPackageInfoManagerJoinSelect();
+			this.fnPackageManagerSelect();
+			this.fnPackageContractDocSelect();
+		}
+		else if(strSvcID == "PackageInfoSave")
+		{
+			this.fnPackageInfoSelect();
+		}
+		else if(strSvcID == "PackageInfoManagerJoinSelect")
+		{
+		}
+		else if (strSvcID == "PackageManagerSelect")
+		{
+		}
+		else if (strSvcID == "PackageManagerSave")
+		{
+			this.fnPackageManagerSelect();
+			
+		}
+		else if (strSvcID == "PackageContractDocSelect")
+		{
+		}
+		else if (strSvcID == "PackageContractDocSave")
+		{	
+			this.fnPackageContractDocSelect();
+		}
+	}
+}
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.common_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_PackageInfoAdd" :			//패키지 정보 추가
+			var nRow = this.ds_PackageInfo.addRow();
+			this.ds_PackageInfo.setColumn(nRow,"REMARK",""); 		//ntext를 위한 초기값 설정
+			break;
+		case "btn_PackageManagerAdd" :		//관리자 명단 추가
+			if(this.gfnIsEmpty(this.nPiSeq) == true) {
+				alert("패키지를 먼저 추가/저장해주세요.");
+			} else {
+				var nRow = this.ds_PackageManager.addRow();
+				this.ds_PackageManager.setColumn(nRow,"PI_SEQ",this.nPiSeq);
+				this.ds_PackageManager.setColumn(nRow,"REMARK",""); 		//ntext를 위한 초기값 설정
+			}
+			break;
+		case "btn_PackageContractDocAdd" :		//관련 결재 문서 추가
+			if(this.gfnIsEmpty(this.nPiSeq) == true) {
+				alert("패키지를 먼저 추가/저장해주세요.");
+			} else {
+				var nRow = this.ds_PackageContractDoc.addRow();
+				this.ds_PackageContractDoc.setColumn(nRow,"PI_SEQ",this.nPiSeq);
+			}
+			break;
+		default :
+			break;
+	}
+};
+
+this.common_delete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_PackageInfoDelete" :		//패키지 정보 삭제
+			this.ds_PackageInfo.deleteRow(this.ds_PackageInfo.rowposition);
+			break;
+		case "btn_PackageManagerDelete" :		//관리자 명단 삭제
+			this.ds_PackageManager.deleteRow(this.ds_PackageManager.rowposition);
+			break;
+		case "btn_PackageContractDocDelete" :		//관련 결재 문서 삭제
+			this.ds_PackageContractDoc.deleteRow(this.ds_PackageContractDoc.rowposition);
+			break;
+		default :
+			break;
+	}
+};
+
+this.common_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_PackageInfoSave" :		//패키지 정보 저장
+			this.fnPackageInfoSave();
+			break;
+		case "btn_PackageManagerSave" :			//관리자 명단 저장
+			this.fnPackageManagerSave();
+			break;
+		case "btn_PackageContractDocSave" :			//관련 결재 문서 저장
+			this.fnPackageContractDocSave();
+			break;
+		default :
+			break;
+	}
+};
+
+//검색조건에 따라 조회
+this.comm_select_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnPackageInfoSelect();
+};
+
+//엑셀 출력
+this.comm_Exel_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+	case "btn_InfoExcelExport" :
+		this.fn_export(this.grd_PiPmJoinExcel);
+		break;
+	case "btn_DocExcelExport" :
+		this.fn_export(this.grd_PackageContractDocExcel);
+		break;
+	default:
+		break;
+	}
+};
+
+this.ds_PackageInfo_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.ds_RowPosChangeEventInfo)
+{
+	this.nPiSeq=this.ds_PackageInfo.getColumn(this.ds_PackageInfo.rowposition,"PI_SEQ");
+	this.fnPackageManagerSelect();
+	this.fnPackageContractDocSelect();
+};
+
+//결재문서 상세 보기(새 탭)
+this.tab_Sub_tpg_PackageContractDoc_grd_PackageContractDoc_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col == 2)
+	{
+		var nRow = e.row;
+		this.fnDocOpen(nRow);
+	}
+};
+
+/************************************************************************************************
+* 팝업 TRANSACTION 및 추가 FUNCTION 영역 
+************************************************************************************************/
+// 전자결재 문서 보기
+this.fnDocOpen = function(nRow)
+{
+	var sDocNo = this.ds_PackageContractDoc.getColumn(nRow, "DOC_NO");
+	var sDocId = this.ds_PackageContractDoc.getColumn(nRow, "DOC_ID");
+	var sFormId = this.ds_PackageContractDoc.getColumn(nRow, "FORM_ID");
+	
+	if (this.gfnIsEmpty(sFormId))
+	{
+		// 구문서
+		system.execBrowser("http://gw.tobesoft.com/Ea/EADocPop/EAAppDocMigPop/?ace_auth=1&doc_id="+sDocId);
+	}
+	else
+	{
+		// 신문서
+		system.execBrowser("http://gw.tobesoft.com/Ea/EADocPop/EAAppDocViewPop/?doc_auth=0&doc_id="+sDocId+"&form_id="+sFormId);
+	}
+};
+/************************************************************************************************
+* 팝업 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+]]></Script>
+    <Objects>
+      <Dataset id="ds_PackageInfo" cancolumnchange="ds_PackageInfo_cancolumnchange" onrowposchanged="ds_PackageInfo_onrowposchanged">
+        <ColumnInfo>
+          <Column id="PI_SEQ" type="INT" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="SERVICE_NM" type="STRING" size="256"/>
+          <Column id="URL" type="STRING" size="256"/>
+          <Column id="ID" type="STRING" size="256"/>
+          <Column id="PW" type="STRING" size="256"/>
+          <Column id="RENEWAL_CYCLE" type="STRING" size="256"/>
+          <Column id="CONTRACT_STATUS" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_PackageManager">
+        <ColumnInfo>
+          <Column id="PM_SEQ" type="INT" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+          <Column id="SERVICE_NM" type="STRING" size="256"/>
+          <Column id="MANAGER_NM" type="STRING" size="256"/>
+          <Column id="MANAGER_CONTACT" type="STRING" size="256"/>
+          <Column id="MANAGER_MAIL" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="PI_SEQ" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_PackageContractDoc">
+        <ColumnInfo>
+          <Column id="PCD_SEQ" type="INT" size="256"/>
+          <Column id="DOC_ID" type="STRING" size="256"/>
+          <Column id="FORM_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="DOC_NO" type="STRING" size="256"/>
+          <Column id="PI_SEQ" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_RenewalCycle">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="DATA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1YEAR</Col>
+            <Col id="DATA">1년</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">2YEAR</Col>
+            <Col id="DATA">2년</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">PERMANENT</Col>
+            <Col id="DATA">무기한</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_ContractStatus">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="DATA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">CONCLUDED</Col>
+            <Col id="DATA">계약완료</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">EXPIRED</Col>
+            <Col id="DATA">만료됨</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_SearchContractStatus">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="DATA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">ALL</Col>
+            <Col id="DATA">전체보기</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">CONCLUDED</Col>
+            <Col id="DATA">계약완료</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">EXPIRED</Col>
+            <Col id="DATA">만료됨</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_PiPmJoinedExcel">
+        <ColumnInfo>
+          <Column id="PI_SEQ" type="INT" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="PI_SERVICE_NM" type="STRING" size="256"/>
+          <Column id="URL" type="STRING" size="256"/>
+          <Column id="ID" type="STRING" size="256"/>
+          <Column id="PW" type="STRING" size="256"/>
+          <Column id="CONTRACT_DATE" type="STRING" size="256"/>
+          <Column id="TERMINATION_DATE" type="STRING" size="256"/>
+          <Column id="RENEWAL_CYCLE" type="STRING" size="256"/>
+          <Column id="CONTRACT_STATUS" type="STRING" size="256"/>
+          <Column id="PI_REMARK" type="STRING" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+          <Column id="PM_SERVICE_NM" type="STRING" size="256"/>
+          <Column id="MANAGER_NM" type="STRING" size="256"/>
+          <Column id="MANAGER_CONTACT" type="STRING" size="256"/>
+          <Column id="MANAGER_MAIL" type="STRING" size="256"/>
+          <Column id="PM_REMARK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

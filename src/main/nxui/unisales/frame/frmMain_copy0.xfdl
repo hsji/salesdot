@@ -1,0 +1,773 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmMain" width="1070" height="772" titletext="MainFrame" onload="form_onload" onsize="form_onsize" cssclass="frm_WF_Frame">
+    <Layouts>
+      <Layout height="772" width="1070">
+        <Static id="staShadow" taborder="0" left="1090" top="0" width="120" height="120" visible="false" cssclass="sta_WF_portletBg" border="3px dashed darkblue" background="RGBA(51,51,51,0.47)" text="move" textAlign="center" color="#ffffff" font="normal 30pt/normal &quot;Arial&quot;"/>
+        <Div id="divMain" taborder="1" text="div00" left="0" top="0" maxwidth="" maxheight="" width="1070" height="772" minwidth="1070" minheight="772">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="img00" taborder="1" left="0" top="0" height="199" right="0" image="url('theme://images/img_MF_Banner.png')"/>
+              <Div id="divLoginLog" taborder="0" text="OS/브라우저/해상도별 접속 현황" left="20" top="448" width="505" height="304" cssclass="div_MF_Box,box4" url="frame::frmMainLogDv.xfdl"/>
+              <Div id="divLink" taborder="2" left="541" top="448" width="505" height="304" cssclass="div_MF_Box,box5" ondrag="div_ondrag">
+                <Layouts>
+                  <Layout>
+                    <Button id="btnDevGuideDown" taborder="0" text="개발가이드 다운로드" left="0" top="0" width="169" cssclass="btn_MF_Quick01" bottom="152" uLinkUrl="DevPACK_개발표준및개발가이드.pdf" onclick="btnLink_onclick" uLinkType="file"/>
+                    <Button id="btnDsgGuideDown" taborder="1" text="디자인가이드 다운로드" left="169" top="0" width="168" cssclass="btn_MF_Quick02" bottom="152" uLinkUrl="DevPACK_디자인표준가이드.pdf" onclick="btnLink_onclick" uLinkType="file"/>
+                    <Button id="btnGoIdeaBoard" taborder="2" text="VOC 게시판" left="337" top="0" width="168" cssclass="btn_MF_Quick03" bottom="152" uLinkUrl="MVOC000001" onclick="btnLink_onclick" uLinkType="menu"/>
+                    <Button id="btnGoSupport" taborder="3" text="기술지원" left="337" top="152" width="168" height="152" cssclass="btn_MF_Quick06" uLinkUrl="http://support.tobesoft.co.kr/Support/index.html" onclick="btnLink_onclick" uLinkType="url"/>
+                    <Button id="btnGoPlayNexacro" taborder="4" text="플레이넥사" left="169" top="152" width="168" height="152" cssclass="btn_MF_Quick05" uLinkUrl="https://www.playnexacro.com/#" onclick="btnLink_onclick" uLinkType="url"/>
+                    <Button id="btnGoTobesoft" taborder="5" text="투비소프트" left="0" top="152" width="169" height="152" cssclass="btn_MF_Quick04" uLinkUrl="https://www.tobesoft.com/" onclick="btnLink_onclick" uLinkType="url"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="divBoard" taborder="3" left="20" top="138" width="330" height="290" cssclass="div_MF_Box,box1" text="" ondrag="div_ondrag">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta00" taborder="0" text="공지사항" left="28" top="11" width="159" height="45" cssclass="sta_MF_tile" onclick="divMain_divBoard_sta00_onclick"/>
+                    <Button id="btnPlus" taborder="1" top="13" width="48" height="41" right="12" cssclass="btn_MF_More" uLinkType="menu" uLinkUrl="10501001" onclick="btnLink_onclick"/>
+                    <Grid id="grdNoti" taborder="2" left="25" top="63" cssclass="grd_MF_Notice" binddataset="dsNotiList" autofittype="col" right="20" bottom="25" oncellclick="divMain_divBoard_grdNoti_oncellclick" scrollbardecbuttonsize="0" scrollbarincbuttonsize="0">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="176"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="body">
+                            <Cell text="bind:TITLE"/>
+                            <Cell col="1" text="bind:INPT_DTTM" cssclass="cell_WF_Right,cell_WF_DecoNo" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="divCalendar" taborder="4" left="370" top="138" width="680" height="290" cssclass="div_MF_Box2,box2" ondrag="div_ondrag" background="" text="">
+                <Layouts>
+                  <Layout>
+                    <Calendar id="calTodo" taborder="0" left="27" top="14" type="monthonly" cssclass="cal_MF_Cal" usetrailingday="true" weekformat="S M T W T F S" bottom="18" right="356" innerdataset="dsTodo" backgroundcolumn="CAL_IMAGE" ondayclick="divMain_divCalendar_calTodo_ondayclick" daysize="30 30" datecolumn="CAL_DATE" onlbuttonup="divMain_divCalendar_calTodo_onlbuttonup" onchanged="divMain_divCalendar_calTodo_onchanged" onkeydown="divMain_divCalendar_calTodo_onkeydown"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="divTodolist" taborder="5" left="720" top="138" width="330" height="290" cssclass="div_MF_BoxColor,box3" ondrag="div_ondrag">
+                <Layouts>
+                  <Layout>
+                    <Static id="staTitle" taborder="0" text="TO-DO LIST" left="28" top="11" width="159" height="45" cssclass="sta_MF_tile2"/>
+                    <Button id="btnNew" taborder="1" top="13" width="48" height="41" right="12" cssclass="btn_MF_New" onclick="btnLink_onclick" uLinkType="popup" uLinkUrl="add"/>
+                    <Grid id="grdTodo" taborder="2" left="25" top="63" cssclass="grd_MF_Todo" autofittype="col" right="25" bottom="25" binddataset="dsTodo" oncellclick="divMain_divTodolist_grdTodo_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="0"/>
+                            <Column size="40"/>
+                            <Column size="180"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="body">
+                            <Cell text="bind:SCD_ID"/>
+                            <Cell col="1" displaytype="text" cssclass="expr:dataset.parent.fnSetSectCdCss1(SCD_SECT_CD)" text="bind:SSC_CD_KORN_NM"/>
+                            <Cell col="2" text="bind:TITLE" tooltiptext="expr:dataset.parent.fnGetWriterDate(dataset, currow)" expr="expr:TITLE.length &gt; 13 ? TITLE.substr(0,13)+'...' : TITLE"/>
+                            <Cell col="3" text="expr:INPT_EMP_NO.substr(0, INPT_EMP_NO.indexOf(&quot;(&quot;))"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Button id="btnRefresh" taborder="6" top="88" width="40" onclick="btnRefresh_onclick" cssclass="btn_MF_Restore" visible="true" height="40" right="24"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	frmMain.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/04/29
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/04/29			TOBESOFT					최초생성
+* 2021/06/11			TOBESOFT					drag&drop기능 삭제
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.nDivMainTerm 		= 10;  			//divMain 가로세로 최소 여백
+this.fvNotiBoardMenuId 	= "10501001";	//공지사항메뉴아이디
+this.fvNotiBoardCd 		= "1000000";	//공지사항게시판 게시판코드
+this.fvBoardInfo 		= {};			//게시판인포
+
+this.fvDate 			= ""; 			//TodoList에서 사용할 날짜
+this.fvScdInfo 			= {};			//일정 마스터 정보
+this.fvScdId			= "";			//일정번호
+this.objApp = nexacro.getApplication();
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnDivMainResize(); //div리사이즈(가운데로)
+
+	this.objApp.gdsCommCode.filter("HCL_CD == 'CM03'");
+	this.dsSetCd.copyData(this.objApp.gdsCommCode,true);	//일정유형 복사
+	this.objApp.gdsCommCode.filter("");
+
+	//20210611 공지사항게시판조회
+	this.fnTranSearchBoardInfo(this.fvNotiBoardCd);
+	
+	this.fvDate = this.gfnGetDate();
+	this.divMain.form.divTodolist.form.staTitle.set_text(this.fvDate.substr(4,2) + "월 " + this.fvDate.substr(6,2) + "일" 
+														+ " (" + this.gfnGetDayKor(this.fvDate) + ")");
+	//접근가능한 일정마스터목록 조회
+	this.fnTranSearchScdInfo();
+	//나의일정 조회
+	this.fnTranGetMySchedule();
+};
+
+//max size 변경
+this.form_onsize = function(obj:nexacro.Form,e:nexacro.SizeEventInfo)
+{
+	this.fnDivMainResize();
+};
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//게시판 정보조회
+this.fnTranSearchBoardInfo = function (sBordCd)
+{
+	this.dsBoardCond.clearData();
+	var nRow = this.dsBoardCond.addRow();
+	this.dsBoardCond.setColumn(nRow, "BOARD_CD", sBordCd);
+	
+	var strSvcId    = "searchBoardList";
+	var strSvcUrl   = "searchBoardList.do";
+	var inData      = "dsCond=dsBoardCond";
+	var outData     = "dsBoardInfo=dsList";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//조회
+this.fnTranNotiBoardSearch = function ()
+{
+	//조회조건
+	this.dsCond.setColumn(0, "srchBoardCd", this.fvNotiBoardCd);
+	//22.04.28 메인화면에서 공지사항 수정일자 내림차순으로 정렬
+	this.dsCond.setColumn(0, "gubun_main", "T");
+	
+	this.dsCondPage.setColumn(0, "START_NUM", 0);
+	this.dsCondPage.setColumn(0, "END_NUM", 8);
+	
+	var strSvcId    = "searchBoardContent";
+	var strSvcUrl   = "searchBoardContent.do";
+	var inData      = "dsCond=dsCond dsCondPage=dsCondPage";
+	var outData     = "dsNotiList=dsList";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//조회수 업데이트
+this.fnTranUpdateInqCnt = function ()
+{
+	var strSvcId    = "saveBoardContents";
+	var strSvcUrl   = "saveBoardContents.do";
+	var inData      = "dsList=dsUpdateInq:U";
+	var outData     = "";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]
+};
+
+//일정마스터 정보 조회
+this.fnTranSearchScdInfo = function()
+{
+	this.dsScdInfo.clearData();
+	
+	var strSvcId    = "searchScheduleList";
+	var strSvcUrl   = "searchScheduleList.do";
+	var inData      = "";
+	var outData     = "dsScdInfo=dsList";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc); 	// 통신방법 정의 [생략가능]		
+}
+
+// 나의 일정 조회
+this.fnTranGetMySchedule = function()
+{
+	this.dsCond.setColumn(0,"YYYYMM",this.fvDate.substr(0,6));
+	this.dsCond.setColumn(0,"DEPT_CD",nexacro.getApplication().gdsUser.getColumn(0, "DEPT_CD"));
+	this.dsTodo.clear();
+	
+ 	var strSvcId    = "getMySchedule";
+ 	var strSvcUrl   = "getMySchedule.do";
+ 	var inData      = "dsSearch=dsCond";
+ 	var outData     = "dsTodo=dsScdData";
+ 	var strArg      = "";
+ 	var callBackFnc = "fnCallback";
+ 	
+ 	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+ 						strSvcUrl , 	// trabsaction을 요청할 주소
+ 						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+ 						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+ 						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+ 						callBackFnc); 	// 통신방법 정의 [생략가능]		
+};
+
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchBoardContent":
+			break;
+		case "saveBoardContents":
+			this.fnOpenBoardP();
+			break;
+		case "searchBoardList":
+			this.fnSetBoard();
+			break;
+		case "searchScheduleList":
+			break;
+		case "getMySchedule": 
+			this.fnSetCalImage();
+			this.divMain.form.divCalendar.form.calTodo.set_value(this.fvDate);
+			this.fnSetTodoList();
+			break;
+		default:break;
+	}
+};
+
+this.fnPopupCallback = function(sPopupId, sRtn)
+{
+	if(!this.gfnIsNull(sRtn)){
+		if(sRtn!="rUpdate"){
+			this.fvDate = sRtn;
+			this.fnTranGetMySchedule();
+		}else if(sRtn=="rUpdate"){ //조회->수정 이동
+			this.fnSetLinkPopup("update", this.fvScdId);
+		}
+	}
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+//게시판세팅
+this.fnSetBoard = function ()
+{
+	if( this.dsBoardInfo.getRowCount() == 0 ){
+		this.gfnAlert("msg.nomenu");
+		nexacro.getApplication().gvFrmMdi.form.fnCloseMenu(this.fvMenuCd);
+		return;
+	}
+	
+	this.fvBoardInfo = {};
+		this.fvBoardInfo = {
+			blbdNm 	 : this.dsBoardInfo.getColumn(0, "BLBD_NM")
+			,answYn  : this.dsBoardInfo.getColumn(0, "ANSW_YN")
+			,apndYn  : this.dsBoardInfo.getColumn(0, "APND_YN")
+			,pageCnt : this.dsBoardInfo.getColumn(0, "PAGE_CNT")
+			,replyYn : this.dsBoardInfo.getColumn(0, "REPLY_YN")
+			,mgrCd	 : this.dsBoardInfo.getColumn(0, "MGR_CD")
+		};
+	
+	//전체조회
+	this.fnTranNotiBoardSearch();
+};
+
+//main div 가운데정렬
+this.fnDivMainResize = function ()
+{
+	var nLeft = nexacro.round((this.getOffsetWidth() - this.divMain.getOffsetWidth() ) /2);
+	var nTop = nexacro.round((this.getOffsetHeight() - this.divMain.getOffsetHeight() ) /2);
+	
+	if( nLeft < this.nDivMainTerm ) nLeft = this.nDivMainTerm; 
+	if( nTop < this.nDivMainTerm ) nTop = this.nDivMainTerm;
+	
+	this.divMain.move(nLeft, nTop);
+	this.resetScroll();
+};
+
+
+//공지사항오픈
+this.fnOpenBoardP = function ()
+{
+	var sTitle = "게시글";
+	var oOption = {title:sTitle
+					,titlebar:true};
+
+	var popupId = "readBoard";
+	var popupUrl = "comm::board/boardReadPu.xfdl";
+	var nRow   = this.dsNotiList.rowposition;
+	var oArg   = {pvAnswYn 		: this.fvBoardInfo.answYn
+				  ,pvApndYn		: this.fvBoardInfo.apndYn
+				  ,pvReplyYn    : this.fvBoardInfo.replyYn
+				  ,pvTitle 		: this.fvBoardInfo.blbdNm
+				  ,pvBoardCd	: this.fvNotiBoardCd
+				  ,pvNotiNo		: this.dsNotiList.getColumn(nRow, "NOTI_NO")
+				  ,pvOpenType	: "read" 
+				  ,pvMgrCd		: this.fvBoardInfo.mgrCd};
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup(popupId, popupUrl, oArg, sPopupCallBack, oOption);
+};
+
+//TODO LIST 세팅
+this.fnSetTodoList = function ()
+{
+	this.divMain.form.divTodolist.form.staTitle.set_text(this.fvDate.substr(4,2) + "월 " + this.fvDate.substr(6,2) + "일" 
+														+ " (" + this.gfnGetDayKor(this.fvDate) + ")");
+	this.dsTodoGrid.clearData();
+	this.dsTodo.set_enableevent(false);
+	this.divMain.form.divTodolist.form.grdTodo.set_binddataset("");
+	this.dsTodo.filter("CAL_DATE=='"+this.fvDate+"'");
+	
+	this.dsTodoGrid.copyData(this.dsTodo, true);
+	
+	this.dsTodo.filter("");
+	this.divMain.form.divTodolist.form.grdTodo.set_binddataset("dsTodoGrid");
+	this.dsTodo.set_enableevent(true);
+};
+
+//링크처리 URL..
+this.fnSetLinkUrl = function (sUrl)
+{
+	if(system.navigatorname == "nexacro"){
+		system.execBrowser(sUrl);
+	}else{
+		var newwin = window.open('about:blank');
+		newwin.location.href = sUrl;
+	}
+};
+
+//링크처리 FILE..
+this.fnSetLinkFile = function (sFileNm)
+{
+	this.gfnDownTempate(sFileNm);
+};
+
+//링크처리 MENU..
+this.fnSetLinkMenu = function (sMenuId)
+{
+	//레프트Sync
+	var oDs = nexacro.getApplication().gdsMenu;
+	var sModuleCd = oDs.lookup("MENU_ID", sMenuId, "MODULE_CD");
+	
+	var oTopForm = nexacro.getApplication().gvFrmTop.form;
+	var sTopCommBtnId = "TOP_"+oTopForm.dsMenu.lookup("MODULE_CD", sModuleCd, "MENU_ID");
+	var oBtn = oTopForm.divTopBtn.form.components[sTopCommBtnId];
+		oBtn.click();
+		
+	//메뉴로이동
+	nexacro.getApplication().gvFrmLeft.form.fnFormOpen(sMenuId);
+};
+
+//링크처리 Popup..
+this.fnSetLinkPopup = function (sStatus)
+{
+	var sTitle = "일정";
+	var oOption = {title:sTitle
+					,titlebar:true};
+	var popupId = "";
+	var popupUrl = "";
+
+	if(sStatus=="add"){
+		//추가
+		popupId = "addScd";
+		popupUrl = "comm::schedule/schedulePu.xfdl";
+		var oArg   = { pvApndYn		: this.dsScdInfo.getColumn(0,"APND_YN")// 첨부파일 여부
+					  ,pvTitle 		: this.dsScdInfo.getColumn(0,"SCD_NM") // 일정마스터타이틀
+					  ,pvScdTitle	: "" // 추가될 스케쥴의 타이틀
+					  ,pvScdCd		: this.dsScdInfo.getColumn(0,"SCD_CD") //일정마스터코드
+					  ,pvYyyy 		: this.fvDate.substr(0,4)
+					  ,pvMm 		: this.fvDate.substr(4,2)
+					  ,pvDd			: this.fvDate.substr(6,2)
+					  ,pvDeptCd     : nexacro.getApplication().gdsUser.getColumn(0,"DEPT_CD")
+					  ,pvOpenType	: "add"
+				  };
+	}else if(sStatus=="read"){
+		popupId = "readScd";
+		popupUrl = "comm::schedule/scheduleReadPu.xfdl";
+		var oArg   = {pvApndYn		: this.fvScdInfo.apndYn
+					  ,pvTitle 		: this.fvScdInfo.scdNm // 일정마스터타이틀
+					  ,pvScdCd		: this.fvScdInfo.scdCd // 일정마스터코드
+					  ,pvScdId		: this.fvScdId // 일정 번호
+					  ,pvDeptCd		: nexacro.getApplication().gdsUser.getColumn(0,"DEPT_CD") //부서코드
+					  ,pvOpenType	: "read"
+					  ,pvMgrCd	 	: this.fvScdInfo.mgrCd// 관리자
+					  ,pvYyyyMmDd	: this.fvDate
+					  ,pvMain		: "1"
+					};
+	}else if(sStatus=="update"){
+		//추가
+		popupId = "updateScd";
+		popupUrl = "comm::schedule/schedulePu.xfdl";
+		var oArg   = { pvApndYn		: this.fvScdInfo.apndYn
+					  ,pvScdCd		: this.fvScdInfo.scdCd
+					  ,pvScdId		: this.fvScdId
+					  ,pvDeptCd		: nexacro.getApplication().gdsUser.getColumn(0,"DEPT_CD") //부서코드
+					  ,pvOpenType	: "update"
+				  };
+
+	}
+	var sPopupCallBack = "fnPopupCallback";
+	this.gfnOpenPopup(popupId, popupUrl, oArg, sPopupCallBack, oOption);
+};
+
+// 월 1~9까지 앞에 0 붙임.
+this.fnMakeMonth =function(nMonth)
+{
+	if(this.gfnIsNull(nMonth)) return;
+	if(10 > nMonth)  nMonth = "0"+nMonth;
+	return nMonth;
+};
+
+// todoGrid - tooltiptext
+this.fnGetWriterDate = function(dataset, currow)
+{
+	var sTitle		= dataset.getColumn(currow, 'TITLE');
+	var nStartDay	= dataset.getColumn(currow,'START_DAY');
+	var nEndDay	 	= dataset.getColumn(currow,'END_DAY');
+	var nStartTime	= dataset.getColumn(currow,'START_TIME');
+	var nStartMinutes = dataset.getColumn(currow, 'START_MINUTES');
+	var nEndTime	= dataset.getColumn(currow, 'END_TIME');
+	var nEndMinutes	= dataset.getColumn(currow, 'END_MINUTES');
+	var sRtn	  = "";
+	
+	if(nStartDay == nEndDay){
+		sRtn = sTitle + " [" + nStartDay.substr(0,4) + "." + nStartDay.substr(4,2) + "." + nStartDay.substr(6,2) + "(" + this.gfnGetDayKor(nStartDay) + ") " 
+			   + nStartTime + ":" + nStartMinutes + " ~ " + nEndTime + ":" + nEndMinutes + "]" ;		
+	}else{
+		sRtn = sTitle + " [" + nStartDay.substr(0,4) + "." + nStartDay.substr(4,2) + "." + nStartDay.substr(6,2) + "(" + this.gfnGetDayKor(nStartDay) + ") " 
+			   + nStartTime + ":" + nStartMinutes +  " ~ " 
+			   + nEndDay.substr(0,4) + "." + nEndDay.substr(4,2) + "." + nEndDay.substr(6,2) + "(" + this.gfnGetDayKor(nEndDay) + ") " + nEndTime + ":" + nEndMinutes + "]"; 
+	}
+	return sRtn;	
+}
+
+//일정 유형 별 Css
+this.fnSetSectCdCss1 = function(sScdSectCd)
+{
+	return "label" + this.gfnLPad(this.dsSetCd.findRow("SSC_CD", sScdSectCd)+1, 0, 2);
+};
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+//공지사항 게시물 클릭
+this.divMain_divBoard_grdNoti_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//조회수 증가
+	var nRow = e.row;
+	
+	this.dsUpdateInq.clearData();
+	var nTargetRow = this.dsUpdateInq.addRow();
+	
+	this.dsUpdateInq.copyRow(nTargetRow, this.dsNotiList, nRow);
+	this.dsUpdateInq.setColumn(nTargetRow, "STATUS", "updateInqCount");
+	
+	this.fnTranUpdateInqCnt();
+};
+
+//캘린더 하단에 . 표시(일정이 있을 경우);
+this.fnSetCalImage = function()
+{
+	this.dsTodo.set_enableevent(false);
+	this.dsTodo.addColumn("CAL_IMAGE", "STRING");
+ 	for(var i=0; i<this.dsTodo.getRowCount(); i++){
+ 		this.dsTodo.setColumn(i, "CAL_IMAGE", "url('theme://images/cal_MF_Dot.png') no-repeat center bottom");
+ 	}
+	this.dsTodo.set_enableevent(true);
+}
+
+//TODO
+this.divMain_divCalendar_calTodo_ondayclick = function(obj:nexacro.Calendar,e:nexacro.CalendarDayClickEventInfo)
+{	
+	//this.fvDate = e.date;
+	//2022.08.03 분기 후 값 대입하는 것으로 변경.
+	
+	//다른 달을 클릭하면 해당 월 일정 조회
+	if(e.date.substr(0,6)!=this.fvDate.substr(0,6)){
+		this.fvDate = e.date;
+		this.fnTranGetMySchedule();
+	}else{
+		this.fvDate = e.date;
+		this.fnSetTodoList();
+	}
+};
+
+//Link 클릭
+this.btnLink_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sUrl = obj.uLinkUrl;
+	var sLinkType = obj.uLinkType;
+	
+	if( this.gfnIsNull(sUrl)){
+		this.gfnAlert("msg.preparation");
+		return;
+	}
+	
+	//링크타입별 처리
+	switch(sLinkType) {
+		case "url":
+			this.fnSetLinkUrl(sUrl);
+			break;
+		case "file":
+			if (nexacro.getApplication().gdsUser.getColumn(0, "EMP_NO") == "guest")
+			{
+				this.gfnAlert("msg.nosearchscope");
+				return;
+			}			
+			this.fnSetLinkFile(sUrl);
+			break;
+		case "menu":
+			this.fnSetLinkMenu(sUrl);
+			break;
+		case "popup":
+			this.fnSetLinkPopup(sUrl);
+			break;
+	}
+};
+
+// Todo 클릭(조회)
+this.divMain_divTodolist_grdTodo_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{	
+	this.fvScdId= obj.getCellPropertyValue(e.row , 0, "text");
+	var nRow	= this.dsTodo.findRow("SCD_ID", this.fvScdId);
+	var sScdCd	= this.dsTodo.getColumn(nRow, "SCD_CD");
+	nRow	 	= this.dsScdInfo.findRow("SCD_CD", sScdCd);
+	
+	this.fvScdInfo = { 
+		  scdNm	: this.dsScdInfo.getColumn(nRow,"SCD_NM")
+		, scdCd : this.dsScdInfo.getColumn(nRow,"SCD_CD")
+		, apndYn: this.dsScdInfo.getColumn(nRow,"APND_YN")
+		, mgrCd : this.dsScdInfo.getColumn(nRow,"MGR_ID")
+	};
+	
+	this.fnSetLinkPopup("read");
+};
+
+// 캘린더 <>버튼
+this.divMain_divCalendar_calTodo_onlbuttonup = function(obj:nexacro.Calendar,e:nexacro.MouseEventInfo)
+{
+	var sName = e.fromreferenceobject.name;
+	if(sName=='nextbutton'){
+		this.fvDate = this.gfnAddMonth(this.fvDate.substr(0,6)+"01", +1);
+		if(this.fvDate.substr(0,6)==this.gfnGetDate().substr(0,6))  this.fvDate = this.gfnGetDate();	
+		this.fnTranGetMySchedule();
+	}else if(sName=='prevbutton'){
+		this.fvDate = this.gfnAddMonth(this.fvDate.substr(0,6)+"01", -1);
+		if(this.fvDate.substr(0,6)==this.gfnGetDate().substr(0,6))  this.fvDate = this.gfnGetDate();
+		this.fnTranGetMySchedule();
+	}
+};
+
+// 캘린더 년도,월 변경 후 엔터 눌렀을 경우.
+this.divMain_divCalendar_calTodo_onkeydown = function(obj:nexacro.Calendar,e:nexacro.KeyEventInfo)
+{	
+	if( e.keycode == "13" && e.fromreferenceobject.name =="spinedit"){
+		var nSpinYyyy	= this.divMain.form.divCalendar.form.calTodo.datepicker.head.yearspin.spinedit.value;
+		var nSpinMm		= this.fnMakeMonth(this.divMain.form.divCalendar.form.calTodo.datepicker.head.monthspin.spinedit.value);
+		var nTodayYyyy	= this.gfnGetDate().substr(0,4);
+		var nTodayMm	= this.gfnGetDate().substr(4,2);
+		var nTodayDd	= this.gfnGetDate().substr(6,2);
+		
+		if(nSpinYyyy+nSpinMm == nTodayYyyy+nTodayMm){
+			obj.set_value(nTodayYyyy+nTodayMm+nTodayDd);
+			this.fvDate = nTodayYyyy+nTodayMm; 
+			this.fnTranGetMySchedule();
+		}else{
+			obj.set_value(nSpinYyyy+nSpinMm+"01");
+			this.fvDate = nSpinYyyy+nSpinMm; 
+			this.fnTranGetMySchedule();
+		}	
+	}
+};
+
+// 새로고침 클릭시
+this.btnRefresh_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//20210611 공지사항게시판조회
+	this.fnTranSearchBoardInfo(this.fvNotiBoardCd);
+	
+	this.fvDate = this.gfnGetDate();
+ 	this.divMain.form.divTodolist.form.staTitle.set_text(this.fvDate.substr(4,2) + "월 " + this.fvDate.substr(6,2) + "일" 
+ 														+ " (" + this.gfnGetDayKor(this.fvDate) + ")");
+				
+	//접근가능한 일정마스터목록 조회
+	this.fnTranSearchScdInfo();
+	//나의일정 조회
+	this.fnTranGetMySchedule();
+	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="srchGubun" type="STRING" size="256"/>
+          <Column id="srchCond" type="STRING" size="256"/>
+          <Column id="srchBoardCd" type="STRING" size="256"/>
+          <Column id="YYYYMM" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="gubun_main" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="srchGubun">01</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCondPage" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="START_NUM" type="STRING" size="256"/>
+          <Column id="END_NUM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsNotiList"/>
+      <Dataset id="dsUpdateInq">
+        <ColumnInfo>
+          <Column id="BLBD_CD" type="STRING" size="256"/>
+          <Column id="NOTI_NO" type="STRING" size="256"/>
+          <Column id="INQ_CNT" type="INT" size="256"/>
+          <Column id="STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTodo">
+        <ColumnInfo>
+          <Column id="CAL_DATE" type="STRING" size="256"/>
+          <Column id="SCD_NM" type="STRING" size="256"/>
+          <Column id="SCD_CD" type="STRING" size="256"/>
+          <Column id="SCD_ID" type="STRING" size="256"/>
+          <Column id="SCD_SECT_CD" type="STRING" size="256"/>
+          <Column id="SSC_CD_KORN_NM" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="START_DAY" type="STRING" size="256"/>
+          <Column id="START_TIME" type="STRING" size="256"/>
+          <Column id="START_MINUTES" type="STRING" size="256"/>
+          <Column id="END_DAY" type="STRING" size="256"/>
+          <Column id="END_TIME" type="STRING" size="256"/>
+          <Column id="END_MINUTES" type="STRING" size="256"/>
+          <Column id="FILE_ID" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+          <Column id="INPT_IP" type="STRING" size="256"/>
+          <Column id="INPT_DTTM" type="STRING" size="256"/>
+          <Column id="CHGE_ID" type="STRING" size="256"/>
+          <Column id="CHGE_IP" type="STRING" size="256"/>
+          <Column id="CHGE_DTTM" type="STRING" size="256"/>
+          <Column id="INPT_EMP_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTodoGrid">
+        <ColumnInfo>
+          <Column id="CAL_IMAGE" type="STRING" size="256"/>
+          <Column id="TODO_DATE" type="STRING" size="256"/>
+          <Column id="TODO_TITLE" type="STRING" size="256"/>
+          <Column id="TODO_TIME" type="STRING" size="256"/>
+          <Column id="CAL_DATE" type="STRING" size="256"/>
+          <Column id="SCD_CD" type="STRING" size="256"/>
+          <Column id="SCD_ID" type="STRING" size="256"/>
+          <Column id="SCD_SECT_CD" type="STRING" size="256"/>
+          <Column id="SSC_CD_KORN_NM" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="START_DAY" type="STRING" size="256"/>
+          <Column id="START_TIME" type="STRING" size="256"/>
+          <Column id="START_MINUTES" type="STRING" size="256"/>
+          <Column id="END_DAY" type="STRING" size="256"/>
+          <Column id="END_TIME" type="STRING" size="256"/>
+          <Column id="END_MINUTES" type="STRING" size="256"/>
+          <Column id="FILE_ID" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+          <Column id="INPT_IP" type="STRING" size="256"/>
+          <Column id="INPT_DTTM" type="STRING" size="256"/>
+          <Column id="CHGE_ID" type="STRING" size="256"/>
+          <Column id="CHGE_IP" type="STRING" size="256"/>
+          <Column id="CHGE_DTTM" type="STRING" size="256"/>
+          <Column id="INPT_EMP_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBoardInfo"/>
+      <Dataset id="dsBoardCond">
+        <ColumnInfo>
+          <Column id="BOARD_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsScdInfo"/>
+      <Dataset id="dsSetCd"/>
+      <Dataset id="dsTodoList">
+        <ColumnInfo>
+          <Column id="CAL_DATE" type="STRING" size="256"/>
+          <Column id="SCD_NM" type="STRING" size="256"/>
+          <Column id="SCD_CD" type="STRING" size="256"/>
+          <Column id="SCD_ID" type="STRING" size="256"/>
+          <Column id="SCD_SECT_CD" type="STRING" size="256"/>
+          <Column id="SSC_CD_KORN_NM" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="START_DAY" type="STRING" size="256"/>
+          <Column id="START_TIME" type="STRING" size="256"/>
+          <Column id="START_MINUTES" type="STRING" size="256"/>
+          <Column id="END_DAY" type="STRING" size="256"/>
+          <Column id="END_TIME" type="STRING" size="256"/>
+          <Column id="END_MINUTES" type="STRING" size="256"/>
+          <Column id="FILE_ID" type="STRING" size="256"/>
+          <Column id="INPT_ID" type="STRING" size="256"/>
+          <Column id="INPT_IP" type="STRING" size="256"/>
+          <Column id="INPT_DTTM" type="STRING" size="256"/>
+          <Column id="CHGE_ID" type="STRING" size="256"/>
+          <Column id="CHGE_IP" type="STRING" size="256"/>
+          <Column id="CHGE_DTTM" type="STRING" size="256"/>
+          <Column id="INPT_EMP_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

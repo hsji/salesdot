@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <TypeDefinition url="..\..\..\default_typedef.xml"/>
+  <Form id="codeListFm" classname="COMMBE004SN" left="0" top="0" width="1250" height="736" titletext="공통코드통합조회" onload="form_onload">
+    <Layouts>
+      <Layout>
+        <Div id="divSearch" taborder="0" left="0" top="0" height="50" text="Div00" cssclass="div_WF_Search" right="20" scrollbars="none">
+          <Layouts>
+            <Layout>
+              <Static id="staCompany" taborder="10" text="회사구분" left="0" top="12" width="98" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
+              <Combo id="cboCompany" taborder="9" text="알림" left="staCompany:0" top="12" width="150" height="24" index="1" value="INF" innerdataset="gdsCompany" codecolumn="SSC_CD" datacolumn="SSC_CD_KORN_NM"/>
+              <Static id="staCon2" taborder="4" text="대분류코드" cssclass="sta_WF_SchLabel" left="cboCompany:0" top="12" width="98" height="24"/>
+              <Edit id="edtCd" taborder="0" left="staCon2:0" top="12" width="118" height="24"/>
+              <Static id="staCon00" taborder="5" text="대분류코드명" cssclass="sta_WF_SchLabel" left="edtCd:0" top="12" width="110" height="24"/>
+              <Edit id="edtCdNm" taborder="1" left="staCon00:0" top="12" width="118" height="24"/>
+              <Static id="staCon01" taborder="6" text="소분류코드" cssclass="sta_WF_SchLabel" left="edtCdNm:0" top="12" width="98" height="24"/>
+              <Edit id="edtScaKCd" taborder="2" left="staCon01:0" top="12" width="118" height="24"/>
+              <Button id="btnSearch" taborder="3" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="23" onclick="divSearch_btnSearch_onclick"/>
+              <Static id="staCon01_00" taborder="7" text="소분류코드명" cssclass="sta_WF_SchLabel" left="edtScaKCd:0" top="12" width="110" height="24"/>
+              <Edit id="edtScaKnm" taborder="8" left="staCon01_00:0" top="12" width="118" height="24"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staTitle1" taborder="1" text="공통코드" left="0" top="divSearch:0" width="134" height="43" cssclass="sta_WF_Title"/>
+        <Grid id="grdList" taborder="2" useinputpanel="false" left="0" top="staTitle1:0" binddataset="dsList" autoenter="select" cellsizingtype="col" right="20" fillareatype="none" bottom="35" scrollbars="autoboth" autofittype="col" uFunction="filter,sort,!colfix,!initial,find">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="150"/>
+                <Column size="40"/>
+                <Column size="80"/>
+                <Column size="190"/>
+                <Column size="40"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="40"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="34" band="head"/>
+                <Row size="32"/>
+              </Rows>
+              <Band id="head">
+                <Cell colspan="3" style="background: ;" text="대분류" uFunctionCol="N"/>
+                <Cell col="3" colspan="9" text="소분류" uFunctionCol="N"/>
+                <Cell row="1" text="코드"/>
+                <Cell row="1" col="1" text="코드명"/>
+                <Cell row="1" col="2" text="사용&#13;&#10;여부"/>
+                <Cell row="1" col="3" text="코드"/>
+                <Cell row="1" col="4" text="소분류코드명"/>
+                <Cell row="1" col="5" text="정렬&#13;&#10;순서"/>
+                <Cell row="1" col="6" text="그룹1"/>
+                <Cell row="1" col="7" text="그룹2"/>
+                <Cell row="1" col="8" text="그룹3"/>
+                <Cell row="1" col="9" text="그룹4"/>
+                <Cell row="1" col="10" text="그룹5"/>
+                <Cell row="1" col="11" text="사용&#13;&#10;여부"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="normal" edittype="none" style="align:center middle;" text="bind:HCL_CD" suppress="1" suppressalign="first"/>
+                <Cell col="1" displaytype="normal" edittype="none" text="bind:HCL_CD_KORN_NM" suppress="2" suppressalign="first"/>
+                <Cell col="2" checkboxfalsevalue="0" checkboxtruevalue="1" cssclass="cell_WF_ChkS" text="bind:HCL_USED_YN" displaytype="expr:HCL_USED_YN == '1' ? 'checkboxcontrol' : 'none'"/>
+                <Cell col="3" text="bind:SSC_CD"/>
+                <Cell col="4" style="align:left middle;" text="bind:SSC_CD_KORN_NM"/>
+                <Cell col="5" style="align:center middle;" text="bind:SORT_ORDR"/>
+                <Cell col="6" text="bind:GRP_CD_1"/>
+                <Cell col="7" text="bind:GRP_CD_2"/>
+                <Cell col="8" text="bind:GRP_CD_3"/>
+                <Cell col="9" text="bind:GRP_CD_4"/>
+                <Cell col="10" text="bind:GRP_CD_5"/>
+                <Cell col="11" checkboxfalsevalue="0" checkboxtruevalue="1" cssclass="cell_WF_ChkS" text="bind:SSC_USED_YN" displaytype="expr:SSC_USED_YN == '1' ? 'checkboxcontrol' : 'none'"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="divCmmnBtn" taborder="3" top="divSearch:10" width="131" height="28" text="" right="20">
+          <Layouts>
+            <Layout>
+              <Button id="btnExcelDown" taborder="0" text="엑셀다운로드" top="0" width="119" height="28" fittocontents="width" cssclass="btn_WF_ExcelSave" right="0" onclick="divCmmnBtn_btnExcelDown_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divPaging" taborder="4" text="div00" left="0" right="20" url="common::cmmPaging.xfdl" height="24" bottom="0"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsList" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="SSC_NUMB" type="string" size="6"/>
+          <Column id="HCL_CD" type="string" size="8"/>
+          <Column id="HCL_CD_KORN_NM" type="STRING" size="256"/>
+          <Column id="SSC_CD" type="string" size="150"/>
+          <Column id="SSC_CD_KORN_NM" type="string" size="1"/>
+          <Column id="SSC_CD_ENGL_NM" type="string" size="8"/>
+          <Column id="ABBR_KORN_NM" type="string" size="100"/>
+          <Column id="ABBR_ENGL_NM" type="string" size="100"/>
+          <Column id="GRP_CD_1" type="string" size="100"/>
+          <Column id="GRP_CD_2" type="string" size="100"/>
+          <Column id="GRP_CD_3" type="string" size="20"/>
+          <Column id="GRP_CD_4" type="string" size="20"/>
+          <Column id="GRP_CD_5" type="string" size="20"/>
+          <Column id="GRP_CD_6" type="string" size="20"/>
+          <Column id="GRP_CD_7" type="string" size="20"/>
+          <Column id="GRP_CD_8" type="string" size="20"/>
+          <Column id="GRP_CD_9" type="string" size="20"/>
+          <Column id="BEFO_HCL_CD" type="string" size="20"/>
+          <Column id="BEFO_SSC_CD" type="string" size="20"/>
+          <Column id="SSC_USED_YN" type="STRING" size="256"/>
+          <Column id="HCL_USED_YN" type="string" size="1"/>
+          <Column id="SORT_ORDR" type="bigdecimal" size="22" prop=""/>
+          <Column id="REMK" type="string" size="2000" prop=""/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCond" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="HCL_CD" type="STRING" size="256"/>
+          <Column id="HCL_NM" type="STRING" size="256"/>
+          <Column id="SSC_KNM" type="STRING" size="256"/>
+          <Column id="SSC_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCount" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="TOTALCNT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCondPage" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="START_NUM" type="STRING" size="256"/>
+          <Column id="END_NUM" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item4" compid="divSearch.form.edtCd" propid="value" datasetid="dsCond" columnid="HCL_CD"/>
+      <BindItem id="item0" compid="divSearch.form.edtCdNm" propid="value" datasetid="dsCond" columnid="HCL_NM"/>
+      <BindItem id="item1" compid="divSearch.form.edtScaKCd" propid="value" datasetid="dsCond" columnid="SSC_CD"/>
+      <BindItem id="item2" compid="divSearch.form.edtScaKnm" propid="value" datasetid="dsCond" columnid="SSC_KNM"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/**
+*  DevPACK
+*  @FileName 	codeListFm.xfdl
+*  @Creator 	TOBESOFT
+*  @CreateDate 	2021/01/25
+*  @Desction   
+************** 소스 수정 이력 ***********************************************
+* Date					Modifier					Description
+*******************************************************************************
+* 2021/01/25			TOBESOFT					최초생성
+*******************************************************************************
+*/
+
+/*******************************************************************************************************************************
+ * FORM 변수 선언 영역
+*******************************************************************************************************************************/
+this.fvPage  = -1; 	//페이지세팅
+this.fvStart = 0;	//시작NUM
+this.fvEnd   = 0;	//끝NUM
+/*******************************************************************************************************************************
+ * FORM EVENT 영역(onload, onbeforeclose..)
+*******************************************************************************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnload(obj,e); //필수함수
+	
+	// 버튼 권한 제어
+	this.gfnSetCommBtn(this.divCmmnBtn);
+	
+	var arrComp = [this.divSearch.form.cboCompany];
+	this.gfnSetAuthorityCompany(arrComp);
+	
+};
+
+/*******************************************************************************************************************************
+ * 공통함수영역 (cfnSearch : 조회 / cfnSave : 저장 / cfnAdd : 신규 / cfnDel : 삭제 / cfnPrint : 인쇄..)
+*******************************************************************************************************************************/
+/**
+ * 공통조회버튼(마스터)
+ * @param N/A
+ * @return  N/A
+ */
+this.cfnSearch = function ()
+{
+	//조회버튼으로 조회
+	this.dsList.clearData();
+	this.dsCount.clearData();
+	
+	this.fvPage  = 1;
+	this.fvStart = 1;
+	this.fvEnd   = this.divPaging.form.cboCnt.value;
+	this.fnTranSearch();
+};
+/*******************************************************************************************************************************
+ * Transaction 서비스호출 처리 영역
+*******************************************************************************************************************************/
+//조회
+this.fnTranSearch = function ()
+{
+	this.dsCond.setColumn(0, "COMPANY_CD", this.divSearch.form.cboCompany.value);
+	this.dsCondPage.setColumn(0, "COMPANY_CD", this.divSearch.form.cboCompany.value);
+	
+	this.dsCondPage.setColumn(0, "START_NUM", this.fvStart);
+	this.dsCondPage.setColumn(0, "END_NUM", this.fvEnd);
+	
+	// 조회-대분류
+	var strSvcId    = "searchUnionCommonCode";
+	var strSvcUrl   = "searchUnionCommonCode.do";
+	var inData      = "dsCond=dsCond dsCondPage=dsCondPage";
+	var outData     = "dsList=dsList dsCount=dsCount";
+	var strArg      = "";	
+	var callBackFnc = "fnCallback";
+	
+	this.gfnTransaction( strSvcId , 	// transaction을 구분하기 위한 svc id값
+						strSvcUrl , 	// trabsaction을 요청할 주소
+						inData , 		// 입력값으로 보낼 dataset id , a=b형태로 실제이름과 입력이름을 매칭
+						outData , 		// 처리결과값으로 받을 dataset id, a=b형태로 실제이름과 입력이름을 매칭
+						strArg, 		// 입력갑스로 보낼 arguments, strFormData="20120607"
+						callBackFnc);   // 통신방법 정의 [생략가능]
+						
+};
+/*******************************************************************************************************************************
+ * Callback 영역 (Transaction, popup, message..)
+*******************************************************************************************************************************/
+//transaction
+this.fnCallback = function (sSvcId, nErrCd, sErrMsg)
+{
+	switch(sSvcId) {
+		case "searchUnionCommonCode":
+			var nTotal = this.dsCount.getColumn(0, "TOTALCNT");
+			this.divPaging.form.fnCreatePage(this.grdList, "fnPageCallback", this.fvPage, "", nTotal);
+			break;
+		default:break;
+	}
+};
+
+//paging
+this.fnPageCallback = function (nPage, nRecrod)
+{
+	this.fvPage  = nPage;
+	this.fvStart = ((this.fvPage-1)*nRecrod) + 1;
+	this.fvEnd   = this.fvPage*nRecrod;
+	
+	this.fnTranSearch();
+};
+/*******************************************************************************************************************************
+ * 사용자 Function 영역
+*******************************************************************************************************************************/
+
+/*******************************************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+*******************************************************************************************************************************/
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.divCmmnBtn_btnExcelDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 엑셀 상단 타이틀 텍스트 설정
+	var sSubTitle = this.staTitle1.text;
+	
+	// Excel Export 공통함수 호출
+	this.gfnExcelExport(this.grdList, sSubTitle, sSubTitle, "EXCEL2007","",sSubTitle, true, "");
+};
+]]></Script>
+  </Form>
+</FDL>

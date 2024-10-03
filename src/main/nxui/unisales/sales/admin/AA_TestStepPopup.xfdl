@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AA_TestStepPopup" width="590" height="290" titletext="테스트 절차 검토문서/평가방법" cssclass="frm_popBg" onload="AA_TestStepPopup_onload">
+    <Layouts>
+      <Layout height="290" mobileorientation="landscape" width="590">
+        <Button id="btn_Close" taborder="0" top="8" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="comm_Click" text="" escapebutton="true"/>
+        <Static id="Static00" taborder="1" left="8" top="5" width="232" height="22" color="white" cssclass="sta_POP_Title " text="테스트 절차 검토문서/평가방법"/>
+        <Div id="div_TestStep" taborder="2" left="4" top="38" text="" height="212" enable="true" cssclass="div_WF_detailBg" right="4">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Title04" taborder="0" text="검토문서" left="8" top="38" width="50" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <Static id="stc_Title04_00" taborder="1" text="평가방법" left="7" top="141" width="50" height="22" textAlign="right" cssclass="sta_WF_DetailTit"/>
+              <TextArea id="ta_TestMethod" taborder="2" left="66" top="108" height="90" right="8" readonly="true"/>
+              <TextArea id="ta_ReviewDoc" taborder="3" left="stc_Title04:8" top="6" width="506" height="90" readonly="true" wordWrap="char"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Title02" left="8" top="72" width="64" height="30"/>
+              <Div id="div_Contract" left="80" top="72" height="30" right="4"/>
+              <Static id="stc_Title03" left="8" top="38" width="64" height="30"/>
+              <Edit id="edt_ProjectName" left="80" top="38" height="30" right="4"/>
+              <Edit id="edt_SmNm" left="80" top="4" height="30" right="4"/>
+              <Static id="stc_Title01" height="30" left="8" top="4" width="64"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static01" taborder="3" left="1" top="252" cssclass="sta_POP_BtnBg" right="1" height="38"/>
+        <Button id="btn_Cancel" taborder="4" text="닫기" left="507" top="260" width="65" height="22" cssclass="btn_WF_cancel" onclick="comm_Click"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 내부회계관리제도 - 테스트 절차 검토문서/평가방법
+* 02. 화면명   : 테스트 절차 검토문서/평가방법(AA_TestStepPopup)
+* 03. 화면설명 : 테스트 절차 검토문서/평가방법
+* 04. 작성일   : 2021.06.09
+* 05. 작성자   : 박종언
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+var strReviewDoc = "";
+var strTestMethod = "";
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.AA_TestStepPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	strReviewDoc = this.parent.strReviewDoc;
+	strTestMethod = this.parent.strTestMethod;
+	
+	this.div_TestStep.form.ta_ReviewDoc.insertText(strReviewDoc);
+	this.div_TestStep.form.ta_TestMethod.insertText(strTestMethod);
+};
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		case "btn_Close" : 
+			this.commUtil.popupClose("");
+			break;
+		case "btn_Cancel" :
+			this.commUtil.popupClose("");
+			break;
+	}
+};]]></Script>
+    <Objects/>
+  </Form>
+</FDL>

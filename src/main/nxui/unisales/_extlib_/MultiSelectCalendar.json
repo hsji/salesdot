@@ -1,0 +1,34 @@
+﻿{
+	"name": "MultiSelectCalendar",
+	"moduletype": "component",
+	"version": "1.0",
+	"minnexacroversion": "",
+	"description": "MultiSelectCalendar 배포 프로젝트",
+	"license": "",
+	"objInfo": [	
+    "MultiSelectCalendar/_metainfo_/MultiSelectCalendar.info"
+	],
+	"scripts": [
+    "MultiSelectCalendar/MultiSelectCalendar.js"
+	],
+	"scriptsfilter": [
+
+	],
+	"designscripts": [
+    "MultiSelectCalendar/DesignMultiSelectCalendar.js"
+	],
+	"help": "",	
+	"xcss": "MultiSelectCalendar/_xcss_/calendarModule.xcss",
+	"images": "MultiSelectCalendar/_images_/",	
+	"licensefiles": "",
+	"icons": "",
+	"userfolder": [
+
+	],
+	"installinfo": {
+
+	},
+	"contentseditor": [
+
+	]
+}

@@ -1,0 +1,573 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CE_ProjectSearch" width="1000" height="700" titletext="프로젝트검색" cssclass="frm_popBg" onload="CE_ProjectSearch_onload">
+    <Layouts>
+      <Layout height="700" mobileorientation="landscape" width="1000">
+        <Div id="div_search" taborder="6" text="" left="20" top="20" height="71" right="20" cssclass="div_WF_Search">
+          <Layouts>
+            <Layout>
+              <Radio id="rdo_Search" taborder="0" left="8.00" top="6" width="419" innerdataset="ds_CD_SEARCH" codecolumn="CODE" datacolumn="CAPTION" direction="vertical" onitemchanged="rdo_PurchaseTyp_onitemchanged" rowcount="2" canitemchange="rdo_Search_canitemchange" index="0" text="고객사" value="C" height="57" TL_FLAG="1"/>
+              <Static id="stc_ContractCompleteType" taborder="1" text="계약상태" top="8" width="87" height="24" cssclass="sta_WF_SchLabel" left="452.00" TL_SEQ="121"/>
+              <Combo id="cmb_ContractCompleteType" taborder="2" text="진계약" left="stc_ContractCompleteType:0" top="8" width="102" height="24" innerdataset="ds_CD_CONTRACT_COMPLETE_TYPE" codecolumn="CODE" datacolumn="CAPTION" index="2" value="1" TL_FLAG="1"/>
+              <Button id="btn_Search" taborder="4" text="조회" top="7" width="60" height="28" cssclass="btn_WF_Search" right="8" onclick="comm_Click" TL_SEQ="118"/>
+              <Static id="stc_ContractCompleteType00" taborder="6" text="검색어" top="39" width="87" height="24" cssclass="sta_WF_SchLabel" left="452.00" TL_SEQ="121"/>
+              <Edit id="edt_Name" taborder="3" left="stc_ContractCompleteType00:0" top="39" right="100" onkeydown="div_search_form_edt_Name_onkeydown" tooltiptext="제목 입력" height="24"/>
+              <Static id="st_OtherCo" taborder="5" text="※ 타사계약건" top="41" height="20" color="green" width="80" right="13" textAlign="right" visible="false" TL_SEQ="155"/>
+            </Layout>
+            <Layout name="portrait">
+              <Button id="btn_Search" width="80" top="73" height="30" right="4"/>
+              <Static id="stc_ContractCompleteType" width="65" left="9" top="73" height="30"/>
+              <Combo id="cmb_ContractCompleteType" width="102" left="80" top="73" height="30"/>
+              <Edit id="edt_Name" left="186" top="73" height="30" right="88"/>
+              <Radio id="rdo_Search" left="8" top="3" height="60" width="454"/>
+              <Static id="st_OtherCo" top="42" width="120" height="20" right="8"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_ProjectSearch" taborder="0" left="20" binddataset="dsOutput" autofittype="col" right="20" top="div_search:10" bottom="50" oncelldblclick="grd_ProjectSearch_oncelldblclick" onkeydown="grd_ProjectSearch_onkeydown" formatid="default">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="200"/>
+                <Column size="100"/>
+                <Column size="250"/>
+                <Column size="80"/>
+                <Column size="60"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="고객사" TL_SEQ="32"/>
+                <Cell col="1" text="계약처" TL_SEQ="34"/>
+                <Cell col="2" text="프로젝트명" TL_SEQ="114"/>
+                <Cell col="3" text="계약구분" TL_SEQ="123"/>
+                <Cell col="4" text="계약명" TL_SEQ="33"/>
+                <Cell col="5" text="계약일자" TL_SEQ="156"/>
+                <Cell col="6" text="영업" TL_SEQ="157"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CLIENT_NAME" textAlign="left" suppress="1" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell col="1" text="bind:CONTRACT_MAIN_NAME" textAlign="left" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell col="2" text="bind:PROJECT_NAME" textAlign="left" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell col="3" text="bind:CONTRACT_TYPE_NAME" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell col="4" text="bind:CONTRACT_NAME" textAlign="left" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell col="5" text="bind:CONTRACT_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''" displaytype="date"/>
+                <Cell col="6" text="bind:BIZ_STAFF_NAME" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+              </Band>
+            </Format>
+            <Format id="mobile">
+              <Columns>
+                <Column size="110"/>
+                <Column size="200"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="고객사"/>
+                <Cell col="1" text="프로젝트명"/>
+                <Cell col="2" text="계약구분"/>
+                <Cell col="3" text="계약일자"/>
+                <Cell row="1" text="계약처"/>
+                <Cell row="1" col="1" colspan="2" text="계약명"/>
+                <Cell row="1" col="3" text="영업"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CLIENT_NAME" textAlign="left" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell col="1" text="bind:PROJECT_NAME" textAlign="left" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell col="2" text="bind:CONTRACT_TYPE_NAME" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell col="3" text="bind:CONTRACT_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell row="1" text="bind:CONTRACT_MAIN_NAME" textAlign="left" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell row="1" col="1" colspan="2" text="bind:CONTRACT_NAME" textAlign="left" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                <Cell row="1" col="3" text="bind:BIZ_STAFF_NAME" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_BottomFrame" taborder="1" left="1" height="36" right="1" bottom="1" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Confirm" taborder="2" text="확인" width="60" height="28" cssclass="btn_WF_tran" right="20" bottom="10" onclick="comm_Click" TL_SEQ="158"/>
+        <Edit id="edt_ProjectCode" taborder="3" top="59" height="22" right="-130" onkeydown="edt_Name_onkeydown" tooltiptext="코드 입력" width="110" visible="false"/>
+        <Edit id="edt_ContractType" taborder="4" top="59" height="22" right="-162" onkeydown="edt_Name_onkeydown" tooltiptext="코드 입력" width="30" visible="false"/>
+        <Edit id="edt_ClientCode" taborder="5" top="37" height="22" right="-130" onkeydown="edt_Name_onkeydown" tooltiptext="코드 입력" width="110" visible="false"/>
+      </Layout>
+      <Layout name="portrait" screenid="Mobile_screen" width="480" height="768" mobileorientation="portrait">
+        <Button id="btn_Confirm" width="80" height="30" right="4" bottom="5"/>
+        <Div id="div_search" left="4" top="39" height="109" right="4"/>
+        <Grid id="grd_ProjectSearch" formatid="mobile" left="4" top="div_search:4" right="4" bottom="43"/>
+        <Static id="stc_BottomFrame" height="38" left="1" right="1" bottom="1"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 공통 - 공통
+* 02. 화면명		: 프로젝트 검색 (CE_ContractSearch_S01)
+* 03. 화면설명 	: 
+* 04. 작성일   	: 2018.08.13
+* 05. 작성자   	: 안주환
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+//include "Script::CommCompExt.xjs"; //Test시에만 기재.
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.sAllCo = "none";
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.CE_ProjectSearch_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	
+	if(this.parent.hasOwnProperty("contracttype"))
+	{
+		if(!this.gfnIsEmpty(this.parent.contracttype))
+		{
+			this.edt_ContractType.set_value(this.parent.contracttype);
+		}
+	}	
+	if(this.parent.hasOwnProperty("searchtype"))
+	{
+		if(!this.gfnIsEmpty(this.parent.searchtype))
+		{
+			this.div_search.form.rdo_Search.set_value(this.parent.searchtype);
+		}		
+	}
+		
+	if(this.parent.hasOwnProperty("allco"))
+	{
+		if(!this.gfnIsEmpty(this.parent.allco))
+		{
+			this.sAllCo = this.parent.allco;
+			
+			if(this.sAllCo=="ALL")
+				this.div_search.form.st_OtherCo.set_visible(true);
+		}		
+	}
+	this.div_search.form.cmb_ContractCompleteType.set_index(2);
+	if(this.parent.hasOwnProperty("contractstatus"))
+	{
+		if(!this.gfnIsEmpty(this.parent.contractstatus))
+		{
+			this.div_search.form.cmb_ContractCompleteType.set_value(this.parent.contractstatus);
+			this.div_search.form.cmb_ContractCompleteType.set_enable(false);
+		}		
+	}
+	if(this.parent.hasOwnProperty("searchcode"))
+	{
+		var searchcode = this.parent.searchcode;
+		if(!this.gfnIsEmpty(searchcode))
+		{
+			if(searchcode.name == "CLIENT_CODE")
+			{
+				this.edt_ClientCode.set_value(searchcode.value);
+			}			
+			else if(searchcode.name == "PROJECT_CODE")
+			{
+				this.edt_ProjectCode.set_value(searchcode.value);
+				this.fnSearch();
+			}
+		}		
+	}	
+	if(this.parent.hasOwnProperty("sSubject"))
+	{
+		this.div_search.form.edt_Name.set_value(this.parent.sSubject);
+		if(!this.gfnIsEmpty(this.parent.sSubject)) {
+			this.fnSearch();
+		}
+	}
+	if(this.parent.hasOwnProperty("ProjectName"))
+	{
+		this.div_search.form.rdo_Search.set_value("P");
+		this.div_search.form.edt_Name.set_value(this.parent.ProjectName);
+		
+		if(!this.gfnIsEmpty(this.parent.ProjectName))
+		{
+			this.fnSearch();
+		}
+	}
+	if(this.parent.hasOwnProperty("ClientName"))
+	{
+		this.div_search.form.rdo_Search.set_value("C");
+		this.div_search.form.edt_Name.set_value(this.parent.ClientName);
+		
+		if(!this.gfnIsEmpty(this.parent.ClientName))
+		{
+			this.fnSearch();
+		}
+	}
+	if(this.parent.hasOwnProperty("sRelatedCompany"))
+	{
+		if(!this.gfnIsEmpty(this.parent.sRelatedCompany)) {
+			this.fnSearch();
+		}
+	}
+	if(this.parent.hasOwnProperty("sEstimateFlag"))
+	{
+		if(!this.gfnIsEmpty(this.parent.sEstimateFlag)) {
+			this.fnSearch();
+		}
+	}
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.rdo_PurchaseTyp_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSearch();
+};
+
+this.fnReturnOne = function(row)
+{
+	if(row < 0) return;
+	this.close(this.dsOutput.getColumn(row, "PROJECT_CODE") + "|" + this.dsOutput.getColumn(row, "PROJECT_NAME"));
+// 	this.dsSelected.clearData();
+// 	var nRow = this.dsSelected.addRow();
+// 	this.dsSelected.copyRow(nRow, this.dsOutput, row);
+// 	this.commUtil.popupClose(this.dsSelected);
+}
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnSearch = function() {
+	// 조건값 셋팅
+	this.gfnAddSendParameter("All_CO", this.sAllCo);
+	this.gfnAddSendParameter("SEARCH_GB", this.div_search.form.rdo_Search.value);
+	this.gfnAddSendParameter("SEARCH_TEXT", this.div_search.form.edt_Name.text);
+	
+	var relatedCompany = false;
+	if(!this.gfnIsEmpty(this.parent.sRelatedCompany)) {
+		this.gfnAddSendParameter("RELATED_COMPANY_CODE", this.parent.sRelatedCompany);
+		relatedCompany = true;
+	}
+	/*계약상태*/
+	if(!this.gfnIsEmpty(this.div_search.form.cmb_ContractCompleteType.value))
+	{
+		this.gfnAddSendParameter("CONTRACT_COMPLETE_TYPE", this.div_search.form.cmb_ContractCompleteType.value);
+	}
+	/*고객코드*/
+	if(!this.gfnIsEmpty(this.edt_ClientCode.value))
+	{
+		this.gfnAddSendParameter("CLIENT_CODE", this.edt_ClientCode.value);
+	}
+	/*프로젝트코드*/
+	if(!this.gfnIsEmpty(this.edt_ProjectCode.value))
+	{
+		this.gfnAddSendParameter("PROJECT_CODE", this.edt_ProjectCode.value);
+	}
+	/*매출계약구분*/
+	this.gfnAddSendParameter("MULTI_CONTRACT_TYPE_FLAG", "N");
+	if(!this.gfnIsEmpty(this.edt_ContractType.value))
+	{
+		var sParamContractType = this.edt_ContractType.value;
+		var arrContractType = sParamContractType.split(",");
+		
+		
+		if (arrContractType.length>0) {
+			this.gfnAddSendParameter("MULTI_CONTRACT_TYPE_FLAG", "Y");
+			this.gfnAddSendParameter("CONTRACT_TYPE_LIST", sParamContractType);
+// 			this.dsInConTypeList.clearData();
+// 			for (var i=0; i<arrContractType.length; i++) {
+// 				var nRowIdx = this.dsInConTypeList.addRow();
+// 				this.dsInConTypeList.setColumn(nRowIdx, "CONTRACT_TYPE", arrContractType[i]);
+// 			}
+			
+		} else {
+			this.gfnAddSendParameter("MULTI_CONTRACT_TYPE_FLAG", "N");
+			this.gfnAddSendParameter("CONTRACT_TYPE", this.edt_ContractType.value);
+		}
+	}
+	/*견적서여부*/
+	if(!this.gfnIsEmpty(this.parent.sEstimateFlag))
+	{
+		this.gfnAddSendParameter("ESTIMATE_FLAG", this.parent.sEstimateFlag);
+	}
+	/*견적서 계약구분*/
+	if(!this.gfnIsEmpty(this.parent.sEstimateContractType))
+	{
+		this.gfnAddSendParameter("ESTIMATE_CONTRACT_TYPE", this.parent.sEstimateContractType);
+	}
+	this.gfnAddSendParameter("CO_CD", this.gfnGetCompanyCode());
+	// 조회용 Input dataset 세팅
+	//this.gfnAddInputDataset("dsInConTypeList", "dsConTypeList");
+	
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("dsOutput", "dsOutput");
+// 	this.gfnCommonTransaction("Select", "CE_ContractSearch_S01", this.grd_ProjectSearch);
+	var service = "ProjectSearch";
+	var gb = this.div_search.form.rdo_Search.value;
+	switch(gb) {
+		case "C" :
+		case "P" :
+		case "N" :
+		case "A" :
+		case "CN" :
+				if(relatedCompany == true) {
+					service += "3";
+				} else {
+					service += "1";
+				}
+				break;
+		case "B" :
+		case "M" :
+		case "PN" :
+				if(relatedCompany == true) {
+					service += "4";
+				} else {
+					service += "2";
+				}
+				break;
+		default :
+	}
+	
+	this.gfnSetMap("nextCommMapper", service, "dsOutput");
+	this.gfnCommonTransaction("Select", "selectNextList.do"/*"CE_CompanySearch_S01"*/, this.grd_ProjectSearch);	
+}
+
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		//alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		if(strSvcID=="Select") 
+		{	
+			var nRowCnt = this.dsOutput.getRowCount();
+			if(nRowCnt > 0)
+			{
+				this.grd_ProjectSearch.setFocus();
+			}else{
+				this.div_search.form.edt_Name.setFocus();
+			}
+			
+			if(this.hasOwnProperty("opener") && !this.gfnIsEmpty(this.opener))
+			{
+				if(this.opener.name == "COM_Search")
+				{
+				/* 1건 조회시 자동 선택후 창 닫히는것을 막음 (사업지원팀에서 원하지 않음)
+					if(nRowCnt == 1)
+					{
+						this.fnReturnOne(0);
+					}
+				*/
+				}
+			}
+			
+		}
+	}
+}
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) 
+	{
+		case "btn_Search":
+			this.fnSearch();
+			break;
+		case "btn_Confirm":
+			this.fnReturnOne(this.dsOutput.rowposition);
+			break;
+	}
+};
+
+this.grd_ProjectSearch_oncelldblclick = function(obj:nexacro.Grid, e:nexacro.GridClickEventInfo)
+{
+	this.fnReturnOne(e.row);
+};
+
+this.div_search_form_edt_Name_onkeydown = function(obj:nexacro.Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.fnSearch();
+	}
+};
+
+
+this.btn_Cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+this.grd_ProjectSearch_onkeydown = function(obj:nexacro.Grid,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.fnReturnOne(this.dsOutput.rowposition);
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsOutput">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="string" size="15"/>
+          <Column id="CLIENT_NAME" type="string" size="50"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_TYPE" type="string" size="3"/>
+          <Column id="CONTRACT_NAME" type="string" size="202"/>
+          <Column id="COMPANY_NAME" type="string" size="50"/>
+          <Column id="CONTRACT_DATE" type="datetime" size="23"/>
+          <Column id="BIZ_STAFF_DEPT" type="string" size="30"/>
+          <Column id="BIZ_STAFF" type="string" size="15"/>
+          <Column id="BIZ_STAFF_NAME" type="string" size="255"/>
+          <Column id="COMPANY_CODE" type="string" size="255"/>
+          <Column id="PRODUCT_NAME" type="string" size="255"/>
+          <Column id="PRODUCT_CODE" type="string" size="255"/>
+          <Column id="PROJECT_CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="PURCHASE_CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="COLOR" type="string" size="255"/>
+          <Column id="CO_CD" type="string" size="255"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="203"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSelected">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="string" size="15"/>
+          <Column id="CLIENT_NAME" type="string" size="50"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="20"/>
+          <Column id="CONTRACT_TYPE" type="string" size="3"/>
+          <Column id="CONTRACT_NAME" type="string" size="202"/>
+          <Column id="COMPANY_NAME" type="string" size="50"/>
+          <Column id="CONTRACT_DATE" type="datetime" size="23"/>
+          <Column id="BIZ_STAFF_DEPT" type="string" size="30"/>
+          <Column id="BIZ_STAFF" type="string" size="15"/>
+          <Column id="BIZ_STAFF_NAME" type="string" size="255"/>
+          <Column id="COMPANY_CODE" type="string" size="255"/>
+          <Column id="PRODUCT_NAME" type="string" size="255"/>
+          <Column id="PRODUCT_CODE" type="string" size="255"/>
+          <Column id="PROJECT_CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="PURCHASE_CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="COLOR" type="string" size="255"/>
+          <Column id="CO_CD" type="string" size="255"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="203"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CD_CONTRACT_COMPLETE_TYPE">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="CAPTION_ENG" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CAPTION">All</Col>
+            <Col id="CODE"/>
+            <Col id="CAPTION_JAP">全体</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">가계약</Col>
+            <Col id="CAPTION_JAP">仮契約</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">진계약</Col>
+            <Col id="CAPTION_JAP">真契約</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_CD_SEARCH">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="CAPTION_ENG" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">C</Col>
+            <Col id="CAPTION">고객사</Col>
+            <Col id="CAPTION_JAP">顧客社</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">A</Col>
+            <Col id="CAPTION">매출계약처</Col>
+            <Col id="CAPTION_JAP">売上契約先</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">P</Col>
+            <Col id="CAPTION">프로젝트</Col>
+            <Col id="CAPTION_JAP">プロジェクト</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">M</Col>
+            <Col id="CAPTION">매입계약명</Col>
+            <Col id="CAPTION_JAP">買入契約名</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">N</Col>
+            <Col id="CAPTION">매출계약명</Col>
+            <Col id="CAPTION_JAP">売上契約名</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">B</Col>
+            <Col id="CAPTION">매입계약처</Col>
+            <Col id="CAPTION_JAP">買入契約先</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">CN</Col>
+            <Col id="CAPTION">매출계약번호</Col>
+            <Col id="CAPTION_JAP">売上契約番号</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">PN</Col>
+            <Col id="CAPTION">매입계약번호</Col>
+            <Col id="CAPTION_JAP">買入契約番号</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsInConTypeList">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>
