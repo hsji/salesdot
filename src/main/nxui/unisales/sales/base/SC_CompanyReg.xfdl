@@ -1197,7 +1197,9 @@ this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
 			function() {
 				if(this.getOwnerFrame().hasOwnProperty("TMP_COMP_REG")) {
 					if(this.getOwnerFrame().TMP_COMP_REG == true && this.gfnIsNull(this.getOwnerFrame().COMPANY_CODE)) {
-						this.close();
+						var cd = this.dsCompany.getColumn(0, "COMPANY_CODE") || "";
+						var nm = this.dsCompany.getColumn(0, "COMPANY_NAME") || "";
+						this.close(cd + "|" + nm);
 						return;
 					}
 				}
@@ -1264,11 +1266,11 @@ this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			this.gfnAlert("confirm.before.deletesave", [""], "deleteNsave", "fnMsgCallback");	
 			break;
 		case "btn_Close" : 
-			this.commUtil.popupClose("close");
+			this.close("close");
 			break;
 			
 		case "btn_Exit" : 
-			this.commUtil.popupClose("close");
+			this.close("close");
 			break;
 			
 		case "btn_CompanyName" : 
@@ -1901,7 +1903,7 @@ this.div_Reason_cmb_SalesEmp_onitemchanged = function(obj:nexacro.Combo,e:nexacr
 
 this.btn_Cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	this.commUtil.popupClose();
+	this.close();
 };
 
 this.dsAddressBook_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)

@@ -133,6 +133,7 @@ public class nextBaseServiceImpl implements nextBaseService {
             Map<String,Object> saveMap = saveList.get(i);
             
             saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+            saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
             saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
             saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
             
@@ -173,6 +174,7 @@ public class nextBaseServiceImpl implements nextBaseService {
             Map<String,Object> saveMap = saveList.get(i);
             
             saveMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
+            saveMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
             saveMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
             saveMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
             
@@ -203,6 +205,7 @@ public class nextBaseServiceImpl implements nextBaseService {
         saveMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
         saveMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
         saveMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+        saveMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
         
         //Map<String,Object> cntMap = sqlSession.selectOne("nextCommMapper.selectFileMap", saveMap);
         //int cnt = Integer.parseInt(String.valueOf(cntMap.get("CNT")));
@@ -232,6 +235,7 @@ public class nextBaseServiceImpl implements nextBaseService {
 	          saveMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
 	          saveMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
 	          saveMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+	          saveMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
 	          sqlSession.insert(strInsertMap,saveMap);
 	      }	
       }       
@@ -251,6 +255,7 @@ public class nextBaseServiceImpl implements nextBaseService {
           saveMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
           saveMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
           saveMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+          saveMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
           
        		sqlSession.delete(strInsertMap,saveMap);
        		
@@ -283,6 +288,7 @@ public class nextBaseServiceImpl implements nextBaseService {
   	          saveMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
   	          saveMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
   	          saveMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+  	          saveMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
   	          sqlSession.delete(strInsertMap,saveMap);
   	      }	
         }         
@@ -313,6 +319,7 @@ public class nextBaseServiceImpl implements nextBaseService {
              saveMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
              saveMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
              saveMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+             saveMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
              
              rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
              
@@ -349,6 +356,7 @@ public class nextBaseServiceImpl implements nextBaseService {
         saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
         saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
         saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+        saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
         
         rowType = (String) saveMap.get("_rowType_");
         

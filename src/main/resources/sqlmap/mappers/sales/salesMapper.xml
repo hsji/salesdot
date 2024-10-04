@@ -76,10 +76,10 @@
 	    , #{SALES_STATUS}
 	    , #{LINK_CONFIRM_FLAG}
 	    , #{REMK}
-	    , #{USER_ID_SRV}
+	    , #{EMP_NO_SRV}
 	    , #{USER_CON_IPADDR_SRV}
 	    , NOW()
-	    , #{USER_ID_SRV}
+	    , #{EMP_NO_SRV}
 	    , #{USER_CON_IPADDR_SRV}
 	    , NOW()
 		);
@@ -100,7 +100,7 @@
 	    , SALES_STATUS 	= #{SALES_STATUS}
 	    , LINK_CONFIRM_FLAG = #{LINK_CONFIRM_FLAG}
 	    , REMK 			= #{REMK}
-	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_ID 		= #{EMP_NO_SRV}
 	    , CHGE_DTTM 	= NOW()
 	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
 	WHERE PRJT_CODE 	= #{PRJT_CODE}	
@@ -156,10 +156,10 @@
 	    , #{SCHD_TITLE}
 	    , #{SCHD_STATUS}
 	    , #{REMK}
-	    , #{USER_ID_SRV}
+	    , #{EMP_NO_SRV}
 	    , #{USER_CON_IPADDR_SRV}
 	    , NOW()
-	    , #{USER_ID_SRV}
+	    , #{EMP_NO_SRV}
 	    , #{USER_CON_IPADDR_SRV}
 	    , NOW()
 		);
@@ -173,7 +173,7 @@
 	    , SCHD_TITLE 	= #{SCHD_TITLE}
 	    , SCHD_STATUS 	= #{SCHD_STATUS}
 	    , REMK 			= #{REMK}
-	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_ID 		= #{EMP_NO_SRV}
 	    , CHGE_DTTM 	= NOW()
 	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
 	WHERE PRJT_CODE 	= #{PRJT_CODE}	
@@ -255,10 +255,10 @@
 		, #{FILE_SIZE}
 		, #{FILE_TYPE}
 		, #{FILE_PATH_NM}
-		, #{USER_ID_SRV}
+		, #{EMP_NO_SRV}
 		, NOW()
 		, #{USER_CON_IPADDR_SRV}
-		, #{USER_ID_SRV}
+		, #{EMP_NO_SRV}
 		, NOW()
 		, #{USER_CON_IPADDR_SRV}
 	)
@@ -321,10 +321,10 @@
 	    , #{HOME_URL}
 	    , #{CLIENT_PIC}
 	    , #{CLIENT_TYPE}
-	    , #{USER_ID_SRV}
+	    , #{EMP_NO_SRV}
 	    , NOW()
 	    , #{USER_CON_IPADDR_SRV}
-	    , #{USER_ID_SRV}
+	    , #{EMP_NO_SRV}
 	    , NOW()
 	    , #{USER_CON_IPADDR_SRV}
 		);
@@ -342,7 +342,7 @@
 	    , HOME_URL		= #{HOME_URL}
 	    , CLIENT_PIC 	= #{CLIENT_PIC}
 	    , CLIENT_TYPE 	= #{CLIENT_TYPE}
-	    , CHGE_ID 		= #{USER_ID_SRV}
+	    , CHGE_ID 		= #{EMP_NO_SRV}
 	    , CHGE_DTTM 	= NOW()
 	    , CHGE_IP 		= #{USER_CON_IPADDR_SRV}
 	WHERE SEQ_NO 		= #{SEQ_NO}	

@@ -272,19 +272,25 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 	}
 	else
 	{	
-		var arrVariant = Variant.split("|");
+		//var arrVariant = Variant.split("|");
 		this.recentVariant = Variant;
 		switch(sPopupId)
 		{
 			case "popupClientSearch" :  //고객사
-				this.setCode(arrVariant[0]);
-				this.setData(arrVariant[1]);
+				var ds = new nexacro.Dataset();
+				ds.loadJSON(Variant);
+				this.recentVariant = ds;
+				this.setCode(ds.getColumn(0, "COMPANY_CODE"));
+				this.setData(ds.getColumn(0, "COMPANY_NAME"));
 				this.onchanged();
 			break;
 			
 			case "popupCompanySearch" :  //협력사
-				this.setCode(arrVariant[0]);
-				this.setData(arrVariant[1]);
+				var ds = new nexacro.Dataset();
+				ds.loadJSON(Variant);
+				this.recentVariant = ds;			
+				this.setCode(ds.getColumn(0, "COMPANY_CODE"));
+				this.setData(ds.getColumn(0, "COMPANY_NAME"));
 				this.onchanged();
 			break;
 			

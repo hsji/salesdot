@@ -56,6 +56,8 @@ public class salesServiceImpl implements salesService {
             
             msgMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
             msgMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
+            msgMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+            msgMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
             
             rowType = Integer.parseInt(String.valueOf(msgMap.get(DataSetRowTypeAccessor.NAME)));
             
@@ -103,6 +105,8 @@ public class salesServiceImpl implements salesService {
             
             msgMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
             msgMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
+            msgMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+            msgMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
             
             rowType = Integer.parseInt(String.valueOf(msgMap.get(DataSetRowTypeAccessor.NAME)));
             
@@ -131,7 +135,9 @@ public class salesServiceImpl implements salesService {
             	detailMap.put("SCHD_STATUS", "200");	// 프로젝트인지 기본추가
             	detailMap.put("SCHD_TITLE", "프로젝트 진행 인지");	// 프로젝트인지 기본추가
             	detailMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
-            	detailMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));            	
+            	detailMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));   
+            	detailMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+            	detailMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
             	
             	sqlSession.insert("salesMapper.insertProjectScheduleInfo", detailMap);
             	
@@ -188,6 +194,8 @@ public class salesServiceImpl implements salesService {
             
             msgMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
             msgMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
+            msgMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+            msgMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
             
             rowType = Integer.parseInt(String.valueOf(msgMap.get(DataSetRowTypeAccessor.NAME)));
             
@@ -225,6 +233,8 @@ public class salesServiceImpl implements salesService {
             
             boardMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
             boardMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
+            boardMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+            boardMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
           
             sqlSession.insert("salesMapper.salesFileInsert", boardMap);
         }

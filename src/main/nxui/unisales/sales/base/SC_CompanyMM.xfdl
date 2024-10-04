@@ -506,6 +506,43 @@ this.div_Project_Management_cmb_SelectType_onitemchanged = function(obj,e)
 // 		}
 // 	}
 };
+
+this.divCmmnBtn_btnExcelUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.grd_CompanyMM.setCellProperty("body", 6, "text", "bind:POST_ADDR");
+
+	this.gfnExcelImport("dsOutput", "Sheet1", "A2:I", "fnExcelImportCallback", "message", "", "A1:I1", this.grd_CompanyMM);
+};
+
+this.btn00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.dsOutput.enableevent = false;
+	
+	this.dsOutput.addColumn("NEW_COMPANY_CD", "string");
+	for(var i=this.dsOutput.rowcount-1;i>=0;i--) {
+		var post = this.dsOutput.getColumn(i,"POST_NO");
+		if(this.gfnIsNull(post) || post.length > 6) {
+			this.dsOutput.deleteRow(i);
+			continue;
+		}
+		var cd = this.dsOutput.getColumn(i,"COMPANY_CODE");
+		cd = "TB" + cd;
+		this.dsOutput.setColumn(i,"COMPANY_CODE", cd);
+		this.dsOutput.setColumn(i,"NEW_COMPANY_CD", cd);
+
+		
+	}
+	this.dsOutput.enableevent = true;
+};
+
+this.btn01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnAddInputDataset("dsOutput"			, "dsInput1", "A");
+	
+	this.gfnSetMap("nextBaseMapper", ["CompanyList"], ["dsOutput"]);
+
+	this.gfnCommonTransaction("Select", "saveNextList.do");	
+};
 ]]></Script>
   </Form>
 </FDL>

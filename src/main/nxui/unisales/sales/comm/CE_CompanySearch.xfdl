@@ -67,7 +67,7 @@
         </Grid>
         <Button id="btnClose" taborder="2" text="닫기" height="28" width="50" right="20" bottom="10" onclick="btnClose_onclick"/>
         <Button id="btn_CompReg" taborder="3" text="신규등록" height="28" width="82" cssclass="btn_WF_Crud" right="btnClose:5" bottom="10" onclick="btnConfirm_onclick" visible="false"/>
-        <Div id="div_CompanyReg00" taborder="4" left="20.00" right="20" top="444" border="1px solid #dddddd" cssclass="div_WF_detailBg" height="218" enable="false">
+        <Div id="div_CompanyReg" taborder="4" left="20.00" right="20" top="444" border="1px solid #dddddd" cssclass="div_WF_detailBg" height="218" enable="false">
           <Layouts>
             <Layout>
               <Static id="stc_CorporateRegistrationNumber" taborder="0" text="사업자등록번호" top="44" width="100" height="24" cssclass="sta_WF_DetailTit" left="0" TL_SEQ="837"/>
@@ -212,7 +212,7 @@ this.CE_CompanySearch_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo
 	
 	// 회사 신규등록 버튼 활성화 User Property
 	if (this.parent.compReg == "true") {
-		this.div_CompanyReg.form.btn_CompReg.set_visible(true);
+		this.btn_CompReg.set_visible(true);
 	}		
 	if(this.parent.hasOwnProperty("CompanyName"))
 	{
@@ -235,6 +235,7 @@ this.CE_CompanySearch_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo
 	{
 		this.fnSearch();
 	}
+	this.div_search.form.edt_Name.setFocus();
 };
 
 /************************************************************************************************
@@ -255,7 +256,12 @@ this.CE_CompanySearch_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo
 
 this.fnReturnOne = function(row)
 {
-	this.close(this.dsOutput.getColumn(row, "COMPANY_CODE") + "|" + this.dsOutput.getColumn(row, "COMPANY_NAME"));
+	var ds = new nexacro.Dataset();
+	ds.copyData(this.dsOutput);
+	ds.clearData();
+	ds.addRow();
+	ds.copyRow(0, this.dsOutput, row);
+	this.close(ds.saveJSON());
 }
 
 /************************************************************************************************
@@ -375,19 +381,10 @@ this.grd_CompanySerachList_onkeydown = function(obj:nexacro.Grid,e:nexacro.KeyEv
 	}
 };
 
-this.div_CompanyReg_btn_CompReg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	var sTmpCompReg = true;
-	if(this.FV_CO_CD == "J02") sTmpCompReg = false;
-	
-	var sArgument = {COMPANY_CODE : "", TMP_COMP_REG : sTmpCompReg};
-	this.commUtil.popup(this, "CompanyRegIns", "Sales::SC_CompanyReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
-};
-
 // Popup 콜백
 this.fnPopupCallBack = function(sPopupId, Variant)
 {
-	Variant = this.commUtil.popupReturn();
+	//Variant = this.commUtil.popupReturn();
 	if(this.gfnIsEmpty(Variant))
 	{
 		return;
@@ -398,39 +395,49 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 		switch(sPopupId)
 		{
 			case "CompanyReg" :  //고객사
-				var ds = new nexacro.Dataset();
-				ds.loadXML(Variant);
+				var comp = Variant.split("|");
 				this.recentVariant = ds;
 				
 				
-				if(!this.gfnIsEmpty(ds.getColumn(0, "COMPANY_NAME")))
+				if(!this.gfnIsEmpty(comp[0]))
 				{
-					this.div_search.form.edt_Name.set_value(ds.getColumn(0, "COMPANY_NAME"));
+					this.div_search.form.edt_Name.set_value(comp[1]);
 					this.fnSearch();
 				}
 			break;
 		}
 	}
-}
+};
+
 this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.close();
 };
+
+this.btnConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sTmpCompReg = true;
+	
+	var sArgument = {COMPANY_CODE : "", TMP_COMP_REG : sTmpCompReg};
+	sArgument.title = "회사등록";
+	this.commUtil.popup(this, "CompanyReg", "sales::base/SC_CompanyReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+	
+};
 ]]></Script>
     <Bind>
-      <BindItem id="item0" compid="div_CompanyReg00.form.chb_ClientCompany" propid="value" datasetid="dsOutput" columnid="CLIENT_FLAG"/>
-      <BindItem id="item1" compid="div_CompanyReg00.form.chb_PlaceOfContract" propid="value" datasetid="dsOutput" columnid="COMPANY_FLAG"/>
-      <BindItem id="item2" compid="div_CompanyReg00.form.chb_FakeCode" propid="value" datasetid="dsOutput" columnid="TMP_FLAG"/>
-      <BindItem id="item3" compid="div_CompanyReg00.form.chb_BlackList" propid="value" datasetid="dsOutput" columnid="BLACKLIST_FLAG"/>
-      <BindItem id="item4" compid="div_CompanyReg00.form.chb_DISP" propid="value" datasetid="dsOutput" columnid="SI_VIEW_FLAG"/>
-      <BindItem id="item5" compid="div_CompanyReg00.form.chb_TURNKEY" propid="value" datasetid="dsOutput" columnid="TURNKEY_FLAG"/>
-      <BindItem id="item6" compid="div_CompanyReg00.form.chb_SubsidiaryCompany" propid="value" datasetid="dsOutput" columnid="SUBSIDIARY_COMPANY_FLAG"/>
-      <BindItem id="item7" compid="div_CompanyReg00.form.edt_CorporateRegistrationNumber" propid="value" datasetid="dsOutput" columnid="COMPANY_REG_NO"/>
-      <BindItem id="item8" compid="div_CompanyReg00.form.edt_CorperateRegistrationNumber" propid="value" datasetid="dsOutput" columnid="CORPORATE_REG_NO"/>
-      <BindItem id="item9" compid="div_CompanyReg00.form.edt_Telephone" propid="value" datasetid="dsOutput" columnid="PHONE_NO"/>
-      <BindItem id="item10" compid="div_CompanyReg00.form.txt_Remark" propid="value" datasetid="dsOutput" columnid="REMARKS"/>
-      <BindItem id="item11" compid="div_CompanyReg00.form.txt_Remark00" propid="value" datasetid="dsOutput" columnid="CONTRACT_REMARKS"/>
-      <BindItem id="item12" compid="div_CompanyReg00.form.txt_Remark00_00" propid="value" datasetid="dsOutput" columnid="PURCHASE_REMARKS"/>
+      <BindItem id="item0" compid="div_CompanyReg.form.chb_ClientCompany" propid="value" datasetid="dsOutput" columnid="CLIENT_FLAG"/>
+      <BindItem id="item1" compid="div_CompanyReg.form.chb_PlaceOfContract" propid="value" datasetid="dsOutput" columnid="COMPANY_FLAG"/>
+      <BindItem id="item2" compid="div_CompanyReg.form.chb_FakeCode" propid="value" datasetid="dsOutput" columnid="TMP_FLAG"/>
+      <BindItem id="item3" compid="div_CompanyReg.form.chb_BlackList" propid="value" datasetid="dsOutput" columnid="BLACKLIST_FLAG"/>
+      <BindItem id="item4" compid="div_CompanyReg.form.chb_DISP" propid="value" datasetid="dsOutput" columnid="SI_VIEW_FLAG"/>
+      <BindItem id="item5" compid="div_CompanyReg.form.chb_TURNKEY" propid="value" datasetid="dsOutput" columnid="TURNKEY_FLAG"/>
+      <BindItem id="item6" compid="div_CompanyReg.form.chb_SubsidiaryCompany" propid="value" datasetid="dsOutput" columnid="SUBSIDIARY_COMPANY_FLAG"/>
+      <BindItem id="item7" compid="div_CompanyReg.form.edt_CorporateRegistrationNumber" propid="value" datasetid="dsOutput" columnid="COMPANY_REG_NO"/>
+      <BindItem id="item8" compid="div_CompanyReg.form.edt_CorperateRegistrationNumber" propid="value" datasetid="dsOutput" columnid="CORPORATE_REG_NO"/>
+      <BindItem id="item9" compid="div_CompanyReg.form.edt_Telephone" propid="value" datasetid="dsOutput" columnid="PHONE_NO"/>
+      <BindItem id="item10" compid="div_CompanyReg.form.txt_Remark" propid="value" datasetid="dsOutput" columnid="REMARKS"/>
+      <BindItem id="item11" compid="div_CompanyReg.form.txt_Remark00" propid="value" datasetid="dsOutput" columnid="CONTRACT_REMARKS"/>
+      <BindItem id="item12" compid="div_CompanyReg.form.txt_Remark00_00" propid="value" datasetid="dsOutput" columnid="PURCHASE_REMARKS"/>
     </Bind>
   </Form>
 </FDL>

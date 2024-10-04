@@ -25,15 +25,13 @@ public class NexterUtil {
 	    	loginUserInfo.put("USER_ID_SRV"			, "jihs");
 	    	loginUserInfo.put("SYTM_FLAG_CD_SRV"	, "PC");
 	    	loginUserInfo.put("USER_CON_IPADDR_SRV"	, "127.0.0.1");
-	    	loginUserInfo.put("USER_ID"			, "jihs");
-	    	loginUserInfo.put("EMP_NO"			, "jihs");
+	    	loginUserInfo.put("EMP_NO_SRV"			, "jihs");
 	    	loginUserInfo.put("SERVER_CO_CD"		, "UNIDIA");
     	} else {    	
-	    	loginUserInfo.put("USER_ID_SRV"			, userInfo.getStrEmpNo());
+	    	loginUserInfo.put("USER_ID_SRV"			, userInfo.getStrUserId());
 	    	loginUserInfo.put("SYTM_FLAG_CD_SRV"	, userInfo.getStrUserConSysFlag());
 	    	loginUserInfo.put("USER_CON_IPADDR_SRV"	, userInfo.getStrUserIPAddress());
-	    	loginUserInfo.put("USER_ID"				, userInfo.getStrEmpNo());
-	    	loginUserInfo.put("EMP_NO"				, userInfo.getStrEmpNo());
+	    	loginUserInfo.put("EMP_NO_SRV"			, userInfo.getStrEmpNo());
 	    	loginUserInfo.put("SERVER_CO_CD"		, userInfo.getStrCompanyCd());
     	}
     	
