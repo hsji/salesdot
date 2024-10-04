@@ -330,148 +330,6 @@ public class salesManagerServiceImpl implements salesManagerService {
 			}
 		}
 		
-		/**
-		 * ds_contract (계약)을 읽어 계약 삭제
-		 * @param datasetMap
-		 * @throws Exception
-		 */
-		public void dataSetRowLoopProduct_(SqlSession sqlSession, Map<String,Object> datasetMap, UserInfo userInfo) throws Exception {
-			List<Map<String,Object>> ds = (List<Map<String, Object>>) datasetMap.get("ds_contract_prod");
-			List<Map<String,Object>> ds_contract_prod_info = (List<Map<String, Object>>) datasetMap.get("ds_contract_prod_info");
-			String newContractNo = (String) datasetMap.get("ds_contractno_prod");
-			
-			int rowCount = ds.size();
-			if(rowCount <= 0) return;
-			
-			int rowType = 0;
-	
-			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-				
-				Map<String,Object> rowMap = ds.get(rowIndex);
-				rowMap.put("USER_ID_SRV", userInfo.getStrEmpNo());
-				rowMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
-				rowMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());			
-				rowMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());				
-				
-			    rowType = Integer.parseInt(String.valueOf(rowMap.get(DataSetRowTypeAccessor.NAME)));
-			    
-				String sInsertStatus =	(String) rowMap.get("INSERT_STATUS");
-				String sProductCd =		(String) rowMap.get("PRODUCT_CODE");
-    			String sCurContractNo = (String) rowMap.get("CONTRACT_NO");
-    			
-    			String sFindFlag = "N";
-    			
-    			System.out.println("\t" + rowIndex + ">>>:rowType" + rowType + ":::sInsertStatus:" + sInsertStatus);
-    			System.out.println("\t" + rowIndex + ">>>" + rowType + ":::" + sInsertStatus);
-    			if (rowType == DataSet.ROW_TYPE_INSERTED && sInsertStatus.equals("A")) {
-
-    				String sInfoContractNo = "";
-
-    				if (sCurContractNo == null || sCurContractNo.length() == 0) {
-    					
-    					if(ds_contract_prod_info != null) {
-	    	    			for (int i= 0; i < ds_contract_prod_info.size(); i++ ) {
-	    	    				Map<String, Object> tmpMap = ds_contract_prod_info.get(i);
-	    						String sMainProductCd = (String) tmpMap.get("MAIN_PRODUCT_CODE");
-	    						String sCurMainProductCd = "";
-	    						
-	    						if (sProductCd.length() <= 4) {
-	    							sCurMainProductCd = sProductCd.substring(0,2);
-	    						} else {
-	    							sCurMainProductCd = sProductCd.substring(0, sProductCd.length()-2);
-	    						}
-	 
-	    						if ( sCurMainProductCd.equals(sMainProductCd) ) {
-	    							sFindFlag = "Y";
-	    							sInfoContractNo = (String) tmpMap.get("CONTRACT_NO");
-	    							rowMap.put("CONTRACT_NO", sInfoContractNo);
-	    							
-	    							System.out.println("\t" + rowIndex + ">>>:rowType" + rowType + ":::@@@ find @@@@ sInfoContractNo:" + sInfoContractNo);
-	    							break;
-	    						}
-	    	    			}
-    					}
-    				} else {
-    					sFindFlag = "Y";
-    				}    				
-    			}
-    			System.out.println("\t" + rowIndex + ">>>:rowType" + rowType + ":::sFindFlag:" + sFindFlag);
-	            if (sFindFlag.equals("Y")){
-	            	// insertPresalesContractProductDetail insertPresalesProductList
-	    			sqlSession.insert("salesManagerMapper.insertPresalesContractProductDetail",rowMap);
-	            } else if (rowType == DataSet.ROW_TYPE_INSERTED && sInsertStatus.equals("I")){
-	            	String svContractNo = (String) datasetMap.get("varContractNo");
-	            	
-	    			if (svContractNo == null)	{
-	    				svContractNo = newContractNo;		// 최초 등록시 계약 코드 없음
-	    			}
-	    			
-	    			// main product code
-	    			String sCurMainProductCd = "";
-	    			if (sProductCd == null || sProductCd.length() <= 0) {
-	    				sCurMainProductCd = sProductCd;			
-	    			} else {
-	    				sCurMainProductCd = sProductCd.substring(0, sProductCd.length()-2);
-	    			}
-	    			
-	    			if(ds_contract_prod_info != null) {
-		    			for (int i= 0; i < ds_contract_prod_info.size(); i++ ) {
-		    				Map<String, Object> tmpMap = ds_contract_prod_info.get(i);
-		    				String sInfoContractNo = (String) tmpMap.get("CONTRACT_NO");
-		    				String sSeq = "";
-		    				
-		    				if (svContractNo == sInfoContractNo) 
-		    				{
-		    					sSeq = svContractNo.substring(8);
-		    					int nSeq = Integer.parseInt(sSeq);
-		    					nSeq ++;
-		    					svContractNo = svContractNo.substring(0, 8)+setLPad(Integer.toString(nSeq), 4, '0'); 
-		    				}
-		    			}
-	    			}
-	    			datasetMap.put("varContractNo", svContractNo);
-	    			
-	    			String sProjectCd =		(String) rowMap.get("PROJECT_CODE");
-	    			if(sProjectCd == null || sProjectCd.equals("")) {
-	    				Map<String,Object> pjtCodeMap = (Map<String, Object>) datasetMap.get("ds_project_cd");
-	    				sProjectCd = (String) pjtCodeMap.get("PROJECT_CODE");
-	    				rowMap.put("PROJECT_CODE", sProjectCd);
-	    			}
-	    			
-	    			Map<String, Object> tmpMap = new HashMap<>();
-	    			tmpMap.put("CONTRACT_NO", svContractNo);
-	    			tmpMap.put("PRODUCT_CODE", sProductCd);
-	    			tmpMap.put("MAIN_PRODUCT_CODE", sCurMainProductCd);
-	    			
-	    			rowMap.put("CONTRACT_NO", svContractNo);
-            	
-	    			ds_contract_prod_info.add(tmpMap);
-	    			
-	    			rowMap = copyItem(datasetMap, rowMap);
-	    			
-	    			// insertPresalesContractProductDetail insertPresalesProductList
-	    			sqlSession.insert("salesManagerMapper.insertPresalesContractProductDetail",rowMap);
-	    			
-	    			sqlSession.insert("salesManagerMapper.insertPresalesContractList",rowMap);
-	    			
-	    			sqlSession.insert("salesManagerMapper.insertPresalesContractProduct",rowMap);
-	    			
-	    			sqlSession.insert("salesManagerMapper.insertPresalesContractProductDetail",rowMap);
-	    			
-	            } else if (rowType == DataSet.ROW_TYPE_UPDATED) {
-	            	sqlSession.update("salesManagerMapper.updatePresalesProductList",rowMap);
-	            	
-
-	            } else if (rowType == DataSet.ROW_TYPE_DELETED) {
-	            	sqlSession.update("salesManagerMapper.deletePresalesProductDetail",rowMap);
-	            	int cnt = sqlSession.selectOne("salesManagerMapper.selectContractCountByNo", rowMap);
-	            	if(cnt == 0) {
-	            		sqlSession.update("salesManagerMapper.deletePresalesContractOnly2",rowMap);
-	            	}	            	
-	            }
-
-			}
-		}		
 				
 		/**
 		 * ds_contract (계약)을 읽어 계약 삭제
@@ -557,64 +415,60 @@ public class salesManagerServiceImpl implements salesManagerService {
 	    			sqlSession.insert("salesManagerMapper.insertPresalesContractProductDetail",rowMap);
 	    						    
 	            } else if (rowType == DataSet.ROW_TYPE_INSERTED && sInsertStatus.equals("I")){
-	            	
+	            	String sContractNo = (String) datasetMap.get("ds_contractno_goods");
+	    			if(ds_contract_goods_info != null && ds_contract_goods_info.size() > 0) {
+	    				sContractNo = (String) ds_contract_goods_info.get(0).get("CONTRACT_NO");
+	    			}
+	    			
+	    			String sSeq1 = sContractNo.substring(8);
+	    			int nSeq = Integer.parseInt(sSeq1)+1;
+	    			sSeq1 = Integer.toString(nSeq);
+	    			sContractNo = sContractNo.substring(0,8) + setLPad(sSeq1, 7, '0');
+	    			datasetMap.put("ds_contractno_goods", sContractNo);
+	    			
+	    			if(ds_contract_goods_info != null && ds_contract_goods_info.size() > 0) {
+	    				ds_contract_goods_info.get(0).put("CONTRACT_NO", sContractNo);
+	    			}
+	    			datasetMap.put("varContractNo2", sContractNo);
+	    			
 	            	String svContractNo = (String) datasetMap.get("varContractNo2");
 	            	
 	            	if(ds_contract_goods_info != null) {
 		    			for (int i= 0; i < ds_contract_goods_info.size(); i++ ) {
 		    				Map<String, Object> tmpMap = ds_contract_goods_info.get(i);
-		    				String sContractNo = (String) tmpMap.get("CONTRACT_NO");
+		    				String sContractNo2 = (String) tmpMap.get("CONTRACT_NO");
 		    				String sSeq = "";
 		    				
-		    				if (svContractNo == sContractNo) {
-		    					sSeq = svContractNo.substring(8);
-		    					int nSeq = Integer.parseInt(sSeq);
-		    					nSeq ++;
-		    					svContractNo = svContractNo.substring(0, 8)+setLPad(Integer.toString(nSeq), 4, '0'); 
+		    				if (sContractNo == sContractNo2) {
+		    					sSeq = sContractNo.substring(8);
+		    					int nSeq2 = Integer.parseInt(sSeq);
+		    					nSeq2 ++;
+		    					sContractNo = svContractNo.substring(0, 8)+setLPad(Integer.toString(nSeq2), 7, '0'); 
 		    				}
 		    			}
 	            	}
-	            	datasetMap.put("varContractNo2", svContractNo);
-	    			rowMap.put("CONTRACT_NO", svContractNo);
+	            	datasetMap.put("varContractNo2", sContractNo);
+	    			rowMap.put("CONTRACT_NO", sContractNo);
 	    			
 	    			Map<String, Object> tmpMap2 = new HashMap<>();
-	    			tmpMap2.put("CONTRACT_NO", svContractNo);
-	    			tmpMap2.put("PRODUCT_CODE", sProductCd);
-            	
-	    			String sSeq1 = newContractNo.substring(8);
-	    			int nSeq = Integer.parseInt(sSeq1)+1;
-	    			sSeq1 = Integer.toString(nSeq);
-	    			String sContractNo = newContractNo.substring(0,8) + setLPad(sSeq1, 4, '0');
-	    			datasetMap.put("ds_contractno_goods", sContractNo);
-	    			
 	    			tmpMap2.put("CONTRACT_NO", sContractNo);
+	    			tmpMap2.put("PRODUCT_CODE", sProductCd);
 	    			
 	    			ds_contract_goods_info.add(tmpMap2);
 	    			
-	    			rowMap.put("CONTRACT_NO", sContractNo);
-	    			datasetMap.put("varContractNo2", sContractNo);
-	    			
-	    			String sProjectCd =		(String) rowMap.get("PROJECT_CODE");
+	    			String sProjectCd =	(String) rowMap.get("PROJECT_CODE");
 	    			if(sProjectCd == null || sProjectCd.equals("")) {
 	    				Map<String,Object> pjtCodeMap = (Map<String, Object>) datasetMap.get("ds_project_cd");
 	    				sProjectCd = (String) pjtCodeMap.get("PROJECT_CODE");
 	    				rowMap.put("PROJECT_CODE", sProjectCd);
 	    			}	    			
-	    			/*
-	    			  <isNotEmpty property=\"tmp_ds_goods.PROJECT_CODE\">
- SET @PROJECT_CODE = #tmp_ds_goods.PROJECT_CODE#
- </isNotEmpty>
- <isEmpty property=\"tmp_ds_goods.PROJECT_CODE\">
- SET @PROJECT_CODE = #ds_in_contract.PROJECT_CODE#
- </isEmpty>
- 
-	    			 */
+
 	    			// 확인필요 CONTRACT_decision2connection2 GOODS_INSERT
 	    			//sqlSession.insert("salesManagerMapper.insertPresalesContractList",rowMap);
 	    			rowMap = copyItem(datasetMap, rowMap);
 	    			
-	    			sqlSession.insert("salesManagerMapper.insertPresalesContractProduct",rowMap);
-	    			
+	    			sqlSession.insert("salesManagerMapper.insertPresalesContractList",rowMap);
+	    			sqlSession.insert("salesManagerMapper.insertPresalesContractProduct",rowMap);    			
 	    			sqlSession.insert("salesManagerMapper.insertPresalesContractProductDetail",rowMap);
 	            } else if (rowType == DataSet.ROW_TYPE_DELETED){
 	            	sqlSession.update("salesManagerMapper.deletePresalesProductDetail",rowMap);
@@ -653,6 +507,7 @@ public class salesManagerServiceImpl implements salesManagerService {
 			    rowType = Integer.parseInt(String.valueOf(rowMap.get(DataSetRowTypeAccessor.NAME)));
 
 			    System.out.println("\t" + rowIndex + ">>>:rowType" + rowType);
+			    boolean createCheck = false;
 				if (rowType == DataSet.ROW_TYPE_INSERTED){
 					String pjtCode = (String) rowMap.get("PROJECT_CODE");
 					if(pjtCode == null || pjtCode.equals("")) {
@@ -660,8 +515,12 @@ public class salesManagerServiceImpl implements salesManagerService {
 						pjtCode =  (String) pjtCodeMap.get("PROJECT_CODE");
 						rowMap.put("PROJECT_CODE", pjtCode);
 					}
+					if(rowMap.get("CONTRACT_TYPE").equals("S")) {
+						rowMap.put("CONTRACT_TYPE", "ZS");
+					}
 					String cNo = sqlSession.selectOne("salesManagerMapper.selectContractNo", rowMap);
-					if(cNo == null) {
+					if(cNo == null) {  		
+						createCheck = true;
 						cNo = sqlSession.selectOne("salesManagerMapper.selectCreateContractNo", rowMap);
 					}
 					rowMap.put("CONTRACT_NO", cNo);
@@ -671,11 +530,14 @@ public class salesManagerServiceImpl implements salesManagerService {
 	    				Map<String,Object> pjtCodeMap = (Map<String, Object>) datasetMap.get("ds_project_cd");
 	    				sProjectCd = (String) pjtCodeMap.get("PROJECT_CODE");
 	    				rowMap.put("PROJECT_CODE", sProjectCd);
-	    			}					
+	    			}
 	    			rowMap = copyItem(datasetMap, rowMap);
 	    			
-					sqlSession.insert("salesManagerMapper.insertPresalesContractList",rowMap);
-					sqlSession.insert("salesManagerMapper.insertPresalesSI",rowMap);
+	    			if(createCheck == true) {
+	    				sqlSession.insert("salesManagerMapper.insertPresalesContractList",rowMap);
+	    				sqlSession.insert("salesManagerMapper.insertPresalesSI",rowMap);
+	    			}
+	    			sqlSession.insert("salesManagerMapper.insertPresalesSIDetail",rowMap);
 					
 				} else if (rowType == DataSet.ROW_TYPE_UPDATED) {		    	
 			    	sqlSession.update("salesManagerMapper.updatePresalesSIDetail",rowMap);	
@@ -717,6 +579,7 @@ public class salesManagerServiceImpl implements salesManagerService {
 			    rowType = Integer.parseInt(String.valueOf(rowMap.get(DataSetRowTypeAccessor.NAME)));
 
 			    System.out.println("\t" + rowIndex + ">>>:rowType" + rowType);
+			    boolean createCheck = false;
 				if (rowType == DataSet.ROW_TYPE_INSERTED){
 					String pjtCode = (String) rowMap.get("PROJECT_CODE");
 					if(pjtCode == null || pjtCode.equals("")) {
@@ -727,6 +590,7 @@ public class salesManagerServiceImpl implements salesManagerService {
 					String cNo = sqlSession.selectOne("salesManagerMapper.selectContractNo", rowMap);
 					if(cNo == null) {
 						cNo = sqlSession.selectOne("salesManagerMapper.selectCreateContractNo", rowMap);
+						createCheck = true;
 					}
 					rowMap.put("CONTRACT_NO", cNo);
 					
@@ -738,8 +602,11 @@ public class salesManagerServiceImpl implements salesManagerService {
 	    			}							
 	    			rowMap = copyItem(datasetMap, rowMap);
 					
-					sqlSession.insert("salesManagerMapper.insertPresalesContractList",rowMap);
-					sqlSession.insert("salesManagerMapper.insertPresalesSI",rowMap);
+	    			if(createCheck == true) {
+	    				sqlSession.insert("salesManagerMapper.insertPresalesContractList",rowMap);
+	    				sqlSession.insert("salesManagerMapper.insertPresalesSI",rowMap);
+	    			}
+	    			sqlSession.insert("salesManagerMapper.insertPresalesSIDetail",rowMap);	    			
 					
 				} else if (rowType == DataSet.ROW_TYPE_UPDATED) {		    	
 			    	sqlSession.update("salesManagerMapper.updatePresalesSIDetail",rowMap);	
@@ -882,8 +749,8 @@ public class salesManagerServiceImpl implements salesManagerService {
 	    public void savePresalseList(List<Map<String,String>> queryList, Map<String,Object> datasetMap, UserInfo userInfo) 
 	    				throws Exception {
 
-	    	SqlSession sqlSession = sqlSession1.getSqlSessionFactory().openSession(false);
-	    	sqlSession.getConnection().setAutoCommit(false);
+	    	SqlSession sqlSession = sqlSession1.getSqlSessionFactory().openSession();
+	    	//sqlSession.getConnection().setAutoCommit(false);
 	    	
 	    	try {
 	    		// PROJECT
@@ -909,15 +776,15 @@ public class salesManagerServiceImpl implements salesManagerService {
 		    	dataSetRowLoopGoods(sqlSession, datasetMap, userInfo);
 	    		System.out.println("===[savePresalseList dataSetRowLoopGoods end]===");
 		    	
-	    		System.out.println("===[savePresalseList dataSetRowLoopSI end]===");
+	    		System.out.println("===[savePresalseList dataSetRowLoopSI start]===");
 		    	dataSetRowLoopSI(sqlSession, datasetMap, userInfo);
 		    	System.out.println("===[savePresalseList dataSetRowLoopSI end]===");
 		    	
-		    	System.out.println("===[savePresalseList dataSetRowLoopCS end]===");
+		    	System.out.println("===[savePresalseList dataSetRowLoopCS start]===");
 		    	dataSetRowLoopCS(sqlSession, datasetMap, userInfo);
 		    	System.out.println("===[savePresalseList dataSetRowLoopCS end]===");
 		    	
-		    	System.out.println("===[savePresalseList dataSetRowLoopAddress end]===");
+		    	System.out.println("===[savePresalseList dataSetRowLoopAddress start]===");
 		    	dataSetRowLoopAddress(sqlSession, datasetMap, userInfo);
 		    	System.out.println("===[savePresalseList dataSetRowLoopAddress end]===");
 		 

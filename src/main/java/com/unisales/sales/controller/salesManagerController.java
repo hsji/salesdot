@@ -87,6 +87,7 @@ public class salesManagerController {
 			userInfo.setStrUserId("jihs");
 			userInfo.setStrUserIPAddress("127.0.0.1");
 			userInfo.setStrCompanyCd("UNIDIA");
+			userInfo.setStrEmpNo("w22010301");
 		}
 		
 		Map<String,Object> datasetMap = new HashMap<>();

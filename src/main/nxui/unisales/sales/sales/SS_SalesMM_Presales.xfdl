@@ -177,10 +177,11 @@
         <Div id="div_ClientName" taborder="29" left="635" top="129" width="12.48062015503876%" height="24" url="sales::comm/COM_Search.xfdl" kind="CLIENT" param="" binddataset="dsList" codecolumn="CLIENT_CODE" datacolumn="CLIENT_NAME" compReg="true" maxwidth="250" minwidth=""/>
         <Combo id="cmb_SalesProduct" taborder="17" text="" left="635" top="div_ClientName:4" width="12.48062015503876%" height="24" innerdataset="ds_cmm_Product" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME" onitemchanged="cmb_SalesProduct_onitemchanged" maxwidth="250" minwidth=""/>
         <Div id="div_ContractMain" taborder="14" left="635" top="cmb_SalesProduct:4" width="12.48062015503876%" height="24" url="sales::comm/COM_Search.xfdl" kind="COMPANY" param="" binddataset="dsList" codecolumn="CONTRACT_MAIN" datacolumn="CONTRACT_MAIN_NAME" user_onchanged="Com_Search_onChanged" compReg="true" maxwidth="250" minwidth=""/>
-        <Calendar id="cal_ContractDate" taborder="26" left="880" top="213" height="24" dateformat="yyyy-MM-dd" autoselect="true" onchanged="cal_ContractDate_onchanged" minwidth="" width="130"/>
-        <Static id="stc_BusinessType" taborder="37" text="사업구분" left="cal_ContractDate:0" top="213" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="112" visible="false"/>
-        <Combo id="cmb_BusinessType" taborder="38" text="" left="stc_BusinessType:10" top="213" height="24" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="cmb_BusinessType_onitemchanged" width="12.33%" maxwidth="250" minwidth="" visible="false"/>
         <Combo id="cmb_SalesEmpNo" taborder="28" text="" left="635" top="div_ContractMain:4" height="24" innerdataset="ds_cmm_SalesEmp" codecolumn="EMP_NO" datacolumn="EMP_NAME" onitemchanged="cmb_SalesEmpNo_onitemchanged" width="12.48062015503876%" displayrowcount="15"/>
+        <Static id="stc_ContractDate" taborder="24" text="계약예정일" left="cmb_SalesEmpNo:0" top="213" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="64"/>
+        <Calendar id="cal_ContractDate" taborder="26" left="stc_ContractDate:10" top="213" height="24" dateformat="yyyy-MM-dd" autoselect="true" onchanged="cal_ContractDate_onchanged" minwidth="" width="130"/>
+        <Static id="stc_BusinessType" taborder="37" text="사업구분" left="cal_ContractDate:0" top="213" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="112" visible="true"/>
+        <Combo id="cmb_BusinessType" taborder="38" text="" left="stc_BusinessType:10" top="213" height="24" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="cmb_BusinessType_onitemchanged" width="12.33%" maxwidth="250" minwidth="" visible="true"/>
         <TextArea id="txt_Remark" taborder="13" left="635" top="cmb_SalesEmpNo:4" height="43" right="30"/>
         <Static id="stc_ContractName" taborder="15" text="계약명" left="div_ContractMain:0" top="185" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="33"/>
         <Static id="stc_ClientCode" taborder="22" text="고객사" left="559.00" top="129" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="32"/>
@@ -190,7 +191,6 @@
         <Static id="stc_RelatedProject" taborder="20" text="연결프로젝트" left="cmb_SalesStatus:0" top="157" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="82"/>
         <Static id="stc_ContractMain" taborder="21" text="계약처" left="559" top="stc_ProductCode:4" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="34"/>
         <Edit id="edt_ContractName" taborder="23" left="stc_ContractName:10" top="185" height="24" width="16.434108527131784%" onchanged="edt_ContractName_onchanged"/>
-        <Static id="stc_ContractDate" taborder="24" text="계약예정일" left="cmb_SalesEmpNo:0" top="213" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="64"/>
         <Static id="stc_SalesEmpNo" taborder="25" text="담당영업" left="559" top="213" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="37"/>
         <Edit id="edt_ContractNo" taborder="27" left="1434.00" top="135" width="97" height="22" readonly="true" visible="false"/>
         <Static id="stc_ProjectName" taborder="30" text="프로젝트명" left="div_ClientName:0" top="129" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="114"/>
@@ -974,7 +974,7 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 			
 			case "popupClientSearch":	// 고개사
 				var ds = new nexacro.Dataset();
-				ds.loadXML(Variant);
+				ds.loadJSON(Variant);
 				this.recentVariant = ds;
 				
 				this.dsPurchaseList.setColumn(this.dsPurchaseList.rowposition, "CONTRACT_MAIN", ds.getColumn(0, "COMPANY_CODE"));
@@ -1484,6 +1484,14 @@ this.btn_Estimate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo
 // 마스터(프로젝트, 계약) 조회
 this.fnQueryData = function(sKind)
 {	
+	this.dsContractProd.clearData();
+	this.dsContractSi.clearData();
+	this.dsContractCS.clearData();
+	this.dsContractGoods.clearData();
+	this.dsPurchaseList.clearData();
+	this.dsScheduleList.clearData();
+	this.dsAddressbookList.clearData();
+	
 	if(sKind != "Save")
 	{
 		this.nRowPosition = 0;
@@ -2448,7 +2456,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			if (this.dsContractSi.rowcount > 0) {
 				this.dsContractSi.setColumn(nAddRow, "CONTRACT_NO", this.dsContractSi.getColumn(0, "CONTRACT_NO"));
 			}
-			this.dsContractSi.setColumn(nAddRow, "CONTRACT_TYPE", "S");
+			this.dsContractSi.setColumn(nAddRow, "CONTRACT_TYPE", "ZS");
 			this.dsContractSi.setColumn(nAddRow, "STRATEGY_SALES_FLAG", "0");
 			
 			//trace("CONTRACT_SEQ:"+this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_SEQ"));
@@ -2459,7 +2467,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			nAddRow = this.dsContractCS.addRow();
 			this.dsContractCS.setColumn(nAddRow, "PROJECT_CODE", this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE"));
 			this.dsContractCS.setColumn(nAddRow, "CONTRACT_NO", this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_NO"));
-			this.dsContractCS.setColumn(nAddRow, "CONTRACT_TYPE", "T");
+			this.dsContractCS.setColumn(nAddRow, "CONTRACT_TYPE", "ZT");
 			this.dsContractCS.setColumn(nAddRow, "STRATEGY_SALES_FLAG", "0");
 			
 			//trace("CONTRACT_SEQ:"+this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_SEQ"));
