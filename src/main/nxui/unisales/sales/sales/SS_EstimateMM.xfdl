@@ -1,0 +1,570 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SS_EstimateMM" width="1280" height="720" titletext="견적서 관리" onload="SS_EstimateMM_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Div id="div_Search" taborder="0" left="8" top="8" height="71" cssclass="div_WF_SchList" right="8" text="">
+          <Layouts>
+            <Layout>
+              <Button id="btn_Excel" taborder="1" text="Excel" top="39" height="22" cssclass="btn_WF_Excel" width="68" right="8" onclick="common_onclick"/>
+              <Button id="btn_Search" taborder="0" text="조회" top="39" width="58" height="22" cssclass="btn_WF_SchText" right="btn_Excel:8" onclick="common_onclick" TL_SEQ="118"/>
+              <Button id="btn_MAEstimate" taborder="2" text="유지보수 견적서" top="5" height="23" right="8" onclick="common_onclick" width="99" cssclass="btn_WF_tran" TL_SEQ="12495" enable="false"/>
+              <Static id="stc_InsertDate" taborder="3" text="견적 작성일" left="8" top="9" width="71" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="12494"/>
+              <Div id="div_Search_yyyyMM_FromTo" taborder="4" left="89" top="10" width="300" height="22" url="Common::COM_yyyyMM_FromTo.xfdl"/>
+              <CheckBox id="chk_NoneDate" taborder="5" text="기간무시" left="392" top="10" width="74" height="20" falsevalue="0" truevalue="1" TL_SEQ="122"/>
+              <Static id="stc_EstimateType" taborder="6" text="견적서 구분" left="477" top="8" width="71" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="12432"/>
+              <Combo id="cmb_EstimateType" taborder="7" text="" left="558" top="8" height="22" innerdataset="ds_cmm_EstimateType" codecolumn="CODE" datacolumn="CAPTION" width="127" onitemchanged="div_Search_cmb_EstimateType_onitemchanged"/>
+              <Combo id="cmb_DocStatus" taborder="8" text="" left="778" top="8" height="22" innerdataset="ds_cmm_DocStatus" codecolumn="CODE" datacolumn="CAPTION" width="127" TL_FLAG="1" onitemchanged="div_Search_cmb_DocStatus_onitemchanged"/>
+              <Static id="stc_DocStatus" taborder="9" text="문서상태" left="697" top="8" width="71" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="368"/>
+              <Static id="stc_EstimateNo" taborder="10" text="견적서번호" left="8" top="39" width="71" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="12429"/>
+              <Edit id="edt_EstimateNo" taborder="11" left="89" top="39" width="210" height="22" onkeydown="div_Search_edt_EstimateNo_onkeydown"/>
+              <Static id="stc_ClientCode" taborder="12" text=" 고객사" left="307" top="38" width="71" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="32"/>
+              <Edit id="edt_ContractName" taborder="13" left="899" top="39" width="200" height="22" onkeydown="div_Search_edt_ContractName_onkeydown"/>
+              <Static id="stc_ContractName" taborder="14" text="계약명" left="818" top="39" width="71" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="33"/>
+              <Static id="Static06" taborder="15" text="Static06" left="0" top="34" height="1" background="#c6deed" right="0"/>
+              <Static id="stc_ContractMain" taborder="16" text="계약처" left="567" top="38" width="71" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="34"/>
+              <Div id="div_ContractMain" taborder="17" text="Div00" left="648" top="38" height="22" url="Common::COM_Search.xfdl" kind="COMPANY" param="" user_onchanged="Com_Search_onChanged" onkeyup="div_search_div_ClientName_onkeyup" width="169"/>
+              <Edit id="edt_ClientName" taborder="18" left="stc_ClientCode:8" top="38" width="169" height="22" onkeydown="div_Search_edt_ClientName_onkeydown"/>
+              <Static id="stc_DrafterKind" taborder="19" text="기안자" left="915" top="8" width="71" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="374"/>
+              <Combo id="cmb_DrafterKind" taborder="20" text="" left="996" top="8" height="22" innerdataset="ds_cmm_DrafterKind" codecolumn="CODE" datacolumn="CAPTION" width="127" onitemchanged="div_Search_cmb_DocStatus_onitemchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_Estimate" taborder="1" left="8" top="87" bottom="8" autofittype="col" right="8" binddataset="dsEstimateList" oncelldblclick="grd_Estimate_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="160"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="250"/>
+                <Column size="150"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구분" TL_SEQ="68"/>
+                <Cell col="1" text="견적서 구분" TL_SEQ="12432"/>
+                <Cell col="2" text="견적서 번호" TL_SEQ="12429"/>
+                <Cell col="3" text="고객사" TL_SEQ="32"/>
+                <Cell col="4" text="계약명" TL_SEQ="33"/>
+                <Cell col="5" text="계약처" TL_SEQ="34"/>
+                <Cell col="6" text="기안일" TL_SEQ="366"/>
+                <Cell col="7" text="기안자" edittype="none" calendardateformat="yyyy-MM-dd" TL_SEQ="374"/>
+                <Cell col="8" text="결재상태" TL_SEQ="375"/>
+                <Cell col="9" text="최종" TL_SEQ="22525"/>
+                <Cell col="10" text="계약 연결 여부" TL_SEQ="12496"/>
+                <Cell col="11" text="등록자" TL_SEQ="81"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ESTIMATE_KIND" textAlign="left"/>
+                <Cell col="1" text="bind:ESTIMATE_TYPE" displaytype="combotext" combodataset="ds_cmm_EstimateType" combodatacol="CAPTION" combocodecol="CODE" textAlign="left"/>
+                <Cell col="2" text="bind:ESTIMATE_NO" textAlign="left"/>
+                <Cell col="3" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:CONTRACT_NAME" textAlign="left"/>
+                <Cell col="5" text="bind:CONTRACT_MAIN_NAME" textAlign="left"/>
+                <Cell col="6" displaytype="date" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="7" text="bind:ESTIMATE_MANAGER_NAME" calendardateformat="yyyy-MM-dd" displaytype="normal"/>
+                <Cell col="8" text="bind:DOC_STATUS_NAME"/>
+                <Cell col="9" text="bind:FINAL_ESTIMATE_FLAG" displaytype="checkboxcontrol" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell col="10" text="bind:RELATED_CONTRACT_FLAG"/>
+                <Cell col="11" text="bind:INSERT_EMP_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_EstimateExcel" taborder="2" left="1296" top="85" bottom="10" autofittype="col" right="-1280" binddataset="dsEstimateListExcel" oncelldblclick="grd_Estimate_oncelldblclick" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="160"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="250"/>
+                <Column size="150"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="100"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구분"/>
+                <Cell col="1" text="견적서 구분" TL_SEQ="12432"/>
+                <Cell col="2" text="견적서 번호" TL_SEQ="12429"/>
+                <Cell col="3" text="고객사" TL_SEQ="32"/>
+                <Cell col="4" text="계약명" TL_SEQ="33"/>
+                <Cell col="5" text="계약처" TL_SEQ="34"/>
+                <Cell col="6" text="기안일" TL_SEQ="366"/>
+                <Cell col="7" text="기안자" edittype="none" calendardateformat="yyyy-MM-dd" TL_SEQ="374"/>
+                <Cell col="8" text="결재상태" TL_SEQ="375"/>
+                <Cell col="9" text="최종" TL_SEQ="22525"/>
+                <Cell col="10" text="계약 연결 여부" TL_SEQ="12496"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ESTIMATE_KIND" textAlign="left"/>
+                <Cell col="1" text="bind:ESTIMATE_TYPE" displaytype="combotext" combodataset="ds_cmm_EstimateType" combodatacol="CAPTION" combocodecol="CODE" textAlign="left"/>
+                <Cell col="2" text="bind:ESTIMATE_NO" textAlign="left"/>
+                <Cell col="3" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:CONTRACT_NAME" textAlign="left"/>
+                <Cell col="5" text="bind:CONTRACT_MAIN_NAME" textAlign="left"/>
+                <Cell col="6" displaytype="date" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="7" text="bind:INSERT_EMP_NAME" calendardateformat="yyyy-MM-dd" displaytype="normal"/>
+                <Cell col="8" text="bind:DOC_STATUS_NAME"/>
+                <Cell col="9" text="bind:FINAL_ESTIMATE_FLAG" displaytype="checkboxcontrol" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell col="10" text="bind:RELATED_CONTRACT_FLAG"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsEstimateList">
+        <ColumnInfo>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="ESTIMATE_KIND" type="STRING" size="256"/>
+          <Column id="SALES_DOC_NO" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="ESTIMATE_TYPE" type="STRING" size="256"/>
+          <Column id="SUBJECT_FLAG" type="STRING" size="256"/>
+          <Column id="SUBJECT" type="STRING" size="256"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="PAY_METHOD" type="STRING" size="256"/>
+          <Column id="PAY_METHOD_FLAG" type="STRING" size="256"/>
+          <Column id="PAY_METHOD_TXT" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION_FLAG" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION_TXT" type="STRING" size="256"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="STRING" size="256"/>
+          <Column id="PUBLISHED_DATE" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="ESTIMATE_CONDITION" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="DELETE_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NAME" type="STRING" size="256"/>
+          <Column id="CONSUMPTION_TAX" type="STRING" size="256"/>
+          <Column id="PRE_EM_SEQ" type="STRING" size="256"/>
+          <Column id="DOC_STATUS" type="STRING" size="256"/>
+          <Column id="AD_SEQ" type="INT" size="256"/>
+          <Column id="DOC_STATUS_NAME" type="STRING" size="256"/>
+          <Column id="RELATED_CONTRACT_FLAG" type="STRING" size="256"/>
+          <Column id="RELATED_CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="FINAL_ESTIMATE_FLAG" type="STRING" size="256"/>
+          <Column id="ESTIMATE_MANAGER" type="STRING" size="256"/>
+          <Column id="ESTIMATE_MANAGER_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_EstimateType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_DocStatus" TL_FLAG="1">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE"/>
+            <Col id="CAPTION">전체</Col>
+            <Col id="CAPTION_JAP">全体</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">REPORT</Col>
+            <Col id="CAPTION">상신</Col>
+            <Col id="ORD">1</Col>
+            <Col id="CAPTION_JAP">上申</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">PROCESS</Col>
+            <Col id="CAPTION">진행</Col>
+            <Col id="ORD">2</Col>
+            <Col id="CAPTION_JAP">進行</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">FINISH</Col>
+            <Col id="CAPTION">종결</Col>
+            <Col id="ORD">3</Col>
+            <Col id="CAPTION_JAP">終了</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">RETURN</Col>
+            <Col id="CAPTION">반려</Col>
+            <Col id="ORD">4</Col>
+            <Col id="CAPTION_JAP">返却</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cmm_DrafterKind">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEstimateListExcel">
+        <ColumnInfo>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="ESTIMATE_KIND" type="STRING" size="256"/>
+          <Column id="SALES_DOC_NO" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="ESTIMATE_TYPE" type="STRING" size="256"/>
+          <Column id="SUBJECT_FLAG" type="STRING" size="256"/>
+          <Column id="SUBJECT" type="STRING" size="256"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="PAY_METHOD" type="STRING" size="256"/>
+          <Column id="PAY_METHOD_FLAG" type="STRING" size="256"/>
+          <Column id="PAY_METHOD_TXT" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION_FLAG" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION_TXT" type="STRING" size="256"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="STRING" size="256"/>
+          <Column id="PUBLISHED_DATE" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="ESTIMATE_CONDITION" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="DELETE_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_DATE" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NAME" type="STRING" size="256"/>
+          <Column id="CONSUMPTION_TAX" type="STRING" size="256"/>
+          <Column id="PRE_EM_SEQ" type="STRING" size="256"/>
+          <Column id="DOC_STATUS" type="STRING" size="256"/>
+          <Column id="AD_SEQ" type="INT" size="256"/>
+          <Column id="DOC_STATUS_NAME" type="STRING" size="256"/>
+          <Column id="RELATED_CONTRACT_FLAG" type="STRING" size="256"/>
+          <Column id="RELATED_CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="FINAL_ESTIMATE_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 영업관리 - 견적서관리
+ * 02. 화면명   : 견적서관리(SS_EstimateMM)
+ * 03. 화면설명 : 견적서관리
+ * 04. 작성일   : 2023.07.26
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+ 
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.SS_EstimateMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnAuthConfig();
+	this.fnGetCode();
+	
+	var sToday = this.gfnToday();
+	var sStartDt = this.gfnAddMonth(sToday, -1);
+	this.div_Search.form.div_Search_yyyyMM_FromTo.setFromYYYYMM(sStartDt.substr(0, 6));	// 계약기간 시작
+	this.div_Search.form.div_Search_yyyyMM_FromTo.setToYYYYMM(sToday.substr(0, 6));		// 계약기간 종료
+};
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+this.fnAuthConfig = function()
+{
+	// 견적서 작성
+	if (this.commUtil.getFormAuthority(340,1)) {
+		this.div_Search.form.btn_MAEstimate.set_enable(true);
+	}
+};
+
+// 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_EstimateType",					"ESTIMATE_TYPE", true); 					// 견적서구분
+	this.gfnAddCodeDataset("ds_cmm_DrafterKind",					"DRAFTER_KIND", true); 					// 기안자종류
+	this.gfnCodeTransaction();
+};
+
+//조회
+this.fnSearch = function()
+{
+	this.gfnAddSendParameter("FROM_DT",		this.div_Search.form.div_Search_yyyyMM_FromTo.getFromYYYYMM());
+	this.gfnAddSendParameter("TO_DT",		this.div_Search.form.div_Search_yyyyMM_FromTo.getToYYYYMM());
+	this.gfnAddSendParameter("NONE_DATE",	this.div_Search.form.chk_NoneDate.value);
+	this.gfnAddSendParameter("ESTIMATE_TYPE",	this.div_Search.form.cmb_EstimateType.value);
+	this.gfnAddSendParameter("DOC_STATUS", 		this.div_Search.form.cmb_DocStatus.value);
+	this.gfnAddSendParameter("ESTIMATE_NO", 	this.div_Search.form.edt_EstimateNo.value);
+	this.gfnAddSendParameter("CLIENT_NAME", 	this.div_Search.form.edt_ClientName.value);
+	this.gfnAddSendParameter("CONTRACT_MAIN", 	this.div_Search.form.div_ContractMain.getCode());
+	this.gfnAddSendParameter("CONTRACT_NAME", 	this.div_Search.form.edt_ContractName.value);
+	this.gfnAddSendParameter("DRAFTER_KIND", 	this.div_Search.form.cmb_DrafterKind.value);
+	this.gfnAddSendParameter("LIST_YN", 		"Y");
+	
+	this.gfnAddOutputDataset("dsEstimateList",  "dsOutput");
+	this.gfnCommonTransaction("SearchEstimateList", "SS_EstimateReg_S02");
+};
+
+this.fnMaEstimateConfirm = function()
+{
+	this.commUtil.popup(this, "popupEstimateConfirm", "Sales::SS_EstimateConfirm.xfdl", -1, -1, 250, 200, true, false, false, null, "fnPopupCallBack");
+};
+
+this.fnMaEstimateReg = function(sEstimateType, sEstimateKind)
+{
+	if(sEstimateKind == "UNION_MA") {
+		var Argument =  {
+						pvProjectCode:""
+					   ,pvSalesDocType:"ESTIMATE"
+					   ,pvEstimateType:sEstimateType
+					   ,pvEstimateKind:sEstimateKind
+					   ,pvAutoSearch : true
+					};
+		this.commUtil.popup(this, "popupEstimate", "Sales::SS_EstimateUnionMaReg.xfdl", -1, -1, 1400, 916, true, true, true, Argument, "fnPopupCallBack");
+	} else {
+		var Argument =  {
+						pvProjectCode:""
+					   ,pvSalesDocType:"ESTIMATE"
+					   ,pvEstimateType:sEstimateType
+					   ,pvEstimateKind:sEstimateKind
+					   ,pvAutoSearch : true
+					};
+		this.commUtil.popup(this, "popupEstimate", "Sales::SS_EstimateReg.xfdl", -1, -1, 1400, 916, true, true, true, Argument, "fnPopupCallBack");
+	}
+};
+
+// 엑셀데이터 조회
+this.fnExcelData = function()
+{
+	this.gfnAddSendParameter("FROM_DT",		this.div_Search.form.div_Search_yyyyMM_FromTo.getFromYYYYMM());
+	this.gfnAddSendParameter("TO_DT",		this.div_Search.form.div_Search_yyyyMM_FromTo.getToYYYYMM());
+	this.gfnAddSendParameter("NONE_DATE",	this.div_Search.form.chk_NoneDate.value);
+	this.gfnAddSendParameter("ESTIMATE_TYPE",	this.div_Search.form.cmb_EstimateType.value);
+	this.gfnAddSendParameter("DOC_STATUS", 		this.div_Search.form.cmb_DocStatus.value);
+	this.gfnAddSendParameter("ESTIMATE_NO", 	this.div_Search.form.edt_EstimateNo.value);
+	this.gfnAddSendParameter("CLIENT_NAME", 	this.div_Search.form.edt_ClientName.value);
+	this.gfnAddSendParameter("CONTRACT_MAIN", 	this.div_Search.form.div_ContractMain.getCode());
+	this.gfnAddSendParameter("CONTRACT_NAME", 	this.div_Search.form.edt_ContractName.value);
+	this.gfnAddSendParameter("DRAFTER_KIND", 	this.div_Search.form.cmb_DrafterKind.value);
+	this.gfnAddSendParameter("LIST_YN", 		"Y");
+	
+	this.gfnAddOutputDataset("dsEstimateListExcel",  "dsOutput");
+	this.gfnCommonTransaction("SearchEstimateListExcel", "SS_EstimateReg_S14", this.grd_EstimateExcel, false);
+	
+	this.fnExcel()
+};
+
+// 엑셀 다운
+this.fnExcel = function()
+{
+	var objGrd = this.grd_EstimateExcel;
+	
+	var sFileNm = this.gfnGetTransTxt (12426, "견적서목록");
+	var sToday = this.gfnToday();
+	
+	sFileNm += "_" + sToday;
+	this.gfn_excelExport(this, objGrd, sFileNm);
+};
+
+ // 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	switch (strSvcID) 
+	{
+		case "gfnGetCode" :
+			this.div_Search.form.cmb_EstimateType.set_index(0);
+			this.div_Search.form.cmb_DocStatus.set_index(0);
+			this.div_Search.form.cmb_DrafterKind.set_index(2); // 본인 default
+			
+			this.fnSearch();
+			break;
+		case "SearchEstimateList" : 
+			break;
+		case "SearchEstimateListExcel" :
+			break;
+	}
+};
+
+
+// 팝업 콜백
+ this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant)) {
+		
+		return;
+	} else {	
+		this.recentVariant = Variant;
+		switch(sPopupId)
+		{
+			case "popupEstimateConfirm" :
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				
+				var sEstimateKind = ds.getColumn(0, "ESTIMATE_KIND");
+				var sEstimateType = ds.getColumn(0, "ESTIMATE_TYPE");
+				
+				this.fnMaEstimateReg(sEstimateType, sEstimateKind);
+			break;
+		}
+	}
+}
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_MAEstimate" : // 유지보수 견적서
+			this.fnMaEstimateConfirm();
+			break;
+			
+		case "btn_Search" : // 조회
+			this.fnSearch();
+			break;
+			
+		case "btn_Excel" : // 엑셀
+			this.fnExcelData();
+			break;
+	}
+};
+
+this.grd_Estimate_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{	
+	var curRow =  this.dsEstimateList.rowposition;
+	var sProjectCd = this.dsEstimateList.getColumn(curRow, "PROJECT_CODE");
+	var sEmSeq = this.dsEstimateList.getColumn(curRow, "EM_SEQ");
+	var sSalesDocNo = this.dsEstimateList.getColumn(curRow, "SALES_DOC_NO");
+	var sEstimateKind = this.dsEstimateList.getColumn(curRow, "ESTIMATE_KIND");
+	var sEstimateType = this.dsEstimateList.getColumn(curRow, "ESTIMATE_TYPE");
+	
+	if (this.gfnIsEmpty(sProjectCd)) {
+		this.alert(this.gfnGetTransTxt (1508, "선택된 프로젝트가 없습니다."));
+		return;
+	}
+	
+// 	trace(this.tab_Sales.tpg_Presales.form.dsList.saveXML());
+// 	trace(this.tab_Sales.tpg_Presales.form.dsContractProd.saveXML());
+	
+	var Argument =  {
+						pvProjectCode:sProjectCd
+					   ,pvSalesDocType:"ESTIMATE"
+					   ,pvEstimateType:sEstimateType
+					   ,pvEstimateKind:sEstimateKind
+ 					   ,pvEmSeq : sEmSeq
+ 					   ,pvsSalesDocNo : sSalesDocNo
+					   ,pvAutoSearch : false
+					};
+
+	if(sEstimateKind=="UNION_MA") this.commUtil.popup(this, "popupEstimate", "Sales::SS_EstimateUnionMaReg.xfdl", -1, -1, 1400, 916, true, true, true, Argument, "fnPopupCallBack");
+	else this.commUtil.popup(this, "popupEstimate", "Sales::SS_EstimateReg.xfdl", -1, -1, 1400, 916, true, true, true, Argument, "fnPopupCallBack");
+};
+
+this.div_Search_edt_EstimateNo_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13") {
+		this.fnSearch();
+	}
+};
+
+this.div_Search_edt_ContractName_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13") {
+		this.fnSearch();
+	}
+};
+
+this.div_Search_edt_ClientName_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13") {
+		this.fnSearch();
+	}
+};
+
+// 공통검색 component callback 처리
+this.Com_Search_onChanged = function (obj, e)
+{
+	if (obj.name == "div_ContractMain") {
+		this.fnSearch();
+	}
+};
+
+this.div_Search_cmb_DocStatus_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSearch();
+};
+
+this.div_Search_cmb_EstimateType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSearch();
+};
+]]></Script>
+  </Form>
+</FDL>

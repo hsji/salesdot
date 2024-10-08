@@ -75,7 +75,11 @@ this.cfnSearch = function ()
 	this.gfnAddSendParameter("COMPANY_CODE"	, this.getOwnerFrame().pvCompanyCd);
 	this.gfnAddSendParameter("CONTRACT_TYPE"	, this.getOwnerFrame().pvContractType);
 	
-	this.gfnSetMap("nextBaseMapper", "ProductTreeList", "ds_Product");
+	if(this.getOwnerFrame().pvType == "BUSINESS") {
+		this.gfnSetMap("nextBaseMapper", "BusinessTreeList", "ds_Product");
+	} else {
+		this.gfnSetMap("nextBaseMapper", "ProductTreeList", "ds_Product");
+	}
 	
 	this.gfnCommonTransaction("Select", "selectNextList.do"/*"AP_SalesProductMM_S05"*/);
 };

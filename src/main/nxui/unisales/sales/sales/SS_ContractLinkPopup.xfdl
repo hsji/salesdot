@@ -1,0 +1,494 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SS_ContractLinkPopup" width="1070" height="420" titletext="New Form" cssclass="frm_popBg" onload="SS_ContractLinkPopup_onload">
+    <Layouts>
+      <Layout height="420" mobileorientation="landscape" width="1070">
+        <Static id="Static07_00" taborder="5" left="383.00" top="39" height="31" cssclass="sta_POP_GroupBg" right="4"/>
+        <Button id="btn_Cancel" taborder="1" text="닫기" width="50" height="28" cssclass="btn_WF_cancel" right="20" bottom="20" onclick="comm_Click" TL_SEQ="59"/>
+        <Button id="btn_Save" taborder="0" text="저장" width="50" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:5" bottom="20" onclick="btn_Save_onclick" TL_SEQ="115"/>
+        <Static id="Static08" taborder="3" text="상품매출" left="21.00" top="20" width="68" height="28" cssclass="sta_POP_GroupTit" TL_SEQ="1965"/>
+        <Grid id="grd_ContractList" taborder="2" left="20" top="Static08:10" width="375" height="302" binddataset="ds_ContractList" cellsizingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="55"/>
+                <Column size="188"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell/>
+                <Cell col="1" text="SEQ"/>
+                <Cell col="2" text="항목(제품/상품)" TL_SEQ="86"/>
+                <Cell col="3" text="예상매출액" TL_SEQ="87"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="expr:BLANK_FLAG=='0'?'checkbox':'none'" displaytype="expr:BLANK_FLAG=='0'?'checkboxcontrol':'none'" text="bind:CHK" checkboxtruevalue="1" checkboxfalsevalue="0"/>
+                <Cell col="1" text="bind:CRD_SEQ"/>
+                <Cell col="2" text="bind:PRODUCT_NAME" tooltiptext="bind:PRODUCT_NAME" textAlign="left" suppress="3"/>
+                <Cell col="3" text="bind:CONTRACT_PRICE" displaytype="number" textAlign="right" tooltiptext="bind:CONTRACT_PRICE" suppress="4"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static08_00" taborder="4" text="매입 상세내역" left="405.00" top="20" width="118" height="28" cssclass="sta_POP_GroupTit" TL_SEQ="110"/>
+        <Grid id="grd_PurchaseList" taborder="6" left="grd_ContractList:10.00" top="Static08_00:10" height="302" right="20" binddataset="ds_PurchaseList" oncelldblclick="grd_PurchaseList_oncelldblclick" cellsizingtype="col" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="55"/>
+                <Column size="190"/>
+                <Column size="100"/>
+                <Column size="150"/>
+                <Column size="50"/>
+                <Column size="35"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell/>
+                <Cell col="1" text="SEQ"/>
+                <Cell col="2" text="항목" TL_SEQ="105"/>
+                <Cell col="3" text="예상매입액" TL_SEQ="107"/>
+                <Cell col="4" text="매입처" TL_SEQ="108"/>
+                <Cell col="5" text="요율(%)" TL_SEQ="109"/>
+                <Cell col="6" text="연결" TL_SEQ="1995"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="expr:comp.parent.gfnIsEmpty(CRD_SEQ)?'none':'checkboxcontrol'" edittype="expr:comp.parent.gfnIsEmpty(CRD_SEQ)?'none':'checkbox'" text="bind:CHK" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell col="1" text="bind:CRD_SEQ" cssclass="expr:LINK_YN=='X' ? 'Expr_Case_Font_red' : ''"/>
+                <Cell col="2" text="bind:PRODUCT_NAME" textAlign="left" tooltiptext="bind:PRODUCT_NAME" cssclass="expr:LINK_YN=='X' ? 'Expr_Case_Font_red' : ''"/>
+                <Cell col="3" textAlign="right" displaytype="number" text="bind:CONTRACT_PRICE" tooltiptext="bind:CONTRACT_PRICE" cssclass="expr:LINK_YN=='X' ? 'Expr_Case_Font_red' : ''"/>
+                <Cell col="4" text="bind:CONTRACT_MAIN_NAME" tooltiptext="bind:CONTRACT_MAIN_NAME" cssclass="expr:LINK_YN=='X' ? 'Expr_Case_Font_red' : ''" textAlign="left"/>
+                <Cell col="5" displaytype="mask" text="bind:COMMISSION_RATE" tooltiptext="bind:COMMISSION_RATE" textAlign="right" cssclass="expr:LINK_YN=='X' ? 'Expr_Case_Font_red' : ''" maskeditformat="#,#0.0" edittype="mask"/>
+                <Cell col="6" text="bind:LINK_YN" cssclass="expr:LINK_YN=='X' ? 'Expr_Case_Font_red' : ''" tooltiptext="bind:LINK_YN"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00" taborder="7" text="(상품 매출 선택 후 매입 상품 내역을 더블클릭시 연결됩니다)" left="523.00" top="20" width="437" height="28" color="#ff2d38" TL_SEQ="1996"/>
+        <Button id="btn_LinkCancel" taborder="8" text="연결취소" top="20" height="28" right="20" enable="true" width="70" onclick="btn_LinkCancel_onclick" TL_SEQ="1997"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 영업관리 - 프리세일즈탭 - 매출연결
+* 02. 화면명   : [영업관리-프리세일즈탭] 매출 매입계약 연결 팝업
+* 03. 화면설명 : 
+* 04. 작성일   : 2022.3.31
+* 05. 작성자   : 채종한
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_PROJECT_CODE;
+this.FV_BUSINESS_TYPE;
+
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.SS_ContractLinkPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	
+	this.FV_PROJECT_CODE = this.parent.pvProjectCode;
+	this.FV_BUSINESS_TYPE = this.parent.pvBusinessType;
+	this.fn_QueryData();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+// 상품매출상세 계약 일련번호 찾아 리턴
+this.fn_getContractPordDetSeq = function()
+{
+	var nRow = this.ds_ContractList.findRow("CHK", "1");
+	var sCrdSeq = this.ds_ContractList.getColumn(nRow, "CRD_SEQ");
+	return sCrdSeq;
+}
+
+// 매입 요율(마진율) 계산
+this.fn_getComissionRate = function (nRow)
+{
+	var nContractRow = this.ds_ContractList.findRow("CHK", "1");
+	var nContractPrice = this.ds_ContractList.getColumn(nContractRow,	"CONTRACT_PRICE");
+	var nPurchasePrice = this.ds_PurchaseList.getColumn(nRow,			"CONTRACT_PRICE");
+	
+	if (this.gfnIsEmpty(nContractPrice)) nContractPrice = 0;
+	if (this.gfnIsEmpty(nPurchasePrice)) nPurchasePrice = 0;
+	
+	nContractPrice = nexacro.toNumber(nContractPrice);
+	nPurchasePrice = nexacro.toNumber(nPurchasePrice);
+	
+	// 요율 = (매출액-매입액) / 매출 * 100% 소수점1자리까지 표기
+	nComissionRate = ((nContractPrice - nPurchasePrice) / nContractPrice) * 100;
+	if (this.gfnIsEmpty(nComissionRate)) nComissionRate = 0;
+	
+	
+	return nexacro.round(nComissionRate, 1);	
+}
+
+this._lpad = function (str, padLen, padStr)
+{
+	str += ""; 		// 문자로
+	padStr += ""; 	// 문자로
+	while (str.length < padLen)
+		str = padStr + str;
+	str = str.length >= padLen ? str.substring(0, padLen) : str;
+	return str;
+}
+
+this.fn_getOrd = function (row, crdseq)
+{
+	var sProductCd = this.ds_PurchaseList.getColumn(row, "PRODUCT_CODE");
+	//var nCrdSeq = this.ds_PurchaseList.getColumn(row, "CRD_SEQ");
+	var nPpdSeq = this.ds_PurchaseList.getColumn(row, "PPD_SEQ");
+	var sFirNum = sProductCd.substr(0,1)=="P" ? "1" : "2";
+	var nRtnVal=0;
+	var sOrd = sFirNum + this._lpad(crdseq, 8, "0") + this._lpad(nPpdSeq, 8, "0");
+	return nexacro.toNumber(sOrd);	
+}
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 조회
+this.fn_QueryData = function()
+{
+	// 조건값 셋팅
+	this.gfnAddSendParameter("PROJECT_CODE", this.FV_PROJECT_CODE);
+	
+// 	this.gfnAddOutputDataset("ds_ContractList",	"ds_output");
+// 	this.gfnAddOutputDataset("ds_PurchaseList",	"ds_output2");
+// 	this.gfnCommonTransaction("SS_ContractLinkPopup_S01",	"SS_ContractLinkPopup_S01");
+	
+	this.gfnSetMap("salesManagerMapper", ["SS_ContractLinkPopup_S01_1","SS_ContractLinkPopup_S01_2"], ["ds_ContractList","ds_PurchaseList"]);
+	this.gfnCommonTransaction("SS_ContractLinkPopup_S01", 	"selectNextMultiList.do"/*		"CO_SalesEmp_S01"*/);	
+}
+
+// 저장
+ this.fn_SaveData = function()
+{
+	for (var i=this.ds_PurchaseList.rowcount-1; i>=0;  i--)
+	{
+		var sBlank =  this.ds_PurchaseList.getColumn(i, "BLANK_FLAG");
+		if (sBlank == "1") {
+			this.ds_ContractList.deleteRow(i);
+		}
+	}
+	
+	this.gfnAddSendParameter("SAVE_TYPE", "SAVE");
+	this.gfnAddInputDataset("ds_PurchaseList", "dsInput1",  "U");
+/*	this.gfnCommonTransaction("Save", "SS_ContractLinkPopup_R01");*/
+	
+	this.gfnSetMap("salesManagerMapper", "SS_ContractLinkPopup_R01", "");
+	this.gfnCommonTransaction("SS_ContractLinkPopup_R01", 	"saveNextList.do"/*		"CO_SalesEmp_S01"*/);		
+}
+
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if (nErrorCode<0) {
+		//this.alert("["+nErrorCode+"] "+strErrorMag);
+		return
+	}
+	switch (strSvcID) 
+	{
+		case "SS_ContractLinkPopup_S01":
+			this.fn_setDisplayList();
+			break;		
+		case "Save":
+			//this.fn_setDisplayList();
+			this.fn_QueryData();
+			this.gfnAlert('msg.action.success',[this.gfnGetTransTxt(1140, "정상적으로 처리 되었습니다.")]);
+			break;	
+	}
+ }
+ 
+ 
+ this.fn_setDisplayList = function()
+ {
+	this.fn_setDataSetInit();	// 빈칸 비우기(삭제)
+	
+	var nContUnLinkCnt = this.fn_getUnlinkCnt(this.ds_ContractList);
+	var nPurUnLinkCnt = this.fn_getUnlinkCnt(this.ds_PurchaseList);
+	var nAddRowCnt = 0;
+	var nStartRowIdx = 0;
+	var objDs;
+	// 매입 상품매출 계약 건수가 적은 경우 빈Row 추가
+	
+	if (nContUnLinkCnt > nPurUnLinkCnt)
+	{
+		nAddRowCnt = nContUnLinkCnt - nPurUnLinkCnt;
+		nStartRowIdx = nPurUnLinkCnt -1;
+		objDs = this.ds_PurchaseList;
+	} else if (nContUnLinkCnt < nPurUnLinkCnt) {
+		nAddRowCnt = nPurUnLinkCnt - nContUnLinkCnt;
+		nStartRowIdx = nContUnLinkCnt -1;
+		objDs = this.ds_ContractList;
+	}
+	
+	if (nAddRowCnt>0) {
+		objDs.set_enableevent(false);
+		for (var i=0; i<nAddRowCnt; i++)
+		{
+			nStartRowIdx++;
+			var nRow = objDs.insertRow(nStartRowIdx);
+			var nOrd = objDs.getColumn(nStartRowIdx-1, "ORD");
+			nOrd = nexacro.toNumber(nOrd)+1;
+			
+			
+			objDs.setColumn(nRow, "ORD", nOrd);
+			objDs.setColumn(nRow, "BLANK_FLAG", "1");
+			objDs.setColumn(nRow, "LINK_YN", "X");
+		}
+		
+		//objDs.set_keystring("s:ORD");
+		objDs.set_enableevent(true);
+	}
+	this.ds_PurchaseList.set_keystring("s:ORD");
+	this.ds_ContractList.set_keystring("s:ORD");
+	
+	var nFindRow = this.ds_ContractList.findRow("CHK", "1");
+	if (nFindRow>=0) {
+		this.ds_ContractList.set_rowposition(nFindRow);
+	}
+ }
+ 
+ this.fn_getUnlinkCnt = function(objDs:Dataset)
+ {
+	var nFilterRowCnt = 0;
+	objDs.set_enableevent(false);
+	objDs.filter("LINK_YN=='X'");
+	nFilterRowCnt = objDs.rowcount;
+	objDs.filter("");
+	objDs.set_enableevent(true);
+	return nFilterRowCnt;
+ }
+ 
+  this.fn_getlinkCnt = function(objDs:Dataset)
+ {
+	var nFilterRowCnt = 0;
+	objDs.set_enableevent(false);
+	objDs.filter("LINK_YN=='O'");
+	nFilterRowCnt = objDs.rowcount;
+	objDs.filter("");
+	objDs.set_enableevent(true);
+	return nFilterRowCnt;
+ }
+ 
+ 
+ this.fn_setDataSetInit = function()
+ {
+	for (var i=this.ds_ContractList.rowcount-1; i>=0;  i--)
+	{
+		var sBlank =  this.ds_ContractList.getColumn(i, "BLANK_FLAG");
+		if (sBlank == "1") {
+			this.ds_ContractList.deleteRow(i);
+		}
+	}
+	
+	for (var i=this.ds_PurchaseList.rowcount-1; i>=0;  i--)
+	{
+		var sBlank =  this.ds_PurchaseList.getColumn(i, "BLANK_FLAG");
+		if (sBlank == "1") {
+			this.ds_PurchaseList.deleteRow(i);
+		}
+	}
+ }
+ 
+ 
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+// 저장
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_SaveData();
+};
+
+// 닫기
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+
+// 상품매출 Row 변경시
+this.ds_ContractList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var sChk = obj.getColumn(e.newrow, 'CHK');
+	
+	obj.set_enableevent(false);
+	for (var i=0; i<obj.rowcount; i++) 	{
+		obj.setColumn(i, "CHK", "0");
+	}
+	obj.setColumn(e.newrow, "CHK", "1");
+	obj.set_rowposition(e.newrow);
+	obj.set_enableevent(true);
+};
+
+
+// 매입계약 연결 데이터 validation 확인
+this.fn_getValidation = function(CRD_SEQ)
+{
+	var nPurCurrow = this.ds_PurchaseList.rowposition;
+	var nContCurrow = this.ds_ContractList.findRow("CHK", "1");
+	
+	var nFindRow = this.ds_PurchaseList.findRow("CRD_SEQ", CRD_SEQ);
+	var bRtnVal = true;
+	
+	if (nFindRow>=0) {
+		this.gfnAlert('msg.general', [this.gfnGetTransTxt(1634, "선택하신 매출계약은 이미 연결 되어 있습니다. -" + CRD_SEQ)]);
+		bRtnVal = false;
+	}
+	var sBlankFlag  = this.ds_PurchaseList.getColumn(nPurCurrow, "BLANK_FLAG");
+	if (sBlankFlag == "1") {
+		this.gfnAlert('msg.general', [this.gfnGetTransTxt(1460, "선택 하신 매입계약은 연결 할 수 없습니다.")])
+		bRtnVal = false;
+	}
+	
+	if (this.FV_BUSINESS_TYPE != "U") {
+		var sContProductNm = this.ds_ContractList.getColumn(nContCurrow, "PRODUCT_NAME");
+		var sPurProductNm = this.ds_PurchaseList.getColumn(nPurCurrow, "PRODUCT_NAME");
+		if (sContProductNm != sPurProductNm) {
+			this.gfnAlert('msg.general', this.gfnGetTransTxt(1627, "매출 매입이 다른 상품입니다.\n매출:" + sContProductNm + "\t매입:" + sPurProductNm + "은 연결 할수 없습니다."));
+			bRtnVal = false;
+		}
+	}
+	return bRtnVal ;
+}
+
+
+// 매입 그리드 더블클릭 처리(상품매입 일련번호 등록(연결))
+this.grd_PurchaseList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var nCrdSeq = this.fn_getContractPordDetSeq();
+	if (!this.fn_getValidation(nCrdSeq)) return;
+	
+	this.ds_PurchaseList.set_enableevent(false);
+	var nOrd = this.fn_getOrd(e.row, nCrdSeq);
+	var nOrgPurCrdSeq = this.ds_PurchaseList.getColumn(e.row, "CRD_SEQ");
+	this.ds_PurchaseList.setColumn(e.row, "CRD_SEQ", 			nCrdSeq);
+	this.ds_PurchaseList.setColumn(e.row, "LINK_YN", 			"O");
+	this.ds_PurchaseList.setColumn(e.row, "BLANK_FLAG", 		"0");
+	this.ds_PurchaseList.setColumn(e.row, "COMMISSION_RATE", 	this.fn_getComissionRate(e.row));
+	this.ds_PurchaseList.setColumn(e.row, "ORD", 				nOrd);
+	this.ds_PurchaseList.set_enableevent(true);
+	
+	this.ds_ContractList.set_enableevent(false);
+	var nRow = this.ds_ContractList.findRow("CHK",		"1");
+	this.ds_ContractList.setColumn(nRow, "ORD",			nOrd);
+	this.ds_ContractList.setColumn(nRow, "BLANK_FLAG",	"0");
+	this.ds_ContractList.setColumn(nRow, "LINK_YN", 	"O");
+	this.ds_ContractList.set_enableevent(true);
+	
+	this.fn_setDisplayList();
+};
+
+this.btn_LinkCancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+	var nFindRow = this.ds_PurchaseList.findRow("CHK", "1");
+	if (nFindRow<0) {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1461, "선택된 계약이 없습니다.\n연결취소할 계약을 선택해 주세요(checkbox)"));
+		return;
+	}
+	
+	this.gfnAlert('confirm.general', this.gfnGetTransTxt(1732, "선택한 계약을 연결취소 하시겠습니까?"),null,
+		function(srvId,rtn) {
+			if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") {
+				return;
+			}
+			this.fn_setLinkCancelInputDs();
+			this.gfnAddSendParameter("SAVE_TYPE", "CANCEL");
+			this.gfnAddInputDataset("ds_CancelInput", "dsInput1",  "U");
+			//this.gfnCommonTransaction("Save", "SS_ContractLinkPopup_R01");
+			
+			this.gfnSetMap("salesManagerMapper", "SS_ContractLinkPopup_R01", "");
+			this.gfnCommonTransaction("Save", 	"saveNextList.do"/*		"CO_SalesEmp_S01"*/);				
+		});
+};
+
+this.fn_setLinkCancelInputDs = function()
+{
+	var nRowCnt = this.ds_PurchaseList.rowcount;
+	for (var i=0; i<nRowCnt; i++)
+	{
+		if (this.ds_PurchaseList.getColumn(i, "CHK") == "1") {
+			var nAddRow = this.ds_CancelInput.addRow();
+			this.ds_CancelInput.setColumn(nAddRow, "PPD_SEQ",		this.ds_PurchaseList.getColumn(i, "PPD_SEQ"));
+			this.ds_CancelInput.setColumn(nAddRow, "CRD_SEQ", 		"");
+			this.ds_CancelInput.setColumn(nAddRow, "COMMISSION_RATE",0);
+		}
+	}
+}
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_ContractList" onrowposchanged="ds_ContractList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CRD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_PRICE" type="bigdecimal" size="20"/>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="GOODS_FLAG" type="string" size="1"/>
+          <Column id="CHK" type="string" size="1"/>
+          <Column id="BLANK_FLAG" type="string" size="1"/>
+          <Column id="LINK_YN" type="string" size="1"/>
+          <Column id="ORD" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_PurchaseList">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="PPD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_PRICE" type="bigdecimal" size="20"/>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+          <Column id="COMMISSION_RATE" type="bigdecimal" size="8"/>
+          <Column id="CRD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="CHK" type="string" size="1"/>
+          <Column id="BLANK_FLAG" type="string" size="1"/>
+          <Column id="LINK_YN" type="string" size="1"/>
+          <Column id="ORD" type="bigdecimal" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CancelInput">
+        <ColumnInfo>
+          <Column id="PPD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="CRD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="COMMISSION_RATE" type="bigdecimal" size="8"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

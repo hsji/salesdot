@@ -8,8 +8,8 @@
             <Layout>
               <Static id="staCompany" taborder="3" text="회사구분" left="0" top="12" width="87" height="24" cssclass="sta_WF_SchLabel" fittocontents="width"/>
               <Combo id="cboCompany" taborder="4" text="알림" left="staCompany:0" top="12" width="139" height="24" index="1" value="INF" innerdataset="gdsCompany" codecolumn="SSC_CD" datacolumn="SSC_CD_KORN_NM" onitemchanged="divSearch_cboCompany_onitemchanged"/>
-              <Static id="stc_CompanyType" taborder="1" text="제품구분" left="cboCompany:0" top="12" width="90" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="836"/>
-              <Combo id="cmb_SelectType" taborder="2" left="stc_CompanyType:0.00" top="12" width="165" innerdataset="ds_CD_CONTRACT_TYPE" codecolumn="CODE" datacolumn="CAPTION" value="A" index="0" onitemchanged="div_Project_Management_cmb_SelectType_onitemchanged" height="24" TL_FLAG="1"/>
+              <Static id="stc_CompanyType" taborder="1" text="사업구분" left="cboCompany:0" top="12" width="90" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="836"/>
+              <Combo id="cmb_SelectType" taborder="2" left="stc_CompanyType:0.00" top="12" width="165" innerdataset="ds_CD_BUSINESS_TYPE" codecolumn="CODE" datacolumn="CAPTION" value="A" index="0" onitemchanged="div_Project_Management_cmb_SelectType_onitemchanged" height="24" TL_FLAG="1"/>
               <Button id="btn_Search" taborder="0" text="조회" top="10" height="28" onclick="div_Search_btn_Search_onclick" cssclass="btn_WF_Search" right="8" width="48" TL_SEQ="118"/>
             </Layout>
           </Layouts>
@@ -129,7 +129,7 @@ this.AP_SalesProductMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInf
 	
 	var arrComp = [this.divSearch.form.cboCompany];
 	this.gfnSetAuthorityCompany(arrComp);
-	this.div_PROD.form.divDetail.form.divDept.form.fnSetCompany(arrComp[0].value);
+	//this.div_PROD.form.divDetail.form.divDept.form.fnSetCompany(arrComp[0].value);
 	
 };
 
@@ -419,7 +419,7 @@ this.fnSearch = function()
 	this.fvPreComboIdx = this.divSearch.form.cmb_SelectType.index;
 	//this.gfnAddOutputDataset("ds_Product"	, "dsOutput");
 	
-	this.gfnSetMap("nextBaseMapper", "ProductTreeList", "ds_Product");
+	this.gfnSetMap("nextBaseMapper", "BusinessTreeList", "ds_Product");
 	
 	this.gfnCommonTransaction("Select", "selectNextList.do"/*"AP_SalesProductMM_S05"*/);
 }
@@ -429,11 +429,10 @@ this.fnSave = function()
 	if(this.fnIsValidSave())
 	{
 		this.gfnAddInputDataset("ds_Product"	, "dsInput1");
-		this.gfnSetMap("nextBaseMapper", "ProductList", []);
+		this.gfnSetMap("nextBaseMapper", "BusinessList", []);
 		this.gfnCommonTransaction("Save", "saveNextList.do"/*"AP_SalesProductMM_R01"*/);
 	}	
-}
-
+};
 
 //message
 this.fnMsgCallback = function (sMsgId, sRtn)

@@ -203,6 +203,8 @@ this.CF_FileMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 	}
 	this.resetScroll();
 	
+	console.log("---------",this.opts);
+	
 	if(!this.opts.USE_LINK_TYPE)
 	{
 		this.grdUpload.setFormatColProperty(1,"size",0);
@@ -213,8 +215,11 @@ this.CF_FileMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 		this.gfnAddSendParameter("SOURCE_SEQ",		this.opts.SOURCE_SEQ);
 			
 		// 조회용 Output dataset 세팅
-		this.gfnAddOutputDataset("ds_ContractList"	, "dsOutput");
-		this.gfnCommonTransaction("ContractList", "CF_NFileMM_S03");
+// 		this.gfnAddOutputDataset("ds_ContractList"	, "dsOutput");
+// 		this.gfnCommonTransaction("ContractList", "CF_NFileMM_S03");
+		
+		this.gfnSetMap("nextCommMapper", "CF_NFileMM_S03", "ds_ContractList");
+		this.gfnCommonTransaction("ContractList", 	"selectNextList.do"/*		"CO_SalesEmp_S01"*/);		
 	}
 	
 	

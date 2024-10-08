@@ -30,7 +30,7 @@
         </Div>
         <Static id="staTitle01" taborder="2" text="계약현황" left="0" width="342" height="43" cssclass="sta_WF_Title" top="div_search:0"/>
         <Button id="btn_ContractReport" taborder="3" text="매출현황보고" top="89" height="28" enable="false" width="100" right="20" onclick="btn_ContractReport_onclick" TL_SEQ="127"/>
-        <Button id="btn_Order_Confirm" taborder="4" text="계약확정" top="89" width="84" height="28" right="btn_ContractReport:8" onclick="btn_Order_Confirm_onclick" enable="false" TL_SEQ="128"/>
+        <Button id="btn_Order_Confirm" taborder="4" text="계약확정" top="89" width="84" height="28" right="btn_ContractReport:8" onclick="fnContractCancel" enable="false" TL_SEQ="128"/>
         <Button id="btn_CostSheet" taborder="5" text="매출원가표" top="89" height="28" right="btn_Order_Confirm:8" width="84" onclick="btn_CostSheet_onclick" enable="false" TL_SEQ="129"/>
         <Button id="btn_RequestLicense00" taborder="6" text="라이선스요청" top="89" height="22" right="296" width="0" enable="false" onclick="btn_RequestLicense_onclick" TL_SEQ="130" visible="false"/>
         <Button id="btn_Affirmation" taborder="7" text="확약서" top="89" height="28" right="btn_CostSheet:8" width="84" onclick="btn_Affirmation_onclick" enable="false" TL_SEQ="131"/>
@@ -80,7 +80,7 @@
                 <Cell col="8" text="사전원가표" TL_SEQ="19"/>
                 <Cell col="9" text="담당영업" TL_SEQ="37"/>
                 <Cell col="10" text="인센티브해당자" TL_SEQ="272"/>
-                <Cell col="11" text="계산발행" TL_SEQ="273"/>
+                <Cell col="11" text="계산발행일" TL_SEQ="273"/>
                 <Cell col="12" text="수금일자" TL_SEQ="274"/>
                 <Cell col="13" text="납품일자" TL_SEQ="275"/>
                 <Cell col="14" text="오픈일자" TL_SEQ="276"/>
@@ -300,7 +300,7 @@ this.fnAuthConfig = function(nTabIndx)
 			
 	}
 	
-	if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹
+	//if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹
 }
 
 
@@ -374,13 +374,13 @@ this.btn_ContractReport_onclick = function(obj:nexacro.Button,e:nexacro.ClickEve
 // 견적서 Popup
 this.fnEstimateRegPopup = function()
 {
-	var nCurrow =  this.tab_Sales.tpg_Presales.form.dsList.rowposition;
-	var sProjectCd = this.tab_Sales.tpg_Presales.form.dsList.getColumn(nCurrow, "PROJECT_CODE");
-	var sSalesEmpNo = this.tab_Sales.tpg_Presales.form.dsList.getColumn(nCurrow, "SALES_EMP_NO");
-	var sSalesEmpName = this.tab_Sales.tpg_Presales.form.dsList.getColumn(nCurrow, "SALES_EMP_NAME");
+	var nCurrow =  this.dsList.rowposition;
+	var sProjectCd = this.dsList.getColumn(nCurrow, "PROJECT_CODE");
+	var sSalesEmpNo = this.dsList.getColumn(nCurrow, "SALES_EMP_NO");
+	var sSalesEmpName = this.dsList.getColumn(nCurrow, "SALES_EMP_NAME");
 	
 	if (this.gfnIsEmpty(sProjectCd)) {
-		this.alert(this.gfnGetTransTxt (1508, "선택된 프로젝트가 없습니다."));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt (1508, "선택된 프로젝트가 없습니다."));
 		return;
 	}
 	
@@ -445,8 +445,15 @@ this.btn_Estimate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo
 	}
 	
 	// 입력용 Input Dataset 세팅
-	this.gfnAddInputDataset ("dsList", "dsInput");
-	this.gfnCommonTransaction("SS_Contract_R01", "SS_Contract_R01");
+// 	this.gfnAddInputDataset ("dsList", "dsInput");
+// 	this.gfnCommonTransaction("SS_Contract_R01", "SS_Contract_R01");
+	
+	this.gfnAddInputDataset ("dsList", "dsInput1");
+	this.gfnAddInputDataset ("dsList", "dsInput2");
+	this.gfnAddInputDataset ("dsList", "dsInput3");
+	
+	this.gfnSetMap("salesManagerMapper", ["SS_Presales_R01_1","SS_Presales_R01_2","SS_Presales_R01_3"]);
+	this.gfnCommonTransaction("SS_Contract_R01", 	"saveNextList.do");		
  }
  
  
@@ -484,37 +491,20 @@ this.fnPopupContractReport= function()
 
 
 //계약확정 취소처리
-this.fnContractCancel = function()
+this.fnContractCancel = function(obj, e)
 {
 	if( this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_STATUS") == "3" )
 	{
-		alert(this.gfnGetTransTxt (1242,"완료건은 계약확정 취소 할 수 없습니다."));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt (1242,"완료건은 계약확정 취소 할 수 없습니다."));
 		return;
 	}
 	
-	if(confirm(this.gfnGetTransTxt (1669,"계약확정 취소 처리를 하시겠습니까?")))
-	{
-		if(this.FV_CO_CD == "J02") {
-			this.gfnAddSendParameter("PROJECT_CODE",  this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE"));
-			this.gfnAddSendParameter("CONTRACT_STATUS",  "2");
-			this.gfnAddSendParameter("TARGET_CONTRACT_STATUS",  "0");
-			this.gfnAddOutputDataset("ds_checkProduct",	"ds_output");
-			this.gfnCommonTransaction("SS_Contract_S02", "SS_Contract_S02", null, false);
-			
-			if(this.ds_checkProduct.rowcount > 0) {
-				if(this.confirm(this.gfnGetTransTxt (32856,"영업관리에 해당 프로젝트 가계약에 동일한 제품 또는 상품이 있습니다. 그래도 계약확정 취소 처리를 하시겠습니까?"))) {
-					this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
-					this.fn_SaveData();
-				}
-			} else {
-				this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
-				this.fn_SaveData();
-			}
-		} else {
+	this.gfnAlert('confirm.general',["계약확정 취소 처리를 하시겠습니까?"],null,
+		function(srvId, rtn) {
+			if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
 			this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
-			this.fn_SaveData();
-		}
-	}
+			this.fn_SaveData();			
+		});		
 }
 
 // 팝업 콜백
@@ -563,6 +553,8 @@ this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRow
 	
 	this.btn_Order_Confirm.set_enable(bEnable);
 };
+
+
 ]]></Script>
     <Objects>
       <Dataset id="ds_cond_SalesStatus">
@@ -670,7 +662,7 @@ this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRow
           </Row>
         </Rows>
       </Dataset>
-      <Dataset id="ds_list">
+      <Dataset id="ds_list" onrowposchanged="ds_list_onrowposchanged">
         <ColumnInfo>
           <Column id="PROJECT_CODE" type="string" size="15"/>
           <Column id="PROJECT_NAME" type="string" size="100"/>

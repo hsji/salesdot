@@ -1,0 +1,3163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SS_EstimateReg" width="1400" height="930" titletext="견적서등록" cssclass="frm_popBg" onload="SS_EstimateReg_onload">
+    <Layouts>
+      <Layout height="930" mobileorientation="landscape" width="1400">
+        <Static id="stc_BottomFrame" taborder="0" left="0" height="36" right="0" bottom="0" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Cancel" taborder="1" text="닫기" width="50" height="28" cssclass="btn_WF_cancel" right="20" bottom="20" onclick="common_onclick" TL_SEQ="59"/>
+        <Static id="stc_SalesDocMapTit" taborder="2" text="견적 목록" left="21.00" top="20" width="158" height="28" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="22527"/>
+        <Button id="btn_Save" taborder="4" text="저장" height="28" cssclass="btn_WF_Crud" onclick="common_onclick" right="btn_Cancel:5" width="50" bottom="20" TL_SEQ="115"/>
+        <Button id="btn_Approval" taborder="3" text="결재/출력" height="28" cssclass="btn_WF_tran" onclick="common_onclick" right="btn_Save:5" width="77" bottom="20" TL_SEQ="22524"/>
+        <Div id="div_ContractList" taborder="16" left="20" top="197" height="109" right="20">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_ContractList" taborder="0" left="0" top="0" autofittype="col" right="0" bottom="0" binddataset="dsContractList" oncellclick="div_ContractList_grd_ContractList_oncellclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="48"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="200"/>
+                      <Column size="100"/>
+                      <Column size="120"/>
+                      <Column size="150"/>
+                      <Column size="80"/>
+                      <Column size="120"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="선택" TL_SEQ="113"/>
+                      <Cell col="1" text="고객사" TL_SEQ="32"/>
+                      <Cell col="2" text="계약처" TL_SEQ="34"/>
+                      <Cell col="3" text="계약명" TL_SEQ="33"/>
+                      <Cell col="4" text="계약금액" TL_SEQ="40"/>
+                      <Cell col="5" text="품명" TL_SEQ="679"/>
+                      <Cell col="6" text="견적서번호" TL_SEQ="12470"/>
+                      <Cell col="7" text="계약상태" TL_SEQ="121"/>
+                      <Cell col="8" text="계약번호" TL_SEQ="316"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkboxcontrol" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:CHK" edittype="expr:DISABLED_FLAG=='1' ? 'none' : 'checkbox'"/>
+                      <Cell col="1" text="bind:CLIENT_NAME" textAlign="left" cssclass="expr:DISABLED_FLAG=='1' ? 'Expr_Case_Font_green' : ''" font="normal 12px/normal &quot;Dotum&quot;"/>
+                      <Cell col="2" text="bind:CONTRACT_MAIN_NAME" textAlign="left" cssclass="expr:DISABLED_FLAG=='1' ? 'Expr_Case_Font_green' : ''"/>
+                      <Cell col="3" text="bind:CONTRACT_NAME" textAlign="left" cssclass="expr:DISABLED_FLAG=='1' ? 'Expr_Case_Font_green' : ''"/>
+                      <Cell col="4" text="bind:CONTRACT_PRICE" displaytype="number" textAlign="right" cssclass="expr:DISABLED_FLAG=='1' ? 'Expr_Case_Font_green' : ''"/>
+                      <Cell col="5" text="bind:PRODUCT_NAME" textAlign="left" cssclass="expr:DISABLED_FLAG=='1' ? 'Expr_Case_Font_green' : ''"/>
+                      <Cell col="6" text="bind:ESTIMATE_NO"/>
+                      <Cell col="7" text="bind:CONTRACT_STATUS_NAME" textAlign="left"/>
+                      <Cell col="8" text="bind:CONTRACT_NO" cssclass="expr:DISABLED_FLAG=='1' ? 'Expr_Case_Font_green' : ''"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_EstimateInfoTit" taborder="5" text="견적서 상세" left="21" top="div_ContractList:5" width="158" height="28" cssclass="sta_POP_GroupTit" TL_SEQ="12430"/>
+        <Static id="stc_EstimateDet" taborder="13" left="8" top="485" height="28" cssclass="sta_POP_GroupBg" right="8"/>
+        <Div id="div_SalesDocMap" taborder="6" left="20" top="stc_SalesDocMapTit:5" height="106" width="582">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_SalesDocMap" taborder="0" left="0" top="0" right="0" binddataset="dsSalesDocMap" autofittype="col" bottom="0">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="170"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="문서구분" TL_SEQ="371"/>
+                      <Cell col="1" text="견적문서명" TL_SEQ="12425"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:SALES_DOC_TYPE" displaytype="combotext" combodataset="ds_cmm_SalesDocType" combodatacol="CAPTION" combocodecol="CODE"/>
+                      <Cell col="1" text="bind:SALES_DOC_NAME" edittype="text" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_EstimateTit" taborder="7" text="견적상세목록" top="20" width="158" height="28" visible="true" cssclass="sta_POP_GroupTit" left="614.00" TL_SEQ="22528"/>
+        <Div id="div_Estimate" taborder="8" left="div_SalesDocMap:10" top="stc_EstimateTit:5" height="106" right="20">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_Estimate" taborder="0" left="0" top="0" right="0" binddataset="dsEstimate" autofittype="col" bottom="0">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="250"/>
+                      <Column size="100"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="견적서 번호" TL_SEQ="12429"/>
+                      <Cell col="1" text="상태" TL_SEQ="209"/>
+                      <Cell col="2" text="최종견적여부" TL_SEQ="22542"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:ESTIMATE_NO" textAlign="left"/>
+                      <Cell col="1" text="bind:DOC_STATUS_NAME"/>
+                      <Cell col="2" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:FINAL_ESTIMATE_FLAG"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_EstimateDel" taborder="22" text="삭제" top="20" height="28" onclick="common_onclick" right="20" TL_SEQ="117" width="72" cssclass="btn_WF_Delete"/>
+        <Button id="btn_EstimateAdd" taborder="9" text="추가" top="20" height="28" onclick="common_onclick" TL_SEQ="528" right="btn_EstimateDel:5" width="72" cssclass="btn_WF_Add"/>
+        <Div id="div_EstimateInfo" taborder="10" left="20" top="stc_EstimateInfoTit:5" cssclass="div_WF_detailBg" text="" right="20" height="132">
+          <Layouts>
+            <Layout>
+              <Static id="stc_EstimateNo" taborder="0" text="견적서 번호" left="32" top="7" width="74" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="12429"/>
+              <Edit id="edt_EstimateNo" taborder="1" left="stc_EstimateNo:8" top="7" height="24" enable="false" width="290"/>
+              <Static id="stc_EstimateType" taborder="2" text="견적서 구분" left="edt_EstimateNo:8" top="7" width="74" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="12432"/>
+              <CheckBox id="chk_SubjectFlag" taborder="3" left="stc_EstimateType:8" top="7" width="22" height="24" falsevalue="0" truevalue="1" onchanged="common_Flag"/>
+              <Combo id="cmb_EstimateType" taborder="4" left="chk_SubjectFlag:0" top="7" width="270" height="24" innerdataset="ds_cmm_EstimateType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_EstimateInfo_cmb_EstimateType_onitemchanged"/>
+              <Edit id="edt_Subject" taborder="5" top="7" height="22" enable="false" left="cmb_EstimateType:0" right="8"/>
+              <Static id="stc_ClientName" taborder="6" text="고객사" left="32" top="37" width="74" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="32"/>
+              <Edit id="edt_ClientName" taborder="24" left="stc_ClientName:8" top="37" width="290" height="24"/>
+              <Static id="stc_ContractMain" taborder="7" text="계약처" left="edt_ClientName:8" top="37" width="74" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="34"/>
+              <Static id="stc_ContractName" taborder="8" text="계약명" left="32" top="67" width="74" height="52" cssclass="sta_WF_detailLbl01" TL_SEQ="33"/>
+              <CheckBox id="chk_PayMethodPrtFlag" taborder="9" left="416" top="67" width="22" height="24" falsevalue="0" truevalue="1"/>
+              <Static id="stc_PayMethod" taborder="10" text="지불방법" left="chk_PayMethodPrtFlag:4" top="67" width="74" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="12433"/>
+              <Combo id="cmb_PayMethod" taborder="11" left="524" top="67" width="90" height="24" innerdataset="ds_cmm_PayMethod" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_EstimateInfo_cmb_PayMethod_onitemchanged"/>
+              <Edit id="edt_PayMethod" taborder="12" left="cmb_PayMethod:0" top="67" height="22" enable="false" width="123"/>
+              <CheckBox id="chk_EstimateExpirationConditionPrtFlag" taborder="13" left="746" top="67" width="22" height="24" falsevalue="0" truevalue="1"/>
+              <Static id="stc_EstimateExpirationCondition" taborder="14" text="견적유효조건" left="chk_EstimateExpirationConditionPrtFlag:-7.00" top="67" width="93" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="12434"/>
+              <Combo id="cmb_EstimateExpirationCondition" taborder="15" left="stc_EstimateExpirationCondition:8" top="67" width="130" height="24" innerdataset="ds_cmm_EstimateExpirationCondition" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_EstimateInfo_cmb_EstimateExpirationCondition_onitemchanged"/>
+              <Edit id="edt_EstimateExpirationCondition" taborder="16" left="cmb_EstimateExpirationCondition:0" top="67" height="22" enable="false" right="8"/>
+              <Static id="stc_OfficialSealType" taborder="17" text="직인종류" left="761" top="37" width="74" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="12435"/>
+              <Radio id="rdo_OfficialSealType" taborder="18" left="stc_OfficialSealType:8.00" top="37" width="176" height="24" innerdataset="ds_cmm_OfficialSealType" codecolumn="CODE" datacolumn="CAPTION" direction="vertical" value="1" text="인감 (■)" index="0" TL_FLAG="1"/>
+              <Static id="stc_PublishedDate" taborder="27" text="발행일자" left="408" top="97" width="74" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="976"/>
+              <Calendar id="cal_PublishedDate" taborder="28" left="stc_PublishedDate:8" top="97" width="121" height="24" dateformat="yyyy-MM-dd" onchanged="div_EstimateInfo_cal_PublishedDate_onchanged"/>
+              <Static id="stc_ConsumptionTax" taborder="25" text="소비세액 기준" left="cal_PublishedDate:8" top="97" width="84" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="12439"/>
+              <Combo id="cmb_ConsumptionTax" taborder="26" left="stc_ConsumptionTax:8" top="97" height="24" innerdataset="ds_cmm_ConsumptionTax" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_EstimateInfo_cmb_ConsumptionTax_onitemchanged" width="96"/>
+              <CheckBox id="chk_DatePrtFlag" taborder="20" left="822" top="97" width="22" height="24" truevalue="1" falsevalue="0"/>
+              <Static id="stc_StartDate" taborder="19" text="시작일" left="chk_DatePrtFlag:4" top="97" width="74" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="38"/>
+              <Calendar id="cal_StartDate" taborder="21" left="stc_StartDate:8" top="97" width="101" height="24" dateformat="yyyy-MM-dd" onchanged="setMaMenMonth"/>
+              <Static id="stc_EndDate" taborder="22" text="종료일" left="cal_StartDate:8" top="97" width="54" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="39"/>
+              <Calendar id="cal_EndDate" taborder="23" left="stc_EndDate:8" top="97" height="24" dateformat="yyyy-MM-dd" width="101" onchanged="setMaMenMonth"/>
+              <Div id="div_ContractMain" taborder="29" left="stc_ContractMain:8" top="37" width="259" height="24" url="Common::COM_Search.xfdl" binddataset="dsEstimate" codecolumn="CONTRACT_MAIN" datacolumn="CONTRACT_MAIN_NAME" kind="COMPANY" param="" user_onchanged="Com_Search_onChanged" autoSearch="false" text=""/>
+              <Static id="stc_MaMenMonth" taborder="30" text="MM" left="cal_EndDate:8" top="97" width="54" height="24" cssclass="sta_WF_detailLbl01"/>
+              <Edit id="edt_MaMenMonth" taborder="31" left="stc_MaMenMonth:8" top="97" height="24" enable="true" right="8"/>
+              <TextArea id="txt_ContractName" taborder="32" left="stc_ContractName:8" top="67" width="290" height="52"/>
+              <CheckBox id="chk_ClientName" taborder="33" left="10" top="37" height="24" falsevalue="0" truevalue="1" right="stc_ClientName:0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_Copy" taborder="11" text="복사추가" top="20" height="28" right="btn_EstimateAdd:5" width="93" onclick="common_onclick" TL_SEQ="210" cssclass="btn_WF_Add"/>
+        <Div id="div_ProjectName" taborder="12" left="121" top="323" width="241" height="22" url="Common::COM_Search.xfdl" kind="PROJECT" visible="false" user_onchanged="Com_Search_onChanged" estimateContractType="MA" contracttype="" CONTRACT_TYPE="" MULTI_CONTRACT_TYPE_FLAG="" estimateflag="1"/>
+        <Static id="stc_EstimateDetTit" taborder="14" text="견적서 항목" left="21" top="div_EstimateInfo:5" width="158" height="28" cssclass="sta_POP_GroupTit" TL_SEQ="12442"/>
+        <Static id="stc_ContractListTit" taborder="15" text="계약목록" top="div_SalesDocMap:5" width="158" height="28" visible="true" cssclass="sta_POP_GroupTit" left="21" TL_SEQ="12420"/>
+        <Button id="btn_EstimateDetDelete" taborder="17" top="490" width="20" height="19" cssclass="btn_POP_Del" right="67" onclick="common_onclick"/>
+        <Button id="btn_Up" taborder="18" top="490" width="18" height="18" cssclass="btn_WF_schdUp" right="21" onclick="common_onclick"/>
+        <Button id="btn_Down" taborder="19" top="490" width="18" height="18" cssclass="btn_WF_schdDown" right="43" onclick="common_onclick"/>
+        <Button id="btn_SalesDocMapDel" taborder="21" text="삭제" top="20" height="28" onclick="common_onclick" TL_SEQ="117" width="72" left="530.00" cssclass="btn_WF_Delete"/>
+        <Button id="btn_SalesDocMapAdd" taborder="20" text="추가" top="20" height="28" onclick="common_onclick" TL_SEQ="528" right="btn_SalesDocMapDel:8" width="72" cssclass="btn_WF_Add"/>
+        <Div id="div_EstimateEtc" taborder="23" left="20" top="742" cssclass="div_WF_detailBg" height="128" right="20" text="">
+          <Layouts>
+            <Layout>
+              <CheckBox id="chk_EstimateConditionPrtFlag" taborder="0" text="CheckBox00" left="5" top="8" width="22" height="77" falsevalue="0" truevalue="1"/>
+              <Static id="stc_EstimateCondition" taborder="1" text="견적조건" left="35" top="8" width="84" height="77" cssclass="sta_WF_detailLbl01" TL_SEQ="12438"/>
+              <TextArea id="ta_EstimateCondition" taborder="2" left="stc_EstimateCondition:8" top="8" width="260" height="77"/>
+              <CheckBox id="chk_RemarksPrtFlag" taborder="3" left="395" top="8" width="22" height="77" falsevalue="0" truevalue="1"/>
+              <Static id="stc_Remarks" taborder="4" text="비고" left="425" top="8" width="84" height="77" cssclass="sta_WF_detailLbl01" TL_SEQ="45"/>
+              <TextArea id="ta_Remarks" taborder="5" left="507" top="8" width="270" height="77"/>
+              <Static id="stc_DetRemarks" taborder="6" text="내부비고" left="785" top="8" width="74" height="77" cssclass="sta_WF_detailLbl01" TL_SEQ="12508"/>
+              <TextArea id="ta_DetRemarks" taborder="7" left="867" top="8" height="77" right="8"/>
+              <CheckBox id="chk_PreEstimateNo" taborder="8" text="CheckBox00" left="5" top="92" width="22" height="22" falsevalue="0" truevalue="1"/>
+              <Static id="stc_PreEstimateNo" taborder="9" text="이전견적번호" left="35" top="92" width="84" height="22" cssclass="sta_WF_detailLbl01" TL_SEQ="12440"/>
+              <Edit id="edt_PreEstimateNo" taborder="10" left="stc_PreEstimateNo:8" top="92" width="240" height="22" readonly="true"/>
+              <Button id="btn_PreEstimateNo" taborder="11" left="edt_PreEstimateNo:0" top="92" width="22" height="22" cssclass="btn_WF_Sch" onclick="div_EstimateEtc_btn_PreEstimateNo_onclick"/>
+              <Button id="btn_OrgEstimateNo" taborder="12" left="757" top="92" width="22" height="22" cssclass="btn_WF_Sch" onclick="div_EstimateEtc_btn_OrgEstimateNo_onclick"/>
+              <Edit id="edt_OrgEstimateNo" taborder="13" left="507" top="92" width="250" height="22" readonly="true"/>
+              <Static id="stc_OrgEstimateNo" taborder="14" text="원견적번호" left="425" top="92" width="84" height="22" cssclass="sta_WF_detailLbl01" TL_SEQ="12441"/>
+              <CheckBox id="chk_OrgEstimateNo" taborder="15" text="CheckBox00" left="btn_PreEstimateNo:6" top="92" width="22" height="22" falsevalue="0" truevalue="1"/>
+              <Button id="btn_PreEstimateNoDelete" taborder="16" left="349" top="94" height="18" cssclass="tab_MDI_MdiTabCls" onclick="common_onclick" right="btn_PreEstimateNo:0"/>
+              <Button id="btn_OrgEstimateNoDelete" taborder="17" left="739" top="94" height="18" cssclass="tab_MDI_MdiTabCls" onclick="common_onclick" right="btn_OrgEstimateNo:0"/>
+              <Static id="stc_PreOrderNumber" taborder="18" text="귀사이전주문번호" left="807" top="92" width="104" height="22" cssclass="sta_WF_detailLbl01" visible="false" TL_SEQ="22653"/>
+              <Edit id="edt_PreOrderNumber" taborder="19" left="919" top="92" width="180" height="22" readonly="false" visible="false"/>
+              <CheckBox id="chk_PreOrderNumberFlag" taborder="20" left="787" top="92" width="22" height="22" falsevalue="0" truevalue="1" visible="false"/>
+              <Static id="stc_InvoceNumber" taborder="21" text="원계약번호" left="1107" top="92" width="74" height="22" cssclass="sta_WF_detailLbl01" visible="false" TL_SEQ="22652"/>
+              <Edit id="edt_InvoceNumber" taborder="22" left="1182" top="92" width="180" height="22" readonly="false" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_ServerGrade" taborder="24" text="서버등급 :" left="159.00" top="483" width="68" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="225"/>
+        <Combo id="cmb_ServerGrade" taborder="25" text="Combo00" left="240.00" top="483" width="118" height="24" innerdataset="ds_cmm_ServerGrade" codecolumn="CODE" datacolumn="CAPTION"/>
+        <Static id="stc_FinalContractTxt" taborder="26" text="최종견적 제출된 건은 초록색으로 표기" left="126.00" top="169" width="418" height="28" cssclass="sta_WF_detailLbl01" color="green" TL_SEQ="22526"/>
+        <Tab id="tab_EstimateDet" taborder="27" tabindex="0" top="503" height="175" onchanged="tab_EstimateDet_onchanged" left="20" right="20">
+          <Tabpages>
+            <Tabpage id="tpg_EstimateDetProduct" text="제품,상품" TL_SEQ="22545" url="Sales::SS_EstimateRegProduct.xfdl"/>
+            <Tabpage id="tpg_EstimateDetSi" text="용역" TL_SEQ="17" url="Sales::SS_EstimateRegSi.xfdl"/>
+          </Tabpages>
+        </Tab>
+        <Button id="btn_EstimateDetAdd" taborder="28" top="490" height="19" cssclass="btn_POP_Add" right="btn_EstimateDetDelete:8" width="20" onclick="common_onclick"/>
+        <Button id="btn_SiAdd" taborder="29" text="용역추가" top="488" height="22" right="btn_EstimateDetAdd:8" width="80" onclick="common_onclick" TL_SEQ="22546"/>
+        <Static id="stc_MaStandard" taborder="30" text="기준 :" left="369.00" top="483" width="48" height="24" cssclass="sta_WF_detailLbl01" TL_SEQ="1108" visible="false"/>
+        <Combo id="cmb_MaStandard" taborder="31" text="Combo00" left="425.00" top="483" width="118" height="24" innerdataset="ds_cmm_MaStandard" codecolumn="CODE" datacolumn="CAPTION" visible="false"/>
+        <Grid id="grd_SummaryProduct" taborder="32" left="20" top="678" height="60" right="20" binddataset="dsEstimateVat" formatid="PRODUCT" autofittype="col" scrolltype="none" scrollbartype="none none">
+          <Formats>
+            <Format id="PRODUCT">
+              <Columns>
+                <Column size="1100"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="30"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="소비세액" background="#dddddd" TL_SEQ="12469" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell col="1" displaytype="mask" background="#dddddd" edittype="mask" text="bind:VAT_PRICE_PRODUCT" textAlign="right" maskeditformat="#,#0.##" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell row="1" text="합계" background="#dddddd" TL_SEQ="437" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell row="1" col="1" displaytype="number" background="#dddddd" textAlign="right" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+              </Band>
+            </Format>
+            <Format id="RENEWAL_MA">
+              <Columns>
+                <Column size="920"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="소비세액" background="#dddddd" TL_SEQ="12469" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell col="1" displaytype="mask" background="#dddddd" edittype="mask" text="bind:VAT_PRICE_PRODUCT" textAlign="right" maskeditformat="#,#0.##" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell row="1" text="합계" background="#dddddd" TL_SEQ="437" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell row="1" col="1" displaytype="number" background="#dddddd" textAlign="right" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+              </Band>
+            </Format>
+            <Format id="MA">
+              <Columns>
+                <Column size="1200"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="소비세액" background="#dddddd" TL_SEQ="12469" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell col="1" displaytype="mask" background="#dddddd" edittype="mask" text="bind:VAT_PRICE_PRODUCT" textAlign="right" maskeditformat="#,#0.##" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell row="1" text="합계" background="#dddddd" TL_SEQ="437" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell row="1" col="1" displaytype="number" background="#dddddd" textAlign="right" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_SummarySi" taborder="33" left="20" height="60" right="20" binddataset="dsEstimateVat" formatid="SI" autofittype="col" top="678" scrolltype="none" scrollbartype="none none">
+          <Formats>
+            <Format id="SI">
+              <Columns>
+                <Column size="720"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="30"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="소비세액" background="#dddddd" TL_SEQ="12469" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell col="1" displaytype="mask" background="#dddddd" edittype="mask" text="bind:VAT_PRICE_SI" textAlign="right" maskeditformat="#,#0.##" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell row="1" text="합계" background="#dddddd" TL_SEQ="437" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+                <Cell row="1" col="1" displaytype="number" background="#dddddd" textAlign="right" font="normal bold 12px/normal &quot;Dotum&quot;"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div_EstimateManager" taborder="34" left="1005.00" top="886" height="24" autoSearch="false" binddataset="dsEstimate" codecolumn="ESTIMATE_MANAGER" datacolumn="ESTIMATE_MANAGER_NAME" kind="EMPLOYEE" user_onchanged="Com_Search_onChanged" url="Common::COM_Search.xfdl" right="btn_Approval:48"/>
+        <Static id="stc_EstimateManager" taborder="35" text="담당자" left="947.00" top="886" height="24" cssclass="sta_WF_detailLbl01" right="div_EstimateManager:8" TL_SEQ="66"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_cmm_OfficialSealType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">인감 (■)</Col>
+            <Col id="VAL1"/>
+            <Col id="ORD">1</Col>
+            <Col id="CAPTION_JAP">印鑑</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">직접날인</Col>
+            <Col id="VAL1"/>
+            <Col id="ORD">3</Col>
+            <Col id="CAPTION_JAP">直接捺印</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cmm_EstimateType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_PayMethod">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_EstimateExpirationCondition">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_EstimateKind">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Purpose">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ServerGrade">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_SalesDocType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ProductUnit">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ConsumptionTax">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSalesDocMap" onrowposchanged="dsSalesDocMap_onrowposchanged">
+        <ColumnInfo>
+          <Column id="SALES_DOC_NO" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="SALES_DOC_TYPE" type="STRING" size="256"/>
+          <Column id="SALES_DOC_NAME" type="STRING" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="ESTIMATE_KIND" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsClientInfo">
+        <ColumnInfo>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="PROJECT_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSalesDocNo">
+        <ColumnInfo>
+          <Column id="SALES_DOC_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractList">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="DISABLED_FLAG" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="CONTRACT_STATUS" type="STRING" size="256"/>
+          <Column id="CONTRACT_STATUS_NAME" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="SEQ" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDisabledContractList">
+        <ColumnInfo>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEstimate" onrowposchanged="dsEstimate_onrowposchanged" oncolumnchanged="dsEstimate_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="SALES_DOC_NO" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="ESTIMATE_TYPE" type="STRING" size="256"/>
+          <Column id="SUBJECT_FLAG" type="STRING" size="256"/>
+          <Column id="SUBJECT" type="STRING" size="256"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="PRT_CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="PAY_METHOD" type="STRING" size="256"/>
+          <Column id="PAY_METHOD_TXT" type="STRING" size="256"/>
+          <Column id="PRT_PAY_METHOD_FLAG" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION_TXT" type="STRING" size="256"/>
+          <Column id="PRT_ESTIMATE_EXPIRATION_CONDITION_FLAG" type="STRING" size="256"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="STRING" size="256"/>
+          <Column id="PUBLISHED_DATE" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="PRT_START_DATE_FLAG" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="PRT_END_DATE_FLAG" type="STRING" size="256"/>
+          <Column id="MA_MEN_MONTH" type="STRING" size="256"/>
+          <Column id="ESTIMATE_CONDITION" type="STRING" size="256"/>
+          <Column id="PRT_ESTIMATE_CONDITION_FLAG" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="PRT_REMARKS_FLAG" type="STRING" size="256"/>
+          <Column id="DET_REMARKS" type="STRING" size="256"/>
+          <Column id="DELETE_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NAME" type="STRING" size="256"/>
+          <Column id="CONSUMPTION_TAX" type="INT" size="256"/>
+          <Column id="VAT_PRICE_PRODUCT" type="BIGDECIMAL" size="256"/>
+          <Column id="VAT_PRICE_SI" type="BIGDECIMAL" size="256"/>
+          <Column id="PRE_EM_SEQ" type="INT" size="256"/>
+          <Column id="PRE_ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="PRT_PRE_EM_SEQ_FLAG" type="STRING" size="256"/>
+          <Column id="ORG_EM_SEQ" type="STRING" size="256"/>
+          <Column id="ORG_ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="PRT_ORG_EM_SEQ_FLAG" type="STRING" size="256"/>
+          <Column id="DOC_STATUS" type="STRING" size="256"/>
+          <Column id="AD_SEQ" type="STRING" size="256"/>
+          <Column id="DOC_STATUS_NAME" type="STRING" size="256"/>
+          <Column id="FINAL_ESTIMATE_FLAG" type="STRING" size="256"/>
+          <Column id="PRT_PRE_ORDER_NUMBER_FLAG" type="STRING" size="256"/>
+          <Column id="PRE_ORDER_NUMBER" type="STRING" size="256"/>
+          <Column id="INVOICE_NUMBER" type="STRING" size="256"/>
+          <Column id="ESTIMATE_MANAGER" type="STRING" size="256"/>
+          <Column id="ESTIMATE_MANAGER_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckedContractNo">
+        <ColumnInfo>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="SEQ" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractProductDet">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="PRODUCT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="PURPOSE" type="STRING" size="256"/>
+          <Column id="SERVER_GRADE" type="STRING" size="256"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="INT" size="256"/>
+          <Column id="DELIVERY_COST" type="FLOAT" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="CRD_SEQ" type="INT" size="256"/>
+          <Column id="CRD_KEY" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractSiDet">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="PRODUCT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="ROLE_CODE" type="STRING" size="256"/>
+          <Column id="LEVEL_CODE" type="STRING" size="256"/>
+          <Column id="MEN_MONTH" type="INT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="CSD_SEQ" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEstimateNo">
+        <ColumnInfo>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractInfo">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEstimateProductDet" oncolumnchanged="dsEstimateProductDet_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="EMD_SEQ" type="INT" size="256"/>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="PRODUCT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="PURPOSE" type="STRING" size="256"/>
+          <Column id="SERVER_GRADE" type="STRING" size="256"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="PRODUCT_INFO_DET" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="INT" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="INT" size="256"/>
+          <Column id="ORG_UNIT_COST" type="INT" size="256"/>
+          <Column id="STANDARD_PRICE" type="INT" size="256"/>
+          <Column id="ORG_STANDARD_PRICE" type="INT" size="256"/>
+          <Column id="MA_STANDARD" type="STRING" size="256"/>
+          <Column id="MA_RATE" type="BIGDECIMAL" size="256"/>
+          <Column id="DELIVERY_COST" type="FLOAT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="ESTIMATE_UPDATE_FLAG" type="STRING" size="256"/>
+          <Column id="CRD_SEQ" type="INT" size="256"/>
+          <Column id="DIVISION_FLAG" type="STRING" size="256"/>
+          <Column id="DIVISION_CRD_SEQ" type="STRING" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME_SHORT" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEstimateSiDet" oncolumnchanged="dsEstimateSiDet_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="EMDS_SEQ" type="INT" size="256"/>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="PRODUCT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="SI_INFO_DET" type="STRING" size="256"/>
+          <Column id="ROLE_CODE" type="STRING" size="256"/>
+          <Column id="LEVEL_CODE" type="STRING" size="256"/>
+          <Column id="MEN_MONTH" type="BIGDECIMAL" size="256"/>
+          <Column id="SI_UNIT" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="INT" size="256"/>
+          <Column id="SALES_UNIT_COST" type="INT" size="256"/>
+          <Column id="STANDARD_PRICE" type="INT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="CSD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="DIVISION_FLAG" type="STRING" size="256"/>
+          <Column id="DIVISION_CSD_SEQ" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEstimatePrt">
+        <ColumnInfo>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="SALES_DOC_NO" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="ESTIMATE_TYPE" type="STRING" size="256"/>
+          <Column id="SUBJECT_FLAG" type="STRING" size="256"/>
+          <Column id="SUBJECT" type="STRING" size="256"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="PRT_CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="PAY_METHOD" type="STRING" size="256"/>
+          <Column id="PAY_METHOD_TXT" type="STRING" size="256"/>
+          <Column id="PRT_PAY_METHOD_FLAG" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION_TXT" type="STRING" size="256"/>
+          <Column id="PRT_ESTIMATE_EXPIRATION_CONDITION_FLAG" type="STRING" size="256"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="STRING" size="256"/>
+          <Column id="PUBLISHED_DATE" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="PRT_START_DATE_FLAG" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="PRT_END_DATE_FLAG" type="STRING" size="256"/>
+          <Column id="MA_MEN_MONTH" type="STRING" size="256"/>
+          <Column id="ESTIMATE_CONDITION" type="STRING" size="256"/>
+          <Column id="PRT_ESTIMATE_CONDITION_FLAG" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="PRT_REMARKS_FLAG" type="STRING" size="256"/>
+          <Column id="DET_REMARKS" type="STRING" size="256"/>
+          <Column id="DELETE_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NAME" type="STRING" size="256"/>
+          <Column id="CONSUMPTION_TAX" type="INT" size="256"/>
+          <Column id="VAT_PRICE_PRODUCT" type="BIGDECIMAL" size="256"/>
+          <Column id="VAT_PRICE_SI" type="BIGDECIMAL" size="256"/>
+          <Column id="PRE_EM_SEQ" type="INT" size="256"/>
+          <Column id="PRE_ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="PRT_PRE_EM_SEQ_FLAG" type="STRING" size="256"/>
+          <Column id="ORG_EM_SEQ" type="STRING" size="256"/>
+          <Column id="ORG_ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="PRT_ORG_EM_SEQ_FLAG" type="STRING" size="256"/>
+          <Column id="DOC_STATUS" type="STRING" size="256"/>
+          <Column id="AD_SEQ" type="STRING" size="256"/>
+          <Column id="DOC_STATUS_NAME" type="STRING" size="256"/>
+          <Column id="FINAL_ESTIMATE_FLAG" type="STRING" size="256"/>
+          <Column id="PRT_PRE_ORDER_NUMBER_FLAG" type="STRING" size="256"/>
+          <Column id="PRE_ORDER_NUMBER" type="STRING" size="256"/>
+          <Column id="INVOICE_NUMBER" type="STRING" size="256"/>
+          <Column id="ESTIMATE_MANAGER" type="STRING" size="256"/>
+          <Column id="ESTIMATE_MANAGER_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEstimateProductDetPrt" oncolumnchanged="dsEstimateDet_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="EMD_SEQ" type="INT" size="256"/>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="PRODUCT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="PURPOSE" type="STRING" size="256"/>
+          <Column id="SERVER_GRADE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="PRODUCT_INFO_DET" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="INT" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="MA_STANDARD" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="INT" size="256"/>
+          <Column id="STANDARD_PRICE" type="INT" size="256"/>
+          <Column id="MA_RATE" type="BIGDECIMAL" size="256"/>
+          <Column id="DELIVERY_COST" type="FLOAT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="ESTIMATE_UPDATE_FLAG" type="STRING" size="256"/>
+          <Column id="PURPOSE_PRT" type="STRING" size="256"/>
+          <Column id="SERVER_GRADE_PRT" type="STRING" size="256"/>
+          <Column id="PRODUCT_UNIT_PRT" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME_SHORT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEstimateSiDetPrt" oncolumnchanged="dsEstimateSiDet_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="EMDS_SEQ" type="INT" size="256"/>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="PRODUCT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="SI_INFO_DET" type="STRING" size="256"/>
+          <Column id="ROLE_CODE" type="STRING" size="256"/>
+          <Column id="LEVEL_CODE" type="STRING" size="256"/>
+          <Column id="MEN_MONTH" type="INT" size="256"/>
+          <Column id="SI_UNIT" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="INT" size="256"/>
+          <Column id="STANDARD_PRICE" type="INT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="CSD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCompanyList">
+        <ColumnInfo>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="CEO_NM" type="STRING" size="256"/>
+          <Column id="ZIP_ADDR" type="STRING" size="256"/>
+          <Column id="BUSINESS_FORM" type="STRING" size="256"/>
+          <Column id="BUSINESS_KIND" type="STRING" size="256"/>
+          <Column id="EMP_NAME" type="STRING" size="256"/>
+          <Column id="OFFICE_TEL_NO" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="ADDR_DETAIL" type="STRING" size="256"/>
+          <Column id="GRADE_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEstimateCopy">
+        <ColumnInfo>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractPriceProduct">
+        <ColumnInfo>
+          <Column id="CRD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractPriceSi">
+        <ColumnInfo>
+          <Column id="CSD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="MEN_MONTH" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_MaStandard">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckContract">
+        <ColumnInfo>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_SiUnit">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEstimateVat" oncolumnchanged="dsEstimateVat_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="VAT_PRICE_PRODUCT" type="INT" size="256"/>
+          <Column id="VAT_PRICE_SI" type="INT" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="VAT_PRICE_PRODUCT">0</Col>
+            <Col id="VAT_PRICE_SI">0</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsEstimateManager">
+        <ColumnInfo>
+          <Column id="ESTIMATE_MANAGER" type="STRING" size="256"/>
+          <Column id="ESTIMATE_MANAGER_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 견적서
+ * 02. 화면명   : 견적서등록 팝업(SS_EstimateReg)
+ * 03. 화면설명 : 견적서 등록
+ * 04. 작성일   : 2023.07.13
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_Report.xjs"
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_ESTIMATE_KIND; // 견적 구분 	PRODUCT, MA
+this.FV_KIND; // 견적서 등록, 수정 구분
+this.FV_PROJECT_CODE; // PROJECT_CODE
+this.FV_SALES_EMP_NO; // 영업담당자
+this.FV_SALES_EMP_NAME; // 영업담당자명
+this.FV_SALES_DOC_TYPE; // 영업문서구분	견적서(ESTIMATE), 납품서(DELIVERY_NOTE)
+this.FV_ESTIMATE_TYPE; // 견적서구분		신규(NEW_ESTIMATE), 갱신(RENEWAL_ESTIMATE)
+this.FV_EM_SEQ;			// 견적서 일련번호
+this.FV_SALES_DOC_NO; // 영업문서번호
+this.EVT_BTN; // 이벤트 발생 버튼 Obj
+this.FV_AD_SEQ; // 전자결재 일련번호
+this.FV_REPORT_ONLY; // 리포트 여부
+this.SALES_DOC_NO; // 영업문서번호
+this.AUTO_SEARCH = true; // 자동 조회
+this.CHANGE_ESTIMATE_NO = false; // 견적서 번호 변경 여부
+this.ESTIMATE_DET_MODIFY_FLAG = false; // 견적서 상세 데이터 수정 여부
+this.FV_EMP_NO = ""; // 로그인 EMP_NO
+this.FV_EMP_NAME = ""; // 로그인 EMP_NAME
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.SS_EstimateReg_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.FV_EMP_NO = this.gfnGetUserInfo("EMP_NO"); // 로그인 EMP_NO
+	this.FV_EMP_NAME = this.gfnGetUserInfo("EMP_NM"); // 로그인 EMP_NAME
+
+	this.gfnCompInit(obj);	//	사용자 Grid
+	this.fnGetCode();
+};
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+	this.FV_PROJECT_CODE = this.parent.pvProjectCode;
+	this.FV_SALES_EMP_NO = this.parent.pvSalesEmpNo;
+	this.FV_SALES_EMP_NAME = this.parent.pvsSalesEmpName;
+	this.FV_SALES_DOC_TYPE = this.parent.pvSalesDocType;
+	this.FV_ESTIMATE_TYPE = this.parent.pvEstimateType;
+	this.FV_ESTIMATE_KIND = this.parent.pvEstimateKind;
+	this.FV_EM_SEQ = this.parent.pvEmSeq;
+	this.FV_SALES_DOC_NO = this.parent.pvsSalesDocNo
+	this.FV_AD_SEQ = this.parent.sAdSeq;
+	this.FV_REPORT_ONLY = this.parent.PV_bReportOnly;
+	
+	if(this.FV_ESTIMATE_KIND == "PRODUCT") {
+		if(this.gfnIsEmpty(this.FV_SALES_EMP_NO)) {
+			this.gfnAddSendParameter("PROJECT_CODE", this.FV_PROJECT_CODE);
+			this.gfnAddOutputDataset("dsEstimateManager",  "dsOutput");
+			this.gfnCommonTransaction("GetEstimateManager", "SS_EstimateReg_S16", null, false);
+			
+			this.FV_SALES_EMP_NO = this.dsEstimateManager.getColumn(0, "ESTIMATE_MANAGER");
+			this.FV_SALES_EMP_NAME = this.dsEstimateManager.getColumn(0, "ESTIMATE_MANAGER_NAME");
+		}
+	}
+	
+	//this.EM_SEQ = this.parent.pvEmSeq;				// 견적서 일련번호
+	this.SALES_DOC_NO = this.parent.pvsSalesDocNo;	// 영업문서번호
+	this.AUTO_SEARCH = this.parent.pvAutoSearch;	// 자동조회 여부
+	
+	// 용역 계약 바인딩 시 undefined 오류 해결하기 위함 
+	if(this.FV_ESTIMATE_KIND == "PRODUCT") this.tab_EstimateDet.set_tabindex(1);
+	this.tab_EstimateDet.set_tabindex(0);
+	
+	if(!this.gfnIsEmpty(this.FV_PROJECT_CODE)) this.fnSearchSalesDocMap();
+	
+	if(this.FV_REPORT_ONLY) {
+		this.tab_EstimateDet.set_tabindex(1);
+		this.parent.set_height(0);
+		this.parent.set_width(0);
+		this.fnSearchEstimate();
+	}
+	
+	// 유지보수 견적서 클릭 시 견적구분 앞단에서 선택
+	if(this.FV_ESTIMATE_KIND == "MA" && this.gfnIsEmpty(this.FV_PROJECT_CODE)) {
+		this.fnSetDetGrd(this.FV_ESTIMATE_TYPE);
+		//this.div_EstimateInfo.form.cmb_EstimateType.set_enable(false);
+		this.div_ProjectName.set_visible(true);
+	} 
+	
+	if(this.FV_ESTIMATE_KIND == "MA") {
+		this.tab_EstimateDet.removeTabpage(1);
+		this.stc_FinalContractTxt.set_visible(false);
+		this.div_EstimateEtc.form.chk_PreOrderNumberFlag.set_visible(true);
+		this.div_EstimateEtc.form.stc_InvoceNumber.set_visible(true);
+		this.div_EstimateEtc.form.edt_InvoceNumber.set_visible(true);
+		this.div_EstimateEtc.form.stc_PreOrderNumber.set_visible(true);
+		this.div_EstimateEtc.form.edt_PreOrderNumber.set_visible(true);
+	}
+};
+
+this.fnInit = function()
+{
+	var sEstimateKind = this.dsSalesDocMap.getColumn(this.dsSalesDocMap.rowposition, "ESTIMATE_KIND");
+	
+	var bDisableFlag, bExcDisableFlag;
+	var curRow = this.dsEstimate.rowposition;
+	var sDocStatus = this.dsEstimate.getColumn(curRow, "DOC_STATUS");
+	var sCnt = this.dsEstimate.rowcount;
+	
+	// 예외대상 목록
+ 	var arrCompInfo = new Array();
+	arrCompInfo.push(this.btn_Close);	// X 닫기
+	arrCompInfo.push(this.btn_Cancel);  // 닫기
+	
+	// 견적서 작성 권한
+	if (this.commUtil.getFormAuthority(340,1)) {
+		// 영업문서 삭제 버튼
+		if(this.dsEstimate.rowcount > 0) this.btn_SalesDocMapDel.set_enable(false);
+		else this.btn_SalesDocMapDel.set_enable(true);
+		
+		// 견적서 삭제 버튼
+		if(!this.gfnIsEmpty(sDocStatus)) this.btn_EstimateDel.set_enable(false);
+		else this.btn_EstimateDel.set_enable(true);
+		
+		// 결재 아직 진행 안하거나 상신인 경우
+		if(this.gfnIsEmpty(sDocStatus) || sDocStatus == "REPORT") bDisableFlag = false;
+		else bDisableFlag = true;
+		
+		if(this.gfnIsEmpty(sDocStatus)) bExcDisableFlag = false;
+		else bExcDisableFlag = true;
+		
+		// 견적서 추가 버튼, 복사추가 버튼
+		var sFinishCnt = this.dsEstimate.getCaseCount("DOC_STATUS=='FINISH' || DOC_STATUS=='RETURN'");
+		if(sCnt > 0 && (sDocStatus == "FINISH" || sDocStatus == "RETURN") && sFinishCnt == sCnt || sCnt == 0) {
+			this.btn_EstimateAdd.set_enable(true);
+			this.btn_Copy.set_enable(true);
+		} else {
+			this.btn_EstimateAdd.set_enable(false);
+			this.btn_Copy.set_enable(false);
+		}
+		
+		//arrCompInfo.push(this.btn_Copy);  // 복사추가
+		//arrCompInfo.push(this.btn_EstimateAdd);  // 견적서 추가
+		arrCompInfo.push(this.btn_SalesDocMapAdd);  // 영업문서 추가
+		
+		if(sDocStatus == "PROCESS" || sDocStatus == "REPORT") arrCompInfo.push(this.btn_Approval); // 결재
+		
+		this.gfnCompDisable(this.div_EstimateInfo.form, bDisableFlag, arrCompInfo); // 견적서
+		this.gfnCompDisable(this.tab_EstimateDet.tpg_EstimateDetProduct.form, bDisableFlag, arrCompInfo); // 견적서 제품 상품 상세
+		this.gfnCompDisable(this.div_EstimateEtc.form, bDisableFlag, arrCompInfo); // 견적서 기타
+		this.gfnCompDisable(this.div_EstimateManager.form, bExcDisableFlag, arrCompInfo); // 견적서 담당자
+		if(this.FV_ESTIMATE_KIND == "PRODUCT") this.gfnCompDisable(this.tab_EstimateDet.tpg_EstimateDetSi.form, bDisableFlag, arrCompInfo); // 견적서 용역 상세
+	} else {
+		this.gfnCompDisable(this, true, arrCompInfo);
+	}
+	
+	var curIndex = this.tab_EstimateDet.tabindex;
+	this.fnSetBtn(curIndex);
+	
+// 	if(!this.gfnIsEmpty(sEstimateKind)) this.setCalendar(sEstimateKind);
+// 	else this.setCalendar(this.FV_ESTIMATE_KIND);	
+};
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_EstimateType",					"ESTIMATE_TYPE"); 					// 견적서종류
+	this.gfnAddCodeDataset("ds_cmm_PayMethod",						"PAY_METHOD"); 						// 지불방법
+	this.gfnAddCodeDataset("ds_cmm_EstimateExpirationCondition",	"ESTIMATE_EXPIRATION_CONDITION"); 	// 견적유효조건
+	this.gfnAddCodeDataset("ds_cmm_EstimateKind",					"ESTIMATE_KIND");					// 견적항목구분
+	this.gfnAddCodeDataset("ds_cmm_Purpose",						"PURPOSE"); 						// 용도
+	this.gfnAddCodeDataset("ds_cmm_ServerGrade",					"SERVER_GRADE"); 					// 서버등급
+	this.gfnAddCodeDataset("ds_cmm_ProductUnit",					"PRODUCT_UNIT"); 					// 단위
+	this.gfnAddCodeDataset("ds_cmm_SalesDocType",					"SALES_DOC_TYPE"); 					// 영업문서구분
+	this.gfnAddCodeDataset("ds_cmm_ConsumptionTax",					"CONSUMPTION_TAX"); 				// 소비세액
+	this.gfnAddCodeDataset("ds_cmm_MaStandard",						"MA_STANDARD"); 					// 유지보수 기준
+	this.gfnAddCodeDataset("ds_cmm_SiUnit",							"SI_UNIT"); 						// 용역단위
+	
+	this.gfnCodeTransaction();
+};
+
+// 1. 영업문서관리 조회
+this.fnSearchSalesDocMap = function()
+{
+	this.dsSalesDocMap.set_enableevent(false);
+	
+	this.gfnAddSendParameter("PROJECT_CODE", this.FV_PROJECT_CODE);
+	this.gfnAddSendParameter("ESTIMATE_KIND", this.FV_ESTIMATE_KIND);
+	this.gfnAddSendParameter("SALES_DOC_TYPE", "ESTIMATE");
+	this.gfnAddOutputDataset("dsSalesDocMap",  "dsOutput");
+	this.gfnAddOutputDataset("dsClientInfo",  "dsOutput2");
+	this.gfnCommonTransaction("SearchSalesDocMap", "SS_EstimateReg_S01");
+};
+
+// 1-1. GET_SALES_DOC_NO 조회
+this.fnGetSalesDocNo = function()
+{
+	this.gfnAddSendParameter("PROJECT_CODE", this.FV_PROJECT_CODE);
+	this.gfnAddOutputDataset("dsSalesDocNo",  "dsOutput");
+	this.gfnCommonTransaction("GetSalesDocNo", "SS_EstimateReg_S03");
+};
+
+// 1-2. SALES_DOC_MAP 초기화 데이터 셋팅
+this.fnInitSalesDocMap = function()
+{	
+	var curRow = this.dsClientInfo.rowposition;
+	var sClientName = this.dsClientInfo.getColumn(curRow, "CLIENT_NAME");
+	var sProjectName = this.dsClientInfo.getColumn(curRow, "PROJECT_NAME");
+	
+	var sSalesDocNo = this.dsSalesDocNo.getColumn(0, "SALES_DOC_NO");
+	var objDs = this.dsSalesDocMap;
+	
+	var sToday = new Date();
+	var year = sToday.getFullYear(); 
+	
+	this.dsSalesDocMap.set_enableevent(false);
+	
+	var nRow = objDs.insertRow(0);
+	objDs.setColumn(nRow, "SALES_DOC_NO", sSalesDocNo);
+	objDs.setColumn(nRow, "PROJECT_CODE", this.FV_PROJECT_CODE);
+	objDs.setColumn(nRow, "SALES_DOC_TYPE", this.FV_SALES_DOC_TYPE);
+	objDs.setColumn(nRow, "ESTIMATE_KIND", this.FV_ESTIMATE_KIND);
+	objDs.setColumn(nRow, "YEAR", year);
+	objDs.setColumn(nRow, "SALES_DOC_NAME", sClientName + " " + sProjectName);
+	
+	this.dsSalesDocMap.set_enableevent(true);
+};
+
+// 2. 계약목록 조회
+this.fnSearchContractList = function()
+{
+	this.gfnAddSendParameter("PROJECT_CODE", this.FV_PROJECT_CODE);
+	this.gfnAddSendParameter("ESTIMATE_KIND", this.FV_ESTIMATE_KIND);
+	this.gfnAddSendParameter("ESTIMATE_TYPE", this.FV_ESTIMATE_TYPE);
+	this.gfnAddOutputDataset("dsContractList",  "dsOutput");
+	this.gfnAddOutputDataset("dsDisabledContractList",  "dsOutput2");
+	this.gfnCommonTransaction("SearchContractList", "SS_EstimateReg_S04");
+};
+
+// 3. 견적서관리 조회
+this.fnSearchEstimate = function(sFvSalesDocNo)
+{
+	var sSalesDocNo = this.dsSalesDocMap.getColumn(this.dsSalesDocMap.rowposition, "SALES_DOC_NO");
+	if(!this.gfnIsEmpty(sFvSalesDocNo)) {
+		sSalesDocNo = sFvSalesDocNo;
+	}
+	
+	this.gfnAddSendParameter("PROJECT_CODE", this.FV_PROJECT_CODE);
+	this.gfnAddSendParameter("SALES_DOC_NO", sSalesDocNo);
+	if(this.FV_REPORT_ONLY) this.gfnAddSendParameter("EM_SEQ", this.FV_EM_SEQ);
+	this.gfnAddOutputDataset("dsEstimate",  "dsOutput");
+	this.gfnCommonTransaction("SearchEstimate", "SS_EstimateReg_S02");
+};
+
+// 4. 견적 상세 조회
+this.fnSearchEstimateDet = function(sFvEmSeq)
+{
+	var sEmSeq = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "EM_SEQ");
+	
+	if(!this.gfnIsEmpty(sFvEmSeq)) {
+		sEmSeq = sFvEmSeq;
+	}
+	
+	this.gfnAddSendParameter("EM_SEQ", sEmSeq);
+	this.gfnAddOutputDataset("dsEstimateProductDet",  "dsOutput");
+	this.gfnAddOutputDataset("dsEstimateSiDet",  "dsOutput2");
+	this.gfnAddOutputDataset("dsCheckedContractNo",  "dsOutput3");
+	this.gfnAddOutputDataset("dsEstimateVat",  "dsOutput4");
+	
+	this.gfnCommonTransaction("SearchEstimateDet", "SS_EstimateReg_S05");
+};
+
+// 계약 정보 조회
+this.fnContractInfo = function(sContractNo)
+{
+	var sContractNoList = "";
+	var sCnt = this.dsContractList.getCaseCount("CHK=='1' && DISABLED_FLAG!='1'");
+	var j = 0;
+	
+	if(!this.gfnIsEmpty(sContractNo)) {
+		sContractNoList = sContractNo;
+	} else {
+		for(var i = 0; i < this.dsContractList.rowcount; i++) {
+			var checked = this.dsContractList.getColumn(i, "CHK");
+			var disableChecked = this.dsContractList.getColumn(i, "DISABLED_FLAG");
+			var contractNo = this.dsContractList.getColumn(i, "CONTRACT_NO");
+			if(checked == "1" && disableChecked != "1") {
+				sContractNoList = sContractNoList + contractNo;
+				j++;
+				if(sCnt > j ) sContractNoList += ",";
+			}
+		}
+	}
+	
+	this.gfnAddSendParameter("CONTRACT_LIST", sContractNoList);
+	this.gfnAddSendParameter("ESTIMATE_KIND", this.FV_ESTIMATE_KIND);
+	this.gfnAddSendParameter("ESTIMATE_TYPE", this.FV_ESTIMATE_TYPE);
+	this.gfnAddOutputDataset("dsContractInfo",  "dsOutput");
+	this.gfnAddOutputDataset("dsContractProductDet",  "dsOutput2");
+	//this.gfnAddOutputDataset("dsContractSiDet",  "dsOutput3");
+	this.gfnCommonTransaction("contractInfo", "SS_EstimateReg_S06");
+};
+
+// GET_ESTIMATE_NO 조회
+this.fnGetEstimateNo = function(sPublishedDate, sCompanyCode, sSeq)
+{
+	var sToday = new Date();
+	var curDate = this.gfnGetDateMaskFormatString(sToday, "yyyyMMdd");
+	if(!this.gfnIsEmpty(sPublishedDate)) curDate = sPublishedDate
+	
+	var sContractInfo = this.dsContractInfo;
+	
+	var sContractMain = sContractInfo.getColumn(0, "CONTRACT_MAIN");
+	
+	if(!this.gfnIsEmpty(sCompanyCode)) sContractMain = sCompanyCode
+	
+	if(this.gfnIsEmpty(sSeq)) sSeq = 0;
+	
+	this.gfnAddSendParameter("SEQ", sSeq);
+	this.gfnAddSendParameter("CONTRACT_MAIN", sContractMain);
+	this.gfnAddSendParameter("PUBLISHED_DATE", curDate);
+	this.gfnAddOutputDataset("dsEstimateNo",  "dsOutput");
+	this.gfnCommonTransaction("GetEstimateNo", "SS_EstimateReg_S07");
+};
+
+this.fnSetEstimateNo = function()
+{
+	var sEstimateNo = this.dsEstimateNo.getColumn(0, "ESTIMATE_NO");
+	this.dsEstimate.setColumn(this.dsEstimate.rowposition, "ESTIMATE_NO", sEstimateNo);
+};
+
+//	ESTIMATE_NO 초기화 데이터 셋팅
+this.fnInitEstimate = function()
+{
+	this.dsEstimate.set_enableevent(false);
+	
+	var sToday = new Date();
+	var sSalesDocNo = this.dsSalesDocMap.getColumn(this.dsSalesDocMap.rowposition, "SALES_DOC_NO");
+	var sEstimateNo = this.dsEstimateNo.getColumn(0, "ESTIMATE_NO");
+	
+	var sContractInfo = this.dsContractInfo;
+	
+	var sContractName = sContractInfo.getColumn(0, "CONTRACT_NAME"); // 계약명
+	var sClientCode = sContractInfo.getColumn(0, "CLIENT_CODE"); // 고객사 코드
+	var sClientName = sContractInfo.getColumn(0, "CLIENT_NAME"); // 고객사명
+	var sContractMain = sContractInfo.getColumn(0, "CONTRACT_MAIN"); // 계약처 코드
+	var sContractMainName = sContractInfo.getColumn(0, "CONTRACT_MAIN_NAME"); // 계약처명
+	
+	var curDate = this.gfnGetDateMaskFormatString(sToday, "yyyyMMdd");
+	
+	var objDsInfo = this.dsEstimate;
+	
+	nRow = objDsInfo.insertRow(0);
+	objDsInfo.setColumn(nRow, "SALES_DOC_NO", sSalesDocNo);	// 영업문서번호
+	objDsInfo.setColumn(nRow, "PROJECT_CODE", this.FV_PROJECT_CODE); // 프로젝트코드
+	objDsInfo.setColumn(nRow, "ESTIMATE_KIND", this.FV_ESTIMATE_KIND); // 격적구분
+	objDsInfo.setColumn(nRow, "ESTIMATE_NO", sEstimateNo); // 견적서번호
+	objDsInfo.setColumn(nRow, "CONTRACT_NAME", sContractName); // 계약명
+	objDsInfo.setColumn(nRow, "ESTIMATE_TYPE", this.FV_ESTIMATE_TYPE); // 견적서 구분
+	objDsInfo.setColumn(nRow, "CLIENT_CODE", sClientCode); // 고객사
+	objDsInfo.setColumn(nRow, "CLIENT_NAME", sClientName); // 고객사명
+	objDsInfo.setColumn(nRow, "CONTRACT_MAIN", sContractMain); // 계약처
+	objDsInfo.setColumn(nRow, "CONTRACT_MAIN_NAME", sContractMainName); // 계약처명
+	objDsInfo.setColumn(nRow, "PUBLISHED_DATE", curDate); // 발행일자
+	
+	this.dsEstimate.set_enableevent(true);
+	
+	// 견적서담당자
+	if(this.FV_ESTIMATE_KIND == "PRODUCT") {
+		objDsInfo.setColumn(nRow, "ESTIMATE_MANAGER", this.FV_SALES_EMP_NO);
+		objDsInfo.setColumn(nRow, "ESTIMATE_MANAGER_NAME", this.FV_SALES_EMP_NAME);
+	} else {
+		objDsInfo.setColumn(nRow, "ESTIMATE_MANAGER", this.FV_EMP_NO); 
+		objDsInfo.setColumn(nRow, "ESTIMATE_MANAGER_NAME", this.FV_EMP_NAME);
+	}
+	
+	this.div_EstimateInfo.form.cmb_PayMethod.set_index(0); // 결제방법
+	this.div_EstimateInfo.form.cmb_EstimateExpirationCondition.set_index(0); // 견적유효조건
+	this.div_EstimateInfo.form.rdo_OfficialSealType.set_index(0); // 직인종류
+	this.div_EstimateInfo.form.cmb_ConsumptionTax.set_index(0); // 소비세액
+	
+	this.fnInitVat();
+	this.fnInitEstimateDet();
+};
+
+// 견적 소비세액, 합계 셋팅
+this.fnInitVat = function()
+{
+	this.dsEstimateVat.clearData();
+	this.dsEstimateVat.set_enableevent(false);
+	
+	var nRow = this.dsEstimateVat.addRow();
+	this.dsEstimateVat.setColumn(nRow, "VAT_PRICE_PRODUCT", 0);
+	this.dsEstimateVat.setColumn(nRow, "VAT_PRICE_SI", 0);
+	
+	this.dsEstimateVat.set_enableevent(true);
+};
+
+// 견적 상세 데이터 셋팅
+this.fnInitEstimateDet = function()
+{
+	var sEmSeq = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "EM_SEQ");
+	var sEstimateType = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "ESTIMATE_TYPE");
+	
+	this.dsEstimateProductDet.set_enableevent(false);
+	
+	if(this.dsContractProductDet.rowcount > 0 ) {
+		for(var i = 0; i < this.dsContractProductDet.rowcount; i++) {
+ 			var sNewCrdSeq = this.dsContractProductDet.getColumn(i, "CRD_SEQ");
+			
+			if(this.FV_ESTIMATE_KIND == "PRODUCT") {
+				var findRow = this.dsEstimateProductDet.findRow("CRD_SEQ", sNewCrdSeq);
+				if(findRow == -1) {
+					var nRow = this.dsEstimateProductDet.addRow();
+					this.dsEstimateProductDet.copyRow(nRow, this.dsContractProductDet, i);
+// 					this.dsEstimateProductDet.setColumn(nRow, "DIVISION_CRD_SEQ", sNewCrdSeq);
+// 					this.dsEstimateProductDet.setColumn(nRow, "DIVISION_FLAG", "0");
+					if(!this.gfnIsEmpty(sEmSeq)) this.dsEstimateProductDet.setColumn(nRow, "EM_SEQ", sEmSeq);
+				}
+			} else {
+				var nRow = this.dsEstimateProductDet.addRow();
+				this.dsEstimateProductDet.copyRow(nRow, this.dsContractProductDet, i);
+				
+				this.fnSetUnitCost(nRow);
+					
+// 				this.dsEstimateProductDet.setColumn(nRow, "DIVISION_CRD_SEQ", sNewCrdSeq);
+// 				this.dsEstimateProductDet.setColumn(nRow, "DIVISION_FLAG", "0");
+				if(!this.gfnIsEmpty(sEmSeq)) this.dsEstimateProductDet.setColumn(nRow, "EM_SEQ", sEmSeq);
+			}
+		}
+	}
+	
+	this.dsEstimateProductDet.set_enableevent(true);
+	this.fnSetServerGrade();
+	//if(this.FV_ESTIMATE_KIND == "MA") this.fnSetMaStandard();
+	this.fnConsumptionTax("MODIFY");
+	this.fnInit();
+};
+
+// 갱신 경적일 경우
+this.fnSetUnitCost = function(sRow)
+{
+	var sEstimateType = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "ESTIMATE_TYPE");
+	
+	if(sEstimateType == "RENEWAL_ESTIMATE") {
+		if(this.gfnIsEmpty(sRow)) {
+			var sCnt = this.dsEstimateProductDet.rowcount;
+			
+			for(var i = 0; i < sCnt; i++) {
+				var sQuantity = this.dsEstimateProductDet.getColumn(i, "QUANTITY");
+				var sContractPrice = this.dsEstimateProductDet.getColumn(i, "CONTRACT_PRICE");
+				var sUnitCost = this.dsEstimateProductDet.getColumn(i, "UNIT_COST");
+				
+				this.dsEstimateProductDet.setColumn(i, "UNIT_COST", nexacro.round(sContractPrice / sQuantity));
+			}
+		} else {
+			var sQuantity = this.dsEstimateProductDet.getColumn(sRow, "QUANTITY");
+			var sContractPrice = this.dsEstimateProductDet.getColumn(sRow, "CONTRACT_PRICE");
+			
+			this.dsEstimateProductDet.setColumn(sRow, "UNIT_COST", nexacro.round(sContractPrice / sQuantity));
+		}	
+	} else {
+		if(this.gfnIsEmpty(sRow)) {
+			var sCnt = this.dsEstimateProductDet.rowcount;
+			
+			for(var i = 0; i < sCnt; i++) {
+				var sUnitCost = this.dsEstimateProductDet.getColumn(i, "ORG_UNIT_COST");
+				var sStandardPrice = this.dsEstimateProductDet.getColumn(i, "ORG_STANDARD_PRICE");
+				
+				this.dsEstimateProductDet.setColumn(i, "UNIT_COST", sUnitCost);
+				this.dsEstimateProductDet.setColumn(i, "STANDARD_PRICE", sStandardPrice);
+			}
+		} else {
+			var sUnitCost = this.dsEstimateProductDet.getColumn(sRow, "ORG_UNIT_COST");
+			var sStandardPrice = this.dsEstimateProductDet.getColumn(sRow, "ORG_STANDARD_PRICE");
+			
+			this.dsEstimateProductDet.setColumn(sRow, "UNIT_COST", sUnitCost);
+			this.dsEstimateProductDet.setColumn(sRow, "STANDARD_PRICE", sStandardPrice);
+		}
+	}
+};
+
+// 서버등급 설정
+this.fnSetServerGrade = function()
+{
+	this.cmb_ServerGrade.set_value(this.dsEstimateProductDet.getColumn(0, "SERVER_GRADE"));
+};
+
+// 기준 설정
+// this.fnSetMaStandard = function()
+// {
+// 	this.cmb_MaStandard.set_value(this.dsEstimateProductDet.getColumn(0, "MA_STANDARD"));
+// };
+
+// 영업문서 추가
+this.fnSalesDocMapAdd = function()
+{
+	this.fnGetSalesDocNo();
+};
+
+// 수기입력 플레그 셋팅
+this.fnSetFlag = function(obj, value)
+{
+	if(obj.name == "chk_SubjectFlag") {
+		if(value == "1") this.div_EstimateInfo.form.edt_Subject.set_enable(true);
+		else this.div_EstimateInfo.form.edt_Subject.set_enable(false);
+	} else if(obj.name == "cmb_PayMethod") {
+		if(value == "004") this.div_EstimateInfo.form.edt_PayMethod.set_enable(true); // 기타
+		else this.div_EstimateInfo.form.edt_PayMethod.set_enable(false);
+	} else if(obj.name == "cmb_EstimateExpirationCondition") {
+		if(value == "003") this.div_EstimateInfo.form.edt_EstimateExpirationCondition.set_enable(true); // 기타
+		else this.div_EstimateInfo.form.edt_EstimateExpirationCondition.set_enable(false);
+	} 
+};
+
+// 견적상세 그리드 포맷 설정
+this.fnSetDetGrd = function(value)
+{
+	if(value == "NEW_ESTIMATE") {
+		if(this.FV_ESTIMATE_KIND == "MA") this.tab_EstimateDet.tpg_EstimateDetProduct.form.div_EstimateProductDet.form.grd_EstimateProductDet.set_formatid("MA_NEW_ESTIMATE");
+		else this.tab_EstimateDet.tpg_EstimateDetProduct.form.div_EstimateProductDet.form.grd_EstimateProductDet.set_formatid("NEW_ESTIMATE");
+	}
+	else this.tab_EstimateDet.tpg_EstimateDetProduct.form.div_EstimateProductDet.form.grd_EstimateProductDet.set_formatid("RENEWAL_ESTIMATE");
+	
+	this.fnSetDetSummary();
+};
+
+// 견적상세에 맞는 summary 포맷 설정
+this.fnSetDetSummary = function()
+{
+	var curIndex = this.tab_EstimateDet.tabindex;
+	var curRow = this.dsEstimate.rowposition;
+	var sEstimateType = this.dsEstimate.getColumn(curRow, "ESTIMATE_TYPE");
+	
+	if(curIndex == "1") {
+		this.grd_SummaryProduct.set_visible(false);
+		this.grd_SummarySi.set_visible(true);
+	} else {
+		this.grd_SummaryProduct.set_visible(true);
+		this.grd_SummarySi.set_visible(false);
+	}
+	
+	if(this.gfnIsEmpty(sEstimateType)) sEstimateType = this.FV_ESTIMATE_TYPE;
+	
+	/*
+		NEW_ESTIMATE 		1100 / 100
+		RENEWAL_ESTIMATE 	920 / 100
+		MA_ESTIMATE 		1200 / 100
+		SI					720 / 80
+	*/
+	if(sEstimateType == "NEW_ESTIMATE") {
+		if(this.FV_ESTIMATE_KIND == "MA") this.grd_SummaryProduct.set_formatid("MA");
+		else this.grd_SummaryProduct.set_formatid("PRODUCT");
+	}
+	else this.grd_SummaryProduct.set_formatid("RENEWAL_MA");
+};
+
+// 소비세액 계산
+this.fnConsumptionTax = function(sMode)
+{
+	this.dsEstimateVat.set_enableevent(false);
+	
+	var curRow = this.dsEstimate.rowposition;
+	var sVatPriceProduct = this.dsEstimateVat.getColumn(curRow, "VAT_PRICE_PRODUCT");
+	var sVatPriceSi = this.dsEstimateVat.getColumn(curRow, "VAT_PRICE_SI");
+	
+	this.dsEstimate.set_enableevent(false);
+	if(this.dsEstimateProductDet.rowcount > 0) {
+		var sConsumptionTax = this.div_EstimateInfo.form.cmb_ConsumptionTax.value;
+		var sContractPrice = this.dsEstimateProductDet.getSum("CONTRACT_PRICE");
+		var sConsumptionSum = nexacro.round(sContractPrice * nexacro.toNumber(sConsumptionTax) / 100);
+		
+		if(this.gfnIsEmpty(sVatPriceProduct) || sMode == "MODIFY") this.dsEstimateVat.setColumn(curRow, "VAT_PRICE_PRODUCT", sConsumptionSum);
+		//this.grd_SummaryProduct.setCellProperty("body", 3, "expr", sContractPrice + sConsumptionSum);
+	} else {
+		this.dsEstimateVat.setColumn(curRow, "VAT_PRICE_PRODUCT", 0);
+		//this.grd_SummaryProduct.setCellProperty("body", 3, "expr", 0);
+	}
+	
+	if(this.FV_ESTIMATE_KIND == "PRODUCT") {
+		if(this.dsEstimateSiDet.rowcount > 0) {
+			var sConsumptionTax = this.div_EstimateInfo.form.cmb_ConsumptionTax.value;
+			var sContractPrice = this.dsEstimateSiDet.getSum("CONTRACT_PRICE");
+			var sConsumptionSum = nexacro.round(sContractPrice * nexacro.toNumber(sConsumptionTax) / 100);
+			
+			if(this.gfnIsEmpty(sVatPriceSi)  || sMode == "MODIFY") this.dsEstimateVat.setColumn(curRow, "VAT_PRICE_SI", sConsumptionSum);
+			//this.grd_SummarySi.setCellProperty("body", 3, "expr", sContractPrice + sConsumptionSum);
+		} else {
+			this.dsEstimateVat.setColumn(curRow, "VAT_PRICE_SI", 0);
+			//this.grd_SummarySi.setCellProperty("body", 3, "expr", 0);		
+		}
+	}
+	
+	this.dsEstimateVat.set_enableevent(true);
+	this.dsEstimate.set_enableevent(true);
+	
+	this.fnTotalPrice();
+};
+
+this.fnTotalPrice = function()
+{
+	var curRow = this.dsEstimateVat.rowposition;
+	var sVatPriceProduct = this.dsEstimateVat.getColumn(curRow, "VAT_PRICE_PRODUCT");
+	var sVatPriceSi = this.dsEstimateVat.getColumn(curRow, "VAT_PRICE_SI");
+	
+	if(this.dsEstimateProductDet.rowcount > 0) {
+		var sContractPrice = this.dsEstimateProductDet.getSum("CONTRACT_PRICE");
+		this.grd_SummaryProduct.setCellProperty("body", 3, "expr", nexacro.round(sContractPrice + sVatPriceProduct));
+	} else {
+		this.grd_SummaryProduct.setCellProperty("body", 3, "expr", 0);
+	}
+	
+	if(this.FV_ESTIMATE_KIND == "PRODUCT") {
+		if(this.dsEstimateSiDet.rowcount > 0) {
+			var sContractPrice = this.dsEstimateSiDet.getSum("CONTRACT_PRICE");
+			this.grd_SummarySi.setCellProperty("body", 3, "expr", nexacro.round(sContractPrice + sVatPriceSi));
+		} else {
+			this.grd_SummarySi.setCellProperty("body", 3, "expr", 0);
+		}
+	}
+};
+
+this.setMaMenMonth = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var sStartDate = this.div_EstimateInfo.form.cal_StartDate.value;
+	var sEndDate = this.div_EstimateInfo.form.cal_EndDate.value;
+	
+	if(!this.gfnIsEmpty(sStartDate) && !this.gfnIsEmpty(sEndDate)) {
+		var mm = this.gfnGetMenMonth(sStartDate, sEndDate);
+		this.dsEstimate.setColumn(this.dsEstimate.rowposition, "MA_MEN_MONTH", nexacro.ceil(mm, 2));
+	} else {
+		this.dsEstimate.setColumn(this.dsEstimate.rowposition, "MA_MEN_MONTH", 0);
+	}
+};
+
+this.fnUpdateCheck = function(evtBtnObj)
+{
+	var rtn = false;
+	var objDsList;
+	if(evtBtnObj.name == "btn_EstimateAdd") {
+		objDsList = {Estimate: this.dsEstimate, EstimateDet: this.dsEstimateProductDet, EstimateSiDet: this.dsEstimateSiDet}
+	} else if(evtBtnObj.name == "btn_Approval" || evtBtnObj.name == "btn_SalesDocMapAdd"){
+		objDsList = {salesDocMap: this.dsSalesDocMap,Estimate: this.dsEstimate, EstimateDet: this.dsEstimateProductDet, EstimateSiDet: this.dsEstimateSiDet}
+	}
+	
+	if(this.gfnIsUpdateDsList(objDsList)) {
+		this.alert(this.gfnGetTransTxt(1361,"변경된 내용이 있습니다. 저장후 진행하세요."));
+		return rtn;
+	} else {
+		rtn = true;
+		return rtn
+	}
+};
+
+this.fnOpenSiPopup = function(sContractNo)
+{
+	var sContractNoList = "";
+	
+	if(!this.gfnIsEmpty(sContractNo)) {
+		sContractNoList = sContractNo;
+	} else {
+		var sCnt = this.dsContractList.getCaseCount("CHK=='1' && DISABLED_FLAG!='1'");
+		var j = 0;
+		
+		for(var i = 0; i < this.dsContractList.rowcount; i++) {
+			var checked = this.dsContractList.getColumn(i, "CHK");
+			var disableChecked = this.dsContractList.getColumn(i, "DISABLED_FLAG");
+			var contractNo = this.dsContractList.getColumn(i, "CONTRACT_NO");
+			if(checked == "1" && disableChecked != "1") {
+				sContractNoList = sContractNoList + contractNo;
+				j++;
+				if(sCnt > j ) sContractNoList += ",";
+			}
+		}
+	}	
+	
+	var Argument =  {pvContractList:sContractNoList};
+	this.commUtil.popup(this, "popupPreEstimateSiPopup", "Sales::SS_EstimateSiPopup.xfdl", -1, -1, 900, 400, true, false, false, Argument, "fnPopupCallBack");
+};
+
+this.fnSetFocusRowSalesDocMap = function(sSalesDocNo)
+{
+	var findRow = this.dsSalesDocMap.findRow("SALES_DOC_NO", sSalesDocNo);
+	this.dsSalesDocMap.set_rowposition(findRow);
+};
+
+this.fnSetFocusRowEstimate = function(sEmSeq, sSalesDocNo)
+{
+	var findRow = this.dsEstimate.findRow("EM_SEQ", sEmSeq);
+	this.dsEstimate.set_rowposition(findRow);
+};
+
+// 유효성 체크
+this.fnValidation = function(sMode)
+{
+	var bResult;
+	bResult = this.gfnIsUpdateDs(this.dsSalesDocMap);
+	
+	if(bResult) {
+		for(var i = 0; i < this.dsSalesDocMap.rowcount; i++) {
+			if(this.gfnIsEmpty(this.dsSalesDocMap.getColumn(i, "SALES_DOC_NAME"))) { this.alert(this.gfnGetTransTxt(12448,"영업문서명은 필수 입력 사항입니다.")); return false;}
+		}
+	}
+	
+	bResult = this.gfnIsUpdateDs(this.dsEstimate);
+	/*
+		필수 값 :
+		// 견적구분 ESTIMATE_TYPE 
+		// 고객사 CLIENT_NAME
+		// 계약처 CONTRACT_MAIN
+		// 계약명 CONTRACT_NAME
+		// 지불 방법 PAY_METHOD
+		// 직인종류 OFFICIAL_SEAL_TYPE
+		// 발행일자 PUBLISHED_DATE
+		// 견적서 담당자 ESTIMATE_MANAGER
+	*/
+	var curRow = this.dsEstimate.rowposition;
+	if(this.gfnIsEmpty(this.dsEstimate.getColumn(curRow, "ESTIMATE_TYPE"))) { this.alert(this.gfnGetTransTxt(12449,"견적구분은 필수 입력 사항입니다.")); return false;}
+	else if(this.gfnIsEmpty(this.dsEstimate.getColumn(curRow, "CLIENT_NAME"))) { this.alert(this.gfnGetTransTxt(12450,"고객사는 필수 입력 사항입니다.")); return false;}
+	else if(this.gfnIsEmpty(this.dsEstimate.getColumn(curRow, "CONTRACT_MAIN"))) { this.alert(this.gfnGetTransTxt(12451,"계약처는 필수 입력 사항입니다.")); return false;}
+	else if(this.gfnIsEmpty(this.dsEstimate.getColumn(curRow, "CONTRACT_NAME"))) { this.alert(this.gfnGetTransTxt(12452,"계약명은 필수 입력 사항입니다.")); return false;}
+	else if(this.gfnIsEmpty(this.dsEstimate.getColumn(curRow, "PAY_METHOD"))) { this.alert(this.gfnGetTransTxt(12453,"지불방법은 필수 입력 사항입니다.")); return false;}
+	else if(this.gfnIsEmpty(this.dsEstimate.getColumn(curRow, "OFFICIAL_SEAL_TYPE"))) { this.alert(this.gfnGetTransTxt(12454,"직인종류는 필수 입력 사항입니다.")); return false;}
+	else if(this.gfnIsEmpty(this.dsEstimate.getColumn(curRow, "PUBLISHED_DATE"))) { this.alert(this.gfnGetTransTxt(12455,"발행일자는 필수 입력 사항입니다.")); return false;}
+	else if(this.gfnIsEmpty(this.dsEstimate.getColumn(curRow, "ESTIMATE_MANAGER"))) { this.alert(this.gfnGetTransTxt(1293,"담당자를 입력 하세요")); return false;}
+	
+	/*
+		필수값 : 
+		// 솔루션이름 PRODUCT_MAIN_NAME
+		// 제품상세명 PRODUCT_NAME
+		// 수량 QUANTITY
+		// 단가 UNIT_COST
+	*/
+	
+	if(sMode == "approval") {
+		//bResult = this.gfnIsUpdateDs(this.dsEstimateProductDet);
+		//if(bResult) {
+		if(this.dsEstimateProductDet.getRowCount() > 0) {
+			var sServerCode = this.cmb_ServerGrade.value;
+			//var sMaStandard = this.cmb_MaStandard.value;
+			if(this.gfnIsEmpty(sServerCode)) {this.alert(this.gfnGetTransTxt(12461,"서버등급은 필수 입력 사항입니다.")); return false;}
+			//else if(this.FV_ESTIMATE_KIND == "MA") && this.gfnIsEmpty(sMaStandard)) {this.alert(this.gfnGetTransTxt(22567,"기준은 필수 입력 사항입니다.")); return false;}
+			
+			for(var i = 0; i < this.dsEstimateProductDet.rowcount;  i++) {
+				if(this.gfnIsEmpty(this.dsEstimateProductDet.getColumn(i, "PRODUCT_MAIN_NAME"))) { this.alert(this.gfnGetTransTxt(12456,"솔루션이름은 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateProductDet.getColumn(i, "PRODUCT_NAME"))) { this.alert(this.gfnGetTransTxt(12457,"제품상세명은 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateProductDet.getColumn(i, "QUANTITY"))) { this.alert(this.gfnGetTransTxt(12458,"수량은 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateProductDet.getColumn(i, "UNIT_COST"))) { this.alert(this.gfnGetTransTxt(12459,"단가는 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateProductDet.getColumn(i, "PURPOSE"))) { this.alert(this.gfnGetTransTxt(12460,"용도는 필수 입력 사항입니다.")); return false;}
+				//else if(this.gfnIsEmpty(this.dsEstimateProductDet.getColumn(i, "SERVER_GRADE"))) { this.alert(this.gfnGetTransTxt(12461,"서버등급은 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateProductDet.getColumn(i, "PRODUCT_UNIT"))) { this.alert(this.gfnGetTransTxt(12462,"단위는 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateProductDet.getColumn(i, "CONTRACT_PRICE"))) { this.alert(this.gfnGetTransTxt(22563,"금액는 필수 입력 사항입니다.")); return false;}
+			}
+		}
+		//}
+		
+		//bResult = this.gfnIsUpdateDs(this.dsEstimateSiDet);
+		//if(bResult) {
+		if(this.dsEstimateSiDet.getRowCount() > 0) {
+			for(var i = 0; i < this.dsEstimateSiDet.rowcount;  i++) {
+				if(this.gfnIsEmpty(this.dsEstimateSiDet.getColumn(i, "PRODUCT_MAIN_NAME"))) { this.alert(this.gfnGetTransTxt(12456,"솔루션이름은 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateSiDet.getColumn(i, "SI_INFO_DET"))) { this.alert(this.gfnGetTransTxt(22559,"용역 세부내역은 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateSiDet.getColumn(i, "ROLE_CODE"))) { this.alert(this.gfnGetTransTxt(22564,"역할은 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateSiDet.getColumn(i, "LEVEL_CODE"))) { this.alert(this.gfnGetTransTxt(22565,"등급은 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateSiDet.getColumn(i, "MEN_MONTH"))) { this.alert(this.gfnGetTransTxt(22566,"MM은 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateSiDet.getColumn(i, "SI_UNIT"))) { this.alert(this.gfnGetTransTxt(12462,"단위는 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateSiDet.getColumn(i, "UNIT_COST"))) { this.alert(this.gfnGetTransTxt(12459,"단가는 필수 입력 사항입니다.")); return false;}
+				else if(this.gfnIsEmpty(this.dsEstimateSiDet.getColumn(i, "CONTRACT_PRICE"))) { this.alert(this.gfnGetTransTxt(22563,"금액는 필수 입력 사항입니다.")); return false;}
+			}
+		}
+		//}
+	}
+	
+	return true;
+};
+
+// data 정리
+this.fnSetData = function()
+{
+	var curRow = this.dsEstimate.rowposition;
+	var sPriceProduct = this.dsEstimateVat.getColumn(0, "VAT_PRICE_PRODUCT");
+	var sPriceSi = this.dsEstimateVat.getColumn(0, "VAT_PRICE_SI");
+	
+	this.dsEstimate.set_enableevent(false);
+	this.dsEstimate.setColumn(curRow, "VAT_PRICE_PRODUCT", sPriceProduct);
+	this.dsEstimate.setColumn(curRow, "VAT_PRICE_SI", sPriceSi);
+	this.dsEstimate.set_enableevent(true);
+	
+	// 견적구분 체크박스 설정
+	var sSubjectChk = this.div_EstimateInfo.form.chk_SubjectFlag.value;
+	if(sSubjectChk == "0") this.dsEstimate.setColumn(curRow, "SUBJECT", null);
+	
+	// 지불방법 설정
+	var sPayMethod = this.div_EstimateInfo.form.cmb_PayMethod.value;
+	if(sPayMethod != "004") this.dsEstimate.setColumn(curRow, "PAY_METHOD_TXT", null);
+	
+	// 견적유효조건 설정
+	var sEstimateExpirationCondition = this.div_EstimateInfo.form.cmb_EstimateExpirationCondition.value;
+	if(sEstimateExpirationCondition != "003") this.dsEstimate.setColumn(curRow, "ESTIMATE_EXPIRATION_CONDITION_TXT", null);
+	
+	// 시작일자
+	var sStartDate = this.div_EstimateInfo.form.cal_StartDate.value;
+	if(this.gfnIsEmpty(sStartDate)) this.dsEstimate.setColumn(curRow, "START_DATE", null);
+	
+	// 종료일자
+	var sEndDate = this.div_EstimateInfo.form.cal_StartDate.value;
+	if(this.gfnIsEmpty(sEndDate)) this.dsEstimate.setColumn(curRow, "END_DATE", null);
+	
+	// 상세 데이터 정렬 및 서버등급 적용
+	var sServerGrade = this.cmb_ServerGrade.value;
+	//var sMaStandard = this.cmb_MaStandard.value;
+	var sCnt = this.dsEstimateProductDet.getRowCount();
+	for(var i = 0; i < sCnt; i++) {
+		this.dsEstimateProductDet.setColumn(i, "ORD", i+1);
+		this.dsEstimateProductDet.setColumn(i, "SERVER_GRADE", sServerGrade);
+// 		if(this.FV_ESTIMATE_KIND == "MA") {
+// 			this.dsEstimateProductDet.setColumn(i, "MA_STANDARD", sMaStandard);
+// 		}
+	}
+	
+	sCnt = this.dsEstimateSiDet.getRowCount();
+	for(var i = 0; i < sCnt; i++) {
+		this.dsEstimateSiDet.setColumn(i, "ORD", i+1);
+	}
+};
+
+// 저장
+this.fnSaveEstimate = function()
+{	
+	this.gfnAddSendParameter("ESTIMATE_KIND", this.FV_ESTIMATE_KIND);
+	
+	// 입력용 Input Dataset 세팅
+	this.gfnAddInputDataset ("dsSalesDocMap",		"dsSalesDocMap");
+	this.gfnAddInputDataset ("dsEstimate",			"dsEstimate");
+	this.gfnAddInputDataset ("dsEstimateProductDet","dsEstimateProductDet");
+	this.gfnAddInputDataset ("dsEstimateSiDet",		"dsEstimateSiDet");
+	this.gfnCommonTransaction("SaveEstimate", "SS_EstimateReg_R01");
+};
+
+// 견적서 복사 추가
+this.fnCopyEstimate = function()
+{
+	this.dsEstimateCopy.clearData();
+	
+	var curRow = this.dsEstimate.rowposition;
+	var sEmSeq = this.dsEstimate.getColumn(curRow, "EM_SEQ");
+	
+	var nRow = this.dsEstimateCopy.addRow();
+	this.dsEstimateCopy.setColumn(nRow, "EM_SEQ", sEmSeq);
+	
+	this.gfnAddSendParameter("ESTIMATE_KIND", this.FV_ESTIMATE_KIND);
+	this.gfnAddInputDataset ("dsEstimateCopy",	"dsEstimateCopy");
+	this.gfnCommonTransaction("SaveEstimate", "SS_EstimateReg_R02");
+};
+
+// 전자결재 전 계약 수량, 금액 조회
+this.fnSearchContractPrice = function(sBtnName)
+{
+	var sEmSeq = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "EM_SEQ");
+	
+	this.gfnAddSendParameter("EM_SEQ", sEmSeq);
+	this.gfnAddOutputDataset("dsContractPriceProduct",  "dsOutput");
+	this.gfnAddOutputDataset("dsContractPriceSi",  "dsOutput2");
+	this.gfnCommonTransaction("SearchContractPrice", "SS_EstimateReg_S09", null, false);
+	
+	var rtn = this.fnCheckContractPrice(sBtnName);
+	
+	return rtn;
+};
+
+// 전자결재 전 계약 수량, 금액 유효성 체크
+this.fnCheckContractPrice = function(sBtnName)
+{
+	var rtn = true;
+	
+	this.dsEstimateProductDet.set_enableevent(false);
+	this.dsEstimateSiDet.set_enableevent(false);
+	
+	var sProductCnt = this.dsContractPriceProduct.rowcount;
+	var sSiCnt = this.dsContractPriceSi.rowcount;
+	if(sProductCnt > 0) {
+		for(var i = 0; i < sProductCnt; i++) {
+			var sCrdSeq = this.dsContractPriceProduct.getColumn(i, "CRD_SEQ");
+			var sContractType = this.dsContractPriceProduct.getColumn(i, "CONTRACT_TYPE");
+			var sTotalContractPrice = this.dsContractPriceProduct.getColumn(i, "CONTRACT_PRICE");
+			var sTotalQuantity = this.dsContractPriceProduct.getColumn(i, "QUANTITY");
+			
+			this.dsEstimateProductDet.filter("CRD_SEQ=='"+sCrdSeq+"'");
+			
+			var sContractPrice = this.dsEstimateProductDet.getSum("CONTRACT_PRICE");
+			var sQuantity = this.dsEstimateProductDet.getSum("QUANTITY");
+			
+			if(sTotalContractPrice > sContractPrice || sTotalContractPrice < sContractPrice) {
+				if(sBtnName == "btn_Approval") alert(this.gfnGetTransTxt(22529,"영업관리 內 기입한 금액과 상이합니다. 기입한 금액 확인 또는 영업관리에서 금액 수정 후 기안 상신 진행 바랍니다."));
+				rtn = false;
+				this.dsEstimateProductDet.filter("");
+				break;
+			} else if(sContractType == "P" && (sTotalQuantity > sQuantity || sTotalQuantity < sQuantity)) {
+				if(sBtnName == "btn_Approval") alert(this.gfnGetTransTxt(22529,"영업관리 內 기입한 금액과 상이합니다. 기입한 금액 확인 또는 영업관리에서 금액 수정 후 기안 상신 진행 바랍니다."));
+				rtn = false;
+				this.dsEstimateProductDet.filter("");
+				break;
+			} else {
+				rtn = true;
+			}
+			
+			this.dsEstimateProductDet.filter("");
+		}
+	}
+	
+	if(rtn && sSiCnt > 0) {
+		for(var i = 0; i < sSiCnt; i++) {
+			var sCsdSeq = this.dsContractPriceSi.getColumn(i, "CSD_SEQ");
+			var sContractType = this.dsContractPriceSi.getColumn(i, "CONTRACT_TYPE");
+			var sTotalContractPrice = this.dsContractPriceSi.getColumn(i, "CONTRACT_PRICE");
+			var sTotalMM = this.dsContractPriceSi.getColumn(i, "MEN_MONTH");
+			
+			this.dsEstimateSiDet.filter("CSD_SEQ=='"+sCsdSeq+"'");
+			
+			var sContractPrice = this.dsEstimateSiDet.getSum("CONTRACT_PRICE");
+			var sMM = this.dsEstimateSiDet.getSum("MEN_MONTH");
+			
+			if(sTotalContractPrice > sContractPrice || sTotalContractPrice < sContractPrice || sTotalMM > sMM || sTotalMM < sMM) {
+				if(sBtnName == "btn_Approval") alert(this.gfnGetTransTxt(22529,"영업관리 內 기입한 금액과 상이합니다. 기입한 금액 확인 또는 영업관리에서 금액 수정 후 기안 상신 진행 바랍니다."));
+				rtn = false;
+				this.dsEstimateSiDet.filter("");
+				break;
+			} else {
+				rtn = true;
+			}
+			this.dsEstimateSiDet.filter("");
+		}
+	}
+	
+	this.dsEstimateProductDet.set_enableevent(true);
+	this.dsEstimateSiDet.set_enableevent(true);
+	
+	return rtn;
+};
+
+// 전자결재
+this.fnApproval = function()
+{
+	var curRow = this.dsEstimate.rowposition;
+	var sEstimateType = this.dsEstimate.getColumn(curRow, "ESTIMATE_TYPE");
+	var sAdSeq = this.dsEstimate.getColumn(curRow, "AD_SEQ");
+	var sEmseq = this.dsEstimate.getColumn(curRow, "EM_SEQ");
+	var sEstimateManager = this.dsEstimate.getColumn(curRow, "ESTIMATE_MANAGER");
+	var sProjectCode = this.dsEstimate.getColumn(curRow, "PROJECT_CODE");
+	var sEstimateNo = this.dsEstimate.getColumn(curRow, "ESTIMATE_NO");
+	var sClientName = this.dsEstimate.getColumn(curRow, "CLIENT_NAME");
+	var sContractMainName = this.dsEstimate.getColumn(curRow, "CONTRACT_MAIN_NAME");
+	var sContractName = this.dsEstimate.getColumn(curRow, "CONTRACT_NAME").replace(/\n/g, "");
+	var sEstimateNo = this.dsEstimate.getColumn(curRow, "ESTIMATE_NO");
+	
+	var sToday = this.gfnToday();
+	sToday = sToday.substring(2, 8);
+	
+	var sReportFileName = "";
+	var strSaveFileNm = "";
+	
+	if(sEstimateType == "NEW_ESTIMATE") { // 신규 견적서
+		sReportFileName = "PROJECT_ESTIMATE_NEW.jrf";
+		strSaveFileNm = "見積書_" + sEstimateNo;
+	} else if(sEstimateType == "RENEWAL_ESTIMATE") { // 갱신 견적서
+		sReportFileName = "PROJECT_ESTIMATE_RENEWAL.jrf"; 
+		strSaveFileNm = "更新見積書_" + sEstimateNo;
+	}
+	
+	// 레포트 데이터셋 셋팅
+	this.fnSetPrint();
+	
+	//견적서 전자결제용
+	var sArgument = {pv_DOC_KIND:"ESTIMATE"
+					,pv_AD_SEQ:sAdSeq
+					,pv_SOURCE_CD:"EM_SEQ"
+					,pv_SOURCE_DATA:sEmseq
+					,pv_ARBITRARILY_CODE:"DUTY"
+					,pv_ARBITRARILY_DATA:"009"	/*전결 003:그룹장, 009:본부장*/
+					,pv_SALES_EMP_NO:sEstimateManager
+					,pv_FILE_SOURCE_CD:'EM'
+					,pv_FILE_SOURCE_SEQ:sProjectCode
+					,pv_SUBJECT:sClientName + "_" + sContractName + "_" + sContractMainName
+					};
+	this.gfnPopupReportViewer(sReportFileName, strSaveFileNm, true, sArgument);
+};
+
+// Report 데이터 셋팅
+this.fnSetPrint = function()
+{	
+	var curRow = this.dsEstimate.rowposition;
+	var sEstimateType = this.dsEstimate.getColumn(curRow, "ESTIMATE_TYPE");
+	
+	// 초기화
+	this.dsEstimatePrt.clearData();
+	this.dsEstimateProductDetPrt.clearData();
+	this.dsEstimateSiDetPrt.clearData();
+	
+	var nRow = this.dsEstimatePrt.addRow();
+	this.dsEstimatePrt.copyRow(nRow, this.dsEstimate, this.dsEstimate.rowposition);
+	this.dsEstimateProductDetPrt.assign(this.dsEstimateProductDet);
+	this.dsEstimateSiDetPrt.assign(this.dsEstimateSiDet);
+	
+	var sManagerEmpNo = this.dsEstimatePrt.getColumn(0, "ESTIMATE_MANAGER");//견적서담당자
+	this.fnGetCompanyList(sManagerEmpNo); //투비소프트 회사정보
+	
+	this.dsEstimatePrt.addColumn("SUBJECT_PRT", "STRING"); // 제목Prt
+	this.dsEstimatePrt.addColumn("PAY_METHOD_PRT", "STRING"); // 지불방법Prt
+	this.dsEstimatePrt.addColumn("PAY_METHOD_PRT_FLAG", "STRING"); // 지불방법Prt Flag
+	this.dsEstimatePrt.addColumn("ESTIMATE_EXPIRATION_CONDITION_PRT", "STRING"); // 견적유효조건 Prt
+	this.dsEstimatePrt.addColumn("ESTIMATE_EXPIRATION_CONDITION_PRT_FLAG", "STRING"); // 견적유효조건 Prt Flag
+	this.dsEstimatePrt.addColumn("START_DATE_PRT", "STRING"); // 시작일 Prt
+	this.dsEstimatePrt.addColumn("DATE_PRT_FLAG", "STRING"); // 시작일, 종료일 Prt Flag
+	this.dsEstimatePrt.addColumn("END_DATE_PRT", "STRING"); // 종료일 Prt
+	//this.dsEstimatePrt.addColumn("END_DATE_PRT_FLAG", "STRING"); // 종료일 Prt Flag
+	this.dsEstimatePrt.addColumn("ESTIMATE_CONDITION_PRT", "STRING"); // 견적조건 Prt
+	this.dsEstimatePrt.addColumn("ESTIMATE_CONDITION_PRT_FLAG", "STRING"); // 견적조건 Prt Flag
+	this.dsEstimatePrt.addColumn("REMARKS_PRT", "STRING"); // 비고 Prt
+	this.dsEstimatePrt.addColumn("REMARKS_PRT_FLAG", "STRING"); // 비고 Prt Flag
+	this.dsEstimatePrt.addColumn("TOTAL_PRICE_PRT", "STRING"); // 소계 금액 Prt
+	this.dsEstimatePrt.addColumn("TOTAL_TAX_PRT", "STRING"); // 소비세액 금액 Prt
+	this.dsEstimatePrt.addColumn("TOTAL_TAX_PRICE_PRT", "STRING"); // 총계 금액 Prt
+	this.dsEstimatePrt.addColumn("SERVER_GRADE_PRT", "STRING"); // 서버등급 Prt
+	this.dsEstimatePrt.addColumn("INSERT_OFFICE_TEL_NO", "STRING"); // 결재담당자 연락처 Prt
+	this.dsEstimatePrt.addColumn("INSERT_EMAIL", "STRING"); // 결재담당자 이메일 Prt
+	
+	this.dsEstimatePrt.addColumn("PRODUCT_PRT_FLAG", "STRING"); // 제품,상품 표출 여부 Prt
+	this.dsEstimatePrt.addColumn("SI_PRT_FLAG", "STRING"); // 용역 표출 여부 Prt
+	
+	this.dsEstimatePrt.addColumn("RELAY_AMOUNT_FLAG", "STRING"); // 중계금액 표시 여부
+	
+	this.dsEstimateProductDetPrt.addColumn("PURPOSE_PRT", "STRING"); // 용도 Prt
+	this.dsEstimateProductDetPrt.addColumn("PRODUCT_UNIT_PRT", "STRING"); // 단위 Prt
+	this.dsEstimateProductDetPrt.addColumn("ESTIMATE_KIND", "STRING"); // ESTIMATE_KIND
+	
+	this.dsEstimateSiDetPrt.addColumn("LEVEL_PRT", "STRING"); // 등급 Prt
+	this.dsEstimateSiDetPrt.addColumn("ROLE_PRT", "STRING"); // 역할 Prt
+	this.dsEstimateSiDetPrt.addColumn("SI_UNIT_PRT", "STRING"); // 용역단위 Prt
+	
+	var subjectFlag = this.div_EstimateInfo.form.chk_SubjectFlag.value; // 제목 수기 입력 flag
+	var payMethod = this.div_EstimateInfo.form.cmb_PayMethod.value; // 지불방법 수기 입력
+	var estimateExpirationCondition = this.div_EstimateInfo.form.cmb_EstimateExpirationCondition.value; // 견적유효조건 수기 입력
+	
+	var payMethodPrtFlag = this.div_EstimateInfo.form.chk_PayMethodPrtFlag.value; // 지불방법 표출 여부
+	var estimateExpirationConditionPrtFlag = this.div_EstimateInfo.form.chk_EstimateExpirationConditionPrtFlag.value; // 견적유효조건 표출 여부
+	var datePrtFlag = this.div_EstimateInfo.form.chk_DatePrtFlag.value; // 시작일, 종료일 표출 여부
+	//var endDatePrtFlag = this.div_EstimateInfo.form.chk_EndDatePrtFlag.value; // 종료일 표출 여부
+	var estimateConditionPrtFlag = this.div_EstimateEtc.form.chk_EstimateConditionPrtFlag.value; // 견적조건 표출 여부
+	var remarksPrtFlag = this.div_EstimateEtc.form.chk_RemarksPrtFlag.value; // 비고 표출 여부
+	var sServerGrade = this.cmb_ServerGrade.text; // 서버등급 명
+	var sChkClientNameFlag = this.div_EstimateInfo.form.chk_ClientName.value; // PRT 고객사 미표출 여부
+	
+	var objDs = this.dsEstimatePrt;
+	objDs.setColumn(0, "PAY_METHOD_PRT_FLAG", payMethodPrtFlag);	// 지불방법 표출 여부
+	objDs.setColumn(0, "ESTIMATE_EXPIRATION_CONDITION_PRT_FLAG", estimateExpirationConditionPrtFlag);	// 견적유효조건 표출 여부
+	objDs.setColumn(0, "DATE_PRT_FLAG", datePrtFlag);	// 시작일 표출 여부
+	//objDs.setColumn(0, "END_DATE_PRT_FLAG", endDatePrtFlag);	// 종료일 표출 여부
+	objDs.setColumn(0, "ESTIMATE_CONDITION_PRT_FLAG", estimateConditionPrtFlag);	// 견적조건 표출 여부
+	objDs.setColumn(0, "REMARKS_PRT_FLAG", remarksPrtFlag);	// 비고 표출 여부
+	objDs.setColumn(0, "SERVER_GRADE_PRT", sServerGrade);	// 서버등급 명
+	
+	// 제목 설정
+	if(subjectFlag == "1") objDs.setColumn(0, "SUBJECT_PRT", objDs.getColumn(0, "SUBJECT"));
+	else objDs.setColumn(0, "SUBJECT_PRT", this.div_EstimateInfo.form.cmb_EstimateType.text);
+	
+	// 지불방법 설정
+	if(payMethodPrtFlag == "1") {
+		if(payMethod == "004") objDs.setColumn(0, "PAY_METHOD_PRT", objDs.getColumn(0, "PAY_METHOD_TXT"));
+		else objDs.setColumn(0, "PAY_METHOD_PRT", this.div_EstimateInfo.form.cmb_PayMethod.text);
+	} else objDs.setColumn(0, "PAY_METHOD_PRT", this.div_EstimateInfo.form.cmb_PayMethod.text);
+	
+	// 견적유효조건 설정
+	if(estimateExpirationConditionPrtFlag == "1") {
+		if(estimateExpirationCondition == "003") objDs.setColumn(0, "ESTIMATE_EXPIRATION_CONDITION_PRT", objDs.getColumn(0, "ESTIMATE_EXPIRATION_CONDITION_TXT"));
+		else objDs.setColumn(0, "ESTIMATE_EXPIRATION_CONDITION_PRT", this.div_EstimateInfo.form.cmb_EstimateExpirationCondition.text);
+	} else objDs.setColumn(0, "ESTIMATE_EXPIRATION_CONDITION_PRT", this.div_EstimateInfo.form.cmb_EstimateExpirationCondition.text);
+	
+	// 시작일 설정
+	if(datePrtFlag == "1") objDs.setColumn(0, "START_DATE_PRT", objDs.getColumn(0, "START_DATE"));
+	// 종료일 설정
+	if(datePrtFlag == "1") objDs.setColumn(0, "END_DATE_PRT", objDs.getColumn(0, "END_DATE"));
+	// 견적조건 설정
+	if(estimateConditionPrtFlag == "1") objDs.setColumn(0, "ESTIMATE_CONDITION_PRT", objDs.getColumn(0, "ESTIMATE_CONDITION"));
+	// 비고 설정
+	if(remarksPrtFlag == "1") objDs.setColumn(0, "REMARKS_PRT", objDs.getColumn(0, "REMARKS"));
+	// 계약명 설정
+	if(sChkClientNameFlag != "1") objDs.setColumn(0, "CONTRACT_NAME", '\n' + objDs.getColumn(0, "CONTRACT_NAME"));
+	else objDs.setColumn(0, "CONTRACT_NAME", objDs.getColumn(0, "CONTRACT_NAME"));
+	
+	// 총 금액
+	var sConsumptionTax = this.div_EstimateInfo.form.cmb_ConsumptionTax.value;
+	var sContractPrice = this.dsEstimateProductDet.getSum("CONTRACT_PRICE") + this.dsEstimateSiDet.getSum("CONTRACT_PRICE");
+	//var sConsumptionSum = sContractPrice * nexacro.toNumber(sConsumptionTax) / 100;
+	var sConsumptionSum = objDs.getColumn(0, "VAT_PRICE_PRODUCT") + objDs.getColumn(0, "VAT_PRICE_SI");
+	
+	var sOfficeTelNo = this.dsCompanyList.getColumn(0, "OFFICE_TEL_NO");
+	sOfficeTelNo = sOfficeTelNo.replace("81-3", "03");
+	
+	this.dsCompanyList.setColumn(0, "OFFICE_TEL_NO", sOfficeTelNo);
+	
+	objDs.setColumn(0, "TOTAL_PRICE_PRT", sContractPrice); 
+	objDs.setColumn(0, "TOTAL_TAX_PRT", sConsumptionSum); 
+	objDs.setColumn(0, "TOTAL_TAX_PRICE_PRT", sContractPrice + sConsumptionSum); 
+	objDs.setColumn(0, "INSERT_OFFICE_TEL_NO", sOfficeTelNo); 
+	objDs.setColumn(0, "INSERT_EMAIL", this.dsCompanyList.getColumn(0, "EMAIL")); 
+
+	if(this.dsEstimateProductDet.rowcount > 0 && this.dsEstimateSiDet.rowcount > 0) objDs.setColumn(0, "RELAY_AMOUNT_FLAG", "Y"); 
+	
+	var objProductDetDs = this.dsEstimateProductDetPrt;
+	
+	if(objProductDetDs.rowcount > 0) objDs.setColumn(0, "PRODUCT_PRT_FLAG", "1");
+	else objDs.setColumn(0, "PRODUCT_PRT_FLAG", "0");
+	
+	for(var i = 0; i < objProductDetDs.rowcount; i++) {
+		// 용도
+		var purpose = objProductDetDs.getColumn(i, "PURPOSE");
+		var purposeIdx = this.ds_cmm_Purpose.findRow("CODE", purpose);
+		var purposeNm = this.ds_cmm_Purpose.getColumn(purposeIdx, "CAPTION");
+		
+		// N/A 인 경우 공란으로 요청
+		if(purpose != "012") {
+			objProductDetDs.setColumn(i, "PURPOSE_PRT", purposeNm);
+		}
+		
+		// 서버등급
+// 		var serverGrade = this.dsEstimateProductDetPrt.getColumn(i, "SERVER_GRADE");
+// 		var serverGradeIdx = this.ds_cmm_ServerGrade.findRow("CODE", serverGrade);
+// 		var serverGradeNm = this.ds_cmm_ServerGrade.getColumn(serverGradeIdx, "CAPTION");
+// 		
+// 		objProductDetDs.setColumn(i, "SERVER_GRADE_PRT", serverGradeNm);
+		
+		// 단위
+		var productUnit = this.dsEstimateProductDetPrt.getColumn(i, "PRODUCT_UNIT");
+		var productUnitIdx = this.ds_cmm_ProductUnit.findRow("CODE", productUnit);
+		var productUnitNm = this.ds_cmm_ProductUnit.getColumn(productUnitIdx, "CAPTION");
+		
+		objProductDetDs.setColumn(i, "PRODUCT_UNIT_PRT", productUnitNm);
+		
+		objProductDetDs.setColumn(i, "ESTIMATE_KIND", this.FV_ESTIMATE_KIND);
+	}
+	
+	var objSiDetDs = this.dsEstimateSiDetPrt;
+	
+	if(objSiDetDs.rowcount > 0) objDs.setColumn(0, "SI_PRT_FLAG", "1");
+	else objDs.setColumn(0, "SI_PRT_FLAG", "0");
+	
+	for(var i = 0; i < objSiDetDs.rowcount; i++) {
+		// 등급
+		var levelCode = objSiDetDs.getColumn(i, "LEVEL_CODE");
+		var levelCodeIdx = this.tab_EstimateDet.tpg_EstimateDetSi.form.ds_cmm_LevelCode.findRow("CODE", levelCode);
+		var levelNm = this.tab_EstimateDet.tpg_EstimateDetSi.form.ds_cmm_LevelCode.getColumn(levelCodeIdx, "CAPTION");
+		
+		// N/A 인 경우 공란으로 요청
+		if(levelCode != "NA") {
+			objSiDetDs.setColumn(i, "LEVEL_PRT", levelNm);
+		}
+		
+		// 역할
+		var roleCode = objSiDetDs.getColumn(i, "ROLE_CODE");
+		var roleCodeIdx = this.tab_EstimateDet.tpg_EstimateDetSi.form.ds_cmm_RoleCode.findRow("CODE", roleCode);
+		var roleCodeNm = this.tab_EstimateDet.tpg_EstimateDetSi.form.ds_cmm_RoleCode.getColumn(roleCodeIdx, "CAPTION");
+		
+		objSiDetDs.setColumn(i, "ROLE_PRT", roleCodeNm);
+		
+		// 단위
+		var siUnit = objSiDetDs.getColumn(i, "SI_UNIT");
+		
+		var sSiUnitDs = this.tab_EstimateDet.tpg_EstimateDetSi.form.ds_cmm_SiUnit;
+		if(this.FV_REPORT_ONLY) sSiUnitDs = this.ds_cmm_SiUnit;
+		var siUnitIdx = sSiUnitDs.findRow("CODE", siUnit);
+		var siUnitNm = sSiUnitDs.getColumn(siUnitIdx, "CAPTION");
+		
+		objSiDetDs.setColumn(i, "SI_UNIT_PRT", siUnitNm);
+	}
+	
+	this.dsEstimatePrt.applyChange();
+	this.dsEstimateProductDetPrt.applyChange();
+	this.dsEstimateSiDetPrt.applyChange();
+	this.dsCompanyList.applyChange();
+	
+	// Dataset 설정
+	this.gfn_SetAddInputDs("dsEstimatePrt",			this.dsEstimatePrt);
+	this.gfn_SetAddInputDs("dsEstimateProductDetPrt",this.dsEstimateProductDetPrt);
+	this.gfn_SetAddInputDs("dsEstimateSiDetPrt",	this.dsEstimateSiDetPrt);
+	this.gfn_SetAddInputDs("dsCompanyList",			this.dsCompanyList);
+};
+
+this.fnGetCompanyList = function(sInEmpNo)
+{
+	// 공급 받는 담당자
+	this.gfnAddSendParameter("EMP_NO", sInEmpNo);
+	this.gfnAddOutputDataset("dsCompanyList", "dsOutput");
+	this.gfnCommonTransaction("CompanyList_search", "SP_ProjectTS_S05", null, false);
+};
+
+// 공통검색 component callback 처리
+this.Com_Search_onChanged = function (obj, e)
+{	
+	if (!this.gfnIsEmpty(e.newCode)) {
+		if (obj.name == "div_ProjectName") {
+			this.dsSalesDocMap.set_enableevent(false);
+			this.dsEstimate.set_enableevent(false);
+			this.dsSalesDocMap.clearData();
+			this.dsContractList.clearData();
+			this.dsEstimate.clearData();
+			this.dsEstimateProductDet.clearData();
+			this.dsEstimateSiDet.clearData();
+			this.dsEstimate.set_enableevent(true);
+			this.dsSalesDocMap.set_enableevent(true);
+			
+			this.FV_PROJECT_CODE = e.newCode;
+			this.fnSearchSalesDocMap();
+		} else if (obj.name == "div_ContractMain") {
+			this.CHANGE_ESTIMATE_NO = true;
+			var sPublisheddate = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "PUBLISHED_DATE");
+			this.fnGetEstimateNo(sPublisheddate, e.newCode);
+		} 
+	} else {
+		if (obj.name == "div_ProjectName") {
+			this.dsSalesDocMap.set_enableevent(false);
+			this.dsEstimate.set_enableevent(false);
+			this.dsSalesDocMap.clearData();
+			this.dsContractList.clearData();
+			this.dsEstimate.clearData();
+			this.dsEstimateProductDet.clearData();
+			this.dsEstimateSiDet.clearData();
+			this.dsEstimate.set_enableevent(true);
+			this.dsSalesDocMap.set_enableevent(true);
+			
+			this.FV_PROJECT_CODE = "";
+		} 
+	}
+	
+	this.fnInit();
+};
+
+this.fnSetBtn = function(idx)
+{
+	if(idx == '1') {
+		this.stc_ServerGrade.set_visible(false);
+		this.cmb_ServerGrade.set_visible(false);
+		//this.stc_MaStandard.set_visible(false);
+		//this.cmb_MaStandard.set_visible(false);
+		this.btn_SiAdd.set_visible(true);
+	} else {
+		this.stc_ServerGrade.set_visible(true);
+		this.cmb_ServerGrade.set_visible(true);
+		if(this.FV_ESTIMATE_KIND == "MA") {
+			//this.cmb_MaStandard.set_visible(true);
+			//this.stc_MaStandard.set_visible(true);
+		} 
+		//else this.cmb_MaStandard.set_visible(false);
+		this.btn_SiAdd.set_visible(false);
+	}
+};
+
+// 계약 리스트 초기화
+this.fnResetContractListChecked = function()
+{
+	for(var i = 0; i < this.dsContractList.rowcount; i++) {
+		this.dsContractList.setColumn(i, "CHK", "0");
+	}
+};
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		switch (strSvcID) 
+		{
+			case "gfnGetCode" :
+				this.ds_cmm_PayMethod.filter("VAL1=='JAP'");
+// 				var nRow = this.ds_cmm_Purpose.addRow();
+// 				this.ds_cmm_Purpose.setColumn(nRow, "CODE", "NA");
+// 				this.ds_cmm_Purpose.setColumn(nRow, "CAPTION", "N/A");
+// 				this.ds_cmm_Purpose.setColumn(nRow, "VAL2", "Studio");
+				this.fnFormInit();
+				break;
+				
+			case "SearchSalesDocMap" : 
+				if(this.dsSalesDocMap.rowcount > 0) {
+					if(!this.AUTO_SEARCH) {
+						this.dsEstimate.set_enableevent(false);
+						
+						this.fnSetFocusRowSalesDocMap(this.SALES_DOC_NO);
+						this.fnSearchEstimate(this.SALES_DOC_NO);
+						this.SALES_DOC_NO = "";
+					} else {
+						this.fnSearchEstimate();
+					}
+				}
+				else this.fnGetSalesDocNo();
+				
+				this.fnSearchContractList();
+				break;
+				
+			case "GetSalesDocNo" : 
+				this.fnInitSalesDocMap();
+				//this.fnSearchEstimate();
+				break;
+				
+			case "SearchContractList" :
+				if(this.dsDisabledContractList.rowcount > 0) {
+					for(var i = 0; i < this.dsDisabledContractList.rowcount; i++) {
+						var sContractType = this.dsDisabledContractList.getColumn(i, "CONTRACT_TYPE");
+						var sContractNo = this.dsDisabledContractList.getColumn(i, "CONTRACT_NO");
+						var sSeq = this.dsDisabledContractList.getColumn(i, "SEQ");
+						
+						var findRow;
+// 						if(sContractType == "P" || sContractType == "G") {
+// 							findRow = this.dsContractList.findRow("SEQ", sSeq);
+// 						} else {
+// 							findRow = this.dsContractList.findRow("CONTRACT_NO", sContractNo);
+// 						}
+						
+						findRow = this.dsContractList.findRow("CONTRACT_NO", sContractNo);
+						
+						if(findRow > -1 && this.FV_ESTIMATE_KIND == "PRODUCT") {
+							this.dsContractList.setColumn(findRow, "DISABLED_FLAG", "1");
+							this.dsContractList.setColumn(findRow, "COLOR", "Expr_Case_Font_green");
+						}
+					}
+				}
+				break;
+			
+			case "SearchEstimate" : 
+				this.dsSalesDocMap.set_enableevent(true);
+				
+				if(!this.AUTO_SEARCH) {
+					this.fnSetFocusRowEstimate(this.FV_EM_SEQ);
+					this.fnSearchEstimateDet(this.FV_EM_SEQ);
+					this.FV_EM_SEQ = "";
+					this.AUTO_SEARCH = true;
+				} else {
+					var sEmSeq = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "EM_SEQ");
+					if(this.gfnIsEmpty(sEmSeq)) {
+						this.fnResetContractListChecked();
+					} else {
+						this.fnSearchEstimateDet();
+					}
+				}
+				break;
+			
+			case "contractInfo" :
+				if(!this.ESTIMATE_DET_MODIFY_FLAG) this.fnGetEstimateNo();
+				else {
+					this.ESTIMATE_DET_MODIFY_FLAG = false;
+					this.fnInitEstimateDet();
+				}								
+				
+// 				if(this.dsContractDet.rowcount == 0 && this.FV_ESTIMATE_KIND == "MA" && this.FV_ESTIMATE_TYPE == "RENEWAL_ESTIMATE") {
+// 					alert(this.gfnGetTransTxt(12463,"해당 계약에 연결한 견적번호가 없습니다."));
+// 				} else {
+// 					if(this.EVT_BTN.name == "btn_InsertEstimateDet") this.fnInitEstimateDet();
+// 					else this.fnGetEstimateNo();
+// 				}
+				
+				break;
+			
+			case "GetEstimateNo" :
+				if(!this.CHANGE_ESTIMATE_NO) this.fnInitEstimate();
+				else {
+					this.fnSetEstimateNo();
+					this.CHANGE_ESTIMATE_NO = false;
+				}
+				break;
+				
+			case "SaveEstimate" : 
+				//alert(this.gfnGetTransTxt(12464,"저장 완료 되었습니다."));
+				this.fnSearchContractList();
+				
+				if(this.dsSalesDocMap.rowcount > 0) this.fnSearchEstimate();
+				
+				var curIndex = this.tab_EstimateDet.tabindex;
+				this.fnSetBtn(curIndex);
+				break;
+				
+			case "SearchEstimateDet" :
+				this.dsEstimate.set_enableevent(true);
+				
+				if(!this.FV_REPORT_ONLY) {
+					if(this.dsEstimate.rowcount > 0) {
+						var curRow = this.dsEstimate.rowposition;
+					
+						var sSubjectFlag = this.dsEstimate.getColumn(curRow, "SUBJECT_FLAG");
+						var sPayMethod = this.dsEstimate.getColumn(curRow, "PAY_METHOD");
+						var sEstimateExirationCondition = this.dsEstimate.getColumn(curRow, "ESTIMATE_EXPIRATION_CONDITION");
+						var sEstimateType = this.dsEstimate.getColumn(curRow, "ESTIMATE_TYPE");
+						
+						this.fnSetDetGrd(sEstimateType);
+						//this.fnSetPreSeq(sEstimateType);
+						
+						this.fnSetFlag(this.div_EstimateInfo.form.chk_SubjectFlag, sSubjectFlag);
+						this.fnSetFlag(this.div_EstimateInfo.form.cmb_PayMethod, sPayMethod);
+						this.fnSetFlag(this.div_EstimateInfo.form.cmb_EstimateExpirationCondition, sEstimateExirationCondition);
+					} 
+				}
+				
+				// 계약번호 체크박스 초기화
+				this.fnResetContractListChecked();
+				
+				if(this.FV_REPORT_ONLY) {
+					if(this.FV_ESTIMATE_KIND == "PRODUCT") {
+						if(this.fnSearchContractPrice()) {
+							this.fnApproval();
+						} else {
+							this.commUtil.popupClose("");
+						}
+					} else {
+						this.fnApproval();
+					}
+				} else {
+					var curRow = this.dsEstimate.rowposition;
+					var sEstimateType = this.dsEstimate.getColumn(curRow, "ESTIMATE_TYPE");
+						
+					this.fnSetDetGrd(sEstimateType);
+					//this.fnSetPreSeq(sEstimateType);
+					this.fnConsumptionTax();
+					
+					this.fnInit();
+					
+					if(this.dsCheckedContractNo.rowcount > 0) {
+						for(var i = 0; i < this.dsCheckedContractNo.rowcount; i++) {
+							var sContractType = this.dsCheckedContractNo.getColumn(i, "CONTRACT_TYPE");
+							var sContractNo = this.dsCheckedContractNo.getColumn(i, "CONTRACT_NO");
+							var sSeq = this.dsCheckedContractNo.getColumn(i, "SEQ");
+							
+							var findRow = this.dsContractList.findRow("CONTRACT_NO", sContractNo);
+// 							if(sContractType == "P" || sContractType == "G") {
+// 								findRow = this.dsContractList.findRow("SEQ", sSeq);
+// 							} else {
+// 								findRow = this.dsContractList.findRow("CONTRACT_NO", sContractNo);
+// 							}
+							 
+							var sDisabledContractNo = this.dsContractList.getColumn(findRow, "DISABLED_FLAG");
+							//if(findRow > -1 && sDisabledContractNo != '1') this.dsContractList.setColumn(findRow, "CHK", "1");
+							if(findRow > -1) this.dsContractList.setColumn(findRow, "CHK", "1");
+						}
+					}
+				}
+				
+				this.fnSetServerGrade();
+				//if(this.FV_ESTIMATE_KIND == "MA") this.fnSetMaStandard();
+				break;
+			
+			case "SaveFinalEstimate" :
+				alert(this.gfnGetTransTxt(12464,"저장 완료 되었습니다."));
+				
+				this.fnSearchContractList();
+				this.fnSearchEstimate();
+				break;
+				
+			case "SearchContractPrice" :
+				break;
+		}
+	}
+};
+
+// 팝업 콜백
+ this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		switch(sPopupId)
+		{
+			case "popupPreEstimateListPopup" :
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				
+				var sPreEmSeq = ds.getColumn(0, "EM_SEQ");
+				var sPreEstimateNo = ds.getColumn(0, "ESTIMATE_NO");
+				this.dsEstimate.setColumn(this.dsEstimate.rowposition, "PRE_EM_SEQ", sPreEmSeq);
+				this.dsEstimate.setColumn(this.dsEstimate.rowposition, "PRE_ESTIMATE_NO", sPreEstimateNo);
+				break;
+			case "popupOrgEstimateListPopup" :
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				
+				var sOrgEmSeq = ds.getColumn(0, "EM_SEQ");
+				var sOrgEstimateNo = ds.getColumn(0, "ESTIMATE_NO");
+				this.dsEstimate.setColumn(this.dsEstimate.rowposition, "ORG_EM_SEQ", sOrgEmSeq);
+				this.dsEstimate.setColumn(this.dsEstimate.rowposition, "ORG_ESTIMATE_NO", sOrgEstimateNo);
+				break;
+				
+			case "popApproval" :
+				if(this.FV_REPORT_ONLY) this.commUtil.popupClose();
+				break;
+			
+			case "popupFinalEstimatePopup" :
+				if(Variant == "close") {
+					this.dsEstimate.set_enableevent(false);
+					this.dsEstimate.setColumn(this.dsEstimate.rowposition, "FINAL_ESTIMATE_FLAG", "0");
+					this.dsEstimate.set_enableevent(true);
+				} else {
+					alert(this.gfnGetTransTxt(12464,"저장 완료 되었습니다."));
+					this.fnSearchContractList();
+					this.fnSearchEstimate();
+				}				
+				break;
+				
+			case "popupPreEstimateSiPopup" :
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				
+				var curRow = this.dsEstimate.rowposition;
+				var sStartDate = this.dsEstimate.getColumn(curRow, "START_DATE");
+				var sEndDate = this.dsEstimate.getColumn(curRow, "START_DATE");
+				var sMaMenMonth = this.dsEstimate.getColumn(curRow, "MA_MEN_MONTH");
+				
+				var sEmSeq = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "EM_SEQ");
+				if(ds.rowcount > 0 ) {
+					var sMinDate = ds.getMin("START_DATE");
+					var sMaxDate = ds.getMax("END_DATE");
+					
+					if(this.gfnIsEmpty(sStartDate))  {
+						this.dsEstimate.setColumn(curRow, "START_DATE", sMinDate);
+						sStartDate = sMinDate;
+					}
+					if(this.gfnIsEmpty(sEndDate))  {
+						this.dsEstimate.setColumn(curRow, "END_DATE", sMaxDate);
+						sEndDate = sMaxDate;
+					}
+					
+					if(this.gfnIsEmpty(sMaMenMonth) || !this.gfnIsEmpty(sStartDate) && !this.gfnIsEmpty(sEndDate) && sMaMenMonth == 0) this.setMaMenMonth();
+					
+					for(var i = 0; i < ds.rowcount; i++) {
+						var sNewCsdSeq = ds.getColumn(i, "CSD_SEQ");
+						var findRow = this.dsEstimateSiDet.findRow("CSD_SEQ", sNewCsdSeq);
+						if(findRow == -1) {
+							var nRow = this.dsEstimateSiDet.addRow();
+							
+							// copyRow 시 oncolumnchanged 이벤트 발생해서 표준가격 넣기가 불가하여 강제 적으로 먼저 값 기입
+							var sMenMonth = ds.getColumn(i, "MEN_MONTH");
+							var sUnitCost = ds.getColumn(i, "UNIT_COST");
+							var sSalesUnitCost = ds.getColumn(i, "SALES_UNIT_COST");
+							
+							this.dsEstimateSiDet.setColumn(nRow, "MEN_MONTH", sMenMonth);
+							this.dsEstimateSiDet.setColumn(nRow, "UNIT_COST", sUnitCost);
+							this.dsEstimateSiDet.setColumn(nRow, "SALES_UNIT_COST", sSalesUnitCost);
+							
+							this.dsEstimateSiDet.copyRow(nRow, ds, i);
+							if(!this.gfnIsEmpty(sEmSeq)) this.dsEstimateSiDet.setColumn(nRow, "EM_SEQ", sEmSeq);
+						}
+					}
+				}
+				
+				this.fnConsumptionTax();
+				break;
+		}
+	}
+};
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var curRow = this.dsEstimate.rowposition;
+	var sDocStatus = this.dsEstimate.getColumn(curRow, "DOC_STATUS");
+	if((!this.gfnIsEmpty(sDocStatus) && sDocStatus != "REPORT")
+		&& 
+		(obj.name == "btn_Save" 
+		|| obj.name == "btn_Down"
+		|| obj.name == "btn_Up"
+		|| obj.name == "btn_EstimateDetDelete"))
+	{
+		alert(this.gfnGetTransTxt(12465,"상신이 아닌 결재 진행 문서는 수정이 불가 합니다."));
+		return;
+	}
+	else 
+	{
+		switch(obj.name) {
+			case "btn_Close": case "btn_Cancel":
+				//this.close();
+				if(this.FV_ESTIMATE_KIND == "PRODUCT") {
+					var rtn = this.fnSearchContractPrice(obj.name);
+					if(!rtn) {
+						if(this.confirm(this.gfnGetTransTxt(22555,"영업관리 내용과 다릅니다. 그래도 창을 닫으시겠습니까?"))) {
+							this.commUtil.popupClose("");
+						}
+					} else {
+						this.commUtil.popupClose("");
+					}
+				} else {
+					this.commUtil.popupClose("");
+				}
+								
+				break;
+				
+			case "btn_SalesDocMapAdd" : 
+				this.EVT_BTN = obj;
+				if(this.gfnIsEmpty(this.FV_PROJECT_CODE)) {
+					alert(this.gfnGetTransTxt(22550,"프로젝트를 선택해주세요."));
+					return;
+				} else {
+					if(this.fnUpdateCheck(this.EVT_BTN)) {
+						this.dsEstimate.clearData();
+						this.dsEstimateProductDet.clearData();
+						this.dsEstimateSiDet.clearData();
+						this.fnSalesDocMapAdd();
+					}
+				}				
+				break;
+				
+			case "btn_SalesDocMapDel" :
+				if(this.gfnIsEmpty(this.FV_PROJECT_CODE)) {
+					alert(this.gfnGetTransTxt(22550,"프로젝트를 선택해주세요."));
+					return;
+				} else {
+					if(this.confirm(this.gfnGetTransTxt(12491,"해당 영업문서를 삭제 하시겠습니까? \n하위 견적서 내용도 같이 삭제 됩니다."))) {
+						this.dsSalesDocMap.set_enableevent(false);
+						this.dsEstimate.set_enableevent(false);
+						
+						this.dsEstimateProductDet.deleteAll();
+						this.dsEstimateSiDet.deleteAll();
+						this.dsEstimate.deleteRow(this.dsEstimate.rowposition);
+						this.dsSalesDocMap.deleteRow(this.dsSalesDocMap.rowposition);
+						
+						this.dsSalesDocMap.set_enableevent(true);
+						this.dsEstimate.set_enableevent(true);
+						
+						this.fnSaveEstimate();
+					}
+				}
+				break;
+				
+			case "btn_EstimateAdd" : 
+				this.EVT_BTN = obj;
+				
+				if(this.dsSalesDocMap.rowcount > 0) {
+					var sCnt = this.dsContractList.getCaseCount("CHK=='1'&&DISABLED_FLAG!='1'");
+					var sSiCnt = this.dsContractList.getCaseCount("DISABLED_FLAG!='1'&&CHK=='1'&&CONTRACT_TYPE=='S'||CHK=='1'&&CONTRACT_TYPE=='T'");
+					if(sCnt > 0) {
+						if(this.fnUpdateCheck(this.EVT_BTN)) {
+							this.dsEstimateProductDet.clearData();
+							this.dsEstimateSiDet.clearData();
+							
+							if(sSiCnt > 0) {
+								this.fnOpenSiPopup();
+							} 
+							
+							this.fnSetFlag(this.div_EstimateInfo.form.chk_SubjectFlag, "0");
+							this.fnSetFlag(this.div_EstimateInfo.form.cmb_PayMethod, "001");
+							this.fnSetFlag(this.div_EstimateInfo.form.cmb_EstimateExpirationCondition, "001");
+							
+							this.fnSetDetGrd(this.FV_ESTIMATE_TYPE);
+							
+							this.fnContractInfo();
+						}
+					} else {
+						alert(this.gfnGetTransTxt(12466,"추가할 계약을 선택 하세요.")); return;
+					}
+				} else {
+					alert(this.gfnGetTransTxt(22551,"견적 목록을 생성해 주세요."));
+					return;
+				}
+				
+				break;
+			
+			case "btn_EstimateDel" :
+				if(this.dsEstimate.rowcount > 0) {
+					if(this.confirm(this.gfnGetTransTxt(12490,"해당 견적서를 삭제 하시겠습니까? \n하위 견적서 내용도 같이 삭제 됩니다."))) {
+						this.dsEstimate.set_enableevent(false);
+						
+						this.dsEstimateProductDet.deleteAll();
+						this.dsEstimateSiDet.deleteAll();
+						this.dsEstimate.deleteRow(this.dsEstimate.rowposition);
+						
+						this.dsEstimate.set_enableevent(true);
+						
+						this.fnSaveEstimate();
+					}
+				}				
+				break;
+				
+			case "btn_Copy" : //복사추가
+				if(this.dsEstimate.rowcount > 0) {
+					if(this.confirm(this.gfnGetTransTxt(12493,"계약 복사 하시겠습니까?"))) {
+						this.fnCopyEstimate();
+					}
+				}
+				break;
+				
+			case "btn_Up" :
+				var curIndex = this.tab_EstimateDet.tabindex;
+				
+				var sDsId;
+				if(curIndex == 0) sDsId = this.tab_EstimateDet.tabpages[curIndex].form.div_EstimateProductDet.form.grd_EstimateProductDet.binddataset;
+				else sDsId = this.tab_EstimateDet.tabpages[curIndex].form.div_EstimateSiDet.form.grd_EstimateSiDet.binddataset;
+				
+				var objDs = this.objects[sDsId];
+				
+				var nRow = objDs.rowposition;
+				if (nRow > 0)
+				{
+					objDs.moveRow(nRow, nRow-1);
+					objDs.set_rowposition(nRow-1);
+				}
+				break;
+				
+			case "btn_Down" :
+				var curIndex = this.tab_EstimateDet.tabindex;
+				
+				var sDsId;
+				if(curIndex == 0) sDsId = this.tab_EstimateDet.tabpages[curIndex].form.div_EstimateProductDet.form.grd_EstimateProductDet.binddataset;
+				else sDsId = this.tab_EstimateDet.tabpages[curIndex].form.div_EstimateSiDet.form.grd_EstimateSiDet.binddataset;
+				
+				var objDs = this.objects[sDsId];
+				
+				var nRow = objDs.rowposition;
+				if (nRow < (objDs.rowcount-1))
+				{
+					objDs.moveRow(nRow, nRow+1);
+					objDs.set_rowposition(nRow+1);
+				}
+				break;
+				
+			case "btn_EstimateDetAdd" :
+				var curIndex = this.tab_EstimateDet.tabindex;
+				var objDs;
+				
+				if(curIndex == 0) objDs = this.dsEstimateProductDet;
+				else objDs = this.dsEstimateSiDet;
+				
+				objDs.set_enableevent(false);
+				
+				var curRow = objDs.rowposition;
+				if(curRow == -1) {
+					alert(this.gfnGetTransTxt(22552,"분기할 데이터를 선택 하세요."))
+				} else {
+					if(curIndex == 0) {
+						var sCrdSeq = objDs.getColumn(curRow, "CRD_SEQ");
+						var sCnt = this.dsEstimateProductDet.getCaseCount("DIVISION_FLAG=='0' && CRD_SEQ=='" + sCrdSeq +"'");
+						if(sCnt == 0) objDs.setColumn(curRow, "DIVISION_FLAG", "0");
+					} else if(curIndex == 1) {
+						var sCsdSeq = objDs.getColumn(curRow, "CSD_SEQ");
+						var sCnt = this.dsEstimateProductDet.getCaseCount("DIVISION_FLAG=='0' && CSD_SEQ=='" + sCsdSeq +"'");
+						if(sCnt == 0) objDs.setColumn(curRow, "DIVISION_FLAG", "0");
+					}
+					
+					var nRow = objDs.insertRow(curRow + 1);
+					objDs.copyRow(nRow, objDs, curRow);
+					if(curIndex == 0) {
+						var sCrdSeq = objDs.getColumn(curRow, "CRD_SEQ");
+						objDs.setColumn(nRow, "DIVISION_FLAG", "1");
+						objDs.setColumn(nRow, "DIVISION_CRD_SEQ", sCrdSeq);
+					} else if(curIndex == 1) {
+						var sCsdSeq = objDs.getColumn(curRow, "CSD_SEQ");
+						objDs.setColumn(nRow, "DIVISION_FLAG", "1");
+						objDs.setColumn(nRow, "DIVISION_CSD_SEQ", sCsdSeq);
+					} 
+				}
+				
+				objDs.set_enableevent(true);
+				this.fnConsumptionTax("MODIFY");
+				break;
+				
+			case "btn_EstimateDetDelete" : 
+				if(this.confirm(this.gfnGetTransTxt(12492,"해당 상세 계약을 삭제 하시겠습니까?"))) {
+					var curIndex = this.tab_EstimateDet.tabindex;
+					var objDs;
+					
+					if(curIndex == 0) objDs = this.dsEstimateProductDet;
+					else objDs = this.dsEstimateSiDet;
+					
+					objDs.set_enableevent(false);
+					
+					var curRow = objDs.rowposition;
+					if(curIndex == 0) {
+						var sCrdSeq = objDs.getColumn(curRow, "CRD_SEQ");
+						var sDivisionFlag = objDs.getColumn(curRow, "DIVISION_FLAG");
+						var sCnt = this.dsEstimateProductDet.getCaseCount("DIVISION_FLAG=='1' && CRD_SEQ=='" + sCrdSeq + "'");
+						if(sCnt > 0 && sDivisionFlag == "0") {
+							alert(this.gfnGetTransTxt(22553,"분기된 데이터가 존재 합니다. 원본 데이터를 삭제 할 수 없습니다.")); 
+							return;
+						} else {
+							objDs.deleteRow(curRow);
+						}
+					} else {
+						objDs.deleteRow(curRow);
+					}
+					
+					objDs.set_enableevent(true);
+					this.fnConsumptionTax("MODIFY");
+				}
+				break;
+				
+// 			case "btn_InsertEstimateDet" : 
+// 				this.EVT_BTN = obj;
+// 				var sSiCnt = this.dsContractList.getCaseCount("CHK=='1'&&CONTRACT_TYPE=='S'||CHK=='1'&&CONTRACT_TYPE=='T'");
+// 				if(sSiCnt > 0) {
+// 					this.fnOpenSiPopup();
+// 				} 
+// 				this.fnContractInfo();
+// 				break;
+				
+			case "btn_Save" : // 저장
+				if(this.fnValidation('Save')) {
+					this.fnSetData();
+					this.fnSaveEstimate();
+				}
+				break;
+				
+			case "btn_Approval" : // 결재
+				this.EVT_BTN = obj;
+				var sEmSeq = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "EM_SEQ");
+				
+				if(this.dsEstimate.rowcount > 0 ) {
+					if(this.fnUpdateCheck(this.EVT_BTN)) {
+						if(this.FV_ESTIMATE_KIND == "PRODUCT") {
+							if(this.fnSearchContractPrice(obj.name)) {
+								if(this.fnValidation('approval')) {
+									this.fnApproval();
+								}
+							}
+						} else {
+							if(this.fnValidation('approval')) {
+								this.fnApproval();
+							}
+						}
+					}
+				} else {
+					alert(this.gfnGetTransTxt(12467,"견적서를 먼저 추가해 주세요."));
+					return;
+				}
+				break;
+				
+			case "btn_SiAdd" : // SI추가
+				var sSiCnt = this.dsContractList.getCaseCount("CHK=='1'&&CONTRACT_TYPE=='S'||CHK=='1'&&CONTRACT_TYPE=='T'");
+				if(sSiCnt > 0) {
+ 					this.fnOpenSiPopup();
+ 				} 
+				break;
+				
+			case "btn_OrgEstimateNoDelete" : // 원견적번호 삭제
+				var curRow = this.dsEstimate.rowposition;
+				var sOrgEmSeq = this.dsEstimate.getColumn(curRow, "ORG_EM_SEQ");
+				this.dsEstimate.setColumn(curRow, "ORG_EM_SEQ", null);
+				this.dsEstimate.setColumn(curRow, "ORG_ESTIMATE_NO", null);
+				break;
+				
+			case "btn_PreEstimateNoDelete" : // 이전견적번호 삭제
+				var curRow = this.dsEstimate.rowposition;
+				var sOrgEmSeq = this.dsEstimate.getColumn(curRow, "PRE_EM_SEQ");
+				this.dsEstimate.setColumn(curRow, "PRE_EM_SEQ", null);
+				this.dsEstimate.setColumn(curRow, "PRE_ESTIMATE_NO", null);
+				break;
+		}
+	}
+};
+
+this.dsEstimateSiDet_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	var sMode = "";
+	if(e.columnid == "UNIT_COST") {
+		var sMenMonth = obj.getColumn(e.row, "MEN_MONTH");
+		var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+		
+		obj.setColumn(e.row, "STANDARD_PRICE", sMenMonth * sUnitCost);
+	} else if(e.columnid == "STANDARD_PRICE") {
+		var sMenMonth = obj.getColumn(e.row, "MEN_MONTH");
+		var sStandardPrice = obj.getColumn(e.row, "STANDARD_PRICE");
+		
+		obj.setColumn(e.row, "UNIT_COST", nexacro.round(sStandardPrice / sMenMonth));
+	} else if(e.columnid == "MEN_MONTH") {
+		var sMenMonth = obj.getColumn(e.row, "MEN_MONTH");
+		var sSalesUnitCost = obj.getColumn(e.row, "SALES_UNIT_COST");
+		var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+		
+		obj.setColumn(e.row, "STANDARD_PRICE", sMenMonth * sUnitCost);
+		obj.setColumn(e.row, "CONTRACT_PRICE", nexacro.round(sMenMonth * sSalesUnitCost));
+		sMode = "MODIFY";
+	} else if(e.columnid == "SALES_UNIT_COST") {
+		var sMenMonth = obj.getColumn(e.row, "MEN_MONTH");
+		var sSalesUnitCost = obj.getColumn(e.row, "SALES_UNIT_COST");
+		
+		obj.setColumn(e.row, "CONTRACT_PRICE", nexacro.round(sMenMonth * sSalesUnitCost));
+		sMode = "MODIFY";
+	} 
+	this.fnConsumptionTax(sMode);
+};
+
+/*
+	곱하기 나누기 할 시 금액 관련 된 데이터 반올림 처리
+*/
+this.dsEstimateProductDet_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	var sMode = "";
+	
+	var sEstimateType = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "ESTIMATE_TYPE");
+	// 단가(소비자) 변경 시 표준금액(소비자)
+	if(e.columnid == "UNIT_COST") {
+		// 제품 견적서, 유지보수 신규 견적서
+		if(this.FV_ESTIMATE_KIND =="PRODUCT" || (this.FV_ESTIMATE_KIND =="MA" && sEstimateType == "NEW_ESTIMATE")) {
+			var sQuantity = obj.getColumn(e.row, "QUANTITY");
+			var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+			
+			obj.setColumn(e.row, "STANDARD_PRICE", sQuantity * sUnitCost);
+		} 
+		// 유지보수 갱신 견적서
+		else if(this.FV_ESTIMATE_KIND =="MA" && sEstimateType == "RENEWAL_ESTIMATE") {
+			var sQuantity = obj.getColumn(e.row, "QUANTITY");
+			var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+			
+			obj.setColumn(e.row, "CONTRACT_PRICE", nexacro.round(sQuantity * sUnitCost));
+			sMode = "MODIFY";
+		}
+	} 
+	// 수량 변경 시
+	else if(e.columnid == "QUANTITY") {
+		// 제품 견적서 표준금액(소비자), 금액 반올림
+		if(this.FV_ESTIMATE_KIND =="PRODUCT") {
+			var sQuantity = obj.getColumn(e.row, "QUANTITY");
+			var sDeliveryCosty = obj.getColumn(e.row, "DELIVERY_COST");
+			var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+			
+			obj.setColumn(e.row, "STANDARD_PRICE", sQuantity * sUnitCost);
+			obj.setColumn(e.row, "CONTRACT_PRICE", nexacro.round(sQuantity * sDeliveryCosty));
+			sMode = "MODIFY";
+		} 
+		// 신규 유지보수 견적서 금액 반올림
+		else if(this.FV_ESTIMATE_KIND =="MA" && sEstimateType == "NEW_ESTIMATE"){
+			var sMaRate = obj.getColumn(e.row, "MA_RATE");
+			var sQuantity = obj.getColumn(e.row, "QUANTITY");
+			var sDeliveryCosty = obj.getColumn(e.row, "DELIVERY_COST");
+			var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+			
+			obj.setColumn(e.row, "STANDARD_PRICE", sQuantity * sUnitCost);
+			obj.setColumn(e.row, "CONTRACT_PRICE", nexacro.round(sQuantity * sDeliveryCosty * sMaRate / 100));
+			sMode = "MODIFY";
+		}
+		// 갱신 유지보수 견적서 금액 반올림
+		else if(this.FV_ESTIMATE_KIND =="MA" && sEstimateType == "RENEWAL_ESTIMATE"){
+			var sQuantity = obj.getColumn(e.row, "QUANTITY");
+			var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+			
+			obj.setColumn(e.row, "CONTRACT_PRICE", nexacro.round(sQuantity * sUnitCost));
+			sMode = "MODIFY";
+		}
+	}
+	// 표준금액(소비자) 변경 시
+	else if(e.columnid == "STANDARD_PRICE") {
+		// 단가(소비자) 변경
+		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+		var sStandardPrice = obj.getColumn(e.row, "STANDARD_PRICE");
+		
+		obj.setColumn(e.row, "UNIT_COST", nexacro.round(sStandardPrice / sQuantity));
+	} 
+	// 제품납품단가 변경 시
+	else if(e.columnid == "DELIVERY_COST") {
+		// 제품 견적서 금액 변경(반올림)
+		if(this.FV_ESTIMATE_KIND =="PRODUCT") {
+			var sDeliveryCosty = e.newvalue;
+			var sQuantity = obj.getColumn(e.row, "QUANTITY");
+			obj.setColumn(e.row, "CONTRACT_PRICE", nexacro.round(sQuantity * sDeliveryCosty));
+			sMode = "MODIFY";
+		} 
+		// 유지보수 신규 견적서 금액 변경(반올림)
+		else if(this.FV_ESTIMATE_KIND =="MA") {
+			var sMaRate = obj.getColumn(e.row, "MA_RATE");
+			var sDeliveryCosty = e.newvalue;
+			var sQuantity = obj.getColumn(e.row, "QUANTITY");
+			obj.setColumn(e.row, "CONTRACT_PRICE", nexacro.round(sQuantity * sDeliveryCosty * sMaRate / 100));
+			sMode = "MODIFY";
+		}
+	}
+	// 요율 변경 시 (유지보수 신규 견적서에만 해당)
+	else if(e.columnid == "MA_RATE" && sEstimateType == "NEW_ESTIMATE") {
+		var sMaRate = obj.getColumn(e.row, "MA_RATE");
+		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+		var sDeliveryCosty = obj.getColumn(e.row, "DELIVERY_COST");
+		
+		obj.setColumn(e.row, "CONTRACT_PRICE", nexacro.round(sQuantity * sDeliveryCosty * sMaRate / 100));
+		sMode = "MODIFY";
+	}
+	// 금액 변경 시
+	else if(e.columnid == "CONTRACT_PRICE") {
+		// 제품납품단가 변경 ( 제품 견적서에만 )
+		if(this.FV_ESTIMATE_KIND =="PRODUCT") {
+			var sQuantity = obj.getColumn(e.row, "QUANTITY");
+			var sContractPrice = obj.getColumn(e.row, "CONTRACT_PRICE");
+			
+			obj.setColumn(e.row, "DELIVERY_COST", nexacro.round(sContractPrice / sQuantity));
+		}
+		sMode = "MODIFY";
+	}
+	// 용도 변경 시
+	else if(e.columnid == "PURPOSE") {
+		var sPurpose = e.newvalue;
+		var findRow = this.ds_cmm_Purpose.findRow("CODE", sPurpose);
+		
+		var val2 = this.ds_cmm_Purpose.getColumn(findRow, "VAL2");
+		
+		obj.setColumn(e.row, "PRODUCT_INFO_DET", val2);
+	}
+	
+	
+// 	if(this.FV_ESTIMATE_KIND =="PRODUCT" && (e.columnid == "QUANTITY" || e.columnid == "UNIT_COST")) {
+// 		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+// 		var sDeliveryCosty = obj.getColumn(e.row, "DELIVERY_COST");
+// 		var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+// 		
+// 		obj.setColumn(e.row, "STANDARD_PRICE", sQuantity * sUnitCost);
+// 		obj.setColumn(e.row, "CONTRACT_PRICE", sQuantity * sDeliveryCosty);
+// 		sMode = "MODIFY";
+// 	} else if(this.FV_ESTIMATE_KIND =="MA" && sEstimateType == "NEW_ESTIMATE" && (e.columnid == "QUANTITY" || e.columnid == "UNIT_COST")) {
+// 		var sMaRate = obj.getColumn(e.row, "MA_RATE");
+// 		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+// 		var sDeliveryCosty = obj.getColumn(e.row, "DELIVERY_COST");
+// 		var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+// 		
+// 		obj.setColumn(e.row, "STANDARD_PRICE", sQuantity * sUnitCost);
+// 		obj.setColumn(e.row, "CONTRACT_PRICE", sQuantity * sDeliveryCosty * sMaRate / 100);
+// 		sMode = "MODIFY";
+// 	} else if(this.FV_ESTIMATE_KIND =="MA" && sEstimateType == "RENEWAL_ESTIMATE" && (e.columnid == "QUANTITY" || e.columnid == "UNIT_COST")) {
+// 		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+// 		var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+// 		
+// 		obj.setColumn(e.row, "STANDARD_PRICE", sQuantity * sUnitCost);
+// 		obj.setColumn(e.row, "CONTRACT_PRICE", sQuantity * sUnitCost);
+// 		sMode = "MODIFY";
+// 	} else if(e.columnid == "STANDARD_PRICE") {
+// 		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+// 		var sStandardPrice = obj.getColumn(e.row, "STANDARD_PRICE");
+// 		
+// 		obj.setColumn(e.row, "UNIT_COST", sStandardPrice / sQuantity);
+// 	} else if(e.columnid == "PURPOSE") {
+// 		var sPurpose = e.newvalue;
+// 		var findRow = this.ds_cmm_Purpose.findRow("CODE", sPurpose);
+// 		
+// 		var val2 = this.ds_cmm_Purpose.getColumn(findRow, "VAL2");
+// 		
+// 		obj.setColumn(e.row, "PRODUCT_INFO_DET", val2);
+// 	} else if(this.FV_ESTIMATE_KIND =="PRODUCT" && e.columnid == "DELIVERY_COST") {
+// 		var sDeliveryCosty = e.newvalue;
+// 		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+// 		obj.setColumn(e.row, "CONTRACT_PRICE", sQuantity * sDeliveryCosty);
+// 		sMode = "MODIFY";
+// 	} else if(this.FV_ESTIMATE_KIND =="MA" && e.columnid == "DELIVERY_COST") {
+// 		var sMaRate = obj.getColumn(e.row, "MA_RATE");
+// 		var sDeliveryCosty = e.newvalue;
+// 		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+// 		obj.setColumn(e.row, "CONTRACT_PRICE", sQuantity * sDeliveryCosty * sMaRate / 100);
+// 		sMode = "MODIFY";
+// 	} else if(this.FV_ESTIMATE_KIND =="MA" && (e.columnid == "MA_RATE" || e.columnid == "DELIVERY_COST")) {
+// 		var sMaRate = obj.getColumn(e.row, "MA_RATE");
+// 		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+// 		var sDeliveryCosty = obj.getColumn(e.row, "DELIVERY_COST");
+// 		
+// 		obj.setColumn(e.row, "CONTRACT_PRICE", sQuantity * sDeliveryCosty * sMaRate / 100);
+// 		sMode = "MODIFY";
+// 	} else if(this.FV_ESTIMATE_KIND =="PRODUCT" && e.columnid == "CONTRACT_PRICE") {
+// 		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+// 		var sContractPrice = obj.getColumn(e.row, "CONTRACT_PRICE");
+// 		
+// 		obj.setColumn(e.row, "DELIVERY_COST", nexacro.round(sContractPrice / sQuantity));
+// 		sMode = "MODIFY";
+// 	} 
+// 	else if(this.FV_ESTIMATE_KIND =="MA" && e.columnid == "CONTRACT_PRICE") {
+// 		var sMaRate = obj.getColumn(e.row, "MA_RATE");
+// 		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+// 		var sContractPrice = obj.getColumn(e.row, "CONTRACT_PRICE");
+// 		
+// 		obj.setColumn(e.row, "DELIVERY_COST", nexacro.round(sContractPrice / sQuantity / sMaRate * 100));
+// 		sMode = "MODIFY";
+// 	}
+	
+	this.fnConsumptionTax(sMode);
+};
+
+this.div_EstimateInfo_cmb_EstimateType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSetDetGrd(e.postvalue);
+	this.fnConsumptionTax();
+	
+	this.dsEstimateProductDet.set_enableevent(false);
+	this.fnSetUnitCost();
+	this.dsEstimateProductDet.set_enableevent(true);
+};
+
+this.div_EstimateInfo_cmb_ConsumptionTax_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnConsumptionTax("MODIFY");
+};
+
+this.common_Flag = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	this.fnSetFlag(obj, e.postvalue);
+};
+
+this.div_EstimateInfo_cmb_PayMethod_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSetFlag(obj, e.postvalue);
+};
+
+this.div_EstimateInfo_cmb_EstimateExpirationCondition_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSetFlag(obj, e.postvalue);
+};
+
+this.div_EstimateInfo_cal_PublishedDate_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	this.CHANGE_ESTIMATE_NO = true;
+	var sEstimateNo = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "ESTIMATE_NO");
+	
+	var sSeq = sEstimateNo.substr(-4); // right 4글자 자르기
+	
+	if(e.prevalue.substr(0, 4) != e.postvalue.substr(0, 4)) sSeq = 0;
+	
+	var sContractMain = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "CONTRACT_MAIN");
+	this.fnGetEstimateNo(e.postvalue, sContractMain, sSeq);
+};
+
+this.tab_EstimateDet_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChangeEventInfo)
+{
+	this.fnSetBtn(e.postindex);
+	this.fnSetDetSummary();
+};
+
+this.div_EstimateEtc_btn_OrgEstimateNo_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var Argument =  {
+						pvProjectCode:this.FV_PROJECT_CODE
+					   ,pvSalesDocNo:this.dsSalesDocMap.getColumn(this.dsSalesDocMap.rowposition, "SALES_DOC_NO")
+					};
+	this.commUtil.popup(this, "popupOrgEstimateListPopup", "Sales::SS_EstimateListPopup.xfdl", -1, -1, 1000, 400, true, false, false, Argument, "fnPopupCallBack");
+};
+
+this.div_EstimateEtc_btn_PreEstimateNo_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var Argument =  {
+						pvProjectCode:this.FV_PROJECT_CODE
+					   ,pvSalesDocNo:this.dsSalesDocMap.getColumn(this.dsSalesDocMap.rowposition, "SALES_DOC_NO")
+					};
+	this.commUtil.popup(this, "popupPreEstimateListPopup", "Sales::SS_EstimateListPopup.xfdl", -1, -1, 1000, 400, true, false, false, Argument, "fnPopupCallBack");
+};
+
+this.div_ContractList_grd_ContractList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var curRow = this.dsEstimate.rowposition;
+	var sEstimateNo = this.dsEstimate.getColumn(curRow, "ESTIMATE_NO");
+	var sDocStatus = this.dsEstimate.getColumn(curRow, "DOC_STATUS");
+	
+	if(!this.gfnIsEmpty(sEstimateNo) && (this.gfnIsEmpty(sDocStatus) || sDocStatus == "REPORT")) {
+		if(e.cell == 0) {
+			var curRow = this.dsContractList.rowposition;
+			var sContractType = this.dsContractList.getColumn(curRow, "CONTRACT_TYPE");
+			var sChecked = this.dsContractList.getColumn(curRow, "CHK");
+			
+			if(sChecked == "1") {
+				var sContractNo = this.dsContractList.getColumn(this.dsContractList.rowposition, "CONTRACT_NO");
+				if(sContractType == "S" || sContractType == "T") {
+					this.fnOpenSiPopup(sContractNo);
+				} else {
+					this.ESTIMATE_DET_MODIFY_FLAG = true;
+					
+					this.fnContractInfo(sContractNo);
+				}
+			} else {
+				var sContractNo = this.dsContractList.getColumn(curRow, "CONTRACT_NO");
+				var delProdCount = this.dsEstimateProductDet.getCaseCount("CONTRACT_NO=='"+sContractNo+"'");
+				var delSiCount = this.dsEstimateSiDet.getCaseCount("CONTRACT_NO=='"+sContractNo+"'");
+				
+				if(delProdCount > 0 ) {
+					this.dsEstimateProductDet.filter("CONTRACT_NO=='"+sContractNo+"'");
+					this.dsEstimateProductDet.deleteAll();
+					this.dsEstimateProductDet.filter("");
+				} else if(delSiCount > 0) {
+					this.dsEstimateSiDet.filter("CONTRACT_NO=='"+sContractNo+"'");
+					this.dsEstimateSiDet.deleteAll();
+					this.dsEstimateSiDet.filter("");
+				}
+			}
+			this.fnConsumptionTax("MODIFY");
+		}
+	}	
+};
+
+this.dsEstimate_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var objDsList = {
+		Estimate: this.dsEstimate,
+		EstimateProductDet: this.dsEstimateProductDet,
+		EstimateSiDet: this.dsEstimateSiDet
+	}
+	
+	if(this.gfnIsUpdateDsList(objDsList)) {
+		this.alert(this.gfnGetTransTxt(1361,"변경된 내용이 있습니다. 저장후 진행하세요."));
+		this.dsEstimate.set_enableevent(false);
+		this.dsEstimate.set_rowposition(e.oldrow);
+		this.dsEstimate.set_enableevent(true);
+		return;
+	} else {
+		var sEmSeq = this.dsEstimate.getColumn(this.dsEstimate.rowposition, "EM_SEQ");
+		if(this.gfnIsEmpty(sEmSeq)) this.fnResetContractListChecked();
+		else this.fnSearchEstimateDet();
+	}
+};
+
+this.dsSalesDocMap_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var objDsList = {
+		salesDocMap: this.dsSalesDocMap,
+		Estimate: this.dsEstimate,
+		EstimateProductDet: this.dsEstimateProductDet,
+		EstimateSiDet: this.dsEstimateSiDet
+	}
+	
+	if(this.gfnIsUpdateDsList(objDsList)) {
+		this.alert(this.gfnGetTransTxt(1361,"변경된 내용이 있습니다. 저장후 진행하세요."));
+		this.dsSalesDocMap.set_enableevent(false);
+		this.dsSalesDocMap.set_rowposition(e.oldrow);
+		this.dsSalesDocMap.set_enableevent(true);
+		return;
+	} else {
+		this.fnSearchEstimate();
+	}
+};
+
+this.dsEstimate_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	var sCurrow = this.dsEstimate.rowposition;
+	var sEmSeq = this.dsEstimate.getColumn(sCurrow, "EM_SEQ");
+	var sDocStatus = this.dsEstimate.getColumn(sCurrow, "DOC_STATUS");
+	var sRemarks = this.dsEstimate.getColumn(sCurrow, "REMARKS");
+	var sDetRemarks = this.dsEstimate.getColumn(sCurrow, "DET_REMARKS");
+	
+	if(e.columnid == "FINAL_ESTIMATE_FLAG") {
+		if(sDocStatus == "FINISH") {
+			if(this.FV_ESTIMATE_KIND == "PRODUCT") {
+				this.gfnAddSendParameter("PROJECT_CODE", this.FV_PROJECT_CODE);
+				this.gfnAddSendParameter("EM_SEQ", sEmSeq);
+				this.gfnAddOutputDataset("dsCheckContract",  "dsOutput");
+				this.gfnCommonTransaction("checkContract", "SS_EstimateReg_S11", null, false);
+			}
+			
+			if(this.dsCheckContract.rowcount == 0) {
+				if(e.columnid == "FINAL_ESTIMATE_FLAG" && !this.gfnIsEmpty(sEmSeq)) {
+					if(e.newvalue == "1") {
+						var Argument =  {
+											pvEmSeq:sEmSeq
+										   ,pvValue:e.newvalue
+										   ,pvRemarks:sRemarks
+										   ,pvDetRemarks:sDetRemarks
+										};
+						this.commUtil.popup(this, "popupFinalEstimatePopup", "Sales::SS_EstimateFinalPopup.xfdl", -1, -1, 500, 300, true, false, false, Argument, "fnPopupCallBack");
+					} else {
+						this.gfnAddInputDataset ("dsEstimate",		"dsEstimate");
+						this.gfnCommonTransaction("SaveFinalEstimate", 	"SS_EstimateReg_R03");
+					}
+				} 
+			} else {
+				this.dsEstimate.set_enableevent(false);
+				this.dsEstimate.setColumn(sCurrow, "FINAL_ESTIMATE_FLAG", e.oldvalue);
+				alert(this.gfnGetTransTxt(22554,"이전에 최종견적으로 계약이 완료된 건이 있습니다."));
+				this.dsEstimate.set_enableevent(true);
+				return;
+			}
+		} else {
+			this.dsEstimate.set_enableevent(false);
+			this.dsEstimate.setColumn(sCurrow, "FINAL_ESTIMATE_FLAG", e.oldvalue);
+			this.dsEstimate.set_enableevent(true);
+		}
+	} 
+};
+
+this.dsEstimateVat_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "VAT_PRICE_PRODUCT" || e.columnid == "VAT_PRICE_SI") {
+		if(!this.confirm(this.gfnGetTransTxt(22588,"부가세금액을 수기로 변경 하시겠습니까?"))) {
+			this.dsEstimateVat.setColumn(e.row, e.columnid, e.oldvalue);
+		} else {
+			this.fnTotalPrice();
+		}
+	}
+};
+
+this.roundToTwo = function(num) {
+  return +(Math.round(num + 'e+2') + 'e-2');
+};
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_EstimateInfo.form.edt_EstimateNo" propid="value" datasetid="dsEstimate" columnid="ESTIMATE_NO"/>
+      <BindItem id="item1" compid="div_EstimateInfo.form.cmb_EstimateType" propid="value" datasetid="dsEstimate" columnid="ESTIMATE_TYPE"/>
+      <BindItem id="item5" compid="div_EstimateInfo.form.cmb_PayMethod" propid="value" datasetid="dsEstimate" columnid="PAY_METHOD"/>
+      <BindItem id="item6" compid="div_EstimateInfo.form.cmb_EstimateExpirationCondition" propid="value" datasetid="dsEstimate" columnid="ESTIMATE_EXPIRATION_CONDITION"/>
+      <BindItem id="item7" compid="div_EstimateInfo.form.rdo_OfficialSealType" propid="value" datasetid="dsEstimate" columnid="OFFICIAL_SEAL_TYPE"/>
+      <BindItem id="item8" compid="div_EstimateInfo.form.cal_StartDate" propid="value" datasetid="dsEstimate" columnid="START_DATE"/>
+      <BindItem id="item9" compid="div_EstimateInfo.form.cal_EndDate" propid="value" datasetid="dsEstimate" columnid="END_DATE"/>
+      <BindItem id="item2" compid="div_EstimateInfo.form.edt_ClientName" propid="value" datasetid="dsEstimate" columnid="CLIENT_NAME"/>
+      <BindItem id="item12" compid="div_EstimateInfo.form.cal_PublishedDate" propid="value" datasetid="dsEstimate" columnid="PUBLISHED_DATE"/>
+      <BindItem id="item14" compid="div_EstimateInfo.form.edt_Subject" propid="value" datasetid="dsEstimate" columnid="SUBJECT"/>
+      <BindItem id="item13" compid="div_EstimateInfo.form.edt_PayMethod" propid="value" datasetid="dsEstimate" columnid="PAY_METHOD_TXT"/>
+      <BindItem id="item15" compid="div_EstimateInfo.form.edt_EstimateExpirationCondition" propid="value" datasetid="dsEstimate" columnid="ESTIMATE_EXPIRATION_CONDITION_TXT"/>
+      <BindItem id="item16" compid="div_EstimateInfo.form.cmb_ConsumptionTax" propid="value" datasetid="dsEstimate" columnid="CONSUMPTION_TAX"/>
+      <BindItem id="item17" compid="div_EstimateInfo.form.chk_SubjectFlag" propid="value" datasetid="dsEstimate" columnid="SUBJECT_FLAG"/>
+      <BindItem id="item22" compid="div_EstimateInfo.form.chk_PayMethodPrtFlag" propid="value" datasetid="dsEstimate" columnid="PRT_PAY_METHOD_FLAG"/>
+      <BindItem id="item23" compid="div_EstimateInfo.form.chk_DatePrtFlag" propid="value" datasetid="dsEstimate" columnid="PRT_START_DATE_FLAG"/>
+      <BindItem id="item24" compid="div_EstimateInfo.form.chk_EstimateExpirationConditionPrtFlag" propid="value" datasetid="dsEstimate" columnid="PRT_ESTIMATE_EXPIRATION_CONDITION_FLAG"/>
+      <BindItem id="item28" compid="div_EstimateInfo.form.edt_MaMenMonth" propid="value" datasetid="dsEstimate" columnid="MA_MEN_MONTH"/>
+      <BindItem id="item3" compid="div_EstimateEtc.form.chk_EstimateConditionPrtFlag" propid="value" datasetid="dsEstimate" columnid="PRT_ESTIMATE_CONDITION_FLAG"/>
+      <BindItem id="item10" compid="div_EstimateEtc.form.ta_EstimateCondition" propid="value" datasetid="dsEstimate" columnid="ESTIMATE_CONDITION"/>
+      <BindItem id="item11" compid="div_EstimateEtc.form.chk_RemarksPrtFlag" propid="value" datasetid="dsEstimate" columnid="PRT_REMARKS_FLAG"/>
+      <BindItem id="item20" compid="div_EstimateEtc.form.ta_Remarks" propid="value" datasetid="dsEstimate" columnid="REMARKS"/>
+      <BindItem id="item21" compid="div_EstimateEtc.form.ta_DetRemarks" propid="value" datasetid="dsEstimate" columnid="DET_REMARKS"/>
+      <BindItem id="item26" compid="div_EstimateEtc.form.edt_PreEstimateNo" propid="value" datasetid="dsEstimate" columnid="PRE_ESTIMATE_NO"/>
+      <BindItem id="item27" compid="div_EstimateEtc.form.edt_OrgEstimateNo" propid="value" datasetid="dsEstimate" columnid="ORG_ESTIMATE_NO"/>
+      <BindItem id="item29" compid="div_EstimateEtc.form.chk_PreEstimateNo" propid="value" datasetid="dsEstimate" columnid="PRT_PRE_EM_SEQ_FLAG"/>
+      <BindItem id="item30" compid="div_EstimateEtc.form.chk_OrgEstimateNo" propid="value" datasetid="dsEstimate" columnid="PRT_ORG_EM_SEQ_FLAG"/>
+      <BindItem id="item4" compid="div_EstimateInfo.form.txt_ContractName" propid="value" datasetid="dsEstimate" columnid="CONTRACT_NAME"/>
+      <BindItem id="item18" compid="div_EstimateEtc.form.edt_PreOrderNumber" propid="value" datasetid="dsEstimate" columnid="PRE_ORDER_NUMBER"/>
+      <BindItem id="item19" compid="div_EstimateEtc.form.chk_PreOrderNumberFlag" propid="value" datasetid="dsEstimate" columnid="PRT_PRE_ORDER_NUMBER_FLAG"/>
+      <BindItem id="item25" compid="div_EstimateEtc.form.edt_InvoceNumber" propid="value" datasetid="dsEstimate" columnid="INVOICE_NUMBER"/>
+      <BindItem id="item31" compid="div_EstimateInfo.form.chk_ClientName" propid="value" datasetid="dsEstimate" columnid="PRT_CLIENT_NAME"/>
+    </Bind>
+  </Form>
+</FDL>

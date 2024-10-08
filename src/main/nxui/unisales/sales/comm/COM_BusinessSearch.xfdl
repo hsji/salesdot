@@ -33,10 +33,7 @@
 * 2021/06/28			TOBESOFT					최초생성
 *******************************************************************************
 */
-include "Script::CommSystem.xjs";
-include "Script::CommTrans.xjs";
-include "Script::CommUtil.xjs"; 	
-include "Script::CommGrid.xjs";
+
 /*******************************************************************************************************************************
  * FORM 변수 선언 영역
 *******************************************************************************************************************************/
@@ -49,15 +46,6 @@ this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	if( this.parent.uEssential=="true"){
 		this.edtCode.set_cssclass("essential");
-	}
-	
-	if(this.parent.DATASET && this.parent.CODECOLUMN) {
-		var obj = new BindItem("item1","edtCode","value",this.parent.DATASET,this.parent.CODECOLUMN);
-        this.addChild(obj.name, obj);
-        obj.bind();
-		var obj = new BindItem("item2","edtName","value",this.parent.DATASET,this.parent.DATACOLUMN);
-        this.addChild(obj.name, obj);
-        obj.bind();
 	}
 };
 
@@ -76,9 +64,11 @@ this.fnTranDeptList = function ()
 		return;
 	}
 	
-	//var sContractType = this.divSearch.form.cmb_SelectType.value;
-	//this.fnSetParentProduct();
+	var sContractType = this.divSearch.form.cmb_SelectType.value;
+	this.fnSetParentProduct();
 	
+	this.gfnAddSendParameter("COMPANY_CODE"	, this.parent.COMPANY_CODE);
+	this.gfnAddSendParameter("CONTRACT_TYPE"	, this.parent.CONTRACT_TYPE);
 	this.gfnAddSendParameter("SRCH_TEXT"	, this.edtCode.value);
 	
 	this.gfnSetMap("nextBaseMapper", "ProductOne", "dsCommonList");
@@ -107,11 +97,8 @@ this.fnPopupCallback = function (sPopupId, sRtn)
 		case "productMgPu":
 			if( !this.gfnIsNull(sRtn) ){
 				var aRtn= sRtn.split("|");
-				
 				this.edtCode.set_value(aRtn[0]);
 				this.edtName.set_value(aRtn[1]);
-				
-				console.log(this.edtCode.value, this.edtName.value);
 			}
 			break;
 		default:break;
@@ -184,7 +171,6 @@ this.btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	var sTitle  = "제품 선택";
 	var oArg    = {
-		pvType:this.parent.SELECT_TYPE,
 		pvCompanyCd:this.parent.COMPANY_CODE,
 		pvContractType:this.parent.CONTRACT_TYPE,
 		pvSearchValue:this.edtCode.value

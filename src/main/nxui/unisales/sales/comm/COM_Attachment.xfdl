@@ -234,6 +234,7 @@ this.fnInitForm = function()
 	if(this.opts.USE_READONLY)
 		this.div_Multi.form.btn_PopFileMM.set_visible(false);
 		
+		console.log("this.opts------", this.opts);
 	//var keyCols = ["SOURCE_CD","SOURCE_SEQ","STATUS_CD"];
 	var keyCols = new Array("SOURCE_SEQ", "PROJECT_CODE");
 	//DS Bind 사용 시 처리   ex) BINDDATASET : dsName ,  SOURCE_SEQ : columnName

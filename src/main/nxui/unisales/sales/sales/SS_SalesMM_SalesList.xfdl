@@ -25,7 +25,7 @@
               <Div id="div_Search_yyyyMM_FromTo" taborder="13" left="stc_DueDate:0" top="41" width="221" height="24" url="sales::comm/COM_yyyyMM_FromTo2.xfdl"/>
               <CheckBox id="chk_NoneDate" taborder="14" text="기간무시" left="div_Search_yyyyMM_FromTo:10" top="41" width="74" height="24" falsevalue="0" truevalue="1" TL_SEQ="122"/>
               <Radio id="rd_EmpKind" taborder="15" left="chk_NoneDate:19.00" top="41" width="154" height="24" innerdataset="ds_EmpKind" codecolumn="CODE" datacolumn="DATA" columncount="2" rowcount="1" index="0" text="영업대표" value="E" visible="false" TL_FLAG="1"/>
-              <Static id="stc_ContractType" taborder="16" text="계약구분" left="cmb_ContractStatus:87.00" top="12" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="123"/>
+              <Static id="stc_ContractType" taborder="16" text="계약구분" left="cmb_ContractStatus:0" top="12" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="123"/>
               <Combo id="cmb_ContractType" taborder="17" text="" left="stc_ContractType:0" top="12" height="24" codecolumn="CODE" datacolumn="DATA" innerdataset="ds_ContractType" width="127" TL_FLAG="1"/>
             </Layout>
           </Layouts>
@@ -183,7 +183,7 @@ this.cfnSearch = function ()
 		this.gfnAlert(sMsgId, arrArg, sPopId, sMsgCallback);
 	}
 	else {
-		this.fnTranSearch();
+		this.fnQueryData();
 	}
 };
 
@@ -246,6 +246,7 @@ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 	{
 		case "gfnGetCode" :
 			this.div_search.form.cmb_ContractStatus.set_index(0);
+			
 		break;
 		case "SalesEmp" : 
 			var nAddRow = this.ds_cond_sales_emp.insertRow(0);
@@ -291,21 +292,21 @@ this.fnAuthConfig = function(nTabIndx)
 		|| (this.commUtil.getFormAuthority(235,2) == true))	//저장권한
 	{
 			//this.btn_File_Upload.set_enable(false);
-			this.btn_CostSheet.set_enable(false);
-			this.btn_ContractReport.set_enable(false);
-			this.btn_Order_Confirm.set_enable(false);
+// 			this.btn_CostSheet.set_enable(false);
+// 			this.btn_ContractReport.set_enable(false);
+// 			this.btn_Order_Confirm.set_enable(false);
 			this.div_search.form.rd_EmpKind.set_visible(false);
 		
 // 			this.div_Attachment.set_enable(false);
 // 			this.div_Attachment.set_url("");
-			this.btn_RequestLicense.set_visible(false);	// 라이선스요청
+//			this.btn_RequestLicense.set_visible(false);	// 라이선스요청
 			this.btn_Affirmation.set_enable(true);		// 확약서
-			this.btn_Estimate.set_visible(false); // 견적서
+//			this.btn_Estimate.set_visible(false); // 견적서
 
 			this.div_search.form.div_ProjectName.param = "searchtype:P";			
 	}
 	
-	if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹
+	//if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹
 }
 
 
