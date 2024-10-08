@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="SP_CostSheet" width="1390" height="830" titletext="매출원가표" onload="SP_CostSheet_onload" cssclass="frm_popBg">
+  <Form id="SP_CostSheet" width="1390" height="760" titletext="매출원가표" onload="SP_CostSheet_onload" cssclass="frm_popBg">
     <Layouts>
-      <Layout height="830" mobileorientation="landscape" width="1390">
-        <Static id="Static00" taborder="1" left="0" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg" text=""/>
-        <Button id="btn_Cancel" taborder="2" text="닫기" width="50" height="28" cssclass="btn_WF_cancel" bottom="20" onclick="btn_Cancel_onclick" right="20" TL_SEQ="59"/>
+      <Layout height="760" mobileorientation="landscape" width="1390">
+        <Button id="btn_Cancel" taborder="1" text="닫기" width="50" height="28" cssclass="btn_WF_cancel" bottom="20" onclick="btn_Cancel_onclick" right="20" TL_SEQ="59"/>
         <Button id="btn_Save" taborder="0" text="저장" width="50" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:10" bottom="20" onclick="btn_Save_onclick" TL_SEQ="115"/>
-        <Button id="btn_Print" taborder="3" text="원가표 결재" width="90" height="28" cssclass="btn_WF_tran" right="btn_Save:5" bottom="20" onclick="btn_Print_onclick" TL_SEQ="212"/>
-        <Button id="btn_Add" taborder="7" text="신규" top="17" width="60" height="28" right="88" onclick="btn_Add_onclick" cssclass="btn_WF_Crud" TL_SEQ="116"/>
-        <Button id="btn_Reset" taborder="4" text="초기화" top="17" width="70" height="28" right="btn_Add:5" visible="false" onclick="btn_Reset_onclick" cssclass="btn_WF_tran" TL_SEQ="213"/>
-        <Div id="div_main" taborder="5" top="59" width="1153" height="621" text="" right="20">
+        <Button id="btn_Print" taborder="2" text="원가표 결재" width="90" height="28" cssclass="btn_WF_tran" right="btn_Save:5" bottom="20" onclick="btn_Print_onclick" TL_SEQ="212"/>
+        <Button id="btn_Add" taborder="6" text="신규" top="17" width="60" height="28" right="88" onclick="btn_Add_onclick" cssclass="btn_WF_Crud" TL_SEQ="116"/>
+        <Button id="btn_Reset" taborder="3" text="초기화" top="17" width="70" height="28" right="btn_Add:5" visible="false" onclick="btn_Reset_onclick" cssclass="btn_WF_tran" TL_SEQ="213"/>
+        <Div id="div_main" taborder="4" top="59" width="1153" height="641" text="" right="20">
           <Layouts>
             <Layout>
               <Div id="div_header" taborder="0" text="Div01" left="0" top="0" height="122" right="0" cssclass="div_WF_detailBg" formscrolltype="none" formscrollbartype="none none">
@@ -234,32 +233,32 @@
               <Button id="btn_PurchaseSiDel" taborder="26" top="365" width="16" height="16" onclick="CommDelRow_onclick" right="9" cssclass="btn_POP_Del"/>
               <Button id="btn_PurchaseSiDown" taborder="27" cssclass="btn_WF_schdDown" top="364" height="18" onclick="btn_Down_onclick" width="18" right="78"/>
               <Button id="btn_PurchaseSiUp" taborder="28" cssclass="btn_WF_schdUp" top="364" width="18" height="18" onclick="btn_Up_onclick" right="57"/>
-              <Div id="div_footer" taborder="29" text="Div00" left="0" top="524" height="89" cssclass="div_WF_detailBg" right="0">
+              <Div id="div_footer" taborder="29" text="Div00" left="0" top="524" height="109" cssclass="div_WF_detailBg" right="0">
                 <Layouts>
                   <Layout>
-                    <Static id="stc_ContractMain00" taborder="2" text="제품 예상 이익" left="14" top="7" width="81" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="236"/>
-                    <MaskEdit id="medt_ExpectedProfitProd" taborder="3" left="stc_ContractMain00:11" top="7" width="95" height="22" textAlign="right" format="#,#0" readonly="true"/>
-                    <Static id="stc_ContractMain01" taborder="4" text="계약 투입 MM" left="14" top="33" width="81" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="237"/>
-                    <MaskEdit id="medt_ContractMM" taborder="5" left="stc_ContractMain01:11" top="33" width="94" height="22" textAlign="right" format="#,#0.##" readonly="true" onchanged="div_footer_medt_ContractMM_onchanged"/>
-                    <MaskEdit id="met_ActualProfitRate" taborder="16" left="412" top="7" width="65" height="22" textAlign="right" format="##.##" readonly="true"/>
-                    <Static id="stc_ContractMain02" taborder="6" text="용역 매출 합계" left="met_ActualProfitRate:6" top="7" width="89" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="238"/>
-                    <MaskEdit id="medt_SiTotSum" taborder="7" left="stc_ContractMain02:5" top="7" width="90" height="22" textAlign="right" format="#,#0" readonly="true"/>
-                    <Static id="stc_ContractMain03" taborder="8" text="투비직원비용/율" left="medt_SiTotSum:9" top="7" width="97" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="239"/>
-                    <MaskEdit id="medt_TobeStaffCost" taborder="9" left="stc_ContractMain03:8" top="7" width="85" height="22" textAlign="right" format="#,#0" readonly="true"/>
-                    <MaskEdit id="medt_TobeStaffCostRate" taborder="10" left="medt_TobeStaffCost:-1" top="7" width="55" height="22" textAlign="right" format="##.##" readonly="true"/>
-                    <Static id="stc_ContractMain04" taborder="11" text="외주비용/율" left="medt_TobeStaffCostRate:4" top="7" width="73" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="240"/>
-                    <MaskEdit id="medt_ExtStaffCost" taborder="12" left="stc_ContractMain04:7" top="7" width="85" height="22" textAlign="right" format="#,#0" readonly="true"/>
-                    <MaskEdit id="met_ExtStaffCostRate" taborder="13" left="medt_ExtStaffCost:-1" top="7" width="55" height="22" textAlign="right" format="##.##" readonly="true"/>
-                    <Static id="stc_ContractMain05" taborder="14" text="용역 예상 이익/율" left="medt_ExpectedProfitProd:20" top="7" width="100" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="241"/>
-                    <MaskEdit id="metActualProfit" taborder="15" left="stc_ContractMain05:10" top="7" width="85" height="22" textAlign="right" format="#,#0" readonly="true"/>
-                    <Static id="stc_ContractMain06" taborder="17" text="실 투입 MM" left="medt_ContractMM:11" top="33" width="79" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="242"/>
-                    <MaskEdit id="medt_ExpectedMM" taborder="18" left="stc_ContractMain06:11" top="33" width="94" height="22" textAlign="right" format="#,#0.##" readonly="true" onchanged="div_footer_medt_ExpectedMM_onchanged"/>
-                    <Static id="stc_ContractMain07" taborder="19" text="오차 MM" left="medt_ExpectedMM:17" top="33" width="65" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="243"/>
-                    <MaskEdit id="medt_GapMM" taborder="20" left="stc_ContractMain07:10" top="33" width="94" height="22" textAlign="right" format="#,#0.##" readonly="true"/>
-                    <Static id="stc_ContractDate01" taborder="21" text="오차MM 사유  " left="medt_GapMM:19" top="33" width="79" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="244"/>
-                    <Edit id="edt_Reason" taborder="0" left="stc_ContractDate01:6" top="33" width="458" height="22"/>
-                    <Static id="stc_ContractDate00" taborder="22" text="특이사항" left="14" top="59" width="81" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="245"/>
-                    <TextArea id="ta_Unique" taborder="1" top="59" width="1037" height="22" left="stc_ContractDate00:11"/>
+                    <Static id="stc_ContractMain00" taborder="2" text="제품 예상 이익" left="14" top="7" width="81" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="236"/>
+                    <MaskEdit id="medt_ExpectedProfitProd" taborder="3" left="stc_ContractMain00:11.00" top="7" width="95" height="24" textAlign="right" format="#,#0" readonly="true"/>
+                    <Static id="stc_ContractMain01" taborder="4" text="계약 투입 MM" left="14.00" top="36" width="81" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="237"/>
+                    <MaskEdit id="medt_ContractMM" taborder="5" left="stc_ContractMain01:11.00" top="medt_ExpectedProfitProd:5" width="95" height="24" textAlign="right" format="#,#0.##" readonly="true" onchanged="div_footer_medt_ContractMM_onchanged"/>
+                    <MaskEdit id="met_ActualProfitRate" taborder="16" left="412.00" top="7" width="65" height="24" textAlign="right" format="##.##" readonly="true"/>
+                    <Static id="stc_ContractMain02" taborder="6" text="용역 매출 합계" left="met_ActualProfitRate:6.00" top="7" width="89" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="238"/>
+                    <MaskEdit id="medt_SiTotSum" taborder="7" left="stc_ContractMain02:5.00" top="7" width="90" height="24" textAlign="right" format="#,#0" readonly="true"/>
+                    <Static id="stc_ContractMain03" taborder="8" text="자사직원비용/율" left="medt_SiTotSum:9.00" top="7" width="97" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="239"/>
+                    <MaskEdit id="medt_TobeStaffCost" taborder="9" left="stc_ContractMain03:8.00" top="7" width="85" height="24" textAlign="right" format="#,#0" readonly="true"/>
+                    <MaskEdit id="medt_TobeStaffCostRate" taborder="10" left="medt_TobeStaffCost:-1.00" top="7" width="55" height="24" textAlign="right" format="##.##" readonly="true"/>
+                    <Static id="stc_ContractMain04" taborder="11" text="외주비용/율" left="medt_TobeStaffCostRate:4.00" top="7" width="73" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="240"/>
+                    <MaskEdit id="medt_ExtStaffCost" taborder="12" left="stc_ContractMain04:7.00" top="7" width="85" height="24" textAlign="right" format="#,#0" readonly="true"/>
+                    <MaskEdit id="met_ExtStaffCostRate" taborder="13" left="medt_ExtStaffCost:-1" top="7" width="55" height="24" textAlign="right" format="##.##" readonly="true"/>
+                    <Static id="stc_ContractMain05" taborder="14" text="용역 예상 이익/율" left="medt_ExpectedProfitProd:10.00" top="7" width="100" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="241"/>
+                    <MaskEdit id="metActualProfit" taborder="15" left="stc_ContractMain05:10.00" top="7" width="85" height="24" textAlign="right" format="#,#0" readonly="true"/>
+                    <Static id="stc_ContractMain06" taborder="17" text="실 투입 MM" left="medt_ContractMM:10.00" top="36" width="100" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="242"/>
+                    <MaskEdit id="medt_ExpectedMM" taborder="18" left="stc_ContractMain06:11.00" top="36" width="85" height="24" textAlign="right" format="#,#0.##" readonly="true" onchanged="div_footer_medt_ExpectedMM_onchanged"/>
+                    <Static id="stc_ContractMain07" taborder="19" text="오차 MM" left="medt_ExpectedMM:5.00" top="36" width="65" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="243"/>
+                    <MaskEdit id="medt_GapMM" taborder="20" left="stc_ContractMain07:10.00" top="36" width="70" height="24" textAlign="right" format="#,#0.##" readonly="true"/>
+                    <Static id="stc_ContractDate01" taborder="21" text="오차MM 사유  " left="medt_GapMM:19.00" top="36" width="81" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="244"/>
+                    <Edit id="edt_Reason" taborder="0" left="stc_ContractDate01:6.00" top="36" height="24" right="10"/>
+                    <Static id="stc_ContractDate00" taborder="22" text="특이사항" left="14.00" top="65" width="81" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="245"/>
+                    <TextArea id="ta_Unique" taborder="1" top="stc_ContractDate01:5" width="1037" height="37" left="stc_ContractDate00:11.00"/>
                   </Layout>
                 </Layouts>
               </Div>
@@ -282,7 +281,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grd_Master" taborder="6" left="20" top="60" width="186" bottom="43" binddataset="ds_Master" autofittype="col">
+        <Grid id="grd_Master" taborder="5" left="20.00" top="60" width="186" bottom="68" binddataset="ds_Master" autofittype="col">
           <Formats>
             <Format id="default">
               <Columns>
@@ -313,8 +312,8 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_Del" taborder="8" text="삭제" top="17" width="60" height="28" right="20" onclick="btn_Del_onclick" enable="false" cssclass="btn_WF_Crud" TL_SEQ="117"/>
-        <Radio id="rd_CostSheetType" taborder="9" left="20" top="20" width="186" height="20" innerdataset="ds_cmm_CostSheetType" codecolumn="CODE" datacolumn="CAPTION" rowcount="1" padding="0px 0px 0px 8px" onitemchanged="rd_CostSheetType_onitemchanged" TL_FLAG="1"/>
+        <Button id="btn_Del" taborder="7" text="삭제" top="17" width="60" height="28" right="20" onclick="btn_Del_onclick" enable="false" cssclass="btn_WF_Crud" TL_SEQ="117"/>
+        <Radio id="rd_CostSheetType" taborder="8" left="20.00" top="30" width="186" height="20" innerdataset="ds_cmm_CostSheetType" codecolumn="CODE" datacolumn="CAPTION" rowcount="1" padding="0px 0px 0px 8px" onitemchanged="rd_CostSheetType_onitemchanged" TL_FLAG="1" font="bold 14px/normal &quot;noto&quot;,&quot;Malgun Gothic&quot;,&quot;Arial&quot;"/>
       </Layout>
     </Layouts>
     <Bind>
@@ -554,12 +553,11 @@ this.GetCostsheetAddRowconfirm = function ()
 	this.gfnAddCodeDataset("ds_cmm_ServerGrade",	"SERVER_GRADE"); 		// 서버등급
 	this.gfnAddCodeDataset("ds_cmm_ContProdType",	"CONTRACT_PROD_TYPE"); 	// 유형
 	this.gfnAddCodeDataset("ds_cmm_ProductUnit",	"PRODUCT_UNIT"); 		// 단위
-	this.gfnAddCodeDataset("ds_cmm_Role",			"ROLE_CODE"); 			// 역할코드
-	this.gfnAddCodeDataset("ds_cmm_Level",			"LEVEL_CODE"); 			// 등급
+	this.gfnAddCodeDataset("ds_cmm_Role",			"PROJECTROLE"); 			// 역할코드 ROLE_CODE
+	this.gfnAddCodeDataset("ds_cmm_Level",			"LEVEL_CODE"); 			// 등급 LEVEL_CODE
 	this.gfnAddCodeDataset("ds_cmm_ClExceptionCd",	"CL_EXCEPTION_CODE");	// 예외처리
 	this.gfnCodeTransaction();
  };
- 
  
  // 등급단가 조회
  this.fn_LevelUnitCostQueryData = function(sYear, sLevelCd)
@@ -578,8 +576,11 @@ this.GetCostsheetAddRowconfirm = function ()
 	this.gfnAddSendParameter("COSTSHEET_TYPE",	this.rd_CostSheetType.value);
 	
 	
-	this.gfnAddOutputDataset("ds_Master", "ds_output");
-	this.gfnCommonTransaction("CostSheetMQueryData", "SP_CostSheet_S02");
+// 	this.gfnAddOutputDataset("ds_Master", "ds_output");
+// 	this.gfnCommonTransaction("CostSheetMQueryData", "SP_CostSheet_S02");
+	
+	this.gfnSetMap("salesManagerMapper", ['SP_CostSheet_S02'], ['ds_Master']);
+	this.gfnCommonTransaction("CostSheetMQueryData", "selectNextMultiList.do");	
  }
  
  

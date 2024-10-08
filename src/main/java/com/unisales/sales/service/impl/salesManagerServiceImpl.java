@@ -720,10 +720,11 @@ public class salesManagerServiceImpl implements salesManagerService {
 		 * @throws Exception
 		 */
 		public void dataSetRowLoopAddress(SqlSession sqlSession, Map<String,Object> datasetMap, UserInfo userInfo) throws Exception {
+			System.out.println("dataSetRowLoopAddress1");
 			List<Map<String,Object>> ds = (List<Map<String, Object>>) datasetMap.get("ds_addressbook");
 			int rowCount = ds.size();
 			if(rowCount <= 0) return;
-			
+			System.out.println("dataSetRowLoopAddress2");
 			int rowType = 0;
 			String varContractNo = null;
 			
@@ -739,14 +740,14 @@ public class salesManagerServiceImpl implements salesManagerService {
 				
 			    rowType = Integer.parseInt(String.valueOf(rowMap.get(DataSetRowTypeAccessor.NAME)));
 
-			    System.out.println("\t" + rowIndex + ">>>:rowType" + rowType);
+			    System.out.println("\t" + rowIndex + ">>>===:rowType" + rowType);
 				if (rowType == DataSet.ROW_TYPE_INSERTED){
-					String pjtCode = (String) rowMap.get("PROJECT_CODE");
+					String pjtCode = (String) rowMap.get("SOURCE_DATA");
 					if(pjtCode == null || pjtCode.equals("")) {
 						Map<String,Object> pjtCodeMap = (Map<String, Object>) datasetMap.get("ds_project_cd");
 						pjtCode =  (String) pjtCodeMap.get("PROJECT_CODE");
-						rowMap.put("PROJECT_CODE", pjtCode);
-					}								
+						rowMap.put("SOURCE_DATA", pjtCode);
+					}
 					sqlSession.insert("salesManagerMapper.insertCAMap",rowMap);
 				} else if (rowType == DataSet.ROW_TYPE_UPDATED) {		    	
 

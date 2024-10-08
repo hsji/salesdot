@@ -591,11 +591,11 @@ this.fnsetReturnDs = function(nSelRow)
 	if(nSelRow>=0)
 		this.dsAddressBook.setColumn(nSelRow, "CHECK", "1");
 	
-	if(this.bUpdate) {
-		// 저장할 데이터가 없습니다.
-		this.gfnAlert("msg.save.nochange");
-		return;
-  	}
+// 	if(this.bUpdate) {
+// 		// 저장할 데이터가 없습니다.
+// 		this.gfnAlert("msg.save.nochange");
+// 		return;
+//   	}
 
 	this.ds_Return.clear();
 	for (var i=0; i<this.dsAddressBook.colcount; i++) {

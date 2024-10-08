@@ -16335,6 +16335,35 @@
 	-nexa-icon : url('theme://images/chk_S.png');
 }
 
+.Button.btn_WF_schdUp,
+.Button.btn_WF_schdUp[status=focused],.Button.btn_WF_schdUp[userstatus=selected],
+.Button.btn_WF_schdUp[status=disabled]
+{
+	background : url('theme://images/btn_POP_TpCls.png') no-repeat center center;
+}
+.Button.btn_WF_schdUp[status=mouseover]
+{
+	background : url('theme://images/btn_POP_TpCls_O.png') no-repeat center center;
+}
+.Button.btn_WF_schdUp[userstatus=pushed]
+{
+	background : url('theme://images/btn_POP_TpCls_P.png') no-repeat center center;
+}
+
+.Button.btn_WF_schdDown,
+.Button.btn_WF_schdDown[status=focused],.Button.btn_WF_schdDown[userstatus=selected],
+.Button.btn_WF_schdDown[status=disabled]
+{
+	background : url('theme://images/btn_POP_TpOpen.png') no-repeat center center;
+}
+.Button.btn_WF_schdDown[status=mouseover]
+{
+	background : url('theme://images/btn_POP_TpOpen_O.png') no-repeat center center;
+}
+.Button.btn_WF_schdDown[userstatus=pushed]
+{
+	background : url('theme://images/btn_POP_TpOpen_P.png') no-repeat center center;
+}
 .Button.btn_TF_Clear,
 .Button.btn_TF_Clear[status=disabled],.Button.btn_TF_Clear[status=mouseover],
 .Button.btn_TF_Clear[userstatus=pushed],.Button.btn_TF_Clear[status=focused],
@@ -16362,12 +16391,11 @@
 ;}
 .Button.btn_WF_SchCls
 {
-	background : transparent;
 	-nexa-padding : 0px;
-	-nexa-icon 		: URL("theme://images/btn_WF_SchCls.png");
 	border-radius	: 0px;
-	-nexa-border : 0px none
-;}
+	-nexa-border : 0px none;
+	-nexa-icon : url('theme://images/btn_WF_SchCls.png');
+}
 
 .Button.btn_WF_SchCls2
 {
@@ -16436,7 +16464,7 @@
 	-nexa-icon 		: URL("theme://images/btn_POP_Add_O.png");
 	border-radius	: 0px;
 	-nexa-border : 0px none
-}
+;}
 .Button.btn_POP_Add[status=disabled]
 {
 	background : transparent;
@@ -16444,7 +16472,7 @@
 	-nexa-icon 		: URL("theme://images/btn_POP_Add_D.png");
 	border-radius	: 0px;
 	-nexa-border : 0px none
-}
+;}
 .Button.btn_POP_Del
 {
 	background : transparent;
@@ -16462,7 +16490,7 @@
 	-nexa-icon 		: URL("theme://images/btn_POP_Del_O.png");
 	border-radius	: 0px;
 	-nexa-border : 0px none
-}
+;}
 .Button.btn_POP_Del[status=disabled]
 {
 	background : transparent;
@@ -16470,7 +16498,7 @@
 	-nexa-icon 		: URL("theme://images/btn_POP_Del_D.png");
 	border-radius	: 0px;
 	-nexa-border : 0px none
-}
+;}
 .Button.btn_WF_next2
 {
 	background : transparent;

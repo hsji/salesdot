@@ -170,7 +170,7 @@
               <Band id="summary">
                 <Cell colspan="2" text="합계" TL_SEQ="437"/>
                 <Cell col="2"/>
-                <Cell col="3"/>
+                <Cell col="3" expr="dataset.getSum('CONTRACT_AMT')" displaytype="mask" maskeditformat="#,##0"/>
                 <Cell col="4"/>
               </Band>
             </Format>
@@ -3402,7 +3402,7 @@ this.dsList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSCol
 {
 	if(e.columnid == "PROJECT_NAME") {
 		if(this.gfnIsNull(this.dsList.getColumn(e.row, "CONTRACT_NAME"))) {
-			this.dsList.setColumn(e.row, "CONTRACT_NAME", PROJECT_NAME);
+			this.dsList.setColumn(e.row, "CONTRACT_NAME", e.newvalue);
 		}	
 	}
 };
