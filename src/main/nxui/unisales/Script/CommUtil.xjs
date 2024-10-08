@@ -299,7 +299,7 @@
 *******************************************************************************************/
 		popupProductSearch: function (objOpener, sPopupID, popupCallBack, sArgument)
 		{	
-			sArgument.title = "사업상세 분류 검색";
+			sArgument.title = "제품(상품) 분류 검색";
 			this.popup(objOpener, sPopupID, "sales::comm/CE_ProductSearch.xfdl", -1, -1, 860, 575, true, true, false, sArgument, popupCallBack);
 		},	
 

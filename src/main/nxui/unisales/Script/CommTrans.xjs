@@ -77,8 +77,11 @@ this.gfnAddOutputDataset = function (strOutDS, strServerOutDS)
 *******************************************************************************************/
 this.gfnAddInputDataset = function (strInDS, strServerInDS, strDataType)
 {
+	if(this.gfnIsNull(strDataType)) {
+		strDataType = "U";
+	}
 	// next 호환처리
-	this.fvCommInputList += " " + strServerInDS + "=" + strInDS + (strDataType?":"+strDataType:":U");
+	this.fvCommInputList += " " + strServerInDS + "=" + strInDS + ":" + strDataType;
 	return;
 	if(strDataType==undefined)
 		strDataType="U";
@@ -628,9 +631,9 @@ this._getFrmSeq = function(sUserCode)
 {
 	var arrSeq = sUserCode.split(",");
 			
-	if (arrSeq.length < 2)			{ this.alert("화면별 권한 정보를 확인 하세요(1) ["+sUserCode+"]"); return false; }
-	if (this.gfnIsEmpty(arrSeq[0]))	{ this.alert("화면별 권한 정보를 확인 하세요(2) ["+sUserCode+"]"); return false; }
-	if (this.gfnIsEmpty(arrSeq[1]))	{ this.alert("화면별 권한 정보를 확인 하세요(3) ["+sUserCode+"]"); return false; }
+// 	if (arrSeq.length < 2)			{ this.alert("화면별 권한 정보를 확인 하세요(1) ["+sUserCode+"]"); return false; }
+// 	if (this.gfnIsEmpty(arrSeq[0]))	{ this.alert("화면별 권한 정보를 확인 하세요(2) ["+sUserCode+"]"); return false; }
+// 	if (this.gfnIsEmpty(arrSeq[1]))	{ this.alert("화면별 권한 정보를 확인 하세요(3) ["+sUserCode+"]"); return false; }
 			
 	arrSeq[0] = arrSeq[0].trim();
 	arrSeq[1] = arrSeq[1].trim();
@@ -836,7 +839,7 @@ this._setInputMailAddress = function (objDs, strReceType)
 *******************************************************************************************/
 this.gfnAddEmailList = function(arrObjEmailInfo)
 {
-	if(this.gfnIsEmpty(arrObjEmailInfo)) { this.alert("메일 발수신 정보가 없습니다."); return; }
+	if(this.gfnIsEmpty(arrObjEmailInfo)) { this.gfnAlert('msg.general',"메일 발수신 정보가 없습니다."); return; }
 	
 	for (var i=0; i<arrObjEmailInfo.length; i++) {
 		// trace("==================================");

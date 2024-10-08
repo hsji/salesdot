@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BM_SalesMAPopup" width="800" height="500" titletext="계약 수신받을 담당영업 설정 팝업" cssclass="frm_popBg" onload="BM_SalesMAPopup_onload">
+    <Layouts>
+      <Layout height="500" mobileorientation="landscape" width="800">
+        <Static id="Static00" taborder="0" text="계약 수신받을 담당영업 설정" left="8" top="5" width="190" height="22" color="white" cssclass="sta_POP_Title " TL_SEQ="58"/>
+        <Button id="btn_Close" taborder="1" top="8" width="15" height="15" right="11" cssclass="btn_POP_Cls" text="" escapebutton="true" onclick="btn_Close_onclick"/>
+        <Static id="stc_BottomFrame" taborder="2" left="2" height="35" right="1" bottom="1" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Cancel" taborder="3" text="닫기" width="70" height="22" cssclass="btn_WF_cancel" right="8" bottom="8" onclick="btn_Close_onclick" TL_SEQ="59"/>
+        <Grid id="grd_Manintenance" taborder="4" left="8" top="43" right="8" bottom="stc_BottomFrame:8" binddataset="dsManintenance" autofittype="col" autoenter="none" oncellclick="grd_Manintenance_oncellclick" formatid="paid">
+          <Formats>
+            <Format id="paid">
+              <Columns>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="250"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="담당영업" TL_SEQ="37"/>
+                <Cell col="1" text="메일수신인" TL_SEQ="60"/>
+                <Cell col="2" text="고객사" TL_SEQ="32"/>
+                <Cell col="3" text="계약명" TL_SEQ="33"/>
+                <Cell col="4" text="계약처" TL_SEQ="34"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:OLD_SALES_EMP_NAME"/>
+                <Cell col="1" text="bind:SALES_EMP_NO" displaytype="combotext" edittype="combo" combodataset="dsMAEmpList" combodatacol="EMP_NAME" combocodecol="EMP_NO"/>
+                <Cell col="2" text="bind:CLIENT_NAME" textAlign="left" tooltiptext="bind:CLIENT_NAME"/>
+                <Cell col="3" text="bind:CONTRACT_NAME" textAlign="left" tooltiptext="bind:CONTRACT_NAME"/>
+                <Cell col="4" text="bind:CONTRACT_MAIN_NAME" textAlign="left" tooltiptext="bind:CONTRACT_MAIN_NAME"/>
+              </Band>
+            </Format>
+            <Format id="free">
+              <Columns>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="250"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="담당영업" TL_SEQ="37"/>
+                <Cell col="1" text="메일수신인" TL_SEQ="60"/>
+                <Cell col="2" text="고객사" TL_SEQ="32"/>
+                <Cell col="3" text="계약명" TL_SEQ="33"/>
+                <Cell col="4" text="제품" TL_SEQ="62"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:OLD_SALES_EMP_NAME"/>
+                <Cell col="1" text="bind:SALES_EMP_NO" displaytype="combotext" edittype="combo" expandshow="hide" combodataset="dsMAEmpList" combodatacol="EMP_NAME" combocodecol="EMP_NO"/>
+                <Cell col="2" text="bind:CLIENT_NAME" textAlign="left" tooltiptext="bind:CLIENT_NAME"/>
+                <Cell col="3" text="bind:CONTRACT_NAME" textAlign="left" tooltiptext="bind:CONTRACT_NAME"/>
+                <Cell col="4" text="bind:PRODUCT_NAME" textAlign="left" tooltiptext="bind:PRODUCT_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_SendMail" taborder="5" text="발송" top="470" height="22" cssclass="btn_WF_tran" right="btn_Cancel:8" onclick="btn_SendMail_onclick" TL_SEQ="61" width="60"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsManintenance" oncolumnchanged="dsManintenance_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="STRING" size="256"/>
+          <Column id="REGULAR_VISIT" type="STRING" size="256"/>
+          <Column id="VIST_CYCLE" type="STRING" size="256"/>
+          <Column id="UNION_FLAG" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="PROJECT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="SALES_EMP_NO" type="STRING" size="256"/>
+          <Column id="SALES_EMP_NAME" type="STRING" size="256"/>
+          <Column id="OLD_SALES_EMP_NAME" type="STRING" size="256"/>
+          <Column id="AUTO_EXTENSION_FLAG" type="STRING" size="256"/>
+          <Column id="REMARKS_ETC" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsMAEmpList">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="EMP_NAME" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="CO_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEmailList"/>
+      <Dataset id="dsManintenance2" oncolumnchanged="dsManintenance2_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="CLIENT_NAME" type="STRING" size="100"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="100"/>
+          <Column id="FREE_MA_START_DATE" type="STRING" size="8"/>
+          <Column id="FREE_MA_END_DATE" type="STRING" size="8"/>
+          <Column id="PROJECT_CODE" type="STRING" size="15"/>
+          <Column id="PROJECT_NAME" type="STRING" size="100"/>
+          <Column id="SALES_EMP_NO" type="STRING" size="60"/>
+          <Column id="SALES_EMP_NAME" type="STRING" size="256"/>
+          <Column id="OLD_SALES_EMP_NAME" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="P_FREE_MA_START_DATE" type="STRING" size="256"/>
+          <Column id="P_FREE_MA_END_DATE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSalesEmpList">
+        <ColumnInfo>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="EMP_NAME" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 공통 - 공통(영업지원)
+* 02. 화면명		: 계약 수신받을 담당영업 설정 팝업
+* 03. 화면설명 	: 
+						
+* 04. 작성일   	: 2022.07.15
+* 05. 작성자   	: 박종언
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_Report.xjs"
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_LOGIN_EMAIL = nexacro.getApplication().gdsUserInfo.getColumn(0, "EMAIL");
+this.sMaKind = "";
+this.empKind = "T";
+this.holdOffice = "1";
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.BM_SalesMAPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	
+	this.dsManintenance.clearData();// 유상 유지보수 초기화
+	this.dsManintenance2.clearData();// 무상 유지보수 초기화
+	this.dsEmailList.copyData(this.parent.dsEmailList);		  // 수신 받을 이메일이 없는 경우
+	this.sMaKind	= this.parent.sMaKind; 	// 유지보수 구분 1 : 유상 2 : 무상
+	
+	this.fnMAEmpList();
+	this.fnInit();
+};
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInit = function()
+{
+	var objDs;
+	if(this.sMaKind == "1") 
+	{
+		objDs = this.dsManintenance;
+		this.grd_Manintenance.set_binddataset("dsManintenance");
+		this.grd_Manintenance.set_formatid("paid");
+	}
+	else 
+	{
+		objDs = this.dsManintenance2;
+		this.grd_Manintenance.set_binddataset("dsManintenance2");
+		this.grd_Manintenance.set_formatid("free");
+	}
+	
+	objDs.copyData(this.parent.dsManintenance, true); // 계약 복사
+	objDs.addColumn("OLD_SALES_EMP_NAME", "string"); 
+	
+	// 메일수신인과 담당영업 비교하기 위해
+	for(var i = 0; i < objDs.rowcount; i++)
+	{
+		var sSalesEmpNm = objDs.getColumn(i, "SALES_EMP_NAME");
+		objDs.setColumn(i, "OLD_SALES_EMP_NAME", sSalesEmpNm);
+	}
+	
+	objDs.filter("CHK=='1'");// 복사한 계약 중 체크한 리스트만 보이게 필터링
+};
+
+this.fnComCellClick = function(obj, e)
+{
+	//그리드 원 클릭으로 edit 되도록
+	if(obj.getCurEditType() == "combo")
+	{
+		obj.setCellPos(e.cell);
+		obj.showEditor(true);
+		obj.dropdownCombo();
+	}
+	else if(obj.getCurEditType() == "date")
+	{
+		obj.setCellPos(e.cell);
+		obj.showEditor(true);
+		obj.dropdownCalendar();
+	}
+	else if(obj.getCurEditType() == "text")
+	{
+		obj.setCellPos(e.cell);
+		obj.showEditor(true);
+		
+		//내용 있을 때 클릭 시 맨 오른쪽에 가도록
+		var sCellText = obj.getCellText(e.row, e.cell);
+		if(!this.gfnIsEmpty(sCellText)) obj.setEditSelect(sCellText.length, sCellText.length);
+	}
+};
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.grd_Manintenance_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col == "1")
+	{
+		this.fnComCellClick(obj, e);
+	}
+};
+
+this.dsManintenance_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "SALES_EMP_NO")
+	{
+		this.fnChangeSendMailEmp(obj, e);
+	}
+};
+
+this.dsManintenance2_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "SALES_EMP_NO")
+	{
+		this.fnChangeSendMailEmp(obj, e);
+	}
+};
+
+this.btn_Cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+};
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+};
+
+this.btn_SendMail_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.fnValidation())	
+	{
+		if(this.confirm(this.gfnGetTransTxt(1661, "메일 발송을 진행 하시겠습니까?")))
+		{
+			this.fnSendMail();
+		}
+	}
+	else 
+	{
+		alert(this.gfnGetTransTxt(1200, "메일 수신인을 선택해주세요."));
+	}
+};
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 직원 리스트 조회
+this.fnMAEmpList = function()
+{
+	var app = nexacro.getApplication();	
+	var date = new Date();
+	var curYear = this.gfnGetDateMaskFormatString(date, "yyyy");
+	
+	this.gfnAddSendParameter("YEAR", curYear);
+	this.gfnAddSendParameter("FORM_NM", this.name);
+	
+	this.gfnAddOutputDataset("dsMAEmpList", "dsOutput");
+	this.gfnCommonTransaction("GetSalesList", "SS_GoalSearch_S01");
+};
+
+// 메일 수신인 변경 작업
+this.fnChangeSendMailEmp = function(objDs, e)
+{
+	var ds = this.dsMAEmpList;
+	
+	if(e.columnid == "SALES_EMP_NO")
+	{
+		var sEmpNo = e.newvalue;
+		var sFindRow = ds.findRow("EMP_NO", sEmpNo);
+		var sCurRow = objDs.rowposition;
+		
+		objDs.setColumn(sCurRow, "SALES_EMP_NAME", ds.getColumn(sFindRow, "EMP_NAME"));
+		objDs.setColumn(sCurRow, "EMAIL", ds.getColumn(sFindRow, "EMAIL"));
+	}
+};
+
+// 유효성 체크
+this.fnValidation = function()
+{
+	var result = true;
+	var objDs;
+	if(this.sMaKind == "1") objDs = this.dsManintenance;
+	else objDs = this.dsManintenance2;
+	
+	for(var i = 0; i < objDs.rowcount; i++)
+	{
+		var sSalesEmpNo = objDs.getColumn(i, "SALES_EMP_NO");
+		var sFindIdx = this.dsMAEmpList.findRow("EMP_NO", sSalesEmpNo);
+		
+		if(sFindIdx == -1) 
+		{
+			result = false; 
+			break;
+		}
+	}
+	return result;
+};
+
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		return;
+	}
+	else
+	{
+		if(strSvcID == "GetSalesList")
+		{
+			
+		}
+		else if(strSvcID == "SendMail")
+		{
+			alert(this.gfnGetTransTxt(1201, "메일 발송이 완료 되었습니다."));
+			this.commUtil.popupClose("mailSend");
+		}
+	}
+};
+
+this.fnSendMail = function()
+{
+	var objDs;
+	if(this.sMaKind == "1") objDs = this.dsManintenance;
+	else objDs = this.dsManintenance2;
+	
+	for (var i=0; i<objDs.rowcount; i++)
+	{
+		var nFindRow = -1;
+		var sEmpNo = objDs.getColumn(i, "SALES_EMP_NO");
+		var sEmpNm = objDs.getColumn(i, "SALES_EMP_NAME");
+		var sEmail = objDs.getColumn(i, "EMAIL");
+		var sChk = objDs.getColumn(i, "CHK");
+		
+		if (sEmpNm != "NWJ" && sChk == "1") 
+		{
+			if(this.gfnIsEmpty(sEmail)) {
+				sEmail = this.dsEmailList.getColumn(0,"EMAIL");
+				sEmpNm = this.dsEmailList.getColumn(0,"EMP_NM");
+			}
+			for (var j=0; j<this.dsSalesEmpList.rowcount; j++)
+			{
+				var sCompEmpNo = this.dsSalesEmpList.getColumn(j, "EMP_NO");
+				if (sEmpNo == sCompEmpNo) {
+					nFindRow = j;
+					break;
+				}
+			}
+			
+			if (nFindRow < 0) {
+				var nAddRow = this.dsSalesEmpList.addRow();
+				this.dsSalesEmpList.setColumn(nAddRow, "EMP_NO",	sEmpNo);
+				this.dsSalesEmpList.setColumn(nAddRow, "EMP_NAME",	sEmpNm);
+				this.dsSalesEmpList.setColumn(nAddRow, "EMAIL",		sEmail);
+			}
+		}
+	}
+	var sToday = this.gfnToday();
+	
+	this.gfnAddSendParameter("MA_KIND",		this.sMaKind);
+	this.gfnAddSendParameter("MONTH",		sToday.substr(4, 2));
+	this.gfnAddSendParameter("USER_EMAIL",	this.FV_LOGIN_EMAIL);
+	
+	this.gfnAddInputDataset("dsSalesEmpList", "ds_salesemplist", "N");
+	this.gfnAddInputDataset("dsManintenance", "ds_manintenance", "N");
+	this.gfnAddInputDataset("dsManintenance2", "ds_manintenance2", "N");
+	
+	this.gfnCommonTransaction("SendMail", "BM_SalesSerpport_SendMail_R01");
+};]]></Script>
+  </Form>
+</FDL>

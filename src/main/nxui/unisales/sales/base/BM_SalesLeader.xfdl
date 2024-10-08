@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BM_SalesLeader" width="622" height="562" titletext="영업초기-관리" onload="BM_SalesLeader_onload">
+    <Layouts>
+      <Layout height="562" mobileorientation="landscape" width="622">
+        <Static id="stc_GBProduct" taborder="0" cssclass="sta_POP_GroupBg" left="0" top="4" right="0" height="30" text=""/>
+        <Static id="stc_Title3" taborder="1" text="영업실적" visible="true" cssclass="sta_POP_GroupTit" top="11" left="12" height="16" width="166" TL_SEQ="2123"/>
+        <Static id="stc_Sales_List" taborder="5" cssclass="sta_WF_detailBg" top="stc_GBProduct:4" text="" left="0" width="244" bottom="50.53%"/>
+        <BasicChart id="BasicChart00" taborder="2" top="stc_GBProduct:4" border="1px solid #c8c8c8" bottom="50.66%" binddataset="dsGroup" categorycolumn="bind:DEPT_NM" left="stc_Sales_List:4" right="0">
+          <Contents><![CDATA[{
+	"title": {
+		"id": "title",
+		"textfont": "bold 9pt/normal 'Dotum'",
+		"padding": "0px 0px 5px",
+		"text": "그룹 월실적"
+	},
+	"tooltip": {
+		"id": "tooltip",
+		"background": "#4b4b4b",
+		"linestyle": "0px none",
+		"textcolor": "white",
+		"textfont": "9pt/normal 'Dotum'",
+		"padding": "5px",
+		"visible": true
+	},
+	"board": {
+		"id": "board",
+		"visible": true
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletextcolor": "#4c4c4c",
+		"titletextfont": "bold 9pt 'Dotum'",
+		"labeltextcolor": "#6f6f6f",
+		"labeltextfont": "9pt 'Dotum'",
+		"axislinestyle": "1px solid #525252",
+		"ticklinestyle": "1px solid #525252",
+		"boardlinestyle": "1px solid #d0d0d0",
+		"visible": true
+	},
+	"seriesset": [
+		{
+			"id": "series0",
+			"titletext": "제품",
+			"barvisible": true,
+			"barsize": "65",
+			"itemtextvisible": "false",
+			"itemtextcolor": "#003860",
+			"itemtextfont": "bold 9pt 'Dotum'",
+			"valuecolumn": "bind:CL_M_P"
+		},
+		{
+			"id": "series1",
+			"valuecolumn": "bind:CL_M_S",
+			"titletext": "용역"
+		},
+		{
+			"id": "series4",
+			"valuecolumn": "bind:CL_M_T",
+			"titletext": "컨설팅"
+		},
+		{
+			"id": "series2",
+			"valuecolumn": "bind:CL_M_M",
+			"titletext": "유지보수"
+		},
+		{
+			"id": "series3",
+			"valuecolumn": "bind:CL_M_G",
+			"titletext": "상품"
+		}
+	],
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"boardlinevisible": true,
+			"boardlinestyle": "1px solid #d0d0d0",
+			"labeltextcolor": "#6f6f6f",
+			"labeltextfont": "9pt/normal 'Dotum'",
+			"titletextcolor": "#4c4c4c",
+			"titletextfont": "bold 9pt 'Dotum'",
+			"ticklinestyle": "1px solid #525252",
+			"axislinestyle": "1px solid #525252",
+			"autotickscale": "5",
+			"labeltype": "number",
+			"visible": "true"
+		}
+	],
+	"legend": {
+		"id": "legend",
+		"padding": "3px 10px 3px 10px",
+		"itemtextfont": "9pt \"맑은 고딕\"",
+		"itemtextcolor": "#4c4c4c"
+	}
+}]]></Contents>
+        </BasicChart>
+        <Static id="stc_Sales_List00" taborder="6" cssclass="sta_WF_detailBg" top="stc_Sales_List:4" text="" left="0" width="244" bottom="0"/>
+        <BasicChart id="BasicChart01" taborder="3" top="BasicChart00:4" border="1px solid #c8c8c8" bottom="0" binddataset="dsTeam" categorycolumn="bind:DEPT_NM" rotateaxis="true" left="stc_Sales_List00:4" right="0">
+          <Contents><![CDATA[{
+	"title": {
+		"id": "title",
+		"textfont": "bold 9pt/normal 'Dotum'",
+		"padding": "0px 0px 5px",
+		"text": "팀별 월실적"
+	},
+	"legend": {
+		"id": "legend",
+		"padding": "3px 10px 3px 10px",
+		"itemtextfont": "9pt 'Dotum'",
+		"itemtextcolor": "#4c4c4c"
+	},
+	"tooltip": {
+		"id": "tooltip",
+		"background": "#4b4b4b",
+		"linestyle": "0px none",
+		"textcolor": "white",
+		"textfont": "9pt/normal 'Dotum'",
+		"padding": "5px"
+	},
+	"board": {
+		"id": "board"
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletextcolor": "#4c4c4c",
+		"titletextfont": "bold 9pt 'Dotum'",
+		"labeltextcolor": "#6f6f6f",
+		"labeltextfont": "9pt 'Dotum'",
+		"axislinestyle": "1px solid #525252",
+		"ticklinestyle": "1px solid #525252",
+		"boardlinestyle": "1px solid #d0d0d0",
+		"visible": true
+	},
+	"seriesset": [
+		{
+			"id": "series0",
+			"titletext": "제품",
+			"barvisible": true,
+			"barsize": "65",
+			"itemtextvisible": "false",
+			"itemtextcolor": "#003860",
+			"itemtextfont": "bold 9pt 'Dotum'",
+			"valuecolumn": "bind:P_PRICE",
+			"itemtexttype": "number"
+		},
+		{
+			"id": "series1",
+			"titletext": "용역",
+			"barvisible": true,
+			"barsize": "65",
+			"itemtextvisible": "false",
+			"itemtextcolor": "#003860",
+			"itemtextfont": "bold 9pt 'Dotum'",
+			"valuecolumn": "bind:S_PRICE",
+			"itemtexttype": "number"
+		},
+		{
+			"id": "series4",
+			"titletext": "컨설팅",
+			"barvisible": true,
+			"barsize": "65",
+			"itemtextvisible": "false",
+			"itemtextcolor": "#003860",
+			"itemtextfont": "bold 9pt 'Dotum'",
+			"valuecolumn": "bind:T_PRICE",
+			"itemtexttype": "number"
+		},
+		{
+			"id": "series2",
+			"titletext": "유지보수",
+			"barvisible": true,
+			"barsize": "65",
+			"itemtextvisible": "false",
+			"itemtextcolor": "#003860",
+			"itemtextfont": "bold 9pt 'Dotum'",
+			"valuecolumn": "bind:M_PRICE",
+			"itemtexttype": "number"
+		},
+		{
+			"id": "series3",
+			"titletext": "상품",
+			"barvisible": true,
+			"barsize": "65",
+			"itemtextvisible": "false",
+			"itemtextcolor": "#003860",
+			"itemtextfont": "bold 9pt 'Dotum'",
+			"valuecolumn": "bind:G_PRICE",
+			"itemtexttype": "number"
+		}
+	],
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"boardlinevisible": true,
+			"boardlinestyle": "1px solid #d0d0d0",
+			"labeltextcolor": "#6f6f6f",
+			"labeltextfont": "9pt/normal 'Dotum'",
+			"titletextcolor": "#4c4c4c",
+			"titletextfont": "bold 9pt 'Dotum'",
+			"ticklinestyle": "1px solid #525252",
+			"axislinestyle": "1px solid #525252",
+			"labeltype": "number",
+			"autotickscale": "5"
+		}
+	]
+}]]></Contents>
+        </BasicChart>
+        <Static id="stc_Title00" taborder="4" text="(단위 : 원)" visible="true" top="11" height="16" width="102" textAlign="right" right="4"/>
+        <Static id="stc_SalesResultPerMonth" taborder="7" text="현재 달성" left="16" top="stc_GBProduct:12" cssclass="sta_WF_DetailTit" font="bold 12pt/normal 'Dotum'" height="23" width="220" TL_SEQ="2124"/>
+        <Static id="stc_SalesResultPerMonthResult" taborder="8" text="원" left="32" cssclass="sta_WF_DetailTit" font="bold 15pt/normal 'Dotum'" width="204" height="30" top="stc_SalesResultPerMonth:4" color="royalblue"/>
+        <Static id="stc_SalesGoalPerMonth" taborder="9" text="사업그룹 년간 목표" left="16" cssclass="sta_WF_DetailTit" font="bold 12pt/normal 'Dotum'" height="30" top="stc_SalesResultPerMonthResult:4" width="220" TL_SEQ="2126"/>
+        <Static id="stc_SalesGoalPerMonthResult" taborder="10" text="원" left="32" cssclass="sta_WF_DetailTit" font="bold 15pt/normal 'Dotum'" width="204" height="30" top="stc_SalesGoalPerMonth:4" color="royalblue" TL_SEQ="2032"/>
+        <Static id="stc_SalesResultPerMonth03" taborder="11" text="" left="8" cssclass="sta_WF_DetailTit" font="normal bold 15pt/normal &quot;Arial&quot;" border="1px dotted,0px none,0px none" width="228" height="4" top="stc_SalesGoalPerMonthResult:4"/>
+        <Static id="stc_SalesResult" taborder="12" text="원" left="32" cssclass="sta_WF_DetailTit" font="bold 15pt/normal 'Dotum'" height="30" top="stc_SalesResultPerMonth03:4" width="204" color="royalblue" TL_SEQ="2032"/>
+        <Static id="stc_SalesResultPerMonthProduct" taborder="13" text="제품 금월 실적" left="8" cssclass="sta_WF_DetailTit" font="9pt/normal 'Dotum'" textAlign="right" width="106" height="16" top="stc_Sales_List:12" TL_SEQ="2127"/>
+        <Static id="stc_SalesResultPerYearProduct" taborder="14" text="제품 금년 실적" left="8" cssclass="sta_WF_DetailTit" font="9pt/normal 'Dotum'" textAlign="right" width="106" height="16" top="stc_SalesResultPerMonthProduct:4" TL_SEQ="2128"/>
+        <Static id="stc_SalesResultPerMonthMiddle1" taborder="15" text="" left="8" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" border="1px dotted,0px none,0px none" height="4" width="228" top="stc_SalesResultPerYearProduct:4"/>
+        <Static id="stc_SalesResultPerMonthSi" taborder="16" text="용역 금월 실적" left="8" cssclass="sta_WF_DetailTit" font="9pt/normal 'Dotum'" height="16" textAlign="right" width="106" top="stc_SalesResultPerMonthMiddle1:4" TL_SEQ="2129"/>
+        <Static id="stc_SalesResultPerYearSi" taborder="17" text="용역 금년 실적" left="8" cssclass="sta_WF_DetailTit" font="9pt/normal 'Dotum'" height="16" textAlign="right" width="106" top="stc_SalesResultPerMonthSi:4" TL_SEQ="2130"/>
+        <Static id="stc_SalesResultPerMonthMiddle4" taborder="32" text="" left="8" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" border="1px dotted,0px none,0px none" height="4" width="228" top="stc_SalesResultPerYearSi:4"/>
+        <Static id="stc_SalesResultPerMonthConsulting" taborder="33" text="컨설팅 금월 실적" left="8" cssclass="sta_WF_DetailTit" font="9pt/normal 'Dotum'" height="16" textAlign="right" width="106" top="stc_SalesResultPerMonthMiddle4:4" TL_SEQ="2131"/>
+        <Static id="stc_SalesResultPerYearConsulting" taborder="34" text="컨설팅 금년 실적" left="8" cssclass="sta_WF_DetailTit" font="9pt/normal 'Dotum'" height="16" textAlign="right" width="106" top="stc_SalesResultPerMonthMiddle4:24" TL_SEQ="2132"/>
+        <Static id="stc_SalesResultPerMonthMiddle2" taborder="18" text="" left="8" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" border="1px dotted,0px none,0px none" height="4" width="228" top="stc_SalesResultPerYearConsulting:4"/>
+        <Static id="stc_SalesResultPerMonthMaintenence" taborder="19" text="유지보수 금월 실적" left="8" cssclass="sta_WF_DetailTit" font="9pt/normal 'Dotum'" height="16" textAlign="right" width="106" top="stc_SalesResultPerMonthMiddle2:4" TL_SEQ="2133"/>
+        <Static id="stc_SalesResultPerYearMaintenence" taborder="20" text="유지보수 금년 실적" left="8" cssclass="sta_WF_DetailTit" font="9pt/normal 'Dotum'" height="16" textAlign="right" top="stc_SalesResultPerMonthMaintenence:4" width="106" TL_SEQ="2134"/>
+        <Static id="stc_SalesResultPerMonthMiddle3" taborder="21" text="" left="8" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" border="1px dotted,0px none,0px none" height="4" top="stc_SalesResultPerYearMaintenence:4" width="228"/>
+        <Static id="stc_SalesResultPerMonthGoods" taborder="22" text="상품 금월 실적" left="8" cssclass="sta_WF_DetailTit" font="9pt/normal 'Dotum'" height="16" textAlign="right" top="stc_SalesResultPerMonthMiddle3:4" width="106" TL_SEQ="2135"/>
+        <Static id="stc_SalesResultPerYearGoods" taborder="23" text="상품 금년 실적" left="8" cssclass="sta_WF_DetailTit" font="9pt/normal 'Dotum'" height="16" textAlign="right" top="stc_SalesResultPerMonthGoods:4" width="106" TL_SEQ="2136"/>
+        <Static id="stc_SalesResultPerMonthGoods00" taborder="25" text=" 원" left="120" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" height="16" textAlign="right" top="stc_SalesResultPerMonthMiddle3:4" width="116"/>
+        <Static id="stc_SalesResultPerYearGoods00" taborder="24" text=" 원" left="120" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" height="16" textAlign="right" top="stc_SalesResultPerMonthGoods00:4" width="116"/>
+        <Static id="stc_SalesResultPerMonthMaintenence00" taborder="27" text=" 원" left="120" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" height="16" textAlign="right" width="116" top="stc_SalesResultPerMonthMiddle2:4"/>
+        <Static id="stc_SalesResultPerYearMaintenence00" taborder="26" text=" 원" left="120" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" height="16" textAlign="right" top="stc_SalesResultPerMonthMaintenence00:4" width="116"/>
+        <Static id="stc_SalesResultPerMonthSi00" taborder="29" text=" 원" left="120" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" height="16" textAlign="right" width="116" top="stc_SalesResultPerMonthMiddle1:4"/>
+        <Static id="stc_SalesResultPerYearSi00" taborder="28" text=" 원" left="120" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" height="16" textAlign="right" width="116" top="stc_SalesResultPerMonthSi00:4"/>
+        <Static id="stc_SalesResultPerMonthProduct00" taborder="31" text=" 원" left="120" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" textAlign="right" width="116" height="16" top="stc_Sales_List:12"/>
+        <Static id="stc_SalesResultPerYearProduct00" taborder="30" text=" 원" left="120" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" textAlign="right" width="116" height="16" top="stc_SalesResultPerMonthProduct00:4"/>
+        <Static id="stc_SalesResultPerMonthConsulting00" taborder="35" text=" 원" left="120" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" height="16" textAlign="right" width="116" top="stc_SalesResultPerMonthMiddle4:4"/>
+        <Static id="stc_SalesResultPerYearConsulting00" taborder="36" text=" 원" left="120" cssclass="sta_WF_DetailTit" font="bold 9pt/normal 'Dotum'" height="16" textAlign="right" width="116" top="stc_SalesResultPerMonthConsulting00:4"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 영업 대표 ()
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.12.18
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+var nUnit = 10000;
+var strUnit;
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.BM_SalesLeader_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //Grid 공통함수 호출
+	this.fnFormInit();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+	var sLangauge = nexacro.getApplication().gdsGlobal.getColumn(0, "LANGUAGE");
+	
+	if(sLangauge == "JAP") nUnit = nUnit/10;
+	
+	strUnit = this.gfnIntToHanGul(nUnit);
+	strUnit = " "+strUnit.substr(1,strUnit.length).trim();
+	
+	//Set Text Settings
+	var date = new Date();
+	var curDate = this.gfnGetDateMaskFormatString(date, "yyyyMMdd");  
+	var curYear = this.gfnGetDateMaskFormatString(date, "yyyy"); 
+	var curMonth = this.gfnGetDateMaskFormatString(date, "MM"); 	
+	this.stc_Title3.set_text( this.gfnGetTransTxt(2123, "영업실적") + " (" + curYear + this.gfnGetTransTxt(2025, "년") + " " + curMonth  + this.gfnGetTransTxt(403, "월") +")");
+	if(sLangauge == "JAP") {
+		this.stc_Title00.set_text("(" + this.gfnGetTransTxt(104, "단위") + " :"+strUnit + this.gfnGetTransTxt(2311, '엔') +")");
+	} else {
+		this.stc_Title00.set_text("(" + this.gfnGetTransTxt(104, "단위") + " :"+strUnit + this.gfnGetTransTxt(2032, '원') +")");
+	} 
+	
+ 	this.fnRequestInfoLeader();
+};
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnRequestInfoLeader = function()
+{
+	this.gfnAddSendParameter("UNIT", nUnit);
+	
+	this.gfnAddOutputDataset("dsTeam", "dsOutput1");
+	this.gfnAddOutputDataset("dsGroup", "dsOutput2");
+	
+	this.gfnCommonTransaction("RequestInfoLeader", "BM_SalesLeader_S01");
+};
+
+this.fnSetChart = function()
+{
+	//그룹 월실적 chart
+	this.BasicChart00.title.set_text(this.gfnGetTransTxt(2138, "그룹 월실적"));
+	this.BasicChart00.seriesset[0].set_titletext(this.gfnGetTransTxt(62, "제품"));
+	this.BasicChart00.seriesset[1].set_titletext(this.gfnGetTransTxt(17, "용역"));
+	this.BasicChart00.seriesset[2].set_titletext(this.gfnGetTransTxt(2031, "컨설팅"));
+	this.BasicChart00.seriesset[3].set_titletext(this.gfnGetTransTxt(46, "유지보수"));
+	this.BasicChart00.seriesset[4].set_titletext(this.gfnGetTransTxt(405, "상품"));
+	
+	//팀별 월실적 chart
+	this.BasicChart01.title.set_text(this.gfnGetTransTxt(2139, "팀별 월실적"));
+	this.BasicChart01.seriesset[0].set_titletext(this.gfnGetTransTxt(62, "제품"));
+	this.BasicChart01.seriesset[1].set_titletext(this.gfnGetTransTxt(17, "용역"));
+	this.BasicChart01.seriesset[2].set_titletext(this.gfnGetTransTxt(2031, "컨설팅"));
+	this.BasicChart01.seriesset[3].set_titletext(this.gfnGetTransTxt(46, "유지보수"));
+	this.BasicChart01.seriesset[4].set_titletext(this.gfnGetTransTxt(405, "상품"));
+}
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		if(strSvcID == "RequestInfoLeader")
+		{	
+			this.stc_SalesResultPerMonth.set_text(this.dsGroup.getColumn(0,"MONTH")+" " + this.gfnGetTransTxt(2124, "현재 달성"));
+			this.stc_SalesGoalPerMonth.set_text(this.dsGroup.getColumn(0,"DEPT_NM")+" " + this.gfnGetTransTxt(2137, "년간 목표"));
+			
+			this.stc_SalesResultPerMonthResult.set_text(		this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_Y"), 1), "9,999.9")+strUnit);
+			this.stc_SalesGoalPerMonthResult.set_text(			this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"SG_Y"), 1), "9,999.9")+strUnit);
+			this.stc_SalesResult.set_text(						this.gfnGetNumMaskFormatString(nexacro.round((this.dsGroup.getColumn(0,"SG_Y")-this.dsGroup.getColumn(0,"CL_Y")), 1), "9,999.9")+strUnit);
+
+			this.stc_SalesResultPerMonthProduct00.set_text(		this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_M_P"), 1), "9,999.9")+strUnit);
+			this.stc_SalesResultPerYearProduct00.set_text(		this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_Y_P"), 1), "9,999.9")+strUnit);
+			this.stc_SalesResultPerMonthSi00.set_text(			this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_M_S"), 1), "9,999.9")+strUnit);
+			this.stc_SalesResultPerYearSi00.set_text(			this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_Y_S"), 1), "9,999.9")+strUnit);
+			this.stc_SalesResultPerMonthConsulting00.set_text(	this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_M_T"), 1), "9,999.9")+strUnit);
+			this.stc_SalesResultPerYearConsulting00.set_text(	this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_Y_T"), 1), "9,999.9")+strUnit);
+			this.stc_SalesResultPerMonthMaintenence00.set_text(	this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_M_M"), 1), "9,999.9")+strUnit);
+			this.stc_SalesResultPerYearMaintenence00.set_text(	this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_Y_M"), 1), "9,999.9")+strUnit);
+			this.stc_SalesResultPerMonthGoods00.set_text(		this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_M_G"), 1), "9,999.9")+strUnit);
+			this.stc_SalesResultPerYearGoods00.set_text(		this.gfnGetNumMaskFormatString(nexacro.round(this.dsGroup.getColumn(0,"CL_Y_G"), 1), "9,999.9")+strUnit);
+			
+			this.fnSetChart();
+		}
+	}
+};
+
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		
+	}
+};]]></Script>
+    <Objects>
+      <Dataset id="dsTeam">
+        <ColumnInfo>
+          <Column id="DEPT_NM" type="string" size="510"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="KIND" type="string" size="6"/>
+          <Column id="P_PRICE" type="float" size="22"/>
+          <Column id="S_PRICE" type="float" size="22"/>
+          <Column id="T_PRICE" type="float" size="22"/>
+          <Column id="M_PRICE" type="float" size="22"/>
+          <Column id="G_PRICE" type="float" size="22"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsGroup">
+        <ColumnInfo>
+          <Column id="DEPT_NM" type="string" size="20"/>
+          <Column id="DEPT_CD" type="string" size="20"/>
+          <Column id="YEAR" type="string" size="6"/>
+          <Column id="MONTH" type="string" size="4"/>
+          <Column id="CL_M_P" type="float" size="22"/>
+          <Column id="CL_M_S" type="float" size="22"/>
+          <Column id="CL_M_T" type="float" size="22"/>
+          <Column id="CL_M_M" type="float" size="22"/>
+          <Column id="CL_M_G" type="float" size="22"/>
+          <Column id="CL_Y_P" type="float" size="22"/>
+          <Column id="CL_Y_S" type="float" size="22"/>
+          <Column id="CL_Y_T" type="float" size="22"/>
+          <Column id="CL_Y_M" type="float" size="22"/>
+          <Column id="CL_Y_G" type="float" size="22"/>
+          <Column id="CL_Y" type="float" size="22"/>
+          <Column id="SG_Y" type="float" size="22"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

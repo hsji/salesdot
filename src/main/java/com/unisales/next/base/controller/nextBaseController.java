@@ -319,7 +319,7 @@ public class nextBaseController {
  	 */	    
      @RequestMapping("/saveNextFileUpload.do")
      public NexacroResult saveNextFileUpload(HttpServletRequest request, HttpServletResponse response) throws Exception {
- 	    	
+    	 System.out.println("########saveNextFileUpload");
      	NexterUtil NexUtil = new NexterUtil();
 
      	// Login 사용자 정보를 받은 Map
@@ -378,9 +378,17 @@ public class nextBaseController {
  			
  			String saveFileName = getUuid(); 
  			String sCd = dsIsrtFiles.getString(row, "SOURCE_CD");
+ 	     	File dir1 = new File(path + File.separator + SALES_DIR + File.separator + sCd); 
+ 	     	if (!dir1.isDirectory()) { 
+ 	     		dir1.mkdirs(); 
+ 	     	}
  			String serverPath = path + File.separator + SALES_DIR + File.separator + sCd + File.separator + saveFileName;
  			File serverFile = new File(serverPath); 
+ 			
+ 	     	
  			mfile.transferTo(serverFile); 
+ 			
+ 			System.out.println("########" + serverPath);
  			
  			Map<String,Object> inMap = new HashMap<>();
 			

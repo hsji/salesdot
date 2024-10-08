@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BM_SalesPopup" width="600" height="300" titletext="영업초기 상세팝업" cssclass="frm_popBg" onload="BM_SalesPopup_onload">
+    <Layouts>
+      <Layout height="300" mobileorientation="landscape" width="600">
+        <Grid id="grd_Detail" taborder="0" left="8" top="44" autofittype="col" right="8" cellmovingtype="col" cellsizingtype="col" bottom="44" formatid="default" binddataset="dsDetail" oncelldblclick="grd_Detail_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="160"/>
+                <Column size="300"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구분" TL_SEQ="68"/>
+                <Cell col="1" text="고객사" TL_SEQ="32"/>
+                <Cell col="2" text="프로젝트" TL_SEQ="119"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:KIND" displaytype="combotext" combodataset="dsCode" combodatacol="data" combocodecol="code"/>
+                <Cell col="1" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:PROJECT_NAME" textAlign="left"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_Close" taborder="1" top="8" width="15" height="15" right="11" cssclass="btn_POP_Cls" text="" escapebutton="true" onclick="btn_Close_onclick"/>
+        <Static id="stc_BottomFrame" taborder="2" left="2" height="35" right="1" bottom="1" cssclass="sta_POP_BtnBg"/>
+        <Static id="Static00" taborder="3" text="업무처리현황 상세" left="8" top="5" width="180" height="22" color="white" cssclass="sta_POP_Title " TL_SEQ="2156"/>
+        <Button id="btn_Cancel" taborder="4" text="닫기" width="70" height="22" cssclass="btn_WF_cancel" right="8" bottom="8" onclick="btn_Close_onclick" TL_SEQ="59"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 
+* 03. 화면설명 : 
+* 04. 작성일   : 
+* 05. 작성자   : 
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.BM_SalesPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.fnFormInit();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{	
+	this.dsDetail.assign(this.parent.pvDataset);
+	this.dsDetail.filter("KIND=='"+this.parent.pvKind+"'");	
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+};
+
+this.grd_Detail_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var strKind 	= this.dsDetail.getColumn(e.row, "KIND");
+	var nSeq 		= this.dsDetail.getColumn(e.row, "SEQ");
+	var sProjectCd	= this.dsDetail.getColumn(e.row, "PROJECT_CODE");
+	var sProjectNm	= this.dsDetail.getColumn(e.row, "PROJECT_NAME");
+	
+	var Argument = {pvFormType:"TR", pvRtsSeq:nSeq};
+	switch(strKind)
+	{
+		case "T_R" :	/* 지원인력 요청 or 승인 팝업 */
+		case "T_C" :
+			this.commUtil.popup (this, "TR_RequestTechniqueReg", "Technique::TR_RequestTechniqueReg.xfdl", -1, -1, 1000, 562, true, true, false, Argument, "fnPopupCallBack");
+			break;
+		case "S_R" :	/* SI인력 요청 or 승인 팝업 */
+		case "S_C" :
+			this.commUtil.popup (this, "TR_RequestSIStaffReg", "Technique::TR_RequestSIStaffReg.xfdl", -1, -1, 933, 700, true, true, false, Argument, "fnPopupCallBack");
+			break;
+		case "E_R" :	/* 교육 요청 or 승인 팝업 */
+		case "E_C" :
+			this.commUtil.popup (this, "TR_RequestOnsiteEduReg", "Technique::TR_RequestOnsiteEduReg.xfdl", -1, -1, 986, 744, true, true, false, Argument, "fnPopupCallBack");
+			break;
+		case "M_P" :	/* 유무상 유지보수 */
+		case "M_F" :
+			this.commUtil.popupProjectMM(this, "popProjectMM", "fnPopupCallBack", sProjectCd, sProjectNm, "R");
+			break;		
+	}	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsDetail"/>
+      <Dataset id="dsCode">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="data" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">E_R</Col>
+            <Col id="data">교육요청</Col>
+          </Row>
+          <Row>
+            <Col id="code">E_C</Col>
+            <Col id="data">교육요청 승인</Col>
+          </Row>
+          <Row>
+            <Col id="code">S_R</Col>
+            <Col id="data">인력 요청</Col>
+          </Row>
+          <Row>
+            <Col id="code">S_C</Col>
+            <Col id="data">인력요청 승인</Col>
+          </Row>
+          <Row>
+            <Col id="code">T_R</Col>
+            <Col id="data">기술지원 요청</Col>
+          </Row>
+          <Row>
+            <Col id="code">T_C</Col>
+            <Col id="data">기술지원 승인</Col>
+          </Row>
+          <Row>
+            <Col id="code">M_P</Col>
+            <Col id="data">유상 유지보수</Col>
+          </Row>
+          <Row>
+            <Col id="code">M_F</Col>
+            <Col id="data">무상 유지보수</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

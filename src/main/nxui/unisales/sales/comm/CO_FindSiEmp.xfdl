@@ -2,7 +2,7 @@
 <FDL version="2.1">
   <Form id="CO_FindSiEmp" width="900" height="600" titletext="투입인력 선택" cssclass="frm_popBg" onload="CO_FindSiEmp_onload">
     <Layouts>
-      <Layout height="600" mobileorientation="landscape" width="900" screenid="Desktop_screen">
+      <Layout height="600" mobileorientation="landscape" width="900">
         <Button id="btn_close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_close_onclick" escapebutton="true"/>
         <Static id="Static00" taborder="4" left="1" height="38" cssclass="sta_POP_BtnBg" bottom="1" right="1"/>
         <Button id="btn_Confirm" taborder="5" text="선택" width="60" height="24" right="88" bottom="7" cssclass="btn_WF_tran" onclick="btn_Confirm_onclick" TL_SEQ="113"/>

@@ -87,12 +87,14 @@ this.btn_Confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	{
 		case "CLIENT":		
 			var sArgument = {COMPANY_CODE:this.parent.CLIENT_CODE, TAB_INDEX:3, MODE:"E"};
-			this.commUtil.popup(this, "CompanyReg", "sales::base/SC_CompanyReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+			sArgument.title = "고객사 담당자선택";
+			this.commUtil.popup(this, "CompanyReg", "sales::base/SC_CompanyPerson.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
 
 			break;
 		case "COMPANY":		
+			sArgument.title = "계약처 담당자선택";
 			var sArgument = {COMPANY_CODE:this.parent.COMPANY_CODE, TAB_INDEX:3, MODE:"E"};
-			this.commUtil.popup(this, "CompanyReg", "sales::base/SC_CompanyReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+			this.commUtil.popup(this, "CompanyReg", "sales::base/SC_CompanyPerson.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
 
 			break;
 		case "ETC":
@@ -115,9 +117,10 @@ this.fnInitForm = function()
 
 this.fnPopupCallBack = function (popupId, popupArg)
 {
-	popupArg = this.commUtil.popupReturn();
+	//popupArg = this.commUtil.popupReturn();
 	if(this.gfnIsEmpty(popupArg) || popupArg=="cancel" || popupArg=="close") {
 		this.close("cancel");
+		return;
 	}
 	
 	switch(popupId)

@@ -98,7 +98,7 @@ public class salesManagerServiceImpl implements salesManagerService {
 	            	Map<String,Object> contractCheckMap2 = sqlSession.selectOne("salesManagerMapper.selectContractUpdateCheck2", rowMap);
 	            	
 	            	datasetMap.put("ds_in_contract", rowMap);
-	            	if(contractCheckMap1.size() > 0 && contractCheckMap2.size() > 0) {
+	            	if(contractCheckMap1 != null && contractCheckMap2 != null && contractCheckMap1.size() > 0 && contractCheckMap2.size() > 0) {
 	            		String mainList = (String) contractCheckMap1.get("CONTRACT_MAIN_LIST");
 	            		String comp = (String) contractCheckMap2.get("COMPANY_NAME");
 	            		if(mainList != comp) {
@@ -145,29 +145,40 @@ public class salesManagerServiceImpl implements salesManagerService {
 		}	
 		
 		private Map<String, Object> copyItem(Map<String,Object> datasetMap, Map<String, Object> rowMap)  {
-			Map<String,Object> inContractMap = (Map<String, Object>) datasetMap.get("ds_in_contract");
-			Map<String,Object> inCondMap = (Map<String, Object>) datasetMap.get("dsCond");
-			
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "BUSINESS_TYPE");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "CONTRACT_NAME");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "PRODUCT_CODE");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "CONTRACT_DATE");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_EMP_NO");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_DEPT_CD");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_DEPT_NAME");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_CO_CD");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_EMP_NO");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_STATUS");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "PIPELINE_FLAG");
-			rowMap = selectItem(inContractMap, inCondMap, rowMap, "CONTRACT_MAIN");
-			
-			String contNo = (String) datasetMap.get("varContractNo");
-			if(contNo != null) {
-				if(rowMap.get("CONTRACT_NO") == null || rowMap.get("CONTRACT_NO").equals("")) {
-					rowMap.put("CONTRACT_NO", contNo);
+			try {
+				@SuppressWarnings("unchecked")
+				Map<String,Object> inContractMap = (Map<String, Object>) datasetMap.get("ds_in_contract");
+				@SuppressWarnings("unchecked")
+				Map<String,Object> inCondMap = (Map<String, Object>) datasetMap.get("dsCond");
+				
+				if(inContractMap != null && inCondMap != null) {
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "BUSINESS_TYPE");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "CONTRACT_NAME");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "PRODUCT_CODE");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "CONTRACT_DATE");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_EMP_NO");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_DEPT_CD");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_DEPT_NAME");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_CO_CD");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_EMP_NO");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "SALES_STATUS");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "PIPELINE_FLAG");
+					rowMap = selectItem(inContractMap, inCondMap, rowMap, "CONTRACT_MAIN");
 				}
+				
+				if(inContractMap != null) {
+					String contNo = (String) datasetMap.get("varContractNo");
+					if(contNo != null) {
+						if(rowMap.get("CONTRACT_NO") == null || rowMap.get("CONTRACT_NO").equals("")) {
+							rowMap.put("CONTRACT_NO", contNo);
+						}
+					}
+				}
+			} catch(Exception e) {
+				
+			} finally {
+				
 			}
-			
 			
 			return rowMap;
 		}		
@@ -515,22 +526,14 @@ public class salesManagerServiceImpl implements salesManagerService {
 						pjtCode =  (String) pjtCodeMap.get("PROJECT_CODE");
 						rowMap.put("PROJECT_CODE", pjtCode);
 					}
-					if(rowMap.get("CONTRACT_TYPE").equals("S")) {
-						rowMap.put("CONTRACT_TYPE", "ZS");
-					}
+
 					String cNo = sqlSession.selectOne("salesManagerMapper.selectContractNo", rowMap);
 					if(cNo == null) {  		
 						createCheck = true;
 						cNo = sqlSession.selectOne("salesManagerMapper.selectCreateContractNo", rowMap);
 					}
 					rowMap.put("CONTRACT_NO", cNo);
-					
-	    			String sProjectCd =		(String) rowMap.get("PROJECT_CODE");
-	    			if(sProjectCd == null || sProjectCd.equals("")) {
-	    				Map<String,Object> pjtCodeMap = (Map<String, Object>) datasetMap.get("ds_project_cd");
-	    				sProjectCd = (String) pjtCodeMap.get("PROJECT_CODE");
-	    				rowMap.put("PROJECT_CODE", sProjectCd);
-	    			}
+	    			
 	    			rowMap = copyItem(datasetMap, rowMap);
 	    			
 	    			if(createCheck == true) {
@@ -593,13 +596,7 @@ public class salesManagerServiceImpl implements salesManagerService {
 						createCheck = true;
 					}
 					rowMap.put("CONTRACT_NO", cNo);
-					
-	    			String sProjectCd =		(String) rowMap.get("PROJECT_CODE");
-	    			if(sProjectCd == null || sProjectCd.equals("")) {
-	    				Map<String,Object> pjtCodeMap = (Map<String, Object>) datasetMap.get("ds_project_cd");
-	    				sProjectCd = (String) pjtCodeMap.get("PROJECT_CODE");
-	    				rowMap.put("PROJECT_CODE", sProjectCd);
-	    			}							
+								
 	    			rowMap = copyItem(datasetMap, rowMap);
 					
 	    			if(createCheck == true) {
@@ -649,6 +646,16 @@ public class salesManagerServiceImpl implements salesManagerService {
 
 			    System.out.println("\t" + rowIndex + ">>>:rowType" + rowType);
 				if (rowType == DataSet.ROW_TYPE_INSERTED){
+					
+					String pjtCode = (String) rowMap.get("PROJECT_CODE");
+					if(pjtCode == null || pjtCode.equals("")) {
+						Map<String,Object> pjtCodeMap = (Map<String, Object>) datasetMap.get("ds_project_cd");
+						pjtCode =  (String) pjtCodeMap.get("PROJECT_CODE");
+						rowMap.put("PROJECT_CODE", pjtCode);
+					}			
+					
+					String purCode = sqlSession.selectOne("salesManagerMapper.selectCreatePurchaseCode",rowMap);
+					rowMap.put("CONTRACT_NO_PURCHASE", purCode);
 					sqlSession.insert("salesManagerMapper.insertPresalesPurchase",rowMap);
 					sqlSession.insert("salesManagerMapper.insertPresalesPurchaseProduct",rowMap);
 					sqlSession.insert("salesManagerMapper.insertPresalesPurchaseProductDetail",rowMap);
@@ -692,6 +699,12 @@ public class salesManagerServiceImpl implements salesManagerService {
 
 			    System.out.println("\t" + rowIndex + ">>>:rowType" + rowType);
 				if (rowType == DataSet.ROW_TYPE_INSERTED){
+					String pjtCode = (String) rowMap.get("PROJECT_CODE");
+					if(pjtCode == null || pjtCode.equals("")) {
+						Map<String,Object> pjtCodeMap = (Map<String, Object>) datasetMap.get("ds_project_cd");
+						pjtCode =  (String) pjtCodeMap.get("PROJECT_CODE");
+						rowMap.put("PROJECT_CODE", pjtCode);
+					}								
 					sqlSession.insert("salesManagerMapper.insertPresalesSchedule",rowMap);
 				} else if (rowType == DataSet.ROW_TYPE_UPDATED) {		    	
 			    	sqlSession.update("salesManagerMapper.updatePresalesSchedule",rowMap);	
@@ -728,6 +741,12 @@ public class salesManagerServiceImpl implements salesManagerService {
 
 			    System.out.println("\t" + rowIndex + ">>>:rowType" + rowType);
 				if (rowType == DataSet.ROW_TYPE_INSERTED){
+					String pjtCode = (String) rowMap.get("PROJECT_CODE");
+					if(pjtCode == null || pjtCode.equals("")) {
+						Map<String,Object> pjtCodeMap = (Map<String, Object>) datasetMap.get("ds_project_cd");
+						pjtCode =  (String) pjtCodeMap.get("PROJECT_CODE");
+						rowMap.put("PROJECT_CODE", pjtCode);
+					}								
 					sqlSession.insert("salesManagerMapper.insertCAMap",rowMap);
 				} else if (rowType == DataSet.ROW_TYPE_UPDATED) {		    	
 
@@ -750,7 +769,7 @@ public class salesManagerServiceImpl implements salesManagerService {
 	    				throws Exception {
 
 	    	SqlSession sqlSession = sqlSession1.getSqlSessionFactory().openSession();
-	    	//sqlSession.getConnection().setAutoCommit(false);
+	    	sqlSession.getConnection().setAutoCommit(false);
 	    	
 	    	try {
 	    		// PROJECT
@@ -784,15 +803,27 @@ public class salesManagerServiceImpl implements salesManagerService {
 		    	dataSetRowLoopCS(sqlSession, datasetMap, userInfo);
 		    	System.out.println("===[savePresalseList dataSetRowLoopCS end]===");
 		    	
+		    	
+		    	System.out.println("===[savePresalseList dataSetRowLoopPurchase start]===");
+		    	dataSetRowLoopPurchase(sqlSession, datasetMap, userInfo);
+		    	System.out.println("===[savePresalseList dataSetRowLoopPurchase start]===");
+		    	
+		    	
+		    	System.out.println("===[savePresalseList dataSetRowLoopSchedule start]===");
+		    	dataSetRowLoopSchedule(sqlSession, datasetMap, userInfo);
+		    	System.out.println("===[savePresalseList dataSetRowLoopSchedule start]===");		    	
+		    	
 		    	System.out.println("===[savePresalseList dataSetRowLoopAddress start]===");
 		    	dataSetRowLoopAddress(sqlSession, datasetMap, userInfo);
 		    	System.out.println("===[savePresalseList dataSetRowLoopAddress end]===");
 		 
+		    	sqlSession.getConnection().setAutoCommit(true);
 		    	sqlSession.commit();
 	    	} catch (Exception e) {
 	    		sqlSession.rollback();
 	    		throw new Exception();
 	    	} finally {
+	    		//sqlSession.getConnection().setAutoCommit(true);
 	    		sqlSession.close();
 	    	}
 	    }    

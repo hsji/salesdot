@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SS_ContractLicenseUnionPopup" width="840" height="520" titletext="New Form" cssclass="frm_popBg" onload="SS_ContractLicenseUnionPopup_onload">
+    <Layouts>
+      <Layout height="520" width="840">
+        <Static id="Static07" taborder="5" left="4" top="39" height="31" cssclass="sta_POP_GroupBg" right="4"/>
+        <Grid id="grd_list" taborder="0" left="4" top="75" height="403" right="4" autofittype="col" onexpandup="grd_list_onexpandup" binddataset="ds_ContractLicenseUnion">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="150"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="180"/>
+                <Column size="200"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="고객사" TL_SEQ="32"/>
+                <Cell col="1" text="계약번호" TL_SEQ="316"/>
+                <Cell col="2" text="계약일자" TL_SEQ="156"/>
+                <Cell col="3" text="프로젝트명" TL_SEQ="114"/>
+                <Cell col="4" text="계약명" TL_SEQ="33"/>
+                <Cell col="5" text="제품" TL_SEQ="62"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CLIENT_NAME" textAlign="left" expandimage="url('theme://images/btn_WF_Sch.png')" expandshow="show"/>
+                <Cell col="1" text="bind:CONTRACT_NO"/>
+                <Cell col="2" displaytype="date" text="bind:CONTRACT_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="3" text="bind:PROJECT_NAME"/>
+                <Cell col="4" text="bind:CONTRACT_NAME" textAlign="left"/>
+                <Cell col="5" textAlign="left" text="bind:PRODUCT_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00" taborder="1" left="0" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Save" taborder="2" text="저장" width="60" height="22" cssclass="btn_WF_tran" right="80" bottom="8" onclick="btn_Save_onclick" TL_SEQ="115"/>
+        <Button id="btn_Cancel" taborder="3" text="닫기" width="60" height="22" cssclass="btn_WF_cancel" right="10" bottom="8" onclick="btn_Close_onclick" TL_SEQ="59"/>
+        <Static id="Static08" taborder="4" text="라이선스 연결 계약 목록" left="14" top="48" width="208" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="317"/>
+        <Button id="btn_ListAdd" taborder="6" left="790" top="46" width="16" height="16" onclick="btn_ListAdd_onclick" cssclass="btn_POP_Add"/>
+        <Button id="btn_ListDel" taborder="7" left="814" top="46" width="16" height="16" onclick="btn_ListDel_onclick" cssclass="btn_POP_Del"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+/************************************************************************************************
+ * 01. 업무구분 : 라이선스 연결 계약
+ * 02. 화면명   : 라이선스 연결 계약 팝업(SS_ContractLicenseUnionPopup)
+ * 03. 화면설명 : 라이선스 연결 계약 팝업
+ * 04. 작성일   : 2021.08.25
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs";
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+ this.FV_CONTRACT_NO = "";
+ this.FV_PROJECT_CODE = "";
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.SS_ContractLicenseUnionPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.FV_CONTRACT_NO = this.parent.pvContractNo;
+	this.FV_PROJECT_CODE = this.parent.pvProjectCd;
+	
+	this.fn_QueryData();
+};
+
+
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+ 
+   // 매출계약현황 조회
+this.fn_QueryData = function()
+{
+		
+	// 조건값 셋팅
+	this.gfnAddSendParameter("CONTRACT_NO", this.FV_CONTRACT_NO);
+	
+	this.gfnAddOutputDataset("ds_ContractLicenseUnion",	"ds_list");
+	this.gfnCommonTransaction("SS_ContractLicenseUnionPopup_S01",	"SS_ContractLicenseUnionPopup_S01");
+}
+ 
+ this.fn_SaveData = function()
+{
+	this.gfnAddInputDataset("ds_ContractLicenseUnion", "ds_list",  "U");
+	this.gfnCommonTransaction("Save", "SS_ContractLicenseUnionPopup_R01");
+ }
+ 
+ 
+ 
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	if (nErrorCode<0) {
+		this.alert("["+nErrorCode+"] "+strErrorMag);
+		return
+	}
+	switch (strSvcID) 
+	{
+		case "SS_ContractLicenseUnionPopup_S01":
+			break;		
+		case "Save":
+			this.alert(this.gfnGetTransTxt(1140, "정상적으로 처리 되었습니다."));
+			break;	
+	}
+ }
+ 
+
+
+// 팝업 CallBack
+this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant)) {
+		return;
+	} else {	
+		this.recentVariant = Variant;
+		switch(sPopupId)
+		{
+		
+			case "popupProjectSearch":		// 계약추가시 프로젝트 검색
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);				
+
+				this.ds_ContractLicenseUnion.set_enableevent(false);
+				var nCurrow = this.ds_ContractLicenseUnion.rowposition;
+				
+				trace(ds.saveXML());
+				var nFindRow = this.ds_ContractLicenseUnion.findRow("CONTRACT_NO", ds.getColumn(0, "CONTRACT_NO"));
+				if (nFindRow < 0) {
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "PROJECT_CODE", 		ds.getColumn(0, "PROJECT_CODE"));
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "CONTRACT_NO",			ds.getColumn(0, "CONTRACT_NO"));
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "PROJECT_NAME", 		ds.getColumn(0, "PROJECT_NAME"));
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "CONTRACT_NAME",		ds.getColumn(0, "CONTRACT_NAME"));
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "CONTRACT_DATE",		ds.getColumn(0, "CONTRACT_DATE"));
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "CLIENT_CODE",			ds.getColumn(0, "CLIENT_CODE"));
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "CLIENT_NAME",			ds.getColumn(0, "CLIENT_NAME"));
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "PRODUCT_CODE", 		ds.getColumn(0, "PRODUCT_CODE"));
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "PRODUCT_NAME",			ds.getColumn(0, "PRODUCT_NAME"));
+					
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "MAIN_PROJECT_CODE",	this.FV_PROJECT_CODE);
+					this.ds_ContractLicenseUnion.setColumn(nCurrow, "MAIN_CONTRACT_NO",		this.FV_CONTRACT_NO);
+				} else {
+					this.alert(this.gfnGetTransTxt(1459, "선택한 계약은 이미 존재 합니다."));
+				}
+				this.ds_ContractLicenseUnion.set_enableevent(true);
+				
+			break;
+			
+		}
+	}
+}
+
+
+
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.grd_list_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	var sArgument = {};
+	sArgument.searchtype = "P"
+	this.commUtil.popupProjectSearch(this, "popupProjectSearch", "fnPopupCallBack", sArgument);
+};
+
+
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_SaveData();
+};
+
+
+
+this.btn_ListAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_ContractLicenseUnion.set_enableevent(false);
+	var nAddRow = this.ds_ContractLicenseUnion.addRow();
+	var sArgument = {};
+	sArgument.searchtype = "P"
+	this.commUtil.popupProjectSearch(this, "popupProjectSearch", "fnPopupCallBack", sArgument);
+	this.ds_ContractLicenseUnion.set_enableevent(true);
+};
+
+this.btn_ListDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if ( this.confirm(this.gfnGetTransTxt(1683, "삭제하시겠습니까?")) )	{
+		this.ds_ContractLicenseUnion.set_enableevent(false);
+		this.ds_ContractLicenseUnion.deleteRow(0);
+		this.ds_ContractLicenseUnion.set_enableevent(true);
+	}
+};
+
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_ContractLicenseUnion">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="MAIN_PROJECT_CODE" type="string" size="15"/>
+          <Column id="MAIN_CONTRACT_NO" type="string" size="10"/>
+          <Column id="ORG_CONTRACT_NO" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

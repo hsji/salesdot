@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BM_SalesLeader" width="622" height="562" titletext="영업초기-관리" onload="BM_SalesLeader_onload">
+    <Layouts>
+      <Layout height="562" mobileorientation="landscape" width="622">
+        <Tab id="tab_SalesLeader" taborder="1" tabindex="0" bottom="0" top="0" left="0" right="0">
+          <Tabpages>
+            <Tabpage id="tpg_SalesLeader" text="사업그룹" url="Base::BM_SalesLeader.xfdl" TL_SEQ="2305"/>
+            <Tabpage id="tpg_SalesTeam" text="영업팀" url="Base::BM_SalesTeam.xfdl"/>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 영업 대표 ()
+* 03. 화면설명 : 
+* 04. 작성일   : 2018.12.18
+* 05. 작성자   : 안주환
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+var curYear; 
+var curMonth;
+var nUnit = 10000;
+var strUnit;
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.BM_SalesLeader_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //Grid 공통함수 호출
+	this.fnFormInit();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnFormInit = function()
+{
+	var app = nexacro.getApplication();	
+	this.tab_SalesLeader.tpg_SalesTeam.set_text(app.gdsUserInfo.getColumn(0, "DEPT_NM"));
+};
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	else 
+	{
+		if(strSvcID == "RequestInfo")
+		{
+
+		}
+	}
+};
+
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name)
+	{
+		
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsProcessStatus"/>
+      <Dataset id="dsSalesStatus"/>
+      <Dataset id="dsSalesCheck"/>
+      <Dataset id="dsChart02">
+        <ColumnInfo>
+          <Column id="KIND" type="string" size="2"/>
+          <Column id="P_CL" type="float" size="22"/>
+          <Column id="S_CL" type="float" size="22"/>
+          <Column id="M_CL" type="float" size="22"/>
+          <Column id="G_CL" type="float" size="22"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsChart01">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="ORD" type="string" size="10"/>
+          <Column id="CL_Y" type="float" size="22"/>
+          <Column id="SG_Y" type="float" size="22"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSchedule"/>
+      <Dataset id="dsRequestSi"/>
+      <Dataset id="dsTeam">
+        <ColumnInfo>
+          <Column id="DEPT_NM" type="string" size="510"/>
+          <Column id="DEPT_CD" type="string" size="60"/>
+          <Column id="KIND" type="string" size="6"/>
+          <Column id="P_PRICE" type="float" size="22"/>
+          <Column id="S_PRICE" type="float" size="22"/>
+          <Column id="M_PRICE" type="float" size="22"/>
+          <Column id="G_PRICE" type="float" size="22"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsGroup">
+        <ColumnInfo>
+          <Column id="DEPT_NM" type="string" size="20"/>
+          <Column id="DEPT_CD" type="string" size="20"/>
+          <Column id="YEAR" type="string" size="6"/>
+          <Column id="MONTH" type="string" size="4"/>
+          <Column id="CL_M_P" type="float" size="22"/>
+          <Column id="CL_M_S" type="float" size="22"/>
+          <Column id="CL_M_M" type="float" size="22"/>
+          <Column id="CL_M_G" type="float" size="22"/>
+          <Column id="SG_M_P" type="float" size="22"/>
+          <Column id="SG_M_S" type="float" size="22"/>
+          <Column id="SG_M_M" type="float" size="22"/>
+          <Column id="SG_M_G" type="float" size="22"/>
+          <Column id="CL_Y_P" type="float" size="22"/>
+          <Column id="CL_Y_S" type="float" size="22"/>
+          <Column id="CL_Y_M" type="float" size="22"/>
+          <Column id="CL_Y_G" type="float" size="22"/>
+          <Column id="SG_Y_P" type="float" size="22"/>
+          <Column id="SG_Y_S" type="float" size="22"/>
+          <Column id="SG_Y_M" type="float" size="22"/>
+          <Column id="SG_Y_G" type="float" size="22"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DEPT_NM">사업그룹</Col>
+            <Col id="DEPT_CD">I010101</Col>
+            <Col id="YEAR">2019년</Col>
+            <Col id="MONTH">04월</Col>
+            <Col id="CL_M_P">0.0</Col>
+            <Col id="CL_M_S">846850.2</Col>
+            <Col id="CL_M_M">492381.34</Col>
+            <Col id="CL_M_G">0.0</Col>
+            <Col id="SG_M_P">116000.0</Col>
+            <Col id="SG_M_S">74500.0</Col>
+            <Col id="SG_M_M">50950.0</Col>
+            <Col id="SG_M_G">4900.0</Col>
+            <Col id="CL_Y_P">2146218.2</Col>
+            <Col id="CL_Y_S">5982452.5</Col>
+            <Col id="CL_Y_M">5443974.0</Col>
+            <Col id="CL_Y_G">106740.0</Col>
+            <Col id="SG_Y_P">1400000.0</Col>
+            <Col id="SG_Y_S">900000.0</Col>
+            <Col id="SG_Y_M">590000.0</Col>
+            <Col id="SG_Y_G">110000.0</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

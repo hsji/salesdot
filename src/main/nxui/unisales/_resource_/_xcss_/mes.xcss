@@ -14247,17 +14247,17 @@
 .GridCellControl .cellcalendar .dropbutton,
 .GridCellControl .cellcalendar .dropbutton[userstatus=selected]
 {
-	-nexa-icon : url('theme://images/grd_cal_drop_N.png');
+	-nexa-icon : url('theme://images/cal_WF_DropBtn.png');
 }
 .GridCellControl .cellcalendar .dropbutton[status=disabled]
 {
-	-nexa-icon : url('theme://images/grd_cal_drop_D.png');
+	-nexa-icon : url('theme://images/cal_WF_DropBtn.png');
 }
 .GridCellControl .cellcalendar .dropbutton[status=mouseover],
 .GridCellControl .cellcalendar .dropbutton[status=focused],
 .GridCellControl .cellcalendar .dropbutton[userstatus=pushed]
 {
-	-nexa-icon : url('theme://images/grd_cal_drop_O.png');
+	-nexa-icon : url('theme://images/cal_WF_DropBtnO.png');
 }
 
 /* cellcheckbox (Same as CheckBoxControl) */

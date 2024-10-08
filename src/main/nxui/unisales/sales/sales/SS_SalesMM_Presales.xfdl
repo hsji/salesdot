@@ -3,7 +3,7 @@
   <Form id="SS_SalesMM" width="1290" height="600" titletext="영업관리" onload="SS_SalesMM_onload">
     <Layouts>
       <Layout height="600" mobileorientation="landscape" width="1290">
-        <Tab id="tab_Progess" taborder="11" left="0" tabindex="0" scrollbars="autoboth" onchanged="Div03_Tab00_onchanged" width="554" bottom="0" height="211">
+        <Tab id="tab_Progess" taborder="10" left="0" tabindex="0" scrollbars="autoboth" onchanged="Div03_Tab00_onchanged" width="554" bottom="0" height="211">
           <Tabpages>
             <Tabpage id="tpg_Progess" text="진행사항" TL_SEQ="65">
               <Layouts>
@@ -126,16 +126,19 @@
             </Layout>
           </Layouts>
         </Div>
-        <Button id="btn_ContractReport" taborder="6" text="매출현황보고" top="89" height="28" enable="false" width="84" right="20" onclick="btn_ContractReport_onclick" TL_SEQ="127"/>
-        <Button id="btn_Order_Confirm" taborder="1" text="계약확정" top="89" width="84" height="28" right="btn_ContractReport:8" onclick="btn_Order_Confirm_onclick" enable="false" TL_SEQ="128"/>
-        <Button id="btn_CostSheet" taborder="2" text="매출원가표" top="89" height="28" right="btn_Order_Confirm:8" width="84" onclick="btn_CostSheet_onclick" enable="false" TL_SEQ="129"/>
+        <Button id="btn_Order_Confirm" taborder="1" text="계약확정" top="89" width="84" height="28" right="20" onclick="btn_Order_Confirm_onclick" enable="false" TL_SEQ="128"/>
+        <Button id="btn_CostSheet" taborder="2" text="매출원가표" top="89" height="28" right="btn_Order_Confirm:5" width="84" onclick="btn_CostSheet_onclick" enable="false" TL_SEQ="129"/>
         <Button id="btn_RequestLicense" taborder="4" text="라이선스요청" top="89" height="22" right="btn_CostSheet:8" width="0" enable="false" onclick="btn_RequestLicense_onclick" TL_SEQ="130"/>
-        <Button id="btn_Affirmation" taborder="5" text="확약서" top="89" height="28" right="btn_RequestLicense:8" width="84" onclick="btn_Affirmation_onclick" enable="false" TL_SEQ="131"/>
-        <Div id="div_Attachment" taborder="3" top="89" height="22" width="110" async="false" SOURCE_CD="P" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="true" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" right="btn_Affirmation:8" enable="false"/>
-        <Button id="btn_Estimate" taborder="7" text="견적서" top="89" height="28" enable="false" visible="false" right="btn_CostSheet:8" width="84" onclick="btn_Estimate_onclick" TL_SEQ="12430"/>
-        <Static id="staTitle01" taborder="8" text="PreSales 현황" left="0" width="342" height="44" cssclass="sta_WF_Title" top="div_search:0"/>
-        <Static id="stc_Sales_List" taborder="9" cssclass="sta_WF_detailBg" top="122" text="" left="558.00" right="20" height="168"/>
-        <Grid id="grd_Presales" taborder="10" binddataset="dsList" useinputpanel="false" left="0" autofittype="col" width="554" top="122" bottom="tab_Progess:0" cellsizingtype="col" readonly="true">
+        <Button id="btn_Affirmation" taborder="5" text="확약서" top="89" height="28" right="btn_CostSheet:5" width="84" onclick="btn_Affirmation_onclick" enable="false" TL_SEQ="131"/>
+        <Div id="div_Attachment" taborder="3" top="89" height="28" async="false" SOURCE_CD="P" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="true" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" enable="false" right="btn_Affirmation:5" width="93">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <Button id="btn_Estimate" taborder="6" text="견적서" top="99" height="28" enable="false" visible="false" right="btn_CostSheet:5" width="84" onclick="btn_Estimate_onclick" TL_SEQ="12430"/>
+        <Static id="staTitle01" taborder="7" text="PreSales 현황" left="0" width="342" height="44" cssclass="sta_WF_Title" top="div_search:0"/>
+        <Static id="stc_Sales_List" taborder="8" cssclass="sta_WF_detailBg" top="122" text="" left="558.00" right="20" height="168"/>
+        <Grid id="grd_Presales" taborder="9" binddataset="dsList" useinputpanel="false" left="0" autofittype="col" width="554" top="122" bottom="tab_Progess:0" cellsizingtype="col" readonly="true">
           <Formats>
             <Format id="default">
               <Columns>
@@ -153,7 +156,7 @@
               <Band id="head">
                 <Cell displaytype="text" edittype="text" wordWrap="char" text="고객사" TL_SEQ="32"/>
                 <Cell col="1" wordWrap="char" text="계약명" TL_SEQ="33"/>
-                <Cell col="2" text="제품" TL_SEQ="62"/>
+                <Cell col="2" text="분류" TL_SEQ="62"/>
                 <Cell col="3" text="예상매출" TL_SEQ="63"/>
                 <Cell col="4" text="계약예정일" TL_SEQ="64"/>
               </Band>
@@ -173,33 +176,33 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="stc_Remark" taborder="12" text="비고" left="559.00" top="241" width="66" height="47" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="45"/>
-        <Div id="div_ClientName" taborder="29" left="635" top="129" width="12.48062015503876%" height="24" url="sales::comm/COM_Search.xfdl" kind="CLIENT" param="" binddataset="dsList" codecolumn="CLIENT_CODE" datacolumn="CLIENT_NAME" compReg="true" maxwidth="250" minwidth=""/>
-        <Combo id="cmb_SalesProduct" taborder="17" text="" left="635" top="div_ClientName:4" width="12.48062015503876%" height="24" innerdataset="ds_cmm_Product" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME" onitemchanged="cmb_SalesProduct_onitemchanged" maxwidth="250" minwidth=""/>
-        <Div id="div_ContractMain" taborder="14" left="635" top="cmb_SalesProduct:4" width="12.48062015503876%" height="24" url="sales::comm/COM_Search.xfdl" kind="COMPANY" param="" binddataset="dsList" codecolumn="CONTRACT_MAIN" datacolumn="CONTRACT_MAIN_NAME" user_onchanged="Com_Search_onChanged" compReg="true" maxwidth="250" minwidth=""/>
-        <Combo id="cmb_SalesEmpNo" taborder="28" text="" left="635" top="div_ContractMain:4" height="24" innerdataset="ds_cmm_SalesEmp" codecolumn="EMP_NO" datacolumn="EMP_NAME" onitemchanged="cmb_SalesEmpNo_onitemchanged" width="12.48062015503876%" displayrowcount="15"/>
-        <Static id="stc_ContractDate" taborder="24" text="계약예정일" left="cmb_SalesEmpNo:0" top="213" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="64"/>
-        <Calendar id="cal_ContractDate" taborder="26" left="stc_ContractDate:10" top="213" height="24" dateformat="yyyy-MM-dd" autoselect="true" onchanged="cal_ContractDate_onchanged" minwidth="" width="130"/>
-        <Static id="stc_BusinessType" taborder="37" text="사업구분" left="cal_ContractDate:0" top="213" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="112" visible="true"/>
-        <Combo id="cmb_BusinessType" taborder="38" text="" left="stc_BusinessType:10" top="213" height="24" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="cmb_BusinessType_onitemchanged" width="12.33%" maxwidth="250" minwidth="" visible="true"/>
-        <TextArea id="txt_Remark" taborder="13" left="635" top="cmb_SalesEmpNo:4" height="43" right="30"/>
-        <Static id="stc_ContractName" taborder="15" text="계약명" left="div_ContractMain:0" top="185" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="33"/>
-        <Static id="stc_ClientCode" taborder="22" text="고객사" left="559.00" top="129" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="32"/>
-        <Static id="stc_ProductCode" taborder="16" text="사업분류" left="559" top="stc_ClientCode:4" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="83"/>
-        <Static id="stc_SalesStatus" taborder="18" text="영업상태" left="cmb_SalesProduct:0" top="157" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="84"/>
-        <Combo id="cmb_SalesStatus" taborder="19" text="" left="stc_SalesStatus:10.00" top="157" height="24" innerdataset="ds_cmm_SalesStatus" codecolumn="CODE" datacolumn="CAPTION" width="130"/>
-        <Static id="stc_RelatedProject" taborder="20" text="연결프로젝트" left="cmb_SalesStatus:0" top="157" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="82"/>
-        <Static id="stc_ContractMain" taborder="21" text="계약처" left="559" top="stc_ProductCode:4" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="34"/>
-        <Edit id="edt_ContractName" taborder="23" left="stc_ContractName:10" top="185" height="24" width="16.434108527131784%" onchanged="edt_ContractName_onchanged"/>
-        <Static id="stc_SalesEmpNo" taborder="25" text="담당영업" left="559" top="213" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="37"/>
-        <Edit id="edt_ContractNo" taborder="27" left="1434.00" top="135" width="97" height="22" readonly="true" visible="false"/>
-        <Static id="stc_ProjectName" taborder="30" text="프로젝트명" left="div_ClientName:0" top="129" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="114"/>
-        <Edit id="edt_ProjectName" taborder="31" left="stc_ProjectName:10" top="129" height="24" width="16.434108527131784%"/>
-        <Edit id="edt_ProjectCode" taborder="32" left="edt_ProjectName:5.00" top="129" height="24" width="87" readonly="true" textAlign="center" value="201909016" text="201909016"/>
-        <CheckBox id="ckb_PipeLineFlag" taborder="33" text="PIPE 라인" left="edt_ProjectCode:2" top="129" width="75" height="24" textAlign="right" TL_SEQ="85"/>
-        <Button id="btn_Add" taborder="34" width="16" height="16" onclick="CommAddRow_onclick" bottom="168" left="508.00" cssclass="btn_POP_Add"/>
-        <Button id="btn_Del" taborder="35" width="16" height="16" onclick="CommDelRow_onclick" bottom="168" left="532.00" cssclass="btn_POP_Del"/>
-        <Div id="divDet" taborder="36" left="558.00" top="290" right="20" bottom="0">
+        <Static id="stc_Remark" taborder="11" text="비고" left="559.00" top="241" width="66" height="47" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="45"/>
+        <Div id="div_ClientName" taborder="28" left="635" top="129" width="12.48062015503876%" height="24" url="sales::comm/COM_Search.xfdl" kind="CLIENT" param="" binddataset="dsList" codecolumn="CLIENT_CODE" datacolumn="CLIENT_NAME" compReg="true" maxwidth="250" minwidth="" user_onchanged="fnSelectCustomer"/>
+        <Combo id="cmb_SalesProduct" taborder="16" text="" left="635" top="div_ClientName:4" width="12.48062015503876%" height="24" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="cmb_SalesProduct_onitemchanged" maxwidth="250" minwidth=""/>
+        <Div id="div_ContractMain" taborder="13" left="635" top="cmb_SalesProduct:4" width="12.48062015503876%" height="24" url="sales::comm/COM_Search.xfdl" kind="COMPANY" param="" binddataset="dsList" codecolumn="CONTRACT_MAIN" datacolumn="CONTRACT_MAIN_NAME" user_onchanged="Com_Search_onChanged" compReg="true" maxwidth="250" minwidth=""/>
+        <Combo id="cmb_SalesEmpNo" taborder="27" text="" left="635" top="div_ContractMain:4" height="24" innerdataset="ds_cmm_SalesEmp" codecolumn="EMP_NO" datacolumn="EMP_NAME" onitemchanged="cmb_SalesEmpNo_onitemchanged" width="12.48062015503876%" displayrowcount="15"/>
+        <Static id="stc_ContractDate" taborder="23" text="계약예정일" left="cmb_SalesEmpNo:0" top="213" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="64"/>
+        <Calendar id="cal_ContractDate" taborder="25" left="stc_ContractDate:10" top="213" height="24" dateformat="yyyy-MM-dd" autoselect="true" onchanged="cal_ContractDate_onchanged" minwidth="" width="130"/>
+        <Static id="stc_BusinessType" taborder="36" text="사업구분" left="cal_ContractDate:0" top="213" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="112" visible="false"/>
+        <Combo id="cmb_BusinessType" taborder="37" text="" left="stc_BusinessType:10" top="213" height="24" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="cmb_BusinessType_onitemchanged" width="12.33%" maxwidth="250" minwidth="" visible="false"/>
+        <TextArea id="txt_Remark" taborder="12" left="635" top="cmb_SalesEmpNo:4" height="43" right="30"/>
+        <Static id="stc_ContractName" taborder="14" text="계약명" left="div_ContractMain:0" top="185" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="33"/>
+        <Static id="stc_ClientCode" taborder="21" text="고객사" left="559.00" top="129" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="32"/>
+        <Static id="stc_ProductCode" taborder="15" text="사업분류" left="559" top="stc_ClientCode:4" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="83"/>
+        <Static id="stc_SalesStatus" taborder="17" text="영업상태" left="cmb_SalesProduct:0" top="157" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="84"/>
+        <Combo id="cmb_SalesStatus" taborder="18" text="" left="stc_SalesStatus:10.00" top="157" height="24" innerdataset="ds_cmm_SalesStatus" codecolumn="CODE" datacolumn="CAPTION" width="130"/>
+        <Static id="stc_RelatedProject" taborder="19" text="연결프로젝트" left="cmb_SalesStatus:0" top="157" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="82"/>
+        <Static id="stc_ContractMain" taborder="20" text="계약처" left="559" top="stc_ProductCode:4" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="34"/>
+        <Edit id="edt_ContractName" taborder="22" left="stc_ContractName:10" top="185" height="24" width="16.434108527131784%" onchanged="edt_ContractName_onchanged"/>
+        <Static id="stc_SalesEmpNo" taborder="24" text="담당영업" left="559" top="213" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="37"/>
+        <Edit id="edt_ContractNo" taborder="26" left="1434.00" top="135" width="97" height="22" readonly="true" visible="false"/>
+        <Static id="stc_ProjectName" taborder="29" text="프로젝트명" left="div_ClientName:0" top="129" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="114"/>
+        <Edit id="edt_ProjectName" taborder="30" left="stc_ProjectName:10" top="129" height="24" width="16.434108527131784%"/>
+        <Edit id="edt_ProjectCode" taborder="31" left="edt_ProjectName:5.00" top="129" height="24" width="96" readonly="true" textAlign="center" value="201909016" text="201909016"/>
+        <CheckBox id="ckb_PipeLineFlag" taborder="32" text="PIPE 라인" left="edt_ContractName:10" top="185" width="75" height="24" textAlign="right" TL_SEQ="85"/>
+        <Button id="btn_Add" taborder="33" width="16" height="16" onclick="CommAddRow_onclick" bottom="168" left="508.00" cssclass="btn_POP_Add"/>
+        <Button id="btn_Del" taborder="34" width="16" height="16" onclick="CommDelRow_onclick" bottom="168" left="532.00" cssclass="btn_POP_Del"/>
+        <Div id="divDet" taborder="35" left="558.00" top="290" right="20" bottom="0">
           <Layouts>
             <Layout>
               <Div id="divDet1" taborder="0" left="0" top="0" width="385" formscrolltype="none" formscrollbartype="none none" bottom="0">
@@ -211,7 +214,7 @@
                           <Static id="stc_SalesProd1" taborder="0" text="매출 상세내역" left="10.00" top="6" width="134" height="19" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="88"/>
                           <Button id="btn_ProdDel" taborder="3" top="7" width="16" height="16" onclick="CommDelRow_onclick" right="8" cssclass="btn_POP_Del" text=""/>
                           <Button id="btn_ProdAdd" taborder="2" top="7" width="16" height="16" onclick="CommAddRow_onclick" right="32" cssclass="btn_POP_Add"/>
-                          <Button id="btn_ContractUnion" taborder="4" text="계약연결" top="5" width="70" height="22" right="btn_ProdAdd:9" onclick="divDet_divDet1_divProd_btn_ContractUnion_onclick" TL_SEQ="89"/>
+                          <Button id="btn_ContractUnion" taborder="4" text="계약연결" top="5" width="70" height="22" right="btn_ProdAdd:9" onclick="divDet_divDet1_divProd_btn_ContractUnion_onclick" TL_SEQ="89" visible="false"/>
                           <Grid id="grd_SalesProd" taborder="1" binddataset="dsContractProd" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" autofittype="col" top="32" visible="true" left="0" right="0" bottom="0" onexpandup="divDet_divDet1_divProd_grd_SalesProd_onexpandup">
                             <Formats>
                               <Format id="default">
@@ -358,7 +361,7 @@
                           <Static id="stc_SalesSi" taborder="0" text="용역 상세내역" top="6" width="134" height="19" visible="true" cssclass="sta_POP_GroupTit" left="8.00" TL_SEQ="91"/>
                           <Button id="btn_SiAdd" taborder="2" top="7" width="16" height="16" onclick="CommAddRow_onclick" right="32" cssclass="btn_POP_Add"/>
                           <Button id="btn_SiDel" taborder="3" top="7" width="16" height="16" onclick="CommDelRow_onclick" right="8" cssclass="btn_POP_Del"/>
-                          <Button id="btn_Labor_Require" taborder="4" text="인력요청" top="5" height="22" right="btn_SiAdd:8" width="70" enable="true" onclick="divDet_divDet2_divSi_btn_Labor_Require_onclick" TL_SEQ="99"/>
+                          <Button id="btn_Labor_Require" taborder="4" text="인력요청" top="5" height="22" right="btn_SiAdd:8" width="70" enable="true" onclick="divDet_divDet2_divSi_btn_Labor_Require_onclick" TL_SEQ="99" visible="false"/>
                           <Grid id="grd_SalesSi" taborder="1" binddataset="dsContractSi" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" visible="true" top="32" right="0" left="0" oncellclick="divDet_divDet2_divSi_grd_SalesSi_oncellclick" bottom="0">
                             <Formats>
                               <Format id="default">
@@ -417,8 +420,8 @@
                                   <Column size="75"/>
                                   <Column size="75"/>
                                   <Column size="80"/>
-                                  <Column size="100"/>
-                                  <Column size="100"/>
+                                  <Column size="110"/>
+                                  <Column size="110"/>
                                   <Column size="100"/>
                                   <Column size="40"/>
                                   <Column size="70"/>
@@ -461,7 +464,7 @@
                           </Grid>
                           <Button id="btn_CSAdd" taborder="3" top="7" width="16" height="16" onclick="CommAddRow_onclick" right="32" cssclass="btn_POP_Add"/>
                           <Button id="btn_CSDel" taborder="4" top="7" width="16" height="16" onclick="CommDelRow_onclick" right="8" cssclass="btn_POP_Del"/>
-                          <Button id="btn_Labor_Require2" taborder="5" text="인력요청" top="5" height="22" right="btn_CSAdd:8" width="70" enable="true" onclick="divDet_divDet2_divCS_btn_Labor_Require2_onclick" TL_SEQ="99"/>
+                          <Button id="btn_Labor_Require2" taborder="5" text="인력요청" top="5" height="22" right="btn_CSAdd:8" width="70" enable="true" onclick="divDet_divDet2_divCS_btn_Labor_Require2_onclick" TL_SEQ="99" visible="false"/>
                         </Layout>
                       </Layouts>
                     </Div>
@@ -474,6 +477,7 @@
                                 <Columns>
                                   <Column size="100"/>
                                   <Column size="100"/>
+                                  <Column size="100"/>
                                   <Column size="110"/>
                                   <Column size="90"/>
                                 </Columns>
@@ -482,16 +486,18 @@
                                   <Row size="24"/>
                                 </Rows>
                                 <Band id="head">
-                                  <Cell text="항목" TL_SEQ="105"/>
-                                  <Cell col="1" text="예상매입액" TL_SEQ="107"/>
-                                  <Cell col="2" text="매입처" TL_SEQ="108"/>
-                                  <Cell col="3" text="요율(%)" TL_SEQ="109"/>
+                                  <Cell text="구분" TL_SEQ="105"/>
+                                  <Cell col="1" text="항목" TL_SEQ="105"/>
+                                  <Cell col="2" text="예상매입액" TL_SEQ="107"/>
+                                  <Cell col="3" text="매입처" TL_SEQ="108"/>
+                                  <Cell col="4" text="요율(%)" TL_SEQ="109"/>
                                 </Band>
                                 <Band id="body">
-                                  <Cell text="bind:PRODUCT_NAME" textAlign="left" expandshow="show" expandsize="20" expandimage="URL(&quot;theme://images/btn_WF_Sch_P.png&quot;)"/>
-                                  <Cell col="1" textAlign="right" text="bind:CONTRACT_PRICE" displaytype="number" edittype="mask"/>
-                                  <Cell col="2" text="bind:CONTRACT_MAIN_NAME" textAlign="left" expandshow="show" expandsize="20" expandimage="URL(&quot;theme://images/btn_WF_Sch_P.png&quot;)"/>
-                                  <Cell col="3" text="bind:COMMISSION_RATE" displaytype="number" textAlign="right" edittype="mask"/>
+                                  <Cell text="bind:CONTRACT_TYPE" textAlign="left" expandshow="hide" expandsize="20" displaytype="combotext" edittype="combo" combodataset="ds_cmm_PurchaseType" combocodecol="CODE" combodatacol="CAPTION"/>
+                                  <Cell col="1" text="bind:PRODUCT_NAME" textAlign="left" expandshow="show" expandsize="20" expandimage="URL(&quot;theme://images/btn_WF_Sch_P.png&quot;)"/>
+                                  <Cell col="2" textAlign="right" text="bind:CONTRACT_PRICE" displaytype="number" edittype="mask"/>
+                                  <Cell col="3" text="bind:CONTRACT_MAIN_NAME" textAlign="left" expandshow="show" expandsize="20" expandimage="URL(&quot;theme://images/btn_WF_Sch_P.png&quot;)"/>
+                                  <Cell col="4" text="bind:COMMISSION_RATE" displaytype="number" textAlign="right" edittype="mask"/>
                                 </Band>
                               </Format>
                               <Format id="PURCHASE_JAP">
@@ -539,8 +545,8 @@
             </Layout>
           </Layouts>
         </Div>
-        <Div id="div_RelatedProject" taborder="39" top="157" height="24" url="sales::comm/COM_Search.xfdl" kind="PROJECT" binddataset="dsList" codecolumn="RELATED_PROJECT_CODE" datacolumn="RELATED_PROJECT_NAME" user_onchanged="Com_Search_onChanged" searchtype="P" left="stc_RelatedProject:10" enable="true" right="25" maxwidth="400" minwidth=""/>
-        <Div id="div_InConfirm" taborder="40" left="1330.00" top="341" width="150" height="89" cssclass="div_WF_detailBg" visible="false">
+        <Div id="div_RelatedProject" taborder="38" top="157" height="24" url="sales::comm/COM_Search.xfdl" kind="PROJECT" binddataset="dsList" codecolumn="RELATED_PROJECT_CODE" datacolumn="RELATED_PROJECT_NAME" user_onchanged="Com_Search_onChanged" searchtype="P" left="stc_RelatedProject:10" enable="true" right="25" maxwidth="400" minwidth=""/>
+        <Div id="div_InConfirm" taborder="39" left="1330.00" top="341" width="150" height="89" cssclass="div_WF_detailBg" visible="false">
           <Layouts>
             <Layout>
               <Radio id="rd_kind" taborder="0" left="20" top="4" height="42" innerdataset="ds_Kind" codecolumn="CODE" datacolumn="CAPTION" index="0" text="확인" value="01" right="16" TL_FLAG="1"/>
@@ -585,7 +591,7 @@ this.nRowPosition = 0;
 this.FV_BUTTON_TYPE = "";
 this.sObjDs;
 this.FV_CO_CD = "";
-this.FV_AUTH_PRICE_MASK = true;
+this.FV_AUTH_PRICE_MASK = false;
 this.SAVE_FLAG = false;
 this.sInsertType = ""; // insert 계약 구분  
   
@@ -725,6 +731,9 @@ this.fnGetCode = function()
 	
 	this.gfnAddCodeDataset("ds_cmm_ExecutionType",	"EXECUTION_TYPE");		// 수행방법
 	this.gfnAddCodeDataset("ds_cmm_TechSupportUnit","TECH_SUPPORT_UNIT");	// 단위(기술서비스)
+	this.gfnAddCodeDataset("ds_cmm_PurchaseType","CONTRACT_TYPE");	
+	
+	
 	
 	//this.gfnAddCodeDataset("ds_cmm_RoyaltyType",	"ROYALTY_TYPE");	// 로열티종류
 	
@@ -787,9 +796,6 @@ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 			this.ds_cmm_ProductAll.filter("PRODUCT_LVL==0");
 			this.ds_cmm_Product.copyData(this.ds_cmm_ProductAll, true);	// 0 level만 복사
 			break;
-		case "gfnGetCode" :
-			this.div_search.form.cmb_ContractStatus.set_index(0);
-		break;
 		case "SalesEmp" : 
 			this.ds_cmm_SalesEmp.copyData(this.ds_cond_sales_emp);
 			var nAddRow = this.ds_cond_sales_emp.insertRow(0);
@@ -817,13 +823,30 @@ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 		case "SearchEstimateCnt" : 
 			break;
 		case "gfnGetCode":
+			this.div_search.form.cmb_ContractStatus.set_index(0);
+			this.ds_cmm_PurchaseType.filter("CODE=='GD' || CODE=='CM' || CODE=='DM'");	// 상품,수수료
+		
 			this.ds_cmm_Role2.assign(this.ds_cmm_Role);
-			this.ds_cmm_Role.filter("VAL2=='S'");
-			this.ds_cmm_Role2.filter("VAL2=='T'");
+			this.ds_cmm_Role.filter("GRP_CD_1=='S'");
+			this.ds_cmm_Role2.filter("GRP_CD_2=='T'");
 			
 			break;		
 		case "SS_Presales_S01":
 			this.dsList.set_rowposition(this.nRowPosition);
+			
+			if(this.dsList.rowcount == 0) {
+				this.div_Attachment.enable = false;
+				this.btn_Affirmation.enable = false;
+				this.btn_CostSheet.enable = false;
+				this.btn_Order_Confirm.enable = false;
+				//this.btn_ContractReport.enable = false;
+			} else {
+				this.div_Attachment.enable = true;
+				this.btn_Affirmation.enable = true;
+				this.btn_CostSheet.enable = true;
+				this.btn_Order_Confirm.enable = true;
+				//this.btn_ContractReport.enable = true;
+			}
 			break;
 		case "SS_Presales_S02":
 			break;
@@ -834,14 +857,20 @@ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 			this.fnQueryData("Save");
 			break;
 		case "SS_Presales_R02":
-			this.alert(this.gfnGetTransTxt(1499,"계약확정이 완료 되었습니다."));
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1499,"계약확정이 완료 되었습니다."), null,
+			function(srvId,rtn) {
+				//this.fnSendSMS();			// 메시지 전송 (일본법인 제외)
+				
+				//this.fnContractOkSendEmail();	// 메일 전송
+				this.fnQueryData("Save");
+				
+				// 계약확정에 있는놈 이동
+				if(this.dsFileCnt.getColumn(0, "CNT")==0)
+				{
+					this.gfnAlert('msg.general',this.gfnGetTransTxt(1203,"견적서 파일이 첨부 되지 않았습니다.\n확인바랍니다."));// 견적서 첨부 후 진행 바랍니다.");
+				}
+			});
 			
-			if(this.FV_CO_CD != "J02") {
-				this.fnSendSMS();			// 메시지 전송 (일본법인 제외)
-			}
-			
-			this.fnContractOkSendEmail();	// 메일 전송
-			this.fnQueryData("Save");
 			break;
 		case "getMM":
 			if (this.ds_MM.rowcount>0) {
@@ -920,13 +949,9 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 					this.dsContractGoods.setColumn(this.dsContractGoods.rowposition, "PRODUCT_NAME", ds.getColumn(0, "PRODUCT_NAME"));
 					this.dsContractGoods.setColumn(this.dsContractGoods.rowposition, "ROYALTY_TYPE", ds.getColumn(0, "ROYALTY_TYPE"));
 					
-					if(this.FV_CO_CD == "J02") {
-						this.dsContractGoods.setColumn(this.dsContractGoods.rowposition, "RELATED_COMPANY_CODE", ds.getColumn(0, "RELATED_COMPANY_CODE_JAP"));
-						this.dsContractGoods.setColumn(this.dsContractGoods.rowposition, "RELATED_COMPANY_NAME", ds.getColumn(0, "RELATED_COMPANY_NAME_JAP"));
-					} else {
-						this.dsContractGoods.setColumn(this.dsContractGoods.rowposition, "RELATED_COMPANY_CODE", ds.getColumn(0, "RELATED_COMPANY_CODE"));
-						this.dsContractGoods.setColumn(this.dsContractGoods.rowposition, "RELATED_COMPANY_NAME", ds.getColumn(0, "RELATED_COMPANY_NAME"));
-					}
+					this.dsContractGoods.setColumn(this.dsContractGoods.rowposition, "RELATED_COMPANY_CODE", ds.getColumn(0, "RELATED_COMPANY_CODE"));
+					this.dsContractGoods.setColumn(this.dsContractGoods.rowposition, "RELATED_COMPANY_NAME", ds.getColumn(0, "RELATED_COMPANY_NAME"));
+
 					this.dsContractGoods.setColumn(this.dsContractGoods.rowposition, "PRODUCT_CODE", ds.getColumn(0, "PRODUCT_CODE"));
 				} else {
 					this.gfnAlert('msg.general', ["동일한 상품이 존재합니다."]);
@@ -938,8 +963,8 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 				ds.loadJSON(Variant);
 				this.recentVariant = ds;
 				
-				var sContractType = this.dsPurchaseList.getColumn(this.dsPurchaseList.rowposition, "CONTRACT_TYPE");
-				var sContractType = ds.getColumn(0, "PRODUCT_CODE").substring(0, 1);
+				//var sContractType = this.dsPurchaseList.getColumn(this.dsPurchaseList.rowposition, "CONTRACT_TYPE");
+				//var sContractType = ds.getColumn(0, "PRODUCT_CODE").substring(0, 1);
 				// this.dsPurchaseList.setColumn(this.dsPurchaseList.rowposition, "CONTRACT_TYPE",sContractType);
 				this.dsPurchaseList.setColumn(this.dsPurchaseList.rowposition, "PRODUCT_CODE", ds.getColumn(0, "PRODUCT_CODE"));
 				this.dsPurchaseList.setColumn(this.dsPurchaseList.rowposition, "PRODUCT_NAME", ds.getColumn(0, "PRODUCT_NAME"));
@@ -988,16 +1013,19 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 				// return 정보가 없으면 종료
 				if (ds.rowcount<=0) return;
 				
+				var nDupCnt = 0;
 				for (var i=0; i<ds.rowcount; i++) {
-// 					var nfindRow = this.dsAddressbookList.findRow("CA_SEQ", ds.getColumn(i, "CA_SEQ"));
-// 					if(nfindRow>=0)
-// 					{
-// 						this.gfnAlert(this.gfnGetTransTxt(1982,"@1@의 중복데이터가 존재 합니다.",[ds.getColumn(i, "EMP_NAME")]));
-// 						continue;
-// 					}
+					var nfindRow = this.dsAddressbookList.findRow("CA_SEQ", ds.getColumn(i, "CA_SEQ"));
+					if(nfindRow>=0)
+					{
+						nDupCnt++;
+						//this.gfnAlert(this.gfnGetTransTxt(1982,"@1@의 중복데이터가 존재 합니다.",[ds.getColumn(i, "EMP_NAME")]));
+						continue;
+					}
 // 					nfindRow = this.dsAddressbookList.findRow("EMP_NAME", ds.getColumn(i, "EMP_NAME"));
 // 					if(nfindRow>=0)
 // 					{
+// 						nDupCnt++;
 // 						if(!this.confirm(this.gfnGetTransTxt(1983,"@1@의 동명이인이 있습니다. 등록하시겠습니까?",[ds.getColumn(i, "EMP_NAME")])))
 // 							continue;
 // 					}				
@@ -1018,6 +1046,9 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 					this.dsAddressbookList.setColumn(nRow, "EMAIL",			ds.getColumn(i, "EMAIL"));
 					this.dsAddressbookList.setColumn(nRow, "REMARKS",		ds.getColumn(i, "REMARKS"));
 					this.dsAddressbookList.set_enableevent(true);
+				}
+				if(nDupCnt > 0) {
+					this.gfnAlert('msg.general',this.gfnGetTransTxt(1982,nDupCnt + "건의 중복데이터는 제거 되었습니다."));
 				}
 			break;
 			case "popupProjectSearch":		// 계약추가시 프로젝트 검색
@@ -1082,11 +1113,11 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 				this.div_RelatedProject.set_enable(true);	// 연결 프로젝트 활성화
 				
 				//계약추가 시 파일 초기화
-				this.FV_PARENT_FORM.div_Attachment.set_url("");
-				this.FV_PARENT_FORM.div_Attachment.SOURCE_SEQ = this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE");
-				this.FV_PARENT_FORM.div_Attachment.set_url("Common::COM_Attachment.xfdl");		
+				this.div_Attachment.set_url("");
+				this.div_Attachment.SOURCE_SEQ = this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE");
+				this.div_Attachment.set_url("sales::comm/COM_Attachment.xfdl");		
 				// 견적서 버튼 활성화
-				this.FV_PARENT_FORM.btn_Estimate.set_enable(true);
+				this.btn_Estimate.set_enable(true);
 			break;
 			case "SP_PurchaseContractTypeSelect":	// 매입계약 (연관) 제품 검색
 				var sContractType = Variant;
@@ -1137,6 +1168,7 @@ this.fnSetComCmbConfig = function ()
 // 화면 권한 설정 처리
 this.fnAuthConfig = function(nTabIndx)
 {
+	
 	if( (this.commUtil.getFormAuthority(235,1) == true) 
 		|| (this.commUtil.getFormAuthority(235,2) == true))	//저장권한
 	{
@@ -1146,7 +1178,7 @@ this.fnAuthConfig = function(nTabIndx)
 		
 		//this.btn_File_Upload.set_enable(true);
 		this.btn_CostSheet.set_enable(true);
-		this.btn_ContractReport.set_enable(false);
+		//this.btn_ContractReport.set_enable(false);
 		this.btn_Order_Confirm.set_enable(true);
 		this.div_search.form.rd_EmpKind.set_visible(false);
 	}
@@ -1181,7 +1213,7 @@ this.fnAuthConfigSales = function()
 		if(this.commUtil.getFormAuthority(235,1))	sAuthKind = "S";	// 일반영업
 		else 										sAuthKind = "N";	// 일반사용자
 	}
-	if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹 처리 권한
+	//if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹 처리 권한
 	
 	
 	var nCurrow = this.dsList.rowposition;
@@ -1231,6 +1263,7 @@ this.fnAuthConfigSales = function()
 		this.div_ClientName.set_enable(true);
 		this.edt_ProjectName.set_readonly(false);
 	}	
+	
 }
 
 
@@ -1241,7 +1274,7 @@ this.fnAuthConfigSales = function()
 // 조회 버튼 클릭 
 this.div_search_btn_Search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	this.fnQueryData();	// Presales탭 조회 버튼 이벤트
+	this.cfnSearch();	// Presales탭 조회 버튼 이벤트
 };
 
 // 저장 버튼 클릭 
@@ -1276,47 +1309,47 @@ this.div_search_btn_Excel_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 // 매출원가표(사전)
 this.btn_CostSheet_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	var nCurrow =  this.tab_Sales.tpg_Presales.form.dsList.rowposition;
-	var sProjectCd = this.tab_Sales.tpg_Presales.form.dsList.getColumn(nCurrow, "PROJECT_CODE");
-	var sContractMain = this.tab_Sales.tpg_Presales.form.dsList.getColumn(nCurrow, "CONTRACT_MAIN");
+	var nCurrow =  this.dsList.rowposition;
+	var sProjectCd = this.dsList.getColumn(nCurrow, "PROJECT_CODE");
+	var sContractMain = this.dsList.getColumn(nCurrow, "CONTRACT_MAIN");
 	
-	var ObjDs = this.tab_Sales.tpg_Presales.form.dsPurchaseList;
+	var ObjDs = this.dsPurchaseList;
 	
 	for (var i=0; i<ObjDs.rowcount; i++)
 	{
-		
 		// 매입계약중 매출연결 되지 않을 경우 안내 처리 (판매수수료 예외처리)
 		var sContractType = ObjDs.getColumn(i, "CONTRACT_TYPE");
-		if (sContractType != "C") {
+		if (sContractType != "CM" && sContractType != "DM") {
 			if ( this.gfnIsEmpty(ObjDs.getColumn(i, "CRD_SEQ")))
 			{
-				if (!this.confirm(this.gfnGetTransTxt (1856,"연결되지 않은 상품 매출(또는 매입)이 있습니다.\n진행 하시겠습니까?"))) {
-					this.tab_Sales.tpg_Presales.form.divDet.form.divDet2.form.divPur.form.btn_ContractLink.click();
-					return;
-				} else {
-					break;
-				}
+				this.gfnAlert('confirm.general',this.gfnGetTransTxt (1856,"연결되지 않은 상품 매출(또는 매입)이 있습니다.\n진행 하시겠습니까?"),null,
+						function(srvId,rtn) {
+							if(this.gfnIsNull(rtn) || rtn == "false" || rtn == false) return;
+							this.divDet.form.divDet2.form.divPur.form.btn_ContractLink.click();
+							return;
+						});
+				return;
 			}
 		}
 	}
 	
 	if (this.gfnIsEmpty(sProjectCd)) {
-		this.alert(this.gfnGetTransTxt (1508, "선택된 프로젝트가 없습니다."));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt (1508, "선택된 프로젝트가 없습니다."));
 		return;
 	}
 	
 	if (this.gfnIsEmpty(sContractMain) || sContractMain == "Z02371") {
-		this.alert(this.gfnGetTransTxt (1509, "계약처 선택 후 진행 바랍니다."));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt (1509, "계약처 선택 후 진행 바랍니다."));
 		return;
 	}
 	
-	var objSiDs = this.tab_Sales.tpg_Presales.form.dsContractSi;
+	var objSiDs = this.dsContractSi;
 	var sSiContractNo = "";
 	if (objSiDs.rowcount > 0) {
 		sSiContractNo = objSiDs.getColumn(0, "CONTRACT_NO");
 	}
 	
-	if (this.tab_Sales.tpg_Presales.form.fnContractMainInfoSearch(obj.name) == "1") {
+	if (this.fnContractMainInfoSearch(obj.name) == "1") {
 		var Argument = {pv_project_cd:sProjectCd, pv_costsheet_type:"1", PV_si_contract_no:sSiContractNo};
 		this.commUtil.popup(this, "popupCostSheet", "Sales::SP_CostSheet.xfdl", -1, -1, 1350, 665, true, true, false, Argument, "fnPopupCallBack");
 	}
@@ -1326,12 +1359,14 @@ this.btn_CostSheet_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInf
 // 수주확정(Presales 탭), 계약확정취소(계약 탭)
 this.btn_Order_Confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
+	if(this.dsList.rowcount == 0) return;
+	
 	if (obj.text == this.gfnGetTransTxt (128, "계약확정")) {
-		if (this.tab_Sales.tpg_Presales.form.fnContractMainInfoSearch(obj.name) == "1") {
-			this.tab_Sales.tpg_Presales.form.fnContractOk();	// Presales탭 수주확정(계약확정) 처리
+		if (this.fnContractMainInfoSearch(obj.name) == "1") {
+			this.fnContractOk();	// Presales탭 수주확정(계약확정) 처리
 		}
 	} else if (obj.text == this.gfnGetTransTxt (660, "계약확정취소")) {
-		this.tab_Sales.tpg_Contract.form.fnContractCancel();	// 계약탭 계약확정취소 처리
+		this.fnContractCancel();	// 계약탭 계약확정취소 처리
 	}
 };
 
@@ -1581,8 +1616,8 @@ this.fnGetMM = function(sStartDt, sEndDt, nRow) {
 };
  
   // 세부(제품, 상품, 용역, 매입계약, 진행사항, 담당자) 조회
- this.fnSSearch = function(sProjectCd)
- {
+this.fnSSearch = function(sProjectCd)
+{
 	this.dsContractProd.clearData();
 	this.dsContractSi.clearData();
 	this.dsContractCS.clearData();
@@ -1595,14 +1630,29 @@ this.fnGetMM = function(sStartDt, sEndDt, nRow) {
 	this.gfnAddSendParameter("PROJECT_CODE", sProjectCd);
 	
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("dsContractProd",		"ds_output1");
-	this.gfnAddOutputDataset("dsContractSi",		"ds_output2");
-	this.gfnAddOutputDataset("dsContractCS",		"ds_output7");
-	this.gfnAddOutputDataset("dsContractGoods",		"ds_output3");
-	this.gfnAddOutputDataset("dsPurchaseList",		"ds_output4");
-	this.gfnAddOutputDataset("dsScheduleList",		"ds_output5");
-	this.gfnAddOutputDataset("dsAddressbookList",	"ds_output6");
-	this.gfnCommonTransaction("SS_Presales_S02", 	"SS_Presales_S02");
+// 	this.gfnAddOutputDataset("dsContractProd",		"ds_output1");
+// 	this.gfnAddOutputDataset("dsContractSi",		"ds_output2");
+// 	this.gfnAddOutputDataset("dsContractCS",		"ds_output7");
+// 	this.gfnAddOutputDataset("dsContractGoods",		"ds_output3");
+// 	this.gfnAddOutputDataset("dsPurchaseList",		"ds_output4");
+// 	this.gfnAddOutputDataset("dsScheduleList",		"ds_output5");
+// 	this.gfnAddOutputDataset("dsAddressbookList",	"ds_output6");
+// 	this.gfnCommonTransaction("SS_Presales_S02", 	"SS_Presales_S02");
+	
+	var arrMap = [];
+	arrMap[0] = "Contract_product";
+	arrMap[1] = "Contract_si";
+	arrMap[2] = "Contract_goods";
+	arrMap[3] = "Purchase";
+	arrMap[4] = "Sales_schedule";
+	arrMap[5] = "Company_addressbook";
+	arrMap[6] = "Contract_cs";
+	var arrDs = ['dsContractProd','dsContractSi','dsContractGoods','dsPurchaseList','dsScheduleList'
+					,'dsAddressbookList','dsContractCS'];
+
+	this.gfnSetMap("salesManagerMapper", arrMap, arrDs);
+	this.gfnCommonTransaction("SS_Presales_S02", "selectNextMultiList.do");	/*SS_Presales_S02*/
+	
  };
  
 // 저장
@@ -1663,6 +1713,11 @@ this.fnGetMM = function(sStartDt, sEndDt, nRow) {
 // 	this.gfnAddInputDataset ("dsPurchaseList",		"ds_purchase");
 // 	this.gfnAddInputDataset ("dsScheduleList",		"ds_schedule");
 // 	this.gfnAddInputDataset ("dsAddressbookList",	"ds_addressbook");
+
+	
+	if(this.dsList.getRowType(this.dsList.rowposition) == Dataset.ROWTYPE_NORMAL) {
+		this.dsList.setColumn(this.dsList.rowposition, "UPDATEFLAG", parseInt(this.dsList.getColumn(this.dsList.rowposition,"UPDATEFLAG"))+1);
+	}
 	
 	this.gfnAddInputDataset ("dsList",					"dsInput1");
 	this.gfnAddInputDataset ("dsContractProd",		"dsInput2");
@@ -1827,7 +1882,7 @@ this.fn_getCompareProductCode = function()
 // 	this.gfnAddOutputDataset("ds_RequestStaff",	"ds_output");
 // 	this.gfnCommonTransaction("SS_Presales_S03", "SS_Presales_S03", null, false);
 	
-	this.gfnSetMap("nextCommMapper", "SS_Presales_S03", "ds_RequestStaff");
+	this.gfnSetMap("salesManagerMapper", "SS_Presales_S03", "ds_RequestStaff");
 	this.gfnCommonTransaction("SS_Presales_S03", "selectNextList.do",null, false);		
  };
   
@@ -1842,11 +1897,19 @@ this.fnContractMainInfoSearch = function(sBtnId)
 	this.FV_BUTTON_TYPE = sBtnId;
 	this.gfnAddSendParameter("CONTRACT_MAIN",  this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_MAIN"));
 	this.gfnAddSendParameter("PROJECT_CODE",  this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE"));
-	this.gfnAddOutputDataset("ds_ContractMainInfo",	"ds_output");
-	this.gfnAddOutputDataset("ds_CostsheetInfo",	"ds_output2");
-	this.gfnCommonTransaction("SS_Presales_S06", "SS_Presales_S06", null, false);
+// 	this.gfnAddOutputDataset("ds_ContractMainInfo",	"ds_output");
+// 	this.gfnAddOutputDataset("ds_CostsheetInfo",	"ds_output2");
+// 	this.gfnCommonTransaction("SS_Presales_S06", "SS_Presales_S06", null, false);
+	
+	this.gfnSetMap("salesManagerMapper", ["SS_Presales_S06_1","SS_Presales_S06_2"], ["ds_ContractMainInfo","ds_CostsheetInfo"]);
+	this.ErrorCode = 0;
+	this.gfnCommonTransaction("SS_Presales_S06", 	"selectNextMultiList.do", null, false);		
 
-	return this.fnCheckCostSheet(this.FV_BUTTON_TYPE);
+	if(this.ErrorCode == 0) {
+		return this.fnCheckCostSheet(this.FV_BUTTON_TYPE);
+	} else {
+		return "0";
+	}
 }
  
 this.fnCheckCostSheet = function(sBtnId)
@@ -1868,51 +1931,51 @@ this.fnCheckCostSheet = function(sBtnId)
 
 	if (sBtnId == "btn_Order_Confirm")
 	{
-		if (sCompanyState != "001") {			// 회사상태가 (N/A)정상이 아닌 경우 
-			if (this.gfnIsEmpty(sCcSeq)) {		// 사전원가표 작업 없는 경우
-				this.alert(this.gfnGetTransTxt(1635,"계약처 회사상태(@1@)를 확인 바랍니다. 사전원가표 진행 대상입니다.",[this.ds_ContractMainInfo.getColumn(0, "COMPANY_STATE_NAME")]));
-				return "0";
-			}
-		}
+// 		if (sCompanyState != "001") {			// 회사상태가 (N/A)정상이 아닌 경우 
+// 			if (this.gfnIsEmpty(sCcSeq)) {		// 사전원가표 작업 없는 경우
+// 				this.gfnAlert('msg.general',this.gfnGetTransTxt(1635,"계약처 회사상태:" + this.ds_ContractMainInfo.getColumn(0, "COMPANY_STATE_NAME") + " 를 확인 바랍니다. 사전원가표 진행 대상입니다."));
+// 				return "0";
+// 			}
+// 		}
 		
 		// 여신 초과 알림
-		if (nOverbudget < 0 ) {
-		/*			
-			회사 여신 예외항목(CL_EXCEPTION_CODE) 기타(상계가능)(006), 정부/공공기관(007), 해외기업(008)
-			경우는 예외로 계약확정 가능(이외는 사전원가표 작성필)
-		*/		
-			if (sClExceptionCd != "006" && sClExceptionCd != "007" && sClExceptionCd != "008") {
-				if (this.gfnIsEmpty(sCcSeq)) {		// 사전원가표 작업 없는 경우
-					this.alert(this.gfnGetTransTxt(1971,"(@1@) 여신이 초과 되었습니다. 사전원가표 진행 바랍니다.",[this.ds_ContractMainInfo.getColumn(0, "COMPANY_NAME")]));
-					return "0";
-				}
-			}
-		} 
+// 		if (nOverbudget < 0 ) {
+// 		/*			
+// 			회사 여신 예외항목(CL_EXCEPTION_CODE) 기타(상계가능)(006), 정부/공공기관(007), 해외기업(008)
+// 			경우는 예외로 계약확정 가능(이외는 사전원가표 작성필)
+// 		*/		
+// 			if (sClExceptionCd != "006" && sClExceptionCd != "007" && sClExceptionCd != "008") {
+// 				if (this.gfnIsEmpty(sCcSeq)) {		// 사전원가표 작업 없는 경우
+// 					this.gfnAlert('msg.general',this.gfnGetTransTxt(1971,this.ds_ContractMainInfo.getColumn(0, "COMPANY_NAME") + " 여신이 초과 되었습니다. 사전원가표 진행 바랍니다."));
+// 					return "0";
+// 				}
+// 			}
+// 		} 
 	}
 
-	if (sClExceptionCd != "006" && sClExceptionCd != "007" && sClExceptionCd != "008") {	
-		if (this.gfnIsEmpty(this.ds_ContractMainInfo.getColumn(0, "CL_APPROVAL_DATE"))) {
-			if (this.confirm(this.gfnGetTransTxt(1972,"(@1@)의 여신평가 미진행 되었습니다.\n완료 후 진행 바랍니다.\n사업지원팀에 여신평가 요청 하시겠습니까?",[this.ds_ContractMainInfo.getColumn(0, "COMPANY_NAME")]))) {
-				// [Y] (자동 메일발송)
-				this.fn_SendMail("1");
-			}
-			sRtnVal = "0";
-		} else if (this.gfnIsEmpty(this.ds_ContractMainInfo.getColumn(0, "CLH_SEQ"))) {
-			var sMaxYear = this.ds_ContractMainInfo.getColumn(0, "MAX_YEAR");
-			if (this.gfnIsEmpty(sMaxYear)) {
-				if (this.confirm(this.gfnGetTransTxt(1972,"(@1@)의 여신평가 미진행 되었습니다.\n완료 후 진행 바랍니다.\n사업지원팀에 여신평가 요청 하시겠습니까?",[this.ds_ContractMainInfo.getColumn(0, "COMPANY_NAME")]))) {
-					// [Y] (자동 메일발송)
-					this.fn_SendMail("1");
-				}
-			} else {
-				if (this.confirm(this.gfnGetTransTxt(1973,"(@1@)의 여신평가 [@2@]년 입니다.\n최근 재무정보 업데이트 후 진행 바랍니다.\n사업지원팀에 여신평가 요청 하시겠습니까?",[this.ds_ContractMainInfo.getColumn(0, "COMPANY_NAME"),sMaxYear]))) {
-					// [Y] (자동 메일발송)
-					this.fn_SendMail("2");
-				}
-			}
-			sRtnVal = "0";
-		}
-	}
+// 	if (sClExceptionCd != "006" && sClExceptionCd != "007" && sClExceptionCd != "008") {	
+// 		if (this.gfnIsEmpty(this.ds_ContractMainInfo.getColumn(0, "CL_APPROVAL_DATE"))) {
+// 			if (this.confirm(this.gfnGetTransTxt(1972,"(@1@)의 여신평가 미진행 되었습니다.\n완료 후 진행 바랍니다.\n사업지원팀에 여신평가 요청 하시겠습니까?",[this.ds_ContractMainInfo.getColumn(0, "COMPANY_NAME")]))) {
+// 				// [Y] (자동 메일발송)
+// 				this.fn_SendMail("1");
+// 			}
+// 			sRtnVal = "0";
+// 		} else if (this.gfnIsEmpty(this.ds_ContractMainInfo.getColumn(0, "CLH_SEQ"))) {
+// 			var sMaxYear = this.ds_ContractMainInfo.getColumn(0, "MAX_YEAR");
+// 			if (this.gfnIsEmpty(sMaxYear)) {
+// 				if (this.confirm(this.gfnGetTransTxt(1972,"(@1@)의 여신평가 미진행 되었습니다.\n완료 후 진행 바랍니다.\n사업지원팀에 여신평가 요청 하시겠습니까?",[this.ds_ContractMainInfo.getColumn(0, "COMPANY_NAME")]))) {
+// 					// [Y] (자동 메일발송)
+// 					this.fn_SendMail("1");
+// 				}
+// 			} else {
+// 				if (this.confirm(this.gfnGetTransTxt(1973,"(@1@)의 여신평가 [@2@]년 입니다.\n최근 재무정보 업데이트 후 진행 바랍니다.\n사업지원팀에 여신평가 요청 하시겠습니까?",[this.ds_ContractMainInfo.getColumn(0, "COMPANY_NAME"),sMaxYear]))) {
+// 					// [Y] (자동 메일발송)
+// 					this.fn_SendMail("2");
+// 				}
+// 			}
+// 			sRtnVal = "0";
+// 		}
+// 	}
 
 	return sRtnVal
 }
@@ -1938,9 +2001,10 @@ this.fnCheckCostSheet = function(sBtnId)
 					return;
 				}
 			}
-			
+			this.dsList.enableevent = false;
 			this.dsList.deleteRow(this.dsList.rowposition);
-			this.dsPurchaseList.deleteAll();			
+			this.dsPurchaseList.deleteAll();		
+			this.dsList.enableevent = true;
 		});
 
  }
@@ -2012,23 +2076,6 @@ this.fnCheckCostSheet = function(sBtnId)
 	var strTitle = "";
 	var strContents = "";
 	
-	if(this.FV_CO_CD == "J02") {
-		strTitle = ""+sClientNm+" 顧客社 契約 確定 案内";
-		strContents = 
-		 '<html> \n'
-		+'<head> \n'
-		+'<meta charset="utf-8"/> \n'
-		+'<title>顧客社 契約 確定 案内</title> \n'
-		+'<body> \n'
-		+'<p style="margin: 0px; font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px; text-align: center;"><b>契約 確定 案内</b></p> <p> \n'
-		+'<p style="margin: 0px; font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px;">＊顧&nbsp;&nbsp;&nbsp;客&nbsp;&nbsp;&nbsp;社 : '+sClientNm+'</p> \n'
-		+'<p style="margin: 0px; font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px;">＊プ&nbsp;ロ&nbsp;ジェク&nbsp;ト : '+sProjectNm+'</p> \n'
-		+'<p style="margin: 0px; font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px;">＊契&nbsp;&nbsp;&nbsp;約&nbsp;&nbsp;&nbsp;名 : '+sContractNm+'</p>\n'
-		+'<p style="margin: 0px; font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px;">＊担&nbsp;当&nbsp;営&nbsp;業 : '+sSalesEmpNm+'</p>\n'
-		+'<p style="margin: 0px; font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px;">＊契約 予定日 : '+sContractDate+'</p> <p>\n'
-		+'</body> \n'
-		+'</html> \n';
-	} else {
 		strTitle = sClientNm+" 계약확정 확정 안내";
 		strContents = 
 		 '<html> \n'
@@ -2043,7 +2090,7 @@ this.fnCheckCostSheet = function(sBtnId)
 		+'<p style="margin: 0px; font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px;">＊계약예정일 : '+sContractDate+'</p> <p>\n'
 		+'</body> \n'
 		+'</html> \n';
-	}
+
 	this.gfnSendEmail("ContractOkSendEmail", "SELF", "", strTitle, strContents);
  }
  
@@ -2120,64 +2167,42 @@ this.fnGetChangeMainDs = function()
 // 수주확정(계약확정) 처리
 this.fnContractOk = function()
 {
+	var sContractNo = this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_NO");
+	if (this.gfnIsEmpty(sContractNo)) {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1501,"신규건은 계약확정을 진행 할수 없습니다. 저장후 진행하세요"));
+		return;
+	}
+
 	//견적서 파일 유무 확인
 	this.gfnAddSendParameter("PROJECT_CODE", this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE"));
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("dsFileCnt", "dsOutput");
-	this.gfnCommonTransaction("Get_FileCnt", "SS_Presales_S05", null, false);
+// 	this.gfnAddOutputDataset("dsFileCnt", "dsOutput");
+// 	this.gfnCommonTransaction("Get_FileCnt", "SS_Presales_S05", null, false);
 	
-	if(this.FV_CO_CD == "J02") {
-		//견적서 유무 확인
-		this.gfnAddSendParameter("PROJECT_CODE", this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE"));
-		// 조회용 Output dataset 세팅
-		this.gfnAddOutputDataset("dsEstimateCnt", "dsOutput");
-		this.gfnAddOutputDataset("dsEstimateContract", "dsOutput1");
-		this.gfnCommonTransaction("Get_EstimateCnt", "SS_Presales_S07", null, false);
-		
-		/*
-			[1] TBJ 견적 작성이 있는 경우 각 계약 별 최종여부 체크
-			1. 계약 별 최종 견적 존재 시 계약확정 처리
-			2. 계약 별 중 최종 견적이 없는 경우 confirm 창 띄워서 여부 계약 확정 여부 물어보기
-			
-			[2] TBJ 견적 작성을 안한 경우 
-			1. 견적서 파일 첨부 O -> 계약확정 처리
-			2. 견적서 파일 첨부 X -> confirm Y : 계약확정처리 N : 계약확정 미처리
-		*/
-		var sCnt = this.dsEstimateCnt.getColumn(0, "CNT");
-		
-		if(sCnt > 0) { // [1] 케이스
-			if(this.dsEstimateContract.rowcount > 0) {
-				if(!this.confirm(this.gfnGetTransTxt(32850,"최종견적 체크 미진행 계약건이 존재합니다. \n예: 계약확정 진행 아니오 : 계약확정 미진행"))) return;
-			}
-		} else { // [2] 케이스
-			if(this.dsFileCnt.getColumn(0, "CNT")==0)
-			{
-				if(!this.confirm(this.gfnGetTransTxt(32853,"견적서 파일이 첨부 되지 않았습니다. 그래도 계약확정 하시겠습니까?"))) return;
-// 				alert(this.gfnGetTransTxt(1203,"견적서 파일이 첨부 되지 않았습니다."));// 견적서 첨부 후 진행 바랍니다.");
-// 				return;
-			}
-		}
-	} else {
-		if(this.dsFileCnt.getColumn(0, "CNT")==0)
-		{
-			alert(this.gfnGetTransTxt(1203,"견적서 파일이 첨부 되지 않았습니다."));// 견적서 첨부 후 진행 바랍니다.");
-			//return;
-		}
-	}	
+	this.gfnSetMap("salesManagerMapper", ["SS_Presales_S05"], ["dsFileCnt"]);
+	this.ErrorCode = 0;
+	this.gfnCommonTransaction("Get_FileCnt", 	"selectNextMultiList.do", null, false);		
+	if(this.ErrorCode < 0) return;
 	
-	var sContractNo = this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_NO");
-	
-	if (this.gfnIsEmpty(sContractNo)) {
-		alert(this.gfnGetTransTxt(1501,"신규건은 계약확정을 진행 할수 없습니다. 저장후 진행하세요"));
+// 	
+	if(this.dsFileCnt.getColumn(0, "CNT")==0)
+	{
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1203,"견적서 파일이 첨부 되지 않았습니다."));// 견적서 첨부 후 진행 바랍니다.");
 		return;
 	}
+// 	
 	this.dsList.set_enableevent(false);
 	this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS",	"2");
 	this.dsList.set_enableevent(true);
 
 	// 입력용 Input Dataset 세팅
-	this.gfnAddInputDataset ("dsList", "dsInput");
-	this.gfnCommonTransaction("SS_Presales_R02", "SS_Presales_R02");
+	this.gfnAddInputDataset ("dsList", "dsInput1","U");
+	this.gfnAddInputDataset ("dsList", "dsInput2","U");
+	this.gfnAddInputDataset ("dsList", "dsInput3","U");
+	//this.gfnCommonTransaction("SS_Presales_R02", "SS_Presales_R02");
+	
+	this.gfnSetMap("salesManagerMapper", ["SS_Presales_R02_1","SS_Presales_R02_2","SS_Presales_R02_3"]);
+	this.gfnCommonTransaction("SS_Presales_R02", 	"saveNextList.do");			
 }
 
 this.fnRequestLicense = function() 
@@ -2253,27 +2278,12 @@ this.fnPopupRequestLicense = function(sProductCode, sProductName, sProdShortName
  /************************************************************************************************
  * 각 COMPONENT 별 EVENT 영역
  ************************************************************************************************/
-// 목록 Row 변경시 세부 목록 조회
-this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+this.dsList_onrowposchangedAfter = function(obj,e)
 {
-	// 추가계약인 상태에서 Row 변경 시 Validation 체크
-	if(this.sInsertType=="02" && this.fnGetChangeMainDs()) {
-		if (this.confirm(this.gfnGetTransTxt(32859, "변경된 데이터가 존재 합니다. 저장하지 않으면 등록된 데이터는 삭제됩니다. 계속하시겠습니까?")))	{
-			obj.deleteRow(e.oldrow);
-			this.sInsertType = "";
-		} else {
-			this.dsList.set_enableevent(false);
-			obj.set_rowposition(e.oldrow);
-			this.FV_PARENT_FORM.div_Attachment.SOURCE_SEQ = this.dsList.getColumn(e.oldrow, "CONTRACT_NO");
-			this.dsList.set_enableevent(true);
-			return;
-		}
-	}
-	
 	this.sInsertType = "";
 	
 	// 권한 처리
-	var bBtnCtr = this.fnAuthConfig();
+	var bBtnCtr = this.fnAuthConfigSales();
 	var evtRow = e.newrow;
 	
 	if(this.SAVE_FLAG) {
@@ -2282,22 +2292,13 @@ this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRow
 	}
 	
 	// 파일 Upload 처리 (SOURCE_SEQ=="CONTRACT_NO")
-	this.FV_PARENT_FORM.div_Attachment.set_url("");
-	this.FV_PARENT_FORM.div_Attachment.SOURCE_SEQ = this.dsList.getColumn(evtRow, "PROJECT_CODE");
-	this.FV_PARENT_FORM.div_Attachment.set_url("Common::COM_Attachment.xfdl");
+	//this.div_Attachment.BINDDATASET = "dsList";
+	this.div_Attachment.set_url("");
+	this.div_Attachment.SOURCE_SEQ = this.dsList.getColumn(evtRow, "PROJECT_CODE");
+	this.div_Attachment.PROJECT_CODE = this.dsList.getColumn(evtRow, "PROJECT_CODE");
+	this.div_Attachment.set_url("sales::comm/COM_Attachment.xfdl");
 	// 견적서 버튼 활성화
-	this.FV_PARENT_FORM.btn_Estimate.set_enable(true);
-	
-	// 변경여부 확인
-	if (this.fnGetChangeDs()) {
-		if (!this.confirm(this.gfnGetTransTxt(1684, "변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?")))	{
-			this.dsList.set_enableevent(false);
-			obj.set_rowposition(e.oldrow);
-			this.FV_PARENT_FORM.div_Attachment.SOURCE_SEQ = this.dsList.getColumn(e.oldrow, "CONTRACT_NO");
-			this.dsList.set_enableevent(true);
-			return;
-		}
-	}	
+	this.btn_Estimate.set_enable(true);
 	
 	// 연결 프로젝트 활성화 처리
 	var sRelatedProjectCd = obj.getColumn(evtRow, "RELATED_PROJECT_CODE");
@@ -2311,12 +2312,45 @@ this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRow
 	// 계약확정 버튼 활성화
 	this.fnCheckOrderConfirm(evtRow);
 	
+	if(this.gfnIsNull(this.dsList.getColumn(evtRow, "PROJECT_CODE"))) {
+		this.divDet.form.divDet2.form.divPur.form.btn_ContractLink.set_enable(false);
+	} else {
+		this.divDet.form.divDet2.form.divPur.form.btn_ContractLink.set_enable(true);
+	}
+	
+};
+
+// 목록 Row 변경시 세부 목록 조회
+this.dsList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	// 추가계약인 상태에서 Row 변경 시 Validation 체크
+	if(this.fnGetChangeDs() || this.fnGetChangeMainDs()) {
+		this.gfnAlert('confirm.before.moveropos',[],null,
+			function(srvId, rtn) {
+				if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") {
+					this.dsList.set_enableevent(false);
+					obj.set_rowposition(e.oldrow);
+					this.div_Attachment.SOURCE_SEQ = this.dsList.getColumn(e.oldrow, "CONTRACT_NO");
+					this.dsList.set_enableevent(true);
+					return;
+				} else {
+					obj.enableevent = false;
+					obj.deleteRow(e.oldrow);
+					this.sInsertType = "";				
+					obj.enableevent = true;
+					this.dsList_onrowposchangedAfter(obj, e);
+				}
+			});
+	} else {
+		this.dsList_onrowposchangedAfter(obj, e);
+	}
+
 };
 
 this.fnCheckOrderConfirm = function(nRow, sDocStatus)
 {
 	// 권한 처리
-	var bBtnCtr = this.fnAuthConfig();
+	var bBtnCtr = this.fnAuthConfigSales();
 	
 	//사전원가표 상신후 처리
  	if(nRow==-1 && !this.gfnIsEmpty(sDocStatus))
@@ -2332,9 +2366,9 @@ this.fnCheckOrderConfirm = function(nRow, sDocStatus)
 		|| this.gfnIsEmpty(this.dsList.getColumn(nRow, "DOC_STATUS")) 	//사전원가표 전자결재가 없을 경우
 		&& bBtnCtr)
 		|| this.commUtil.getFormAuthority(235,6))					//전자결제 무관하게 계약확정
-		this.FV_PARENT_FORM.btn_Order_Confirm.set_enable(true);
+		this.btn_Order_Confirm.set_enable(true);
 	else
-		this.FV_PARENT_FORM.btn_Order_Confirm.set_enable(false);
+		this.btn_Order_Confirm.set_enable(false);
 }
 
 // 사업구분 변경시 담당영업 변경
@@ -2416,7 +2450,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			nAddRow = this.dsContractProd.addRow();
 			this.dsContractProd.setColumn(nAddRow, "PROJECT_CODE", this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE"));
 			//this.dsContractProd.setColumn(nAddRow, "CONTRACT_NO", this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_NO"));
-			this.dsContractProd.setColumn(nAddRow, "CONTRACT_TYPE", this.cmb_SalesProduct.value);
+			this.dsContractProd.setColumn(nAddRow, "CONTRACT_TYPE", "PD");
 			this.dsContractProd.setColumn(nAddRow, "ANNUAL_FLAG", "0");
 			this.dsContractProd.setColumn(nAddRow, "STRATEGY_SALES_FLAG", "0");
 			this.dsContractProd.setColumn(nAddRow, "INSERT_STATUS", "I");
@@ -2441,7 +2475,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			nAddRow = this.dsContractGoods.addRow();
 			this.dsContractGoods.setColumn(nAddRow, "PROJECT_CODE", this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE"));
 			//this.dsContractGoods.setColumn(nAddRow, "CONTRACT_NO", this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_NO"));
-			this.dsContractGoods.setColumn(nAddRow, "CONTRACT_TYPE", "G");
+			this.dsContractGoods.setColumn(nAddRow, "CONTRACT_TYPE", "GD");
 			this.dsContractGoods.setColumn(nAddRow, "ANNUAL_FLAG", "0");
 			this.dsContractGoods.setColumn(nAddRow, "STRATEGY_SALES_FLAG", "0");
 			this.dsContractGoods.setColumn(nAddRow, "INSERT_STATUS", "I");
@@ -2456,7 +2490,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			if (this.dsContractSi.rowcount > 0) {
 				this.dsContractSi.setColumn(nAddRow, "CONTRACT_NO", this.dsContractSi.getColumn(0, "CONTRACT_NO"));
 			}
-			this.dsContractSi.setColumn(nAddRow, "CONTRACT_TYPE", "ZS");
+			this.dsContractSi.setColumn(nAddRow, "CONTRACT_TYPE", "SI");
 			this.dsContractSi.setColumn(nAddRow, "STRATEGY_SALES_FLAG", "0");
 			
 			//trace("CONTRACT_SEQ:"+this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_SEQ"));
@@ -2570,7 +2604,7 @@ this.CommDelRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 				}
 			}
 			
-			var sCocd =this.gfnGetUserInfo(0, "CO_CD");
+			//var sCocd =this.gfnGetUserInfo(0, "CO_CD");
 			//if(sCocd == "J02" && (obj.name == "btn_ProdDel" || obj.name == "btn_GoodsDel")) this.fnDelPurchase(objDs, nDelRow);
 			objDs.deleteRow(nDelRow);			
 		});
@@ -2643,7 +2677,7 @@ this.divDet_divDet1_divGoods_grd_Salesgoods_onexpandup = function(obj:nexacro.Gr
 // 매입 상품, 연관제품 검색 팝업 처리
 this.divDet_divDet2_divPur_grd_SalesPurchase_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
 {
-	if (e.cell == 0) {
+	if (e.cell == 1) {
 		var sContractType = this.dsPurchaseList.getColumn(e.row, "CONTRACT_TYPE");
 		
 		var sArgument = {};
@@ -2658,14 +2692,14 @@ this.divDet_divDet2_divPur_grd_SalesPurchase_onexpandup = function(obj:nexacro.G
 		//제품검색창 연관제품나오게 처리
 		//sArgument.userelatedproduct = true;
 		sArgument.sContractType = sContractType;
-		sArgument.sContractType = "CM";
+		//sArgument.sContractType = "CM";
 		this.commUtil.popupProductSearch(this, "popupPurProductSearch", "fnPopupCallBack", sArgument);
 		
 // 	}else if (e.cell == 1) {
 // 		var sArgument = {};
 // 		sArgument.sProductCd = this.dsPurchaseList.getColumn(e.row, "RELATED_PRODUCT_CODE");
 // 		this.commUtil.popupProductSearch(this, "popupPurRelatedProductSearch", "fnPopupCallBack", sArgument);
-	} else if (e.cell == 2){
+	} else if (e.cell == 3){
 		var sArgument = {};
 		sArgument.pvMode = "2";		
 		sArgument.title = "매입처선택";
@@ -2770,12 +2804,18 @@ this.divDet_divDet2_divPur_btn_ContractLink_onclick = function(obj:nexacro.Butto
 		return;
 	}
 	
+	var prjtCd = this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE");
+	if(this.gfnIsNull(prjtCd)) {
+		this.gfnAlert('msg.er.nono',['프로젝트번호','저장']);
+		return;
+	}
+	
 	var sArgument = {
-			 pvProjectCode	: this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE")
+			 pvProjectCode	: prjtCd
 			,pvBusinessType	: this.dsList.getColumn(this.dsList.rowposition, "BUSINESS_TYPE")
 			};
-			
-	this.commUtil.popup (this, "SS_ContractLink", "Sales::SS_ContractLinkPopup.xfdl", -1, -1, 1000, 400, true, true, false, sArgument, "fnPopupCallBack");
+	sArgument.title = "매출연결";
+	this.commUtil.popup (this, "SS_ContractLink", "sales::sales/SS_ContractLinkPopup.xfdl", -1, -1, -1, -1, true, true, false, sArgument, "fnPopupCallBack");
 };
 
 this.fnSelectNewProject = function(sInsertType)
@@ -3008,18 +3048,8 @@ this.fn_setInsertStatus = function(obj)
 	this.dsTmpProdInfo.clearData();
 	for (var i=0; i<obj.rowcount; i++) {
 		var prod_cd = obj.getColumn(i, "PRODUCT_CODE");				// 제품코드
-		var main_prod_cd = "";
-		
-		// 메인 제품코드
-		if (prod_cd.length<=3) {
-			main_prod_cd = prod_cd;		// 코드 3자리인 경우 동일 계약으로 묶이는 문제 있음
-		} else {
-			main_prod_cd = prod_cd.substring(0, prod_cd.length-2);	
-		}
-		
-		
+		var main_prod_cd = prod_cd.substring(0, prod_cd.length-2);		
 		var nFindRow = this.dsTmpProdInfo.findRow("MAIN_PRODUCT_CODE", main_prod_cd);
-		
 		if (nFindRow<0) {
 			var nAddRow = this.dsTmpProdInfo.addRow();
 			this.dsTmpProdInfo.setColumn(nAddRow, "PRODUCT_CODE", prod_cd);
@@ -3038,33 +3068,24 @@ this.fn_setInsertStatus = function(obj)
 		for (var j=0; j<obj.rowcount; j++)
 		{
 			var sTarProdCd = obj.getColumn(j, "PRODUCT_CODE");
-			var sTarMainProdCd = "";
+			var sTarMainProdCd = sTarProdCd.substring(0, sTarProdCd.length-2);
 			
-			// 메인 제품코드
-			if (prod_cd.length<=3) {
-				sTarMainProdCd = sTarProdCd;		// 코드 3자리인 경우 동일 계약으로 묶이는 문제 있음
-			} else {
-				sTarMainProdCd = sTarProdCd.substring(0, sTarProdCd.length-2);
-			}
-			
-			
-			
-			if (sMainProdCd == sTarMainProdCd && this.dsTmpProdInfo.getRowType(i) != 1)
+			if (sMainProdCd == sTarMainProdCd && obj.getRowType(j) != Dataset.ROWTYPE_NORMAL)
 			{
 				if (nRowIdx == j) {
 					obj.setColumn(j, "INSERT_STATUS", "I");
 					obj.setColumn(j, "CONTRACT_NO", "");
 				} else {
-					if (this.dsTmpProdInfo.getRowType(i) == 2) {		//	ROWTYPE_INSERT
-						
-						if (!this.gfnIsEmpty(sContractNo)) {
-							obj.setColumn(j, "CONTRACT_NO", sContractNo);
-						}
-						
-						obj.setColumn(j, "INSERT_STATUS", "A");
-					} else  {											//	ROWTYPE_UPDATE
-						obj.setColumn(j, "INSERT_STATUS", "N");
-					} 
+// 					if (this.dsTmpProdInfo.getRowType(i) == 2) {		//	ROWTYPE_INSERT
+// 						
+// 						if (!this.gfnIsEmpty(sContractNo)) {
+// 							obj.setColumn(j, "CONTRACT_NO", sContractNo);
+// 						}
+// 						
+// 						obj.setColumn(j, "INSERT_STATUS", "A");
+// 					} else  {											//	ROWTYPE_UPDATE
+// 						obj.setColumn(j, "INSERT_STATUS", "N");
+// 					} 
 				}
 			
 			}
@@ -3271,6 +3292,18 @@ this.divDet_divDet1_divProd_btn_ContractUnion_onclick = function(obj:nexacro.But
 {
 	if (this.dsContractProd.rowcount > 0)
 	{
+		var ctrtNo = this.dsContractProd.getColumn(this.dsContractProd.rowposition, "CONTRACT_NO");
+		if(this.gfnIsNull(ctrtNo)) {
+			this.gfnAlert('msg.er.nono',['계약번호','저장']);
+			return;
+		}
+	
+		var prjtCd = this.dsContractProd.getColumn(this.dsContractProd.rowposition, "PROJECT_CODE");
+		if(this.gfnIsNull(prjtCd)) {
+			this.gfnAlert('msg.er.nono',['프로젝트번호','저장']);
+			return;
+		}
+		
 		var sArgument = {pvContractNo : this.dsContractProd.getColumn(this.dsContractProd.rowposition, "CONTRACT_NO"), pvProjectCd : this.dsContractProd.getColumn(this.dsContractProd.rowposition, "PROJECT_CODE")};
 		this.commUtil.popup(this, "ContractLicenseUnionReg", "Sales::SS_ContractLicenseUnionPopup.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
 	}
@@ -3357,7 +3390,22 @@ this.edt_ContractName_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEven
 	}
 };
 
+this.fnSelectCustomer = function(comp, e) {
+	if(this.gfnIsNull(this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_MAIN"))) {
+		this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_MAIN", e.newCode);
+		this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_MAIN_NAME", e.newName);
+	}
+};
 
+
+this.dsList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "PROJECT_NAME") {
+		if(this.gfnIsNull(this.dsList.getColumn(e.row, "CONTRACT_NAME"))) {
+			this.dsList.setColumn(e.row, "CONTRACT_NAME", PROJECT_NAME);
+		}	
+	}
+};
 ]]></Script>
     <Objects>
       <Dataset id="ds_cond_SalesStatus">
@@ -3607,7 +3655,7 @@ this.edt_ContractName_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEven
           <Column id="ORD" type="STRING" size="10"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged">
+      <Dataset id="dsList" onrowposchanged="dsList_onrowposchanged" oncolumnchanged="dsList_oncolumnchanged">
         <ColumnInfo>
           <Column id="PROJECT_CODE" type="string" size="15"/>
           <Column id="CONTRACT_NO" type="string" size="10"/>
@@ -4005,6 +4053,18 @@ this.edt_ContractName_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEven
           <Column id="SELECT_FLAG" type="string" size="1"/>
         </ColumnInfo>
       </Dataset>
+      <Dataset id="ds_cmm_PurchaseType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
     </Objects>
     <Bind>
       <BindItem id="item0" compid="stc_Sales_List.tpg_Progess.form.cmb_TypeCode" propid="value" datasetid="dsScheduleList" columnid="TYPE_CODE"/>
@@ -4024,6 +4084,12 @@ this.edt_ContractName_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEven
       <BindItem id="item14" compid="cmb_BusinessType" propid="value" datasetid="dsList" columnid="BUSINESS_TYPE"/>
       <BindItem id="item15" compid="cmb_SalesEmpNo" propid="value" datasetid="dsList" columnid="SALES_EMP_NO"/>
       <BindItem id="item16" compid="txt_Remark" propid="value" datasetid="dsList" columnid="REMARKS"/>
+      <BindItem id="item17" compid="tab_Progess.tpg_Progess.form.cmb_TypeCode" propid="value" datasetid="dsScheduleList" columnid="TYPE_CODE"/>
+      <BindItem id="item18" compid="tab_Progess.tpg_Progess.form.cal_IssueDate" propid="value" datasetid="dsScheduleList" columnid="ISSUE_DATE"/>
+      <BindItem id="item19" compid="tab_Progess.tpg_Progess.form.cmb_Importance00" propid="value" datasetid="dsScheduleList" columnid="IMPORTANCE"/>
+      <BindItem id="item20" compid="tab_Progess.tpg_Progess.form.chb_MakePublic01" propid="value" datasetid="dsScheduleList" columnid="REPORT_FLAG"/>
+      <BindItem id="item21" compid="tab_Progess.tpg_Progess.form.chb_MakePublic02" propid="value" datasetid="dsScheduleList" columnid="OPEN_FLAG"/>
+      <BindItem id="item22" compid="tab_Progess.tpg_Progess.form.txt_ProgressContent" propid="value" datasetid="dsScheduleList" columnid="CONTENTS"/>
     </Bind>
   </Form>
 </FDL>
