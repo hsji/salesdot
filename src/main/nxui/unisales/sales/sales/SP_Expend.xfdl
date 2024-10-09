@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_Expend" width="1345" height="472" titletext="지출" onload="SP_Expend_onload">
+    <Layouts>
+      <Layout height="472" mobileorientation="landscape" width="1345">
+        <Static id="Static09" taborder="1" text="4" left="0" top="0" width="1344" height="4" background="olive" opacity="0.5" textAlign="center" visible="false"/>
+        <Grid id="grd_ProjectSiEmp" taborder="1" left="0" top="4" right="0" bottom="0" binddataset="dsExpend" autoenter="select" oncelldblclick="grd_ProjectSiEmp_oncelldblclick" cellsizingtype="col" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="300"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="직원" TL_SEQ="769"/>
+                <Cell col="1" text="사용일" TL_SEQ="925"/>
+                <Cell col="2" text="내용" TL_SEQ="69"/>
+                <Cell col="3" text="금액" TL_SEQ="97"/>
+                <Cell col="4" text="부가세" TL_SEQ="734"/>
+                <Cell col="5" text="합계" TL_SEQ="437"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:EMP_NAME"/>
+                <Cell col="1" text="bind:AUTH_DT" displaytype="mask" maskeditformat="####-##-##" maskedittype="string"/>
+                <Cell col="2" text="bind:SUMMARY_NM" textAlign="left"/>
+                <Cell col="3" text="bind:COST" textAlign="right" displaytype="number"/>
+                <Cell col="4" text="bind:VAT" textAlign="right" displaytype="number"/>
+                <Cell col="5" text="bind:AMT" textAlign="right" displaytype="number"/>
+              </Band>
+              <Band id="summary">
+                <Cell colspan="3" text="합계" TL_SEQ="437"/>
+                <Cell col="3" text="expr:dataset.getSum(&quot;COST&quot;)" textAlign="right" displaytype="number"/>
+                <Cell col="4" text="expr:dataset.getSum(&quot;VAT&quot;)" textAlign="right" displaytype="number"/>
+                <Cell col="5" text="expr:dataset.getSum(&quot;AMT&quot;)" textAlign="right" displaytype="number"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsExpend">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="PSE_SEQ" type="bigdecimal" size="20"/>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NAME" type="string" size="255"/>
+          <Column id="CO_NAME" type="string" size="100"/>
+          <Column id="START_DATE" type="datetime" size="23"/>
+          <Column id="END_PLAN_DATE" type="datetime" size="23"/>
+          <Column id="END_DATE" type="datetime" size="23"/>
+          <Column id="NONRESIDENT_FLAG" type="string" size="1"/>
+          <Column id="FREE_SVC_FLAG" type="string" size="1"/>
+          <Column id="MEN_MONTH" type="float" size="22"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="PURCHASE_CONTRACT_NAME" type="string" size="100"/>
+          <Column id="ROLE_CODE" type="string" size="20"/>
+          <Column id="LEVEL_CODE" type="string" size="20"/>
+          <Column id="UNIT_COST" type="BIGDECIMAL" size="22"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 프로젝트관리
+ * 02. 화면명   : 지출 탭페이지(SP_Expend)
+ * 03. 화면설명 : 지출 탭페이지
+ * 04. 작성일   : 
+ * 05. 작성자   : 
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.FV_PARENT_FORM = this.parent.parent.parent;
+
+
+/************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.SP_Expend_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fn_QueryData();
+};
+
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+  // 조회
+ this.fn_QueryData = function()
+ {
+	if (!this.commUtil.getFormAuthority(242,14))	//지출 조회 권한
+		return;
+		
+	if (!this.fn_getValidation("S"))	
+		return;
+		
+	// 조건값 셋팅
+	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
+		
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("dsExpend", "dsOutput");
+	this.gfnCommonTransaction("select", "SP_Expend_S01");
+ };
+ 
+  
+ // 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	switch (strSvcID) 
+	{
+		case "select" :
+			
+			break;
+	}	
+ };
+ 
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+  // Validation check
+ this.fn_getValidation = function(sType)
+ {
+	var sProjectCd = this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value;
+	if (sType == "S") {
+		if (this.gfnIsEmpty(sProjectCd))
+		{
+			this.alert(this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
+			return false;
+		}
+	}
+	return true;
+ }
+  
+  // 화면 초기화
+ this.fn_setInit = function()
+ {
+	this.dsExpend.clearData();
+ }
+  
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+]]></Script>
+  </Form>
+</FDL>

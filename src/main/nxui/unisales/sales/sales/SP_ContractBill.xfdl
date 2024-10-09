@@ -1,0 +1,773 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_ContractBill" width="1345" height="472" titletext="수금" onload="SP_ContractBill_onload" onbeforeclose="SP_ContractBill_onbeforeclose">
+    <Layouts>
+      <Layout height="472" mobileorientation="landscape" width="1345">
+        <Grid id="grd_ContractList" taborder="0" left="0" top="4" autofittype="col" bottom="0" width="270" binddataset="ds_ContractList" formatid="default">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="108"/>
+              </Columns>
+              <Rows>
+                <Row size="25" band="head"/>
+                <Row size="25" band="head"/>
+                <Row size="24"/>
+                <Row size="24"/>
+                <Row size="25" band="summ"/>
+                <Row size="25" band="summ"/>
+                <Row size="25" band="summ"/>
+                <Row size="25" band="summ"/>
+                <Row size="25" band="summ"/>
+                <Row size="25" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="계약구분" TL_SEQ="123"/>
+                <Cell col="1" text="계약번호" TL_SEQ="316"/>
+                <Cell col="2" text="계약금액" TL_SEQ="40"/>
+                <Cell row="1" colspan="3" text="계약처" TL_SEQ="34"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="combotext" text="bind:CONTRACT_TYPE" combodataset="ds_cmm_ContractType" combocodecol="CODE" combodatacol="CAPTION" textAlign="left" cssclass="expr:comp.parent.paymentStatusExpr(currow)"/>
+                <Cell col="1" text="bind:CONTRACT_NO" cssclass="expr:comp.parent.paymentStatusExpr(currow)"/>
+                <Cell col="2" text="bind:CONTRACT_PRICE" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" textAlign="right" cssclass="expr:comp.parent.paymentStatusExpr(currow)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)"/>
+                <Cell row="1" colspan="3" textAlign="left" text="bind:CONTRACT_MAIN_NAME" cssclass="expr:comp.parent.paymentStatusExpr(currow)"/>
+              </Band>
+              <Band id="summary">
+                <Cell colspan="2" text="계약금액 합계" TL_SEQ="1122"/>
+                <Cell col="2" expr="dataset.getSum(&quot;CONTRACT_PRICE&quot;)" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;CONTRACT_PRICE&quot;))"/>
+                <Cell row="1" colspan="2" text="세금계산서 발행합계" TL_SEQ="1123"/>
+                <Cell row="1" col="2" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" expr="dataset.getSum(&quot;TAX_PRICE&quot;)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;))"/>
+                <Cell row="2" colspan="2" text="세금계산서 미발행합계" TL_SEQ="1124"/>
+                <Cell row="2" col="2" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" expr="dataset.getSum(&quot;CONTRACT_PRICE&quot;) - dataset.getSum(&quot;TAX_PRICE&quot;)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;CONTRACT_PRICE&quot;) - dataset.getSum(&quot;TAX_PRICE&quot;))"/>
+                <Cell row="3" colspan="2" text="(부가세 포함) 총 합계" TL_SEQ="1125"/>
+                <Cell row="3" col="2" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" expr="dataset.getSum(&quot;TOTAL_TAX_PRICE&quot;)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TOTAL_TAX_PRICE&quot;))"/>
+                <Cell row="4" colspan="2" text="수금액 합계" TL_SEQ="1126"/>
+                <Cell row="4" col="2" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" expr="dataset.getSum(&quot;BILL_PRICE&quot;)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;BILL_PRICE&quot;))"/>
+                <Cell row="5" colspan="2" text="미수금 합계" TL_SEQ="1127"/>
+                <Cell row="5" col="2" textAlign="right" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" expr="dataset.getSum(&quot;RECV_PRICE&quot;)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;RECV_PRICE&quot;))"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_ContractBill" taborder="1" left="274" top="4" right="0" bottom="0" binddataset="ds_ContractBill" formatid="default" autoenter="select" onheadclick="grd_ContractBill_onheadclick" oncellposchanged="grd_ContractBill_oncellposchanged" oncellclick="grd_ContractBill_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="40"/>
+                <Column size="107"/>
+                <Column size="107"/>
+                <Column size="90"/>
+                <Column size="120"/>
+                <Column size="90"/>
+                <Column size="110"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="150"/>
+                <Column size="200"/>
+                <Column size="200"/>
+                <Column size="130"/>
+                <Column size="55"/>
+                <Column size="55"/>
+                <Column size="55"/>
+              </Columns>
+              <Rows>
+                <Row size="25" band="head"/>
+                <Row size="25" band="head"/>
+                <Row size="24"/>
+                <Row size="25" band="summ"/>
+                <Row size="25" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" edittype="checkbox" displaytype="checkboxcontrol" checkboxfalsevalue="0" checkboxtruevalue="1" text="0"/>
+                <Cell col="1" rowspan="2" text="순번" TL_SEQ="333"/>
+                <Cell col="2" colspan="4" text="세금계산서" TL_SEQ="294"/>
+                <Cell col="6" rowspan="2" text="수금예정일" TL_SEQ="221"/>
+                <Cell col="7" rowspan="2" text="수금액" TL_SEQ="295"/>
+                <Cell col="8" rowspan="2" text="검수" TL_SEQ="623"/>
+                <Cell col="9" rowspan="2" colspan="2" text="검수비고" TL_SEQ="816"/>
+                <Cell col="11" rowspan="2" text="청구 비고" TL_SEQ="297"/>
+                <Cell col="12" rowspan="2" text="미수비고" TL_SEQ="817"/>
+                <Cell col="13" rowspan="2" text="수금일자" TL_SEQ="274"/>
+                <Cell col="14" rowspan="2" text="수금제외" TL_SEQ="818"/>
+                <Cell col="15" rowspan="2" text="수금상태" TL_SEQ="296"/>
+                <Cell col="16" rowspan="2" text="결재수단" TL_SEQ="819"/>
+                <Cell row="1" col="2" text="발행액" TL_SEQ="298"/>
+                <Cell row="1" col="3" text="부가세액" TL_SEQ="299"/>
+                <Cell row="1" col="4" text="발급예정일" TL_SEQ="300"/>
+                <Cell row="1" col="5" text="발급일" TL_SEQ="301"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK" checkboxfalsevalue="0" checkboxtruevalue="1" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''"/>
+                <Cell col="1" text="bind:ORD_NUM" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''"/>
+                <Cell col="2" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" edittype="normal" text="bind:TAX_PRICE" textAlign="right" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(TAX_PRICE)"/>
+                <Cell col="3" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" edittype="normal" textAlign="right" text="bind:VAT_PRICE" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(VAT_PRICE)"/>
+                <Cell col="4" edittype="date" text="bind:TAX_PLAN_DATE" calendardateformat="yyyy-MM-dd" displaytype="expr:TAX_PLAN_DATE.length&gt;0?'date':'normal'" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''" calendarautoselect="true"/>
+                <Cell col="5" edittype="date" text="bind:TAX_DATE" calendardateformat="yyyy-MM-dd" displaytype="expr:TAX_DATE.length&gt;0?'date':'normal'" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''" calendarautoselect="true"/>
+                <Cell col="6" edittype="date" calendardateformat="yyyy-MM-dd" text="bind:BILL_PLAN_DATE" displaytype="expr:BILL_PLAN_DATE.length&gt;0?'date':'normal'" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''" calendarautoselect="true"/>
+                <Cell col="7" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" text="bind:BILL_PRICE" textAlign="right" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(BILL_PRICE)"/>
+                <Cell col="8" displaytype="combotext" edittype="expr:SITECHK_STATUS == '001' ? 'none' :  SITECHK_STATUS=='004' ? 'none' : 'combo'" combodataset="ds_cmm_SitechkStatus" combocodecol="CODE" combodatacol="CAPTION" text="bind:SITECHK_STATUS" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''"/>
+                <Cell col="9" colspan="2" text="bind:SITECHK_REMARKS" displaytype="text" textAlign="left" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''" tooltiptext="bind:SITECHK_REMARKS"/>
+                <Cell col="11" text="bind:REMARKS" textAlign="left" displaytype="text" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''" tooltiptext="bind:REMARKS"/>
+                <Cell col="12" text="bind:REMARKS_UNBILL" textAlign="left" displaytype="text" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''" tooltiptext="bind:REMARKS_UNBILL"/>
+                <Cell col="13" text="bind:BILL_DATE" calendardateformat="yyyy-MM-dd" displaytype="expr:BILL_DATE.length&gt;0?'date':'normal'" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''" calendarautoselect="true"/>
+                <Cell col="14" displaytype="checkboxcontrol" edittype="checkbox" text="bind:BILL_EXCEPT_FLAG" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''"/>
+                <Cell col="15" text="bind:BILL_STATUS" displaytype="combotext" combodataset="ds_cmm_BillStatus" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''"/>
+                <Cell col="16" text="bind:PAY_METHOD" displaytype="combotext" edittype="combo" combodataset="ds_cmm_PayMethod" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:BILL_STATUS==&quot;0&quot; ? &quot;Expr_Case_Font_red&quot; : BILL_STATUS=='2' ? 'Expr_Case_Font_blue' : ''"/>
+              </Band>
+              <Band id="summary">
+                <Cell colspan="3" text="총발행액" TL_SEQ="1128"/>
+                <Cell col="3" colspan="2" expr="dataset.getSum(&quot;TAX_PRICE&quot;)" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;))"/>
+                <Cell col="5" text="계산서발행액" TL_SEQ="1129"/>
+                <Cell col="6" colspan="2" expr="dataset.getSum(&quot;TAX_DATE.length&gt;0?TAX_PRICE:0&quot;)" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_DATE.length&gt;0?TAX_PRICE:0&quot;))"/>
+                <Cell col="8" colspan="2" text="미발행금액" TL_SEQ="1130"/>
+                <Cell col="10" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" expr="dataset.getSum(&quot;TAX_PRICE&quot;) - dataset.getSum(&quot;TAX_DATE.length&gt;0?TAX_PRICE:0&quot;)" textAlign="right" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;) - dataset.getSum(&quot;TAX_DATE.length&gt;0?TAX_PRICE:0&quot;))"/>
+                <Cell col="11"/>
+                <Cell col="12"/>
+                <Cell col="13"/>
+                <Cell col="14"/>
+                <Cell col="15"/>
+                <Cell col="16"/>
+                <Cell row="1" colspan="3" text="총금액" TL_SEQ="1131"/>
+                <Cell row="1" col="3" colspan="2" expr="dataset.getSum(&quot;TAX_PRICE&quot;) + dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;) + dataset.getSum(&quot;VAT_PRICE&quot;))"/>
+                <Cell row="1" col="5" text="수금액" TL_SEQ="295"/>
+                <Cell row="1" col="6" colspan="2" expr="dataset.getSum(&quot;BILL_DATE.length&gt;0?BILL_PRICE:0&quot;)" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;BILL_DATE.length&gt;0?BILL_PRICE:0&quot;))"/>
+                <Cell row="1" col="8" colspan="2" text="미수금액" TL_SEQ="30"/>
+                <Cell row="1" col="10" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" expr="(dataset.getSum(&quot;TAX_DATE.length&gt;0?TAX_PRICE:0&quot;) + dataset.getSum(&quot;TAX_DATE.length&gt;0?VAT_PRICE:0&quot;)) - dataset.getSum(&quot;BILL_DATE.length&gt;0?BILL_PRICE:0&quot;)" textAlign="right" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat((dataset.getSum(&quot;TAX_DATE.length&gt;0?TAX_PRICE:0&quot;) + dataset.getSum(&quot;TAX_DATE.length&gt;0?VAT_PRICE:0&quot;)) - dataset.getSum(&quot;BILL_DATE.length&gt;0?BILL_PRICE:0&quot;))"/>
+                <Cell row="1" col="11"/>
+                <Cell row="1" col="12"/>
+                <Cell row="1" col="13"/>
+                <Cell row="1" col="14"/>
+                <Cell row="1" col="15"/>
+                <Cell row="1" col="16"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 프로젝트관리
+ * 02. 화면명   : 수금 탭페이지(SP_ContractBill)
+ * 03. 화면설명 : 수금 탭페이지
+ * 04. 작성일   : 2018.11.12
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+ this.FV_PARENT_FORM = this.parent.parent.parent;
+  this.FV_SAVE_CURROW = 0;	// 저장처리 시점의 Row Index
+ 
+ this.FV_AUTH_PRICE_MASK = false;
+  /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.SP_ContractBill_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;		// 계약금액 마스킹 처리 권한
+	
+	this.fnGetCode();	
+};
+ 
+ 
+  /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+  // 공통코드 조회
+ this.fnGetCode = function()
+ {
+	this.gfnAddCodeDataset("ds_cmm_ContractType",	"CONTRACT_TYPE"); 		// 계약구분
+	this.gfnAddCodeDataset("ds_cmm_BillStatus",		"BILL_STATUS"); 		// 수금상태
+	this.gfnAddCodeDataset("ds_cmm_PayMethod",		"PAY_METHOD"); 			// 결제방법
+	this.gfnAddCodeDataset("ds_cmm_SitechkStatus",	"SITECHK_STATUS"); 		// 검수상태
+	
+	
+	this.gfnCodeTransaction();
+ };
+ 
+ // 조회
+ this.fn_QueryData = function()
+ {
+	if (!this.fn_getValidation("S"))	return;
+		
+	// 조건값 셋팅
+	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
+		
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("ds_ContractList", "ds_output");
+	this.gfnCommonTransaction("Select_M", "SP_ContractBill_S01");
+ };
+ 
+ 
+  // 수금 목록 조회
+ this.fn_ContractBillQueryData = function(nRow)
+ {
+	var sContractNo = this.ds_ContractList.getColumn(nRow, "CONTRACT_NO");
+	// trace("fn_ContractBillQueryData - RowIdx:["+nRow+"]");	
+	
+	if (this.gfnIsEmpty(sContractNo)) {
+		return;
+	}
+	
+	// 조건값 셋팅
+	this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);
+		
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("ds_ContractBill", "ds_output");
+	this.gfnCommonTransaction("Select_Bill", "SP_ContractBill_S02");
+ };
+ 
+  // 저장
+  this.fn_SaveData  = function()
+  {	
+	// 	(현금) 발행금액 전액 수금 했을 경우 완료 처리
+	for (var i=0; i<this.ds_ContractBill.rowcount ; i++) 
+	{
+		var nTaxPrice = nexacro.toNumber(this.ds_ContractBill.getColumn(i,"TAX_PRICE")) + nexacro.toNumber(this.ds_ContractBill.getColumn(i,"VAT_PRICE"));
+		var nBillPrice = nexacro.toNumber(this.ds_ContractBill.getColumn(i,"BILL_PRICE"));
+		if(	(this.ds_ContractBill.getColumn(i,"BILL_STATU") == "0") &&		// 수금대기 일경우
+		    (this.ds_ContractBill.getColumn(i,"PAY_METHOD")=="001") && 		// 현금일경우
+		    (nTaxPrice == nBillPrice)										// 발행액과 수금액이 같을 경우
+		   ) 
+		{ 
+			this.ds_ContractBill.set_enableevent(false);
+			this.ds_ContractBill.setColumn(i,"BILL_STATU", "1");
+			this.ds_ContractBill.set_enableevent(true);
+		}
+	}
+	if (!this.fn_getValidation("T"))	return;	
+	this.FV_SAVE_CURROW = this.ds_ContractList.rowposition;
+	
+	
+	if (this.ds_ContractBill.rowcount>0) {
+		// 제품, 상품 무상유지보수 일자 등록 처리
+		this.fn_setFreeMaDate();
+	}
+
+	//저장용 Input Dataset 세팅
+	this.gfnAddInputDataset("ds_ContractBill",		"ds_ContractBill", "U");
+	this.gfnAddInputDataset("ds_InputContrProd",	"ds_ContractProduct", "U");
+	
+	this.gfnCommonTransaction("Save", "SP_ContractBill_R01");
+  }
+ 
+ // 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	switch (strSvcID) 
+	{
+		case "gfnGetCode" :
+			this.ds_cmm_ContractType.filter("VAL1=='1'");
+			this.fn_QueryData();
+			break;
+		case "Select_M" :
+			if (this.ds_ContractList.rowcount > 0)	this.FV_PARENT_FORM.fnAuthConfig();
+			//trace("fnCallBack - Select_M !!!");
+			this.fn_ContractBillQueryData(0);
+			this.grd_ContractBill.setCellProperty( "head", 0, "text", "0");
+			break;
+		case "Select_Bill" :
+			break;
+		case "Save" :
+			var nRow = this.FV_SAVE_CURROW;
+			this.FV_SAVE_CURROW = 0;
+			this.ds_ContractList.set_rowposition(nRow);
+			//trace("fnCallBack - Save !!!");
+			this.fn_ContractBillQueryData(nRow);
+			break;
+	}
+ };
+ 
+  /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ // Validation check
+ this.fn_getValidation = function(sMode)
+ {
+	var bRtnVal = true;
+	if (sMode == "S") {
+		var sProjectCd = this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value;
+		if (this.gfnIsEmpty(sProjectCd)) {
+			bRtnVal = false;
+		}
+	} else if (sMode == "T") {
+		
+		var nTaxPriceSum = this.ds_ContractBill.getSum("TAX_PRICE");
+		var nContractPrice = this.ds_ContractList.getColumn(this.ds_ContractList.rowposition, "CONTRACT_PRICE");
+		nContractPrice = nexacro.toNumber(nContractPrice);
+		
+		if (nTaxPriceSum != nContractPrice) {
+			if ( !this.confirm(this.gfnGetTransTxt(1688, "계약금액과 상이 합니다. 저장하시겠습니까?")) ){
+				bRtnVal = false;
+			}
+		}		
+		
+		for (var i=0; i<this.ds_ContractBill.rowcount ; i++) 
+		{
+			var sTaxPlanDate = this.ds_ContractBill.getColumn(i, "TAX_PLAN_DATE");
+			if (this.gfnIsEmpty(sTaxPlanDate)) {
+				this.alert(this.gfnGetTransTxt(1338, "세금계산서 발급예정일을 입력하세요."));
+				bRtnVal = false;
+				break;
+			}
+		}
+	}
+	return bRtnVal;
+ }
+ 
+
+// 계약 추가
+this.fn_AddRecord = function()
+{
+	if (this.ds_ContractList.rowcount == 0) {
+		this.alert(this.gfnGetTransTxt(1339, "계약내용이 없습니다."));
+		return;
+	}
+	
+
+	var nCurrSeq=0;
+	var nPrevSeq = 0;	
+	for(var i=0; i<this.ds_ContractBill.rowcount; i++)
+	{
+		nCurrSeq = nexacro.toNumber(this.ds_ContractBill.getColumn(i,"ORD_NUM"));
+		if (this.gfnIsEmpty(nCurrSeq)) nCurrSeq = 0;
+		
+		if(nCurrSeq < nPrevSeq)
+		{
+			nCurrSeq = nPrevSeq;
+		}		
+		nPrevSeq = nCurrSeq;		
+	}
+	
+	this.ds_ContractBill.set_enableevent(false);
+	var nAddRow = this.ds_ContractBill.addRow();
+	this.ds_ContractBill.setColumn(nAddRow,"ORD_NUM",			nCurrSeq + 1);
+	this.ds_ContractBill.setColumn(nAddRow,"BILL_STATUS",		"0");
+	this.ds_ContractBill.setColumn(nAddRow,"CONTRACT_NO",		this.ds_ContractList.getColumn(this.ds_ContractList.rowposition,"CONTRACT_NO"));	
+	this.ds_ContractBill.setColumn(nAddRow,"PAY_METHOD",		this.ds_ContractList.getColumn(this.ds_ContractList.rowposition, "PAY_METHOD"));
+	this.ds_ContractBill.setColumn(nAddRow,"BILL_EXCEPT_FLAG",	"0");
+	
+	var sSiteChkFlag = this.ds_ContractList.getColumn(this.ds_ContractList.rowposition, "SITECHK_FLAG");
+	//trace("SITECHK_FLAG:["+sSiteChkFlag+"]");
+	if (sSiteChkFlag == "1") {
+		this.ds_ContractBill.setColumn(nAddRow,"SITECHK_STATUS", "002");
+	} else {
+		this.ds_ContractBill.setColumn(nAddRow,"SITECHK_STATUS", "001");
+	}
+	
+	
+	this.ds_ContractBill.set_enableevent(true);
+}
+
+// 계약 삭제
+this.fn_DelRecord = function()
+{
+	if ( this.confirm(this.gfnGetTransTxt(1689, "해당 수금건을 삭제 하시겠습니까?")) ) 
+	var nFindRow = this.ds_ContractBill.findRow("CHK", "1");
+	if (nFindRow<0) {
+		this.alert(this.gfnGetTransTxt(1340, "삭제할 대상을 체크해 주세요"));
+		return;
+	}
+	
+	
+	for (var i=this.ds_ContractBill.rowcount-1; i>=0; i--) {
+		var sChk = this.ds_ContractBill.getColumn(i, "CHK");
+		if (sChk == "1") {
+			var sBillStatus = this.ds_ContractBill.getColumn(i, "BILL_STATUS");
+			
+			if(sBillStatus != "0") {
+				this.alert(this.gfnGetTransTxt(1341, "대기 수금상태만 삭제가 가능 합니다. "));
+				return false;
+			}
+			
+			this.ds_ContractBill.deleteRow(i);
+		}
+	}
+}
+
+
+ // 화면 초기화
+ this.fn_setInit = function()
+ {
+	this.ds_ContractList.clearData();
+	this.ds_ContractBill.clearData();
+ }
+ 
+ // PAYMENT_STATUS class 설정
+ this.paymentStatusExpr = function(curRow)
+ {
+	/*
+		기존 코딩 	: PAYMENT_STATUS=="미입금" ? "Expr_Case_Font_red" : PAYMENT_STATUS=='일부입금' ? 'Expr_Case_Font_blue' : ''
+		TXT			: 코드		: class
+		일부입금 	: 2057		: Expr_Case_Font_red
+		미입금		: 2056		: Expr_Case_Font_blue
+		완료		: 1020		: ""
+	*/
+	var strClass = "";
+	var sDs = this.ds_ContractList;
+	var sPaymentStatus = sDs.getColumn(curRow, "PAYMENT_STATUS");
+	
+	if(sPaymentStatus == this.gfnGetTransTxt(2057, "일부입금")) {
+		strClass = "Expr_Case_Font_blue";
+	} else if(sPaymentStatus == this.gfnGetTransTxt(2056, "미입금")) {
+		strClass = "Expr_Case_Font_red";
+	} 
+	
+	return strClass;
+ };
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.ds_ContractList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	var bFlag = true;
+	if (this.gfnIsUpdateDs(this.ds_ContractBill)) {
+		if (! this.confirm(this.gfnGetTransTxt(1690, "수금 내역에 변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?")) ){
+			bFlag = false;
+		} 
+	}
+	
+	if (bFlag) {
+		//trace("ds_ContractList_onrowposchanged !!!");
+		this.fn_ContractBillQueryData(e.newrow);
+	} else {
+		obj.set_enableevent(false);
+		obj.set_rowposition(e.oldrow);
+		obj.set_enableevent(true);
+	}
+};
+
+
+this.ds_ContractBill_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	var sCocd = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");
+	
+	if (e.columnid == "TAX_PRICE") {
+		var nTaxPrice = nexacro.toNumber(e.newvalue);
+		
+		
+		if(sCocd == "J02") {
+			var sConsumptionTax = this.ds_ContractList.getColumn(this.ds_ContractList.rowposition, "CONSUMPTION_TAX");
+			nTaxPrice = Math.floor(nTaxPrice * sConsumptionTax / 100);
+		} else {
+			nTaxPrice = Math.floor(nTaxPrice / 10);
+		}
+		this.ds_ContractBill.setColumn(e.row, "VAT_PRICE", nTaxPrice);
+	} else if (e.columnid == "TAX_DATE") {
+		var nContrProdRow = this.ds_ContractList.rowposition;
+		
+		
+		// 검수상태계약의 발급일자 입력시 검수종료 및 검수비고 History 등록
+		var sSiteChkFlag = this.ds_ContractList.getColumn(nContrProdRow, "SITECHK_FLAG");
+		var sSiteChkStatus =  this.ds_ContractBill.getColumn(e.row, "SITECHK_STATUS");
+		//trace("SiteChkFlag:["+sSiteChkFlag+"]  SiteChkStatus:["+sSiteChkStatus+"]");
+		
+		if (sSiteChkFlag == "1") {
+			if (sSiteChkStatus == "003") {
+				this.ds_ContractBill.setColumn(e.row, "SITECHK_STATUS", "004");
+				this.fn_setAutoSiteChkRemarks(e.row, "004");
+			}
+		}
+	} else if (e.columnid == "SITECHK_STATUS") {
+		// 검수중 또는 검수완료인 경우 검수비고 History 처리
+		if (e.newvalue == "003" || e.newvalue == "004") {
+			this.fn_setAutoSiteChkRemarks(e.row, e.newvalue);
+		}
+	}
+};
+
+
+this.fn_setFreeMaDate = function() 
+{
+	// 매출제품의 무상유지보수 정보 없을 경우
+	// 마지막 발급일 기준 익일부터 12개월까지 무상유지보수 산정
+	// 무상유지보수 일자 확인
+	// 계약금액 == 발행액 확인
+	var nContrProdRow = this.ds_ContractList.rowposition;
+	var sFreeMaStartDt = this.ds_ContractList.getColumn(nContrProdRow, "FREE_MA_START_DATE");
+	if (this.gfnIsEmpty(sFreeMaStartDt)) {
+		var nContractPriceSum = this.ds_ContractList.getColumn(nContrProdRow, "CONTRACT_PRICE");
+		var nTaxPriceSum = this.ds_ContractBill.getSum("TAX_PRICE");
+		
+		// trace("ContractPriceSum:["+nContractPriceSum+"]   TaxPriceSum:["+nTaxPriceSum+"]");
+		if (nexacro.toNumber(nContractPriceSum) == nexacro.toNumber(nTaxPriceSum)) {
+			for (var i=0; i<this.ds_ContractBill.rowcount; i++) {
+				var sTaxDate = this.ds_ContractBill.getColumn(i, "TAX_DATE");
+				if (this.gfnIsEmpty(sTaxDate)) {
+					return;
+				}
+			}
+			var sMaxTaxDate = this.ds_ContractBill.getMax("TAX_DATE");
+			var sStartDt = this.gfnAddDate(sMaxTaxDate, 1);				// 익일
+			var sEndDt = this.gfnAddMonth(sStartDt, 12);				// 12개월 이후
+			this.ds_InputContrProd.clearData();
+			
+			var nAddRow = this.ds_InputContrProd.addRow();
+			this.ds_InputContrProd.setColumn(nAddRow, "PROJECT_CODE",		this.ds_ContractList.getColumn(nContrProdRow, "PROJECT_CODE"));
+			this.ds_InputContrProd.setColumn(nAddRow, "CONTRACT_NO",		this.ds_ContractList.getColumn(nContrProdRow, "CONTRACT_NO"));
+			
+			this.ds_InputContrProd.setColumn(nAddRow, "FREE_MA_START_DATE", sStartDt);
+			this.ds_InputContrProd.setColumn(nAddRow, "FREE_MA_END_DATE",	sEndDt);
+			// 20230619 안수경 선임 요청에 의해 무상유지시작, 무상유지종료일 데이터가 입력 되면 무조건 "무상"으로 변경
+			this.ds_InputContrProd.setColumn(nAddRow, "SUPPORT_STATUS",		"005");
+			this.ds_InputContrProd.setColumn(nAddRow, "SUPPORT_REMARKS",	"무상기간으로 무상 상태값변경");
+// 			if ( this.gfnIsEmpty(this.ds_ContractList.getColumn(nContrProdRow, "SUPPORT_STATUS")) )
+// 				this.ds_InputContrProd.setColumn(nAddRow, "SUPPORT_STATUS",		"004");
+// 			else 
+// 				this.ds_InputContrProd.setColumn(nAddRow, "SUPPORT_STATUS",		this.ds_ContractList.getColumn(nContrProdRow, "SUPPORT_STATUS"));
+		}
+	}
+}
+
+
+
+// 검수비고 History
+this.fn_setAutoSiteChkRemarks = function(nRow, sStatusCd)
+{
+	var sSiteChkRemarks = this.ds_ContractBill.getColumn(nRow, "SITECHK_REMARKS");
+	if (this.gfnIsEmpty(sSiteChkRemarks))	sSiteChkRemarks = "";
+	else 									sSiteChkRemarks += "\n";
+	var sSiteStatusNm = sStatusCd == "003" ? this.gfnGetTransTxt(995, "검수중") : this.gfnGetTransTxt(2055, "검수완료");
+	var sYear =  this.gfnToday().substr(0,4);
+	var sMon =  this.gfnToday().substr(4,2);
+	var sDay =  this.gfnToday().substr(6,2);
+	sSiteChkRemarks +=" ["+sYear+"-"+sMon+"-"+sDay+"] " + sSiteStatusNm;
+	this.ds_ContractBill.set_enableevent(false);
+	this.ds_ContractBill.setColumn(nRow, "SITECHK_REMARKS", sSiteChkRemarks);
+	this.ds_ContractBill.set_enableevent(true);
+}
+
+this.grd_ContractBill_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	 if (e.col == 0) {
+		var sHeadChk = obj.getCellText( -1, e.cell);
+		if (sHeadChk == "0")	sHeadChk = "1";
+		else					sHeadChk = "0";
+		
+		obj.setCellProperty( "head", e.cell, "text", sHeadChk);
+		this.ds_ContractBill.set_enableevent(false);
+		for (var i=0; i<this.ds_ContractBill.rowcount; i++) {
+			this.ds_ContractBill.setColumn(i, "CHK", sHeadChk);
+		}
+		this.ds_ContractBill.set_enableevent(true);
+	 } 
+};
+
+
+this.grd_ContractBill_oncellposchanged = function(obj:nexacro.Grid,e:nexacro.GridSelectEventInfo)
+{
+	if (e.col == 4) {
+		if (this.gfnIsEmpty(this.ds_ContractBill.getColumn(e.row, "TAX_PLAN_DATE"))) {
+			this.ds_ContractBill.setColumn(e.row, "TAX_PLAN_DATE", this.gfnToday());
+		}
+	} 
+};
+
+
+this.grd_ContractBill_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if (e.col == 9 || e.col == 10 || e.col == 11 || e.col == 12) {
+		var bUseEnable = true;
+		var sTitle = "";
+		var sColId = "";
+		var sPopupId = "";
+		if (e.col == 9 || e.col == 10) {
+			sTitle = this.gfnGetTransTxt(816, "검수비고");
+			sColId = "SITECHK_REMARKS";
+			sPopupId = "popupSiteChkRemarks";
+		} else if (e.col == 11) {
+			sTitle = this.gfnGetTransTxt(1005, "청구비고");
+			sColId = "REMARKS";
+			sPopupId = "popupRemarks";
+		} else if (e.col == 12) {
+			sTitle = this.gfnGetTransTxt(817, "미수비고");
+			sColId = "REMARKS_UNBILL";
+			sPopupId = "popupRemarksUnbill";
+		}
+		
+		var sContents = this.ds_ContractBill.getColumn(e.row, sColId);
+		var Argument = {pv_UseEnable:bUseEnable, pvTitle:sTitle, pvContents:sContents};
+		this.commUtil.popup(this, sPopupId, "Common::CM_RemarkMM.xfdl", -1, -1, 886, 564, true, false, false, Argument, "fnPopupCallBack");
+	}
+};
+
+
+
+
+ // 팝업 콜백
+ this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	
+	
+	var nRowIdx = this.ds_ContractBill.rowposition;
+	switch(sPopupId)
+	{		
+		case "popupSiteChkRemarks":
+			this.ds_ContractBill.set_enableevent(false);
+			this.ds_ContractBill.setColumn(nRowIdx, "SITECHK_REMARKS", Variant);
+			this.ds_ContractBill.set_enableevent(true);
+		break;
+		case "popupRemarks":
+			this.ds_ContractBill.set_enableevent(false);
+			this.ds_ContractBill.setColumn(nRowIdx, "REMARKS", Variant);
+			this.ds_ContractBill.set_enableevent(true);
+		break;
+		case "popupRemarksUnbill":
+			this.ds_ContractBill.set_enableevent(false);
+			this.ds_ContractBill.setColumn(nRowIdx, "REMARKS_UNBILL", Variant);
+			this.ds_ContractBill.set_enableevent(true);
+		break;
+	}
+
+}
+
+
+this.SP_ContractBill_onbeforeclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
+{
+	if (this.gfnIsUpdateDs(this.ds_ContractBill)) {
+		if (! this.confirm(this.gfnGetTransTxt(1690, "수금 내역에 변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?")) ){
+			return;
+		} 
+	}	
+};
+
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_cmm_ContractType">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_BillStatus">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_PayMethod">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_SitechkStatus">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_ContractList" onrowposchanged="ds_ContractList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="CONTRACT_PRICE" type="float" size="22"/>
+          <Column id="PAY_METHOD" type="string" size="20"/>
+          <Column id="TAX_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="TOTAL_TAX_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="BILL_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="RECV_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="END_YN" type="string" size="1"/>
+          <Column id="SUPPORT_STATUS" type="string" size="20"/>
+          <Column id="FREE_MA_START_DATE" type="string" size="8"/>
+          <Column id="FREE_MA_END_DATE" type="string" size="8"/>
+          <Column id="SITECHK_FLAG" type="string" size="1"/>
+          <Column id="PAYMENT_STATUS" type="string" size="8"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_ContractBill" oncolumnchanged="ds_ContractBill_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="ORD_NUM" type="long" size="20"/>
+          <Column id="CB_SEQ" type="bigdecimal" size="20"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="BILL_STATUS" type="string" size="1"/>
+          <Column id="PAY_METHOD" type="string" size="20"/>
+          <Column id="TAX_PRICE" type="float" size="22"/>
+          <Column id="TAX_PLAN_DATE" type="string" size="8"/>
+          <Column id="TAX_DATE" type="string" size="8"/>
+          <Column id="VAT_PRICE" type="float" size="22"/>
+          <Column id="BILL_PLAN_DATE" type="string" size="8"/>
+          <Column id="BILL_DATE" type="string" size="8"/>
+          <Column id="BILL_PROC_DATE" type="string" size="8"/>
+          <Column id="BILL_PRICE" type="float" size="22"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="REMARKS_UNBILL" type="string" size="1073741823"/>
+          <Column id="BILL_EXCEPT_FLAG" type="string" size="1"/>
+          <Column id="SITECHK_STATUS" type="string" size="20"/>
+          <Column id="SITECHK_REMARKS" type="string" size="1073741823"/>
+          <Column id="CHK" type="string" size="1"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_InputContrProd">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="SUPPORT_STATUS" type="STRING" size="256"/>
+          <Column id="FREE_MA_START_DATE" type="STRING" size="256"/>
+          <Column id="FREE_MA_END_DATE" type="STRING" size="256"/>
+          <Column id="SUPPORT_REMARKS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

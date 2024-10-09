@@ -28,6 +28,7 @@
 		 */
 		popup : function (objOpener, sPopupId, sPopupUrl, nLeft, nTop, nWidth, nHeight, bModal, bAutosize, bResize, oArgument, sCallbackFunc, bMobilePopup)		
 		{			
+			bAutosize = true;
 			var sPopupType = (bModal==true?'modal':'modeless');
 			var oOption = {
 				left : nLeft,

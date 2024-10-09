@@ -1,0 +1,1413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_PurchaseContract" width="1270" height="472" titletext="매입계약" onload="SP_PurchaseContract_onload">
+    <Layouts>
+      <Layout height="472" mobileorientation="landscape" width="1270">
+        <Div id="div_PurchaseDet2" taborder="4" text="Div00" left="0" right="0" bottom="0" height="26.27%">
+          <Layouts>
+            <Layout>
+              <Static id="stc_GbProductContractMBar" taborder="4" top="0" cssclass="sta_POP_GroupBg" right="0" height="32" text="" width="468"/>
+              <Static id="stc_GbProductContractDetailBar" taborder="1" cssclass="sta_POP_GroupBg" left="0" text="" height="32" top="0" right="0"/>
+              <Static id="stc_GbProductContractDetail" taborder="0" text="매출계약 상세" top="8" height="15" cssclass="sta_POP_GroupTit" width="135" left="10" TL_SEQ="289"/>
+              <Grid id="grd_GbProductContractM" binddataset="dsProdContractM" scrollbars="alwaysvert" useinputpanel="false" cellsizingtype="col" right="0" autosizebandtype="allband" autosizingtype="col" autofittype="col" taborder="5" bottom="0" top="32" width="468">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="150"/>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="고객사" TL_SEQ="32"/>
+                      <Cell col="1" text="계약" TL_SEQ="126"/>
+                      <Cell col="2" text="제품" TL_SEQ="62"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:CLIENT_NAME" textAlign="left"/>
+                      <Cell col="1" text="bind:CONTRACT_NAME" textAlign="left"/>
+                      <Cell col="2" text="bind:PRODUCT_NAME" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd_GbProductContractDetail" taborder="2" left="0" autofittype="col" formatid="CONTRACT_TYPE_P" binddataset="dsProdContract" top="32" bottom="0" right="0">
+                <Formats>
+                  <Format id="CONTRACT_TYPE_P">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="200"/>
+                      <Column size="100"/>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="75"/>
+                      <Column size="40"/>
+                      <Column size="75"/>
+                      <Column size="100"/>
+                      <Column size="200"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="계약번호" TL_SEQ="316"/>
+                      <Cell col="1" text="제품명" displaytype="text" edittype="text" TL_SEQ="187"/>
+                      <Cell col="2" displaytype="text" edittype="text" text="종류" TL_SEQ="728"/>
+                      <Cell col="3" text="개발용" TL_SEQ="291"/>
+                      <Cell col="4" text="제품단가" TL_SEQ="292"/>
+                      <Cell col="5" text="서버등급" TL_SEQ="225"/>
+                      <Cell col="6" text="수량" TL_SEQ="103"/>
+                      <Cell col="7" text="단위" TL_SEQ="104"/>
+                      <Cell col="8" text="계약금액" TL_SEQ="40"/>
+                      <Cell col="9" text="비고" TL_SEQ="45"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:CONTRACT_NO"/>
+                      <Cell col="1" text="bind:PRODUCT_NAME" textAlign="left"/>
+                      <Cell col="2" text="bind:PURPOSE_NAME"/>
+                      <Cell col="3" text="bind:ISDEV_FLAG" displaytype="checkboxcontrol"/>
+                      <Cell col="4" text="bind:UNIT_COST" displaytype="number" textAlign="right"/>
+                      <Cell col="5" text="bind:SERVER_GRADE_NAME"/>
+                      <Cell col="6" text="bind:QUANTITY" displaytype="number" textAlign="right"/>
+                      <Cell col="7" text="bind:PRODUCT_UNIT_NAME"/>
+                      <Cell col="8" text="bind:CONTRACT_PRICE" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="9" text="bind:REMARKS" textAlign="left"/>
+                    </Band>
+                  </Format>
+                  <Format id="CONTRACT_TYPE_M">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="200"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="100"/>
+                      <Column size="107"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="계약번호" TL_SEQ="316"/>
+                      <Cell col="1" text="항목" displaytype="text" edittype="text" TL_SEQ="105"/>
+                      <Cell col="2" text="개시일자" TL_SEQ="1106"/>
+                      <Cell col="3" text="종료일자" TL_SEQ="95"/>
+                      <Cell col="4" text="계약금액" TL_SEQ="40"/>
+                      <Cell col="5" text="비고" TL_SEQ="45"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:CONTRACT_NO"/>
+                      <Cell col="1" text="bind:PRODUCT_NAME" textAlign="left"/>
+                      <Cell col="2" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:START_DATE"/>
+                      <Cell col="3" text="bind:END_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="4" text="bind:CONTRACT_PRICE" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="5" text="bind:REMARKS" textAlign="left"/>
+                    </Band>
+                  </Format>
+                  <Format id="CONTRACT_TYPE_S">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="60"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="48"/>
+                      <Column size="100"/>
+                      <Column size="48"/>
+                      <Column size="100"/>
+                      <Column size="107"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="계약번호" TL_SEQ="316"/>
+                      <Cell col="1" text="등급" displaytype="text" edittype="text" TL_SEQ="92"/>
+                      <Cell col="2" text="개시일자" TL_SEQ="1106"/>
+                      <Cell col="3" text="종료일자" TL_SEQ="95"/>
+                      <Cell col="4" text="인원" TL_SEQ="1099"/>
+                      <Cell col="5" text="단가" TL_SEQ="102"/>
+                      <Cell col="6" text="MM"/>
+                      <Cell col="7" text="계약금액" TL_SEQ="40"/>
+                      <Cell col="8" text="비고" TL_SEQ="45"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:CONTRACT_NO"/>
+                      <Cell col="1" text="bind:LEVEL_CODE_NAME"/>
+                      <Cell col="2" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:START_DATE"/>
+                      <Cell col="3" text="bind:END_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="4" text="bind:PERSON_NUMBER" displaytype="number"/>
+                      <Cell col="5" text="bind:UNIT_COST" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)"/>
+                      <Cell col="6" text="bind:MEN_MONTH" displaytype="number"/>
+                      <Cell col="7" text="bind:CONTRACT_PRICE" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="8" text="bind:REMARKS" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="stc_GbProductContractM" taborder="3" text="유지보수 대상 계약" top="8" height="15" cssclass="sta_POP_GroupTit" width="135" right="322" TL_SEQ="729"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_PurchaseDet" taborder="3" left="0" right="0" bottom="div_PurchaseDet2:4" top="191">
+          <Layouts>
+            <Layout>
+              <Static id="stc_GbSalesBar" taborder="1" top="0" cssclass="sta_POP_GroupBg" left="0" width="799" height="31"/>
+              <Static id="stc_GbProvideListBar" taborder="3" top="0" cssclass="sta_POP_GroupBg" left="803" height="31" right="0"/>
+              <Static id="stc_GbSales" taborder="0" text="매입계약 상세" top="8" height="15" cssclass="sta_POP_GroupTit" width="135" left="10" TL_SEQ="730"/>
+              <Static id="stc_GbProvideList" taborder="2" text="지급내역" top="8" height="15" cssclass="sta_POP_GroupTit" width="135" left="811" TL_SEQ="731"/>
+              <Grid id="grd_GbSales" taborder="4" left="0" autofittype="col" formatid="CONTRACT_TYPE_ALL" binddataset="dsPurchaseDet" cellsizingtype="col" bottom="0" top="31" width="799">
+                <Formats>
+                  <Format id="CONTRACT_TYPE_ALL">
+                    <Columns>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                      <Column size="90"/>
+                      <Column size="60"/>
+                      <Column size="90"/>
+                      <Column size="90"/>
+                      <Column size="90"/>
+                      <Column size="60"/>
+                      <Column size="90"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="상품명" displaytype="text" edittype="text" TL_SEQ="732"/>
+                      <Cell col="1" displaytype="text" edittype="text" text="연관제품" TL_SEQ="106"/>
+                      <Cell col="2" text="단가" TL_SEQ="102"/>
+                      <Cell col="3" text="수량" TL_SEQ="103"/>
+                      <Cell col="4" text="단위" TL_SEQ="104"/>
+                      <Cell col="5" text="공급가" TL_SEQ="733"/>
+                      <Cell col="6" text="부가세" TL_SEQ="734"/>
+                      <Cell col="7" text="요율(%)" TL_SEQ="109"/>
+                      <Cell col="8" text="합계" TL_SEQ="437"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:PRODUCT_NAME" textAlign="left"/>
+                      <Cell col="1" editdisplay="edit" text="bind:RELATED_PRODUCT_NAME" textAlign="left"/>
+                      <Cell col="2" text="bind:UNIT_COST" displaytype="number" editinputtype="number"/>
+                      <Cell col="3" text="bind:QUANTITY" displaytype="number" textAlign="right" editinputtype="number"/>
+                      <Cell col="4" text="bind:PRODUCT_UNIT" displaytype="combotext" combodataset="ds_cmm_ProductUnit" combocodecol="CODE" combodatacol="CAPTION" editinputtype="number" textAlign="left"/>
+                      <Cell col="5" text="bind:CONTRACT_PRICE" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" editinputtype="number" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="6" text="bind:VAT_PRICE" displaytype="number" textAlign="right" editinputtype="number"/>
+                      <Cell col="7" text="bind:COMMISSION_RATE" displaytype="number" editinputtype="number" textAlign="right"/>
+                      <Cell col="8" text="expr:CONTRACT_PRICE + VAT_PRICE" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(CONTRACT_PRICE + VAT_PRICE)" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell colspan="5" text="합계" TL_SEQ="437"/>
+                      <Cell col="5" text="expr:dataset.getSum(&quot;CONTRACT_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;CONTRACT_PRICE&quot;))" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="6" text="expr:dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="number" textAlign="right"/>
+                      <Cell col="7"/>
+                      <Cell col="8" text="expr:dataset.getSum(&quot;CONTRACT_PRICE&quot;) + dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;CONTRACT_PRICE&quot;) + dataset.getSum(&quot;VAT_PRICE&quot;))"/>
+                    </Band>
+                  </Format>
+                  <Format id="CONTRACT_TYPE_C">
+                    <Columns>
+                      <Column size="200"/>
+                      <Column size="50"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                      <Column size="60"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="text" edittype="text" text="연관제품" TL_SEQ="106"/>
+                      <Cell col="1" text="수량" TL_SEQ="103"/>
+                      <Cell col="2" text="단위" TL_SEQ="104"/>
+                      <Cell col="3" text="단위(수기입력)" TL_SEQ="1110"/>
+                      <Cell col="4" text="요율(%)" TL_SEQ="109"/>
+                      <Cell col="5" text="매출계약금액" TL_SEQ="1111"/>
+                      <Cell col="6" text="판매수수료금액" TL_SEQ="1112"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell editdisplay="edit" text="bind:RELATED_PRODUCT_NAME" textAlign="left"/>
+                      <Cell col="1" text="bind:QUANTITY" displaytype="number" textAlign="right" editinputtype="number"/>
+                      <Cell col="2" text="bind:PRODUCT_UNIT" displaytype="combotext" combodataset="ds_cmm_ProductUnit" combocodecol="CODE" combodatacol="CAPTION" editinputtype="number" textAlign="left"/>
+                      <Cell col="3" text="bind:REMARKS" expandsize="18" textAlign="left" expr="PRODUCT_UNIT == &quot;900&quot; ? REMARKS : &quot;&quot;"/>
+                      <Cell col="4" text="bind:COMMISSION_RATE" displaytype="number" editinputtype="number" textAlign="right"/>
+                      <Cell col="5" text="bind:UNIT_COST" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" editinputtype="number" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)"/>
+                      <Cell col="6" text="bind:CONTRACT_PRICE" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" editinputtype="number" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell colspan="5" text="합계" TL_SEQ="437"/>
+                      <Cell col="5" text="expr:dataset.getSum(&quot;UNIT_COST&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;UNIT_COST&quot;))"/>
+                      <Cell col="6" text="expr:dataset.getSum(&quot;CONTRACT_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;CONTRACT_PRICE&quot;))"/>
+                    </Band>
+                  </Format>
+                  <Format id="CONTRACT_TYPE_M">
+                    <Columns>
+                      <Column size="150"/>
+                      <Column size="170"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                      <Column size="70"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="상품명" displaytype="text" edittype="text" TL_SEQ="732"/>
+                      <Cell col="1" displaytype="text" edittype="text" text="연관제품" TL_SEQ="106"/>
+                      <Cell col="2" text="시작일" TL_SEQ="38"/>
+                      <Cell col="3" text="종료일" TL_SEQ="39"/>
+                      <Cell col="4" text="마진(%)" TL_SEQ="1113"/>
+                      <Cell col="5" text="매출계약금액" TL_SEQ="1111"/>
+                      <Cell col="6" text="유지보수금액" TL_SEQ="1114"/>
+                      <Cell col="7" text="비고" TL_SEQ="45"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:PRODUCT_NAME" textAlign="left"/>
+                      <Cell col="1" editdisplay="edit" text="bind:RELATED_PRODUCT_NAME" textAlign="left"/>
+                      <Cell col="2" text="bind:START_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="3" text="bind:END_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="4" text="bind:COMMISSION_RATE" displaytype="number" editinputtype="number" textAlign="right"/>
+                      <Cell col="5" text="bind:UNIT_COST" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" editinputtype="number" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)"/>
+                      <Cell col="6" text="bind:CONTRACT_PRICE" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" editinputtype="number" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)"/>
+                      <Cell col="7" text="bind:REMARKS" textAlign="left"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell text="합계" TL_SEQ="437"/>
+                      <Cell col="1" colspan="4" text="합계" TL_SEQ="437"/>
+                      <Cell col="5" text="expr:dataset.getSum(&quot;UNIT_COST&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;UNIT_COST&quot;))"/>
+                      <Cell col="6" text="expr:dataset.getSum(&quot;CONTRACT_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;CONTRACT_PRICE&quot;))"/>
+                      <Cell col="7"/>
+                    </Band>
+                  </Format>
+                  <Format id="CONTRACT_TYPE_S">
+                    <Columns>
+                      <Column size="130"/>
+                      <Column size="60"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                      <Column size="40"/>
+                      <Column size="110"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="성명" displaytype="text" edittype="text" TL_SEQ="27"/>
+                      <Cell col="1" text="등급" TL_SEQ="92"/>
+                      <Cell col="2" text="투입시작일" TL_SEQ="1115"/>
+                      <Cell col="3" text="투입종료일" TL_SEQ="1116"/>
+                      <Cell col="4" text="월 단가" TL_SEQ="344"/>
+                      <Cell col="5" text="월 경비" TL_SEQ="1117"/>
+                      <Cell col="6" text="MM"/>
+                      <Cell col="7" text="계약금액" TL_SEQ="40"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:EMP_NAME" textAlign="center" tooltiptype="hover"/>
+                      <Cell col="1" text="bind:LEVEL_CODE" displaytype="combotext" combodataset="ds_cmm_LevelCode" combocodecol="CODE" combodatacol="CAPTION" editinputtype="number"/>
+                      <Cell col="2" text="bind:START_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="3" text="bind:END_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="4" text="bind:UNIT_COST" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" editinputtype="number" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)"/>
+                      <Cell col="5" text="bind:EXPENSE" displaytype="number" editinputtype="number" textAlign="right"/>
+                      <Cell col="6" text="bind:MEN_MONTH" displaytype="number" textAlign="right" editinputtype="number"/>
+                      <Cell col="7" text="bind:CONTRACT_PRICE" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" editinputtype="number" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell colspan="7" text="합계" TL_SEQ="437"/>
+                      <Cell col="7" text="expr:dataset.getSum(&quot;CONTRACT_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;CONTRACT_PRICE&quot;))"/>
+                    </Band>
+                  </Format>
+                  <Format id="CONTRACT_TYPE_D">
+                    <Columns>
+                      <Column size="200"/>
+                      <Column size="50"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                      <Column size="60"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="text" edittype="text" text="연관제품" TL_SEQ="106"/>
+                      <Cell col="1" text="수량" TL_SEQ="103"/>
+                      <Cell col="2" text="단위" TL_SEQ="104"/>
+                      <Cell col="3" text="단위(수기입력)" TL_SEQ="1110"/>
+                      <Cell col="4" text="요율(%)" TL_SEQ="109"/>
+                      <Cell col="5" text="매출계약금액" TL_SEQ="1111"/>
+                      <Cell col="6" text="총판수수료금액" TL_SEQ="1118"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell editdisplay="edit" text="bind:RELATED_PRODUCT_NAME" textAlign="left"/>
+                      <Cell col="1" text="bind:QUANTITY" displaytype="number" textAlign="right" editinputtype="number"/>
+                      <Cell col="2" text="bind:PRODUCT_UNIT" displaytype="combotext" combodataset="ds_cmm_ProductUnit" combocodecol="CODE" combodatacol="CAPTION" editinputtype="number" textAlign="left"/>
+                      <Cell col="3" text="bind:REMARKS" expandsize="18" textAlign="left" expr="PRODUCT_UNIT == &quot;900&quot; ? REMARKS : &quot;&quot;"/>
+                      <Cell col="4" text="bind:COMMISSION_RATE" displaytype="number" editinputtype="number" textAlign="right"/>
+                      <Cell col="5" text="bind:UNIT_COST" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" editinputtype="number" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)"/>
+                      <Cell col="6" text="bind:CONTRACT_PRICE" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" editinputtype="number" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell colspan="5" text="합계" TL_SEQ="437"/>
+                      <Cell col="5" text="expr:dataset.getSum(&quot;UNIT_COST&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;UNIT_COST&quot;))"/>
+                      <Cell col="6" text="expr:dataset.getSum(&quot;CONTRACT_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;CONTRACT_PRICE&quot;))"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd_GbProvideList" taborder="5" binddataset="dsPurchasePay" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" visible="true" left="803" formatid="CONTRACT_TYPE_P" autosizebandtype="allband" autosizingtype="col" autofittype="col" right="0" bottom="0" top="31">
+                <Formats>
+                  <Format id="CONTRACT_TYPE_P">
+                    <Columns>
+                      <Column size="35"/>
+                      <Column size="90"/>
+                      <Column size="40"/>
+                      <Column size="105"/>
+                      <Column size="90"/>
+                      <Column size="105"/>
+                      <Column size="40"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="No." displaytype="text" edittype="text"/>
+                      <Cell col="1" displaytype="text" edittype="text" text="지급예정일" TL_SEQ="736"/>
+                      <Cell col="2" text="발행" TL_SEQ="737"/>
+                      <Cell col="3" text="공급가" TL_SEQ="733"/>
+                      <Cell col="4" text="부가세" TL_SEQ="734"/>
+                      <Cell col="5" text="합계" TL_SEQ="437"/>
+                      <Cell col="6" text="지급" TL_SEQ="738"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell editautoselect="true" text="expr:currow+1"/>
+                      <Cell col="1" editautoselect="true" editdisplay="edit" text="bind:PAY_PLAN_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="2" text="bind:TAX_FLAG" tooltiptext="bind:TAX_DATE"/>
+                      <Cell col="3" text="bind:TAX_PRICE" textAlign="right" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" editinputtype="number" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(TAX_PRICE)"/>
+                      <Cell col="4" text="bind:VAT_PRICE" textAlign="right" displaytype="number" editinputtype="number"/>
+                      <Cell col="5" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="expr:TAX_PRICE+VAT_PRICE" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(TAX_PRICE+VAT_PRICE)"/>
+                      <Cell col="6" text="expr:PAY_FLAG == &quot;1&quot; ? &quot;Y&quot; : &quot;N&quot;" tooltiptext="bind:PAY_DATE"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell colspan="2" text="합계" TL_SEQ="437"/>
+                      <Cell col="2"/>
+                      <Cell col="3" text="expr:dataset.getSum(&quot;TAX_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;))"/>
+                      <Cell col="4" text="expr:dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="number" textAlign="right"/>
+                      <Cell col="5" text="expr:dataset.getSum(&quot;TAX_PRICE&quot;) + dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;) + dataset.getSum(&quot;VAT_PRICE&quot;))"/>
+                      <Cell col="6"/>
+                    </Band>
+                  </Format>
+                  <Format id="CONTRACT_TYPE_M">
+                    <Columns>
+                      <Column size="35"/>
+                      <Column size="100"/>
+                      <Column size="115"/>
+                      <Column size="115"/>
+                      <Column size="115"/>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="48"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="No." displaytype="text" edittype="text"/>
+                      <Cell col="1" text="지급회차" TL_SEQ="1119"/>
+                      <Cell col="2" text="시작일" TL_SEQ="38"/>
+                      <Cell col="3" text="종료일" TL_SEQ="39"/>
+                      <Cell col="4" displaytype="text" edittype="text" text="지급예정일" TL_SEQ="736"/>
+                      <Cell col="5" text="발행" TL_SEQ="737"/>
+                      <Cell col="6" text="공급가" TL_SEQ="733"/>
+                      <Cell col="7" text="부가세" TL_SEQ="734"/>
+                      <Cell col="8" text="합계" TL_SEQ="437"/>
+                      <Cell col="9" text="지급" TL_SEQ="738"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell editautoselect="true" text="expr:currow+1"/>
+                      <Cell col="1" text="bind:REMARKS" textAlign="left"/>
+                      <Cell col="2" text="bind:START_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="3" text="bind:END_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="4" editautoselect="true" editdisplay="edit" text="bind:PAY_PLAN_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="5" text="bind:TAX_FLAG" tooltiptext="bind:TAX_DATE"/>
+                      <Cell col="6" text="bind:TAX_PRICE" textAlign="right" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" editinputtype="number" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(TAX_PRICE)"/>
+                      <Cell col="7" text="bind:VAT_PRICE" textAlign="right" displaytype="number" editinputtype="number"/>
+                      <Cell col="8" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="expr:TAX_PRICE+VAT_PRICE" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(TAX_PRICE+VAT_PRICE)"/>
+                      <Cell col="9" text="expr:PAY_FLAG == &quot;1&quot; ? &quot;Y&quot; : &quot;N&quot;" tooltiptext="bind:PAY_DATE"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell colspan="5" text="합계" TL_SEQ="437"/>
+                      <Cell col="5"/>
+                      <Cell col="6" text="expr:dataset.getSum(&quot;TAX_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;))"/>
+                      <Cell col="7" text="expr:dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="number" textAlign="right"/>
+                      <Cell col="8" text="expr:dataset.getSum(&quot;TAX_PRICE&quot;) + dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;)+dataset.getSum(&quot;VAT_PRICE&quot;))"/>
+                      <Cell col="9"/>
+                    </Band>
+                  </Format>
+                  <Format id="CONTRACT_TYPE_S">
+                    <Columns>
+                      <Column size="35"/>
+                      <Column size="100"/>
+                      <Column size="20"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="48"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="No." displaytype="text" edittype="text"/>
+                      <Cell col="1" colspan="3" text="역무기간" TL_SEQ="1120"/>
+                      <Cell col="4" displaytype="text" edittype="text" text="지급예정일" TL_SEQ="736"/>
+                      <Cell col="5" text="발행" TL_SEQ="737"/>
+                      <Cell col="6" text="공급가" TL_SEQ="733"/>
+                      <Cell col="7" text="부가세" TL_SEQ="734"/>
+                      <Cell col="8" text="합계" TL_SEQ="437"/>
+                      <Cell col="9" text="지급" TL_SEQ="738"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell editautoselect="true" text="expr:currow+1"/>
+                      <Cell col="1" text="bind:START_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="2" text="~"/>
+                      <Cell col="3" text="bind:END_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="4" editautoselect="true" editdisplay="edit" text="bind:PAY_PLAN_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="5" text="bind:TAX_FLAG" tooltiptext="bind:TAX_DATE"/>
+                      <Cell col="6" text="bind:TAX_PRICE" textAlign="right" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" editinputtype="number" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(TAX_PRICE)"/>
+                      <Cell col="7" text="bind:VAT_PRICE" textAlign="right" displaytype="number" editinputtype="number"/>
+                      <Cell col="8" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="expr:TAX_PRICE+VAT_PRICE" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(TAX_PRICE+VAT_PRICE)"/>
+                      <Cell col="9" text="expr:PAY_FLAG == &quot;1&quot; ? &quot;Y&quot; : &quot;N&quot;" tooltiptext="bind:PAY_DATE"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell colspan="5" text="합계" TL_SEQ="437"/>
+                      <Cell col="5"/>
+                      <Cell col="6" text="expr:dataset.getSum(&quot;TAX_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;))"/>
+                      <Cell col="7" text="expr:dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="number" textAlign="right"/>
+                      <Cell col="8" text="expr:dataset.getSum(&quot;TAX_PRICE&quot;) + dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;)+dataset.getSum(&quot;VAT_PRICE&quot;))"/>
+                      <Cell col="9"/>
+                    </Band>
+                  </Format>
+                  <Format id="CONTRACT_TYPE_ST">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="40"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="25" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24" band="summ"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="No." displaytype="text" edittype="text"/>
+                      <Cell col="1" text="지급회차" TL_SEQ="1119"/>
+                      <Cell col="2" displaytype="text" edittype="text" text="지급예정일" TL_SEQ="736"/>
+                      <Cell col="3" text="발행" TL_SEQ="737"/>
+                      <Cell col="4" text="공급가" TL_SEQ="733"/>
+                      <Cell col="5" text="부가세" TL_SEQ="734"/>
+                      <Cell col="6" text="합계" TL_SEQ="437"/>
+                      <Cell col="7" text="지급" TL_SEQ="738"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell editautoselect="true" text="expr:currow+1" textAlign="right"/>
+                      <Cell col="1" text="bind:REMARKS" textAlign="left" edittype="normal"/>
+                      <Cell col="2" edittype="date" editautoselect="true" editdisplay="edit" text="bind:PAY_PLAN_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="3" text="bind:TAX_FLAG" tooltiptext="bind:TAX_DATE"/>
+                      <Cell col="4" text="bind:TAX_PRICE" textAlign="right" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" edittype="normal" editinputtype="number" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(TAX_PRICE)"/>
+                      <Cell col="5" text="bind:VAT_PRICE" textAlign="right" displaytype="number" edittype="normal" editinputtype="number"/>
+                      <Cell col="6" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="expr:TAX_PRICE+VAT_PRICE" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(TAX_PRICE+VAT_PRICE)"/>
+                      <Cell col="7" text="expr:PAY_FLAG == &quot;1&quot; ? &quot;Y&quot; : &quot;N&quot;" tooltiptext="bind:PAY_DATE"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell colspan="3" text="합계" TL_SEQ="437"/>
+                      <Cell col="3"/>
+                      <Cell col="4" text="expr:dataset.getSum(&quot;TAX_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;))"/>
+                      <Cell col="5" text="expr:dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="number" textAlign="right"/>
+                      <Cell col="6" text="expr:dataset.getSum(&quot;TAX_PRICE&quot;) + dataset.getSum(&quot;VAT_PRICE&quot;)" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;TAX_PRICE&quot;)+dataset.getSum(&quot;VAT_PRICE&quot;))"/>
+                      <Cell col="7"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_Purchaseist" taborder="0" left="0" top="4" autofittype="col" binddataset="ds_MainPurchase" formatid="default" oncelldblclick="grd_Purchaseist_oncelldblclick" right="747" cellsizingtype="col" bottom="div_PurchaseDet:3">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="70"/>
+                <Column size="80"/>
+                <Column size="140"/>
+                <Column size="80"/>
+                <Column size="89"/>
+                <Column size="63"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구분" TL_SEQ="68"/>
+                <Cell col="1" text="계약번호" TL_SEQ="316"/>
+                <Cell col="2" text="업체명" TL_SEQ="231"/>
+                <Cell col="3" text="계약일자" TL_SEQ="156"/>
+                <Cell col="4" text="계약금액" TL_SEQ="40"/>
+                <Cell col="5" text="지급" TL_SEQ="738"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CONTRACT_TYPE" displaytype="combotext" combodataset="ds_cmm_ContractType" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="1" text="bind:CONTRACT_NO_PURCHASE"/>
+                <Cell col="2" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:CONTRACT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="4" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" text="bind:CONTRACT_AMT" textAlign="right" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_AMT)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
+                <Cell col="5" text="bind:PAY_TERM" displaytype="combotext" textAlign="center" combodataset="ds_cmm_PayTerm" combocodecol="CODE" combodatacol="CAPTION"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div_PurchaseDet_" taborder="1" text="" left="62" top="935" bottom="-713" right="-62" border="1px solid" visible="false">
+          <Layouts>
+            <Layout>
+              <Div id="div_ProdContract" taborder="1" left="0" top="125" bottom="0" right="0" border="1px solid" visible="false">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Div id="div_ProdContractM" taborder="0" visible="false" right="0" bottom="1" width="468" height="124" border="1px solid">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_Purchase" taborder="2" text="Div01" top="4" right="0" width="743" height="184">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Purchase_List" taborder="0" text="" left="0" top="0" cssclass="sta_WF_detailBg" right="0" bottom="0"/>
+              <TextArea id="txt_Remark" taborder="28" left="80" top="123" right="360" readonly="true" bottom="8"/>
+              <Static id="stc_ContractName" taborder="1" text="매출계약" top="7" width="60" height="22" cssclass="sta_WF_DetailTit" left="368" textAlign="right" TL_SEQ="650"/>
+              <Static id="stc_CompanyName" taborder="2" text="매입계약처" top="36" width="68" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="5" TL_SEQ="163"/>
+              <Static id="stc_CompanyCode" taborder="3" text="매입계약처코드" top="7" width="92" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="441"/>
+              <Edit id="edt_CompanyCode" taborder="4" left="541" top="7" width="120" height="22" readonly="true"/>
+              <Static id="st_PurchaseContractName" taborder="5" text="매입계약명" top="7" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="11" TL_SEQ="161"/>
+              <Edit id="edt_PurchaseContractName" taborder="6" left="80" top="7" width="281" height="22" readonly="true"/>
+              <CheckBox id="chb_NetSales" taborder="7" text="순매출" left="505" top="65" width="68" height="22" falsevalue="0" truevalue="1" readonly="true" TL_SEQ="279"/>
+              <Combo id="cmb_ProvideType" taborder="8" text="" left="80" top="65" width="102" height="22" innerdataset="ds_cmm_PayTerm" codecolumn="CODE" datacolumn="CAPTION" readonly="true"/>
+              <Static id="stc_ProvideType" taborder="9" text="지급구분" top="65" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="11" TL_SEQ="740"/>
+              <CheckBox id="chb_LumpPay" taborder="12" text="일괄지급" left="428" top="65" width="68" height="22" falsevalue="0" truevalue="1" readonly="true" TL_SEQ="741"/>
+              <Combo id="cmb_ContractAddType" taborder="13" text="" left="635" top="36" width="99" height="22" innerdataset="ds_cmm_ContractAddType" codecolumn="CODE" datacolumn="CAPTION" index="-1" readonly="true"/>
+              <Static id="stc_ContractAddType" taborder="14" text="계약추가" top="36" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="567" TL_SEQ="742"/>
+              <Static id="stc_ContractNo" taborder="17" text="계약서번호" top="94" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="11" TL_SEQ="743"/>
+              <Edit id="edt_ContractDocNo" taborder="18" left="80" top="94" width="150" height="22" textAlign="left" maxlength="50" readonly="true"/>
+              <Static id="stc_PreContractNo" taborder="19" text="이전계약서번호" top="94" width="84" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="235" TL_SEQ="744"/>
+              <Edit id="edt_PreContractDocNo" taborder="20" left="321" top="94" width="126" height="22" textAlign="center" maxlength="50" readonly="true"/>
+              <Static id="stc_ProductType01" taborder="21" text="지급예정일" top="65" width="68" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="206" TL_SEQ="736"/>
+              <Combo id="cmb_PayPlanDay" taborder="22" text="" left="278" top="65" width="83" height="22" readonly="true" innerdataset="ds_cmm_PurchasePayDay" codecolumn="CODE" datacolumn="CAPTION"/>
+              <Static id="stc_ContractPeriod" taborder="23" text="계약기간" top="94" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="446" TL_SEQ="120"/>
+              <Calendar id="cal_ContractPeriodStartDate" taborder="24" left="515" top="94" width="100" height="22" dateformat="yyyy-MM-dd" readonly="true"/>
+              <Static id="stc_ContractPeriod2" taborder="25" text="~" top="94" width="12" height="22" cssclass="sta_WF_DetailTit" textAlign="center" left="618"/>
+              <Calendar id="cal_ContractPeriodEndDate" taborder="26" left="634" top="94" width="100" height="22" dateformat="yyyy-MM-dd" readonly="true"/>
+              <Static id="stc_Remark" taborder="27" text="비고" top="123" width="60" cssclass="sta_WF_DetailTit" textAlign="right" left="11" bottom="8" TL_SEQ="45"/>
+              <Edit id="edt_Contract" taborder="29" left="437" top="7" width="220" height="22" readonly="true"/>
+              <Edit id="edt_PurchaseCompany" taborder="30" left="80" top="36" width="281" height="22" readonly="true"/>
+              <Static id="stc_ContractDueDate" taborder="10" text="계약일" top="36" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="368" TL_SEQ="490"/>
+              <Calendar id="cal_ContractDate" taborder="11" left="437" top="36" width="120" height="22" dateformat="yyyy-MM-dd" readonly="true"/>
+              <Static id="stc_ProductType" taborder="15" text="상품구분" top="65" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="567" TL_SEQ="745"/>
+              <Combo id="cmb_ProductType" taborder="16" text="" left="635" top="65" width="99" height="22" innerdataset="ds_cmm_PurchaseType" codecolumn="CODE" datacolumn="CAPTION" readonly="true"/>
+              <Static id="stc_RemarkDet" taborder="31" text="매입&#13;&#10;상세&#13;&#10;비고" top="123" width="28" cssclass="sta_WF_DetailTit" textAlign="right" left="387" bottom="8" TL_SEQ="746"/>
+              <TextArea id="txt_RemarkDet" taborder="32" left="424" top="123" right="8" readonly="true" bottom="8"/>
+              <Edit id="edt_ContractNo" taborder="33" left="657" top="7" width="77" height="22" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 프로젝트관리
+ * 02. 화면명   : 매입계약 탭페이지(SP_PurchaseContract)
+ * 03. 화면설명 : 매입계약 탭페이지
+ * 04. 작성일   : 2018.09.24
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs";
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.FV_PARENT_FORM = this.parent.parent.parent;
+
+
+this.sPurchaseDetKeyName = "PPD_SEQ";	/*계약구분에 따른 상세 테이블 분기*/
+
+this.FV_AUTH_PRICE_MASK = false;
+
+/************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.SP_PurchaseContract_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	
+	
+	if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;		// 계약금액 마스킹 처리 권한
+	
+	this.fnGetCode();
+};
+ 
+ 
+ 
+ /************************************************************************************************
+  * TRANSACTION 및 추가 FUNCTION 영역
+  ************************************************************************************************/
+  // 공통코드 조회
+ this.fnGetCode = function()
+ {
+
+	this.gfnAddCodeDataset("ds_cmm_PayTerm",		"PAY_TERM"); 			// 지급구분		ds_CD_PAY_TERM
+
+	this.gfnAddCodeDataset("ds_cmm_PurchaseType",	"PURCHASE_TYPE");		// 매입구분		ds_CD_PURCHASE_TYPE
+	this.gfnAddCodeDataset("ds_cmm_PayMethod", 		"PAY_METHOD");			// 결제조건		ds_CD_PAY_METHOD
+	this.gfnAddCodeDataset("ds_cmm_ProductUnit", 	"PRODUCT_UNIT");		// 단위				ds_CD_PRODUCT_UNIT
+
+
+	// this.gfnAddCodeDataset("ds_cmm_ContractAddType",	"CONTRACT_ADD_TYPE");	// 	등급	ds_CD_CONTRACT_ADD_TYPE
+	this.gfnAddCodeDataset("ds_cmm_LevelCode", 		"LEVEL_CODE");			// 등급 	ds_CD_LEVEL_CODE	
+	this.gfnAddCodeDataset("ds_cmm_ContractType",	"CONTRACT_TYPE"); 		// 계약구분		ds_CD_CONTRACT_TYPE
+	this.gfnAddCodeDataset("ds_cmm_PurchasePayDay",	"PURCHASE_PAY_DAY"); 	// 메입지급예정일
+	
+	
+	// 공통코드 조회
+	this.gfnCodeTransaction();
+ };
+
+ // 조회
+ this.fn_QueryData = function()
+ {
+	if (!this.fn_getValidation())	return;
+		
+	// 조건값 셋팅
+	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
+		
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("ds_MainPurchase", "ds_output");
+	this.gfnCommonTransaction("SP_PurchaseContract_S01", "SP_PurchaseContract_S01");
+ };
+ 
+ 
+ 
+ // 매입계약 조회
+ this.fn_PurchaseQueryData = function(nRow)
+ {
+ 	var sContractType = this.ds_MainPurchase.getColumn(nRow, "CONTRACT_TYPE");
+	var sContractNoPurchase = this.ds_MainPurchase.getColumn(nRow, "CONTRACT_NO_PURCHASE");
+	
+	// 매입계약의 계약구분에 대한 Display 설정 및 그리드 Format 변경 처리
+	this.fn_setDisplay(sContractType);
+	
+	
+	this.gfnAddSendParameter("CONTRACT_NO_PURCHASE", sContractNoPurchase);
+	this.gfnAddOutputDataset("dsPurchase", "dsOutput");
+	
+	if(sContractType == "S") {
+		this.gfnCommonTransaction("SelectPurchase", "SP_PurchaseSi_S01");
+	} else {
+		this.gfnCommonTransaction("SelectPurchase", "SP_PurchaseProduct_S01");
+	}
+ }
+ 
+ // 매입계약 세부 조회
+this.fnSearchDet = function()
+{	
+	var sContractType = this.ds_MainPurchase.getColumn(this.ds_MainPurchase.rowposition, "CONTRACT_TYPE");
+	this.gfnAddSendParameter("CONTRACT_NO_PURCHASE", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_NO_PURCHASE"));
+	this.gfnAddOutputDataset("dsPurchaseDet", "dsOutput");
+	
+	if(sContractType == "S") {
+		this.gfnCommonTransaction("SelectPurchaseDet", "SP_PurchaseSiDet_S01");
+	} else {
+		this.gfnCommonTransaction("SelectPurchaseDet", "SP_PurchaseProductDet_S01");
+	}
+}
+
+ // 지급내역 조회
+this.fnSearchPay = function()
+{	
+	this.gfnAddSendParameter("CONTRACT_NO_PURCHASE", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_NO_PURCHASE"));
+	this.gfnAddOutputDataset("dsPurchasePay", "dsOutput");
+	this.gfnCommonTransaction("SelectPurchasePay", "SP_PurchasePay_S01");
+}
+
+ // 매출계약 상세
+this.fnSearchContractDet = function()
+{	
+	var sContractType = this.ds_MainPurchase.getColumn(this.ds_MainPurchase.rowposition, "CONTRACT_TYPE");
+	this.gfnAddSendParameter("CONTRACT_NO", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CL_CONTRACT_NO"));
+	this.gfnAddSendParameter("CONTRACT_MAIN", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_MAIN"));
+	this.gfnAddSendParameter("CONTRACT_NO_PURCHASE", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_NO_PURCHASE"));
+	this.gfnAddOutputDataset("dsProdContract", "dsOutput");
+	
+	if(sContractType == "M") {
+		this.gfnCommonTransaction("SelectContractDetM", "SP_PurchaseProduct_S05");
+	} else if(sContractType == "S") {
+		this.gfnCommonTransaction("SelectContractDet", "SP_PurchaseSi_S02");	//SP_PurchaseSi_S03
+	} else {
+		this.gfnCommonTransaction("SelectContractDet", "SP_PurchaseProduct_S02");
+	}	
+}
+
+// 유지보수 대상계약 조회
+this.fnSearchMContractDet = function()
+{	
+	var sContractType = this.ds_MainPurchase.getColumn(this.ds_MainPurchase.rowposition, "CONTRACT_TYPE");
+	if(sContractType == "M") {
+		this.gfnAddSendParameter("CONTRACT_NO_PURCHASE", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_NO_PURCHASE"));		
+		this.gfnAddSendParameter("CONTRACT_NO", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CL_CONTRACT_NO"));
+		this.gfnAddSendParameter("CONTRACT_MAIN", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_MAIN"));
+		this.gfnAddOutputDataset("dsProdContractM", "dsOutput");
+		this.gfnCommonTransaction("SelectMContractDet", "SP_PurchaseProduct_S04");
+	}	
+}
+
+
+ // 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	switch (strSvcID) 
+	{
+		case "gfnGetCode" :
+			this.ds_cmm_ContractType.filter("VAL2=='1'");
+			this.fn_QueryData();
+			break;
+		case "SP_PurchaseContract_S01" :
+			break;
+		case "SelectPurchase" :
+			var sContractType = this.ds_MainPurchase.getColumn(this.ds_MainPurchase.rowposition, "CONTRACT_TYPE");
+			
+			if(sContractType == "S") {
+			
+				/*용역에 분할지급은 회차별 지급*/
+				var pForm = this.div_PurchaseDet.form;
+				var nRow = this.dsPurchase.rowposition;
+				if (this.dsPurchase.getColumn(nRow, "PAY_TERM") == "P")	pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_ST");
+				else													pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_S");
+				
+				if(this.dsPurchase.getColumn(0, "CONTRACT_MAIN") == "A104") {
+					if(nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD") == 'W01')
+						this.div_Purchase.form.cmb_PayPlanDay.set_value(15);	//15일 : 프리랜서(투비윈은 15일 지급)
+					else
+						this.div_Purchase.form.cmb_PayPlanDay.set_value(10);	//10일 : 프리랜서
+				}else if (this.dsPurchase.getColumn(0, "CONTRACT_MAIN") == "WIN"){
+					this.div_Purchase.form.cmb_PayPlanDay.set_value(10);  //10일 : 투비윈
+				}else{
+					this.div_Purchase.form.cmb_PayPlanDay.set_value(25);  //25일 : 프리랜서 외
+				}				
+			}
+			this.fnSearchDet();				// 매입계약 세부 조회
+			this.fnSearchPay();				// 매입 지급 조회
+			this.fnSearchContractDet();		// 매출계약 상세
+			this.fnSearchMContractDet();	// 유지보수 대상 계약 조회
+			break;
+		case "SelectPurchaseDet" :
+			this.fnFilterPurchasePay();
+			break;
+		case "SelectPurchasePay" :
+			break;
+	}
+	
+ };
+ 
+ 
+ 
+ 
+ this.fn_ContractTypeFilter = function(nRow)
+ {
+	var sContractType = this.ds_MainPurchase.getColumn(nRow, "CONTRACT_TYPE");
+	var sContractNoPurchase = this.ds_MainPurchase.getColumn(nRow, "CONTRACT_NO_PURCHASE");
+	
+	
+	// PURCHASE_TYPE = 현재 계약구분에 해당하는 상품구분값 없을 시 입력콤보 숨김
+	var arrVal1Group = this.ds_cmm_PurchaseType.getColumnGroupBy("VAL1");
+	
+	if(arrVal1Group.indexOf(sContractType) == -1)
+	{
+		//this.div_Purchase.form.stc_ProductType.set_visible(false); 
+		//this.div_Purchase.form.cmb_ProductType.set_visible(false);
+		
+	}
+	
+	this.ds_cmm_PurchaseType.filter("VAL1=='"+sContractType+"'");
+	if(!this.gfnIsEmpty(sContractNoPurchase))
+	{
+		this.fn_PurchaseQueryData(nRow);
+	}
+ }
+ 
+ 
+ 
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ // Validation check
+ this.fn_getValidation = function()
+ {
+	var sProjectCd = this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value;
+		
+	if (this.gfnIsEmpty(sProjectCd))
+	{
+		this.alert(this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
+		return false;
+	}
+	return true;
+ }
+ 
+ 
+ // 화면 초기화
+ this.fn_setInit = function()
+ {
+	this.ds_MainPurchase.clearData();
+	this.dsPurchase.clearData();
+	this.dsPurchaseDet.clearData();
+	this.dsPurchasePay.clearData();
+	this.dsProdContract.clearData();
+	this.dsProdContractM.clearData();
+	this.fn_setDisplay("G");
+ }
+ 
+ 
+ 
+ // 계약구분에 따른 화면 변환 처리
+ this.fn_setDisplay = function(sContractType)
+ {
+	/* 계약구분에 따른 상세 테이블키 설정*/
+	this.sPurchaseDetKeyName =  sContractType == "S" ? "PSD_SEQ" : "PPD_SEQ";
+	
+	/*	계약구분에 따른 화면 레이아웃 조정	*/
+	if(sContractType != "C" && sContractType != "D")
+	{
+		//제품단위 : 직접입력:900  -> 직접입력은 판매수수료, 총판수수료에서만 사용
+		this.ds_cmm_ProductUnit.filter("CODE != '900'");
+	}
+	
+	
+	var pForm = this.div_PurchaseDet.form;
+	var pForm2 = this.div_PurchaseDet2.form;
+	switch(sContractType)
+	{
+		case "C" : 
+			/* 판매수수료 */
+			var pForm = this.div_PurchaseDet.form;
+						
+			// 매입세부
+			pForm.grd_GbSales.set_formatid("CONTRACT_TYPE_C");
+			pForm.stc_GbSalesBar.set_width(799);
+			pForm.grd_GbSales.set_width(799);
+			
+			// 지급내역
+			pForm.stc_GbProvideList.set_left(811);
+			pForm.stc_GbProvideListBar.set_left(803);
+			pForm.grd_GbProvideList.set_left(803);		// W:452
+			pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_P");
+			
+			// 매출계약 세부
+			pForm2.stc_GbProductContractDetailBar.set_right(0);
+			pForm2.grd_GbProductContractDetail.set_right(0);
+			pForm2.grd_GbProductContractDetail.set_formatid("CONTRACT_TYPE_P");
+			
+			
+			// 유지보수대상
+			pForm2.stc_GbProductContractM.set_visible(false);
+			pForm2.stc_GbProductContractMBar.set_visible(false);
+			pForm2.grd_GbProductContractM.set_visible(false);
+			
+			break;
+		case "D" : 
+			/* 총판수수료 */
+			var pForm = this.div_PurchaseDet.form;
+						
+			// 매입세부
+			pForm.grd_GbSales.set_formatid("CONTRACT_TYPE_D");
+			pForm.stc_GbSalesBar.set_width(799);
+			pForm.grd_GbSales.set_width(799);
+			
+			// 지급내역
+			pForm.stc_GbProvideList.set_left(811);
+			pForm.stc_GbProvideListBar.set_left(803);
+			pForm.grd_GbProvideList.set_left(803);		// W:452
+			pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_P");
+			
+			// 매출계약 세부
+			pForm2.stc_GbProductContractDetailBar.set_right(0);
+			pForm2.grd_GbProductContractDetail.set_right(0);
+			pForm2.grd_GbProductContractDetail.set_formatid("CONTRACT_TYPE_P");
+			
+			
+			// 유지보수대상
+			pForm2.stc_GbProductContractM.set_visible(false);
+			pForm2.stc_GbProductContractMBar.set_visible(false);
+			pForm2.grd_GbProductContractM.set_visible(false);
+			
+			break;	
+		case "M" : 
+			/* 유지보수*/
+
+			// 매입세부
+			pForm.grd_GbSales.set_formatid("CONTRACT_TYPE_M");
+			pForm.stc_GbSalesBar.set_width(657);
+			pForm.grd_GbSales.set_width(657);
+			
+			// 지급내역
+			pForm.stc_GbProvideList.set_left(668);
+			pForm.stc_GbProvideListBar.set_left(660);
+			pForm.grd_GbProvideList.set_left(660);		// W:596
+			pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_M");
+			
+			
+			// 매출계약 세부
+			pForm2.stc_GbProductContractDetailBar.set_right(471);
+			pForm2.grd_GbProductContractDetail.set_right(471);
+			pForm2.grd_GbProductContractDetail.set_formatid("CONTRACT_TYPE_M");
+	
+	
+			// 유지보수대상
+			pForm2.stc_GbProductContractM.set_visible(true);
+			pForm2.stc_GbProductContractMBar.set_visible(true);
+			pForm2.grd_GbProductContractM.set_visible(true);
+			break;
+			
+		case "S" : 
+			/* 용역 */	
+			
+			// 매입세부 format
+			pForm.grd_GbSales.set_formatid("CONTRACT_TYPE_S");
+			pForm.stc_GbSalesBar.set_width(677);
+			pForm.grd_GbSales.set_width(677);
+			
+			
+			// 지급내역
+			pForm.stc_GbProvideList.set_left(688);	
+			pForm.stc_GbProvideListBar.set_left(680);
+			pForm.grd_GbProvideList.set_left(680);		// W:465
+			
+			
+			
+			pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_S");
+
+			
+			// 매출계약 세부
+			pForm2.stc_GbProductContractDetailBar.set_right(0);
+			pForm2.grd_GbProductContractDetail.set_right(0);
+			pForm2.grd_GbProductContractDetail.set_formatid("CONTRACT_TYPE_S");
+			
+			
+			// 유지보수대상
+			pForm2.stc_GbProductContractM.set_visible(false);
+			pForm2.stc_GbProductContractMBar.set_visible(false);
+			pForm2.grd_GbProductContractM.set_visible(false);
+			break;
+			
+		default : 
+			/* 상품(제품), OEM, 기타 */
+			
+			// 매입세부 format
+			pForm.grd_GbSales.set_formatid("CONTRACT_TYPE_ALL");
+			pForm.stc_GbSalesBar.set_width(799);
+			pForm.grd_GbSales.set_width(799);
+			
+			// 지급내역
+			pForm.stc_GbProvideList.set_left(810);	
+			pForm.stc_GbProvideListBar.set_left(802);
+			pForm.grd_GbProvideList.set_left(802);			// W:465
+			pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_P");
+			
+			// 매출계약 세부
+			pForm2.stc_GbProductContractDetailBar.set_right(0);
+			pForm2.grd_GbProductContractDetail.set_right(0);
+			pForm2.grd_GbProductContractDetail.set_formatid("CONTRACT_TYPE_P");
+			
+			
+			// 유지보수대상
+			pForm2.stc_GbProductContractM.set_visible(false);
+			pForm2.stc_GbProductContractMBar.set_visible(false);
+			pForm2.grd_GbProductContractM.set_visible(false);
+			break;
+	}
+ 
+ }
+ 
+ 
+ 
+ this.fnFilterPurchasePay = function()
+{
+	if(this.dsPurchase.getColumn(this.dsPurchase.rowposition, "LUMP_PAY_FLAG") != "1")
+	{
+		this.dsPurchasePay.filter(this.sPurchaseDetKeyName + " == '" + this.dsPurchaseDet.getColumn(this.dsPurchaseDet.rowposition, this.sPurchaseDetKeyName) + "'");
+		
+	}else{
+		this.dsPurchasePay.filter("");
+	}
+}
+ 
+ 
+ 
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+ 
+this.ds_MainPurchase_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fn_ContractTypeFilter(e.newrow);
+	// this.fn_PurchaseQueryData(e.newrow);
+};
+
+
+this.dsPurchaseDet_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fnFilterPurchasePay();
+};
+
+// 매입계약 입력 팝업 오픈
+this.grd_Purchaseist_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var sContractType		= this.ds_MainPurchase.getColumn(e.row, "CONTRACT_TYPE"		);
+	var sContractNoPurchase	= this.ds_MainPurchase.getColumn(e.row, "CONTRACT_NO_PURCHASE");
+	var args = {"CONTRACT_TYPE":sContractType, "CONTRACT_NO_PURCHASE":sContractNoPurchase};
+	
+	if (sContractType == "P" 
+	||	sContractType == "E" 
+	||	sContractType == "G" 
+	||	sContractType == "O" 
+	||	sContractType == "C" 
+	||	sContractType == "D"
+	||	sContractType == "M" 
+	||	sContractType == "S" ) {
+		this.commUtil.popup(this, "SP_PurchaseReg", "Sales::SP_PurchaseReg.xfdl", -1, -1, 1248, 575, true, true, false, args, "fnPopupCallBack");
+	} else {
+		this.alert(this.gfnGetTransTxt(1633, "[" + sContractType + "] 개발중입니다.", [sContractType]));
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_cmm_ContractType">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_PayTerm">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ProductUnit">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_PurchaseType">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_PayMethod">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ContractAddType">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_LevelCode">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_MainPurchase" onrowposchanged="ds_MainPurchase_onrowposchanged">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="PURCHASE_TYPE" type="string" size="20"/>
+          <Column id="PAY_TERM" type="string" size="20"/>
+          <Column id="LUMP_PAY_FLAG" type="string" size="1"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="PROGRESS_100_FLAG" type="string" size="1"/>
+          <Column id="PROGRESS_EXCEPT_FLAG" type="string" size="1"/>
+          <Column id="CONTRACT_DOC_NO" type="string" size="50"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="CONTRACT_AMT" type="float" size="22"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPurchase">
+        <ColumnInfo>
+          <Column id="CONTRACT_NO_PURCHASE" type="STRING" size="10"/>
+          <Column id="PROJECT_CODE" type="STRING" size="15"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="100"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="20"/>
+          <Column id="PURCHASE_TYPE" type="STRING" size="20"/>
+          <Column id="PAY_TERM" type="STRING" size="20"/>
+          <Column id="LUMP_PAY_FLAG" type="STRING" size="1"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="20"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="100"/>
+          <Column id="CONTRACT_DATE" type="STRING" size="8"/>
+          <Column id="CONTRACT_NO" type="STRING" size="10"/>
+          <Column id="PROGRESS_100_FLAG" type="STRING" size="1"/>
+          <Column id="PROGRESS_EXCEPT_FLAG" type="STRING" size="1"/>
+          <Column id="CONTRACT_DOC_NO" type="STRING" size="50"/>
+          <Column id="CONTRACT_NO_PURCHASE_PRE" type="STRING" size="10"/>
+          <Column id="REMARKS" type="STRING" size="1073741823"/>
+          <Column id="CONTRACT_STATUS" type="STRING" size="20"/>
+          <Column id="PROJECT_NAME" type="STRING" size="100"/>
+          <Column id="CLIENT_CODE" type="STRING" size="20"/>
+          <Column id="CLIENT_NAME" type="STRING" size="100"/>
+          <Column id="CL_CONTRACT_NO" type="STRING" size="10"/>
+          <Column id="CL_CONTRACT_NAME" type="STRING" size="100"/>
+          <Column id="CL_CONTRACT_MAIN" type="STRING" size="20"/>
+          <Column id="CL_CONTRACT_STATUS" type="STRING" size="20"/>
+          <Column id="CL_CONTRACT_TYPE" type="STRING" size="20"/>
+          <Column id="CL_SALES_EMP_NO" type="STRING" size="60"/>
+          <Column id="CL_SALES_EMP_NAME" type="STRING" size="255"/>
+          <Column id="CL_SALES_PHONE_NO" type="STRING" size="1073741823"/>
+          <Column id="CL_SALES_EMAIL" type="STRING" size="201"/>
+          <Column id="PERIOD_FLAG" type="STRING" size="1"/>
+          <Column id="COMMISSION_RATE" type="FLOAT" size="22"/>
+          <Column id="MONTH_UNIT_PRICE" type="FLOAT" size="22"/>
+          <Column id="START_DATE" type="STRING" size="8"/>
+          <Column id="END_DATE" type="STRING" size="8"/>
+          <Column id="PAY_METHOD" type="STRING" size="20"/>
+          <Column id="NET_SALES_FLAG" type="STRING" size="1"/>
+          <Column id="R_DELIVERY_CONDITION" type="STRING" size="100"/>
+          <Column id="R_DELIVERY_PLACE" type="STRING" size="100"/>
+          <Column id="R_ORDER_CONDITION" type="STRING" size="100"/>
+          <Column id="R_DELAY" type="STRING" size="100"/>
+          <Column id="R_BILLING" type="STRING" size="100"/>
+          <Column id="R_PAYMENT" type="STRING" size="100"/>
+          <Column id="R_WARRANTY" type="STRING" size="100"/>
+          <Column id="R_ETC" type="STRING" size="200"/>
+          <Column id="F_CLIENT_NAME_ENG" type="STRING" size="100"/>
+          <Column id="F_CHARGE_EMPNM" type="STRING" size="100"/>
+          <Column id="F_CHARGE_EMP_PHONE" type="STRING" size="100"/>
+          <Column id="F_CHARGE_EMP_EMAIL" type="STRING" size="100"/>
+          <Column id="PURCHASE_COMPANY_CODE" type="STRING" size="4"/>
+          <Column id="ADDRESS" type="STRING" size="100"/>
+          <Column id="CEO_NAME" type="STRING" size="30"/>
+          <Column id="COMPANY_REG_NO" type="STRING" size="20"/>
+          <Column id="CHARGE_EMPNM" type="STRING" size="100"/>
+          <Column id="CHARGE_EMPPHONE" type="STRING" size="30"/>
+          <Column id="CHARGE_EMPEMAIL" type="STRING" size="200"/>
+          <Column id="CONTRACT_NO_PURCHASE_SEQ" type="STRING" size="1073741823"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPurchaseDet" onrowposchanged="dsPurchaseDet_onrowposchanged">
+        <ColumnInfo>
+          <Column id="PPD_SEQ" type="BIGDECIMAL" size="20"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="STRING" size="10"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="20"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="100"/>
+          <Column id="RELATED_PRODUCT_CODE" type="STRING" size="20"/>
+          <Column id="RELATED_PRODUCT_NAME" type="STRING" size="100"/>
+          <Column id="UNIT_COST" type="FLOAT" size="22"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="20"/>
+          <Column id="QUANTITY" type="INT" size="11"/>
+          <Column id="COMMISSION_RATE" type="FLOAT" size="22"/>
+          <Column id="CONTRACT_PRICE" type="FLOAT" size="22"/>
+          <Column id="VAT_PRICE" type="FLOAT" size="22"/>
+          <Column id="START_DATE" type="STRING" size="8"/>
+          <Column id="END_DATE" type="STRING" size="8"/>
+          <Column id="REMARKS" type="STRING" size="1073741823"/>
+          <Column id="DELETE_FLAG" type="STRING" size="1"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPurchasePay">
+        <ColumnInfo>
+          <Column id="ROW_NO" type="LONG" size="20"/>
+          <Column id="PPY_SEQ" type="BIGDECIMAL" size="20"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="STRING" size="10"/>
+          <Column id="PPD_SEQ" type="BIGDECIMAL" size="20"/>
+          <Column id="PSD_SEQ" type="BIGDECIMAL" size="20"/>
+          <Column id="PAY_TERM" type="STRING" size="20"/>
+          <Column id="PAY_PLAN_DATE" type="STRING" size="8"/>
+          <Column id="PAY_DATE" type="STRING" size="8"/>
+          <Column id="START_DATE" type="STRING" size="8"/>
+          <Column id="END_DATE" type="STRING" size="8"/>
+          <Column id="PAY_FLAG" type="STRING" size="1"/>
+          <Column id="ISSUE_DATE" type="STRING" size="8"/>
+          <Column id="CONTRACT_PRICE" type="FLOAT" size="22"/>
+          <Column id="VAT_PRICE" type="FLOAT" size="22"/>
+          <Column id="REMARKS" type="STRING" size="1073741823"/>
+          <Column id="DELETE_FLAG" type="STRING" size="1"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsProdContract">
+        <ColumnInfo>
+          <Column id="PRODUCT_NAME" type="STRING" size="100"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="20"/>
+          <Column id="PURPOSE_NAME" type="STRING" size="100"/>
+          <Column id="ISDEV_FLAG" type="STRING" size="1"/>
+          <Column id="CONTRACT_NO" type="STRING" size="10"/>
+          <Column id="UNIT_COST" type="FLOAT" size="22"/>
+          <Column id="SERVER_GRADE_NAME" type="STRING" size="100"/>
+          <Column id="PRODUCT_UNIT_NAME" type="STRING" size="100"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="20"/>
+          <Column id="QUANTITY" type="INT" size="11"/>
+          <Column id="CONTRACT_PRICE" type="FLOAT" size="22"/>
+          <Column id="REMARKS" type="STRING" size="1073741823"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsProdContractM">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="STRING" size="20"/>
+          <Column id="CLIENT_NAME" type="STRING" size="100"/>
+          <Column id="PROJECT_CODE" type="STRING" size="15"/>
+          <Column id="PROJECT_NAME" type="STRING" size="100"/>
+          <Column id="CONTRACT_NO" type="STRING" size="10"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="100"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="20"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="100"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_PurchasePayDay">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_ContractPeriod.form.cal_ContractPeriodEndDate" propid="value" datasetid="dsPurchase" columnid="END_DATE"/>
+      <BindItem id="item1" compid="div_ContractPeriod.form.cal_ContractPeriodStartDate" propid="value" datasetid="dsPurchase" columnid="START_DATE"/>
+      <BindItem id="item2" compid="div_Purchase.form.edt_CompanyCode" propid="value" datasetid="dsPurchase" columnid="PURCHASE_COMPANY_CODE"/>
+      <BindItem id="item3" compid="div_Purchase.form.edt_PurchaseContractName" propid="value" datasetid="dsPurchase" columnid="CONTRACT_NAME"/>
+      <BindItem id="item4" compid="div_Purchase.form.chb_NetSales" propid="value" datasetid="ds_MainPurchase" columnid="NET_SALES_FLAG"/>
+      <BindItem id="item5" compid="div_Purchase.form.cmb_ProvideType" propid="value" datasetid="dsPurchase" columnid="PAY_TERM"/>
+      <BindItem id="item6" compid="div_Purchase.form.cal_ContractDate" propid="value" datasetid="dsPurchase" columnid="CONTRACT_DATE"/>
+      <BindItem id="item7" compid="div_Purchase.form.chb_LumpPay" propid="value" datasetid="dsPurchase" columnid="LUMP_PAY_FLAG"/>
+      <BindItem id="item8" compid="div_Purchase.form.cmb_ContractAddType" propid="value" datasetid="dsPurchase" columnid="CONTRACT_ADD_TYPE"/>
+      <BindItem id="item9" compid="div_Purchase.form.cmb_ProductType" propid="value" datasetid="dsPurchase" columnid="PURCHASE_TYPE"/>
+      <BindItem id="item10" compid="div_Purchase.form.edt_ContractDocNo" propid="value" datasetid="dsPurchase" columnid="CONTRACT_DOC_NO"/>
+      <BindItem id="item11" compid="div_Purchase.form.edt_PreContractDocNo" propid="value" datasetid="dsPurchase" columnid="CONTRACT_DOC_NO_PRE"/>
+      <BindItem id="item12" compid="div_Purchase.form.cal_ContractPeriodStartDate" propid="value" datasetid="dsPurchase" columnid="START_DATE"/>
+      <BindItem id="item13" compid="div_Purchase.form.cal_ContractPeriodEndDate" propid="value" datasetid="dsPurchase" columnid="END_DATE"/>
+      <BindItem id="item14" compid="div_Purchase.form.txt_Remark" propid="value" datasetid="dsPurchase" columnid="REMARKS"/>
+      <BindItem id="item15" compid="div_Purchase.form.edt_Contract" propid="value" datasetid="dsPurchase" columnid="CL_CONTRACT_NAME"/>
+      <BindItem id="item16" compid="div_Purchase.form.edt_PurchaseCompany" propid="value" datasetid="dsPurchase" columnid="CONTRACT_MAIN_NAME"/>
+      <BindItem id="item17" compid="div_Purchase.form.txt_RemarkDet" propid="value" datasetid="dsPurchaseDet" columnid="REMARKS"/>
+      <BindItem id="item18" compid="div_Purchase.form.edt_ContractNo" propid="value" datasetid="dsPurchase" columnid="CL_CONTRACT_NO"/>
+    </Bind>
+  </Form>
+</FDL>

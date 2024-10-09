@@ -116,4 +116,92 @@ public class salesManagerController {
 		NexacroResult result = new NexacroResult();
 		return result;
 	}  		    
+    
+    /**
+	 * 매출원가표 조회
+	 * @param searchMap		: 조회 조건 Dataset
+	 * @return result		: 조회 데이터 셋
+	 */
+    @RequestMapping(value = "/searchCostSheet.do")
+	public NexacroResult searchCostSheet(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, @ParamDataSet(name = "dsMap", required = false) Map<String,String> queryMap
+										, HttpServletRequest request) throws NexacroException{
+
+		UserInfo info = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(info == null) {
+			// 임시 개발용
+			info = new UserInfo();
+			info.setStrUserId("jihs");
+			info.setStrUserIPAddress("127.0.0.1");
+			info.setStrCompanyCd("UNIDIA");
+		}
+		
+		Map<String,String> newQeuryMap = new HashMap<>();
+		newQeuryMap.put("map"	, "salesManagerMapper");
+		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_COSTSHEET_CONTRACT_CNT");  
+		
+		NexacroResult result = new NexacroResult();
+		
+    	// 서버시스템 메시지를 조회한다.
+    	Map<String,Object> cntMap = SalesMangerService.searchMap(newQeuryMap, searchMap, info);
+    	//searchMap.put("MAX_CC_SEQ", cntMap.get("MAX_CC_SEQ"));
+    	//searchMap.put("COUNT", cntMap.get("COUNT"));
+    	//searchMap.put("DOC_STATUS", cntMap.get("DOC_STATUS"));
+    	
+    	int cnt = Integer.parseInt(String.valueOf(cntMap.get("COUNT")));
+    	String sAddFlag = (String) searchMap.get("ADD_FLAG");
+    	String sDocStatus = (String) cntMap.get("DOC_STATUS");
+    	
+    	if(cnt == 0 || (sAddFlag.equals("1") && sDocStatus.equals("FINISH"))) {
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_PROJECT_I");     		
+    		List<Map<String,Object>> ds_project = SalesMangerService.searchList(newQeuryMap, searchMap, info);
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_CONTRACT_PROD_I");
+    		List<Map<String,Object>> ds_contract_prod = SalesMangerService.searchList(newQeuryMap, searchMap, info);
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_PURCHASE_PROD_I");
+    		List<Map<String,Object>> ds_purchase_prod = SalesMangerService.searchList(newQeuryMap, searchMap, info);
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_CONTRACT_SI_I");
+    		List<Map<String,Object>> ds_contract_si = SalesMangerService.searchList(newQeuryMap, searchMap, info);
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_PURCHASE_SI_I");
+    		List<Map<String,Object>> ds_purchase_si = SalesMangerService.searchList(newQeuryMap, searchMap, info);
+    		
+    		result.addDataSet("ds_Project", ds_project);
+    		result.addDataSet("ds_ContractProd", ds_contract_prod);
+    		result.addDataSet("ds_ContractSi", ds_contract_si);
+    		result.addDataSet("ds_PurchaseProd", ds_purchase_prod);
+    		result.addDataSet("ds_PurchaseSi", ds_purchase_si);
+    	} else if(cnt > 0) {
+    		if(sAddFlag.equals("1") && !sDocStatus.equals("FINISH")) {
+    			searchMap.put("CC_SEQ", cntMap.get("MAX_CC_SEQ"));
+    		}
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_PROJECT_U_1");  
+        	Map<String,Object> pjtMap1 = SalesMangerService.searchMap(newQeuryMap, searchMap, info);
+        	searchMap.put("CONTRACT_NO", pjtMap1.get("CONTRACT_NO"));
+        	searchMap.put("SALES_EMP_NO", pjtMap1.get("SALES_EMP_NO"));   
+        	
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_PROJECT_U_2");  
+        	Map<String,Object> pjtMap2 = SalesMangerService.searchMap(newQeuryMap, searchMap, info);
+        	searchMap.put("CL_PS", pjtMap2.get("CL_PS"));
+        	searchMap.put("CL_RC", pjtMap2.get("CL_RC"));   	
+        	searchMap.put("CONTRACT_PRICE", pjtMap2.get("CONTRACT_PRICE"));   
+        	
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_PROJECT_U_3");
+    		List<Map<String,Object>> ds_project = SalesMangerService.searchList(newQeuryMap, searchMap, info);        	
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_CONTRACT_PROD_U");
+    		List<Map<String,Object>> ds_contract_prod = SalesMangerService.searchList(newQeuryMap, searchMap, info);
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_PURCHASE_PROD_U");
+    		List<Map<String,Object>> ds_purchase_prod = SalesMangerService.searchList(newQeuryMap, searchMap, info);
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_CONTRACT_SI_U");
+    		List<Map<String,Object>> ds_contract_si = SalesMangerService.searchList(newQeuryMap, searchMap, info);
+    		newQeuryMap.put("mapid"	, "SP_CostSheet_S01_PURCHASE_SI_U");
+    		List<Map<String,Object>> ds_purchase_si = SalesMangerService.searchList(newQeuryMap, searchMap, info);   
+    		
+    		result.addDataSet("ds_Project", ds_project);
+    		result.addDataSet("ds_ContractProd", ds_contract_prod);
+    		result.addDataSet("ds_ContractSi", ds_contract_si);
+    		result.addDataSet("ds_PurchaseProd", ds_purchase_prod);
+    		result.addDataSet("ds_PurchaseSi", ds_purchase_si);    		
+    	}
+		
+		return result;
+	}       
 }

@@ -1351,7 +1351,8 @@ this.btn_CostSheet_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInf
 	
 	if (this.fnContractMainInfoSearch(obj.name) == "1") {
 		var Argument = {pv_project_cd:sProjectCd, pv_costsheet_type:"1", PV_si_contract_no:sSiContractNo};
-		this.commUtil.popup(this, "popupCostSheet", "Sales::SP_CostSheet.xfdl", -1, -1, 1350, 665, true, true, false, Argument, "fnPopupCallBack");
+		Argument.title = "매출원가표";
+		this.commUtil.popup(this, "popupCostSheet", "sales::sales/SP_CostSheet.xfdl", -1, -1, -1, -1, true, true, false, Argument, "fnPopupCallBack");
 	}
 	
 };
@@ -1468,6 +1469,8 @@ this.btn_RequestLicense_onclick = function(obj:nexacro.Button,e:nexacro.ClickEve
 // 확약서 Popup
 this.btn_Affirmation_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
+	this.alert("준비중입니다.");
+	return;
 	var nCurrow = this.tab_Sales.tpg_sales.form.ds_list.rowposition;
 	var objDs = this.tab_Sales.tpg_sales.form.ds_list;
 	var sContractNo = "";

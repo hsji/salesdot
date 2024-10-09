@@ -448,7 +448,7 @@ this.fnGetCode = function()
 {
 	this.gfnAddCodeDataset("ds_CD_ROLE_CODE"			,"CA_ROLE_CODE");
 	this.gfnAddCodeDataset("ds_CD_GRADE_CODE"			,"CA_GRADE_CODE");
-	this.gfnAddCodeDataset("ds_CD_HOLD_OFFICE"			,"CM0009");
+	this.gfnAddCodeDataset("ds_CD_HOLD_OFFICE"			,"SM08");	//CM0009
 
 	// 공통코드 조회
 	this.gfnCodeTransaction();

@@ -25,5 +25,8 @@ import com.unisales.util.UserInfo;
 public interface salesManagerService {
 
 	public void savePresalseList(List<Map<String,String>> query, Map<String,Object> datasetMap, UserInfo userInfo) throws Exception;
-	
+	/* 조회 */
+	public List<Map<String,Object>> searchList(Map<String,String> query, Map<String,Object> search, UserInfo userInfo);	
+	/* 조회 */
+	public Map<String,Object> searchMap(Map<String,String> query, Map<String,Object> search, UserInfo userInfo);		
 }

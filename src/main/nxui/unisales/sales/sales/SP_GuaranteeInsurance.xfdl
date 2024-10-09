@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_GuaranteeInsurance" width="1345" height="472" titletext="보증보험증권" onload="SP_GuaranteeInsurance_onload">
+    <Layouts>
+      <Layout height="472" mobileorientation="landscape" width="1345">
+        <Static id="stc_Remark" taborder="16" top="235" height="31" cssclass="sta_POP_GroupBg" text="" width="445" onclick="stc_Remarks_onclick" right="0"/>
+        <Static id="stc_Contract_Guarantee_Insurance01" taborder="55" text="" cssclass="sta_WF_detailBg" right="0" width="445" top="265" bottom="0"/>
+        <Static id="stc_Contract_Guarantee_Insurance00" taborder="54" text="" top="265" cssclass="sta_WF_detailBg" right="448" bottom="0" width="445"/>
+        <Static id="stc_Sales_List" taborder="53" cssclass="sta_WF_detailBg" top="34" text="" height="197" right="0" width="445"/>
+        <Static id="stc_Contract_Guarantee_Insurance" taborder="1" text="" top="34" cssclass="sta_WF_detailBg" right="448" width="445" height="197"/>
+        <Static id="stc_CiExecution" taborder="11" top="4" height="31" cssclass="sta_POP_GroupBg" text="" right="0" width="445"/>
+        <Grid id="grd_ContractGuaranteeInsurance" taborder="0" left="0" top="4" autofittype="col" bottom="0" binddataset="ds_GuaranteeList" formatid="default" right="897">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="116"/>
+                <Column size="130"/>
+                <Column size="150"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="계약구분" TL_SEQ="123"/>
+                <Cell col="1" text="계약번호" TL_SEQ="316"/>
+                <Cell col="2" text="계약금액" TL_SEQ="40"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CONTRACT_TYPE_NAME"/>
+                <Cell col="1" text="bind:CONTRACT_NO"/>
+                <Cell col="2" text="bind:CONTRACT_PRICE" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" textAlign="right" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_PRICE)"/>
+              </Band>
+              <Band id="summary">
+                <Cell colspan="2" text="총 계약금액" TL_SEQ="1121"/>
+                <Cell col="2" text="expr:dataset.getSum(&quot;CONTRACT_PRICE&quot;)" textAlign="right" displaytype="mask" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(dataset.getSum(&quot;CONTRACT_PRICE&quot;))" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_BondNo1" taborder="2" text="증권번호" top="43" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="815" TL_SEQ="914"/>
+        <Static id="stc_CallBoxNo1" taborder="3" text="사서함번호" top="73" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="815" TL_SEQ="915"/>
+        <Static id="stc_Pi" taborder="4" text="선급금" top="103" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="815" TL_SEQ="916"/>
+        <Static id="stc_ExecutionRate1" taborder="5" text="이행율" top="133" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="815" TL_SEQ="917"/>
+        <Edit id="edt_BondNo1" taborder="6" top="43" width="349" height="22" left="stc_BondNo1:9"/>
+        <Edit id="edt_CallBoxNo1" taborder="7" top="73" width="349" height="22" left="stc_CallBoxNo1:9"/>
+        <MaskEdit id="medt_Pi" taborder="8" top="103" width="349" height="22" textAlign="right" inputtype="number" format="#,##" left="stc_Pi:9"/>
+        <Edit id="edt_ExecutionRate1" taborder="9" top="133" width="349" height="22" readonly="true" left="stc_ExecutionRate1:9"/>
+        <Static id="stc_CiExecutionText" taborder="10" text="계약이행" top="13" width="88" height="15" cssclass="sta_POP_GroupTit" right="348" TL_SEQ="918"/>
+        <Static id="stc_PiExecution" taborder="13" top="4" height="31" cssclass="sta_POP_GroupBg" width="445" right="448"/>
+        <Static id="stc_PiExecutionText" taborder="12" text="선급금이행" top="12" height="15" cssclass="sta_POP_GroupTit" right="797" width="88" TL_SEQ="919"/>
+        <Static id="stc_DiExecution" taborder="14" top="235" height="31" cssclass="sta_POP_GroupBg" width="445" right="448"/>
+        <Static id="stc_DiExecutionText" taborder="15" text="하자이행" top="244" width="80" height="15" cssclass="sta_POP_GroupTit" right="805" TL_SEQ="920"/>
+        <Static id="stc_RemarkText" taborder="17" text="비고" top="243" width="80" height="15" cssclass="sta_POP_GroupTit" right="356" TL_SEQ="45"/>
+        <Static id="stc_ExecutionDuration1" taborder="18" text="이행기간" top="163" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="815" TL_SEQ="921"/>
+        <Static id="stc_Insurance1" taborder="19" text="보험료" top="193" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="815" TL_SEQ="922"/>
+        <Calendar id="cal_ExecutionDuration1Start" taborder="21" top="163" width="154" height="22" dateformat="yyyy-MM-dd" left="stc_ExecutionDuration1:9"/>
+        <Static id="stc_ExecutionDuration1Middle" taborder="20" text="~" top="163" width="20" height="22" textAlign="center" left="cal_ExecutionDuration1Start:11"/>
+        <Calendar id="cal_ExecutionDuration1End" taborder="22" top="163" width="154" height="22" dateformat="yyyy-MM-dd" left="stc_ExecutionDuration1Middle:9"/>
+        <MaskEdit id="medt_Insurance1" taborder="23" top="193" width="349" height="22" textAlign="right" inputtype="number" format="#,##" left="stc_Insurance1:9"/>
+        <Static id="stc_BondNo2" taborder="24" text="증권번호" top="43" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" onclick="Static20_onclick" right="374" TL_SEQ="914"/>
+        <Edit id="edt_BondNo2" taborder="25" top="43" width="357" height="22" left="stc_BondNo2:8"/>
+        <Static id="stc_CallBoxNo2" taborder="27" text="사서함번호" top="73" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="374" TL_SEQ="915"/>
+        <Edit id="edt_CallBoxNo2" taborder="26" top="73" width="357" height="22" left="stc_CallBoxNo2:8"/>
+        <Static id="stc_Ci" taborder="28" text="계약" top="103" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="374" TL_SEQ="126"/>
+        <MaskEdit id="medt_Ci" taborder="29" top="103" width="357" height="22" textAlign="right" inputtype="number" format="#,##" left="stc_Ci:8"/>
+        <Static id="stc_ExecutionRate2" taborder="31" text="이행율" top="133" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="374" TL_SEQ="917"/>
+        <Edit id="edt_ExecutionRate2" taborder="30" top="133" width="357" height="22" readonly="true" left="stc_ExecutionRate2:8"/>
+        <Static id="stc_ExecutionDuration2" taborder="32" text="이행기간" top="163" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="374" TL_SEQ="921"/>
+        <Calendar id="cal_ExecutionDuration2Start" taborder="33" top="163" width="154" height="22" dateformat="yyyy-MM-dd" left="stc_ExecutionDuration2:8"/>
+        <Static id="stc_Execution_Duration2_Middle" taborder="34" text="~" top="163" width="20" height="22" textAlign="center" left="cal_ExecutionDuration2Start:16"/>
+        <Calendar id="cal_ExecutionDuration2End" taborder="35" top="163" width="154" height="22" dateformat="yyyy-MM-dd" left="stc_Execution_Duration2_Middle:13"/>
+        <Static id="stc_Insurance2" taborder="37" text="보험료" top="193" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="374" TL_SEQ="922"/>
+        <MaskEdit id="medt_Insurance2" taborder="36" top="193" width="356" height="22" textAlign="right" inputtype="number" format="#,##" left="stc_Insurance2:8"/>
+        <Static id="stc_Insurance3" taborder="39" text="보험료" top="423" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="812" TL_SEQ="922"/>
+        <MaskEdit id="medt_Insurance3" taborder="38" top="424" width="350" height="22" textAlign="right" inputtype="number" format="#,##" left="stc_Insurance3:7"/>
+        <Static id="stc_ExecutionDuration3" taborder="40" text="이행기간" top="393" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="814" TL_SEQ="921"/>
+        <Calendar id="stc_ExecutionDuration3Start" taborder="41" top="394" width="154" height="22" dateformat="yyyy-MM-dd" left="stc_ExecutionDuration3:8"/>
+        <Static id="stc_ExecutionDuration3Middle" taborder="42" text="~" top="394" width="20" height="22" textAlign="center" left="stc_ExecutionDuration3Start:11"/>
+        <Calendar id="stc_ExecutionDuration3End" taborder="43" top="394" width="154" height="22" dateformat="yyyy-MM-dd" left="stc_ExecutionDuration3Middle:9"/>
+        <Static id="stc_ExecutionRate3" taborder="45" text="이행율" top="363" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="814" TL_SEQ="917"/>
+        <Edit id="edt_ExecutionRate3" taborder="44" top="364" width="350" height="22" readonly="true" left="stc_ExecutionRate3:9"/>
+        <Static id="stc_Di" taborder="46" text="하자" top="333" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="814" TL_SEQ="924"/>
+        <MaskEdit id="medt_Di" taborder="47" top="334" width="350" height="22" textAlign="right" inputtype="number" format="#,##" left="stc_Di:9"/>
+        <Static id="stc_CallBoxNo3" taborder="49" text="사서함번호" top="303" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="814" TL_SEQ="915"/>
+        <Edit id="edt_CallBoxNo3" taborder="48" top="304" width="350" height="22" left="stc_CallBoxNo3:9"/>
+        <Static id="stc_BondNo3" taborder="50" text="증권번호" top="273" width="64" height="22" cssclass="sta_WF_DetailTit" textAlign="right" right="814" TL_SEQ="914"/>
+        <Edit id="edt_BondNo3" taborder="51" top="274" width="350" height="22" left="stc_BondNo3:9"/>
+        <TextArea id="txt_Remark" taborder="52" top="274" width="427" height="172" right="9"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 프로젝트관리
+ * 02. 화면명   : 보증보험증권 탭페이지(SP_GuaranteeInsurance)
+ * 03. 화면설명 : 보증보험증권 탭페이지
+ * 04. 작성일   : 2018.11.26
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs";
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.FV_PARENT_FORM = this.parent.parent.parent;
+this.FV_SAVE_CURROW = 0;	// 저장처리 시점의 Row Index
+ 
+this.FV_AUTH_PRICE_MASK = false;
+/************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.SP_GuaranteeInsurance_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;		// 계약금액 마스킹 처리 권한
+	this.fn_QueryData();
+};
+ 
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+  // 공통코드 조회
+ this.fnGetCode = function()
+ {
+	// this.gfnAddCodeDataset("ds_cmm_ContractType",		"CONTRACT_TYPE"); 			// 계약구분
+	
+	// 공통코드 조회
+	// this.gfnCodeTransaction();
+ };
+
+ // 조회
+ this.fn_QueryData = function()
+ {
+	if (!this.fn_getValidation())	return;
+		
+	// 조건값 셋팅
+	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
+		
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("ds_GuaranteeList", "ds_output");
+	this.gfnCommonTransaction("Select", "SP_GuaranteeInsurance_S01");
+ };
+ 
+ 
+  this.fn_SaveData = function ()
+ {
+	this.fnSetRemark();
+	
+	this.FV_SAVE_CURROW = this.ds_GuaranteeList.rowposition;
+	
+	
+	//저장용 Input Dataset 세팅
+	this.gfnAddInputDataset("ds_GuaranteeList",		"ds_GuaranteeList", "U");
+	this.gfnCommonTransaction("Save", "SP_GuaranteeInsurance_R01");
+ }
+ 
+  
+ // 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	switch (strSvcID) 
+	{
+		case "gfnGetCode" :
+			// this.ds_cmm_ContractType.filter("VAL2=='1'");
+			break;
+		case "Select" :
+			if (this.FV_SAVE_CURROW > 0) {
+				this.ds_GuaranteeList.set_rowposition(this.FV_SAVE_CURROW);
+				this.FV_SAVE_CURROW = 0;
+			}
+			
+			this.fn_setPriceMasking(this.medt_Pi);
+			this.fn_setPriceMasking(this.medt_Insurance1);
+			
+			this.fn_setPriceMasking(this.medt_Ci);
+			this.fn_setPriceMasking(this.medt_Insurance2);
+			
+			this.fn_setPriceMasking(this.medt_Di);
+			this.fn_setPriceMasking(this.medt_Insurance3);
+			
+			break;
+		case "Save" :
+			this.fn_QueryData();
+			break;
+	}
+	
+ };
+ 
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+  // Validation check
+ this.fn_getValidation = function()
+ {
+	var sProjectCd = this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value;
+		
+	if (this.gfnIsEmpty(sProjectCd))
+	{
+		this.alert(this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
+		return false;
+	}
+	return true;
+ }
+ 
+ 
+   // 화면 초기화
+ this.fn_setInit = function()
+ {
+	this.ds_GuaranteeList.clearData();
+ }
+ 
+ this.fnSetRemark = function()
+ {
+	var curRow = this.ds_GuaranteeList.rowposition;
+	var sRemark = this.ds_GuaranteeList.getColumn(curRow, "REMARKS");
+	
+	if(this.gfnIsEmpty(sRemark)) this.ds_GuaranteeList.setColumn(curRow, "REMARKS", ' ');
+ };
+
+
+
+this.fn_setPriceMasking = function (obj)
+{
+	if (!obj.visible) return;
+	var sContractAmt = obj.value;
+	if (this.gfnIsEmpty(sContractAmt))	sContractAmt = 0;
+	
+	obj.set_type( this.gfn_getPriceMaskEdtType() );
+	obj.set_format( this.gfn_getPriceMaskformat(sContractAmt) );
+}
+/************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_GuaranteeList">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="PREPAYMENT_EXECUTION_RATE" type="float" size="22"/>
+          <Column id="CONTRACT_EXECUTION_RATE" type="float" size="22"/>
+          <Column id="DEFECT_EXECUTION_RATE" type="float" size="22"/>
+          <Column id="PI_BOND_NO" type="string" size="30"/>
+          <Column id="CI_BOND_NO" type="string" size="30"/>
+          <Column id="DI_BOND_NO" type="string" size="30"/>
+          <Column id="PI_CALL_BOX_NO" type="string" size="30"/>
+          <Column id="CI_CALL_BOX_NO" type="string" size="30"/>
+          <Column id="DI_CALL_BOX_NO" type="string" size="30"/>
+          <Column id="PI_EXECUTION" type="float" size="22"/>
+          <Column id="CI_EXECUTION" type="float" size="22"/>
+          <Column id="DI_EXECUTION" type="float" size="22"/>
+          <Column id="PI_INSUPRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="CI_INSUPRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="DI_INSUPRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="PI_START_DATE" type="datetime" size="23"/>
+          <Column id="CI_START_DATE" type="datetime" size="23"/>
+          <Column id="DI_START_DATE" type="datetime" size="23"/>
+          <Column id="PI_END_DATE" type="datetime" size="23"/>
+          <Column id="CI_END_DATE" type="datetime" size="23"/>
+          <Column id="DI_END_DATE" type="datetime" size="23"/>
+          <Column id="CONTRACT_PRICE" type="BIGDECIMAL" size="22"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="ROWTYPE" type="int" size="11"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="edt_BondNo1" propid="value" datasetid="ds_GuaranteeList" columnid="PI_BOND_NO"/>
+      <BindItem id="item1" compid="edt_CallBoxNo1" propid="value" datasetid="ds_GuaranteeList" columnid="PI_CALL_BOX_NO"/>
+      <BindItem id="item2" compid="medt_Pi" propid="value" datasetid="ds_GuaranteeList" columnid="PI_EXECUTION"/>
+      <BindItem id="item3" compid="edt_ExecutionRate1" propid="value" datasetid="ds_GuaranteeList" columnid="PREPAYMENT_EXECUTION_RATE"/>
+      <BindItem id="item4" compid="cal_ExecutionDuration1Start" propid="value" datasetid="ds_GuaranteeList" columnid="PI_START_DATE"/>
+      <BindItem id="item5" compid="cal_ExecutionDuration1End" propid="value" datasetid="ds_GuaranteeList" columnid="PI_END_DATE"/>
+      <BindItem id="item6" compid="medt_Insurance1" propid="value" datasetid="ds_GuaranteeList" columnid="PI_INSUPRICE"/>
+      <BindItem id="item7" compid="edt_BondNo3" propid="value" datasetid="ds_GuaranteeList" columnid="DI_BOND_NO"/>
+      <BindItem id="item8" compid="edt_BondNo2" propid="value" datasetid="ds_GuaranteeList" columnid="CI_BOND_NO"/>
+      <BindItem id="item9" compid="edt_CallBoxNo2" propid="value" datasetid="ds_GuaranteeList" columnid="CI_CALL_BOX_NO"/>
+      <BindItem id="item10" compid="medt_Ci" propid="value" datasetid="ds_GuaranteeList" columnid="CI_EXECUTION"/>
+      <BindItem id="item11" compid="edt_ExecutionRate2" propid="value" datasetid="ds_GuaranteeList" columnid="CONTRACT_EXECUTION_RATE"/>
+      <BindItem id="item12" compid="cal_ExecutionDuration2Start" propid="value" datasetid="ds_GuaranteeList" columnid="CI_START_DATE"/>
+      <BindItem id="item13" compid="cal_ExecutionDuration2End" propid="value" datasetid="ds_GuaranteeList" columnid="CI_END_DATE"/>
+      <BindItem id="item14" compid="medt_Insurance2" propid="value" datasetid="ds_GuaranteeList" columnid="CI_INSUPRICE"/>
+      <BindItem id="item15" compid="medt_Insurance3" propid="value" datasetid="ds_GuaranteeList" columnid="DI_INSUPRICE"/>
+      <BindItem id="item16" compid="stc_ExecutionDuration3Start" propid="value" datasetid="ds_GuaranteeList" columnid="DI_START_DATE"/>
+      <BindItem id="item17" compid="stc_ExecutionDuration3End" propid="value" datasetid="ds_GuaranteeList" columnid="DI_END_DATE"/>
+      <BindItem id="item18" compid="edt_CallBoxNo3" propid="value" datasetid="ds_GuaranteeList" columnid="DI_CALL_BOX_NO"/>
+      <BindItem id="item19" compid="medt_Di" propid="value" datasetid="ds_GuaranteeList" columnid="DI_EXECUTION"/>
+      <BindItem id="item20" compid="edt_ExecutionRate3" propid="value" datasetid="ds_GuaranteeList" columnid="DEFECT_EXECUTION_RATE"/>
+      <BindItem id="item21" compid="txt_Remark" propid="value" datasetid="ds_GuaranteeList" columnid="REMARKS"/>
+    </Bind>
+  </Form>
+</FDL>

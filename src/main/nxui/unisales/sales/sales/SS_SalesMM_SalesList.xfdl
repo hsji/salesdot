@@ -25,7 +25,7 @@
               <Div id="div_Search_yyyyMM_FromTo" taborder="13" left="stc_DueDate:0" top="41" width="221" height="24" url="sales::comm/COM_yyyyMM_FromTo2.xfdl"/>
               <CheckBox id="chk_NoneDate" taborder="14" text="기간무시" left="div_Search_yyyyMM_FromTo:10" top="41" width="74" height="24" falsevalue="0" truevalue="1" TL_SEQ="122"/>
               <Radio id="rd_EmpKind" taborder="15" left="chk_NoneDate:19.00" top="41" width="154" height="24" innerdataset="ds_EmpKind" codecolumn="CODE" datacolumn="DATA" columncount="2" rowcount="1" index="0" text="영업대표" value="E" visible="false" TL_FLAG="1"/>
-              <Static id="stc_ContractType" taborder="16" text="계약구분" left="cmb_ContractStatus:0" top="12" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="123"/>
+              <Static id="stc_ContractType" taborder="16" text="계약구분" left="cmb_ContractStatus:85" top="12" width="89" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="123"/>
               <Combo id="cmb_ContractType" taborder="17" text="" left="stc_ContractType:0" top="12" height="24" codecolumn="CODE" datacolumn="DATA" innerdataset="ds_ContractType" width="127" TL_FLAG="1"/>
             </Layout>
           </Layouts>
@@ -452,7 +452,7 @@ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 // 팝업 콜백
 this.fn_popCallBack = function(sPopupId, Variant)
 {
-	Variant = this.commUtil.popupReturn();
+	//Variant = this.commUtil.popupReturn();
 	if(this.gfnIsEmpty(Variant)) {
 		//
 	}
@@ -480,8 +480,9 @@ this.grd_SalesList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClic
 	if (sContractSt == "3") {
 		this.commUtil.popupProjectMM(this, "popProjectMM", "fn_popCallBack", sProjectCd, sProjectNm, "R");
 	} else {
-		var sArgument = {pvProjectCd : sProjectCd, pvContractNo : sContractNo}
-		this.commUtil.popup(this, "popContractDet", "sales::sales/SS_ContractDetail.xfdl", -1, -1, 700, 696, true, true, false, sArgument, "fn_popCallBack");
+		var sArgument = {pvProjectCd : sProjectCd, pvContractNo : sContractNo};
+		sArgument.title = "계약정보";
+		this.commUtil.popup(this, "popContractDet", "sales::sales/SS_ContractDetail.xfdl", -1, -1, -1, -1, true, true, false, sArgument, "fn_popCallBack");
 	}
 };
 ]]></Script>

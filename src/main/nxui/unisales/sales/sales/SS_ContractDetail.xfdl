@@ -12,7 +12,7 @@
         <Edit id="edt_ContractName01" taborder="11" left="365.00" top="83" height="24" readonly="true" right="20"/>
         <Static id="stc_SalesEmpNo" taborder="5" text="담당 영업" left="284.00" top="139" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="614"/>
         <Static id="stc_ClientCode00" taborder="26" text="계  약  처" left="8" top="stc_ClientCode:4" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="215"/>
-        <Static id="stc_SalesEmpNo05" taborder="28" text="영업제품" left="8" top="stc_ClientCode00:4" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="83"/>
+        <Static id="stc_SalesEmpNo05" taborder="28" text="사업분류" left="8" top="stc_ClientCode00:4" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="83"/>
         <Static id="stc_Remark" taborder="6" text="비       고" left="8.00" top="167" width="76" height="70" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="1963"/>
         <Tab id="tab_Progess" taborder="25" left="20" tabindex="0" scrollbars="autoboth" onchanged="Div03_Tab00_onchanged" height="178" right="20" top="463">
           <Tabpages>
@@ -106,10 +106,10 @@
             </Tabpage>
           </Tabpages>
         </Tab>
-        <Button id="btn_Close00" taborder="7" text="닫기" cssclass="btn_WF_cancel" height="28" onclick="btn_Close_onclick" right="20" bottom="10" width="50" tooltiptext="ESC" TL_SEQ="59"/>
+        <Button id="btn_Close00" taborder="7" text="닫기" cssclass="btn_WF_cancel" height="28" onclick="btn_Close_onclick" right="20" bottom="20" width="50" tooltiptext="ESC" TL_SEQ="59"/>
         <Tab id="tab_ContractDet" taborder="30" tabindex="0" left="20" top="Static00:43" height="32" onchanged="tab_ContractDet_onchanged" right="20">
           <Tabpages>
-            <Tabpage id="tp_ContractProd" text="제품매출" TL_SEQ="1964"/>
+            <Tabpage id="tp_ContractProd" text="사업매출" TL_SEQ="1964"/>
             <Tabpage id="tp_ContractGoods" text="상품매출" TL_SEQ="1965"/>
             <Tabpage id="tp_ContractSi" text="용역매출" TL_SEQ="2099">
               <Layouts>
@@ -311,8 +311,8 @@
         <MaskEdit id="medt_ContractAmt" taborder="19" left="89.00" top="247" width="138" height="24" format="#,##0" readonly="true"/>
         <Static id="stc_SalesEmpNo03" taborder="21" text="예상매입총액" left="284.00" top="247" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="2181"/>
         <MaskEdit id="medt_PurchaseAmt" taborder="20" left="365.00" top="247" width="138" height="24" format="#,##0" readonly="true"/>
-        <Static id="stc_SalesEmpNo04" taborder="22" text="순매출" left="8.00" top="278" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="279"/>
-        <MaskEdit id="medt_NetSalesAmt" taborder="23" left="554.00" top="95130" width="138" height="22" format="#,##0" readonly="true"/>
+        <Static id="stc_SalesEmpNo04" taborder="22" text="순매출" left="8.00" top="274" width="76" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="279"/>
+        <MaskEdit id="medt_NetSalesAmt" taborder="23" left="89" top="277" width="138" height="22" format="#,##0" readonly="true"/>
         <Edit id="edt_ContractName02" taborder="24" left="365.00" top="139" height="24" readonly="true" right="170"/>
         <Edit id="edt_ContractName04" taborder="29" left="89.00" top="edt_ContractName03:4" width="130" height="24" readonly="true"/>
       </Layout>
@@ -368,7 +368,7 @@ include "Script::CommGrid.xjs";
 // 권한 처리 
 this.fnAuthConfig = function()
 {
-	if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹 처리 권한
+	//if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹 처리 권한
 	
 	
 	this.fn_setPriceMasking(this.medt_ContractAmt);
@@ -394,7 +394,7 @@ this.fn_setPriceMasking = function (obj)
  	this.gfnAddCodeDataset("ds_cmm_SalesStatus",	"SALES_STATUS"); 	// 영업상태 코드
 	this.gfnAddCodeDataset("ds_cmm_Type",			"TYPE_CODE");		// 일정 구분
 	this.gfnAddCodeDataset("ds_cmm_Importance",		"IMPORTANCE");		// 일정 중요도 코드
-	this.gfnAddCodeDataset("ds_cmm_Role", 			"ROLE_CODE");		// 역할 코드
+	this.gfnAddCodeDataset("ds_cmm_Role", 			"PROJECTROLE");		// 역할 코드 CA_ROLE_CODE
 	this.gfnAddCodeDataset("ds_cmm_Level",			"LEVEL_CODE");		// 등급 코드
 	this.gfnAddCodeDataset("ds_cmm_Area",			"AREA_CODE");		// 근무지역 코드
 	this.gfnAddCodeDataset("ds_cmm_ConfirmCd",		"CONFIRM_CD");	// 승인상태
@@ -411,17 +411,44 @@ this.fnQueryData = function()
 	this.gfnAddSendParameter("CONTRACT_NO",		this.FV_CONTRACT_NO);
 	
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("dsList",				"ds_output0");
-	this.gfnAddOutputDataset("dsContractProd",		"ds_output1");
-	this.gfnAddOutputDataset("dsContractSi",		"ds_output2");
-	this.gfnAddOutputDataset("dsContractGoods",		"ds_output3");
-	this.gfnAddOutputDataset("dsPurchaseList",		"ds_output4");
-	this.gfnAddOutputDataset("dsScheduleList",		"ds_output5");
-	this.gfnAddOutputDataset("dsAddressbookList",	"ds_output6");
-	this.gfnAddOutputDataset("dsPreSiEmpList",		"ds_output7");
-	this.gfnAddOutputDataset("dsTechList",			"ds_output8");
+// 	this.gfnAddOutputDataset("dsList",				"ds_output0");
+// 	this.gfnAddOutputDataset("dsContractProd",		"ds_output1");
+// 	this.gfnAddOutputDataset("dsContractSi",		"ds_output2");
+// 	this.gfnAddOutputDataset("dsContractGoods",		"ds_output3");
+// 	this.gfnAddOutputDataset("dsPurchaseList",		"ds_output4");
+// 	this.gfnAddOutputDataset("dsScheduleList",		"ds_output5");
+// 	this.gfnAddOutputDataset("dsAddressbookList",	"ds_output6");
+// 	this.gfnAddOutputDataset("dsPreSiEmpList",		"ds_output7");
+// 	this.gfnAddOutputDataset("dsTechList",			"ds_output8");
+// 	
+// 	this.gfnCommonTransaction("SS_ContractDetail_S01", "SS_ContractDetail_S01");
 	
-	this.gfnCommonTransaction("SS_ContractDetail_S01", "SS_ContractDetail_S01");
+	var sMapper = "salesManagerMapper";
+	var arrMapId = [], arrOut = [];
+	var nCnt = 0;
+	arrMapId[nCnt++] = "SS_ContractDetail_S01_list";
+	arrMapId[nCnt++] = "SS_ContractDetail_S01_product";
+	arrMapId[nCnt++] = "SS_ContractDetail_S01_si";
+	arrMapId[nCnt++] = "SS_ContractDetail_S01_goods";
+	arrMapId[nCnt++] = "SS_ContractDetail_S01_purchase";
+	arrMapId[nCnt++] = "SS_ContractDetail_S01_schedule";
+	arrMapId[nCnt++] = "SS_ContractDetail_S01_addressbook";
+	arrMapId[nCnt++] = "SS_ContractDetail_S01_emp";
+	arrMapId[nCnt++] = "SS_ContractDetail_S01_tech_staff";
+
+	nCnt = 0;
+	arrOut[nCnt++] = "dsList";
+	arrOut[nCnt++] = "dsContractProd";
+	arrOut[nCnt++] = "dsContractSi";
+	arrOut[nCnt++] = "dsContractGoods";
+	arrOut[nCnt++] = "dsPurchaseList";
+	arrOut[nCnt++] = "dsScheduleList";
+	arrOut[nCnt++] = "dsAddressbookList";
+	arrOut[nCnt++] = "dsPreSiEmpList";
+	arrOut[nCnt++] = "dsTechList";
+	
+	this.gfnSetMap(sMapper, arrMapId, arrOut);
+	this.gfnCommonTransaction("SS_ContractDetail_S01", "selectNextMultiList.do");	
 };
 
 
@@ -476,7 +503,7 @@ this.tab_ContractDet_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChan
 
 this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	this.commUtil.popupClose();
+	this.close();
 };
 ]]></Script>
     <Bind>

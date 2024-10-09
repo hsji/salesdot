@@ -1,0 +1,965 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SS_AffirmationReport" width="1300" height="830" titletext="확약서 출력" cssclass="frm_popBg" onload="SS_AffirmationReport_onload">
+    <Layouts>
+      <Layout height="830" mobileorientation="landscape" width="1300">
+        <Div id="div_Main" taborder="7" left="6" top="66" width="630" cssclass="div_WF_detailBg" height="434">
+          <Layouts>
+            <Layout>
+              <Static id="st_PurchaseContractName" taborder="11" text="TITLE :" top="24" width="93" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="16"/>
+              <Static id="st_PurchaseContractName00" taborder="12" text="직접입력 :" top="49" width="93" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="16" enable="false" TL_SEQ="183"/>
+              <Edit id="edt_SubjectName" taborder="13" left="125" top="49" width="495" height="22" enable="false"/>
+              <Static id="st_PurchaseContractName01" taborder="14" text=" :" top="121" width="13" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="96"/>
+              <Edit id="edt_ClientName" taborder="1" left="125" top="121" width="495" height="22"/>
+              <Edit id="edt_ProjectName" taborder="2" left="125" top="146" width="495" height="22"/>
+              <Edit id="edt_ProductName" taborder="3" left="125" top="171" width="495" height="22"/>
+              <Static id="st_PurchaseContractName08" taborder="15" text="제조사 :" top="330" width="73" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="36" TL_SEQ="184"/>
+              <Edit id="edt_CompanyNm" taborder="16" left="125" top="330" width="155" height="22" readonly="true" value="(주) 투비소프트" text="(주) 투비소프트"/>
+              <Static id="st_PurchaseContractName09" taborder="17" text="참조 :" top="355" width="73" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="36" TL_SEQ="185"/>
+              <Edit id="edt_Reference" taborder="7" left="125" top="355" width="495" height="22"/>
+              <Edit id="edt_ProductVersion" taborder="4" left="187" top="196" width="177" height="22"/>
+              <Combo id="cb_SubjectType" taborder="0" left="125" top="24" width="495" height="22" innerdataset="ds_cmm_SubjectType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Main_cb_SubjectType_onitemchanged"/>
+              <Static id="st_PurchaseContractName01_00" taborder="18" text="건명 :" top="146" width="103" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="6" TL_SEQ="186"/>
+              <Static id="st_PurchaseContractName01_00_00" taborder="19" text="제품명 :" top="171" width="103" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="6" TL_SEQ="2046"/>
+              <CheckBox id="ck_PpvFlag1" taborder="20" left="8" top="196" width="100" height="20" falsevalue="0" truevalue="1" text="버전/수량" onchanged="div_Main_ck_PpvFlag_onchanged" TL_SEQ="188"/>
+              <CheckBox id="ck_PttFlag" taborder="21" left="8" top="221" width="20" height="20" falsevalue="0" truevalue="1"/>
+              <Static id="st_PurchaseContractName02" taborder="22" text="기술지원 및 유지보수 기간 :" top="221" width="151" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="33" TL_SEQ="189"/>
+              <Combo id="cb_TechType" taborder="5" left="194" top="221" width="425" height="22" innerdataset="ds_cmm_TechType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Main_cb_TechType_onitemchanged"/>
+              <TextArea id="ta_Contents" taborder="6" left="125" top="271" height="55" width="495"/>
+              <CheckBox id="ck_PctFlag" taborder="23" left="8" top="293" width="20" height="20" falsevalue="0" truevalue="1"/>
+              <Static id="st_PurchaseContractName01_00_00_00_00" taborder="24" text="내용 :" top="271" width="43" height="65" cssclass="sta_WF_DetailTit" textAlign="right" left="66" TL_SEQ="69"/>
+              <Static id="Static00_00" taborder="25" text="* 체크박스 선택 시, 확약서에 반영" left="13" top="3" height="20" color="#ff1e31" font="normal 11px/normal &quot;Arial&quot;" right="33" TL_SEQ="190"/>
+              <Static id="st_PurchaseContractName09_00" taborder="26" text="확약 일자 :" top="405" width="73" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="36" TL_SEQ="191"/>
+              <Calendar id="cal_PromiseDate" taborder="9" left="125" top="406" width="110" height="20" dateformat="yyyy-MM-dd"/>
+              <Static id="st_PurchaseContractName09_00_00" taborder="27" text="직인 :" top="380" width="53" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="342" TL_SEQ="192"/>
+              <Radio id="rd_officialSealType" taborder="10" left="400" top="380" width="218" height="22" rowcount="1" innerdataset="ds_cmm_OfficialSealType" codecolumn="CODE" datacolumn="VAL1" index="2" text="직접날인" value="0" TL_FLAG="1"/>
+              <Static id="st_PurchaseContractName00_00" taborder="28" text="직접입력 :" top="246" width="73" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="3" enable="false" TL_SEQ="183"/>
+              <Edit id="edt_TechName" taborder="29" left="125" top="246" width="495" height="22" enable="false"/>
+              <CheckBox id="ck_PrfFlag" taborder="30" left="8" top="356" width="20" height="20" falsevalue="0" truevalue="1"/>
+              <Static id="st_Recipient" taborder="31" text="제출처 :" top="380" width="73" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="36" TL_SEQ="193"/>
+              <Edit id="edt_Recipient" taborder="8" left="125" top="380" width="211" height="22"/>
+              <TextArea id="ta_SuggestDesc" taborder="32" left="125" top="74" height="44" width="495"/>
+              <CheckBox id="ck_PsdFlag" taborder="33" left="8" top="74" width="103" height="20" text="의견직접입력 :" onchanged="div_Main_ck_PsdFlag_onchanged" falsevalue="0" truevalue="1" TL_SEQ="194"/>
+              <Combo id="cb_ClientKind" taborder="34" text="고객" left="8" top="121" width="89" height="22" value="0" innerdataset="ds_ClientKind" codecolumn="CODE" datacolumn="CAPTION" index="0"/>
+              <CheckBox id="ck_PpvFlag2" taborder="35" text="버전 :" left="125" top="197" width="58" height="20" truevalue="1" falsevalue="0" onchanged="div_Main_ck_PpvFlag_onchanged" TL_SEQ="195"/>
+              <CheckBox id="ck_PpvFlag3" taborder="36" text="수량 :" left="381" top="197" width="58" height="20" falsevalue="0" truevalue="1" onchanged="div_Main_ck_PpvFlag_onchanged" TL_SEQ="103"/>
+              <Edit id="edt_Quantity" taborder="37" left="443" top="196" width="177" height="22"/>
+              <CheckBox id="cb_PsnFlag" taborder="38" text="공급사 :" left="301" top="331" width="68" height="20" falsevalue="0" truevalue="1" TL_SEQ="196"/>
+              <Edit id="edt_SupplierName" taborder="39" left="373" top="330" width="247" height="22"/>
+              <Static id="st_PurchaseContractName09_00_00_00" taborder="40" text="대표이사 :" top="405" width="61" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="334" TL_SEQ="197"/>
+              <CheckBox id="cb_CEO0" taborder="41" left="400" top="406" width="70" height="20" value="true"/>
+              <CheckBox id="cb_CEO1" taborder="42" left="472" top="406" width="70" height="20" visible="false"/>
+              <CheckBox id="cb_CEO2" taborder="43" left="544" top="406" width="70" height="20" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_Gb_Sales_Prod00" taborder="5" cssclass="sta_POP_GroupBg" left="6" top="39" height="28" width="630"/>
+        <Static id="stc_BottomFrame" taborder="0" left="0" height="36" right="0" bottom="0" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Cancel" taborder="1" text="닫기" width="60" height="22" cssclass="btn_WF_cancel" right="13" bottom="8" onclick="btn_Close_onclick" TL_SEQ="59"/>
+        <Button id="btn_Close" taborder="2" top="9" width="15" height="15" right="12" cssclass="btn_POP_Cls" onclick="btn_Close_onclick" escapebutton="true"/>
+        <Static id="Static02" taborder="3" text="확약서 출력" cssclass="sta_POP_Title" left="10" top="10" width="150" height="15" TL_SEQ="198"/>
+        <Static id="stc_Sales_Prod00" taborder="4" text="인쇄내용" left="18" top="43" width="158" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="199"/>
+        <Button id="btn_Print" taborder="6" text="반영/저장" height="22" cssclass="btn_WF_tran" onclick="btn_Print_onclick" top="42" width="76" left="487" TL_SEQ="200"/>
+        <UbiReport id="UbiViewer" taborder="8" top="38" right="8" bottom="42" text="" left="646"/>
+        <Button id="btn_confirm" taborder="9" text="확정" width="60" height="22" cssclass="btn_WF_tran" onclick="btn_confirm_onclick" enable="false" top="42" left="567" TL_SEQ="201"/>
+        <Static id="Static00" taborder="10" text="* [제출이력] 리스트 우측 '체크박스' 선택 후 '복사추가' 버튼 클릭 시, 이전 발급된 문서 복사가능" left="10" width="490" height="20" font="normal 11px/normal &quot;Arial&quot;" bottom="9" TL_SEQ="202"/>
+        <Div id="div_Detail" taborder="11" text="Div00" left="6" top="503" width="630" bottom="42">
+          <Layouts>
+            <Layout>
+              <Div id="div_Remarks" taborder="0" left="0" width="630" cssclass="div_WF_detailBg" top="0" bottom="55.09%">
+                <Layouts>
+                  <Layout>
+                    <Static id="stc_Gb_Sales_Prod01" taborder="1" cssclass="sta_POP_GroupBg" left="-1" top="-1" height="28" right="0"/>
+                    <Static id="stc_Sales_Prod01" taborder="0" text="비고" left="11" top="3" width="160" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="45"/>
+                    <TextArea id="ta_Remarks" taborder="2" left="0" top="26" right="0" bottom="0"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_HistoryList" taborder="1" left="0" width="630" cssclass="div_WF_detailBg" top="div_Remarks:2" bottom="0%">
+                <Layouts>
+                  <Layout>
+                    <Static id="stc_HistoryListTop" taborder="1" cssclass="sta_POP_GroupBg" left="-1" top="-1" height="28" right="0"/>
+                    <Static id="stc_HistoryListTitle" taborder="0" text="제출 이력" left="11" top="3" width="160" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="203"/>
+                    <Grid id="grd_HistoryList" taborder="2" left="0" top="27" right="0" bottom="0" binddataset="ds_HistoryList" autoenter="select" autofittype="col" cellsizingtype="col">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="88"/>
+                            <Column size="200"/>
+                            <Column size="100"/>
+                            <Column size="68"/>
+                            <Column size="35"/>
+                            <Column size="70"/>
+                            <Column size="35"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="확약일자" TL_SEQ="204"/>
+                            <Cell col="1" text="문서명" TL_SEQ="205"/>
+                            <Cell col="2" text="제출처" TL_SEQ="193"/>
+                            <Cell col="3" text="작성자" TL_SEQ="207"/>
+                            <Cell col="4" text="직인" TL_SEQ="192"/>
+                            <Cell col="5" text="상태" TL_SEQ="209"/>
+                            <Cell col="6" text="선택" TL_SEQ="113"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:PROMISE_DATE"/>
+                            <Cell col="1" textAlign="left" text="bind:SUBJECT"/>
+                            <Cell col="2" textAlign="left" text="bind:RECIPIENT"/>
+                            <Cell col="3" text="bind:EMP_NAME"/>
+                            <Cell col="4" text="bind:OFFICIAL_SEAL_TYPE" expr="OFFICIAL_SEAL_TYPE==&quot;1&quot;?&quot;★&quot;:OFFICIAL_SEAL_TYPE==&quot;2&quot;?&quot;◆&quot;:&quot;&quot;"/>
+                            <Cell col="5" text="expr:AFFIRMATION_STATUS==&quot;0&quot;?&quot;작성중&quot;:&quot;완료&quot;"/>
+                            <Cell col="6" edittype="checkbox" displaytype="checkboxcontrol" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:CHK"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Button id="btn_CopyXProw" taborder="3" text="복사추가" top="2" width="80" height="23" onclick="btn_CopyXProw_onclick" right="3" TL_SEQ="210"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item1" compid="div_Main.form.edt_SubjectName" propid="value" datasetid="ds_AffirmationInfo" columnid="SUBJECT"/>
+      <BindItem id="item2" compid="div_Main.form.edt_ClientName" propid="value" datasetid="ds_AffirmationInfo" columnid="CLIENT_NAME"/>
+      <BindItem id="item3" compid="div_Main.form.edt_ProjectName" propid="value" datasetid="ds_AffirmationInfo" columnid="PROJECT_NAME"/>
+      <BindItem id="item4" compid="div_Main.form.edt_ProductName" propid="value" datasetid="ds_AffirmationInfo" columnid="PRODUCT_NAME"/>
+      <BindItem id="item14" compid="div_Main.form.edt_ProductVersion" propid="value" datasetid="ds_AffirmationInfo" columnid="PRODUCT_VERSION"/>
+      <BindItem id="item0" compid="div_Main.form.ta_Contents" propid="value" datasetid="ds_AffirmationInfo" columnid="CONTENTS"/>
+      <BindItem id="item5" compid="div_Main.form.cb_SubjectType" propid="value" datasetid="ds_AffirmationInfo" columnid="SUBJECT_TYPE"/>
+      <BindItem id="item6" compid="div_Main.form.ck_PpvFlag1" propid="value" datasetid="ds_AffirmationInfo" columnid="P_PV_FLAG1"/>
+      <BindItem id="item7" compid="div_Main.form.ck_PttFlag" propid="value" datasetid="ds_AffirmationInfo" columnid="P_TT_FLAG"/>
+      <BindItem id="item8" compid="div_Main.form.cb_TechType" propid="value" datasetid="ds_AffirmationInfo" columnid="TECH_TYPE"/>
+      <BindItem id="item9" compid="div_Main.form.edt_TechName" propid="value" datasetid="ds_AffirmationInfo" columnid="TECH_NAME"/>
+      <BindItem id="item10" compid="div_Main.form.ck_PctFlag" propid="value" datasetid="ds_AffirmationInfo" columnid="P_CT_FLAG"/>
+      <BindItem id="item11" compid="div_Main.form.edt_Reference" propid="value" datasetid="ds_AffirmationInfo" columnid="REFERENCE"/>
+      <BindItem id="item12" compid="div_Main.form.cal_PromiseDate" propid="value" datasetid="ds_AffirmationInfo" columnid="PROMISE_DATE"/>
+      <BindItem id="item13" compid="div_Main.form.rd_officialSealType" propid="value" datasetid="ds_AffirmationInfo" columnid="OFFICIAL_SEAL_TYPE"/>
+      <BindItem id="item15" compid="div_Main.form.ck_PrfFlag" propid="value" datasetid="ds_AffirmationInfo" columnid="P_RF_FLAG"/>
+      <BindItem id="item17" compid="div_Main.form.edt_Recipient" propid="value" datasetid="ds_AffirmationInfo" columnid="RECIPIENT"/>
+      <BindItem id="item18" compid="div_Main.form.ta_SuggestDesc" propid="value" datasetid="ds_AffirmationInfo" columnid="SUGGEST_DESC"/>
+      <BindItem id="item19" compid="div_Main.form.ck_PsdFlag" propid="value" datasetid="ds_AffirmationInfo" columnid="P_SD_FLAG"/>
+      <BindItem id="item20" compid="div_Main.form.edt_Quantity" propid="value" datasetid="ds_AffirmationInfo" columnid="QUANTITY"/>
+      <BindItem id="item21" compid="div_Main.form.edt_SupplierName" propid="value" datasetid="ds_AffirmationInfo" columnid="SUPPLIER_NAME"/>
+      <BindItem id="item22" compid="div_Main.form.cb_ClientKind" propid="value" datasetid="ds_AffirmationInfo" columnid="CLIENT_KIND"/>
+      <BindItem id="item23" compid="div_Main.form.ck_PpvFlag2" propid="value" datasetid="ds_AffirmationInfo" columnid="P_PV_FLAG2"/>
+      <BindItem id="item24" compid="div_Main.form.ck_PpvFlag3" propid="value" datasetid="ds_AffirmationInfo" columnid="P_PV_FLAG3"/>
+      <BindItem id="item26" compid="div_Main.form.cb_PsnFlag" propid="value" datasetid="ds_AffirmationInfo" columnid="P_SN_FLAG"/>
+      <BindItem id="item16" compid="div_Detail.form.div_Remarks.form.ta_Remarks" propid="value" datasetid="ds_AffirmationInfo" columnid="REMARKS"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_cmm_SubjectType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CAPTION">기술지원 확약서</Col>
+            <Col id="CODE">1</Col>
+            <Col id="ORD">1</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">제품 공급 및 기술지원 확약서</Col>
+            <Col id="CODE">2</Col>
+            <Col id="ORD">2</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">기술지원 및 유지보수 확약서</Col>
+            <Col id="CODE">3</Col>
+            <Col id="ORD">3</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">유지보수 확약서</Col>
+            <Col id="CODE">4</Col>
+            <Col id="ORD">4</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">제품 공급 확약서</Col>
+            <Col id="CODE">5</Col>
+            <Col id="ORD">5</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">직접입력</Col>
+            <Col id="CODE">0</Col>
+            <Col id="ORD">6</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cmm_TechType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CAPTION">제품 설치(검수) 후 1년간 무상 지원</Col>
+            <Col id="CODE">1</Col>
+            <Col id="ORD">1</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">제품 설치 후 1년간 무상 지원</Col>
+            <Col id="CODE">2</Col>
+            <Col id="ORD">2</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">제품 검수 후 1년간 무상 지원</Col>
+            <Col id="CODE">3</Col>
+            <Col id="ORD">3</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">직접입력</Col>
+            <Col id="CODE">0</Col>
+            <Col id="ORD">4</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cmm_OfficialSealType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL1_JAP" type="STRING" size="256"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">인감 종류 1</Col>
+            <Col id="VAL1">인감 (▲)</Col>
+            <Col id="ORD">1</Col>
+            <Col id="VAL1_JAP">印鑑 (▲)</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">2</Col>
+            <Col id="CAPTION">인감 종류 2</Col>
+            <Col id="VAL1">인감(◆)</Col>
+            <Col id="ORD">2</Col>
+            <Col id="VAL1_JAP">印鑑(◆)</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">직접날인</Col>
+            <Col id="VAL1">직접날인</Col>
+            <Col id="ORD">3</Col>
+            <Col id="VAL1_JAP">直接捺印</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_InitList">
+        <ColumnInfo>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="SUBJECT_TYPE" type="string" size="1"/>
+          <Column id="CLIENT_KIND" type="string" size="1"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_VERSION" type="string" size="10"/>
+          <Column id="QUANTITY" type="int" size="11"/>
+          <Column id="TECH_TYPE" type="string" size="1"/>
+          <Column id="PROMISE_DATE" type="string" size="8"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="string" size="1"/>
+          <Column id="AFFIRMATION_STATUS" type="string" size="1"/>
+          <Column id="P_SD_FLAG" type="string" size="1"/>
+          <Column id="P_PV_KIND" type="string" size="1"/>
+          <Column id="P_PV_FLAG1" type="string" size="1"/>
+          <Column id="P_PV_FLAG2" type="string" size="1"/>
+          <Column id="P_PV_FLAG3" type="string" size="1"/>
+          <Column id="P_TT_FLAG" type="string" size="1"/>
+          <Column id="P_CT_FLAG" type="string" size="1"/>
+          <Column id="P_RF_FLAG" type="string" size="1"/>
+          <Column id="P_SN_FLAG" type="string" size="1"/>
+          <Column id="RECIPIENT" type="string" size="100"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_AffirmationInfo">
+        <ColumnInfo>
+          <Column id="A_SEQ" type="bigdecimal" size="20"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="SUBJECT_TYPE" type="string" size="20"/>
+          <Column id="SUBJECT" type="string" size="200"/>
+          <Column id="SUGGEST_DESC" type="string" size="2000"/>
+          <Column id="CLIENT_KIND" type="string" size="1"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_NAME" type="string" size="200"/>
+          <Column id="PRODUCT_VERSION" type="string" size="10"/>
+          <Column id="QUANTITY" type="int" size="11"/>
+          <Column id="TECH_TYPE" type="string" size="20"/>
+          <Column id="TECH_NAME" type="string" size="100"/>
+          <Column id="CONTENTS" type="string" size="1073741823"/>
+          <Column id="REFERENCE" type="string" size="200"/>
+          <Column id="SUPPLIER_NAME" type="string" size="200"/>
+          <Column id="PROMISE_DATE" type="string" size="8"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="string" size="20"/>
+          <Column id="AFFIRMATION_STATUS" type="string" size="20"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="P_SD_FLAG" type="string" size="1"/>
+          <Column id="P_PV_KIND" type="string" size="1"/>
+          <Column id="P_PV_FLAG1" type="string" size="1"/>
+          <Column id="P_PV_FLAG2" type="string" size="1"/>
+          <Column id="P_PV_FLAG3" type="string" size="1"/>
+          <Column id="P_TT_FLAG" type="string" size="1"/>
+          <Column id="P_CT_FLAG" type="string" size="1"/>
+          <Column id="P_RF_FLAG" type="string" size="1"/>
+          <Column id="P_SN_FLAG" type="string" size="1"/>
+          <Column id="RECIPIENT" type="string" size="200"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_HistoryList" oncolumnchanged="ds_HistoryList_oncolumnchanged" onrowposchanged="ds_HistoryList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="A_SEQ" type="bigdecimal" size="20"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="SUBJECT_TYPE" type="string" size="20"/>
+          <Column id="SUBJECT" type="string" size="255"/>
+          <Column id="SUGGEST_DESC" type="string" size="2000"/>
+          <Column id="CLIENT_KIND" type="string" size="1"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="PRODUCT_NAME" type="string" size="200"/>
+          <Column id="PRODUCT_VERSION" type="string" size="10"/>
+          <Column id="QUANTITY" type="int" size="11"/>
+          <Column id="TECH_TYPE" type="string" size="20"/>
+          <Column id="TECH_NAME" type="string" size="255"/>
+          <Column id="CONTENTS" type="string" size="1073741823"/>
+          <Column id="REFERENCE" type="string" size="200"/>
+          <Column id="SUPPLIER_NAME" type="string" size="200"/>
+          <Column id="PROMISE_DATE" type="string" size="8"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="string" size="20"/>
+          <Column id="OFFICIAL_SEAL" type="string" size="1"/>
+          <Column id="AFFIRMATION_STATUS" type="string" size="20"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="P_SD_FLAG" type="string" size="1"/>
+          <Column id="P_PV_KIND" type="string" size="1"/>
+          <Column id="P_PV_FLAG1" type="string" size="1"/>
+          <Column id="P_PV_FLAG2" type="string" size="1"/>
+          <Column id="P_PV_FLAG3" type="string" size="1"/>
+          <Column id="P_TT_FLAG" type="string" size="1"/>
+          <Column id="P_CT_FLAG" type="string" size="1"/>
+          <Column id="P_RF_FLAG" type="string" size="1"/>
+          <Column id="P_SN_FLAG" type="string" size="1"/>
+          <Column id="RECIPIENT" type="string" size="200"/>
+          <Column id="EMP_NAME" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Print">
+        <ColumnInfo>
+          <Column id="SUBJECT" type="STRING" size="255"/>
+          <Column id="SUGGEST_DESC" type="STRING" size="256"/>
+          <Column id="CLIENT_KIND" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="100"/>
+          <Column id="PROJECT_NAME" type="STRING" size="100"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="200"/>
+          <Column id="PRODUCT_VERSION" type="STRING" size="10"/>
+          <Column id="QUANTITY" type="STRING" size="256"/>
+          <Column id="TECH_NAME" type="STRING" size="255"/>
+          <Column id="CONTENTS" type="STRING" size="1073741823"/>
+          <Column id="REFERENCE" type="STRING" size="200"/>
+          <Column id="RECIPIENT" type="STRING" size="256"/>
+          <Column id="PROMISE_DATE" type="STRING" size="8"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="STRING" size="20"/>
+          <Column id="SUPPLIER_NAME" type="STRING" size="256"/>
+          <Column id="P_SD_FLAG" type="STRING" size="1"/>
+          <Column id="P_PV_KIND" type="STRING" size="1"/>
+          <Column id="P_TT_FLAG" type="STRING" size="1"/>
+          <Column id="P_CT_FLAG" type="STRING" size="1"/>
+          <Column id="P_RF_FLAG" type="STRING" size="1"/>
+          <Column id="P_SN_FLAG" type="STRING" size="1"/>
+          <Column id="TITLE_COMMENT" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="COMPANY_REG_NO" type="string" size="30"/>
+          <Column id="CEO_NAME" type="string" size="100"/>
+          <Column id="PHONE_NO" type="string" size="30"/>
+          <Column id="FAX_NO" type="string" size="30"/>
+          <Column id="POST_NO" type="string" size="10"/>
+          <Column id="ADDR" type="string" size="511"/>
+          <Column id="HOMEPAGE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_OfficeAddr" onload="ds_OfficeAddr_onload">
+        <ColumnInfo>
+          <Column id="COMPANY_NAME" type="string" size="100"/>
+          <Column id="COMPANY_REG_NO" type="string" size="30"/>
+          <Column id="CEO_NAME" type="string" size="100"/>
+          <Column id="PHONE_NO" type="string" size="30"/>
+          <Column id="FAX_NO" type="string" size="30"/>
+          <Column id="POST_NO" type="string" size="10"/>
+          <Column id="ADDR" type="string" size="511"/>
+          <Column id="HOMEPAGE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CEO" onload="ds_CEO_onload">
+        <ColumnInfo>
+          <Column id="CEO" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CEO">이경찬</Col>
+          </Row>
+          <Row>
+            <Col id="CEO">장선수</Col>
+          </Row>
+          <Row>
+            <Col id="CEO">조강희</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_ClientKind">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">고객</Col>
+            <Col id="CAPTION_JAP">顧客</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">수신</Col>
+            <Col id="CAPTION_JAP">受信</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 영업관리(영업현황) - 확약서 출력
+ * 02. 화면명   : 확약서 출력(SS_AffirmationReport)
+ * 03. 화면설명 : 확약서 출력
+ * 04. 작성일   : 2020.01.13
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs";
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+include "Script::ext_Report.xjs"
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.FV_CONTRACT_NO;
+this.FV_SAVE_CURROW = 0;	// 저장처리 시점의 Row Index
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.SS_AffirmationReport_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.FV_CONTRACT_NO = this.parent.pvContractNo;
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	
+	this.fnGetCode();
+};
+ 
+  /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+ // 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_SubjectType",		"SUBJECT_TYPE");	// 제목 구분
+	this.gfnAddCodeDataset("ds_cmm_TechType",			"DOC_TECH_TYPE");	// 유지보수 구분
+	this.gfnCodeTransaction();
+}; 
+  
+  // 조회
+ this.fn_QueryData = function()
+ { 
+	// 조건값 셋팅
+	this.gfnAddSendParameter("CONTRACT_NO",	this.FV_CONTRACT_NO);
+		
+	// 조회용 Output dataset 세팅
+	
+	this.gfnAddOutputDataset("ds_InitList",			"ds_output");
+	this.gfnAddOutputDataset("ds_AffirmationInfo",	"ds_output2");
+	this.gfnAddOutputDataset("ds_HistoryList", 		"ds_output3");
+	this.gfnAddOutputDataset("ds_OfficeAddr", 		"ds_output4");
+	this.gfnCommonTransaction("Select", "SS_AffirmationReport_S01", this.div_Detail.form.div_HistoryList.form.grd_HistoryList);
+ };
+ 
+  // 세부 조회
+ this.fn_SubQueryData = function(nRow)
+ {
+	// 조건값 셋팅
+	this.gfnAddSendParameter("A_SEQ",	this.ds_HistoryList.getColumn(nRow, "A_SEQ"));
+	
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("ds_AffirmationInfo",	"ds_output1");
+	this.gfnAddOutputDataset("ds_OfficeAddr", 		"ds_output2");
+	this.gfnCommonTransaction("MainSelect", "SS_AffirmationReport_S02", null, false);
+ };
+ 
+ 
+ this.fn_SaveData = function()
+ {
+	this.FV_SAVE_CURROW = this.ds_HistoryList.rowposition;
+		
+	this.gfnAddInputDataset("ds_AffirmationInfo", "dsAffirmationInfo", "U");
+	this.gfnCommonTransaction("Save", "SS_AffirmationReport_R01");
+ }
+  
+  
+  // Transation Callback
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	switch (strSvcID) 
+	{
+		/* 공통 코드 조회 */
+		case "gfnGetCode" :
+			this.fn_QueryData();
+			break;
+		/* 조회 */	
+		case "Select" :
+			this.ds_HistoryList.set_enableevent(false);
+			this.ds_HistoryList.addColumn("CHK", "STRING");
+			this.ds_HistoryList.set_enableevent(true);
+			
+			
+			// 최초 확약서 등록된 데이터가 없는 경우 초기화 처리
+			if (this.ds_AffirmationInfo.rowcount == 0) {
+				this.ds_AffirmationInfo.set_enableevent(false);
+				this.ds_AffirmationInfo.addRow();
+				this.ds_AffirmationInfo.setColumn(0, "CONTRACT_NO", this.ds_InitList.getColumn(0, "CONTRACT_NO"));
+				this.ds_AffirmationInfo.setColumn(0, "SUBJECT_TYPE", this.ds_InitList.getColumn(0, "SUBJECT_TYPE"));
+				// this.ds_AffirmationInfo.setColumn(0, "SUGGEST_DESC", this.ds_InitList.getColumn(0, "SUGGEST_DESC"));
+				this.ds_AffirmationInfo.setColumn(0, "CLIENT_KIND", this.ds_InitList.getColumn(0, "CLIENT_KIND"));
+				this.ds_AffirmationInfo.setColumn(0, "CLIENT_NAME", this.ds_InitList.getColumn(0, "CLIENT_NAME"));
+				this.ds_AffirmationInfo.setColumn(0, "PROJECT_NAME", this.ds_InitList.getColumn(0, "PROJECT_NAME"));
+				this.ds_AffirmationInfo.setColumn(0, "PRODUCT_NAME", this.ds_InitList.getColumn(0, "PRODUCT_NAME"));
+				this.ds_AffirmationInfo.setColumn(0, "PRODUCT_VERSION", this.ds_InitList.getColumn(0, "PRODUCT_VERSION"));
+				this.ds_AffirmationInfo.setColumn(0, "QUANTITY", this.ds_InitList.getColumn(0, "QUANTITY"));
+				this.ds_AffirmationInfo.setColumn(0, "TECH_TYPE", this.ds_InitList.getColumn(0, "TECH_TYPE"));
+				this.ds_AffirmationInfo.setColumn(0, "PROMISE_DATE", this.ds_InitList.getColumn(0, "PROMISE_DATE"));
+				this.ds_AffirmationInfo.setColumn(0, "OFFICIAL_SEAL_TYPE", this.ds_InitList.getColumn(0, "OFFICIAL_SEAL_TYPE"));
+				this.ds_AffirmationInfo.setColumn(0, "SUPPLIER_NAME", this.ds_InitList.getColumn(0, "SUPPLIER_NAME"));
+				this.ds_AffirmationInfo.setColumn(0, "AFFIRMATION_STATUS", this.ds_InitList.getColumn(0, "AFFIRMATION_STATUS"));
+				this.ds_AffirmationInfo.setColumn(0, "P_SD_FLAG", this.ds_InitList.getColumn(0, "P_SD_FLAG"));
+				this.ds_AffirmationInfo.setColumn(0, "P_PV_KIND", this.ds_InitList.getColumn(0, "P_PV_KIND"));
+				this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG1", this.ds_InitList.getColumn(0, "P_PV_FLAG1"));
+				this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG2", this.ds_InitList.getColumn(0, "P_PV_FLAG2"));
+				this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG3", this.ds_InitList.getColumn(0, "P_PV_FLAG3"));
+				this.ds_AffirmationInfo.setColumn(0, "P_TT_FLAG", this.ds_InitList.getColumn(0, "P_TT_FLAG"));
+				this.ds_AffirmationInfo.setColumn(0, "P_CT_FLAG", this.ds_InitList.getColumn(0, "P_CT_FLAG"));
+				this.ds_AffirmationInfo.setColumn(0, "P_RF_FLAG", this.ds_InitList.getColumn(0, "P_RF_FLAG"));
+				this.ds_AffirmationInfo.setColumn(0, "P_SN_FLAG", this.ds_InitList.getColumn(0, "P_SN_FLAG"));
+				this.ds_AffirmationInfo.setColumn(0, "RECIPIENT", this.ds_InitList.getColumn(0, "RECIPIENT"));
+				this.ds_AffirmationInfo.set_enableevent(true);
+			}
+			
+			if (this.FV_SAVE_CURROW > 0) {
+				// 저장 처리시 이전 Row로 rowposition 위치 이동(rowposition:0 무시)
+				
+				var nRow = this.FV_SAVE_CURROW;
+				this.FV_SAVE_CURROW = 0;
+				this.ds_HistoryList.set_enableevent(false);
+				this.ds_HistoryList.set_rowposition(nRow);
+				this.ds_HistoryList.set_enableevent(true);
+				this.fn_SubQueryData (nRow);
+			} else {
+				this.fn_setDisplay();
+			}
+			break;
+		case "MainSelect" :
+			this.fn_setDisplay();
+			
+			// History row 변경시 미리보기 처리
+			this.fn_ViewReport();		
+			break;
+		case "Save" :
+			this.fn_QueryData();
+			break;
+		case "Copy" :
+			this.fn_QueryData();
+			break;
+	}
+ };
+ 
+ 
+ 
+ this.fn_SetPvFlag = function ()
+ {
+	// 0 (미사용), 1 (버전), 2 (수량), 3 (버전/수량), 4 (버전+수량)
+	var spvKind = "0";
+	var spvFlag1 = this.ds_AffirmationInfo.getColumn(0, "P_PV_FLAG1");	// 버전/수량
+	var spvFlag2 = this.ds_AffirmationInfo.getColumn(0, "P_PV_FLAG2");	// 버전만
+	var spvFlag3 = this.ds_AffirmationInfo.getColumn(0, "P_PV_FLAG3");	// 수량만
+	
+	if (spvFlag1 == "1") {
+		spvKind = "3";
+	} else if (spvFlag2 == "1" && spvFlag3 == "1") {
+		spvKind = "4";
+	} else if (spvFlag2 == "1" && spvFlag3 == "0") {
+		spvKind = "1";
+	} else if (spvFlag2 == "0" && spvFlag3 == "1") {
+		spvKind = "2";
+	}
+	
+	this.ds_AffirmationInfo.set_enableevent(false);
+	this.ds_AffirmationInfo.setColumn(0, "P_PV_KIND", spvKind);
+	this.ds_AffirmationInfo.set_enableevent(true);
+ }
+ 
+ 
+ this.fn_getPvFlag = function ()
+ {
+	// 0 (미사용), 1 (버전), 2 (수량), 3 (버전/수량), 4 (버전+수량)
+	var spvKind = this.ds_AffirmationInfo.getColumn(0, "P_PV_KIND");
+	
+	this.ds_AffirmationInfo.set_enableevent(false);
+	this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG1", "0");
+	this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG2", "0");
+	this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG3", "0");
+	if (spvKind == "1") {
+		this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG2", "1");
+	} else if (spvKind == "2") {
+		this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG3", "1");
+	} else if (spvKind == "3") {
+		this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG1", "1");
+	} else if (spvKind == "4") {
+		this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG2", "1");
+		this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG3", "1");
+	}
+	this.ds_AffirmationInfo.set_enableevent(true);
+ }
+ 
+ 
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ this.fn_setDisplay = function()
+ {
+	// 상태가 미확정인 경우 확정 버튼 활성화 처리
+	if (this.ds_AffirmationInfo.getColumn(0, "AFFIRMATION_STATUS") == "0") {
+		this.btn_confirm.set_enable(true);
+		this.fn_setAuthReadOnly(false);
+		
+		var sSubjectType = this.ds_AffirmationInfo.getColumn(0, "SUBJECT_TYPE");
+		if (sSubjectType == "0") {
+			this.div_Main.form.edt_SubjectName.set_enable(true);
+		}
+		
+		var sTechType = this.ds_AffirmationInfo.getColumn(0, "TECH_TYPE");
+		if (sTechType == "0") {
+			this.div_Main.form.edt_TechName.set_enable(true);
+		}
+		
+	} else {
+		this.btn_confirm.set_enable(false);
+		this.fn_setAuthReadOnly(true);
+	}
+ }
+ this.fn_setAuthReadOnly = function (bStatus)
+ {
+	var arrCompInfo = new Array(); // 예외처리 대상 변수
+	arrCompInfo[0] = this.div_Main.form.ck_PsdFlag;
+	arrCompInfo[1] = this.div_Main.form.ck_PttFlag;
+	arrCompInfo[2] = this.div_Main.form.ck_PctFlag;
+	arrCompInfo[3] = this.div_Main.form.ck_PrfFlag;
+	arrCompInfo[4] = this.div_Main.form.cb_PsnFlag;
+	
+	arrCompInfo[5] = this.div_Main.form.ck_PpvFlag1;
+	arrCompInfo[6] = this.div_Main.form.ck_PpvFlag2;
+	arrCompInfo[7] = this.div_Main.form.ck_PpvFlag3;
+	
+	this.gfnCompDisable(this.div_Main.form, bStatus, arrCompInfo);
+}
+ this.fn_ViewReport = function ()
+{
+	// 제목 처리
+	var sSubjectType = this.ds_AffirmationInfo.getColumn(0, "SUBJECT_TYPE");
+	var sSubjectNm = this.ds_AffirmationInfo.getColumn(0, "SUBJECT");
+	var sSubjectNm2 = sSubjectNm;
+	if (sSubjectType != "0") {
+		sSubjectNm = this.ds_cmm_SubjectType.lookup("CODE", sSubjectType, "CAPTION");
+		sSubjectNm2 = this.ds_cmm_SubjectType.lookup("CODE", sSubjectType, "VAL1");
+	} 
+	
+	// 기술지원 및 유지보수 기간 처리	
+	var sTechType = this.ds_AffirmationInfo.getColumn(0, "TECH_TYPE");
+	var sTechNm = this.ds_AffirmationInfo.getColumn(0, "TECH_NAME");
+	
+	if (sTechType != "0") {
+		sTechNm = this.ds_cmm_TechType.lookup("CODE", sTechType, "CAPTION");
+	}
+	
+	this.ds_Print.set_enableevent(false);
+	this.ds_Print.clearData();
+	this.ds_Print.addRow();
+	
+	this.ds_Print.setColumn(0, "SUBJECT",			sSubjectNm);
+	this.ds_Print.setColumn(0, "SUGGEST_DESC", 		this.ds_AffirmationInfo.getColumn(0, "SUGGEST_DESC"));
+	this.ds_Print.setColumn(0, "CLIENT_KIND", 		this.ds_AffirmationInfo.getColumn(0, "CLIENT_KIND"));
+	this.ds_Print.setColumn(0, "CLIENT_NAME", 		this.ds_AffirmationInfo.getColumn(0, "CLIENT_NAME"));
+	this.ds_Print.setColumn(0, "PROJECT_NAME", 		this.ds_AffirmationInfo.getColumn(0, "PROJECT_NAME"));
+	this.ds_Print.setColumn(0, "PRODUCT_NAME", 		this.ds_AffirmationInfo.getColumn(0, "PRODUCT_NAME"));
+	this.ds_Print.setColumn(0, "PRODUCT_VERSION", 	this.ds_AffirmationInfo.getColumn(0, "PRODUCT_VERSION"));
+	this.ds_Print.setColumn(0, "QUANTITY", 			this.ds_AffirmationInfo.getColumn(0, "QUANTITY"));
+	
+	this.ds_Print.setColumn(0, "TECH_NAME", 		sTechNm);
+	this.ds_Print.setColumn(0, "CONTENTS", 			this.ds_AffirmationInfo.getColumn(0, "CONTENTS"));
+	this.ds_Print.setColumn(0, "REFERENCE", 		this.ds_AffirmationInfo.getColumn(0, "REFERENCE"));
+	this.ds_Print.setColumn(0, "PROMISE_DATE", 		this.ds_AffirmationInfo.getColumn(0, "PROMISE_DATE"));
+	this.ds_Print.setColumn(0, "OFFICIAL_SEAL_TYPE",this.ds_AffirmationInfo.getColumn(0, "OFFICIAL_SEAL_TYPE"));
+	this.ds_Print.setColumn(0, "SUPPLIER_NAME",		this.ds_AffirmationInfo.getColumn(0, "SUPPLIER_NAME"));
+	
+	this.ds_Print.setColumn(0, "P_SD_FLAG", 		this.ds_AffirmationInfo.getColumn(0, "P_SD_FLAG"));
+	this.ds_Print.setColumn(0, "P_PV_KIND", 		this.ds_AffirmationInfo.getColumn(0, "P_PV_KIND"));
+	this.ds_Print.setColumn(0, "P_TT_FLAG", 		this.ds_AffirmationInfo.getColumn(0, "P_TT_FLAG"));
+	this.ds_Print.setColumn(0, "P_CT_FLAG", 		this.ds_AffirmationInfo.getColumn(0, "P_CT_FLAG"));
+	this.ds_Print.setColumn(0, "P_RF_FLAG", 		this.ds_AffirmationInfo.getColumn(0, "P_RF_FLAG"));
+	this.ds_Print.setColumn(0, "P_SN_FLAG", 		this.ds_AffirmationInfo.getColumn(0, "P_SN_FLAG"));
+	this.ds_Print.setColumn(0, "RECIPIENT", 		this.ds_AffirmationInfo.getColumn(0, "RECIPIENT"));
+	
+	this.ds_Print.setColumn(0, "COMPANY_NAME", 		this.ds_OfficeAddr.getColumn(0, "COMPANY_NAME"));
+	this.ds_Print.setColumn(0, "COMPANY_REG_NO", 	this.ds_OfficeAddr.getColumn(0, "COMPANY_REG_NO"));
+	
+	var strCEO = this.gfnIif(this.div_Main.form.cb_CEO0.value, this.div_Main.form.cb_CEO0.text, "")+" "
+				+this.gfnIif(this.div_Main.form.cb_CEO1.value, this.div_Main.form.cb_CEO1.text, "")+" "
+				+this.gfnIif(this.div_Main.form.cb_CEO2.value, this.div_Main.form.cb_CEO2.text, "");
+				
+	this.ds_Print.setColumn(0, "CEO_NAME", 			strCEO.trim());
+	this.ds_Print.setColumn(0, "PHONE_NO", 			this.ds_OfficeAddr.getColumn(0, "PHONE_NO"));
+	this.ds_Print.setColumn(0, "FAX_NO", 			this.ds_OfficeAddr.getColumn(0, "FAX_NO"));
+	this.ds_Print.setColumn(0, "POST_NO", 			this.ds_OfficeAddr.getColumn(0, "POST_NO"));
+	this.ds_Print.setColumn(0, "ADDR", 				this.ds_OfficeAddr.getColumn(0, "ADDR"));
+	this.ds_Print.setColumn(0, "HOMEPAGE", 			this.ds_OfficeAddr.getColumn(0, "HOMEPAGE"));
+	
+	var sComment1 = this.ds_AffirmationInfo.getColumn(0, "CLIENT_NAME") + " " + this.ds_AffirmationInfo.getColumn(0, "PROJECT_NAME");
+	
+
+	if (this.ds_AffirmationInfo.getColumn(0, "P_SD_FLAG"))
+	var sTitleComment = ' ' + sComment1 + ' ' + this.gfnGetTransTxt(22720,'사업에 대해') + ' ' + sSubjectNm2 + ' ' + this.gfnGetTransTxt(22721,'할 것을 확약 합니다.');
+	this.ds_Print.setColumn(0, "TITLE_COMMENT", 	sTitleComment);
+	this.ds_Print.set_enableevent(false);
+	
+	
+	
+	// Dataset 상태 초기화(Report에서 변경된 Dataset 내용 중복 발생 제거)
+	this.ds_Print.applyChange();
+		
+	// Dataset 설정
+	this.gfn_SetAddInputDs("ds_Print", this.ds_Print);
+		
+	// Report Viewer
+	this.gfnOpenReportViewer (this.UbiViewer, "PRINT_AFFIRMATION.jrf");
+}
+
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+ 
+// Title 구분값 변경시 (직접입력 선택시 활성화 처리)
+this.div_Main_cb_SubjectType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	if (e.postvalue == "0") {
+		this.div_Main.form.edt_SubjectName.set_enable(true);
+		this.div_Main.form.edt_SubjectName.setFocus();
+	} else {
+		this.div_Main.form.edt_SubjectName.set_enable(false);
+		this.div_Main.form.edt_SubjectName.setFocus();
+		this.ds_AffirmationInfo.set_enableevent(false);
+		this.ds_AffirmationInfo.setColumn(0, "SUBJECT", "");
+		this.ds_AffirmationInfo.set_enableevent(true);
+	}
+};
+
+// 기술지원 및 유지보수 구분값 변경시 (직접입력 선택시 활성화 처리)
+this.div_Main_cb_TechType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	if (e.postvalue == "0") {
+		this.div_Main.form.edt_TechName.set_enable(true);
+		this.div_Main.form.edt_TechName.setFocus();
+	} else {
+		this.div_Main.form.edt_TechName.set_enable(false);
+		this.ds_AffirmationInfo.set_enableevent(false);
+		this.ds_AffirmationInfo.setColumn(0, "TECH_NAME", "");
+		this.ds_AffirmationInfo.set_enableevent(true);
+	}	
+};
+
+// 출력
+this.btn_Print_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_AffirmationInfo.getColumn(0, "AFFIRMATION_STATUS") == "0") {
+		
+		this.fn_SaveData();
+	} else {
+		this.fn_ViewReport();
+	}
+	
+};
+
+// 확정
+this.btn_confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.confirm(this.gfnGetTransTxt(1728,"확정 이후 더이상 수정 할수 없습니다. 확정 하시겠습니까?"))) {
+		this.ds_AffirmationInfo.set_enableevent(false);
+		this.ds_AffirmationInfo.setColumn(0, "AFFIRMATION_STATUS", "1");
+		this.ds_AffirmationInfo.set_enableevent(true);
+		
+		this.fn_SaveData();
+	}
+};
+
+// 복사추가
+this.btn_CopyXProw_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nFindRow = this.ds_HistoryList.findRow("CHK", "1");
+	if (nFindRow < 0) {
+		this.alert(this.gfnGetTransTxt(1456,"선택되지 않았습니다."));
+		return;
+	}
+
+	if (this.confirm(this.gfnGetTransTxt(1729,"복사추가 하시겠습니까?"))) {
+		this.FV_SAVE_CURROW = this.ds_HistoryList.rowcount;
+		
+		// 조건값 셋팅
+		this.gfnAddSendParameter("A_SEQ",	this.ds_HistoryList.getColumn(nFindRow, "A_SEQ"));
+		this.gfnCommonTransaction("Copy", "SS_AffirmationReport_R02");
+	}
+};
+
+// 닫기
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+};
+
+
+this.ds_HistoryList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if (e.columnid == "CHK")
+	{
+		if (e.newvalue == "1")
+		{
+			obj.set_enableevent(false);
+			for (var i=0; i<obj.rowcount; i++)
+			{
+				if (e.row != i) {
+					obj.setColumn(i, "CHK", "0");
+				}
+			}
+			obj.set_enableevent(true);
+		}
+	}
+};
+
+this.ds_HistoryList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fn_SubQueryData(e.newrow);
+};
+
+this.div_Main_ck_PpvFlag_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	// 0 (미사용), 1 (버전), 2 (수량), 3 (버전/수량), 4 (버전+수량)
+	var spvKind = "0";	
+	
+	this.ds_AffirmationInfo.set_enableevent(false);
+	var spvFlag1 = this.ds_AffirmationInfo.getColumn(0, "P_PV_FLAG1");
+	var spvFlag2 = this.ds_AffirmationInfo.getColumn(0, "P_PV_FLAG2");
+	var spvFlag3 = this.ds_AffirmationInfo.getColumn(0, "P_PV_FLAG3");
+	
+	if (obj.name == "ck_PpvFlag1") {
+		if (e.postvalue == "1") {
+			this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG2", "0");
+			this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG3", "0");
+		}
+	} else if (obj.name == "ck_PpvFlag2") {
+		if (e.postvalue == "1") {
+			this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG1", "0");
+		}
+	}  else if (obj.name == "ck_PpvFlag3") {
+		if (e.postvalue == "1") {
+			this.ds_AffirmationInfo.setColumn(0, "P_PV_FLAG1", "0");
+		}
+	}
+	//this.ds_AffirmationInfo.setColumn(0, "P_PV_KIND", spvKind);
+	this.ds_AffirmationInfo.set_enableevent(true);
+	
+	
+	 this.fn_SetPvFlag();
+	
+};
+
+this.div_Main_ck_PsdFlag_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	if (e.postvalue == "1") {
+		this.div_Main.form.ta_SuggestDesc.set_enable(true);
+		if (this.gfnIsEmpty()) {		
+			
+			// 제목 처리
+			var sTitleComment1 = this.ds_AffirmationInfo.getColumn(0, "CLIENT_NAME") + " " + this.ds_AffirmationInfo.getColumn(0, "PROJECT_NAME");
+			
+			var sSubjectType = this.ds_AffirmationInfo.getColumn(0, "SUBJECT_TYPE");
+			var sSubjectNm = this.ds_AffirmationInfo.getColumn(0, "SUBJECT");
+			var sTitleComment2 = sSubjectNm;
+			if (sSubjectType != "0") {
+				sSubjectNm = this.ds_cmm_SubjectType.lookup("CODE", sSubjectType, "CAPTION");
+				sTitleComment2 = this.ds_cmm_SubjectType.lookup("CODE", sSubjectType, "VAL1");
+			}
+			
+			var sTitleComment = " " + sTitleComment1 + " " + this.gfnGetTransTxt(22720,"사업에 대해") + " " + sTitleComment2 + " " + this.gfnGetTransTxt(22721,"할 것을 확약 합니다.");
+			this.ds_AffirmationInfo.setColumn(0, "SUGGEST_DESC", sTitleComment);
+		}
+	} else {
+		this.div_Main.form.ta_SuggestDesc.set_enable(false);
+	}
+	
+};
+
+this.ds_OfficeAddr_onload = function(obj:nexacro.NormalDataset,e:nexacro.DSLoadEventInfo)
+{
+	if(e.reason == 0)
+	{
+		var strCEO = this.ds_OfficeAddr.getColumn(0, "CEO_NAME");
+		var arrCEO = strCEO.split(",");
+		this.div_Main.form.cb_CEO0.set_text(arrCEO[0]);
+		this.div_Main.form.cb_CEO1.set_text(arrCEO[1]);
+		this.div_Main.form.cb_CEO2.set_text(arrCEO[2]);
+		
+		var bVisible1 = this.gfnIsEmpty(this.div_Main.form.cb_CEO1.text)?false:true;
+		var bVisible2 = this.gfnIsEmpty(this.div_Main.form.cb_CEO2.text)?false:true;
+		this.div_Main.form.cb_CEO1.set_visible(bVisible1);
+		this.div_Main.form.cb_CEO2.set_visible(bVisible2);
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

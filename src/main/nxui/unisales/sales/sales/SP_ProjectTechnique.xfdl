@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_ProjectTechnique" width="1345" height="472" titletext="기술지원" onload="SP_ProjectTechnique_onload">
+    <Layouts>
+      <Layout height="472" mobileorientation="landscape" width="1345">
+        <Static id="Static05" taborder="10" left="0" height="31" cssclass="sta_POP_GroupBg" width="880" bottom="86"/>
+        <Static id="Static03" taborder="6" left="884" top="233" height="31" cssclass="sta_POP_GroupBg" right="0"/>
+        <Static id="Static01" taborder="4" left="884" top="4" height="31" cssclass="sta_POP_GroupBg" right="0"/>
+        <Grid id="grd_List" taborder="0" left="0" top="50" width="880" bottom="116" binddataset="ds_List" oncelldblclick="grd_List_oncelldblclick" formatid="default" autofittype="col" cellsizingtype="col" oncellclick="grd_List_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="60"/>
+                <Column size="300"/>
+                <Column size="125"/>
+                <Column size="98"/>
+                <Column size="98"/>
+                <Column size="75"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="NO"/>
+                <Cell col="1" text="승인상태" TL_SEQ="790"/>
+                <Cell col="2" text="매출계약명" TL_SEQ="162"/>
+                <Cell col="3" text="기술지원구분" TL_SEQ="791"/>
+                <Cell col="4" text="작업시작일자" TL_SEQ="792"/>
+                <Cell col="5" text="작업완료일자" TL_SEQ="793"/>
+                <Cell col="6" text="총작업시간" TL_SEQ="794"/>
+                <Cell col="7" text="기술담당자" TL_SEQ="795"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow+1"/>
+                <Cell col="1" displaytype="combotext" combodataset="ds_comm_ConfirmCd" combocodecol="CODE" combodatacol="CAPTION" text="bind:CONFIRM_CD"/>
+                <Cell col="2" textAlign="left" text="bind:CONTRACT_NAME"/>
+                <Cell col="3" displaytype="combotext" combodataset="ds_cmm_TechType" combocodecol="CODE" combodatacol="CAPTION" text="bind:TECH_TYPE"/>
+                <Cell col="4" displaytype="expr:WORK_START_DATE.length&gt;0?'date':'normal'" calendardateformat="yyyy-MM-dd" text="bind:WORK_START_DATE"/>
+                <Cell col="5" displaytype="expr:WORK_END_DATE.length&gt;0?'date':'normal'" calendardateformat="yyyy-MM-dd" text="bind:WORK_END_DATE"/>
+                <Cell col="6" textAlign="right" displaytype="number" text="bind:WORK_TOTAL_TIME"/>
+                <Cell col="7" text="bind:WORK_EMP_NAM"/>
+              </Band>
+              <Band id="summary">
+                <Cell/>
+                <Cell col="1"/>
+                <Cell col="2"/>
+                <Cell col="3"/>
+                <Cell col="4"/>
+                <Cell col="5"/>
+                <Cell col="6" text="expr:dataset.getSum(&quot;WORK_TOTAL_TIME&quot;)"/>
+                <Cell col="7"/>
+              </Band>
+            </Format>
+            <Format id="regular_visit">
+              <Columns>
+                <Column size="40"/>
+                <Column size="60"/>
+                <Column size="300"/>
+                <Column size="125"/>
+                <Column size="98"/>
+                <Column size="98"/>
+                <Column size="75"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="NO"/>
+                <Cell col="1" text="승인상태" TL_SEQ="790"/>
+                <Cell col="2" text="매출계약명" TL_SEQ="162"/>
+                <Cell col="3" text="기술지원구분" TL_SEQ="791"/>
+                <Cell col="4" text="작업시작일자" TL_SEQ="792"/>
+                <Cell col="5" text="작업완료일자" TL_SEQ="793"/>
+                <Cell col="6" text="총작업시간" TL_SEQ="794"/>
+                <Cell col="7" text="기술담당자" TL_SEQ="795"/>
+                <Cell col="8" text="방문여부" TL_SEQ="22580"/>
+                <Cell col="9" text="방문내역" TL_SEQ="22841"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow+1"/>
+                <Cell col="1" displaytype="combotext" combodataset="ds_comm_ConfirmCd" combocodecol="CODE" combodatacol="CAPTION" text="bind:CONFIRM_CD"/>
+                <Cell col="2" textAlign="left" text="bind:CONTRACT_NAME"/>
+                <Cell col="3" displaytype="combotext" combodataset="ds_cmm_TechType" combocodecol="CODE" combodatacol="CAPTION" text="bind:TECH_TYPE"/>
+                <Cell col="4" displaytype="expr:WORK_START_DATE.length&gt;0?'date':'normal'" calendardateformat="yyyy-MM-dd" text="bind:WORK_START_DATE"/>
+                <Cell col="5" displaytype="expr:WORK_END_DATE.length&gt;0?'date':'normal'" calendardateformat="yyyy-MM-dd" text="bind:WORK_END_DATE"/>
+                <Cell col="6" textAlign="right" displaytype="number" text="bind:WORK_TOTAL_TIME"/>
+                <Cell col="7" text="bind:WORK_EMP_NAM"/>
+                <Cell col="8" text="bind:RVL_YN"/>
+                <Cell col="9" displaytype="buttoncontrol" edittype="button" text="내역확인" TL_SEQ="22842"/>
+              </Band>
+              <Band id="summary">
+                <Cell/>
+                <Cell col="1"/>
+                <Cell col="2"/>
+                <Cell col="3"/>
+                <Cell col="4"/>
+                <Cell col="5"/>
+                <Cell col="6" text="expr:dataset.getSum(&quot;WORK_TOTAL_TIME&quot;)"/>
+                <Cell col="7"/>
+                <Cell col="8"/>
+                <Cell col="9"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static09" taborder="1" text="4" left="0" top="0" width="1344" height="4" background="olive" opacity="0.5" textAlign="center" visible="false"/>
+        <Static id="Static10" taborder="2" text="5" left="879" top="0" width="5" height="472" background="crimson" opacity="0.5" textAlign="center" visible="false"/>
+        <Static id="Static02" taborder="3" text="작업 요청 내용" left="894" top="13" width="144" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="796"/>
+        <Static id="Static00" taborder="5" text="작업 완료 내용" left="894" top="242" width="144" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="797"/>
+        <TextArea id="ta_RequestContents" taborder="7" left="884" top="34" height="200" right="0" readonly="true"/>
+        <TextArea id="ta_WorkContents" taborder="8" left="884" top="263" bottom="0" right="0" readonly="true"/>
+        <Static id="Static04" taborder="9" text="첨부파일" left="10" width="168" height="15" cssclass="sta_POP_GroupTit" bottom="93" TL_SEQ="798"/>
+        <Grid id="grd_File" taborder="11" left="0" width="880" height="88" bottom="0" binddataset="ds_File" oncelldblclick="grd_File_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="60"/>
+                <Column size="818"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="NO"/>
+                <Cell col="1" text="첨부파일" TL_SEQ="798"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow+1"/>
+                <Cell col="1" textAlign="left" text="bind:FILE_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div_Search" taborder="12" left="0" top="4" width="880" height="40" cssclass="div_WF_SchList">
+          <Layouts>
+            <Layout>
+              <Static id="stc_TechType" taborder="0" text="기술지원구분" left="8" top="9" width="78" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="791"/>
+              <Combo id="cmb_TechType" taborder="1" left="94" top="9" width="213" height="22" innerdataset="ds_cmm_TechType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Search_cmb_TechType_onitemchanged"/>
+              <CheckBox id="chk_RegularVisit" taborder="2" text="정기방문" left="cmb_TechType:8" top="9" width="70" height="22" falsevalue="0" truevalue="1" onchanged="div_Search_chk_RegularVisit_onchanged" TL_SEQ="41"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 프로젝트관리
+ * 02. 화면명   : 기술지원 탭페이지(SP_ProjectTechnique)
+ * 03. 화면설명 : 기술지원 탭페이지
+ * 04. 작성일   : 2019.02.11
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs";
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+
+ /************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+ this.FV_PARENT_FORM = this.parent.parent.parent;
+ 
+ 
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.SP_ProjectTechnique_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();	
+};
+
+
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+ // 공통코드 조회
+ this.fnGetCode = function()
+ {
+	this.gfnAddCodeDataset("ds_comm_ConfirmCd",	"CONFIRM_CD");	// 승인상태
+	this.gfnAddCodeDataset("ds_cmm_TechType",	"TECH_TYPE", true);	// 기술지원구분
+	this.gfnCodeTransaction();
+ };
+ 
+ // 조회
+ this.fn_QueryData = function()
+ {
+	if (!this.fn_getValidation())	return;
+	
+	var sRegularVisit = this.div_Search.form.chk_RegularVisit.value;
+	
+	// 조건값 셋팅
+	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
+	
+	// 안수경 선임 요청 정기점검 체크를 할 시 기술지원 콤보박스 데이터와 무시하고 "정기점검" 검색
+	if(sRegularVisit == "1") this.gfnAddSendParameter("TECH_TYPE",		"007");
+	else this.gfnAddSendParameter("TECH_TYPE",		this.div_Search.form.cmb_TechType.value);
+	
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset("ds_List", "ds_output");
+	this.gfnCommonTransaction("SP_ProjectTechnique_S01", "SP_ProjectTechnique_S01", this.grd_List);
+ };
+ 
+ 
+  // 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	switch (strSvcID) 
+	{
+		case "gfnGetCode" :
+			var nAddRow = this.ds_cmm_TechType.addRow();
+			this.ds_cmm_TechType.setColumn(nAddRow, "CODE", "E");
+			this.ds_cmm_TechType.setColumn(nAddRow, "CAPTION", "교육");
+			
+			this.fnResetSearch();
+			this.fn_QueryData();
+			break;
+		case "SP_ProjectTechnique_S01" :
+			this.fnChageGrid();
+			break;
+	}
+ };
+ 
+ 
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+ // Validation check
+ this.fn_getValidation = function()
+ {
+	var bRtnVal = true;
+	
+	var sProjectCd = this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value;
+	if (this.gfnIsEmpty(sProjectCd)) {
+		bRtnVal = false;
+	}
+	
+	return bRtnVal;
+ }
+ 
+ 
+  // 초기화 처리
+ this.fn_setInit = function (sGb)
+ {
+	this.ds_List.clearData();
+ }
+ 
+ // 첨부파일 조회
+this.fn_FileSearch = function (nRow)
+{	
+	var args = {};
+	args.DS_OUT_NAME	= "ds_File";
+	args.ARR_GRD		= null;//[this.grd_File]
+	args.SOURCE_CD		= "RTS";
+	args.SOURCE_SEQ		= this.ds_List.getColumn(nRow, "RTS_SEQ");
+	
+	if( this.gfnIsEmpty(args["SOURCE_CD"]) || this.gfnIsEmpty(args["SOURCE_SEQ"]) )
+	{
+		this.ds_File.clearData();
+	} else {
+		this.gfnGetFiles("FileSearch",args);
+	}	
+}
+
+// 파일다운
+this.fn_FileDownload = function(nRow)
+{
+	var nSeq = this.ds_File.getColumn(nRow, "FM_SEQ");
+	this.gfnFileDownload(nSeq);
+};
+
+// Grid 셋팅
+this.fnChageGrid = function()
+{
+	var sTechType = this.div_Search.form.cmb_TechType.value;
+	var sRegularVisitFlag = this.div_Search.form.chk_RegularVisit.value;
+	
+	if(sTechType == "007" || sRegularVisitFlag ==  "1") { // 정기방문
+		this.grd_List.set_formatid("regular_visit");
+	} else {
+		this.grd_List.set_formatid("default");
+	}
+};
+
+this.fnResetSearch = function()
+{
+	this.div_Search.form.cmb_TechType.set_index(0);
+	this.div_Search.form.chk_RegularVisit.set_value("0");
+	
+	this.fnChageGrid();
+};
+  /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+this.grd_List_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var nRtsSeq 	= this.ds_List.getColumn(e.row, "RTS_SEQ");
+	var sWorkType	= this.ds_List.getColumn(e.row, "TECH_TYPE");
+	
+	if(nRtsSeq != null)
+	{
+		switch(sWorkType)
+		{
+			case "E" :
+				this.commUtil.popup(this, "TR_RequestOnsiteEduReg", "Technique::TR_RequestOnsiteEduReg.xfdl", -1, -1, 986, 744, true, true, false, {pvFormType:"TA",pvRtsSeq:nRtsSeq}, "fnPopupCallBack");
+				break;
+			default :
+				this.commUtil.popup(this, "TR_RequestTechniqueReg", "Technique::TR_RequestTechniqueReg.xfdl", -1, -1, 1000, 562, true, true, false, {pvFormType:"TA",pvRtsSeq:nRtsSeq}, "fnPopupCallBack");
+				break;		
+		}
+	}
+};
+
+this.ds_List_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fn_FileSearch (e.newrow);
+};
+
+this.grd_File_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if (e.col == 1) {
+		this.fn_FileDownload(e.row);
+	}
+};
+
+this.div_Search_cmb_TechType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_QueryData();
+};
+
+this.grd_List_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 방문내역 조회권한 ( 영업지원 )
+	if(this.commUtil.getFormAuthority(242,22)) {
+		if(obj.formatid == "regular_visit" && e.cell == 9) {
+			var curRow = this.ds_List.rowposition;
+			var sRtsSeq = this.ds_List.getColumn(curRow, "RTS_SEQ");
+			var args = {pvRTS_SEQ:sRtsSeq, pvMode:"view"}
+			this.commUtil.popup(this, "SM_RegularVisitListPop", "Sales::SM_RegularVisitListPop.xfdl", -1, -1, 1000, 580, true, true, false, args, "fnPopupCallBack");
+		}
+	}
+};
+
+this.div_Search_chk_RegularVisit_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	this.fn_QueryData();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_comm_ConfirmCd">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_TechType">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_List" onrowposchanged="ds_List_onrowposchanged">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="RTS_SEQ" type="bigdecimal" size="20"/>
+          <Column id="TECH_TYPE" type="string" size="20"/>
+          <Column id="WORK_START_DATE" type="string" size="8"/>
+          <Column id="WORK_END_DATE" type="string" size="8"/>
+          <Column id="WORK_TOTAL_TIME" type="float" size="22"/>
+          <Column id="WORK_EMP_NO" type="string" size="60"/>
+          <Column id="WORK_EMP_NAM" type="string" size="255"/>
+          <Column id="REQUEST_CONTENTS" type="string" size="1073741823"/>
+          <Column id="WORK_CONTENTS" type="string" size="1073741823"/>
+          <Column id="CONFIRM_CD" type="string" size="20"/>
+          <Column id="RVL_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_File">
+        <ColumnInfo>
+          <Column id="CHK" type="string" size="255"/>
+          <Column id="SOURCE_CD" type="string" size="255"/>
+          <Column id="SOURCE_SEQ" type="string" size="255"/>
+          <Column id="STATUS_CD" type="string" size="255"/>
+          <Column id="FM_SEQ" type="string" size="255"/>
+          <Column id="FILE_TYPE" type="string" size="255"/>
+          <Column id="FILE_NAME" type="string" size="255"/>
+          <Column id="SAVE_FILE_NAME" type="string" size="255"/>
+          <Column id="SAVE_PATH" type="string" size="255"/>
+          <Column id="DEL_FLAG" type="string" size="255"/>
+          <Column id="STATUS" type="string" size="255"/>
+          <Column id="INSERT_EMP_NAME" type="string" size="255"/>
+          <Column id="INSERT_DATE" type="string" size="255"/>
+          <Column id="SHARE_FLAG" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="ta_RequestContents" propid="value" datasetid="ds_List" columnid="REQUEST_CONTENTS"/>
+      <BindItem id="item1" compid="ta_WorkContents" propid="value" datasetid="ds_List" columnid="WORK_CONTENTS"/>
+    </Bind>
+  </Form>
+</FDL>

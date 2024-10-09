@@ -14,37 +14,36 @@
               <Div id="div_header" taborder="0" text="Div01" left="0" top="0" height="122" right="0" cssclass="div_WF_detailBg" formscrolltype="none" formscrollbartype="none none">
                 <Layouts>
                   <Layout>
-                    <Static id="stc_ContractDate02" taborder="25" text="계약기간" left="4.00" top="92" width="81" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="120"/>
-                    <Edit id="edt_ContractPeriod" taborder="30" left="stc_ContractDate02:11.00" top="92" width="231" height="22" visible="false"/>
+                    <Static id="stc_ContractMain00" taborder="19" text="계약금&#13;&#10;(VAT별도)" left="327" top="30" width="80" height="34" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="220"/>
+                    <Static id="stc_ContractDate02" taborder="24" text="계약기간" left="4.00" top="92" width="81" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="120"/>
+                    <Edit id="edt_ContractPeriod" taborder="29" left="stc_ContractDate02:11.00" top="92" width="231" height="22" visible="false"/>
                     <Static id="stc_ClientCode" taborder="11" text="고 객 사" left="4.00" top="5" width="81" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="214"/>
                     <Static id="stc_ContractMain" taborder="12" text="계 약 처" left="4.00" top="34" width="81" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="215"/>
                     <Edit id="edt_ClientName" taborder="0" left="stc_ClientCode:11.00" top="5" width="231" height="24"/>
-                    <Static id="stc_ContractName" taborder="13" text="계  약  명" left="edt_ClientName:0.00" top="5" width="115" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="216"/>
-                    <Edit id="edt_ContractName" taborder="1" left="stc_ContractName:7.00" top="5" width="451" height="24"/>
-                    <MaskEdit id="medt_VAT" taborder="4" left="449.00" top="33" width="95" height="24" textAlign="right" format="#,#0"/>
+                    <Static id="stc_ContractName" taborder="13" text="계 약 명" left="edt_ClientName:0.00" top="5" width="80" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="216"/>
+                    <Edit id="edt_ContractName" taborder="1" left="stc_ContractName:7.00" top="5" width="458" height="24"/>
+                    <MaskEdit id="medt_VAT" taborder="4" left="stc_ContractMain00:7" top="33" width="102" height="24" textAlign="right" format="#,#0"/>
                     <Static id="stc_ContractDate" taborder="15" text="계약일자" left="medt_VAT:10" top="33" width="57" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="156"/>
                     <Calendar id="cal_ContractDate" taborder="5" left="stc_ContractDate:10.00" top="33" width="90" height="24" dateformat="yyyy-MM-dd"/>
                     <Static id="stc_SalesEmpNo" taborder="14" text="고객사담당자" left="cal_ContractDate:10" top="33" width="81" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="217"/>
-                    <Edit id="edt_ContractMainList" taborder="3" left="stc_ContractMain:11.00" top="34" width="231" height="24"/>
-                    <Edit id="edtCompState" taborder="24" left="edt_ContractMainList:3.00" top="34" width="108" height="24" readonly="true" textAlign="center"/>
-                    <Static id="stc_ContractMain00" taborder="19" text="계약금(VAT별도)" left="edtCompState:-111.00" top="33" width="115" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="220"/>
+                    <Edit id="edt_ContractMainList" taborder="3" left="stc_ContractMain:11.00" top="edt_ClientName:5" width="158" height="24"/>
+                    <Edit id="edtCompState" taborder="23" left="edt_ContractMainList:3.00" top="34" width="70" height="24" readonly="true" textAlign="center"/>
                     <Edit id="edt_SalesEmpNo" taborder="8" left="stc_SalesEmpNo:8.00" top="33" width="90" height="24"/>
                     <Static id="stc_Tel" taborder="16" text="연락처" left="edt_SalesEmpNo:20.00" top="33" width="65" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="218"/>
-                    <Edit id="edt_Tel" taborder="9" left="stc_Tel:7.00" top="33" width="122" height="24"/>
-                    <Static id="stc_ContractMain01" taborder="20" text="수금예정일" left="4.00" top="67" width="81" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="221"/>
-                    <Edit id="edt_BillDateList" taborder="7" left="stc_ContractMain01:11.00" top="edt_ClientName:34" width="231" height="22"/>
-                    <Static id="stc_ContractDate00" taborder="17" text="결제조건" left="edt_BillDateList:0.00" top="63" width="115" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="219"/>
+                    <Edit id="edt_Tel" taborder="9" left="stc_Tel:9.00" top="33" width="122" height="24"/>
+                    <Static id="stc_ContractMain01" taborder="20" text="수금예정일" left="4.00" top="63" width="81" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="221"/>
+                    <Edit id="edt_BillDateList" taborder="7" left="stc_ContractMain01:11.00" top="edt_ContractMainList:5" width="231" height="22"/>
+                    <Static id="stc_ContractDate00" taborder="17" text="결제조건" left="edt_BillDateList:0.00" top="63" width="80" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="219"/>
                     <Combo id="cmb_PayTerm" taborder="6" text="Combo00" left="stc_ContractDate00:7.00" top="63" height="22" innerdataset="ds_cmm_PayTerm" codecolumn="CODE" datacolumn="CAPTION" width="102"/>
                     <Static id="stc_SalesEmpName" taborder="18" text="영업대표" left="edt_ContractName:20" top="5" width="65" height="24" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="55"/>
                     <Edit id="edt_SalesEmpName" taborder="2" left="stc_SalesEmpName:9.00" top="5" height="24" readonly="true" width="122"/>
-                    <Static id="stc_ContractDate01" taborder="21" text="비고" left="cmb_PayTerm:3.00" top="63" width="57" height="48" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="45"/>
+                    <Static id="stc_ContractDate01" taborder="21" text="비고" left="cmb_PayTerm:10.00" top="63" width="57" height="48" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="45"/>
                     <TextArea id="ta_Remark" taborder="10" left="stc_ContractDate01:10.00" top="63" height="52" width="363"/>
-                    <Static id="stc_ContractDate00_00" taborder="22" text="결재라인" left="ta_Remark:2640.00em" top="57" width="65" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="222"/>
-                    <Radio id="rd_ApprovalType" taborder="23" left="992" top="66" height="46" innerdataset="ds_ApprovalType" codecolumn="CODE" datacolumn="CAPTION" columncount="1" visible="false" width="104" TL_FLAG="1"/>
-                    <Calendar id="cal_ContractPeriodFr" taborder="26" left="stc_ContractDate02:11.00" top="92" width="100" height="22" dateformat="yyyy-MM-dd"/>
-                    <Calendar id="cal_ContractPeriodTo" taborder="27" left="227.00" top="92" width="100" height="22" dateformat="yyyy-MM-dd"/>
-                    <CheckBox id="ck_ContractPeriodFlag" taborder="28" text="직접입력" left="cal_ContractPeriodTo:7.00" top="93" width="80" height="20" truevalue="1" falsevalue="0" onchanged="div_main_div_header_ck_ContractPeriodFlag_onchanged" TL_SEQ="183"/>
-                    <Static id="stc_Range" taborder="29" text="~" left="203.00" top="92" width="14" height="22" cssclass="sta_WF_DetailTit" textAlign="right"/>
+                    <Radio id="rd_ApprovalType" taborder="22" top="66" height="46" innerdataset="ds_ApprovalType" codecolumn="CODE" datacolumn="CAPTION" columncount="1" visible="false" width="104" TL_FLAG="1" left="1016"/>
+                    <Calendar id="cal_ContractPeriodFr" taborder="25" left="stc_ContractDate02:11.00" top="92" width="100" height="22" dateformat="yyyy-MM-dd"/>
+                    <Calendar id="cal_ContractPeriodTo" taborder="26" left="227.00" top="92" width="100" height="22" dateformat="yyyy-MM-dd"/>
+                    <CheckBox id="ck_ContractPeriodFlag" taborder="27" text="직접입력" left="cal_ContractPeriodTo:7.00" top="93" width="80" height="20" truevalue="1" falsevalue="0" onchanged="div_main_div_header_ck_ContractPeriodFlag_onchanged" TL_SEQ="183"/>
+                    <Static id="stc_Range" taborder="28" text="~" left="203.00" top="92" width="14" height="22" cssclass="sta_WF_DetailTit" textAlign="right"/>
                   </Layout>
                 </Layouts>
               </Div>
@@ -613,13 +612,19 @@ this.GetCostsheetAddRowconfirm = function ()
 	
 
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_Project",		"ds_project");
-	this.gfnAddOutputDataset("ds_ContractProd",	"ds_contract_prod");
-	this.gfnAddOutputDataset("ds_ContractSi",	"ds_contract_si");
-	this.gfnAddOutputDataset("ds_PurchaseProd",	"ds_purchase_prod");
-	this.gfnAddOutputDataset("ds_PurchaseSi",	"ds_purchase_si");
+// 	this.gfnAddOutputDataset("ds_Project",		"ds_project");
+// 	this.gfnAddOutputDataset("ds_ContractProd",	"ds_contract_prod");
+// 	this.gfnAddOutputDataset("ds_ContractSi",	"ds_contract_si");
+// 	this.gfnAddOutputDataset("ds_PurchaseProd",	"ds_purchase_prod");
+// 	this.gfnAddOutputDataset("ds_PurchaseSi",	"ds_purchase_si");
+// 	
+// 	this.gfnCommonTransaction("SP_CostSheet_S01", "SP_CostSheet_S01");
 	
-	this.gfnCommonTransaction("SP_CostSheet_S01", "SP_CostSheet_S01");
+	var arrMap = ["dum","dum","dum","dum","dum"];
+	var arrDs = ["ds_Project","ds_ContractProd","ds_ContractSi","ds_PurchaseProd","ds_PurchaseSi"];
+	this.gfnSetMap("salesManagerMapper", arrMap, arrDs);
+	this.gfnCommonTransaction("SP_CostSheet_S01", "searchCostSheet.do");	
+	
  };
  
  
@@ -697,6 +702,10 @@ this.GetCostsheetAddRowconfirm = function ()
 			this.fn_CostSheetMQueryData();
 			break;
 		case "CostSheetMQueryData":
+			if(this.ds_Master.rowcount == 0) {
+// 				this.gfnAlert('msg.general','대상데이터가 없습니다.');
+// 				return;
+			}
 			//전자결재에서 재상신시 프로젝트 코드가 안넘어 와서 새로셋팅해줌
 			if(this.gfnIsEmpty(this.FV_PROJECT_CODE))
 				this.FV_PROJECT_CODE = 	this.ds_Master.getColumn(this.ds_Master.rowposition, "PROJECT_CODE");
@@ -2969,7 +2978,7 @@ this.fn_setAddBlankRow = function(CRD_SEQ)
           </Row>
           <Row>
             <Col id="CODE">2</Col>
-            <Col id="CAPTION">그룹장 전결</Col>
+            <Col id="CAPTION">팀장 전결</Col>
             <Col id="CAPTION_JAP">グループ長専決</Col>
           </Row>
         </Rows>

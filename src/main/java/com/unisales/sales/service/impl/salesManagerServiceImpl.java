@@ -828,4 +828,44 @@ public class salesManagerServiceImpl implements salesManagerService {
 	    		sqlSession.close();
 	    	}
 	    }    
+	    
+	    /**
+		 *  조회
+		 * @param queryMap		: Mapper Info
+		 * @param searchMap		: 조회 조건 Map
+		 * @return				: 조회결과 Map
+		 */
+	    @Override
+	    public Map<String,Object> searchMap(Map<String,String> queryMap, Map<String,Object> search, UserInfo userInfo) {  	
+			String mapper = queryMap.get("map");
+			String mapperId = queryMap.get("mapid");
+			String strMapper = mapper + ".select" + mapperId; 
+			
+			search.put("USER_ID_SRV", userInfo.getStrEmpNo());
+			search.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+			search.put("SERVER_CO_CD", userInfo.getStrCompanyCd());			
+			search.put("EMP_NO_SRV", userInfo.getStrEmpNo());	
+			
+	    	return sqlSession1.selectOne(strMapper, search);
+	    }
+	    
+	    /**
+		 *  조회
+		 * @param queryMap		: Mapper Info
+		 * @param searchMap		: 조회 조건 Map
+		 * @return				: 조회결과 List
+		 */
+	    @Override
+	    public List<Map<String,Object>> searchList(Map<String,String> queryMap, Map<String,Object> search, UserInfo userInfo) {  	
+			String mapper = queryMap.get("map");
+			String mapperId = queryMap.get("mapid");
+			String strMapper = mapper + ".select" + mapperId; 
+			
+			search.put("USER_ID_SRV", userInfo.getStrEmpNo());
+			search.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+			search.put("SERVER_CO_CD", userInfo.getStrCompanyCd());			
+			search.put("EMP_NO_SRV", userInfo.getStrEmpNo());	
+			
+	    	return sqlSession1.selectList(strMapper, search);
+	    }    	    
 }
