@@ -204,4 +204,47 @@ public class salesManagerController {
 		
 		return result;
 	}       
+    
+	/**
+	 * presales 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/saveCostSheet.do")
+	public NexacroResult saveCostSheet(@ParamDataSet(name = "dsInput1", required = false) List<Map<String,Object>> dsInput1
+										, @ParamDataSet(name = "dsInput2", required = false) List<Map<String,Object>> dsInput2
+										, @ParamDataSet(name = "dsInput3", required = false) List<Map<String,Object>> dsInput3
+										, @ParamDataSet(name = "dsInput4", required = false) List<Map<String,Object>> dsInput4
+										, @ParamDataSet(name = "dsInput5", required = false) List<Map<String,Object>> dsInput5
+										, @ParamDataSet(name = "dsMap", required = false) List<Map<String,String>> queryList
+										, @ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			// 임시 개발용
+			userInfo = new UserInfo();
+			userInfo.setStrUserId("jihs");
+			userInfo.setStrUserIPAddress("127.0.0.1");
+			userInfo.setStrCompanyCd("UNIDIA");
+			userInfo.setStrEmpNo("w22010301");
+		}
+		
+		Map<String,Object> datasetMap = new HashMap<>();
+		
+		datasetMap.put("ds_Project", 	dsInput1);
+		datasetMap.put("ds_ContractProd", 	dsInput2);
+		datasetMap.put("ds_PurchaseProd", 	dsInput3);
+		datasetMap.put("ds_ContractSi", 	dsInput4);
+		datasetMap.put("ds_PurchaseSi", 	dsInput5);
+		datasetMap.put("dsCond", 	searchMap);
+		
+		Map<String, Object> out = SalesMangerService.saveCostSheet(queryList, datasetMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		result.addDataSet("ds_ccseq", out);
+		return result;
+	}  		        
 }

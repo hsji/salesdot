@@ -3490,7 +3490,6 @@ UPDATE SALES_CONTRACT_PRODUCT_DETAIL
 	     , DATE_FORMAT(CL.CONTRACT_DATE, '%Y%m%d') AS CONTRACT_DATE
 	     , COM2.COMPANY_NAME AS CONTRACT_MAIN_LIST
 	     , NULL AS PAY_TERM
-	     <!-- 
 	     , (
 	         SELECT 
 	             GROUP_CONCAT(
@@ -3514,7 +3513,6 @@ UPDATE SALES_CONTRACT_PRODUCT_DETAIL
 	         ) T
 	         WHERE T.BILL_DATE IS NOT NULL
 	     ) AS BILL_DATE_LIST
-	      -->
 	     , NULL AS CLIENT_EMP_NAME
 	     , NULL AS CLIENT_PHONE_NO
 	     , 0 AS FREE_MA_YEAR
@@ -4057,4 +4055,543 @@ UPDATE SALES_CONTRACT_PRODUCT_DETAIL
 		AND P.PROJECT_CODE = #{PROJECT_CODE}
 	ORDER BY RTS.WORK_START_DATE DESC, CL.CONTRACT_NO, RTS.RTS_SEQ	
 </select>
+
+<!-- 매출원가표 -->
+<insert id="insertSP_CostSheet_R01_COSTSHEET_CONTRACT" parameterType="java.util.Map">
+	-- insertSP_CostSheet_R01_COSTSHEET_CONTRACT
+	INSERT INTO SALES_COSTSHEET_CONTRACT
+	( 
+		PROJECT_CODE
+		, COSTSHEET_TYPE
+		, CONTRACT_MAIN_LIST
+		, CONTRACT_DATE
+		, PAY_TERM
+		, BILL_DATE_LIST
+		, CLIENT_EMP_NAME
+		, CLIENT_PHONE_NO
+		, FREE_MA_YEAR
+		, REMARKS
+		, REMARKS_REASON
+		, REMARKS_UNIQUE
+		, APPROVAL_TYPE
+		, CONTRACT_PERIOD_FLAG
+		, CONTRACT_PERIOD
+		, CL_EXCEPTION_CODE
+		, REORGANIZER_REASON
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM
+	)
+	VALUES
+	( 
+		#{PROJECT_CODE}
+		, #{COSTSHEET_TYPE}
+		, #{CONTRACT_MAIN_LIST}
+		, #{CONTRACT_DATE}
+		, #{PAY_TERM}
+		, #{BILL_DATE_LIST}
+		, #{CLIENT_EMP_NAME}
+		, #{CLIENT_PHONE_NO}
+		, #{FREE_MA_YEAR}
+		, IFNULL(#{REMARKS}, '')
+		, IFNULL(#{REMARKS_REASON}, '')
+		, IFNULL(#{REMARKS_UNIQUE}, '')
+		, #{APPROVAL_TYPE}
+		, #{CONTRACT_PERIOD_FLAG}
+		, #{CONTRACT_PERIOD}
+		, #{CL_EXCEPTION_CODE}
+		, IFNULL(#{REORGANIZER_REASON}, '')
+		,#{EMP_NO_SRV}
+		,#{USER_CON_IPADDR_SRV}
+		,NOW()
+		,#{EMP_NO_SRV}
+		,#{USER_CON_IPADDR_SRV}
+		,NOW()		
+	)	
+</insert>
+
+<update id="updateSP_CostSheet_R01_COSTSHEET_CONTRACT" parameterType="java.util.Map">
+	-- updateSP_CostSheet_R01_COSTSHEET_CONTRACT
+	UPDATE SALES_COSTSHEET_CONTRACT
+	SET
+	  CONTRACT_MAIN_LIST = #{CONTRACT_MAIN_LIST},
+	  CONTRACT_DATE = #{CONTRACT_DATE},
+	  PAY_TERM = #{PAY_TERM},
+	  BILL_DATE_LIST = #{BILL_DATE_LIST},
+	  CLIENT_EMP_NAME = #{CLIENT_EMP_NAME},
+	  CLIENT_PHONE_NO = #{CLIENT_PHONE_NO},
+	  FREE_MA_YEAR = #{FREE_MA_YEAR},
+	  REMARKS = IFNULL(#{REMARKS}, REMARKS),
+	  REMARKS_REASON = IFNULL(#{REMARKS_REASON}, NULL),
+	  REMARKS_UNIQUE = IFNULL(#{REMARKS_UNIQUE}, REMARKS_UNIQUE),
+	  APPROVAL_TYPE = #{APPROVAL_TYPE},
+	  CONTRACT_PERIOD_FLAG = #{CONTRACT_PERIOD_FLAG},
+	  CONTRACT_PERIOD = #{CONTRACT_PERIOD},
+	  CL_EXCEPTION_CODE = #{CL_EXCEPTION_CODE},
+	  REORGANIZER_REASON = IFNULL(#{REORGANIZER_REASON}, REORGANIZER_REASON),
+		CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE CC_SEQ = #{CC_SEQ}
+</update>
+<delete id="deleteSP_CostSheet_R01_COSTSHEET_CONTRACT" parameterType="java.util.Map">
+	-- deleteSP_CostSheet_R01_COSTSHEET_CONTRACT
+	DELETE FROM SALES_COSTSHEET_MAP WHERE CC_SEQ = #{CC_SEQ};
+	DELETE FROM SALES_COSTSHEET_CONTRACT_PRODUCT WHERE CC_SEQ =  #{CC_SEQ};
+	DELETE FROM SALES_COSTSHEET_PURCHASE_PRODUCT WHERE CC_SEQ =  #{CC_SEQ};
+	DELETE FROM SALES_COSTSHEET_PURCHASE_SI WHERE CC_SEQ =  #{CC_SEQ};
+	DELETE FROM SALES_COSTSHEET_CONTRACT_SI WHERE CC_SEQ =  #{CC_SEQ};
+	DELETE FROM SALES_COSTSHEET_CONTRACT WHERE CC_SEQ =  #{CC_SEQ};
+	
+</delete>
+
+<insert id="insertSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT" parameterType="java.util.Map">
+	-- insertSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT
+	INSERT INTO SALES_COSTSHEET_CONTRACT_PRODUCT
+	( 
+		CC_SEQ
+		, CONTRACT_TYPE
+		, PRODUCT_CODE
+		<if test=' UNIT_COST != null and UNIT_COST != "" '>
+		, UNIT_COST
+		</if>
+		<if test=' PRODUCT_UNIT != null and PRODUCT_UNIT != "" '>
+		, PRODUCT_UNIT
+		</if>
+		<if test=' QUANTITY != null and QUANTITY != "" '>
+		, QUANTITY
+		</if>
+		<if test=' DISCOUNT_RATE != null and DISCOUNT_RATE != "" '>
+		, DISCOUNT_RATE
+		</if>
+		<if test=' CONTRACT_PRICE != null and CONTRACT_PRICE != "" '>
+		, CONTRACT_PRICE
+		</if>
+		, PURPOSE
+		, SERVER_GRADE
+		, CRD_SEQ
+		, ORD
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM
+	)
+	VALUES
+	(
+		IFNULL(#{CC_SEQ}, #{ds_ccseqCC_SEQ}),  -- CC_SEQ가 비어있으면 ds_ccseq.CC_SEQ 사용
+		#{CONTRACT_TYPE},
+		#{PRODUCT_CODE},
+		<if test=' UNIT_COST != null and UNIT_COST != "" '>
+		#{UNIT_COST},
+		</if>
+		<if test=' PRODUCT_UNIT != null and PRODUCT_UNIT != "" '>
+		#{PRODUCT_UNIT},
+		</if>
+		<if test=' QUANTITY != null and QUANTITY != "" '>
+		#{QUANTITY},
+		</if>
+		<if test=' DISCOUNT_RATE != null and DISCOUNT_RATE != "" '>
+		#{DISCOUNT_RATE},
+		</if>
+		<if test=' CONTRACT_PRICE != null and CONTRACT_PRICE != "" '>
+		#{CONTRACT_PRICE},
+		</if>
+		#{PURPOSE},
+		#{SERVER_GRADE},
+		#{CRD_SEQ},
+		#{ORD},
+		,#{EMP_NO_SRV}
+		,#{USER_CON_IPADDR_SRV}
+		,NOW()
+		,#{EMP_NO_SRV}
+		,#{USER_CON_IPADDR_SRV}
+		,NOW()		
+	);
+</insert>
+
+<update id="updateSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT" parameterType="java.util.Map">
+	-- updateSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT
+	UPDATE SALES_COSTSHEET_CONTRACT_PRODUCT
+	 SET
+	 CONTRACT_TYPE = #{CONTRACT_TYPE}
+	 , PRODUCT_CODE = #{PRODUCT_CODE}
+	<if test=' UNIT_COST != null and UNIT_COST != "" '>
+	 , UNIT_COST = #{UNIT_COST}
+	 </if>
+	<if test=' PRODUCT_UNIT != null and PRODUCT_UNIT != "" '>
+	 , PRODUCT_UNIT = #{PRODUCT_UNIT}
+	 </if>
+	<if test=' QUANTITY != null and QUANTITY != "" '>
+	 , QUANTITY = #{QUANTITY}
+	 </if>
+	<if test=' DISCOUNT_RATE != null and DISCOUNT_RATE != "" '>
+	 , DISCOUNT_RATE = #{DISCOUNT_RATE}
+	 </if>
+	 <if test=' CONTRACT_PRICE != null and CONTRACT_PRICE != "" '>
+	 , CONTRACT_PRICE = #{CONTRACT_PRICE}
+	 </if>
+	 , PURPOSE = #{PURPOSE}
+	 , SERVER_GRADE = #{SERVER_GRADE}
+	 , CRD_SEQ = #{CRD_SEQ}
+	 , ORD = #{ORD}
+			, CHGE_ID = #{EMP_NO_SRV}
+			, CHGE_IP = #{USER_CON_IPADDR_SRV}
+			, CHGE_DTTM = NOW()
+	 WHERE CCP_SEQ = #{CCP_SEQ}
+</update>
+
+<delete id="deleteSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT" parameterType="java.util.Map">
+	-- SALES_COSTSHEET_CONTRACT_PRODUCT
+	DELETE FROM SALES_COSTSHEET_CONTRACT_PRODUCT 
+	WHERE CCP_SEQ = #{CCP_SEQ}
+</delete>
+
+<insert id="insertSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT" parameterType="java.util.Map">
+	-- insertSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT
+	INSERT INTO SALES_COSTSHEET_PURCHASE_PRODUCT
+	 ( 
+		 CC_SEQ
+		 , CONTRACT_TYPE
+		 , CONTRACT_MAIN
+		 <if test=' COMMISSION_RATE != null and COMMISSION_RATE != "" '>
+		 , COMMISSION_RATE
+		 </if>
+		 <if test=' CONTRACT_PRICE != null and CONTRACT_PRICE != "" '>
+		 , CONTRACT_PRICE
+		 </if>
+		 , PPD_SEQ
+		 , ORD
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM
+	)
+	 VALUES
+	 (
+	 IFNULL(#{CC_SEQ},#{ds_ccseqCC_SEQ})
+	 , #ds_PurchaseProd.CONTRACT_TYPE#
+	 , #ds_PurchaseProd.CONTRACT_MAIN#
+	 <if test=' COMMISSION_RATE != null and COMMISSION_RATE != "" '>
+	 , #ds_PurchaseProd.COMMISSION_RATE#
+	 </if>
+	 <if test=' CONTRACT_PRICE != null and CONTRACT_PRICE != "" '>
+	 , #ds_PurchaseProd.CONTRACT_PRICE#
+	 </if>
+	 , #ds_PurchaseProd.PPD_SEQ#
+	 , #ds_PurchaseProd.ORD#
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	 )
+</insert>
+
+<update id="updateSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT" parameterType="java.util.Map">
+	-- updateSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT
+	UPDATE SALES_COSTSHEET_PURCHASE_PRODUCT
+	SET
+		CONTRACT_TYPE = #{CONTRACT_TYPE}
+		, CONTRACT_MAIN = #{CONTRACT_MAIN}
+		<if test=' COMMISSION_RATE != null and COMMISSION_RATE != "" '>
+		, COMMISSION_RATE = #{COMMISSION_RATE}
+		</if>
+		<if test=' CONTRACT_PRICE != null and CONTRACT_PRICE != "" '>
+		, CONTRACT_PRICE = #{CONTRACT_PRICE}
+		</if>
+		, PPD_SEQ = #{PPD_SEQ}
+		, ORD = #{ORD}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	 WHERE CPP_SEQ = #{CPP_SEQ}
+</update>
+
+<delete id="deleteSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT" parameterType="java.util.Map">
+	-- deleteSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT
+	DELETE FROM SALES_COSTSHEET_PURCHASE_PRODUCT 
+	WHERE CPP_SEQ = #{CPP_SEQ}
+</delete>
+
+<insert id="insertSP_CostSheet_R01_COSTSHEET_PURCHASE_SI" parameterType="java.util.Map">
+	-- insertSP_CostSheet_R01_COSTSHEET_PURCHASE_SI
+
+INSERT INTO SALES_COSTSHEET_PURCHASE_SI
+ ( CC_SEQ
+ , LEVEL_CODE
+ , COMPANY_CODE
+ , EMP_NO
+ , UNIT_COST
+ <if test=' MEN_MONTH != null and MEN_MONTH != "" '>
+ , MEN_MONTH
+ </if>
+ <if test=' CONTRACT_PRICE != null and CONTRACT_PRICE != "" '>
+ , CONTRACT_PRICE
+ </if>
+ <if test=' CONTRACT_NO != null and CONTRACT_NO != "" '>
+ , CONTRACT_NO
+ </if>
+ , PSD_SEQ
+ , PSE_SEQ
+ , AUTO_REG_FLAG
+ , ORD
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM
+ )
+ VALUES
+ (
+	IFNULL(#{CC_SEQ}, #{ds_ccseqCC_SEQ}) 
+ , #{LEVEL_CODE}
+ , #{COMPANY_CODE}
+ , #{EMP_NO}
+ 
+     <choose>
+        <when test=' COMPANY_CODE == "UNIDIA" '>
+            , #{TOBE_UNIT_COST}
+        </when>
+        <otherwise>
+			, #{PURC_UNIT_COST}
+        </otherwise>
+    </choose>	
+ <if test=' MEN_MONTH != null and MEN_MONTH != "" '>
+ , #{MEN_MONTH}
+ </if>
+ <if test=' CONTRACT_PRICE != null and CONTRACT_PRICE != "" '>
+ , #{CONTRACT_PRICE}
+ </if>
+ <if test=' CONTRACT_NO != null and CONTRACT_NO != "" '>
+ , #{CONTRACT_NO}
+ </if>
+ , #{PSD_SEQ}
+ , #{PSE_SEQ}
+ , '0'
+ , #{ORD}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()	
+ )
+	
+</insert>
+
+<update id="updateSP_CostSheet_R01_COSTSHEET_PURCHASE_SI" parameterType="java.util.Map">
+	-- insertSP_CostSheet_R01_COSTSHEET_PURCHASE_SI
+	UPDATE SALES_COSTSHEET_PURCHASE_SI
+	 SET
+	 LEVEL_CODE = #{LEVEL_CODE}
+	 , COMPANY_CODE = #{COMPANY_CODE}
+	 , EMP_NO = #{EMP_NO}
+	 , UNIT_COST = 
+	     <choose>
+	        <when test=' COMPANY_CODE == "UNIDIA" '>
+	            #{TOBE_UNIT_COST}
+	        </when>
+	        <otherwise>
+				#{PURC_UNIT_COST}
+	        </otherwise>
+	    </choose>	  
+	 <if test="MEN_MONTH != null and MEN_MONTH != ''">
+	 , MEN_MONTH = #{MEN_MONTH}
+	 </if>
+	 <if test="CONTRACT_PRICE != null and CONTRACT_PRICE != ''">
+	 , CONTRACT_PRICE = #{CONTRACT_PRICE}
+	 </if>
+	 <if test="CONTRACT_NO != null and CONTRACT_NO != ''">
+	 , CONTRACT_NO = #{CONTRACT_NO}
+	 </if>
+	 , PSD_SEQ = #{PSD_SEQ}
+	 , PSE_SEQ = #{PSE_SEQ}
+	 , AUTO_REG_FLAG = '0'
+	 , ORD = #{ORD}
+			, CHGE_ID = #{EMP_NO_SRV}
+			, CHGE_IP = #{USER_CON_IPADDR_SRV}
+			, CHGE_DTTM = NOW()
+	 WHERE CPS_SEQ = #{CPS_SEQ}
+</update>
+
+<delete id="deleteSP_CostSheet_R01_COSTSHEET_PURCHASE_SI" parameterType="java.util.Map">
+	DELETE FROM SALES_COSTSHEET_PURCHASE_SI 
+	WHERE CPS_SEQ = #{CPS_SEQ}
+</delete>
+
+
+<insert id="insertSP_CostSheet_R01_COSTSHEET_CONTRACT_SI" parameterType="java.util.Map">
+	INSERT INTO SALES_COSTSHEET_CONTRACT_SI
+	 ( 
+		 CC_SEQ
+		 , ROLE_CODE
+		 , LEVEL_CODE
+		 <if test="UNIT_COST != null and UNIT_COST != ''">
+		 , UNIT_COST
+		 </if>
+		 <if test="MEN_MONTH != null and MEN_MONTH != ''">
+		 , MEN_MONTH
+		 </if>
+		 <if test="CONTRACT_PRICE != null and CONTRACT_PRICE != ''">
+		 , CONTRACT_PRICE
+		 </if>
+		 <if test="CONTRACT_NO != null and CONTRACT_NO != ''">
+		 , CONTRACT_NO
+		 </if>
+		 , CSD_SEQ
+		 , AUTO_REG_FLAG
+		 , ORD
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM
+	 )
+	 VALUES
+	 (
+		IFNULL(#{CC_SEQ}, #{ds_ccseqCC_SEQ}) 
+	 , #{ROLE_CODE}
+	 , #{LEVEL_CODE}
+	 
+	 <if test="UNIT_COST != null and UNIT_COST != ''">
+	 , #{UNIT_COST}
+	 </if>
+	 <if test="MEN_MONTH != null and MEN_MONTH != ''">
+	 , #{MEN_MONTH}
+	 </if>
+	 <if test="CONTRACT_PRICE != null and CONTRACT_PRICE != ''">
+	 , #{CONTRACT_PRICE}
+	 </if>
+	 <if test="CONTRACT_NO != null and CONTRACT_NO != ''">
+	 , #{CONTRACT_NO}
+	 </if>
+	 
+	 , #{CSD_SEQ}
+	 , '0'
+	 , #{ORD}
+				,#{EMP_NO_SRV}
+				,#{USER_CON_IPADDR_SRV}
+				,NOW()
+				,#{EMP_NO_SRV}
+				,#{USER_CON_IPADDR_SRV}
+				,NOW()	
+	 )
+</insert>
+
+<update id="updateSP_CostSheet_R01_COSTSHEET_CONTRACT_SI" parameterType="java.util.Map">
+UPDATE SALES_COSTSHEET_CONTRACT_SI
+ SET
+	 ROLE_CODE = #{ROLE_CODE}
+	 , LEVEL_CODE = #{LEVEL_CODE}
+	 <if test="UNIT_COST != null and UNIT_COST != ''">
+	 , UNIT_COST = #{UNIT_COST}
+	 </if>
+	 <if test="MEN_MONTH != null and MEN_MONTH != ''">
+	 , MEN_MONTH = #{MEN_MONTH}
+	 </if>
+	 <if test="CONTRACT_PRICE != null and CONTRACT_PRICE != ''">
+	 , CONTRACT_PRICE = #{CONTRACT_PRICE}
+	 </if>
+	 , CONTRACT_NO = #{CONTRACT_NO}
+	 , CSD_SEQ = #{CSD_SEQ}
+	 , AUTO_REG_FLAG = '0'
+	 , ORD = #{ORD}
+	, CHGE_ID = #{EMP_NO_SRV}
+	, CHGE_IP = #{USER_CON_IPADDR_SRV}
+	, CHGE_DTTM = NOW()
+ WHERE CCS_SEQ = #{CCS_SEQ}
+ </update>
+ 
+ <delete id="deleteSP_CostSheet_R01_COSTSHEET_CONTRACT_SI" parameterType="java.util.Map">
+ 	DELETE FROM COSTSHEET_CONTRACT_SI 
+ 	WHERE CCS_SEQ = #{CCS_SEQ}
+ </delete>
+ 
+ <update id="updateSP_CostSheet_R01_COSTSHEET_MAP_INSERT" parameterType="java.util.Map">
+ 	-- updateSP_CostSheet_R01_COSTSHEET_MAP_INSERT
+	  DELETE FROM SALES_COSTSHEET_MAP WHERE CC_SEQ = IFNULL(#{CC_SEQ}, #{ds_ccseqCC_SEQ})
+	 
+	 INSERT INTO SALES_COSTSHEET_MAP
+	 ( 
+		 CC_SEQ
+		 , CONTRACT_NO
+		 , CONTRACT_NO_PURCHASE
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM
+	 )
+	 SELECT T.CC_SEQ
+	 , T.CONTRACT_NO
+	 , T.CONTRACT_NO_PURCHASE
+					,#{EMP_NO_SRV}
+					,#{USER_CON_IPADDR_SRV}
+					,NOW()
+					,#{EMP_NO_SRV}
+					,#{USER_CON_IPADDR_SRV}
+					,NOW()	
+	 FROM (
+		 SELECT 
+		 CCP.CC_SEQ
+		 , CPD.CONTRACT_NO
+		 , NULL AS CONTRACT_NO_PURCHASE
+		 FROM SALES_COSTSHEET_CONTRACT_PRODUCT CCP
+		 JOIN SALES_CONTRACT_PRODUCT_DET CPD
+		 ON CCP.CRD_SEQ = CPD.CRD_SEQ
+		 AND CPD.DELETE_FLAG = '0'
+		 WHERE CCP.CC_SEQ = IFNULL(#{CC_SEQ}, #{ds_ccseqCC_SEQ})
+		 GROUP BY CCP.CC_SEQ
+		 , CPD.CONTRACT_NO
+		 UNION ALL
+		 SELECT CPP.CC_SEQ
+		 , NULL AS CONTRACT_NO
+		 , PPD.CONTRACT_NO_PURCHASE
+		 FROM SALES_COSTSHEET_PURCHASE_PRODUCT CPP
+		 JOIN SALES_PURCHASE_PRODUCT_DET PPD
+		 ON CPP.PPD_SEQ = PPD.PPD_SEQ
+		 AND PPD.DELETE_FLAG = '0'
+		 WHERE CPP.CC_SEQ = IFNULL(#{CC_SEQ}, #{ds_ccseqCC_SEQ})
+		 GROUP BY CPP.CC_SEQ
+		 , PPD.CONTRACT_NO_PURCHASE
+		 UNION ALL
+		 SELECT CCS.CC_SEQ
+		 , CSD.CONTRACT_NO
+		 , NULL AS CONTRACT_NO_PURCHASE
+		 FROM SALES_COSTSHEET_CONTRACT_SI CCS
+		 JOIN SALES_CONTRACT_SI_DET CSD
+		 ON CCS.CSD_SEQ = CSD.CSD_SEQ
+		 AND CSD.DELETE_FLAG = '0'
+		 WHERE CCS.CC_SEQ = @CC_SEQ
+		 GROUP BY CCS.CC_SEQ
+		 , CSD.CONTRACT_NO
+		 UNION ALL
+		 SELECT CPS.CC_SEQ
+		 , NULL AS CONTRACT_NO
+		 , PSD.CONTRACT_NO_PURCHASE
+		 FROM SALES_COSTSHEET_PURCHASE_SI CPS
+		 JOIN SALES_PURCHASE_SI_DET PSD
+		 ON CPS.PSD_SEQ = PSD.PSD_SEQ
+		 AND PSD.DELETE_FLAG = '0'
+		 WHERE CPS.CC_SEQ = IFNULL(#{CC_SEQ}, #{ds_ccseqCC_SEQ})
+		 GROUP BY CPS.CC_SEQ
+		 , PSD.CONTRACT_NO_PURCHASE
+	 ) T
+ </update>
+ 
+ <select id="selectSP_CostSheet_R01_GET_CC_SEQ" resultType="_int">
+	SELECT LAST_INSERT_ID() AS CC_SEQ; 
+</select>
+ 
 </mapper>

@@ -829,6 +829,206 @@ public class salesManagerServiceImpl implements salesManagerService {
 	    	}
 	    }    
 	    
+		public void setRowType(Map<String,Object> datasetMap) throws Exception {
+			
+			String[] myArray = {"ds_Project", "ds_ContractProd", "ds_PurchaseProd", "ds_ContractSi", "ds_PurchaseSi"};
+			
+			for(int i=0, len=5;i<5;i++) {
+				List<Map<String,Object>> dsIn = (List<Map<String, Object>>) datasetMap.get(myArray[i]);
+				if(dsIn == null) continue;
+				int size = dsIn.size();
+				if (size>0) {
+					for (int j=0; j<size; j++) {
+						Map<String, Object> oneMap = dsIn.get(j);
+						String sGb = (String) oneMap.get("GB");
+						if (sGb.equals("I")){
+							oneMap.put(DataSetRowTypeAccessor.NAME, DataSet.ROW_TYPE_INSERTED);
+						} else if (sGb.equals("U")){
+							oneMap.put(DataSetRowTypeAccessor.NAME, DataSet.ROW_TYPE_UPDATED);
+						}
+					}
+				}
+			}
+		}
+	    
+	   /**
+		 * 저장한다.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+	 * @throws Exception 
+		 */
+	    @Override
+	    public Map<String, Object> saveCostSheet(List<Map<String,String>> queryList, Map<String,Object> datasetMap, UserInfo userInfo) 
+	    				throws Exception {
+
+	    	SqlSession sqlSession = sqlSession1.getSqlSessionFactory().openSession();
+	    	sqlSession.getConnection().setAutoCommit(false);
+	    	
+	    	Map<String,Object> outMap = new HashMap<>();
+	    	outMap.put("CC_SEQ", "");
+	    	
+	    	try {
+	    		setRowType(datasetMap);
+	    		
+	    		int size;
+	    		int rowType;
+	    		List<Map<String,Object>> dsIn = (List<Map<String, Object>>) datasetMap.get("ds_Project");
+	    		if(dsIn != null) {
+		      		size = dsIn.size();
+		            
+		    	    for (int i=0; i<size; i++) {
+		    	          Map<String,Object> saveMap = dsIn.get(i);
+		    	          
+		    	          saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		    	          saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		    	          saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		    	          saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		    	          
+		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		    	          
+	    	             if (rowType == DataSet.ROW_TYPE_INSERTED){
+	    	              	sqlSession.insert("salesMangerMapper.insertSP_CostSheet_R01_COSTSHEET_CONTRACT", saveMap);
+	    	              }else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_CONTRACT", saveMap);
+	    	              }else if (rowType == DataSet.ROW_TYPE_DELETED){
+	    	            	  sqlSession.delete("salesMangerMapper.deleteSP_CostSheet_R01_COSTSHEET_CONTRACT", saveMap);
+	    	              }	    	 
+		    	    }
+	    		}
+	    	    
+	    	    int ds_ccseqCC_SEQ = sqlSession.selectOne("salesMangerMapper.selectSP_CostSheet_R01_GET_CC_SEQ");
+	    	    outMap.put("CC_SEQ", ds_ccseqCC_SEQ);
+	    	    
+	    		dsIn = (List<Map<String, Object>>) datasetMap.get("ds_ContractProd");
+	    		if(dsIn != null) {
+		      		size = dsIn.size();
+		    	    for (int i=0; i<size; i++) {
+		    	          Map<String,Object> saveMap = dsIn.get(i);
+		    	          
+		    	          saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		    	          saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		    	          saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		    	          saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		    	          saveMap.put("ds_ccseqCC_SEQ", ds_ccseqCC_SEQ);
+		    	          
+		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		    	          
+	    	             if (rowType == DataSet.ROW_TYPE_INSERTED){
+	    	              	sqlSession.insert("salesMangerMapper.insertSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT", saveMap);
+	    	              }else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT", saveMap);
+	    	              }else if (rowType == DataSet.ROW_TYPE_DELETED){
+	    	            	  sqlSession.delete("salesMangerMapper.deleteSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT", saveMap);
+	    	              } 
+		    	    }
+	    		}
+	    		
+	    		dsIn = (List<Map<String, Object>>) datasetMap.get("ds_PurchaseProd");
+	    		if(dsIn != null) {
+		      		size = dsIn.size();
+		    	    for (int i=0; i<size; i++) {
+		    	          Map<String,Object> saveMap = dsIn.get(i);
+		    	          
+		    	          saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		    	          saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		    	          saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		    	          saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		    	          saveMap.put("ds_ccseqCC_SEQ", ds_ccseqCC_SEQ);
+		    	          
+		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		    	          
+	    	             if (rowType == DataSet.ROW_TYPE_INSERTED){
+	    	              	sqlSession.insert("salesMangerMapper.insertSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT", saveMap);
+	    	              }else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT", saveMap);
+	    	              }else if (rowType == DataSet.ROW_TYPE_DELETED){
+	    	            	  sqlSession.delete("salesMangerMapper.deleteSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT", saveMap);
+	    	              } 
+		    	    }
+	    		}
+	    		
+	    		dsIn = (List<Map<String, Object>>) datasetMap.get("ds_ContractSi");
+	    		if(dsIn != null) {
+		      		size = dsIn.size();
+		    	    for (int i=0; i<size; i++) {
+		    	          Map<String,Object> saveMap = dsIn.get(i);
+		    	          
+		    	          saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		    	          saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		    	          saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		    	          saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		    	          saveMap.put("ds_ccseqCC_SEQ", ds_ccseqCC_SEQ);
+		    	          
+		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		    	          
+	    	             if (rowType == DataSet.ROW_TYPE_INSERTED){
+	    	              	sqlSession.insert("salesMangerMapper.insertSP_CostSheet_R01_COSTSHEET_CONTRACT_SI", saveMap);
+	    	              }else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_CONTRACT_SI", saveMap);
+	    	              }else if (rowType == DataSet.ROW_TYPE_DELETED){
+	    	            	  sqlSession.delete("salesMangerMapper.deleteSP_CostSheet_R01_COSTSHEET_CONTRACT_SI", saveMap);
+	    	              } 
+		    	    }
+	    		}	    
+	    		
+	    		dsIn = (List<Map<String, Object>>) datasetMap.get("ds_PurchaseSi");
+	    		if(dsIn != null) {
+		      		size = dsIn.size();
+		    	    for (int i=0; i<size; i++) {
+		    	          Map<String,Object> saveMap = dsIn.get(i);
+		    	          
+		    	          saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		    	          saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		    	          saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		    	          saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		    	          saveMap.put("ds_ccseqCC_SEQ", ds_ccseqCC_SEQ);
+		    	          
+		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		    	          
+	    	             if (rowType == DataSet.ROW_TYPE_INSERTED){
+	    	              	sqlSession.insert("salesMangerMapper.insertSP_CostSheet_R01_COSTSHEET_PURCHASE_SI", saveMap);
+	    	              }else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_PURCHASE_SI", saveMap);
+	    	              }else if (rowType == DataSet.ROW_TYPE_DELETED){
+	    	            	  sqlSession.delete("salesMangerMapper.deleteSP_CostSheet_R01_COSTSHEET_PURCHASE_SI", saveMap);
+	    	              } 
+		    	    }
+	    		}
+	    		
+	    		dsIn = (List<Map<String, Object>>) datasetMap.get("ds_Project");
+	    		if(dsIn != null) {
+		      		size = dsIn.size();
+		    	    for (int i=0; i<size; i++) {
+		    	          Map<String,Object> saveMap = dsIn.get(i);
+		    	          
+		    	          saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		    	          saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		    	          saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		    	          saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		    	          saveMap.put("ds_ccseqCC_SEQ", ds_ccseqCC_SEQ);
+		    	          
+		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		    	          
+	    	              if (rowType == DataSet.ROW_TYPE_UPDATED){
+	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_MAP_INSERT", saveMap);
+	    	              } 
+		    	    }
+	    		}	    		
+		    	sqlSession.getConnection().setAutoCommit(true);
+		    	sqlSession.commit();
+	    	} catch (Exception e) {
+	    		sqlSession.rollback();
+	    		throw new Exception();
+	    	} finally {
+	    		//sqlSession.getConnection().setAutoCommit(true);
+	    		sqlSession.close();
+	    	}
+	    	
+	    	return outMap;
+	    }    	    
+	    
 	    /**
 		 *  조회
 		 * @param queryMap		: Mapper Info
