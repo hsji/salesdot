@@ -320,7 +320,8 @@
 		{	
 			if(this.refform.gfnIsEmpty(nTabindex)) nTabindex=1;
 			var sArgument = {pvProjectCd:sProjectCd, pvProjectNm:sProjectNm, pvAuthType:sAuthType, pvTabindex:nTabindex};
-			this.popup(objOpener, sPopupID, "Common::CO_Project.xfdl", -1, -1, 1362, 650, true, true, false, sArgument, popupCallBack);
+			sArgument.title = "프로젝트 현황" + (this.gfnIsNull(sProjectNm)?'':" [" + sProjectNm + "]");
+			this.popup(objOpener, sPopupID, "sales::comm/CO_Project.xfdl", -1, -1, -1, -1, true, true, false, sArgument, popupCallBack);
 		},
 		
 /*******************************************************************************************

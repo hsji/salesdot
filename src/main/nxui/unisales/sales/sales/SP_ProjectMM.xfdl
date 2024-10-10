@@ -1,34 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="SP_ProjectMM" width="1360" height="560" titletext="프로젝트관리" onload="SP_ProjectMM_onload">
+  <Form id="SP_ProjectMM" width="1400" height="700" titletext="프로젝트관리" onload="SP_ProjectMM_onload">
     <Layouts>
-      <Layout height="560" mobileorientation="landscape" width="1360">
-        <Div id="div_search" taborder="0" text="" left="8" top="8" height="40" right="8" cssclass="div_WF_SchList">
+      <Layout height="700" mobileorientation="landscape" width="1400">
+        <Div id="div_search" taborder="0" text="" left="10" top="10" height="50" right="10" cssclass="div_WF_Search">
           <Layouts>
             <Layout>
-              <Static id="stc_ClientCode" taborder="0" text="고 객 사" left="9" top="8" width="58" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="32"/>
-              <Div id="div_ClientName" taborder="1" left="stc_ClientCode:9" top="8" width="213" height="22" url="Common::COM_Search.xfdl" kind="PROJECT" user_onchanged="Com_Search_onChanged"/>
-              <Static id="stc_ProjectName" taborder="2" text="프로젝트명" left="div_ClientName:3" top="8" width="70" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="114"/>
-              <Edit id="edt_ProjectCode" taborder="3" left="stc_ProjectName:8" top="8" width="80" height="22" readonly="true"/>
-              <Div id="div_BtnCtr" taborder="4" top="8" height="22" right="6" width="388">
+              <Static id="stc_ClientCode" taborder="0" text="고 객 사" left="0" top="12" width="87" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="32"/>
+              <Div id="div_ClientName" taborder="1" left="stc_ClientCode:0" top="12" width="213" height="24" url="Common::COM_Search.xfdl" kind="PROJECT" user_onchanged="Com_Search_onChanged"/>
+              <Static id="stc_ProjectName" taborder="2" text="프로젝트명" left="div_ClientName:0.00" top="12" width="112" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="114"/>
+              <Edit id="edt_ProjectCode" taborder="3" left="stc_ProjectName:8.00" top="12" width="98" height="24" readonly="true"/>
+              <Div id="div_BtnCtr" taborder="4" top="8" height="28" right="6" width="388">
                 <Layouts>
                   <Layout>
-                    <Button id="btn_Print" taborder="0" text="출력" top="0" width="60" height="22" left="6" onclick="div_search_comm_btn_onclick" visible="false" TL_SEQ="394"/>
-                    <Button id="btn_Add" taborder="1" text="신규" top="0" width="60" height="22" left="134" onclick="div_search_comm_btn_onclick" cssclass="btn_WF_tran" enable="false" TL_SEQ="116"/>
-                    <Button id="btn_Del" taborder="2" text="삭제" top="0" width="60" height="22" left="198" onclick="div_search_comm_btn_onclick" cssclass="btn_WF_tran" enable="false" TL_SEQ="117"/>
-                    <Button id="btn_search" taborder="4" text="조회" top="0" width="60" height="22" cssclass="btn_WF_SchText" onclick="div_search_comm_btn_onclick" left="326" TL_SEQ="118"/>
-                    <Button id="btn_Excel" taborder="5" text="Excel" top="0" width="60" height="22" right="258" onclick="div_search_comm_btn_onclick" cssclass="btn_WF_Excel" visible="false"/>
-                    <Button id="btn_Save" taborder="3" text="저장" top="0" width="60" height="22" left="262" onclick="div_search_comm_btn_onclick" cssclass="btn_WF_tran" enable="false" TL_SEQ="115"/>
+                    <Button id="btn_Add" taborder="0" text="신규" top="0" width="60" height="28" left="134" onclick="div_search_comm_btn_onclick" cssclass="btn_WF_Crud" enable="false" TL_SEQ="116"/>
+                    <Button id="btn_Del" taborder="1" text="삭제" top="0" width="60" height="28" left="198" onclick="div_search_comm_btn_onclick" cssclass="btn_WF_Crud" enable="false" TL_SEQ="117"/>
+                    <Button id="btn_search" taborder="3" text="조회" top="0" width="60" height="28" onclick="div_search_comm_btn_onclick" left="326" TL_SEQ="118" cssclass="btn_WF_SchText"/>
+                    <Button id="btn_Save" taborder="2" text="저장" top="0" width="60" height="28" left="262" onclick="div_search_comm_btn_onclick" cssclass="btn_WF_Crud" enable="false" TL_SEQ="115"/>
                   </Layout>
                 </Layouts>
               </Div>
-              <Div id="div_ProjectName" taborder="5" left="edt_ProjectCode:3" top="8" width="393" height="22" url="Common::COM_Search.xfdl" kind="PROJECT" user_onchanged="Com_Search_onChanged"/>
+              <Div id="div_ProjectName" taborder="5" left="edt_ProjectCode:3" top="12" width="393" height="24" url="Common::COM_Search.xfdl" kind="PROJECT" user_onchanged="Com_Search_onChanged"/>
             </Layout>
           </Layouts>
         </Div>
-        <Tab id="tab_ProjectMM" taborder="1" left="8" top="div_search:8" tabindex="1" right="8" bottom="8" onchanged="tab_ProjectMM_onchanged">
+        <Tab id="tab_ProjectMM" taborder="1" left="10" top="div_search:8" tabindex="1" right="10" bottom="10" onchanged="tab_ProjectMM_onchanged">
           <Tabpages>
-            <Tabpage id="tpg_RequestLicense" text="라이선스발급요청" url="sales::sales/SP_RequestLicense.xfdl" TL_SEQ="649"/>
             <Tabpage id="tpg_Contract" text="매출계약" url="sales::sales/SP_Contract.xfdl" TL_SEQ="650"/>
             <Tabpage id="tpg_Purchase" text="매입계약" url="sales::sales/SP_PurchaseContract.xfdl" TL_SEQ="651"/>
             <Tabpage id="tpg_Si" text="투입인력" url="sales::sales/SP_ProjectSIEmp.xfdl" TL_SEQ="234"/>
@@ -38,13 +35,21 @@
             <Tabpage id="tpg_Expend" text="지출" url="sales::sales/SP_Expend.xfdl" TL_SEQ="654"/>
           </Tabpages>
         </Tab>
-        <Button id="btn_RequestContract" taborder="2" text="계약요청현황" width="80" height="24" onclick="btn_RequestContract_onclick" right="8" top="56" enable="false" TL_SEQ="655" minwidth="80" maxwidth="" fittocontents="width"/>
-        <Button id="btn_Merge" taborder="3" text="Merge" width="80" height="24" right="btn_RequestContract:4" top="56" onclick="btn_Merge_onclick" enable="false" minwidth="80" maxwidth="" fittocontents="width"/>
-        <Button id="btn_ProjectChange" taborder="5" text="프로젝트수정" width="80" height="24" right="btn_Merge:4" top="56" enable="false" onclick="btn_ProjectChange_onclick" TL_SEQ="657" fittocontents="width" minwidth="80" maxwidth=""/>
-        <Button id="btn_NewProject" taborder="4" text="프로젝트추가" width="80" height="24" right="btn_ProjectChange:4" top="56" enable="false" onclick="btn_NewProject_onclick" TL_SEQ="658" minwidth="80" maxwidth="" fittocontents="width"/>
-        <Button id="btn_TradingStatement" taborder="6" text="거래명세서" width="80" height="24" right="btn_NewProject:4" top="56" enable="false" visible="false" onclick="btn_TradingStatement_onclick" TL_SEQ="659" fittocontents="width" minwidth="80" maxwidth=""/>
-        <Button id="btn_ContractCancel" taborder="7" text="계약확정취소" width="80" height="24" right="btn_NewProject:4" top="56" enable="false" onclick="btn_ContractCancel_onclick" TL_SEQ="660" fittocontents="width" minwidth="80" maxwidth=""/>
-        <Button id="btn_BillDelivery" taborder="8" text="청구서납품서" width="80" height="24" right="384" top="56" enable="false" fittocontents="width" minwidth="80" maxwidth="" visible="false" onclick="btn_BillDelivery_onclick" TL_SEQ="12416"/>
+        <Div id="divCmmnBtn" taborder="2" top="76" width="650" height="25" right="10">
+          <Layouts>
+            <Layout>
+              <Button id="btn_BillDelivery" taborder="1" text="청구서납품서" width="100" height="25" right="340" top="0" enable="false" fittocontents="width" minwidth="80" maxwidth="" visible="false" onclick="btn_BillDelivery_onclick" TL_SEQ="12416"/>
+              <Button id="btn_Excel" taborder="0" text="엑셀다운로드" top="0" height="25" fittocontents="width" cssclass="btn_WF_Excel" onclick="div_search_comm_btn_onclick" right="btn_BillDelivery:5" width="110"/>
+              <Button id="btn_NewProject" taborder="2" text="프로젝트추가" width="80" height="25" right="255" top="0" enable="false" onclick="btn_NewProject_onclick" TL_SEQ="658" minwidth="80" maxwidth="" fittocontents="width"/>
+              <Button id="btn_ProjectChange" taborder="3" text="프로젝트수정" width="80" height="25" right="170" top="0" enable="false" onclick="btn_ProjectChange_onclick" TL_SEQ="657" fittocontents="width" minwidth="80" maxwidth=""/>
+              <Button id="btn_Merge" taborder="4" text="Merge" width="80" height="25" right="85" top="0" onclick="btn_Merge_onclick" enable="false" minwidth="80" maxwidth="" fittocontents="width"/>
+              <Button id="btn_RequestContract" taborder="5" text="계약요청현황" width="80" height="25" onclick="btn_RequestContract_onclick" right="0" top="0" enable="false" TL_SEQ="655" minwidth="80" maxwidth="" fittocontents="width"/>
+              <Button id="btn_Print" taborder="6" text="출력" top="0" height="25" fittocontents="width" onclick="div_search_comm_btn_onclick" right="btn_Excel:5" width="78"/>
+              <Button id="btn_TradingStatement" taborder="7" text="거래명세서" width="100" height="24" right="btn_NewProject:5" top="0" enable="false" visible="false" onclick="btn_TradingStatement_onclick" TL_SEQ="659" fittocontents="width" minwidth="80" maxwidth=""/>
+              <Button id="btn_ContractCancel" taborder="8" text="계약확정취소" width="100" height="24" right="btn_NewProject:5" top="0" enable="false" onclick="btn_ContractCancel_onclick" TL_SEQ="660" fittocontents="width" minwidth="80" maxwidth=""/>
+            </Layout>
+          </Layouts>
+        </Div>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/************************************************************************************************
@@ -87,7 +92,7 @@ include "Script::ext_CommEco.xjs"
 		
 	// 추가, 삭제 권한
 	if (this.commUtil.getFormAuthority(242,8)) {		
-		this.btn_NewProject.set_enable(true);			// 신규프로젝트 생성
+		this.divCmmnBtn.form.btn_NewProject.set_enable(true);			// 신규프로젝트 생성
 	}
 		
 	// this.fnAuthConfig();	// 버튼 권한 처리
@@ -101,18 +106,18 @@ include "Script::ext_CommEco.xjs"
 	
 	// 추가, 삭제 권한
 	if (this.commUtil.getFormAuthority(242,8)) {
-		this.btn_RequestContract.set_enable(true);		// 계약요청현황
-		this.btn_TradingStatement.set_enable(true);		// 거래명세서
+		this.divCmmnBtn.form.btn_RequestContract.set_enable(true);		// 계약요청현황
+		this.divCmmnBtn.form.btn_TradingStatement.set_enable(true);		// 거래명세서
 	}
 	
 	if (this.commUtil.getFormAuthority(242,23)) {
-		this.btn_BillDelivery.set_enable(true);			// 청구서,납품서
+		this.divCmmnBtn.form.btn_BillDelivery.set_enable(true);			// 청구서,납품서
 	}
 
 	
 	// 계약확정 취소 권한
 	if (this.commUtil.getFormAuthority(242,20)) {
-		this.btn_ContractCancel.set_enable(true);
+		this.divCmmnBtn.form.btn_ContractCancel.set_enable(true);
 	}
 };
  
@@ -175,8 +180,8 @@ this.fnGetScreenLinkParam = function(strArgs)
 	if (this.commUtil.getFormAuthority(242,8)) {
 		this.div_search.form.div_BtnCtr.form.btn_Add.set_enable(true);
 		this.div_search.form.div_BtnCtr.form.btn_Del.set_enable(true);
-		this.btn_ProjectChange.set_enable(true);		// 고객사변경
-		this.btn_RequestContract.set_enable(true);		// 계약요청현황
+		this.divCmmnBtn.form.btn_ProjectChange.set_enable(true);		// 고객사변경
+		this.divCmmnBtn.form.btn_RequestContract.set_enable(true);		// 계약요청현황
 	}
 	
 	// 저장 권한
@@ -186,7 +191,7 @@ this.fnGetScreenLinkParam = function(strArgs)
 
 	// Merge 권한
 	if (this.commUtil.getFormAuthority(242,1)) {
-		this.btn_Merge.set_enable(true);
+		this.divCmmnBtn.form.btn_Merge.set_enable(true);
 	}
 }
 
@@ -220,21 +225,19 @@ this.fnSetComCmbConfig = function ()
  this.fn_getObjTabpage = function(nTabIndex)
  {
 	var objRtn;
-	 if (nTabIndex == 0) {
-		objRtn = this.tab_ProjectMM.tpg_RequestLicense;	// 라이선스 요청
-	} if (nTabIndex == 1) {
+	if (nTabIndex == 0) {
 		objRtn = this.tab_ProjectMM.tpg_Contract;		// 매출계약
-	} else if (nTabIndex == 2) {
+	} else if (nTabIndex == 1) {
 		objRtn = this.tab_ProjectMM.tpg_Purchase;		// 매입계약
-	} else if (nTabIndex == 3) {
+	} else if (nTabIndex == 2) {
 		objRtn = this.tab_ProjectMM.tpg_Si;				// 투입인력
-	} else if (nTabIndex == 4) {
+	} else if (nTabIndex == 3) {
 		objRtn = this.tab_ProjectMM.tpg_PreSales;		// 프리/컨설팅
-	} else if (nTabIndex == 5) {
+	} else if (nTabIndex == 4) {
 		objRtn = this.tab_ProjectMM.tpg_Bill;			// 수금
-	} else if (nTabIndex == 6) {
+	} else if (nTabIndex == 5) {
 		objRtn = this.tab_ProjectMM.tpg_Guarantee;		// 보증보험증권
-	} else if (nTabIndex == 7) {
+	} else if (nTabIndex == 6) {
 		objRtn = this.tab_ProjectMM.tpg_Expend;			// 지출
 	}
 	return objRtn;
@@ -324,7 +327,7 @@ this.div_search_comm_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEv
 		var objGrd;
 		var sFileNm;
 		var nTabIdx = this.tab_ProjectMM.tabindex;
-		if (nTabIdx == 3 || nTabIdx == 7) {				// if (nTabIdx == 2 || nTabIdx == 6) {
+		if (nTabIdx == 2 || nTabIdx == 6) {				// if (nTabIdx == 2 || nTabIdx == 6) {
 			objGrd = objTabpage.form.grd_ProjectSiEmp;
 			sFileNm = objTabpage.text;
 			this.gfn_excelExport(this, objGrd, sFileNm);
@@ -346,14 +349,14 @@ this.Com_Search_onChanged = function (obj, e)
 		this.div_search.form.div_ProjectName.setCode(null);
 		this.div_search.form.div_ProjectName.setData(null);
 		
-		this.btn_ProjectChange.set_enable(false);
-		this.btn_Merge.set_enable(false);
+		this.divCmmnBtn.form.btn_ProjectChange.set_enable(false);
+		this.divCmmnBtn.form.btn_Merge.set_enable(false);
 		
-		if (nTabIdx == 1 || nTabIdx == 5) {			// if (nTabIdx == 0 || nTabIdx == 4) {
+		if (nTabIdx == 0 || nTabIdx == 4) {			// if (nTabIdx == 0 || nTabIdx == 4) {
 			this.div_search.form.div_BtnCtr.form.btn_Add.set_enable(false);
 			this.div_search.form.div_BtnCtr.form.btn_Del.set_enable(false);
 			this.div_search.form.div_BtnCtr.form.btn_Save.set_enable(false);
-			if (nTabIdx == 1) {						// if (nTabIdx == 0) {	
+			if (nTabIdx == 0) {						// if (nTabIdx == 0) {	
 				objTabpage.form.div_ContractInfo.form.btn_CommCode.set_enable(false);
 				objTabpage.form.div_ContractInfo.form.btn_CostSheet.set_enable(false);
 				objTabpage.form.div_ContractInfo.form.btn_DeliveryConfirm.set_enable(false);
@@ -361,10 +364,10 @@ this.Com_Search_onChanged = function (obj, e)
 				objTabpage.form.div_ContractInfo.form.btn_Online.set_enable(false);
 				objTabpage.form.div_ContractInfo.form.div_Attachment.set_enable(false);
 			}
-		} else if (nTabIdx == 0) {					// } else if (nTabIdx == 7) {
-			this.div_search.form.div_BtnCtr.form.btn_Add.set_enable(false);
-			this.div_search.form.div_BtnCtr.form.btn_Del.set_enable(false);
-			objTabpage.form.fn_setInit();
+// 		} else if (nTabIdx == 0) {					// } else if (nTabIdx == 7) {
+// 			this.div_search.form.div_BtnCtr.form.btn_Add.set_enable(false);
+// 			this.div_search.form.div_BtnCtr.form.btn_Del.set_enable(false);
+// 			objTabpage.form.fn_setInit();
 		} 
 	} else {
 		var ds = obj.getRecentVariant();
@@ -405,7 +408,7 @@ this.Com_Search_onChanged = function (obj, e)
 		예외 처리 안수경 선임 요청
 		기술지원 탭 고객사 or 프로젝트명 변경 시 검색 조건 초기화 요청
 	*/
-	objTabpage = this.fn_getObjTabpage(4);
+	objTabpage = this.fn_getObjTabpage(3);
 	if(!this.gfnIsEmpty(objTabpage.form.fnResetSearch)) objTabpage.form.fnResetSearch();	// 기술지원 탭 검색조건 초기화
 };
 
@@ -440,7 +443,7 @@ this.tab_ProjectMM_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChange
 	if(objTabpage.form.all.length>0)
 		if (this.gfnIsEmpty(sProjectCd)) {
 			// 프로젝트 코드 없을경우 초기화 처리
-			if (e.postindex == 1)	objTabpage.form.fn_setInit("A");			// if (e.postindex == 0)
+			if (e.postindex == 0)	objTabpage.form.fn_setInit("A");			// if (e.postindex == 0)
 			else					objTabpage.form.fn_setInit();
 		} else {
 			// 프로젝트 코드에 대한 탭페이지 조회
@@ -455,11 +458,11 @@ this.fn_ButtonContral = function (nTabIndex)
 {
 	var sCocd = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");
 	
-	this.btn_TradingStatement.set_visible(false);	// 거래명세서 버튼 비활성화
-	this.btn_BillDelivery.set_visible(false);		// 청구서납품서 버튼 비활성화
+	this.divCmmnBtn.form.btn_TradingStatement.set_visible(false);	// 거래명세서 버튼 비활성화
+	this.divCmmnBtn.form.btn_BillDelivery.set_visible(false);		// 청구서납품서 버튼 비활성화
 	
-	this.btn_ContractCancel.set_visible(false);
-	if (nTabIndex == 1) {													// if (nTabIndex == 0) {
+	this.divCmmnBtn.form.btn_ContractCancel.set_visible(false);
+	if (nTabIndex == 0) {													// if (nTabIndex == 0) {
 		
 		if (!this.commUtil.getFormAuthority(242,8)) {		// [전체] 신규, 삭제 버튼 권한 없으면 비활성화
 			this.div_search.form.div_BtnCtr.form.btn_Add.set_enable(false);
@@ -469,60 +472,54 @@ this.fn_ButtonContral = function (nTabIndex)
 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(true);
 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(true);
 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
-		this.div_search.form.div_BtnCtr.form.btn_Excel.set_visible(false);
-		this.btn_ContractCancel.set_visible(true);
-	} else if (nTabIndex == 2) {											// } else if (nTabIndex == 1) {
+		this.divCmmnBtn.form.btn_Excel.set_visible(false);
+		this.divCmmnBtn.form.btn_ContractCancel.set_visible(true);
+	} else if (nTabIndex == 1) {											// } else if (nTabIndex == 1) {
 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Excel.set_visible(false);
-	} else if (nTabIndex == 3) {											// } else if (nTabIndex == 2) {
+		this.divCmmnBtn.form.btn_Excel.set_visible(false);
+	} else if (nTabIndex == 2) {											// } else if (nTabIndex == 2) {
 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);		
-		this.div_search.form.div_BtnCtr.form.btn_Excel.set_left(262);
-		this.div_search.form.div_BtnCtr.form.btn_Excel.set_visible(true);
-	} else if (nTabIndex == 4) {											// } else if (nTabIndex == 3) {
+		this.divCmmnBtn.form.btn_Excel.set_left(262);
+		this.divCmmnBtn.form.btn_Excel.set_visible(true);
+	} else if (nTabIndex == 3) {											// } else if (nTabIndex == 3) {
 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Excel.set_visible(false);
-	} else if (nTabIndex == 5) {											// } else if (nTabIndex == 4) {
+		this.divCmmnBtn.form.btn_Excel.set_visible(false);
+	} else if (nTabIndex == 4) {											// } else if (nTabIndex == 4) {
 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(true);
 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(true);
 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
-		this.div_search.form.div_BtnCtr.form.btn_Excel.set_visible(false);
+		this.divCmmnBtn.form.btn_Excel.set_visible(false);
 		
 		
-		if(sCocd == "J02") {
-			if (this.commUtil.getFormAuthority(242,23)) {
-				this.btn_BillDelivery.set_visible(true);	// 청구서,납품서 버튼 활성화
-			}
-		} else {
-			this.btn_TradingStatement.set_visible(true);	// 거래명세서 버튼 활성화
-		}
+		this.divCmmnBtn.form.btn_TradingStatement.set_visible(true);	// 거래명세서 버튼 활성화
 		
 		if (this.commUtil.getFormAuthority(242,24)) {		// 수금탭 신규, 삭제 버튼 활성화
 			this.div_search.form.div_BtnCtr.form.btn_Add.set_enable(true);
 			this.div_search.form.div_BtnCtr.form.btn_Del.set_enable(true);
 		} 
 
-	} else if (nTabIndex == 6) {											// } else if (nTabIndex == 5) {
+	} else if (nTabIndex == 5) {											// } else if (nTabIndex == 5) {
 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
-		this.div_search.form.div_BtnCtr.form.btn_Excel.set_visible(false);
-	} else if (nTabIndex == 7) {											// } else if (nTabIndex == 6) {
+		this.divCmmnBtn.form.btn_Excel.set_visible(false);
+	} else if (nTabIndex == 6) {											// } else if (nTabIndex == 6) {
 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);		
-		this.div_search.form.div_BtnCtr.form.btn_Excel.set_left(262);
-		this.div_search.form.div_BtnCtr.form.btn_Excel.set_visible(true);
-	} else if (nTabIndex == 0) {											// } else if (nTabIndex == 7) {
+		this.divCmmnBtn.form.btn_Excel.set_left(262);
+		this.divCmmnBtn.form.btn_Excel.set_visible(true);
+	} else if (nTabIndex == 7) {											// } else if (nTabIndex == 7) {
 				this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
-		this.div_search.form.div_BtnCtr.form.btn_Excel.set_visible(false);
+		this.divCmmnBtn.form.btn_Excel.set_visible(false);
 	}
 }
 
@@ -661,7 +658,7 @@ this.btn_ContractCancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEve
 {
 	var nTabIdx = this.tab_ProjectMM.tabindex;
 	var objTabpage = this.fn_getObjTabpage(nTabIdx);
-	if(nTabIdx==1)
+	if(nTabIdx==0)
 		objTabpage.form.fn_ContractCancelData();
 };
 

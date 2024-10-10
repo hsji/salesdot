@@ -6,51 +6,6 @@
         <Div id="div_ContractInfo" taborder="1" top="0" text="" cssclass="div_WF_detailBg" bottom="156" formscrolltype="none" right="0" width="713">
           <Layouts>
             <Layout>
-              <Div id="div_ContractMain_J" taborder="9" text="Div00" top="0" right="0" bottom="170" visible="true" left="2">
-                <Layouts>
-                  <Layout>
-                    <Static id="stc_SubSalesEmpNo" taborder="0" text="Sub 영업" left="330" top="128" width="54" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="605"/>
-                    <Static id="stc_ContractPrice" taborder="1" text="계약금액" left="5" top="128" width="52" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="40"/>
-                    <Static id="stc_ContractType" taborder="2" text="계약구분 " top="8" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="9" TL_SEQ="123"/>
-                    <Combo id="cmb_ContractType" taborder="3" text="제품계약" left="65" top="8" width="120" height="22" value="1" index="0" innerdataset="ds_cmm_ContractType" codecolumn="CODE" datacolumn="CAPTION" readonly="true" onitemchanged="cmb_ContractType_onitemchanged"/>
-                    <Static id="stc_ContractProductCode" taborder="4" text="계약제품" left="193" top="8" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="332"/>
-                    <Static id="stc_ContractName" taborder="5" text="계약명" left="9" top="38" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="33"/>
-                    <Edit id="edt_ContractName" taborder="6" left="65" top="38" width="471" height="22"/>
-                    <Combo id="cmb_SalesProduct" taborder="7" text="Combo00" left="249" top="8" width="204" height="22" innerdataset="ds_cmm_Product" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME"/>
-                    <CheckBox id="chb_Export" taborder="8" text="수출" left="461" top="8" width="48" height="22" cssclass="sta_WF_DetailTit" falsevalue="0" truevalue="1" TL_SEQ="584"/>
-                    <Static id="stc_ContractMain" taborder="9" text="계약처" left="9" top="68" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="34"/>
-                    <Div id="div_ContractMain" taborder="10" left="65" top="68" width="259" height="22" url="Common::COM_Search.xfdl" binddataset="ds_MainContract" codecolumn="CONTRACT_MAIN" datacolumn="CONTRACT_MAIN_NAME" kind="COMPANY" param="" user_onchanged="Com_Search_onChanged" autoSearch="false"/>
-                    <CheckBox id="chb_StrategySales" taborder="11" text="전략영업" left="517" top="8" width="73" height="22" cssclass="sta_WF_DetailTit" falsevalue="0" truevalue="1" TL_SEQ="613"/>
-                    <Static id="stc_SalesStatus" taborder="12" text="영업 상태" left="324" top="68" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="620"/>
-                    <Combo id="cmb_SalesStatus" taborder="13" text="" left="389" top="68" height="22" innerdataset="ds_cmm_SalesStatus" codecolumn="CODE" datacolumn="CAPTION" width="120"/>
-                    <Static id="stc_PayMethod" taborder="14" text="결제조건" left="518" top="68" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="219"/>
-                    <Combo id="cmb_PayMethod" taborder="15" text="" top="68" height="22" innerdataset="ds_cmm_PayMethod" codecolumn="CODE" datacolumn="CAPTION" left="572" width="70"/>
-                    <Static id="stc_SalesEmpNo" taborder="16" text="담당영업" left="5" top="98" width="52" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="37"/>
-                    <MaskEdit id="medt_ContractPrice" taborder="17" left="65" top="128" width="90" height="22" format="#,##0" textAlign="right" readonly="true"/>
-                    <Combo id="cmb_SalesEmpNo" taborder="18" text="" left="65" top="98" width="90" height="22" innerdataset="ds_cmm_SalesEmp" codecolumn="EMP_NO" datacolumn="EMP_NAME" displayrowcount="15" onitemchanged="cmb_SalesEmpNo_onitemchanged"/>
-                    <Static id="stc_Incentive" taborder="19" text="인센티브" left="162" top="98" width="70" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="615"/>
-                    <Combo id="cmb_Incentive" taborder="20" text="" left="235" top="98" width="90" height="22" innerdataset="ds_cmm_SalesEmp" codecolumn="EMP_NO" datacolumn="EMP_NAME" displayrowcount="15" readonly="true"/>
-                    <Static id="stc_ContractEnroll" taborder="21" text="계약등록" left="330" top="98" width="54" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="616"/>
-                    <Edit id="edt_ContractEnroll" taborder="22" left="392" top="98" width="80" height="22" readonly="true"/>
-                    <Static id="stc_SalesStatus00" taborder="23" text="사업구분" left="532" top="38" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="112"/>
-                    <Combo id="cmb_BusinessType" taborder="24" text="" top="38" height="22" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" right="7" width="84"/>
-                    <CheckBox id="chb_UnionFlag" taborder="25" text="통합" left="517" top="8" width="49" height="22" cssclass="sta_WF_DetailTit" falsevalue="0" truevalue="1" visible="false" TL_SEQ="622"/>
-                    <CheckBox id="chb_AutoExtension" taborder="26" text="자동" left="574" top="8" width="48" height="22" cssclass="sta_WF_DetailTit" falsevalue="0" truevalue="1" visible="false" TL_SEQ="44"/>
-                    <CheckBox id="chk_SitecheckFlag" taborder="27" text="검수" top="68" height="22" cssclass="sta_WF_DetailTit" truevalue="1" falsevalue="0" TL_SEQ="623" width="53" left="649"/>
-                    <Button id="btn_CopyAdd" taborder="28" text="복사추가" left="623" top="8" width="59" height="22" visible="false" TL_SEQ="210" onclick="btn_CopyAdd_onclick"/>
-                    <Combo id="cmb_SubSalesEmpNo" taborder="29" text="" left="392" top="128" width="90" height="22" innerdataset="ds_cmm_SalesEmp" codecolumn="EMP_NO" datacolumn="EMP_NAME" onitemchanged="div_ContractInfo_cmb_SalesEmpNo_onitemchanged" displayrowcount="15"/>
-                    <Static id="stc_SubContractPrice" taborder="30" text="Sub 계약금액" left="485" top="128" width="72" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="624"/>
-                    <MaskEdit id="medt_SubContractPrice" taborder="31" left="562" top="128" width="75" height="22" format="#,##0" textAlign="right"/>
-                    <CheckBox id="chb_NetSales" taborder="32" text="순매출" top="8" width="60" height="22" falsevalue="0" truevalue="1" left="598" enable="false" visible="false" TL_SEQ="279"/>
-                    <Button id="btn_Account" taborder="33" text="회계용" top="127" width="59" height="22" onclick="btn_Account_onclick" visible="false" TL_SEQ="630" right="7"/>
-                    <Static id="stc_ConsumptionTax" taborder="34" text="소비세액" left="479" top="98" width="56" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="12469" visible="true"/>
-                    <Combo id="cmb_ConsumptionTax" taborder="35" left="541" top="98" width="80" height="22" visible="true" innerdataset="ds_cmm_ConsumptionTax" codecolumn="CODE" datacolumn="CAPTION"/>
-                    <CheckBox id="chb_DivisionFlag" taborder="36" text="분리등록" width="73" height="22" cssclass="sta_WF_DetailTit" truevalue="1" falsevalue="0" right="6" top="98" TL_SEQ="629"/>
-                    <Static id="stc_ContractPrice00" taborder="37" text="로열티" left="162" top="128" width="70" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="22569"/>
-                    <MaskEdit id="medt_Royalty" taborder="38" left="235" top="128" width="90" height="22" format="#,##0" textAlign="right" readonly="true"/>
-                  </Layout>
-                </Layouts>
-              </Div>
               <Div id="div_Attachment" taborder="6" width="110" height="22" async="false" BINDDATASET="ds_MainContract" SOURCE_CD="CL" SOURCE_SEQ="CONTRACT_NO" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="true" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" url="Common::COM_Attachment.xfdl" right="8" PROJECT_CODE="PROJECT_CODE" enable="false" bottom="8"/>
               <Button id="btn_RequestLicense" taborder="5" text="라이선스요청" height="22" onclick="btn_RequestLicense_onclick" width="90" right="div_Attachment:6" enable="false" bottom="7" TL_SEQ="130"/>
               <Button id="btn_Online" taborder="1" text="온라인LIC요청" height="22" onclick="btn_Online_onclick" bottom="7" right="btn_RequestLicense:6" width="90" enable="false" TL_SEQ="625"/>
@@ -603,11 +558,9 @@ this.FV_AUTH_PRICE_MASK = false;
  ************************************************************************************************/
 this.SP_Contract_onload = function(obj:nexacro.Form, e:nexacro.LoadEventInfo)
 {
-	 this.FV_CO_CD = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");	//로그인 회사코드
+//	 this.FV_CO_CD = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");	//로그인 회사코드
 	 
-	 // 일본법인 아닌경우 순매출 금액 비활성화
-	 if (this.FV_CO_CD != "J02") {
-		this.div_ContractInfo.form.div_ContractMain_J.set_visible(false);
+/*		this.div_ContractInfo.form.div_ContractMain_J.set_visible(false);*/
 		this.contract_div = this.div_ContractInfo.form.div_ContractMain_K;				// 계약 정보 법인별 Div object 변수 세팅
 		
 		this.tab_Progress.tpg_Royalty.form.stc_NetSalesPrice.set_visible(false);		// 순매출 금액
@@ -617,25 +570,25 @@ this.SP_Contract_onload = function(obj:nexacro.Form, e:nexacro.LoadEventInfo)
 		this.tab_Progress.tpg_Royalty.form.ta_RoyaltyRemarks.set_visible(false);		// (국내) 로열티 비고 미사용
 		this.tab_Progress.tpg_Royalty.form.ta_Remarks.set_top(62);						// (국내) 비고는 로열티비고 + 비고 보여줌
 
-	} else {
-		this.div_ContractInfo.form.div_ContractMain_K.set_visible(false);
-		this.contract_div = this.div_ContractInfo.form.div_ContractMain_J;				// 계약 정보 법인별 Div object 변수 세팅
-		this.div_ContractInfo.form.div_ContractSub.set_top(160);
-		
-		// 일본 법인 라이선스 관련 버튼 사용 안함
-		this.div_ContractInfo.form.btn_Online.set_visible(false);
-		this.div_ContractInfo.form.btn_RequestLicense.set_visible(false);
-	 }
+// 	} else {
+// 		this.div_ContractInfo.form.div_ContractMain_K.set_visible(false);
+// 		this.contract_div = this.div_ContractInfo.form.div_ContractMain_J;				// 계약 정보 법인별 Div object 변수 세팅
+// 		this.div_ContractInfo.form.div_ContractSub.set_top(160);
+// 		
+// 		// 일본 법인 라이선스 관련 버튼 사용 안함
+// 		this.div_ContractInfo.form.btn_Online.set_visible(false);
+// 		this.div_ContractInfo.form.btn_RequestLicense.set_visible(false);
+// 	 }
 	 
 	 
 	 this.gfnCompInit(obj);  	// Grid 공통함수 호출
 	 this.fnSetComCmbConfig();	// 거래처 공통 검색 Div 세팅
 	 
 	 
-	if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹 처리 권한
+	//if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹 처리 권한
 
-	this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_ContractPrice);
-	this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_Royalty);	
+// 	this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_ContractPrice);
+// 	this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_Royalty);	
 	 this.fnGetCode();
 };
 
@@ -2003,8 +1956,8 @@ this.ds_MainContract_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexa
 		
 		
 		// 계약 금액 마스킹 처리
-		this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_ContractPrice);
-		this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_Royalty);
+// 		this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_ContractPrice);
+// 		this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_Royalty);
 
 	} else {
 		
@@ -3971,27 +3924,6 @@ this.fn_setPriceMasking = function (obj)
       <BindItem id="item43" compid="div_ContractInfo.form.div_ContractMain_K.form.chb_NetSales" propid="value" datasetid="ds_MainContract" columnid="NET_SALES_FLAG"/>
       <BindItem id="item44" compid="div_ContractInfo.form.div_ContractMain_K.form.chb_DivisionFlag" propid="value" datasetid="ds_MainContract" columnid="DIVISION_FLAG"/>
       <BindItem id="item57" compid="div_ContractInfo.form.div_ContractMain_K.form.cmb_ConsumptionTax" propid="value" datasetid="ds_MainContract" columnid="CONSUMPTION_TAX"/>
-      <BindItem id="item58" compid="div_ContractInfo.form.div_ContractMain_J.form.cmb_ContractType" propid="value" datasetid="ds_MainContract" columnid="CONTRACT_TYPE"/>
-      <BindItem id="item59" compid="div_ContractInfo.form.div_ContractMain_J.form.edt_ContractName" propid="value" datasetid="ds_MainContract" columnid="CONTRACT_NAME"/>
-      <BindItem id="item60" compid="div_ContractInfo.form.div_ContractMain_J.form.cmb_SalesProduct" propid="value" datasetid="ds_MainContract" columnid="PRODUCT_CODE"/>
-      <BindItem id="item61" compid="div_ContractInfo.form.div_ContractMain_J.form.chb_Export" propid="value" datasetid="ds_MainContract" columnid="EXPORT_FLAG"/>
-      <BindItem id="item62" compid="div_ContractInfo.form.div_ContractMain_J.form.chb_StrategySales" propid="value" datasetid="ds_MainContract" columnid="STRATEGY_SALES_FLAG"/>
-      <BindItem id="item63" compid="div_ContractInfo.form.div_ContractMain_J.form.cmb_SalesStatus" propid="value" datasetid="ds_MainContract" columnid="SALES_STATUS"/>
-      <BindItem id="item64" compid="div_ContractInfo.form.div_ContractMain_J.form.cmb_PayMethod" propid="value" datasetid="ds_MainContract" columnid="PAY_METHOD"/>
-      <BindItem id="item65" compid="div_ContractInfo.form.div_ContractMain_J.form.medt_ContractPrice" propid="value" datasetid="ds_MainContract" columnid="CONTRACT_PRICE"/>
-      <BindItem id="item66" compid="div_ContractInfo.form.div_ContractMain_J.form.cmb_SalesEmpNo" propid="value" datasetid="ds_MainContract" columnid="SALES_EMP_NO"/>
-      <BindItem id="item67" compid="div_ContractInfo.form.div_ContractMain_J.form.cmb_Incentive" propid="value" datasetid="ds_MainContract" columnid="INCENTIVE_EMP_NO"/>
-      <BindItem id="item68" compid="div_ContractInfo.form.div_ContractMain_J.form.edt_ContractEnroll" propid="value" datasetid="ds_MainContract" columnid="CREATE_EMP_NAME"/>
-      <BindItem id="item69" compid="div_ContractInfo.form.div_ContractMain_J.form.cmb_BusinessType" propid="value" datasetid="ds_MainContract" columnid="BUSINESS_TYPE"/>
-      <BindItem id="item70" compid="div_ContractInfo.form.div_ContractMain_J.form.chb_UnionFlag" propid="value" datasetid="ds_MainContract" columnid="UNION_FLAG"/>
-      <BindItem id="item71" compid="div_ContractInfo.form.div_ContractMain_J.form.chb_AutoExtension" propid="value" datasetid="ds_MainContract" columnid="AUTO_EXTENSION_FLAG"/>
-      <BindItem id="item72" compid="div_ContractInfo.form.div_ContractMain_J.form.chk_SitecheckFlag" propid="value" datasetid="ds_MainContract" columnid="SITECHK_FLAG"/>
-      <BindItem id="item73" compid="div_ContractInfo.form.div_ContractMain_J.form.cmb_SubSalesEmpNo" propid="value" datasetid="ds_MainContract" columnid="SUB_SALES_EMP_NO"/>
-      <BindItem id="item74" compid="div_ContractInfo.form.div_ContractMain_J.form.medt_SubContractPrice" propid="value" datasetid="ds_MainContract" columnid="SUB_CONTRACT_PRICE"/>
-      <BindItem id="item75" compid="div_ContractInfo.form.div_ContractMain_J.form.chb_NetSales" propid="value" datasetid="ds_MainContract" columnid="NET_SALES_FLAG"/>
-      <BindItem id="item76" compid="div_ContractInfo.form.div_ContractMain_J.form.cmb_ConsumptionTax" propid="value" datasetid="ds_MainContract" columnid="CONSUMPTION_TAX"/>
-      <BindItem id="item77" compid="div_ContractInfo.form.div_ContractMain_J.form.chb_DivisionFlag" propid="value" datasetid="ds_MainContract" columnid="DIVISION_FLAG"/>
-      <BindItem id="item78" compid="div_ContractInfo.form.div_ContractMain_J.form.medt_Royalty" propid="value" datasetid="ds_MainContract" columnid="ROYALTY_PRICE"/>
     </Bind>
   </Form>
 </FDL>

@@ -641,9 +641,12 @@ this.GetCostsheetAddRowconfirm = function ()
 	this.gfnAddInputDataset("ds_PurchaseSi",	"ds_PurchaseSi", "A");
 	
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_ccseq",		"ds_ccseq");
+// 	this.gfnAddOutputDataset("ds_ccseq",		"ds_ccseq");
+// 	
+// 	this.gfnCommonTransaction("SP_CostSheet_R01", "SP_CostSheet_R01");
 	
-	this.gfnCommonTransaction("SP_CostSheet_R01", "SP_CostSheet_R01");
+	this.gfnSetMap("salesManagerMapper", "SalesmanCombo", "ds_ccseq");
+	this.gfnCommonTransaction("SP_CostSheet_R01", 	"saveCostSheet.do"/*		"CO_SalesEmp_S01"*/);	
  } 
  
  
@@ -1037,7 +1040,7 @@ this.GetCostsheetAddRowconfirm = function ()
 		//수금예정일
 		if(this.gfnIsEmpty(this.div_main.form.div_header.form.edt_BillDateList.value))
 		{
-			alert(this.gfnGetTransTxt(1353,"수금예정일 정보를 입력하세요"));
+			this.gfnAlert('msg.general', this.gfnGetTransTxt(1353,"수금예정일 정보를 입력하세요"));
 			this.div_main.form.div_header.form.edt_BillDateList.setFocus();
 			if(this.FV_REPORT_ONLY)
 				this.commUtil.popupClose();
@@ -1055,7 +1058,7 @@ this.GetCostsheetAddRowconfirm = function ()
 		//결제조건
 		if(this.gfnIsEmpty(this.div_main.form.div_header.form.cmb_PayTerm.value))
 		{
-			alert(this.gfnGetTransTxt(1355,"결제조건 정보를 입력하세요"));
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1355,"결제조건 정보를 입력하세요"));
 			this.div_main.form.div_header.form.cmb_PayTerm.setFocus();
 			if(this.FV_REPORT_ONLY)
 				this.commUtil.popupClose();
@@ -1067,7 +1070,7 @@ this.GetCostsheetAddRowconfirm = function ()
 			// 매출 제품/상품 등록시만 필수 입력
 			if (this.ds_ContractProd.rowcount>0)
 			{
-				alert(this.gfnGetTransTxt(1356,"무상유지보수기간을 입력하세요"));
+				this.gfnAlert('msg.general',this.gfnGetTransTxt(1356,"무상유지보수기간을 입력하세요"));
 				this.div_main.form.rd_FreeMaYear.setFocus();
 				if(this.FV_REPORT_ONLY)
 					this.commUtil.popupClose();
@@ -1083,14 +1086,14 @@ this.GetCostsheetAddRowconfirm = function ()
 		var nClOverCost = this.div_main.form.medt_ClOverCost.value; 			// 여신초과금액
 		if (nexacro.toNumber(nClOverCost)>0) {
 			if (this.gfnIsEmpty(sClException) || sClException == "000") {
-				alert(this.gfnGetTransTxt(1357,"여신초과 금액 마이너스 입니다. 예외처리를 입력하세요"));
+				this.gfnAlert('msg.general',this.gfnGetTransTxt(1357,"여신초과 금액 마이너스 입니다. 예외처리를 입력하세요"));
 				this.div_main.form.cmb_ExceptionCd.setFocus();
 				return;
 			}
 			// 원가표 예외처리 여신한도조정(009), 대표이사개인지급보증서(003), 미수채권조기상환(010), (타사)대금지급보증서(010)
 			if (sClException == "009" || sClException == "003" || sClException == "010" || sClException == "002") {
 				if(this.gfnIsEmpty(sReorganizer_Reason)) {
-					alert(this.gfnGetTransTxt(1632,"[@1@] 예외처리에 대한 조정사유는 필수 입력 항목 입니다.",[this.div_main.form.cmb_ExceptionCd.text]));
+					this.gfnAlert('msg.general',this.gfnGetTransTxt(1632,this.div_main.form.cmb_ExceptionCd.text + " 예외처리에 대한 조정사유는 필수 입력 항목 입니다."));
 					return;
 				}
 			}

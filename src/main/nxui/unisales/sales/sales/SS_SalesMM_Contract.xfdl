@@ -160,7 +160,7 @@ include "Script::ext_CommEco.xjs"
 	var sStartDt = this.gfnAddMonth(sToday, -12);
 	this.div_search.form.div_Search_yyyyMM_FromTo.setFromYYYYMM(sStartDt.substr(0, 6));	// 계약기간 시작
 	this.div_search.form.div_Search_yyyyMM_FromTo.setToYYYYMM(sToday.substr(0, 6));		// 계약기간 종료
-	this.div_search.form.chk_NoneDate.set_value("1");			// 기간무시 체크
+	this.div_search.form.chk_NoneDate.set_value("0");			// 기간무시 체크
 	
 	this.fnsetInit();
 };
@@ -244,7 +244,6 @@ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 			} else {
 				this.div_search.form.cmb_SalesRepresent.set_index(0);
 			}
-			
 			this.div_search.form.cmb_SalesStatus.set_index(0);
 			
 			this.div_search.form.btn_Search.click();
@@ -253,6 +252,11 @@ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 			break;
 		case "SearchEstimateCnt" : 
 			break;
+		case "SS_Contract_R01":
+			this.fnQueryData();
+			break;
+		case "SS_Contract_S01":
+			break;			
 	}
 };
 
@@ -456,20 +460,6 @@ this.btn_Estimate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo
 	this.gfnCommonTransaction("SS_Contract_R01", 	"saveNextList.do");		
  }
  
- 
- // 화면 콜백
-this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
-{
-	switch (strSvcID) 
-	{
-		case "SS_Contract_R01":
-			this.fnQueryData();
-			break;
-		case "SS_Contract_S01":
-			// trace(this.dsList.saveXML());
-			break;
-	}
- }
   
  /************************************************************************************************
  * FORM 공통 FUNCTION 영역
@@ -541,7 +531,7 @@ this.grd_ContractList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridC
 		this.commUtil.popupProjectMM (this, "popProjectMM", "fn_popCallBack", sProjectCd, sProjectNm, "R");
 	} else {
 		var sArgument = {pvProjectCd : sProjectCd, pvContractNo : sContractNo}
-		this.commUtil.popup(this, "popContractDet", "Sales::SS_ContractDetail.xfdl", -1, -1, 700, 696, true, true, false, sArgument, "fn_popCallBack");
+		this.commUtil.popup(this, "popContractDet", "sales::sales/SS_ContractDetail.xfdl", -1, -1, 700, 696, true, true, false, sArgument, "fn_popCallBack");
 	}
 };
 

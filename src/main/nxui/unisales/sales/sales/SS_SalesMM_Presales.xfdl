@@ -136,7 +136,7 @@
           </Layouts>
         </Div>
         <Button id="btn_Estimate" taborder="6" text="견적서" top="99" height="28" enable="false" visible="false" right="btn_CostSheet:5" width="84" onclick="btn_Estimate_onclick" TL_SEQ="12430"/>
-        <Static id="staTitle01" taborder="7" text="PreSales 현황" left="0" width="342" height="44" cssclass="sta_WF_Title" top="div_search:0"/>
+        <Static id="staTitle01" taborder="7" text="프리세일즈 현황" left="0" width="342" height="44" cssclass="sta_WF_Title" top="div_search:0"/>
         <Static id="stc_Sales_List" taborder="8" cssclass="sta_WF_detailBg" top="122" text="" left="558.00" right="20" height="168"/>
         <Grid id="grd_Presales" taborder="9" binddataset="dsList" useinputpanel="false" left="0" autofittype="col" width="554" top="122" bottom="tab_Progess:0" cellsizingtype="col" readonly="true">
           <Formats>
@@ -223,7 +223,7 @@
                                   <Column size="143"/>
                                 </Columns>
                                 <Rows>
-                                  <Row size="32" band="head"/>
+                                  <Row size="30" band="head"/>
                                   <Row size="30"/>
                                 </Rows>
                                 <Band id="head">
@@ -272,7 +272,7 @@
                                   <Column size="143"/>
                                 </Columns>
                                 <Rows>
-                                  <Row size="32" band="head"/>
+                                  <Row size="30" band="head"/>
                                   <Row size="30"/>
                                 </Rows>
                                 <Band id="head">
@@ -377,8 +377,8 @@
                                   <Column size="130"/>
                                 </Columns>
                                 <Rows>
-                                  <Row size="25" band="head"/>
-                                  <Row size="24"/>
+                                  <Row size="30" band="head"/>
+                                  <Row size="30"/>
                                 </Rows>
                                 <Band id="head">
                                   <Cell text="역할" TL_SEQ="75"/>
@@ -430,8 +430,8 @@
                                   <Column size="130"/>
                                 </Columns>
                                 <Rows>
-                                  <Row size="25" band="head"/>
-                                  <Row size="24"/>
+                                  <Row size="30" band="head"/>
+                                  <Row size="30"/>
                                 </Rows>
                                 <Band id="head">
                                   <Cell text="역할" TL_SEQ="75"/>
@@ -482,8 +482,8 @@
                                   <Column size="90"/>
                                 </Columns>
                                 <Rows>
-                                  <Row size="25" band="head"/>
-                                  <Row size="24"/>
+                                  <Row size="30" band="head"/>
+                                  <Row size="30"/>
                                 </Rows>
                                 <Band id="head">
                                   <Cell text="구분" TL_SEQ="105"/>

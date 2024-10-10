@@ -246,7 +246,6 @@ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 	{
 		case "gfnGetCode" :
 			this.div_search.form.cmb_ContractStatus.set_index(0);
-			
 		break;
 		case "SalesEmp" : 
 			var nAddRow = this.ds_cond_sales_emp.insertRow(0);
@@ -430,21 +429,6 @@ this.fnQueryData = function()
 	this.gfnSetMap("salesManagerMapper", "SalesListS01", "ds_list");
 	this.gfnCommonTransaction("SS_SalesList_S01", 	"selectNextList.do"/*		"SS_SalesList_S01"*/, this.grd_SalesList);
 };
- 
- 
- // 화면 콜백
-this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
-{
-	switch (strSvcID) 
-	{
-		case "gfnGetCode" :
-			this.ds_cmm_ContractStatus.rowposition = 0;
-			this.fnQueryData();
-		break;
-		case "SS_SalesList_S01":
-		break;
-	}
- }
   
  /************************************************************************************************
  * FORM 공통 FUNCTION 영역
