@@ -1,13 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="CO_Project" width="1362" height="650" titletext="프로젝트 관리" cssclass="frm_popBg" onload="CO_Project_onload">
+  <Form id="CO_Project" width="1390" height="650" titletext="프로젝트 관리" cssclass="frm_popBg" onload="CO_Project_onload">
     <Layouts>
-      <Layout height="650" mobileorientation="landscape" width="1362">
-        <Div id="div_view" taborder="0" text="Div00" left="0" top="35" right="0" bottom="33" url="sales::sales/SP_ProjectMM.xfdl"/>
+      <Layout height="650" mobileorientation="landscape" width="1390">
+        <Div id="div_view" taborder="0" text="Div00" left="20" top="20" right="20" bottom="20" url="sales::sales/SP_ProjectMM.xfdl"/>
         <Static id="stc_BottomFrame" taborder="1" left="0" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg"/>
         <Button id="btn_Cancel" taborder="2" text="닫기" height="22" cssclass="btn_WF_cancel" right="4" bottom="9" onclick="common_onclick" TL_SEQ="59" left="1298"/>
-        <Button id="btn_Close" taborder="3" top="8" width="15" height="15" right="20" cssclass="btn_POP_Cls" text="" onclick="common_onclick"/>
-        <Static id="st_Title" taborder="4" text="프로젝트 관리" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="1941"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/************************************************************************************************
