@@ -1865,4 +1865,8 @@ VALUES
 	SELECT ROUND(GET_MM(#{START_DATE},#{END_DATE}), 2) AS MM, #{ROW} AS ROW 
 </select>
 
+<select id="selectCurrentDate" resultType="string">
+	SELECT DATE_FORMAT(NOW(), '%Y%m%d') AS CURDATE
+</select>
+
 </mapper>

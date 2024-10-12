@@ -44,6 +44,12 @@ public interface nextBaseService {
 	public void saveMap(Map<String,String> query, Map<String,Object> saveMap, UserInfo userInfo);
 	
 	/* 저장한다. */
+	public void updateNextData(Map<String,String> query, Map<String,Object> searchMap, Map<String, Object> userInfo);
+	
+	/* 저장한다. */
+	public void updateNextList(Map<String,String> query, Map<String,Object> searchMap, List<Map<String,Object>> dsInput, Map<String, Object> userInfo);
+	
+	/* 저장한다. */
 	public void saveListUserMap(Map<String,String> query, List<Map<String,Object>> saveList, Map<String, Object> userInfo);	
 	
 	/* 회사정보를 저장한다. */

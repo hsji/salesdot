@@ -22,16 +22,13 @@ import com.unisales.util.UserInfo;
  * ------------------------------------------------
  * 2019. 05. 09.		TOBESOFT	최초작성
  */
-public interface salesManagerService {
+public interface projectService {
 
-	public void savePresalseList(List<Map<String,String>> query, Map<String,Object> datasetMap, UserInfo userInfo) throws Exception;
-	
-	public Map<String, Object> saveCostSheet(List<Map<String,String>> query, Map<String,Object> datasetMap, UserInfo userInfo) throws Exception;
+	public void saveContractList(Map<String,Object> datasetMap, UserInfo userInfo) throws Exception;
 	/* 조회 */
 	public List<Map<String,Object>> searchList(Map<String,String> query, Map<String,Object> search, UserInfo userInfo);	
 	/* 조회 */
-	public Map<String,Object> searchMap(Map<String,String> query, Map<String,Object> search, UserInfo userInfo);	
-	
-	public void costSheetInit(Map<String,Object> search, UserInfo userInfo) throws Exception;
-	
+	public Map<String,Object> searchMap(Map<String,String> query, Map<String,Object> search, UserInfo userInfo);		
+
+	public void saveSP_Contract_R02(Map<String,Object> dsIn, UserInfo userInfo) throws Exception;
 }

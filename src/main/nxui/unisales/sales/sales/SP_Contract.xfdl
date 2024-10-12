@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="SP_Contract" width="1274" height="487" onload="SP_Contract_onload" titletext="매출계약" onsize="SP_Contract_onsize">
+  <Form id="SP_Contract" width="1295" height="540" onload="SP_Contract_onload" titletext="매출계약" onsize="SP_Contract_onsize">
     <Layouts>
-      <Layout height="487" mobileorientation="landscape" width="1274">
-        <Div id="div_ContractInfo" taborder="1" top="0" text="" cssclass="div_WF_detailBg" bottom="156" formscrolltype="none" right="0" width="713">
+      <Layout height="540" mobileorientation="landscape" width="1295">
+        <Div id="div_ContractInfo" taborder="1" top="10" text="" cssclass="div_WF_detailBg" bottom="156" formscrolltype="none" right="10" width="713">
           <Layouts>
             <Layout>
               <Div id="div_Attachment" taborder="6" width="110" height="22" async="false" BINDDATASET="ds_MainContract" SOURCE_CD="CL" SOURCE_SEQ="CONTRACT_NO" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="true" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" url="Common::COM_Attachment.xfdl" right="8" PROJECT_CODE="PROJECT_CODE" enable="false" bottom="8"/>
@@ -69,7 +69,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grd_ContractList" binddataset="ds_MainContract" taborder="0" left="0" top="4" autofittype="col" right="717" height="37.42%">
+        <Grid id="grd_ContractList" binddataset="ds_MainContract" taborder="0" left="10" top="10" autofittype="col" height="37.42%" right="div_ContractInfo:10">
           <Formats>
             <Format id="default">
               <Columns>
@@ -80,8 +80,8 @@
                 <Column size="110"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="계약구분" TL_SEQ="123"/>
@@ -100,7 +100,7 @@
             </Format>
           </Formats>
         </Grid>
-        <Tab id="tab_Progress" taborder="2" left="0" tabindex="2" scrollbars="autoboth" top="grd_ContractList:0.9970000000000141" right="717" onchanged="tab_Progress_onchanged" bottom="155">
+        <Tab id="tab_Progress" taborder="2" left="10" tabindex="2" scrollbars="autoboth" top="grd_ContractList:0" right="div_ContractInfo:10" onchanged="tab_Progress_onchanged" bottom="155">
           <Tabpages>
             <Tabpage id="tpg_SalesProgess" text="진행사항" TL_SEQ="65">
               <Layouts>
@@ -313,7 +313,7 @@
         </Tab>
         <Button id="btn_ProgressMinus" taborder="4" width="16" height="16" onclick="CommDelRow_onclick" top="grd_ContractList:12" right="div_ContractInfo:12" enable="false" cssclass="btn_POP_Del"/>
         <Button id="btn_ProgressPlus" taborder="3" width="16" height="16" top="grd_ContractList:12" right="btn_ProgressMinus:4" onclick="CommAddRow_onclick" enable="false" cssclass="btn_POP_Add"/>
-        <Grid id="grd_ContractDetail" taborder="5" left="0" right="0" binddataset="ds_ContractProdDet" autofittype="col" formatid="PROD" onexpandup="grd_ContractDetail_onexpandup" autoenter="select" oncellclick="grd_ContractDetail_oncellclick" onheadclick="grd_ContractDetail_onheadclick" top="tab_Progress:4" bottom="0">
+        <Grid id="grd_ContractDetail" taborder="5" left="10" right="10" binddataset="ds_ContractProdDet" autofittype="col" formatid="PROD" onexpandup="grd_ContractDetail_onexpandup" autoenter="select" oncellclick="grd_ContractDetail_oncellclick" onheadclick="grd_ContractDetail_onheadclick" top="tab_Progress:4" bottom="0">
           <Formats>
             <Format id="PROD">
               <Columns>
@@ -329,8 +329,8 @@
                 <Column size="247"/>
               </Columns>
               <Rows>
-                <Row size="25" band="head"/>
-                <Row size="24"/>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="제품명" TL_SEQ="187"/>
@@ -492,7 +492,7 @@
           </Formats>
         </Grid>
         <Button id="btn_ContractDetailPlus" taborder="8" left="4" top="tab_Progress:8" height="16" onclick="CommAddRow_onclick" enable="false" width="16" cssclass="btn_POP_Add"/>
-        <Button id="btn_Up" taborder="7" cssclass="btn_WF_schdUp" top="div_ContractInfo:8" width="18" height="18" onclick="btn_Up_onclick" right="4"/>
+        <Button id="btn_Up" taborder="7" cssclass="btn_WF_schdUp" top="div_ContractInfo:8" width="18" height="18" onclick="btn_Up_onclick" right="24"/>
         <Button id="btn_Down" taborder="6" cssclass="btn_WF_schdDown" top="div_ContractInfo:8" height="18" onclick="btn_Down_onclick" width="18" right="btn_Up:4"/>
         <Button id="btn_ContractDetailMinus" taborder="9" left="btn_ContractDetailPlus:4" top="tab_Progress:8" width="16" height="16" enable="false" onclick="CommDelRow_onclick" cssclass="btn_POP_Del"/>
         <Div id="div_Account" top="305" width="296" height="78" visible="false" background="white" border="1px solid #c8c8c8" onkillfocus="div_Account_onkillfocus" right="396">
@@ -600,7 +600,7 @@ this.fnAuthConfig = function()
 	var bDisableFlag;
 	var sLoginEmpNo = nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NO");
 	var sContractType = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_TYPE");
-	if (this.gfnIsEmpty(sContractType)) sContractType = "P";
+	if (this.gfnIsEmpty(sContractType)) sContractType = "PD";
 	
 	if (this.commUtil.getFormAuthority(242,8)) {	/*	전체 권한	*/
 		 this.FV_AUTH_ALL_FLAG = true;
@@ -751,7 +751,7 @@ this.fnAuthConfig = function()
  {
  	this.gfnAddCodeDataset("ds_cmm_ContractType",	"CONTRACT_TYPE"); 		// 계약구분
 	this.gfnAddCodeDataset("ds_cmm_PayMethod",		"PAY_METHOD"); 			// 결제조건
-	this.gfnAddCodeDataset("ds_cmm_SalesStatus",	"SALES_STATUS"); 		// 영업상태
+	this.gfnAddCodeDataset("ds_cmm_SalesStatus",	"SALESSTATUS"); 		// 영업상태
 	this.gfnAddCodeDataset("ds_cmm_BusinessType",	"BUSINESS_TYPE");		// 사업구분
 	
 	this.gfnAddCodeDataset("ds_cmm_Purpose",		"PURPOSE"); 			// 용도
@@ -760,7 +760,7 @@ this.fnAuthConfig = function()
 	this.gfnAddCodeDataset("ds_cmm_ProductUnit",	"PRODUCT_UNIT"); 		// 단위
 	
 	this.gfnAddCodeDataset("ds_cmm_Area",			"AREA_CODE"); 			// 근무지역
-	this.gfnAddCodeDataset("ds_cmm_Role",			"ROLE_CODE"); 			// 역할코드
+	this.gfnAddCodeDataset("ds_cmm_Role",			"PROJECTROLE"); 			// 역할코드 ROLE_CODE
 	this.gfnAddCodeDataset("ds_cmm_Level",			"LEVEL_CODE"); 			// 등급
 	
 	this.gfnAddCodeDataset("ds_cmm_Type",			"TYPE_CODE");			// 일정 구분
@@ -794,90 +794,121 @@ this.fnAuthConfig = function()
 	this.gfnAddSendParameter("BUSINESS_TYPE",		"");
 		
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_cmm_SalesEmp"	, "ds_output");
-	this.gfnCommonTransaction("CO_SalesEmp_S01", "CO_SalesEmp_S01");
+// 	this.gfnAddOutputDataset("ds_cmm_SalesEmp"	, "ds_output");
+// 	this.gfnCommonTransaction("CO_SalesEmp_S01", "CO_SalesEmp_S01");
+	this.gfnSetMap("salesManagerMapper", "SalesmanCombo", "ds_cmm_SalesEmp");
+	this.gfnCommonTransaction("CO_SalesEmp_S01", 	"selectNextList.do");	
  };
  
 
  // 조회
- this.fn_QueryData = function()
- {
+this.fn_QueryData = function()
+{
 	if (!this.fn_getValidation("S"))	return;
 	
 	// 조건값 셋팅
 	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
 		
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_MainContract", "ds_output");
-	this.gfnCommonTransaction("Select_M", "SP_Contract_S01", this.grd_ContractList);
- };
- 
- 
- this.fn_DupUnionContractNo = function (sContractNo)
- {
+// 	this.gfnAddOutputDataset("ds_MainContract", "ds_output");
+// 	this.gfnCommonTransaction("Select_M", "SP_Contract_S01", this.grd_ContractList);
+	this.gfnSetMap("projectMapper", "SP_Contract_S01", "ds_MainContract");
+	this.gfnCommonTransaction("Select_M", 	"selectNextList.do");		
+};
+  
+this.fn_DupUnionContractNo = function (sContractNo)
+{
 	this.gfnAddSendParameter("PROJECT_CODE",		this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
 	this.gfnAddSendParameter("UNION_CONTRACT_NO",	sContractNo);
 	
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_DupUionContr", "ds_output");
-	this.gfnCommonTransaction("DupUnionContractNo", "SP_Contract_S03", null, false);
- }
+// 	this.gfnAddOutputDataset("ds_DupUionContr", "ds_output");
+// 	this.gfnCommonTransaction("DupUnionContractNo", "SP_Contract_S03", null, false);
+	
+	this.gfnSetMap("projectMapper", "SP_Contract_S03", "ds_DupUionContr");
+	this.gfnCommonTransaction("DupUnionContractNo", 	"selectNextList.do", null, false);
+}
  
-   // 세부 조회
- this.fn_ContractDetailQueryData = function(nRow)
- {
+// 세부 조회
+this.fn_ContractDetailQueryData = function(nRow)
+{
 	// 조건값 셋팅
 	this.gfnAddSendParameter("PROJECT_CODE",	this.ds_MainContract.getColumn(nRow, "PROJECT_CODE"));
 	this.gfnAddSendParameter("CONTRACT_NO",		this.ds_MainContract.getColumn(nRow, "CONTRACT_NO"));
 	this.gfnAddSendParameter("CONTRACT_TYPE",	this.ds_MainContract.getColumn(nRow, "CONTRACT_TYPE"));
 	
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_ContractProdDet",	"ds_prod_det");
-	this.gfnAddOutputDataset("ds_ContractSiDet",	"ds_si_det");
-	this.gfnAddOutputDataset("ds_ContractMaDet",	"ds_ma_det");
+// 	this.gfnAddOutputDataset("ds_ContractProdDet",	"ds_prod_det");
+// 	this.gfnAddOutputDataset("ds_ContractSiDet",	"ds_si_det");
+// 	this.gfnAddOutputDataset("ds_ContractMaDet",	"ds_ma_det");
+// 	
+// 	this.gfnAddOutputDataset("ds_ScheduleList",		"ds_output1");
+// 	this.gfnAddOutputDataset("ds_AddressbookList",	"ds_output2");
+// 	this.gfnAddOutputDataset("ds_MaUnion", 			"ds_output3");
+// 	this.gfnAddOutputDataset("ds_Promise", 			"ds_output4");
+// 	this.gfnAddOutputDataset("ds_ContractBill",		"ds_output5");
+// 	this.gfnAddOutputDataset("ds_Royalty",			"ds_output6");
+// 	
+// 	this.gfnCommonTransaction("Select_S", "SP_Contract_S02", this.grd_ContractDetail);
 	
-	this.gfnAddOutputDataset("ds_ScheduleList",		"ds_output1");
-	this.gfnAddOutputDataset("ds_AddressbookList",	"ds_output2");
-	this.gfnAddOutputDataset("ds_MaUnion", 			"ds_output3");
-	this.gfnAddOutputDataset("ds_Promise", 			"ds_output4");
-	this.gfnAddOutputDataset("ds_ContractBill",		"ds_output5");
-	this.gfnAddOutputDataset("ds_Royalty",			"ds_output6");
-	
-	this.gfnCommonTransaction("Select_S", "SP_Contract_S02", this.grd_ContractDetail);
+	var arrMap = [];
+	arrMap[0] = "SP_Contract_S02_contract_prod_det";
+	arrMap[1] = "SP_Contract_S02_contract_si_det";
+	arrMap[2] = "SP_Contract_S02_contract_ma_det";
+	arrMap[3] = "SP_Contract_S02_sales_schedule";
+	arrMap[4] = "SP_Contract_S02_company_addressbook";
+	arrMap[5] = "SP_Contract_S02_contract_ma_union";
+	arrMap[6] = "SP_Contract_S02_contract_promise";
+	// arrMap[6] = "SP_Contract_S02_contract_promise";
+	var arrDs = ['ds_ContractProdDet',
+					'ds_ContractSiDet',
+					'ds_ContractMaDet',
+					'ds_ScheduleList',
+					'ds_AddressbookList',
+					'ds_MaUnion',
+					'ds_Promise'];
+
+	this.gfnSetMap("projectMapper", arrMap, arrDs);
+	this.gfnCommonTransaction("Select_S", "selectNextMultiList.do", this.grd_ContractDetail);	/*SP_Contract_S02*/	
  }
  
  // (계약대표)제품 조회
-  this.fn_ProductQueryData = function(sContractType)
+this.fn_ProductQueryData = function(sContractType)
 {
 	if (this.gfnIsEmpty(sContractType)) {
 		this.ds_cmm_Product.clearData();
 		return;
 	}
 	
-	if (sContractType == "S" || sContractType == "T")	sContractType = "P";
-	if (sContractType == "M")	sContractType = "P";
+	if (sContractType == "ZS" || sContractType == "ZT")	sContractType = "PD";
+	if (sContractType == "SM")	sContractType = "PD";
 	
 	this.gfnAddSendParameter("CONTRACT_TYPE",		sContractType);
 	this.gfnAddSendParameter("MAIN_PRODUCT_FLAG",	"1");
 	this.gfnAddSendParameter("E03",		"E03");
-	this.gfnAddOutputDataset("ds_cmm_Product", 	"dsOutput");
-	this.gfnCommonTransaction("AP_SalesProductMM_S01", "AP_SalesProductMM_S01");
+// 	this.gfnAddOutputDataset("ds_cmm_Product", 	"dsOutput");
+// 	this.gfnCommonTransaction("AP_SalesProductMM_S01", "AP_SalesProductMM_S01");
 	
-}
+	this.gfnSetMap("nextCommMapper", "CommProjectSearch", "ds_cmm_Product");
+	this.gfnCommonTransaction("AP_SalesProductMM_S01", "selectNextList.do"/*"AP_SalesProductMM_S01"*/);	
+	
+};
  
  // 등급단가 조회
  this.fn_LevelUnitCostQueryData = function(sYear, sLevelCd)
  {
 	this.gfnAddSendParameter("YEAR", sYear);
 	this.gfnAddSendParameter("LEVEL_CODE", sLevelCd);
-	this.gfnAddOutputDataset("ds_comm_LevelUnitCost", "ds_output");
-	this.gfnCommonTransaction("CO_LevelUnitCost_S01", "CO_LevelUnitCost_S01");
+// 	this.gfnAddOutputDataset("ds_comm_LevelUnitCost", "ds_output");
+// 	this.gfnCommonTransaction("CO_LevelUnitCost_S01", "CO_LevelUnitCost_S01");
+	this.gfnSetMap("salesManagerMapper", ['CO_LevelUnitCost_S01'], ['ds_comm_LevelUnitCost']);
+	this.gfnCommonTransaction("CO_LevelUnitCost_S01", "selectNextMultiList.do");		
  }
  
   
    // 환율 정보 조회
- this.fn_ExchageQueryData = function()
- {
+this.fn_ExchageQueryData = function()
+{
 	// 조건값 셋팅
 	this.gfnAddSendParameter("ROYALTY_DATE",		this.ds_Royalty.getColumn(0, "ROYALTY_DATE"));
 	
@@ -891,7 +922,7 @@ this.fnAuthConfig = function()
 	// 조회용 Output dataset 세팅
 	this.gfnAddOutputDataset("ds_ExchageInfo", "ds_output");
 	this.gfnCommonTransaction("ExchangeSelect", "SP_Contract_S07");
- };
+};
  
  
  this.fn_GetSaveCurrow = function()
@@ -928,17 +959,20 @@ this.fnAuthConfig = function()
 	}	
 
 	//저장용 Input Dataset 세팅
-	this.gfnAddInputDataset("ds_MainContract",		"ds_contract", "U");
-	this.gfnAddInputDataset("ds_ContractProdDet",	"ds_contract_p_det", "U");
-	this.gfnAddInputDataset("ds_ContractSiDet",		"ds_contract_s_det", "U");
-	this.gfnAddInputDataset("ds_ContractMaDet",		"ds_contract_m_det", "U");
-	this.gfnAddInputDataset("ds_ScheduleList",		"ds_schedul", "U");
-	this.gfnAddInputDataset("ds_AddressbookList",	"ds_addressbook", "U");
-	this.gfnAddInputDataset("ds_MaUnion",			"ds_ma_union", "U");
-	this.gfnAddInputDataset("ds_Promise",			"ds_promise", "U");
-	this.gfnAddInputDataset("ds_Royalty",			"ds_royalty", "U");
+	this.gfnAddInputDataset("ds_MainContract",		"dsInput1", "U");
+	this.gfnAddInputDataset("ds_ContractProdDet",	"dsInput2", "U");
+	this.gfnAddInputDataset("ds_ContractSiDet",		"dsInput3", "U");
+	this.gfnAddInputDataset("ds_ContractMaDet",		"dsInput4", "U");
+	this.gfnAddInputDataset("ds_ScheduleList",		"dsInput5", "U");
+	this.gfnAddInputDataset("ds_AddressbookList",	"dsInput6", "U");
+	this.gfnAddInputDataset("ds_MaUnion",			"dsInput7", "U");
+	this.gfnAddInputDataset("ds_Promise",			"dsInput8", "U");
+	this.gfnAddInputDataset("ds_Royalty",			"dsInput9", "U");
 	
-	this.gfnCommonTransaction("Save", "SP_Contract_R01");
+/*	this.gfnCommonTransaction("Save", "SP_Contract_R01");*/
+	
+	this.gfnSetMap("projectMapper", "SP_Contract_R01", "");
+	this.gfnCommonTransaction("Save", 	"saveSP_Contract_R01.do");	
  }
  
  // 계약확정 취소
@@ -952,41 +986,54 @@ this.fnAuthConfig = function()
 	var sContractType = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_TYPE");
 	var sProjectCode = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "PROJECT_CODE");
 	
-	
-	if( this.confirm(sContractName + this.gfnGetTransTxt(1888, "계약의 계약확정을 취소 하시겠습니까?")) )
-	{
-		if(this.FV_CO_CD == "J02") {
-			this.ds_checkProduct.clearData();
-			
-			if(sContractType == "P" || sContractType == "G") {
-				this.gfnAddSendParameter("PROJECT_CODE",  sProjectCode);
-				this.gfnAddSendParameter("CONTRACT_NO",  sContractNo);
-				this.gfnAddSendParameter("CONTRACT_STATUS",  "3");
-				this.gfnAddSendParameter("TARGET_CONTRACT_STATUS",  "2");
-				this.gfnAddOutputDataset("ds_checkProduct",	"ds_output");
-				this.gfnCommonTransaction("SS_Contract_S02", "SS_Contract_S02", null, false);
-			}
-						
-			if(this.ds_checkProduct.rowcount > 0) {
-				if(this.confirm(this.gfnGetTransTxt(32857,"영업관리에 해당 프로젝트 가계약에 동일한 제품 또는 상품이 있습니다. 그래도 계약취소 처리를 하시겠습니까? 확인 : 계약취소"))) {
-					this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);	
-					this.gfnCommonTransaction("ContractCancel", "SP_Contract_R03");
-				}
-			} else {
-				this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);	
-				this.gfnCommonTransaction("ContractCancel", "SP_Contract_R03");
-			}
-		} else {
+	this.gfnAlert('confirm.general',"계약의 계약확정을 취소 하시겠습니까?",null
+		,function(srvId,rtn) {
+			if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
 			this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);	
-			this.gfnCommonTransaction("ContractCancel", "SP_Contract_R03");
-		}
-	}
+		/*	this.gfnCommonTransaction("ContractCancel", "SP_Contract_R03");*/
+			
+			this.gfnSetMap("projectMapper", "SP_Contract_R03", "", "update");
+			this.gfnCommonTransaction("ContractCancel", 	"updateNextData.do");		
+		});	
+	
+// 	if( this.confirm(sContractName + this.gfnGetTransTxt(1888, "계약의 계약확정을 취소 하시겠습니까?")) )
+// 	{
+// 		if(this.FV_CO_CD == "J02") {
+// 			this.ds_checkProduct.clearData();
+// 			
+// 			if(sContractType == "P" || sContractType == "G") {
+// 				this.gfnAddSendParameter("PROJECT_CODE",  sProjectCode);
+// 				this.gfnAddSendParameter("CONTRACT_NO",  sContractNo);
+// 				this.gfnAddSendParameter("CONTRACT_STATUS",  "3");
+// 				this.gfnAddSendParameter("TARGET_CONTRACT_STATUS",  "2");
+// 				this.gfnAddOutputDataset("ds_checkProduct",	"ds_output");
+// 				this.gfnCommonTransaction("SS_Contract_S02", "SS_Contract_S02", null, false);
+// 			}
+// 						
+// 			if(this.ds_checkProduct.rowcount > 0) {
+// 				if(this.confirm(this.gfnGetTransTxt(32857,"영업관리에 해당 프로젝트 가계약에 동일한 제품 또는 상품이 있습니다. 그래도 계약취소 처리를 하시겠습니까? 확인 : 계약취소"))) {
+// 					this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);	
+// 					this.gfnCommonTransaction("ContractCancel", "SP_Contract_R03");
+// 				}
+// 			} else {
+// 				this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);	
+// 				this.gfnCommonTransaction("ContractCancel", "SP_Contract_R03");
+// 			}
+// 		} else {
+// 			this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);	
+// 		/*	this.gfnCommonTransaction("ContractCancel", "SP_Contract_R03");*/
+// 			
+// 			this.gfnSetMap("projectMapper", "SP_Contract_R03", "", "update");
+// 			this.gfnCommonTransaction("ContractCancel", 	"updateNextData.do");
+// 			
+// 		//}
+// 	}
  }
 // 화면 콜백
  this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
  {
 	if (nErrorCode<0) {
-		this.alert("["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
+		this.gfnAlert('msg.general',"["+strSvcID+":"+nErrorCode+"] "+strErrorMag);
 		return;
 	} else {
 		switch (strSvcID) 
@@ -1082,103 +1129,105 @@ this.fnAuthConfig = function()
 				}
 				break;
 			case "SendSMS" : 
-				this.alert(this.gfnGetTransTxt(22586, "유지보수 담당자 SMS 메시지 발송 완료 했습니다."));
-				this.fn_QueryData();
+				this.gfnAlert('msg.general',this.gfnGetTransTxt(22586, "유지보수 담당자 SMS 메시지 발송 완료 했습니다."), null,
+				function() {
+					this.fn_QueryData();
+				});
 				break;
 			case "InsertMaEstimateDet" :
-	var duplicationFlag = false;
-	if(this.ds_EstimateUnionContract.rowcount > 0) {
-		for(var i = 0; i < this.ds_EstimateUnionContract.rowcount; i++) {
-			this.fn_DupUnionContractNo(this.ds_EstimateUnionContract.getColumn(i, "UNION_CONTRACT_NO"));
-			if (this.ds_DupUionContr.rowcount > 0) {
-				var sMsg = "";
-				for (var i=0; i<this.ds_DupUionContr.rowcount; i++) {
-					var sClientNm = this.ds_DupUionContr.getColumn(i, "CLIENT_NAME");
-					var sContractNm = this.ds_DupUionContr.getColumn(i, "CONTRACT_NAME");
-					sMsg += "["+sClientNm+"]-"+sContractNm+"\n";
+				var duplicationFlag = false;
+				if(this.ds_EstimateUnionContract.rowcount > 0) {
+					for(var i = 0; i < this.ds_EstimateUnionContract.rowcount; i++) {
+						this.fn_DupUnionContractNo(this.ds_EstimateUnionContract.getColumn(i, "UNION_CONTRACT_NO"));
+						if (this.ds_DupUionContr.rowcount > 0) {
+							var sMsg = "";
+							for (var i=0; i<this.ds_DupUionContr.rowcount; i++) {
+								var sClientNm = this.ds_DupUionContr.getColumn(i, "CLIENT_NAME");
+								var sContractNm = this.ds_DupUionContr.getColumn(i, "CONTRACT_NAME");
+								sMsg += "["+sClientNm+"]-"+sContractNm+"\n";
+							}
+							sMsg += "해당 유지보수 계약에서 이미 사용하고 있습니다. 확인 하세요"
+							duplicationFlag = true;
+							this.gfnAlert('msg.general',sMsg + this.gfnGetTransTxt(1281, "해당 유지보수 계약에서 이미 사용하고 있습니다. 확인 하세요"));
+						}
+						if(duplicationFlag) break;
+					}
 				}
-				sMsg += "해당 유지보수 계약에서 이미 사용하고 있습니다. 확인 하세요"
-				this.alert(sMsg + this.gfnGetTransTxt(1281, "해당 유지보수 계약에서 이미 사용하고 있습니다. 확인 하세요"));
-				duplicationFlag = true;
-			}
-			if(duplicationFlag) break;
-		}
-	}
 	
-	if(!duplicationFlag) {
-		var sContractNo = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_NO");
-		if(this.ds_EstimateContractMa.rowcount > 0) {
-			var ds = this.ds_EstimateContractMa;
-			var sStartDate =  ds.getColumn(0, "START_DATE");
-			var sEndDate =  ds.getColumn(0, "END_DATE");
-			var sConsumptionTax =  ds.getColumn(0, "CONSUMPTION_TAX");
-			var sPayMethod =  ds.getColumn(0, "PAY_METHOD");
-			var sContractMain =  ds.getColumn(0, "CONTRACT_MAIN");
-			var sContractMainName =  ds.getColumn(0, "CONTRACT_MAIN_NAME");
-			var sSalesStatus =  ds.getColumn(0, "SALES_STATUS");
-			var sContractName =  ds.getColumn(0, "CONTRACT_NAME");
-			
-			var curRow = this.ds_MainContract.rowposition;
-			
-			this.ds_MainContract.setColumn(curRow, "PAY_METHOD", sPayMethod);
-			this.ds_MainContract.setColumn(curRow, "START_DATE", sStartDate);
-			this.ds_MainContract.setColumn(curRow, "END_DATE", sEndDate);
-			this.ds_MainContract.setColumn(curRow, "CONSUMPTION_TAX", sConsumptionTax);
-			this.ds_MainContract.setColumn(curRow, "CONTRACT_MAIN", sContractMain);
-			this.ds_MainContract.setColumn(curRow, "CONTRACT_MAIN_NAME", sContractMainName);
-			this.ds_MainContract.setColumn(curRow, "SALES_STATUS", sSalesStatus);
-			this.ds_MainContract.setColumn(curRow, "CONTRACT_NAME", sContractName);
-		}
-		
-		if(this.ds_EstimateContractMaDet.rowcount > 0) {
-			var ds = this.ds_EstimateContractMaDet;
-			var targetDs = this.ds_ContractMaDet;
-			for(var i = 0; i < this.ds_EstimateContractMaDet.rowcount; i++) {
-				var sMaMainProductCode = ds.getColumn(i, "MA_MAIN_PRODUCT_CODE");
-				var sMaMainProductName = ds.getColumn(i, "MA_MAIN_PRODUCT_NAME");
-				var sStartDate = ds.getColumn(i, "START_DATE");
-				var sEndDate = ds.getColumn(i, "END_DATE");
-				var sMaRate = ds.getColumn(i, "MA_RATE");
-				var sMaStandard = ds.getColumn(i, "MA_STANDARD");
-				var sContractPrice = ds.getColumn(i, "CONTRACT_PRICE");
-				var sMaProductCode = ds.getColumn(i, "MA_PRODUCT_CODE");
-				var sMaProductName = ds.getColumn(i, "MA_PRODUCT_NAME");
-				
-				var nRow = targetDs.addRow();
-				
-				targetDs.setColumn(nRow, "CONTRACT_NO", sContractNo);
-				targetDs.setColumn(nRow, "PRODUCT_CODE", sMaMainProductCode);
-				targetDs.setColumn(nRow, "PRODUCT_NAME", sMaMainProductName);
-				targetDs.setColumn(nRow, "START_DATE", sStartDate);
-				targetDs.setColumn(nRow, "END_DATE", sEndDate);
-				targetDs.setColumn(nRow, "MA_RATE", sMaRate);
-				targetDs.setColumn(nRow, "MA_STANDARD", sMaStandard);
-				targetDs.setColumn(nRow, "CONTRACT_PRICE", sContractPrice);
-				targetDs.setColumn(nRow, "MA_PRODUCT_CODE", sMaProductCode);
-				targetDs.setColumn(nRow, "MA_PRODUCT_NAME", sMaProductName);
-			}
-		}
-		
-		if(this.ds_EstimateUnionContract.rowcount > 0) {
-			this.ds_MaUnion.deleteAll();
-			var targetUnionDs = this.ds_EstimateUnionContract;
-			this.ds_MaUnion.set_enableevent(false);
-			for(var i = 0; i < targetUnionDs.rowcount; i++) {
-				var nRow = this.ds_MaUnion.addRow();
-				this.ds_MaUnion.setColumn(nRow, "CONTRACT_NO", sContractNo);
-				this.ds_MaUnion.setColumn(nRow, "UNION_PROJECT_CODE",	targetUnionDs.getColumn(i, "PROJECT_CODE"));
-				this.ds_MaUnion.setColumn(nRow, "UNION_PROJECT_NAME",	targetUnionDs.getColumn(i, "PROJECT_NAME"));
-				this.ds_MaUnion.setColumn(nRow, "UNION_CONTRACT_NO",	targetUnionDs.getColumn(i, "UNION_CONTRACT_NO"));
-				this.ds_MaUnion.setColumn(nRow, "UNION_CONTRACT_NAME",	targetUnionDs.getColumn(i, "UNION_CONTRACT_NAME"));
-				this.ds_MaUnion.setColumn(nRow, "CLIENT_CODE",			targetUnionDs.getColumn(i, "CLIENT_CODE"));
-				this.ds_MaUnion.setColumn(nRow, "CLIENT_NAME",			targetUnionDs.getColumn(i, "CLIENT_NAME"));
-				this.ds_MaUnion.setColumn(nRow, "PRODUCT_NAME",			targetUnionDs.getColumn(i, "PRODUCT_NAME"));
-			}
-			this.ds_MaUnion.set_enableevent(true);
-		}
-	}
+				if(!duplicationFlag) {
+					var sContractNo = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_NO");
+					if(this.ds_EstimateContractMa.rowcount > 0) {
+						var ds = this.ds_EstimateContractMa;
+						var sStartDate =  ds.getColumn(0, "START_DATE");
+						var sEndDate =  ds.getColumn(0, "END_DATE");
+						var sConsumptionTax =  ds.getColumn(0, "CONSUMPTION_TAX");
+						var sPayMethod =  ds.getColumn(0, "PAY_METHOD");
+						var sContractMain =  ds.getColumn(0, "CONTRACT_MAIN");
+						var sContractMainName =  ds.getColumn(0, "CONTRACT_MAIN_NAME");
+						var sSalesStatus =  ds.getColumn(0, "SALES_STATUS");
+						var sContractName =  ds.getColumn(0, "CONTRACT_NAME");
+						
+						var curRow = this.ds_MainContract.rowposition;
+						
+						this.ds_MainContract.setColumn(curRow, "PAY_METHOD", sPayMethod);
+						this.ds_MainContract.setColumn(curRow, "START_DATE", sStartDate);
+						this.ds_MainContract.setColumn(curRow, "END_DATE", sEndDate);
+						this.ds_MainContract.setColumn(curRow, "CONSUMPTION_TAX", sConsumptionTax);
+						this.ds_MainContract.setColumn(curRow, "CONTRACT_MAIN", sContractMain);
+						this.ds_MainContract.setColumn(curRow, "CONTRACT_MAIN_NAME", sContractMainName);
+						this.ds_MainContract.setColumn(curRow, "SALES_STATUS", sSalesStatus);
+						this.ds_MainContract.setColumn(curRow, "CONTRACT_NAME", sContractName);
+					}
+					
+					if(this.ds_EstimateContractMaDet.rowcount > 0) {
+						var ds = this.ds_EstimateContractMaDet;
+						var targetDs = this.ds_ContractMaDet;
+						for(var i = 0; i < this.ds_EstimateContractMaDet.rowcount; i++) {
+							var sMaMainProductCode = ds.getColumn(i, "MA_MAIN_PRODUCT_CODE");
+							var sMaMainProductName = ds.getColumn(i, "MA_MAIN_PRODUCT_NAME");
+							var sStartDate = ds.getColumn(i, "START_DATE");
+							var sEndDate = ds.getColumn(i, "END_DATE");
+							var sMaRate = ds.getColumn(i, "MA_RATE");
+							var sMaStandard = ds.getColumn(i, "MA_STANDARD");
+							var sContractPrice = ds.getColumn(i, "CONTRACT_PRICE");
+							var sMaProductCode = ds.getColumn(i, "MA_PRODUCT_CODE");
+							var sMaProductName = ds.getColumn(i, "MA_PRODUCT_NAME");
+							
+							var nRow = targetDs.addRow();
+							
+							targetDs.setColumn(nRow, "CONTRACT_NO", sContractNo);
+							targetDs.setColumn(nRow, "PRODUCT_CODE", sMaMainProductCode);
+							targetDs.setColumn(nRow, "PRODUCT_NAME", sMaMainProductName);
+							targetDs.setColumn(nRow, "START_DATE", sStartDate);
+							targetDs.setColumn(nRow, "END_DATE", sEndDate);
+							targetDs.setColumn(nRow, "MA_RATE", sMaRate);
+							targetDs.setColumn(nRow, "MA_STANDARD", sMaStandard);
+							targetDs.setColumn(nRow, "CONTRACT_PRICE", sContractPrice);
+							targetDs.setColumn(nRow, "MA_PRODUCT_CODE", sMaProductCode);
+							targetDs.setColumn(nRow, "MA_PRODUCT_NAME", sMaProductName);
+						}
+					}
+					
+					if(this.ds_EstimateUnionContract.rowcount > 0) {
+						this.ds_MaUnion.deleteAll();
+						var targetUnionDs = this.ds_EstimateUnionContract;
+						this.ds_MaUnion.set_enableevent(false);
+						for(var i = 0; i < targetUnionDs.rowcount; i++) {
+							var nRow = this.ds_MaUnion.addRow();
+							this.ds_MaUnion.setColumn(nRow, "CONTRACT_NO", sContractNo);
+							this.ds_MaUnion.setColumn(nRow, "UNION_PROJECT_CODE",	targetUnionDs.getColumn(i, "PROJECT_CODE"));
+							this.ds_MaUnion.setColumn(nRow, "UNION_PROJECT_NAME",	targetUnionDs.getColumn(i, "PROJECT_NAME"));
+							this.ds_MaUnion.setColumn(nRow, "UNION_CONTRACT_NO",	targetUnionDs.getColumn(i, "UNION_CONTRACT_NO"));
+							this.ds_MaUnion.setColumn(nRow, "UNION_CONTRACT_NAME",	targetUnionDs.getColumn(i, "UNION_CONTRACT_NAME"));
+							this.ds_MaUnion.setColumn(nRow, "CLIENT_CODE",			targetUnionDs.getColumn(i, "CLIENT_CODE"));
+							this.ds_MaUnion.setColumn(nRow, "CLIENT_NAME",			targetUnionDs.getColumn(i, "CLIENT_NAME"));
+							this.ds_MaUnion.setColumn(nRow, "PRODUCT_NAME",			targetUnionDs.getColumn(i, "PRODUCT_NAME"));
+						}
+						this.ds_MaUnion.set_enableevent(true);
+					}
+				}
 	
-	break;
+			break;
 		}
 	}
  };
@@ -1249,9 +1298,9 @@ this.fnAuthConfig = function()
  this.fn_setInitContractStartEndDt = function(nRow)
  {
 	var ds;
-	if (this.ds_MainContract.getColumn(nRow, "CONTRACT_TYPE") == "S" || this.ds_MainContract.getColumn(nRow, "CONTRACT_TYPE") == "T") {
+	if (this.ds_MainContract.getColumn(nRow, "CONTRACT_TYPE") == "ZS" || this.ds_MainContract.getColumn(nRow, "CONTRACT_TYPE") == "ZT") {
 		ds = this.ds_ContractSiDet;
-	} else if (this.ds_MainContract.getColumn(nRow, "CONTRACT_TYPE") == "M") {
+	} else if (this.ds_MainContract.getColumn(nRow, "CONTRACT_TYPE") == "SM") {
 		ds = this.ds_ContractMaDet;
 	}
 	
@@ -1349,13 +1398,13 @@ this.fnAuthConfig = function()
 				var sUnionContractNo = ds.getColumn(0, "CONTRACT_NO");
 				var nFindRow = this.ds_MaUnion.findRow("UNION_CONTRACT_NO", sUnionContractNo);
 				if (nFindRow>=0) {
-					this.alert(this.gfnGetTransTxt(1306, "해당 계약을 중복 등록 할수 없습니다."));
+					this.gfnAlert('msg.general',this.gfnGetTransTxt(1306, "해당 계약을 중복 등록 할수 없습니다."));
 					return;
 				}
 				
 				var sContractType = ds.getColumn(0, "CONTRACT_TYPE");
-				if (sContractType != "P" && sContractType != "G") {
-					this.alert(this.gfnGetTransTxt(1307, "제품(상품)계약만 연결가능합니다."));
+				if (sContractType != "PD" && sContractType != "GD") {
+					this.gfnAlert('msg.general',this.gfnGetTransTxt(1307, "제품(상품)계약만 연결가능합니다."));
 					return;
 				} else {
 					
@@ -1368,7 +1417,7 @@ this.fnAuthConfig = function()
 							sMsg += "["+sClientNm+"]-"+sContractNm+"\n";
 						}
 						sMsg += "해당 유지보수 계약에서 이미 사용하고 있습니다. 확인 하세요"
-						this.alert(sMsg + this.gfnGetTransTxt(1281, "해당 유지보수 계약에서 이미 사용하고 있습니다. 확인 하세요"));
+						this.gfnAlert('msg.general',sMsg + this.gfnGetTransTxt(1281, "해당 유지보수 계약에서 이미 사용하고 있습니다. 확인 하세요"));
 					}
 					
 					var sContractNo = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_NO");
@@ -1397,16 +1446,16 @@ this.fnAuthConfig = function()
 					var nfindRow = this.ds_AddressbookList.findRow("CA_SEQ", ds.getColumn(i, "CA_SEQ"));
 					if(nfindRow>=0)
 					{
-						this.alert(ds.getColumn(i, "EMP_NAME") + this.gfnGetTransTxt(1631, "의 중복 데이터가 존재 합니다."));
+						//this.gfnAlert('msg.general',ds.getColumn(i, "EMP_NAME") + this.gfnGetTransTxt(1631, "의 중복 데이터가 존재 합니다."));
 						//continue;
-						return;
+						//return;
 					}
 					nfindRow = this.ds_AddressbookList.findRow("EMP_NAME", ds.getColumn(i, "EMP_NAME"));
 					if(nfindRow>=0)
 					{
-							if( !this.confirm(ds.getColumn(i, "EMP_NAME") + this.gfnGetTransTxt(1675, " 동명이인이 존재 합니다. 계속진행하시겠습니까?")) )
+							//if( !this.confirm(ds.getColumn(i, "EMP_NAME") + this.gfnGetTransTxt(1675, " 동명이인이 존재 합니다. 계속진행하시겠습니까?")) )
 							//continue;
-							return;
+							//return;
 					}
 					// 담당자 정보 세팅
 					this.ds_AddressbookList.set_enableevent(false);
@@ -1477,8 +1526,11 @@ this.fnGetMM = function(sStartDt, sEndDt, nRow) {
 	this.gfnAddSendParameter("START_DATE",	sStartDt);
 	this.gfnAddSendParameter("END_DATE",	sEndDt);
 	this.gfnAddSendParameter("ROW",			nRow);
-	this.gfnAddOutputDataset("ds_MM", "ds_output");
-	this.gfnCommonTransaction("getMM", "CO_GetMM_S01");
+// 	this.gfnAddOutputDataset("ds_MM", "ds_output");
+// 	this.gfnCommonTransaction("getMM", "CO_GetMM_S01");
+	
+	this.gfnSetMap("nextBaseMapper", "CO_GetMM_S01", "ds_MM");
+	this.gfnCommonTransaction("getMM", 	"selectNextList.do");	
 }
 
 // 유지보수 계약 SMS 발송 여부 체크
@@ -1490,9 +1542,9 @@ this.fnCheckSendSMSMA = function() {
 							3. 점검주기(VIST_CYCLE)가 "없음"(001) 아닌 경우
 	*/
 	var bRtn = false;
-	var sMaRow = this.ds_MainContract.findRow("CONTRACT_TYPE", "M");
+	var sMaRow = this.ds_MainContract.findRow("CONTRACT_TYPE", "SM");
 	
-	var sMACnt = this.ds_MainContract.getCaseCount("CONTRACT_TYPE=='M'");
+	var sMACnt = this.ds_MainContract.getCaseCount("CONTRACT_TYPE=='SM'");
 	var sOrgReguilarVisit = this.ds_MainContract.getOrgColumn(sMaRow, "REGULAR_VISIT");  // 이전 정기방문 옵션
 	var sReguilarVisit = this.ds_MainContract.getColumn(sMaRow, "REGULAR_VISIT"); // 정기방문 옵션
 	var sOrgMaCycle = this.ds_MainContract.getOrgColumn(sMaRow, "VIST_CYCLE");  // 이전 점검주기
@@ -1530,7 +1582,7 @@ this.fnCheckSendSMSMA = function() {
 // sms 발송
 this.fnSendSMS = function()
 {
-	var sMaRow = this.ds_MainContract.findRow("CONTRACT_TYPE", "M");
+	var sMaRow = this.ds_MainContract.findRow("CONTRACT_TYPE", "SM");
 	
 	var sSendType = "SELF";
 	var sTelNoKind = "T";
@@ -1587,23 +1639,23 @@ this.fnSetComCmbConfig = function ()
 			for (var i=0; i<this.ds_MainContract.rowcount; i++) {
 			
 				if(this.ds_MainContract.getRowType(i) == 2 || this.ds_MainContract.getRowType(i) == 4) {
-					if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "CONTRACT_TYPE"))) { this.alert(this.gfnGetTransTxt(1308, "계약구분은 필수 입력 항목 입니다.")); return false;}
-					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "CONTRACT_NAME"))) { this.alert(this.gfnGetTransTxt(1309, "계약명은 필수 입력 항목 입니다")); return false;}
-					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "PRODUCT_CODE"))) { this.alert(this.gfnGetTransTxt(1310, "계약제품은 필수 입력 항목 입니다.")); return false;}
-					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "CONTRACT_DATE"))) { this.alert(this.gfnGetTransTxt(1311, "계약일자는 필수 입력 항목 입니다.")); return false;}
-					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "SALES_EMP_NO"))) { this.alert(this.gfnGetTransTxt(1312, "영업담당은 필수 입력 항목 입니다.")); return false;}
-					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "INCENTIVE_EMP_NO"))) { this.alert(this.gfnGetTransTxt(1313, "인센티브 담당은 필수 입력 항목 입니다.")); return false;}
-					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "CONTRACT_MAIN"))) { this.alert(this.gfnGetTransTxt(1314, "계약처는 필수 입력 항목 입니다.")); return false;}
-					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "BUSINESS_TYPE"))) { this.alert(this.gfnGetTransTxt(1315, "사업구분은 필수 입력 항목 입니다.")); return false;}
-					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "SALES_STATUS"))) { this.alert(this.gfnGetTransTxt(1316, "영업상태는 필수 입력 항목 입니다.")); return false;}
+					if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "CONTRACT_TYPE"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1308, "계약구분은 필수 입력 항목 입니다.")); return false;}
+					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "CONTRACT_NAME"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1309, "계약명은 필수 입력 항목 입니다")); return false;}
+					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "PRODUCT_CODE"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1310, "계약제품은 필수 입력 항목 입니다.")); return false;}
+					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "CONTRACT_DATE"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1311, "계약일자는 필수 입력 항목 입니다.")); return false;}
+					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "SALES_EMP_NO"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1312, "영업담당은 필수 입력 항목 입니다.")); return false;}
+					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "INCENTIVE_EMP_NO"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1313, "인센티브 담당은 필수 입력 항목 입니다.")); return false;}
+					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "CONTRACT_MAIN"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1314, "계약처는 필수 입력 항목 입니다.")); return false;}
+					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "BUSINESS_TYPE"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1315, "사업구분은 필수 입력 항목 입니다.")); return false;}
+					else if (this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "SALES_STATUS"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1316, "영업상태는 필수 입력 항목 입니다.")); return false;}
 					
 					var sContractType = this.ds_MainContract.getColumn(i, "CONTRACT_TYPE");
-					if(sContractType == "M") {
+					if(sContractType == "SM") {
 						if(this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "START_DATE"))) { 
-							this.alert(this.gfnGetTransTxt(1303, "시작일은 필수 입력 항목 입니다.")); 
+							this.gfnAlert('msg.general',this.gfnGetTransTxt(1303, "시작일은 필수 입력 항목 입니다.")); 
 							return false;
 						} else  if(this.gfnIsEmpty(this.ds_MainContract.getColumn(i, "END_DATE"))) { 
-							this.alert(this.gfnGetTransTxt(2307, "종료일은 필수 입력 항목 입니다.")); 
+							this.gfnAlert('msg.general',this.gfnGetTransTxt(2307, "종료일은 필수 입력 항목 입니다.")); 
 							return false;
 						}
 					}
@@ -1622,12 +1674,12 @@ this.fnSetComCmbConfig = function ()
 				var sStratDt = this.ds_ContractSiDet.getColumn(i, "START_DATE");
 				var sEndDt = this.ds_ContractSiDet.getColumn(i, "END_DATE");
 				
-				if (this.gfnIsEmpty(sRoleCd)) { this.alert(this.gfnGetTransTxt(1317, "[용역계약 세부] 역할은 필수 입력 항목 입니다.")); return false;}
-				else if (this.gfnIsEmpty(sLevelCd)) { this.alert(this.gfnGetTransTxt(1318, "[용역계약 세부] 등급은 필수 입력 항목 입니다.")); return false;}
-				else if (this.gfnIsEmpty(sStratDt)) { this.alert(this.gfnGetTransTxt(1319, "[용역계약 세부] 개시일자는 필수 입력 항목 입니다.")); return false;}
-				else if (this.gfnIsEmpty(sStratDt)) { this.alert(this.gfnGetTransTxt(1320, "[용역계약 세부] 종료일자는 필수 입력 항목 입니다.")); return false;}
+				if (this.gfnIsEmpty(sRoleCd)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1317, "[용역계약 세부] 역할은 필수 입력 항목 입니다.")); return false;}
+				else if (this.gfnIsEmpty(sLevelCd)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1318, "[용역계약 세부] 등급은 필수 입력 항목 입니다.")); return false;}
+				else if (this.gfnIsEmpty(sStratDt)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1319, "[용역계약 세부] 개시일자는 필수 입력 항목 입니다.")); return false;}
+				else if (this.gfnIsEmpty(sStratDt)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1320, "[용역계약 세부] 종료일자는 필수 입력 항목 입니다.")); return false;}
 				
-				if (sStratDt > sEndDt) { this.alert(this.gfnGetTransTxt(1321, "개시일자 또는 종료일자를 확인하세요\n개시일자 보다 종료일자가 빠릅니다"));	return false;}
+				if (sStratDt > sEndDt) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1321, "개시일자 또는 종료일자를 확인하세요\n개시일자 보다 종료일자가 빠릅니다"));	return false;}
 			}
 		}	
 		
@@ -1655,12 +1707,12 @@ this.fnSetComCmbConfig = function ()
 				var sEndDt = this.ds_ContractMaDet.getColumn(i, "END_DATE");
 				
 				
-				if (this.gfnIsEmpty(sProductCd)) { this.alert(this.gfnGetTransTxt(1322, "[유지보수계약 세부] 유지보수 타입은 필수 입력 항목 입니다.")); return false;}
-				if (this.gfnIsEmpty(sMaProductCd)) { this.alert(this.gfnGetTransTxt(1323, "[유지보수계약 세부] 유지보수 제품은 필수 입력 항목 입니다.")); return false;}
-				else if (this.gfnIsEmpty(sStratDt)) { this.alert(this.gfnGetTransTxt(1891, "[유지보수계약 세부] 개시일자는 필수 입력 항목 입니다.")); return false;}
-				else if (this.gfnIsEmpty(sStratDt)) { this.alert(this.gfnGetTransTxt(1324, "[유지보수계약 세부] 종료일자는 필수 입력 항목 입니다.")); return false;}
+				if (this.gfnIsEmpty(sProductCd)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1322, "[유지보수계약 세부] 유지보수 타입은 필수 입력 항목 입니다.")); return false;}
+				if (this.gfnIsEmpty(sMaProductCd)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1323, "[유지보수계약 세부] 유지보수 제품은 필수 입력 항목 입니다.")); return false;}
+				else if (this.gfnIsEmpty(sStratDt)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1891, "[유지보수계약 세부] 개시일자는 필수 입력 항목 입니다.")); return false;}
+				else if (this.gfnIsEmpty(sStratDt)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1324, "[유지보수계약 세부] 종료일자는 필수 입력 항목 입니다.")); return false;}
 				
-				if (sStratDt > sEndDt) { this.alert(this.gfnGetTransTxt(1321, "개시일자 또는 종료일자를 확인하세요\n개시일자 보다 종료일자가 빠릅니다"));	return false;}
+				if (sStratDt > sEndDt) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1321, "개시일자 또는 종료일자를 확인하세요\n개시일자 보다 종료일자가 빠릅니다"));	return false;}
 			}
 		}
 		
@@ -1671,7 +1723,7 @@ this.fnSetComCmbConfig = function ()
 			for (var i=0; i<this.ds_Promise.rowcount; i++) {
 			
 				var sSubject = this.ds_Promise.getColumn(this.ds_Promise.rowposition, "SUBJECT");
-				if (this.gfnIsEmpty(sSubject)) { this.alert(this.gfnGetTransTxt(1325, "[약속] 약속제목은 필수 입력 항목 입니다.")); return false;}
+				if (this.gfnIsEmpty(sSubject)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1325, "[약속] 약속제목은 필수 입력 항목 입니다.")); return false;}
 			}
 		}
 		
@@ -1699,25 +1751,25 @@ this.fnSetComCmbConfig = function ()
 					/*N/A, 지원, 무상, 유상 : 중단종료일, 비고 필수 입력*/
 					if(strStopValue=="Y" && bEnd && (strStopValue != strStopValueOrg))
 					{
-						this.alert(this.gfnGetTransTxt(1298, "중단종료일을 입력하여야 저장 가능 합니다."));
+						this.gfnAlert('msg.general',this.gfnGetTransTxt(1298, "중단종료일을 입력하여야 저장 가능 합니다."));
 						return false;
 					}
 					/*중단, 미대상, 해지, 미갱신_중단 : 중단종료일, 비고 필수 입력*/
 					else if(strStopValue=="N" && bStart && (strStopValue != strStopValueOrg))
 					{
-						this.alert(this.gfnGetTransTxt(1299, "중단시작일을 입력하여야 저장 가능 합니다."));
+						this.gfnAlert('msg.general',this.gfnGetTransTxt(1299, "중단시작일을 입력하여야 저장 가능 합니다."));
 						return false;
 					}
 					/*미갱신에서 중단상태일때는 시작일이 필수*/
 					else if((strOrgStatus=="008" && strStopValue=="N") && bStart)
 					{
-						this.alert(this.gfnGetTransTxt(1299, "중단시작일을 입력하여야 저장 가능 합니다."));
+						this.gfnAlert('msg.general',this.gfnGetTransTxt(1299, "중단시작일을 입력하여야 저장 가능 합니다."));
 						return false;
 					}
 					/*상태변경시 비고는 필수*/
 					if(bRemark)
 					{
-						this.alert(this.gfnGetTransTxt(1300, "비고란에 사유를 입력하여야 저장 가능 합니다."));
+						this.gfnAlert('msg.general',this.gfnGetTransTxt(1300, "비고란에 사유를 입력하여야 저장 가능 합니다."));
 						return false;
 					}
 				}
@@ -1725,32 +1777,38 @@ this.fnSetComCmbConfig = function ()
 		}
 		
 		// 일본법인 예외 처리
-		if(this.FV_CO_CD == "J02")
-		{
-			var nRow			= this.ds_MainContract.rowposition;
-			var sContractNo		= this.ds_MainContract.getColumn(nRow, "CONTRACT_NO");
-			var sOrgConsumptionTax	= this.ds_MainContract.getOrgColumn(nRow, "CONSUMPTION_TAX");
-			var sConsumptionTax	= this.ds_MainContract.getColumn(nRow, "CONSUMPTION_TAX");
-			
-			if(sOrgConsumptionTax > sConsumptionTax || sOrgConsumptionTax < sConsumptionTax) {
-				this.gfnAddSendParameter("CONTRACT_NO",		sContractNo);
-			
-				// 조회용 Output dataset 세팅
-				this.gfnAddOutputDataset("dsCheckBill", "dsOutput");
-				this.gfnAddOutputDataset("dsBillList", 	"dsOutput2");
-				this.gfnCommonTransaction("CheckBill", "SP_Contract_S04", null, false);
-				
-				if(this.dsCheckBill.rowcount > 0 && this.dsBillList.rowcount > 0) {
-					alert(this.gfnGetTransTxt(22562, "수금 또는 청구된 건이 있습니다. 해당 부가세율은 별도 수정 바랍니다."));
-				} else if(this.dsBillList.rowcount > 0) {
-					this.gfnAddSendParameter("CONTRACT_NO",		sContractNo);
-					this.gfnAddSendParameter("CONSUMPTION_TAX",		sConsumptionTax);
-					//저장용 Input Dataset 세팅
-					this.gfnAddInputDataset("dsBillList",			"dsBillList", "A");
-					this.gfnCommonTransaction("Update_Bill", "SP_Contract_R04", null, false);
-				}
-			}
-		}
+// 		if(this.FV_CO_CD == "J02")
+// 		{
+// 			var nRow			= this.ds_MainContract.rowposition;
+// 			var sContractNo		= this.ds_MainContract.getColumn(nRow, "CONTRACT_NO");
+// 			var sOrgConsumptionTax	= this.ds_MainContract.getOrgColumn(nRow, "CONSUMPTION_TAX");
+// 			var sConsumptionTax	= this.ds_MainContract.getColumn(nRow, "CONSUMPTION_TAX");
+// 			
+// 			if(sOrgConsumptionTax > sConsumptionTax || sOrgConsumptionTax < sConsumptionTax) {
+// 				this.gfnAddSendParameter("CONTRACT_NO",		sContractNo);
+// 			
+// 				// 조회용 Output dataset 세팅
+// // 				this.gfnAddOutputDataset("dsCheckBill", "dsOutput");
+// // 				this.gfnAddOutputDataset("dsBillList", 	"dsOutput2");
+// // 				this.gfnCommonTransaction("CheckBill", "SP_Contract_S04", null, false);
+// 				
+// 				this.gfnSetMap("projectMapper", ['SP_Contract_S04_1','SP_Contract_S04_2'], ["dsCheckBill","dsBillList"]);
+// 				this.gfnCommonTransaction("CheckBill", "selectNextMultiList.do", null, false);				
+// 				
+// 				if(this.dsCheckBill.rowcount > 0 && this.dsBillList.rowcount > 0) {
+// 					this.gfnAlert(this.gfnGetTransTxt(22562, "수금 또는 청구된 건이 있습니다. 해당 부가세율은 별도 수정 바랍니다."));
+// 				} else if(this.dsBillList.rowcount > 0) {
+// 					this.gfnAddSendParameter("CONTRACT_NO",		sContractNo);
+// 					this.gfnAddSendParameter("CONSUMPTION_TAX",		sConsumptionTax);
+// 					//저장용 Input Dataset 세팅
+// 					this.gfnAddInputDataset("dsBillList",			"dsInput", "A");
+// 					/*this.gfnCommonTransaction("Update_Bill", "SP_Contract_R04", null, false);*/
+// 					
+// 					this.gfnSetMap("projectMapper", 'SP_Contract_R04', '');
+// 					this.gfnCommonTransaction("Update_Bill", "/updateNextList.do", null, false);					
+// 				}
+// 			}
+// 		}
 		
 		return true;
 	} else					 	//// 조회 Validation 체크
@@ -1759,7 +1817,7 @@ this.fnSetComCmbConfig = function ()
 		var sProjectCd = this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value;
 		if (this.gfnIsEmpty(sProjectCd))
 		{
-			this.alert(this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
 			return false;
 		}
 	}
@@ -1776,12 +1834,12 @@ this.fnSetComCmbConfig = function ()
 	
 	var sAnnualFg = this.ds_MainContract.getColumn(nRow, "ANNUAL_FLAG");
 	var sContractType = this.ds_MainContract.getColumn(nRow, "CONTRACT_TYPE");
-	if (sContractType == "S" || sContractType == "T")		
+	if (sContractType == "ZS" || sContractType == "ZT")		
 	{
 		// 용역, 기술서비스 계약
 		sDivUrl = "Sales::SP_ContractSI.xfdl";
 		sBindDsId = "ds_ContractSiDet";
-		if (sContractType == "S" )	sGrdFormatId = "SI";
+		if (sContractType == "ZS" )	sGrdFormatId = "SI";
 		else						sGrdFormatId = "CS";
 
 		this.contract_div.form.chb_StrategySales.set_visible(true);
@@ -1912,11 +1970,11 @@ this.fnSetComCmbConfig = function ()
 this.fnSetSiMMStaticChange = function()
 {
 	var sContractType = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_TYPE");
-	if (sContractType == "S" || sContractType == "T") {
+	if (sContractType == "ZS" || sContractType == "ZT") {
 		if (this.ds_ContractSiDet.rowcount>0)
 		{
 			var sTechSupportName = "MM";
-			if (sContractType == "T")
+			if (sContractType == "ZT")
 			{
 				var sTechSupportUnit = this.ds_ContractSiDet.getColumn(0, "TECH_SUPPORT_UNIT");
 				var sTechSupportName = this.ds_cmm_TechSupportUnit.lookup("CODE", sTechSupportUnit, "CAPTION");
@@ -1933,55 +1991,8 @@ this.fnSetSiMMStaticChange = function()
  * 각 COMPONENT 별 EVENT 영역
  ************************************************************************************************/
 // 계약M Dataset Row 변경 처리
-this.ds_MainContract_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+this.ds_MainContract_onrowposchangedAfter = function(obj,e)
 {	
-	var nSaveCurrow = this.fn_GetSaveCurrow();
-	if (nSaveCurrow > 0) {
-		// 저장 처리시 이전 Row로 rowposition 위치 이동(rowposition:0 무시)
-		//var nRow = this.FV_SAVE_CURROW;
-		//this.FV_SAVE_CURROW = 0;
-		/*
-		this.ds_MainContract.set_enableevent(false);
-		this.ds_MainContract.set_rowposition(nRow);
-		
-		// 첨부파일 버튼 초기화
-		this.fnSetFileInit();
-		this.ds_MainContract.set_enableevent(true);
-		return;
-		*/
-		
-		// 초기화 유지보수 SMS 발송 여부 및 삭제 TRAN 플레그 초기화
-		this.FV_SMS_SEND_MA = false;
-		this.FV_DEL_FLAG = false;
-		
-		
-		// 계약 금액 마스킹 처리
-// 		this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_ContractPrice);
-// 		this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_Royalty);
-
-	} else {
-		
-		// 변경여부 확인
-		if (this.gfnIsUpdateDs(this.ds_MainContract)) {
-			if ( this.confirm(this.gfnGetTransTxt(1684, "변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?")) )	{
-				this.ds_MainContract.reset();
-			} else {
-				obj.set_enableevent(false);
-				obj.set_rowposition(e.oldrow);
-				obj.set_enableevent(true);
-				return;
-			}
-		} 
-		
-		if (this.fnGetChangeDs()) {
-			if ( this.confirm(this.gfnGetTransTxt(1684, "변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?")) )	{
-				obj.set_enableevent(false);
-				obj.set_rowposition(e.oldrow);
-				obj.set_enableevent(true);
-				return;
-			}
-		}
-		
 		// 초기화 유지보수 SMS 발송 여부 및 삭제 TRAN 플레그 초기화
 		this.FV_SMS_SEND_MA = false;
 		this.FV_DEL_FLAG = false;
@@ -1991,15 +2002,15 @@ this.ds_MainContract_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexa
 		var bContractTypeReadonly = true;
 		// 신규 건만 계약구분 변경 가능 (그외 계약 구분 변경 불가)
 		if (this.fn_getRowType(this.ds_MainContract, e.newrow) == Dataset.ROWTYPE_INSERT) {
-			this.ds_cmm_ContractType.filter("VAL1=='1'");
+			this.ds_cmm_ContractType.filter("GRP_CD_1=='1'");
 			//this.contract_div.form.cmb_ContractType.set_readonly(false);
 			bContractTypeReadonly = false;
 		} else if ((sContractType=="S" || sContractType=="T") && this.commUtil.getFormAuthority(242,8)) {	/*용역과 기술서비스는 서로 변경이 가능하다 (계약코드는 그대로 유지)*/
-			this.ds_cmm_ContractType.filter("VAL1=='1' && CODE=='S'||CODE=='T'");
+			this.ds_cmm_ContractType.filter("GRP_CD_1=='1' && CODE=='ZS'||CODE=='ZT'");
 			//this.contract_div.form.cmb_ContractType.set_readonly(false);			
 			bContractTypeReadonly = false;
 		} else {
-			this.ds_cmm_ContractType.filter("VAL1=='1'");
+			this.ds_cmm_ContractType.filter("GRP_CD_1=='1'");
 			//this.contract_div.form.cmb_ContractType.set_readonly(true);
 			bContractTypeReadonly = true;
 		}
@@ -2047,7 +2058,7 @@ this.ds_MainContract_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexa
 		
 		this.fnAuthConfig();	// 권한 처리
 		
-		if(obj.getColumn(e.newrow, "CONTRACT_TYPE") == "P")
+		if(obj.getColumn(e.newrow, "CONTRACT_TYPE") == "PD")
 		{
 			var sProductCd = obj.getColumn(e.newrow, "PRODUCT_CODE");
 			if (this.gfnIsEmpty(sProductCd))	sProductCd = "";
@@ -2072,6 +2083,74 @@ this.ds_MainContract_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexa
 		else
 		{
 			this.contract_div.form.chb_NetSales.set_visible(false);	
+		}
+};
+
+this.ds_MainContract_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{	
+
+	var nSaveCurrow = this.fn_GetSaveCurrow();
+	if (nSaveCurrow > 0) {
+		// 저장 처리시 이전 Row로 rowposition 위치 이동(rowposition:0 무시)
+		//var nRow = this.FV_SAVE_CURROW;
+		//this.FV_SAVE_CURROW = 0;
+		/*
+		this.ds_MainContract.set_enableevent(false);
+		this.ds_MainContract.set_rowposition(nRow);
+		
+		// 첨부파일 버튼 초기화
+		this.fnSetFileInit();
+		this.ds_MainContract.set_enableevent(true);
+		return;
+		*/
+		
+		// 초기화 유지보수 SMS 발송 여부 및 삭제 TRAN 플레그 초기화
+		this.FV_SMS_SEND_MA = false;
+		this.FV_DEL_FLAG = false;
+		
+		
+		// 계약 금액 마스킹 처리
+// 		this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_ContractPrice);
+// 		this.fn_setPriceMasking(this.div_ContractInfo.form.div_ContractMain_J.form.medt_Royalty);
+
+	} else {
+		var bContinue = true;
+		// 변경여부 확인
+		if (this.gfnIsUpdateDs(this.ds_MainContract)) {
+			 bContinue = false;
+			this.gfnAlert('confirm.general',"변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?",null
+				,function(srvId,rtn) {
+					if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") {
+						obj.set_enableevent(false);
+						obj.set_rowposition(e.oldrow);
+						obj.set_enableevent(true);					
+						return;
+					};
+					this.ds_MainContract.reset();
+					this.ds_MainContract_onrowposchangedAfter(obj,e);
+					return;
+				});	
+			return;
+		}
+		
+		if (this.fnGetChangeDs()) {
+			bContinue = false;
+			this.gfnAlert('confirm.general',"변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?",null
+				,function(srvId,rtn) {
+					if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") {
+						obj.set_enableevent(false);
+						obj.set_rowposition(e.oldrow);
+						obj.set_enableevent(true);					
+						return;
+					};
+					this.ds_MainContract_onrowposchangedAfter(obj,e);
+					return;
+				});
+			return;
+		}
+		
+		if(bContinue == true) {
+			this.ds_MainContract_onrowposchangedAfter(obj,e);
 		}
 	}
 };
@@ -2147,7 +2226,7 @@ this.fn_MAContractCopy = function()
 	
 	_dsInContractList.clearData();
 	_dsInContractList.assign(this.ds_MainContract)
-	_dsInContractList.filter("CONTRACT_TYPE == 'M'");
+	_dsInContractList.filter("CONTRACT_TYPE == 'SM'");
 	
 	// 계약일자와 종료일자가 동일한 갯수 확인
 	var sCopyContractCnt = _dsInContractList.getCaseCount("START_DATE == '"+ sStartDt + "' && END_DATE == '"+ sEndDt +"'");
@@ -2157,20 +2236,33 @@ this.fn_MAContractCopy = function()
 		args = {dsMainContract:_dsInContractList, sStartDt:sStartDt, sEndDt:sEndDt};
 		this.commUtil.popup(this, "popupMAContractCopy", "Sales::SP_MAContractCopy.xfdl", -1, -1, 800, 500, true, true, false, args, "fnPopupCallBack");
 	} else {
-		if(this.confirm(this.gfnGetTransTxt(1729, "복사추가 하시겠습니까?"))) {
-			// 단건인 경우
-			var sCA_CopyFlag = "0";
-			if( this.confirm(this.gfnGetTransTxt(1687, "담당자 정보도 복사하여 반영 하시겠습니까?")) ){
-				sCA_CopyFlag = "1"
-			}
-			
-			var nRow = this.dsCopyContract.addRow();
-			this.dsCopyContract.setColumn(nRow, "CONTRACT_NO", sContractNo);
-			this.dsCopyContract.setColumn(nRow, "CA_COPY_FLAG", sCA_CopyFlag);
-			
-			this.gfnAddInputDataset("dsCopyContract", "dsInput");
-			this.gfnCommonTransaction("MaCopyAdd", 	"SP_Contract_R02");
-		}
+		this.gfnAlert('confirm.general',"복사추가 하시겠습니까?",null
+			,function(srvId,rtn) {
+				if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+				
+				var sCA_CopyFlag = "0";
+				
+				this.gfnAlert('confirm.general',"담당자 정보도 복사하여 반영 하시겠습니까?",null
+					,function(srvId,rtn) {
+						if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") {
+						} else {
+							sCA_CopyFlag = "1"
+						}
+				
+						var nRow = this.dsCopyContract.addRow();
+						this.dsCopyContract.setColumn(nRow, "CONTRACT_NO", sContractNo);
+						this.dsCopyContract.setColumn(nRow, "CA_COPY_FLAG", sCA_CopyFlag);
+						
+						this.gfnAddInputDataset("dsCopyContract", "dsInput");
+						/*this.gfnCommonTransaction("MaCopyAdd", 	"SP_Contract_R02");*/
+						
+						this.gfnSetMap("projectMapper", "SP_Contract_R02", "");
+						this.gfnCommonTransaction("MaCopyAdd", 	"saveSP_Contract_R02.do");							
+					}
+				);
+
+		
+			});
 	}
 };
 
@@ -2189,7 +2281,7 @@ this.fn_MaintenceHistEmail = function()
 	var nRow			= this.ds_MainContract.rowposition;
 	var sContractNo		= this.ds_MainContract.getColumn(nRow, "CONTRACT_NO");	
 	
-	if(this.gfnIsEmpty(sContractNo)) this.alert(this.gfnGetTransTxt(1283, "저장 후 사용하세요."));
+	if(this.gfnIsEmpty(sContractNo)) this.gfnAlert('msg.general',this.gfnGetTransTxt(1283, "저장 후 사용하세요."));
 	else {
 		var sArgument = {pvContractNo:sContractNo ,pvKind:"MaintenceVisit"};
 		this.commUtil.popup(this, "CompanyAddMM", "Sales::SP_ContractHistoryMail.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
@@ -2309,8 +2401,11 @@ this.fn_AddRecord = function()
 	this.gfnAddSendParameter("CONTRACT_NO",  sContractNo);
 	
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_RequestStaff",	"ds_output");
-	this.gfnCommonTransaction("SS_Presales_S03", "SS_Presales_S03", null, false);
+// 	this.gfnAddOutputDataset("ds_RequestStaff",	"ds_output");
+// 	this.gfnCommonTransaction("SS_Presales_S03", "SS_Presales_S03", null, false);
+	
+	this.gfnSetMap("salesManagerMapper", "SS_Presales_S03", "ds_RequestStaff");
+	this.gfnCommonTransaction("SS_Presales_S03", "selectNextList.do",null, false);		
  };
 
 
@@ -2319,44 +2414,85 @@ this.fn_DelRecord = function()
 {
 	var nRow = this.ds_MainContract.rowposition;
 	
-	if (this.confirm(this.gfnGetTransTxt(1668, "해당 계약을 삭제할 경우 세부 정보도 함께 삭제 됩니다. \n정말 삭제 하시겠습니까?")) ) {
-		
-		this.FV_DEL_FLAG = true;
-		
-		var sContractNo = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_NO");
+	this.gfnAlert('confirm.general',"해당 계약을 삭제할 경우 세부 정보도 함께 삭제 됩니다. \n정말 삭제 하시겠습니까?",null
+		,function(srvId,rtn) {
+			if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
 			
-		if (!this.gfnIsEmpty(sContractNo)) {
-			this.fnRequestStaffSearch(null, sContractNo);
+			this.FV_DEL_FLAG = true;
 			
-			if (this.ds_RequestStaff.rowcount > 0)
-			{
-				this.alert(this.gfnGetTransTxt(1326, "해당 매출계약의 지원인력 요청 건이 있어 삭제 할수 없습니다.\n지원요청 삭제후 처리하세요"));
-				return;
-			}
-		}		
-		//ds_MainContract_onrowposchanged 이벤트 때문에 초기화 되어서 이벤트 막음
-		this.ds_MainContract.set_enableevent(false);
-		this.ds_MainContract.deleteRow(nRow);
-		this.ds_MainContract.set_enableevent(true);
-		
-		this.ds_ContractProdDet.set_enableevent(false);
-		this.ds_ContractProdDet.deleteAll();
-		this.ds_ContractProdDet.set_enableevent(true);
-	
-		this.ds_ContractSiDet.set_enableevent(false);
-		this.ds_ContractSiDet.deleteAll();
-		this.ds_ContractSiDet.set_enableevent(true);
-	
-		this.ds_ContractMaDet.set_enableevent(false);
-		this.ds_ContractMaDet.deleteAll();
-		this.ds_ContractMaDet.set_enableevent(true);
+			var sContractNo = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_NO");
 				
-		this.ds_MaUnion.set_enableevent(false);
-		this.ds_MaUnion.deleteAll();
-		this.ds_MaUnion.set_enableevent(true);
+			if (!this.gfnIsEmpty(sContractNo)) {
+				this.fnRequestStaffSearch(null, sContractNo);
+				
+				if (this.ds_RequestStaff.rowcount > 0)
+				{
+					this.gfnAlert('msg.general',this.gfnGetTransTxt(1326, "해당 매출계약의 지원인력 요청 건이 있어 삭제 할수 없습니다.\n지원요청 삭제후 처리하세요"));
+					return;
+				}
+			}		
+			//ds_MainContract_onrowposchanged 이벤트 때문에 초기화 되어서 이벤트 막음
+			this.ds_MainContract.set_enableevent(false);
+			this.ds_MainContract.deleteRow(nRow);
+			this.ds_MainContract.set_enableevent(true);
+			
+			this.ds_ContractProdDet.set_enableevent(false);
+			this.ds_ContractProdDet.deleteAll();
+			this.ds_ContractProdDet.set_enableevent(true);
 		
-		this.fn_SaveData();
-	}
+			this.ds_ContractSiDet.set_enableevent(false);
+			this.ds_ContractSiDet.deleteAll();
+			this.ds_ContractSiDet.set_enableevent(true);
+		
+			this.ds_ContractMaDet.set_enableevent(false);
+			this.ds_ContractMaDet.deleteAll();
+			this.ds_ContractMaDet.set_enableevent(true);
+					
+			this.ds_MaUnion.set_enableevent(false);
+			this.ds_MaUnion.deleteAll();
+			this.ds_MaUnion.set_enableevent(true);
+			
+			this.fn_SaveData();		
+		});
+// 		
+// 	if (this.confirm(this.gfnGetTransTxt(1668, "해당 계약을 삭제할 경우 세부 정보도 함께 삭제 됩니다. \n정말 삭제 하시겠습니까?")) ) {
+// 		
+// 		this.FV_DEL_FLAG = true;
+// 		
+// 		var sContractNo = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_NO");
+// 			
+// 		if (!this.gfnIsEmpty(sContractNo)) {
+// 			this.fnRequestStaffSearch(null, sContractNo);
+// 			
+// 			if (this.ds_RequestStaff.rowcount > 0)
+// 			{
+// 				this.gfnAlert('msg.general',this.gfnGetTransTxt(1326, "해당 매출계약의 지원인력 요청 건이 있어 삭제 할수 없습니다.\n지원요청 삭제후 처리하세요"));
+// 				return;
+// 			}
+// 		}		
+// 		//ds_MainContract_onrowposchanged 이벤트 때문에 초기화 되어서 이벤트 막음
+// 		this.ds_MainContract.set_enableevent(false);
+// 		this.ds_MainContract.deleteRow(nRow);
+// 		this.ds_MainContract.set_enableevent(true);
+// 		
+// 		this.ds_ContractProdDet.set_enableevent(false);
+// 		this.ds_ContractProdDet.deleteAll();
+// 		this.ds_ContractProdDet.set_enableevent(true);
+// 	
+// 		this.ds_ContractSiDet.set_enableevent(false);
+// 		this.ds_ContractSiDet.deleteAll();
+// 		this.ds_ContractSiDet.set_enableevent(true);
+// 	
+// 		this.ds_ContractMaDet.set_enableevent(false);
+// 		this.ds_ContractMaDet.deleteAll();
+// 		this.ds_ContractMaDet.set_enableevent(true);
+// 				
+// 		this.ds_MaUnion.set_enableevent(false);
+// 		this.ds_MaUnion.deleteAll();
+// 		this.ds_MaUnion.set_enableevent(true);
+// 		
+// 		this.fn_SaveData();
+// 	}
 }
 
 // 행추가 공통 이벤트
@@ -2400,7 +2536,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			// 필수 입력값 체크
 			if (objDs.rowposition>=0) {
 				var sSubject = objDs.getColumn(objDs.rowposition, "SUBJECT");
-				if (this.gfnIsEmpty(sSubject)) { this.alert(this.gfnGetTransTxt(1327, "약속제목을 입력 후 추가 해주세요")); return;}
+				if (this.gfnIsEmpty(sSubject)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1327, "약속제목을 입력 후 추가 해주세요")); return;}
 			}
 			
 			arrDefSetCol.push("CONTRACT_NO");	arrDefSetCol.push("PROMISE_DATE");	arrDefSetCol.push("PROMISE_KIND");
@@ -2424,15 +2560,15 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 				var sStratDt = objDs.getColumn(objDs.rowposition, "START_DATE");
 				var sEndDt = objDs.getColumn(objDs.rowposition, "END_DATE");
 				
-				if (this.gfnIsEmpty(sRoleCd)) { this.alert(this.gfnGetTransTxt(1328, "역할을 입력 후 추가 해주세요")); return; }
-				else if (this.gfnIsEmpty(sLevelCd)) { this.alert(this.gfnGetTransTxt(1329, "등급을 입력 후 추가 해주세요")); return; }
-				else if (this.gfnIsEmpty(sStratDt)) { this.alert(this.gfnGetTransTxt(1330, "개시일자를 입력 후 추가 해주세요")); return; }
-				else if (this.gfnIsEmpty(sEndDt)) {	this.alert(this.gfnGetTransTxt(1331, "종료일자를 입력 후 추가 해주세요")); return;	}
+				if (this.gfnIsEmpty(sRoleCd)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1328, "역할을 입력 후 추가 해주세요")); return; }
+				else if (this.gfnIsEmpty(sLevelCd)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1329, "등급을 입력 후 추가 해주세요")); return; }
+				else if (this.gfnIsEmpty(sStratDt)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1330, "개시일자를 입력 후 추가 해주세요")); return; }
+				else if (this.gfnIsEmpty(sEndDt)) {	this.gfnAlert('msg.general',this.gfnGetTransTxt(1331, "종료일자를 입력 후 추가 해주세요")); return;	}
 				
 				
 				if (sFormatid == "CS") {
 					var sExecutionType = objDs.getColumn(objDs.rowposition, "EXECUTION_TYPE");
-					if (this.gfnIsEmpty(sExecutionType)) { this.alert(this.gfnGetTransTxt(1332, "수행방식을 입력 후 추가 해주세요")); return; }
+					if (this.gfnIsEmpty(sExecutionType)) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1332, "수행방식을 입력 후 추가 해주세요")); return; }
 				}
 				
 			}
@@ -2509,11 +2645,20 @@ this.CommDelRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	}
 	
 	var nRow = objDs.rowposition;
-	if ( this.confirm(this.gfnGetTransTxt(sTL_SEQ, sMsg)) ) {
-		objDs.deleteRow(nRow);
-	}
+	this.gfnAlert('confirm.general',sMsg,null
+		,function(srvId,rtn) {
+			if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") {
+			} else {
+				objDs.deleteRow(nRow);		
+			}
+			this.fnCheckDetGridScroll();
+			return;
+		});	
+// 	if ( this.confirm(this.gfnGetTransTxt(sTL_SEQ, sMsg)) ) {
+// 		objDs.deleteRow(nRow);
+// 	}
 	
-	this.fnCheckDetGridScroll();
+	//this.fnCheckDetGridScroll();
 };
 
 // 기타 Tab 변경시
@@ -2533,7 +2678,7 @@ this.tab_Progress_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChangeE
 		
 		var sContractType = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_TYPE");
 		// 유지보수인 경우만 추가, 삭제 가능
-		if (sContractType == "M") {
+		if (sContractType == "SM") {
 			if (this.FV_AUTH_ALL_FLAG) { bBtnEnableFlag = true; }
 		}
 	} else if (e.postindex == 4) {		/*	약속	*/
@@ -2552,7 +2697,7 @@ this.btn_CostSheet_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInf
 {
 	var sProjectCd = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "PROJECT_CODE");
 	var Argument = {pv_project_cd:sProjectCd, pv_costsheet_type:"2"};
-	this.commUtil.popup(this, "popupCostSheet", "Sales::SP_CostSheet.xfdl", -1, -1, 1200, 665, true, true, false, Argument, "fnPopupCallBack");
+	this.commUtil.popup(this, "popupCostSheet", "sales::sales/SP_CostSheet.xfdl", -1, -1, -1, -1, true, true, false, Argument, "fnPopupCallBack");
 };
 
 // 납품확인서 POPUP
@@ -2571,7 +2716,7 @@ this.btn_DeliveryConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEv
 this.fn_RequestLicense = function (bOnlineFlag)
 {
 	if (this.gfnIsUpdateDs(this.ds_ContractProdDet)) {
-		this.alert(this.gfnGetTransTxt(1333, "저장후 라이센스 요청하시기 바랍니다"));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1333, "저장후 라이센스 요청하시기 바랍니다"));
 		return;
 	}
 	
@@ -2605,7 +2750,7 @@ this.fn_RequestLicense = function (bOnlineFlag)
 	var sClientName	= this.FV_PARENT_FORM.div_search.form.div_ClientName.getData();
 	
 	if (this.gfnIsEmpty(sContractNo)) {
-		this.alert(this.gfnGetTransTxt(1334, "먼저 계약내용을 저장하십시요."));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1334, "먼저 계약내용을 저장하십시요."));
 		return;
 	}
 	
@@ -2648,7 +2793,7 @@ this.Com_Search_onChanged = function (obj, e)
 			var nRestAmt = ds.getColumn(0, "REST");
 			if (nexacro.toNumber(nRestAmt) < 0) {
 				if (ds.getColumn(0, "CL_EXCEPTION_CODE") != "008") {
-					this.alert(this.gfnGetTransTxt(1335, "여신한도 금액 초과 업체 입니다.\n지급 보증각서 또는 내부품의 진행 바랍니다."));
+					this.gfnAlert('msg.general',this.gfnGetTransTxt(1335, "여신한도 금액 초과 업체 입니다.\n지급 보증각서 또는 내부품의 진행 바랍니다."));
 				}
 			}			
 		}
@@ -2773,7 +2918,7 @@ this.ds_ContractMaDet_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nex
 		var strStartDt = obj.getColumn(e.row, "START_DATE");
 		var strEndDt = obj.getColumn(e.row, "END_DATE");
 		if (strEndDt < strStartDt) {
-			this.alert(this.gfnGetTransTxt(1321, "개시일자 또는 종료일자를 확인하세요\n개시일자 보다 종료일자가 빠릅니다"));
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1321, "개시일자 또는 종료일자를 확인하세요\n개시일자 보다 종료일자가 빠릅니다"));
 			obj.set_enableevent(false);
 			obj.setColumn(e.row, e.columnid, e.oldvalue);
 			this.grd_ContractDetail.setCellPos(e.col, e.row);
@@ -2838,7 +2983,7 @@ this.SP_Contract_onsize = function(obj:nexacro.Form,e:nexacro.SizeEventInfo)
 this.btn_CommCode_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	var sArgument = {CD_CODE : "", SCR_ID:this.name};
-	this.commUtil.popup(this, "CompanyAddMM", "Sales::SC_CompanyAddMM.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+	this.commUtil.popup(this, "CompanyAddMM", "sales::base/SC_CompanyAddMM.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
 };
 
 
@@ -2895,14 +3040,14 @@ this.ds_MainContract_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexa
 		if(e.newvalue == 0)
 			this.ds_MainContract.setColumn(e.row, "SUB_SALES_EMP_NO");
 		else if (e.newvalue >= this.ds_MainContract.getColumn(e.row, "CONTRACT_PRICE")){
-			this.alert(this.gfnGetTransTxt(1336, "계약금액보다 크게 설정할수 없습니다."));
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1336, "계약금액보다 크게 설정할수 없습니다."));
 			this.ds_MainContract.setColumn(e.row, "SUB_CONTRACT_PRICE", e.oldvalue);
 		}
 	}
 	else if(e.columnid=="CONTRACT_TYPE" || e.columnid=="PRODUCT_CODE" || e.columnid=="CONTRACT_MAIN")
 	{
 		
-		if(this.ds_MainContract.getColumn(e.row, "CONTRACT_TYPE") == "P")
+		if(this.ds_MainContract.getColumn(e.row, "CONTRACT_TYPE") == "PD")
 		{
 			var sProductCd = this.ds_MainContract.getColumn(e.row, "PRODUCT_CODE");
 			if (this.gfnIsEmpty(sProductCd))	sProductCd = "";
@@ -2934,25 +3079,33 @@ this.ds_MainContract_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexa
 		}	
 	} else if(e.columnid=="EM_SEQ")
 	{
-		if(this.FV_CO_CD=="J02" && this.ds_MainContract.getColumn(e.row, "CONTRACT_TYPE") == "M") {
-			var sContractNo = this.ds_MainContract.getColumn(e.row, "CONTRACT_NO");
-			
-			this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);
-			
-			// 조회용 Output dataset 세팅
-			this.gfnAddOutputDataset("ds_RelatedPurchaseProduct", "ds_output");
-			this.gfnCommonTransaction("CheckRelatedPurchaseProduct", "SP_Contract_S05", null, false);
-			
-			if(this.ds_RelatedPurchaseProduct.rowcount > 0) {
-				if(this.confirm(this.gfnGetTransTxt(22659, "매입상세에 매칭 된 건이 있습니다. 확인 클릭 시 견적서 상세 내용을 새로 입력 합니다. 취소 클릭 시 수기로 입력 요청 드립니다."))) {
-					this.ds_ContractMaDet.deleteAll();
-					this.fnInsertMaEstimateDet(e.newvalue);
-				} 
-			} else {
-				this.ds_ContractMaDet.deleteAll();
-				this.fnInsertMaEstimateDet(e.newvalue);
-			}
-		}
+// 		if(this.FV_CO_CD=="J02" && this.ds_MainContract.getColumn(e.row, "CONTRACT_TYPE") == "SM") {
+// 			var sContractNo = this.ds_MainContract.getColumn(e.row, "CONTRACT_NO");
+// 			
+// 			this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);
+// 			
+// 			// 조회용 Output dataset 세팅
+// // 			this.gfnAddOutputDataset("ds_RelatedPurchaseProduct", "ds_output");
+// // 			this.gfnCommonTransaction("CheckRelatedPurchaseProduct", "SP_Contract_S05", null, false);
+// 			this.gfnSetMap("projectMapper", "SP_Contract_S05", "ds_RelatedPurchaseProduct");
+// 			this.gfnCommonTransaction("CheckRelatedPurchaseProduct", 	"selectNextList.do", null, false);			
+// 			
+// 			if(this.ds_RelatedPurchaseProduct.rowcount > 0) {
+// 				this.gfnAlert('confirm.general',"매입상세에 매칭 된 건이 있습니다. 확인 클릭 시 견적서 상세 내용을 새로 입력 합니다. 취소 클릭 시 수기로 입력 요청 드립니다.",null
+// 					,function(srvId,rtn) {
+// 						if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+// 						this.ds_ContractMaDet.deleteAll();
+// 						this.fnInsertMaEstimateDet(e.newvalue);		
+// 					});			
+// // 				if(this.confirm(this.gfnGetTransTxt(22659, "매입상세에 매칭 된 건이 있습니다. 확인 클릭 시 견적서 상세 내용을 새로 입력 합니다. 취소 클릭 시 수기로 입력 요청 드립니다."))) {
+// // 					this.ds_ContractMaDet.deleteAll();
+// // 					this.fnInsertMaEstimateDet(e.newvalue);
+// // 				} 
+// 			} else {
+// 				this.ds_ContractMaDet.deleteAll();
+// 				this.fnInsertMaEstimateDet(e.newvalue);
+// 			}
+// 		}
 	}
 };
 
@@ -2961,10 +3114,15 @@ this.fnInsertMaEstimateDet = function(sEmSeq)
 	this.gfnAddSendParameter("EM_SEQ",	sEmSeq);
 			
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_EstimateContractMa", "ds_output");
-	this.gfnAddOutputDataset("ds_EstimateContractMaDet", "ds_output2");
-	this.gfnAddOutputDataset("ds_EstimateUnionContract", "ds_output3");
-	this.gfnCommonTransaction("InsertMaEstimateDet", "SP_Contract_S06");
+// 	this.gfnAddOutputDataset("ds_EstimateContractMa", "ds_output");
+// 	this.gfnAddOutputDataset("ds_EstimateContractMaDet", "ds_output2");
+// 	this.gfnAddOutputDataset("ds_EstimateUnionContract", "ds_output3");
+// 	this.gfnCommonTransaction("InsertMaEstimateDet", "SP_Contract_S06");
+	
+	var arrMap = ['SP_Contract_S06_1','SP_Contract_S06_2','SP_Contract_S06_3'];
+	var arrDs = ['ds_EstimateContractMa','ds_EstimateContractMaDet','ds_EstimateUnionContract'];
+	this.gfnSetMap("projectMapper", arrMap, arrDs);
+	this.gfnCommonTransaction("InsertMaEstimateDet", "selectNextMultiList.do");	
 };
 
 this.div_ContractInfo_btn_HistoryMail_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
@@ -2978,7 +3136,7 @@ this.div_ContractInfo_btn_HistoryMail_onclick = function(obj:nexacro.Button,e:ne
 this.tab_Progress_tpg_PersonInCharge_grd_PersonInCharge_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
 	var sArgument = {COMPANY_CODE : this.ds_AddressbookList.getColumn(e.row, "COMPANY_CODE"), TAB_INDEX:3, MODE:"E"};
-	this.commUtil.popup(this, "CompanyTypeSelect", "Sales::SC_CompanyReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+	this.commUtil.popup(this, "CompanyTypeSelect", "sales::base/SC_CompanyReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
 };
 
 this.ds_AddressbookList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
@@ -3008,7 +3166,7 @@ this.div_Account_onkillfocus = function(obj:nexacro.Div,e:nexacro.KillFocusEvent
 {
 	if(this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "BAD_DEBT_FLAG")=="1" && this.gfnIsEmpty(this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "BAD_DEBT_DATE")))
 	{
-		this.alert(this.gfnGetTransTxt(1337, "채권대손일을 입력하세요."));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1337, "채권대손일을 입력하세요."));
 		this.div_Account.form.cal_BadDebtDate.setFocus();
 	}
 	else

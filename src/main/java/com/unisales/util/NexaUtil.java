@@ -476,5 +476,21 @@ public class NexaUtil {
 			newMap.put(obj.getColumn(i).getName(), obj.getObject(0, i));
 		}
 		return newMap;
-	}	    	
+	}	    
+	
+    /**
+	 * 개발용 - 사용자 정보
+	 * @param UserInfo		: 저장할 데이터 리스트
+	 * @return				: N/A
+	 */	
+	public static UserInfo getDevUserInfo() 
+	{
+		UserInfo userInfo = new UserInfo();
+		userInfo.setStrUserId("jihs");
+		userInfo.setStrUserIPAddress("127.0.0.1");
+		userInfo.setStrCompanyCd("UNIDIA");
+		userInfo.setStrEmpNo("w22010301");
+		
+		return userInfo;
+	}		
 }

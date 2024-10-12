@@ -904,7 +904,7 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 				break;
 			case "popupCostSheet" : // 제품
 				//사전원가표 상신이후 계약확정 버튼 상태확인
-				this.tab_Sales.tpg_Presales.form.fnCheckOrderConfirm(-1, Variant);
+				this.fnCheckOrderConfirm(-1, Variant);
 			break;	
 			
 			case "popupEstimateConfirm" : // 견적서 선택

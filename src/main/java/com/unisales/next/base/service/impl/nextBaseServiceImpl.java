@@ -2,6 +2,7 @@ package com.unisales.next.base.service.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -360,15 +361,87 @@ public class nextBaseServiceImpl implements nextBaseService {
         
         rowType = (String) saveMap.get("_rowType_");
         
-        if (rowType == "I"){
+        if (rowType.equals("I")){
         	sqlSession.insert(strInsertMap, saveMap);
-        }else if (rowType == strUpdateMap){
+        }else if (rowType.equals(strUpdateMap)){
         	sqlSession.update(strUpdateMap, saveMap);
-        }else if (rowType == strDeleteMap){
+        }else if (rowType.equals(strDeleteMap)){
         	sqlSession.delete(strDeleteMap, saveMap);
         }
 	
     }    	
+    
+    /**
+	 * 저장한다.
+	 * @param queryMap		: Mapper Info
+	 * @param saveList		: 저장할 데이터 리스트
+	 * @param userInfo		: Login UserInfo
+	 * @return				: N/A
+	 */
+    @Override
+    public void updateNextData(Map<String,String> queryMap, Map<String,Object> searchMap, Map<String, Object> userInfo) {
+    	
+		String mapper = queryMap.get("map");
+		String mapperId = queryMap.get("mapid");
+		String curdType = queryMap.get("curdType");
+		
+		String strInsertMap = mapper + ".insert" + mapperId;
+		String strDeleteMap = mapper + ".delete" + mapperId;
+		String strUpdateMap = mapper + ".update" + mapperId;
+    	
+    	searchMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
+    	searchMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
+    	searchMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+    	searchMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
+        
+        if (curdType.equals("insert")){
+        	sqlSession.insert(strInsertMap, searchMap);
+        }else if (curdType.equals("update")){
+        	sqlSession.update(strUpdateMap, searchMap);
+        }else if (curdType.equals("delete")){
+        	sqlSession.delete(strDeleteMap, searchMap);
+        }
+	
+    }    	  
+    
+    /**
+	 * 저장한다.
+	 * @param queryMap		: Mapper Info
+	 * @param saveList		: 저장할 데이터 리스트
+	 * @param userInfo		: Login UserInfo
+	 * @return				: N/A
+	 */
+    @Override
+    public void updateNextList(Map<String,String> queryMap, Map<String,Object> searchMap, List<Map<String,Object>> dsInput, Map<String, Object> userInfo) {
+    	
+		String mapper = queryMap.get("map");
+		String mapperId = queryMap.get("mapid");
+		String curdType = queryMap.get("curdType");
+
+        int sizeMap = dsInput.size();
+        for (int j=0; j<sizeMap; j++) {
+            Map<String,Object> saveMap = dsInput.get(j);
+            
+            saveMap.put("USER_ID_SRV", userInfo.get("USER_ID_SRV"));
+            saveMap.put("USER_CON_IPADDR_SRV", userInfo.get("USER_CON_IPADDR_SRV"));
+            saveMap.put("SERVER_CO_CD", userInfo.get("SERVER_CO_CD"));
+            saveMap.put("EMP_NO_SRV", userInfo.get("EMP_NO_SRV"));
+            
+            for (Entry<String, Object> entrySet : searchMap.entrySet()) {    
+            	String key = entrySet.getKey();
+            	if(saveMap.containsKey(key) == false) {
+            		saveMap.put(entrySet.getKey(), entrySet.getValue());
+            	}
+        	}
+            if (curdType.equals("insert")){
+            	sqlSession.insert(mapper + ".insert" + mapperId,saveMap);
+            }else if (curdType.equals("update")){
+            	sqlSession.update(mapper + ".update" + mapperId,saveMap);
+            }else if (curdType.equals("delete")){
+            	sqlSession.delete(mapper + ".delete" + mapperId,saveMap);
+            }
+        }	
+    }        
 	         
    
 }

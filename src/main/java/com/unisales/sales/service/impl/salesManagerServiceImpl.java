@@ -870,12 +870,15 @@ public class salesManagerServiceImpl implements salesManagerService {
 	    	outMap.put("CC_SEQ", "");
 	    	
 	    	try {
+	    		System.out.println(">>>>1");
 	    		setRowType(datasetMap);
-	    		
+	    		System.out.println(">>>>2");
 	    		int size;
 	    		int rowType;
 	    		List<Map<String,Object>> dsIn = (List<Map<String, Object>>) datasetMap.get("ds_Project");
+	    		System.out.println(">>>>3");
 	    		if(dsIn != null) {
+	    			System.out.println(">>>>4");
 		      		size = dsIn.size();
 		            
 		    	    for (int i=0; i<size; i++) {
@@ -889,19 +892,20 @@ public class salesManagerServiceImpl implements salesManagerService {
 		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
 		    	          
 	    	             if (rowType == DataSet.ROW_TYPE_INSERTED){
-	    	              	sqlSession.insert("salesMangerMapper.insertSP_CostSheet_R01_COSTSHEET_CONTRACT", saveMap);
+	    	              	sqlSession.insert("salesManagerMapper.insertSP_CostSheet_R01_COSTSHEET_CONTRACT", saveMap);
 	    	              }else if (rowType == DataSet.ROW_TYPE_UPDATED){
-	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_CONTRACT", saveMap);
+	    	            	  sqlSession.update("salesManagerMapper.updateSP_CostSheet_R01_COSTSHEET_CONTRACT", saveMap);
 	    	              }else if (rowType == DataSet.ROW_TYPE_DELETED){
-	    	            	  sqlSession.delete("salesMangerMapper.deleteSP_CostSheet_R01_COSTSHEET_CONTRACT", saveMap);
+	    	            	  sqlSession.delete("salesManagerMapper.deleteSP_CostSheet_R01_COSTSHEET_CONTRACT", saveMap);
 	    	              }	    	 
 		    	    }
 	    		}
-	    	    
-	    	    int ds_ccseqCC_SEQ = sqlSession.selectOne("salesMangerMapper.selectSP_CostSheet_R01_GET_CC_SEQ");
+	    		System.out.println(">>>>5");
+	    	    int ds_ccseqCC_SEQ = sqlSession.selectOne("salesManagerMapper.selectSP_CostSheet_R01_GET_CC_SEQ");
 	    	    outMap.put("CC_SEQ", ds_ccseqCC_SEQ);
-	    	    
+	    	    System.out.println(">>>>6");
 	    		dsIn = (List<Map<String, Object>>) datasetMap.get("ds_ContractProd");
+
 	    		if(dsIn != null) {
 		      		size = dsIn.size();
 		    	    for (int i=0; i<size; i++) {
@@ -916,17 +920,19 @@ public class salesManagerServiceImpl implements salesManagerService {
 		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
 		    	          
 	    	             if (rowType == DataSet.ROW_TYPE_INSERTED){
-	    	              	sqlSession.insert("salesMangerMapper.insertSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT", saveMap);
+	    	              	sqlSession.insert("salesManagerMapper.insertSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT", saveMap);
 	    	              }else if (rowType == DataSet.ROW_TYPE_UPDATED){
-	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT", saveMap);
+	    	            	  sqlSession.update("salesManagerMapper.updateSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT", saveMap);
 	    	              }else if (rowType == DataSet.ROW_TYPE_DELETED){
-	    	            	  sqlSession.delete("salesMangerMapper.deleteSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT", saveMap);
+	    	            	  sqlSession.delete("salesManagerMapper.deleteSP_CostSheet_R01_COSTSHEET_CONTRACT_PRODUCT", saveMap);
 	    	              } 
 		    	    }
 	    		}
-	    		
+	    		System.out.println(">>>>7");
 	    		dsIn = (List<Map<String, Object>>) datasetMap.get("ds_PurchaseProd");
+	    		System.out.println(">>>>8");
 	    		if(dsIn != null) {
+	    			System.out.println(">>>>9");
 		      		size = dsIn.size();
 		    	    for (int i=0; i<size; i++) {
 		    	          Map<String,Object> saveMap = dsIn.get(i);
@@ -940,11 +946,11 @@ public class salesManagerServiceImpl implements salesManagerService {
 		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
 		    	          
 	    	             if (rowType == DataSet.ROW_TYPE_INSERTED){
-	    	              	sqlSession.insert("salesMangerMapper.insertSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT", saveMap);
+	    	              	sqlSession.insert("salesManagerMapper.insertSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT", saveMap);
 	    	              }else if (rowType == DataSet.ROW_TYPE_UPDATED){
-	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT", saveMap);
+	    	            	  sqlSession.update("salesManagerMapper.updateSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT", saveMap);
 	    	              }else if (rowType == DataSet.ROW_TYPE_DELETED){
-	    	            	  sqlSession.delete("salesMangerMapper.deleteSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT", saveMap);
+	    	            	  sqlSession.delete("salesManagerMapper.deleteSP_CostSheet_R01_COSTSHEET_PURCHASE_PRODUCT", saveMap);
 	    	              } 
 		    	    }
 	    		}
@@ -964,11 +970,11 @@ public class salesManagerServiceImpl implements salesManagerService {
 		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
 		    	          
 	    	             if (rowType == DataSet.ROW_TYPE_INSERTED){
-	    	              	sqlSession.insert("salesMangerMapper.insertSP_CostSheet_R01_COSTSHEET_CONTRACT_SI", saveMap);
+	    	              	sqlSession.insert("salesManagerMapper.insertSP_CostSheet_R01_COSTSHEET_CONTRACT_SI", saveMap);
 	    	              }else if (rowType == DataSet.ROW_TYPE_UPDATED){
-	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_CONTRACT_SI", saveMap);
+	    	            	  sqlSession.update("salesManagerMapper.updateSP_CostSheet_R01_COSTSHEET_CONTRACT_SI", saveMap);
 	    	              }else if (rowType == DataSet.ROW_TYPE_DELETED){
-	    	            	  sqlSession.delete("salesMangerMapper.deleteSP_CostSheet_R01_COSTSHEET_CONTRACT_SI", saveMap);
+	    	            	  sqlSession.delete("salesManagerMapper.deleteSP_CostSheet_R01_COSTSHEET_CONTRACT_SI", saveMap);
 	    	              } 
 		    	    }
 	    		}	    
@@ -988,11 +994,11 @@ public class salesManagerServiceImpl implements salesManagerService {
 		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
 		    	          
 	    	             if (rowType == DataSet.ROW_TYPE_INSERTED){
-	    	              	sqlSession.insert("salesMangerMapper.insertSP_CostSheet_R01_COSTSHEET_PURCHASE_SI", saveMap);
+	    	              	sqlSession.insert("salesManagerMapper.insertSP_CostSheet_R01_COSTSHEET_PURCHASE_SI", saveMap);
 	    	              }else if (rowType == DataSet.ROW_TYPE_UPDATED){
-	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_PURCHASE_SI", saveMap);
+	    	            	  sqlSession.update("salesManagerMapper.updateSP_CostSheet_R01_COSTSHEET_PURCHASE_SI", saveMap);
 	    	              }else if (rowType == DataSet.ROW_TYPE_DELETED){
-	    	            	  sqlSession.delete("salesMangerMapper.deleteSP_CostSheet_R01_COSTSHEET_PURCHASE_SI", saveMap);
+	    	            	  sqlSession.delete("salesManagerMapper.deleteSP_CostSheet_R01_COSTSHEET_PURCHASE_SI", saveMap);
 	    	              } 
 		    	    }
 	    		}
@@ -1012,13 +1018,14 @@ public class salesManagerServiceImpl implements salesManagerService {
 		    	          rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
 		    	          
 	    	              if (rowType == DataSet.ROW_TYPE_UPDATED){
-	    	            	  sqlSession.update("salesMangerMapper.updateSP_CostSheet_R01_COSTSHEET_MAP_INSERT", saveMap);
+	    	            	  sqlSession.update("salesManagerMapper.updateSP_CostSheet_R01_COSTSHEET_MAP_INSERT", saveMap);
 	    	              } 
 		    	    }
 	    		}	    		
 		    	sqlSession.getConnection().setAutoCommit(true);
 		    	sqlSession.commit();
 	    	} catch (Exception e) {
+	    		System.out.println(e.getMessage());
 	    		sqlSession.rollback();
 	    		throw new Exception();
 	    	} finally {
@@ -1068,4 +1075,18 @@ public class salesManagerServiceImpl implements salesManagerService {
 			
 	    	return sqlSession1.selectList(strMapper, search);
 	    }    	    
+	    
+	   /**
+		 * 저장한다.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+	 * @throws Exception 
+		 */
+	    @Override
+	    public void costSheetInit(Map<String,Object> searchMap, UserInfo userInfo) 
+	    				throws Exception {	    
+	    	
+	    }
 }

@@ -3,7 +3,7 @@
   <Form id="SS_Contract" width="1344" height="448" titletext="영업관리-계약탭" onload="SS_Contract_onload">
     <Layouts>
       <Layout height="448" mobileorientation="landscape" width="1344">
-        <Grid id="grd_ContractList" taborder="0" left="0" top="4" right="0" bottom="0" binddataset="dsList" cellsizingtype="col" oncelldblclick="grd_ContractList_oncelldblclick">
+        <Grid id="grd_ContractList" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="dsList" cellsizingtype="col" oncelldblclick="grd_ContractList_oncelldblclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -27,8 +27,8 @@
                 <Column size="120"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell/>
@@ -103,14 +103,17 @@ include "Script::CommSystem.xjs"
 /************************************************************************************************
 * 전역 변수 영역
 ************************************************************************************************/
- this.FV_PARENT_FORM = this.parent.parent.parent; 
- this.FV_AUTH_PRICE_MASK = false;
- this.FV_CO_CD = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");	//로그인 회사코드
+this.FV_PARENT_FORM = this.parent.parent.parent; 
+this.FV_AUTH_PRICE_MASK = false;
+this.FV_CO_CD = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");	//로그인 회사코드
  /************************************************************************************************
  * FORM 영역
  ************************************************************************************************/
  this.SS_Contract_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
+	this.FV_CO_CD = this.gfnGetCompanyCode("CO_CD");	//로그인 회사코드
+	this.FV_PARENT_FORM = this.parent.parent.parent; 
+	
 	this.gfnCompInit(obj);  	// Grid 공통함수 호출
 	this.fnAuthConfig();
 	this.fnQueryData();
@@ -119,16 +122,15 @@ include "Script::CommSystem.xjs"
 // 권한 처리 
 this.fnAuthConfig = function()
 {
-	if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹 처리 권한
+	//if (this.commUtil.getFormAuthority(235,11))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹 처리 권한
 }
 
  /************************************************************************************************
  * TRANSACTION 및 추가 FUNCTION 영역
  ************************************************************************************************/
-
  // 계약조회
- this.fnQueryData = function()
- {
+this.fnQueryData = function()
+{
 	this.dsList.clearData();
 	// 조건값(Rarameter) 셋팅
 	this.gfnAddSendParameter("PROJECT_NAME",		this.FV_PARENT_FORM.div_search.form.div_ProjectName.getData());
@@ -149,24 +151,33 @@ this.fnAuthConfig = function()
 	this.gfnAddSendParameter("SALES_STATUS",		this.FV_PARENT_FORM.div_search.form.cmb_SalesStatus.value);
 	
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("dsList", "ds_output");
-	this.gfnCommonTransaction("SS_Contract_S01", "SS_Contract_S01");
- };
+// 	this.gfnAddOutputDataset("dsList", "ds_output");
+// 	this.gfnCommonTransaction("SS_Contract_S01", "SS_Contract_S01");
+	
+	this.gfnSetMap("salesManagerMapper", "SS_Contract_S01", "dsList");
+	this.gfnCommonTransaction("SS_Contract_S01", 	"selectNextList.do");	
+};
  
  // 계약확정취소 저장
- this.fn_SaveData = function ()
- {
+this.fn_SaveData = function ()
+{
 	if (!this.gfnIsUpdateDs(this.dsList))
 	{
 		return;
 	}
 	
 	// 입력용 Input Dataset 세팅
-	this.gfnAddInputDataset ("dsList", "dsInput");
-	this.gfnCommonTransaction("SS_Contract_R01", "SS_Contract_R01");
- }
- 
- 
+// 	this.gfnAddInputDataset ("dsList", "dsInput");
+// 	this.gfnCommonTransaction("SS_Contract_R01", "SS_Contract_R01");
+	
+	this.gfnAddInputDataset ("dsList", "dsInput1");
+	this.gfnAddInputDataset ("dsList", "dsInput2");
+	this.gfnAddInputDataset ("dsList", "dsInput3");
+	
+	this.gfnSetMap("salesManagerMapper", ["SS_Presales_R01_1","SS_Presales_R01_2","SS_Presales_R01_3"]);
+	this.gfnCommonTransaction("SS_Contract_R01", 	"saveNextList.do");	
+	
+}; 
  // 화면 콜백
 this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 {
@@ -211,26 +222,26 @@ this.fnContractCancel = function()
 	
 	if(confirm(this.gfnGetTransTxt (1669,"계약확정 취소 처리를 하시겠습니까?")))
 	{
-		if(this.FV_CO_CD == "J02") {
-			this.gfnAddSendParameter("PROJECT_CODE",  this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE"));
-			this.gfnAddSendParameter("CONTRACT_STATUS",  "2");
-			this.gfnAddSendParameter("TARGET_CONTRACT_STATUS",  "0");
-			this.gfnAddOutputDataset("ds_checkProduct",	"ds_output");
-			this.gfnCommonTransaction("SS_Contract_S02", "SS_Contract_S02", null, false);
-			
-			if(this.ds_checkProduct.rowcount > 0) {
-				if(this.confirm(this.gfnGetTransTxt (32856,"영업관리에 해당 프로젝트 가계약에 동일한 제품 또는 상품이 있습니다. 그래도 계약확정 취소 처리를 하시겠습니까?"))) {
-					this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
-					this.fn_SaveData();
-				}
-			} else {
-				this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
-				this.fn_SaveData();
-			}
-		} else {
+// 		if(this.FV_CO_CD == "J02") {
+// 			this.gfnAddSendParameter("PROJECT_CODE",  this.dsList.getColumn(this.dsList.rowposition, "PROJECT_CODE"));
+// 			this.gfnAddSendParameter("CONTRACT_STATUS",  "2");
+// 			this.gfnAddSendParameter("TARGET_CONTRACT_STATUS",  "0");
+// 			this.gfnAddOutputDataset("ds_checkProduct",	"ds_output");
+// 			this.gfnCommonTransaction("SS_Contract_S02", "SS_Contract_S02", null, false);
+// 			
+// 			if(this.ds_checkProduct.rowcount > 0) {
+// 				if(this.confirm(this.gfnGetTransTxt (32856,"영업관리에 해당 프로젝트 가계약에 동일한 제품 또는 상품이 있습니다. 그래도 계약확정 취소 처리를 하시겠습니까?"))) {
+// 					this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
+// 					this.fn_SaveData();
+// 				}
+// 			} else {
+// 				this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
+// 				this.fn_SaveData();
+// 			}
+// 		} else {
 			this.dsList.setColumn(this.dsList.rowposition, "CONTRACT_STATUS", "0");
 			this.fn_SaveData();
-		}
+		//}
 	}
 }
 

@@ -246,5 +246,33 @@ public class salesManagerController {
 		NexacroResult result = new NexacroResult();
 		result.addDataSet("ds_ccseq", out);
 		return result;
-	}  		        
+	}
+    
+	/**
+	 * presales 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/costSheetInit.do")
+	public NexacroResult costSheetInit(@ParamDataSet(name = "dsMap", required = false) List<Map<String,String>> queryList
+										, @ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			// 임시 개발용
+			userInfo = new UserInfo();
+			userInfo.setStrUserId("jihs");
+			userInfo.setStrUserIPAddress("127.0.0.1");
+			userInfo.setStrCompanyCd("UNIDIA");
+			userInfo.setStrEmpNo("w22010301");
+		}
+		
+		SalesMangerService.costSheetInit(searchMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}   
 }

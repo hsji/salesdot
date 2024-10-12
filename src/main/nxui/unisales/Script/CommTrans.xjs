@@ -289,6 +289,9 @@ this._gfnSetStatusMsg = function(strSvcID)
 *******************************************************************************************/
 this.gfnAddCodeDataset = function(strDataset, strCmCode, bAll, bCheck, bAce, strLanguage)
 {
+	if(strCmCode == "CM0009") {	// 재직여부
+		strCmCode = "SM08";
+	}
 	if(bAll==undefined)
 		bAll=false;
 	if(bCheck==undefined)

@@ -128,7 +128,7 @@ public class nextBaseController {
 	} 	
 	
 	/**
-	 * 회사정보 저장
+	 * 기본 저장
 	 * @param saveMap		: 저장할 Dataset
 	 * @return result		: 데이터 셋
 	 * @throws ParseException 
@@ -176,6 +176,49 @@ public class nextBaseController {
 		NexacroResult result = new NexacroResult();
 		return result;
 	}  		
+    
+	/**
+	 * 기본 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/updateNextData.do")
+	public NexacroResult updateNextData(@ParamDataSet(name = "dsMap", required = false) Map<String,String> queryMap
+										, @ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, ParseException{
+    	NexterUtil NexUtil = new NexterUtil();
+
+    	// Login 사용자 정보를 받은 Map
+    	Map<String, Object> loginUserInfo = NexUtil.getUserInfoMap(request);
+    	
+       	commBaseService.updateNextData(queryMap, searchMap, loginUserInfo);
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  		    
+    
+	/**
+	 * 기본 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/updateNextList.do")
+	public NexacroResult updateNextList(@ParamDataSet(name = "dsMap", required = false) Map<String,String> queryMap
+										, @ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, @ParamDataSet(name = "dsInput", required = false) List<Map<String,Object>> dsInput
+										, HttpServletRequest request) throws NexacroException, IOException, ParseException{
+    	NexterUtil NexUtil = new NexterUtil();
+
+    	// Login 사용자 정보를 받은 Map
+    	Map<String, Object> loginUserInfo = NexUtil.getUserInfoMap(request);
+    	
+       	commBaseService.updateNextList(queryMap, searchMap, dsInput, loginUserInfo);
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	    
     
 	/**
 	 * 회사정보 저장
