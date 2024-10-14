@@ -6,7 +6,7 @@
         <Div id="div_ContractInfo" taborder="1" top="10" text="" cssclass="div_WF_detailBg" bottom="156" formscrolltype="none" right="10" width="713">
           <Layouts>
             <Layout>
-              <Div id="div_Attachment" taborder="6" width="110" height="22" async="false" BINDDATASET="ds_MainContract" SOURCE_CD="CL" SOURCE_SEQ="CONTRACT_NO" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="true" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" url="Common::COM_Attachment.xfdl" right="8" PROJECT_CODE="PROJECT_CODE" enable="false" bottom="8"/>
+              <Div id="div_Attachment" taborder="6" width="110" height="22" async="false" BINDDATASET="ds_MainContract" SOURCE_CD="CL" SOURCE_SEQ="CONTRACT_NO" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="true" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" url="sales::comm/COM_Attachment.xfdl" right="8" PROJECT_CODE="PROJECT_CODE" enable="false" bottom="8"/>
               <Button id="btn_RequestLicense" taborder="5" text="라이선스요청" height="22" onclick="btn_RequestLicense_onclick" width="90" right="div_Attachment:6" enable="false" bottom="7" TL_SEQ="130"/>
               <Button id="btn_Online" taborder="1" text="온라인LIC요청" height="22" onclick="btn_Online_onclick" bottom="7" right="btn_RequestLicense:6" width="90" enable="false" TL_SEQ="625"/>
               <Button id="btn_DeliveryConfirm" taborder="4" text="납품확인서" height="22" onclick="btn_DeliveryConfirm_onclick" width="90" right="btn_Online:6" enable="false" bottom="7" TL_SEQ="626"/>
@@ -311,8 +311,8 @@
             </Tabpage>
           </Tabpages>
         </Tab>
-        <Button id="btn_ProgressMinus" taborder="4" width="16" height="16" onclick="CommDelRow_onclick" top="grd_ContractList:12" right="div_ContractInfo:12" enable="false" cssclass="btn_POP_Del"/>
-        <Button id="btn_ProgressPlus" taborder="3" width="16" height="16" top="grd_ContractList:12" right="btn_ProgressMinus:4" onclick="CommAddRow_onclick" enable="false" cssclass="btn_POP_Add"/>
+        <Button id="btn_ProgressMinus" taborder="4" width="16" height="16" onclick="CommDelRow_onclick" top="grd_ContractList:15" right="div_ContractInfo:12" enable="false" cssclass="btn_POP_Del"/>
+        <Button id="btn_ProgressPlus" taborder="3" width="16" height="16" top="grd_ContractList:15" right="btn_ProgressMinus:4" onclick="CommAddRow_onclick" enable="false" cssclass="btn_POP_Add"/>
         <Grid id="grd_ContractDetail" taborder="5" left="10" right="10" binddataset="ds_ContractProdDet" autofittype="col" formatid="PROD" onexpandup="grd_ContractDetail_onexpandup" autoenter="select" oncellclick="grd_ContractDetail_oncellclick" onheadclick="grd_ContractDetail_onheadclick" top="tab_Progress:4" bottom="0">
           <Formats>
             <Format id="PROD">
@@ -491,10 +491,10 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_ContractDetailPlus" taborder="8" left="4" top="tab_Progress:8" height="16" onclick="CommAddRow_onclick" enable="false" width="16" cssclass="btn_POP_Add"/>
-        <Button id="btn_Up" taborder="7" cssclass="btn_WF_schdUp" top="div_ContractInfo:8" width="18" height="18" onclick="btn_Up_onclick" right="24"/>
-        <Button id="btn_Down" taborder="6" cssclass="btn_WF_schdDown" top="div_ContractInfo:8" height="18" onclick="btn_Down_onclick" width="18" right="btn_Up:4"/>
-        <Button id="btn_ContractDetailMinus" taborder="9" left="btn_ContractDetailPlus:4" top="tab_Progress:8" width="16" height="16" enable="false" onclick="CommDelRow_onclick" cssclass="btn_POP_Del"/>
+        <Button id="btn_ContractDetailPlus" taborder="8" left="19.00" top="tab_Progress:10" height="16" onclick="CommAddRow_onclick" enable="false" width="16" cssclass="btn_POP_Add"/>
+        <Button id="btn_Up" taborder="7" cssclass="btn_WF_schdUp" top="div_ContractInfo:11" width="18" height="18" onclick="btn_Up_onclick" right="24"/>
+        <Button id="btn_Down" taborder="6" cssclass="btn_WF_schdDown" top="div_ContractInfo:11" height="18" onclick="btn_Down_onclick" width="18" right="btn_Up:4"/>
+        <Button id="btn_ContractDetailMinus" taborder="9" left="btn_ContractDetailPlus:4.00" top="tab_Progress:10" width="16" height="16" enable="false" onclick="CommDelRow_onclick" cssclass="btn_POP_Del"/>
         <Div id="div_Account" top="305" width="296" height="78" visible="false" background="white" border="1px solid #c8c8c8" onkillfocus="div_Account_onkillfocus" right="396">
           <Layouts>
             <Layout>
@@ -1322,7 +1322,7 @@ this.fn_ExchageQueryData = function()
  // 팝업 콜백
  this.fnPopupCallBack = function(sPopupId, Variant)
 {
-	Variant = this.commUtil.popupReturn();
+	//Variant = this.commUtil.popupReturn();
 	if(this.gfnIsEmpty(Variant))
 	{
 		return;
@@ -1392,7 +1392,7 @@ this.fn_ExchageQueryData = function()
 			break;
 			case "popupContractSearch" :
 				var ds = new nexacro.Dataset();
-				ds.loadXML(Variant);
+				ds.loadJSON(Variant);
 				this.recentVariant = ds;
 
 				var sUnionContractNo = ds.getColumn(0, "CONTRACT_NO");
@@ -1436,7 +1436,7 @@ this.fn_ExchageQueryData = function()
 			break;
 			case "CompanyTypeSelect":
 				var ds = new nexacro.Dataset();
-				ds.loadXML(Variant);
+				ds.loadJSON(Variant);
 				this.recentVariant = ds;
 				
 				// return 정보가 없으면 종료
@@ -2520,7 +2520,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			var sCompanyCd = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_MAIN");
 			
 			var sArgument = {CLIENT_CODE:sClientCd, COMPANY_CODE:sCompanyCd};
-			this.commUtil.popup(this, "CompanyTypeSelect", "Sales::SC_CompanyTypeSelect.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");			
+			this.commUtil.popup(this, "CompanyTypeSelect", "sales::base/SC_CompanyTypeSelect.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");			
 		
 		} else if (nTabIdx == 3) {		// 통합유지보수
 			bAddRowFlag = false;

@@ -1,15 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="SP_PurchaseContract" width="1270" height="472" titletext="매입계약" onload="SP_PurchaseContract_onload">
+  <Form id="SP_PurchaseContract" width="1295" height="540" titletext="매입계약" onload="SP_PurchaseContract_onload">
     <Layouts>
-      <Layout height="472" mobileorientation="landscape" width="1270">
-        <Div id="div_PurchaseDet2" taborder="4" text="Div00" left="0" right="0" bottom="0" height="26.27%">
+      <Layout height="540" mobileorientation="landscape" width="1295">
+        <Div id="div_PurchaseDet2" taborder="4" text="Div00" left="10" right="10" bottom="10" height="26.27%">
           <Layouts>
             <Layout>
-              <Static id="stc_GbProductContractMBar" taborder="4" top="0" cssclass="sta_POP_GroupBg" right="0" height="32" text="" width="468"/>
-              <Static id="stc_GbProductContractDetailBar" taborder="1" cssclass="sta_POP_GroupBg" left="0" text="" height="32" top="0" right="0"/>
-              <Static id="stc_GbProductContractDetail" taborder="0" text="매출계약 상세" top="8" height="15" cssclass="sta_POP_GroupTit" width="135" left="10" TL_SEQ="289"/>
-              <Grid id="grd_GbProductContractM" binddataset="dsProdContractM" scrollbars="alwaysvert" useinputpanel="false" cellsizingtype="col" right="0" autosizebandtype="allband" autosizingtype="col" autofittype="col" taborder="5" bottom="0" top="32" width="468">
+              <Static id="stc_GbProductContractDetail" taborder="0" text="매출계약 상세" top="8" height="21" cssclass="sta_POP_GroupTit" width="135" left="0.00" TL_SEQ="289"/>
+              <Grid id="grd_GbProductContractM" binddataset="dsProdContractM" scrollbars="alwaysvert" useinputpanel="false" cellsizingtype="col" right="0" autosizebandtype="allband" autosizingtype="col" autofittype="col" taborder="3" bottom="0" top="32" width="468">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -18,8 +16,8 @@
                       <Column size="100"/>
                     </Columns>
                     <Rows>
-                      <Row size="25" band="head"/>
-                      <Row size="24"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
                     </Rows>
                     <Band id="head">
                       <Cell text="고객사" TL_SEQ="32"/>
@@ -34,7 +32,7 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Grid id="grd_GbProductContractDetail" taborder="2" left="0" autofittype="col" formatid="CONTRACT_TYPE_P" binddataset="dsProdContract" top="32" bottom="0" right="0">
+              <Grid id="grd_GbProductContractDetail" taborder="1" left="0" autofittype="col" formatid="CONTRACT_TYPE_P" binddataset="dsProdContract" top="32" bottom="0" right="0">
                 <Formats>
                   <Format id="CONTRACT_TYPE_P">
                     <Columns>
@@ -50,8 +48,8 @@
                       <Column size="200"/>
                     </Columns>
                     <Rows>
-                      <Row size="25" band="head"/>
-                      <Row size="24"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
                     </Rows>
                     <Band id="head">
                       <Cell text="계약번호" TL_SEQ="316"/>
@@ -149,18 +147,15 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Static id="stc_GbProductContractM" taborder="3" text="유지보수 대상 계약" top="8" height="15" cssclass="sta_POP_GroupTit" width="135" right="322" TL_SEQ="729"/>
+              <Static id="stc_GbProductContractM" taborder="2" text="유지보수 대상 계약" top="8" height="21" cssclass="sta_POP_GroupTit" width="135" right="322" TL_SEQ="729"/>
             </Layout>
           </Layouts>
         </Div>
-        <Div id="div_PurchaseDet" taborder="3" left="0" right="0" bottom="div_PurchaseDet2:4" top="191">
+        <Div id="div_PurchaseDet" taborder="3" left="10" top="191" right="10" bottom="div_PurchaseDet2:0">
           <Layouts>
             <Layout>
-              <Static id="stc_GbSalesBar" taborder="1" top="0" cssclass="sta_POP_GroupBg" left="0" width="799" height="31"/>
-              <Static id="stc_GbProvideListBar" taborder="3" top="0" cssclass="sta_POP_GroupBg" left="803" height="31" right="0"/>
-              <Static id="stc_GbSales" taborder="0" text="매입계약 상세" top="8" height="15" cssclass="sta_POP_GroupTit" width="135" left="10" TL_SEQ="730"/>
-              <Static id="stc_GbProvideList" taborder="2" text="지급내역" top="8" height="15" cssclass="sta_POP_GroupTit" width="135" left="811" TL_SEQ="731"/>
-              <Grid id="grd_GbSales" taborder="4" left="0" autofittype="col" formatid="CONTRACT_TYPE_ALL" binddataset="dsPurchaseDet" cellsizingtype="col" bottom="0" top="31" width="799">
+              <Static id="stc_GbSales" taborder="0" text="매입계약 상세" top="7" height="21" cssclass="sta_POP_GroupTit" width="135" left="0.00" TL_SEQ="730"/>
+              <Grid id="grd_GbSales" taborder="2" left="0" autofittype="col" formatid="CONTRACT_TYPE_ALL" binddataset="dsPurchaseDet" cellsizingtype="col" bottom="0" top="31" width="799">
                 <Formats>
                   <Format id="CONTRACT_TYPE_ALL">
                     <Columns>
@@ -175,8 +170,8 @@
                       <Column size="90"/>
                     </Columns>
                     <Rows>
-                      <Row size="25" band="head"/>
-                      <Row size="24"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
                       <Row size="24" band="summ"/>
                     </Rows>
                     <Band id="head">
@@ -374,7 +369,8 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Grid id="grd_GbProvideList" taborder="5" binddataset="dsPurchasePay" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" visible="true" left="803" formatid="CONTRACT_TYPE_P" autosizebandtype="allband" autosizingtype="col" autofittype="col" right="0" bottom="0" top="31">
+              <Static id="stc_GbProvideList" taborder="1" text="지급내역" top="7" height="21" cssclass="sta_POP_GroupTit" width="135" left="grd_GbSales:10" TL_SEQ="731"/>
+              <Grid id="grd_GbProvideList" taborder="3" binddataset="dsPurchasePay" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" visible="true" left="grd_GbSales:10" formatid="CONTRACT_TYPE_P" autosizebandtype="allband" autosizingtype="col" autofittype="col" right="0" bottom="0" top="31">
                 <Formats>
                   <Format id="CONTRACT_TYPE_P">
                     <Columns>
@@ -387,8 +383,8 @@
                       <Column size="40"/>
                     </Columns>
                     <Rows>
-                      <Row size="25" band="head"/>
-                      <Row size="24"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
                       <Row size="24" band="summ"/>
                     </Rows>
                     <Band id="head">
@@ -568,57 +564,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grd_Purchaseist" taborder="0" left="0" top="4" autofittype="col" binddataset="ds_MainPurchase" formatid="default" oncelldblclick="grd_Purchaseist_oncelldblclick" right="747" cellsizingtype="col" bottom="div_PurchaseDet:3">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="70"/>
-                <Column size="80"/>
-                <Column size="140"/>
-                <Column size="80"/>
-                <Column size="89"/>
-                <Column size="63"/>
-              </Columns>
-              <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="구분" TL_SEQ="68"/>
-                <Cell col="1" text="계약번호" TL_SEQ="316"/>
-                <Cell col="2" text="업체명" TL_SEQ="231"/>
-                <Cell col="3" text="계약일자" TL_SEQ="156"/>
-                <Cell col="4" text="계약금액" TL_SEQ="40"/>
-                <Cell col="5" text="지급" TL_SEQ="738"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:CONTRACT_TYPE" displaytype="combotext" combodataset="ds_cmm_ContractType" combocodecol="CODE" combodatacol="CAPTION"/>
-                <Cell col="1" text="bind:CONTRACT_NO_PURCHASE"/>
-                <Cell col="2" text="bind:COMPANY_NAME" textAlign="left"/>
-                <Cell col="3" text="bind:CONTRACT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
-                <Cell col="4" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" text="bind:CONTRACT_AMT" textAlign="right" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_AMT)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
-                <Cell col="5" text="bind:PAY_TERM" displaytype="combotext" textAlign="center" combodataset="ds_cmm_PayTerm" combocodecol="CODE" combodatacol="CAPTION"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Div id="div_PurchaseDet_" taborder="1" text="" left="62" top="935" bottom="-713" right="-62" border="1px solid" visible="false">
-          <Layouts>
-            <Layout>
-              <Div id="div_ProdContract" taborder="1" left="0" top="125" bottom="0" right="0" border="1px solid" visible="false">
-                <Layouts>
-                  <Layout/>
-                </Layouts>
-              </Div>
-              <Div id="div_ProdContractM" taborder="0" visible="false" right="0" bottom="1" width="468" height="124" border="1px solid">
-                <Layouts>
-                  <Layout/>
-                </Layouts>
-              </Div>
-            </Layout>
-          </Layouts>
-        </Div>
-        <Div id="div_Purchase" taborder="2" text="Div01" top="4" right="0" width="743" height="184">
+        <Div id="div_Purchase" taborder="2" text="Div01" top="10" right="10" width="743" height="184">
           <Layouts>
             <Layout>
               <Static id="stc_Purchase_List" taborder="0" text="" left="0" top="0" cssclass="sta_WF_detailBg" right="0" bottom="0"/>
@@ -655,6 +601,56 @@
               <Static id="stc_RemarkDet" taborder="31" text="매입&#13;&#10;상세&#13;&#10;비고" top="123" width="28" cssclass="sta_WF_DetailTit" textAlign="right" left="387" bottom="8" TL_SEQ="746"/>
               <TextArea id="txt_RemarkDet" taborder="32" left="424" top="123" right="8" readonly="true" bottom="8"/>
               <Edit id="edt_ContractNo" taborder="33" left="657" top="7" width="77" height="22" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_Purchaseist" taborder="0" left="10" top="10" autofittype="col" binddataset="ds_MainPurchase" formatid="default" oncelldblclick="grd_Purchaseist_oncelldblclick" right="div_Purchase:10" cellsizingtype="col" bottom="div_PurchaseDet:0">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="70"/>
+                <Column size="80"/>
+                <Column size="140"/>
+                <Column size="80"/>
+                <Column size="89"/>
+                <Column size="63"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구분" TL_SEQ="68"/>
+                <Cell col="1" text="계약번호" TL_SEQ="316"/>
+                <Cell col="2" text="업체명" TL_SEQ="231"/>
+                <Cell col="3" text="계약일자" TL_SEQ="156"/>
+                <Cell col="4" text="계약금액" TL_SEQ="40"/>
+                <Cell col="5" text="지급" TL_SEQ="738"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CONTRACT_TYPE" displaytype="combotext" combodataset="ds_cmm_ContractType" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="1" text="bind:CONTRACT_NO_PURCHASE"/>
+                <Cell col="2" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:CONTRACT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="4" displaytype="expr:comp.parent.gfn_getPriceDisplayType('number')" text="bind:CONTRACT_AMT" textAlign="right" maskeditformat="expr:comp.parent.gfn_getPriceMaskformat(CONTRACT_AMT)" maskedittype="expr:comp.parent.gfn_getPriceMaskEdtType()"/>
+                <Cell col="5" text="bind:PAY_TERM" displaytype="combotext" textAlign="center" combodataset="ds_cmm_PayTerm" combocodecol="CODE" combodatacol="CAPTION"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div_PurchaseDet_" taborder="1" text="" left="62" top="935" bottom="-713" right="-62" border="1px solid" visible="false">
+          <Layouts>
+            <Layout>
+              <Div id="div_ProdContract" taborder="1" left="0" top="125" bottom="0" right="0" border="1px solid" visible="false">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Div id="div_ProdContractM" taborder="0" visible="false" right="0" bottom="1" width="468" height="124" border="1px solid">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
             </Layout>
           </Layouts>
         </Div>
@@ -703,7 +699,7 @@ this.FV_AUTH_PRICE_MASK = false;
 	this.gfnCompInit(obj);  	// Grid 공통함수 호출
 	
 	
-	if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;		// 계약금액 마스킹 처리 권한
+	//if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;		// 계약금액 마스킹 처리 권한
 	
 	this.fnGetCode();
 };
@@ -743,8 +739,12 @@ this.FV_AUTH_PRICE_MASK = false;
 	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
 		
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_MainPurchase", "ds_output");
-	this.gfnCommonTransaction("SP_PurchaseContract_S01", "SP_PurchaseContract_S01");
+// 	this.gfnAddOutputDataset("ds_MainPurchase", "ds_output");
+// 	this.gfnCommonTransaction("SP_PurchaseContract_S01", "SP_PurchaseContract_S01");
+	
+	this.gfnSetMap("projectMapper", ['SP_PurchaseContract_S01'], ['ds_MainPurchase']);
+	this.gfnCommonTransaction("SP_PurchaseContract_S01", "selectNextMultiList.do");
+	
  };
  
  
@@ -760,12 +760,16 @@ this.FV_AUTH_PRICE_MASK = false;
 	
 	
 	this.gfnAddSendParameter("CONTRACT_NO_PURCHASE", sContractNoPurchase);
-	this.gfnAddOutputDataset("dsPurchase", "dsOutput");
+	/*this.gfnAddOutputDataset("dsPurchase", "dsOutput");*/
 	
-	if(sContractType == "S") {
-		this.gfnCommonTransaction("SelectPurchase", "SP_PurchaseSi_S01");
+	if(sContractType == "ZS") {
+		this.gfnSetMap("projectMapper", ['SP_PurchaseSi_S01'], ['dsPurchase']);
+		this.gfnCommonTransaction("SelectPurchase", "selectNextMultiList.do");	
+		/*this.gfnCommonTransaction("SelectPurchase", "SP_PurchaseSi_S01");*/
 	} else {
-		this.gfnCommonTransaction("SelectPurchase", "SP_PurchaseProduct_S01");
+		this.gfnSetMap("projectMapper", ['SP_PurchaseProduct_S01'], ['dsPurchase']);
+		this.gfnCommonTransaction("SelectPurchase", "selectNextMultiList.do");	
+		/*this.gfnCommonTransaction("SelectPurchase", "SP_PurchaseProduct_S01");*/
 	}
  }
  
@@ -774,12 +778,17 @@ this.fnSearchDet = function()
 {	
 	var sContractType = this.ds_MainPurchase.getColumn(this.ds_MainPurchase.rowposition, "CONTRACT_TYPE");
 	this.gfnAddSendParameter("CONTRACT_NO_PURCHASE", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_NO_PURCHASE"));
-	this.gfnAddOutputDataset("dsPurchaseDet", "dsOutput");
+	/*this.gfnAddOutputDataset("dsPurchaseDet", "dsOutput");*/
 	
-	if(sContractType == "S") {
-		this.gfnCommonTransaction("SelectPurchaseDet", "SP_PurchaseSiDet_S01");
+	if(sContractType == "ZS") {
+/*		this.gfnCommonTransaction("SelectPurchaseDet", "SP_PurchaseSiDet_S01");
+*/		
+		this.gfnSetMap("projectMapper", ['SP_PurchaseSiDet_S01'], ['dsPurchaseDet']);
+		this.gfnCommonTransaction("SelectPurchaseDet", "selectNextMultiList.do");			
 	} else {
-		this.gfnCommonTransaction("SelectPurchaseDet", "SP_PurchaseProductDet_S01");
+/*		this.gfnCommonTransaction("SelectPurchaseDet", "SP_PurchaseProductDet_S01");*/
+		this.gfnSetMap("projectMapper", ['SP_PurchaseProductDet_S01'], ['dsPurchaseDet']);
+		this.gfnCommonTransaction("SelectPurchaseDet", "selectNextMultiList.do");			
 	}
 }
 
@@ -787,8 +796,11 @@ this.fnSearchDet = function()
 this.fnSearchPay = function()
 {	
 	this.gfnAddSendParameter("CONTRACT_NO_PURCHASE", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_NO_PURCHASE"));
-	this.gfnAddOutputDataset("dsPurchasePay", "dsOutput");
-	this.gfnCommonTransaction("SelectPurchasePay", "SP_PurchasePay_S01");
+// 	this.gfnAddOutputDataset("dsPurchasePay", "dsOutput");
+// 	this.gfnCommonTransaction("SelectPurchasePay", "SP_PurchasePay_S01");
+	
+	this.gfnSetMap("projectMapper", ['SP_PurchasePay_S01'], ['dsPurchasePay']);
+	this.gfnCommonTransaction("SelectPurchasePay", "selectNextMultiList.do");		
 }
 
  // 매출계약 상세
@@ -798,14 +810,20 @@ this.fnSearchContractDet = function()
 	this.gfnAddSendParameter("CONTRACT_NO", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CL_CONTRACT_NO"));
 	this.gfnAddSendParameter("CONTRACT_MAIN", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_MAIN"));
 	this.gfnAddSendParameter("CONTRACT_NO_PURCHASE", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_NO_PURCHASE"));
-	this.gfnAddOutputDataset("dsProdContract", "dsOutput");
+	/*this.gfnAddOutputDataset("dsProdContract", "dsOutput");*/
 	
-	if(sContractType == "M") {
-		this.gfnCommonTransaction("SelectContractDetM", "SP_PurchaseProduct_S05");
-	} else if(sContractType == "S") {
-		this.gfnCommonTransaction("SelectContractDet", "SP_PurchaseSi_S02");	//SP_PurchaseSi_S03
+	if(sContractType == "SM") {
+		/*this.gfnCommonTransaction("SelectContractDetM", "SP_PurchaseProduct_S05");*/
+		this.gfnSetMap("projectMapper", ['SP_PurchaseProduct_S05'], ['dsProdContract']);
+		this.gfnCommonTransaction("SelectContractDetM", "selectNextMultiList.do");			
+	} else if(sContractType == "ZS") {
+		/*this.gfnCommonTransaction("SelectContractDet", "SP_PurchaseSi_S02");	//SP_PurchaseSi_S03*/
+		this.gfnSetMap("projectMapper", ['SP_PurchaseSi_S02_1'], ['dsProdContract']);
+		this.gfnCommonTransaction("SelectContractDet", "selectNextMultiList.do");			
 	} else {
-		this.gfnCommonTransaction("SelectContractDet", "SP_PurchaseProduct_S02");
+/*		this.gfnCommonTransaction("SelectContractDet", "SP_PurchaseProduct_S02");
+*/		this.gfnSetMap("projectMapper", ['SP_PurchaseProduct_S02'], ['dsProdContract']);
+		this.gfnCommonTransaction("SelectContractDet", "selectNextMultiList.do");			
 	}	
 }
 
@@ -817,8 +835,11 @@ this.fnSearchMContractDet = function()
 		this.gfnAddSendParameter("CONTRACT_NO_PURCHASE", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_NO_PURCHASE"));		
 		this.gfnAddSendParameter("CONTRACT_NO", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CL_CONTRACT_NO"));
 		this.gfnAddSendParameter("CONTRACT_MAIN", this.dsPurchase.getColumn(this.dsPurchase.rowposition, "CONTRACT_MAIN"));
-		this.gfnAddOutputDataset("dsProdContractM", "dsOutput");
-		this.gfnCommonTransaction("SelectMContractDet", "SP_PurchaseProduct_S04");
+// 		this.gfnAddOutputDataset("dsProdContractM", "dsOutput");
+// 		this.gfnCommonTransaction("SelectMContractDet", "SP_PurchaseProduct_S04");
+		
+		this.gfnSetMap("projectMapper", ['SP_PurchaseProduct_S04'], ['dsProdContractM']);
+		this.gfnCommonTransaction("SelectMContractDet", "SP_PurchaseProduct_S04.do");					
 	}	
 }
 
@@ -908,7 +929,7 @@ this.fnSearchMContractDet = function()
 		
 	if (this.gfnIsEmpty(sProjectCd))
 	{
-		this.alert(this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
 		return false;
 	}
 	return true;
@@ -1127,6 +1148,9 @@ this.grd_Purchaseist_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridCl
 	var sContractNoPurchase	= this.ds_MainPurchase.getColumn(e.row, "CONTRACT_NO_PURCHASE");
 	var args = {"CONTRACT_TYPE":sContractType, "CONTRACT_NO_PURCHASE":sContractNoPurchase};
 	
+	this.commUtil.popup(this, "SP_PurchaseReg", "sales::sales/SP_PurchaseReg.xfdl", -1, -1, -1, -1, true, true, false, args, "fnPopupCallBack");
+	return;
+	
 	if (sContractType == "P" 
 	||	sContractType == "E" 
 	||	sContractType == "G" 
@@ -1137,7 +1161,7 @@ this.grd_Purchaseist_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridCl
 	||	sContractType == "S" ) {
 		this.commUtil.popup(this, "SP_PurchaseReg", "Sales::SP_PurchaseReg.xfdl", -1, -1, 1248, 575, true, true, false, args, "fnPopupCallBack");
 	} else {
-		this.alert(this.gfnGetTransTxt(1633, "[" + sContractType + "] 개발중입니다.", [sContractType]));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1633, "[" + sContractType + "] 개발중입니다.", [sContractType]));
 	}
 };
 ]]></Script>

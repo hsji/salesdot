@@ -141,4 +141,171 @@ public class projectController {
 		NexacroResult result = new NexacroResult();
 		return result;
 	}  		    
+    
+	/**
+	 * presales 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_PurchaseProduct_S03.do")
+	public NexacroResult SP_PurchaseProduct_S03(@ParamDataSet(name = "dsInput", required = false) Map<String,Object> dsInput
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		List<Map<String,Object>> contents = ProjectService.SP_PurchaseProduct_S03(dsInput, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		result.addDataSet("dsNewDocNo", contents);
+		return result;
+	}  		    
+    
+	/**
+	 * presales 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_PurchaseProduct_S04.do")
+	public NexacroResult SP_PurchaseProduct_S04(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		List<Map<String,Object>> contents = ProjectService.SP_PurchaseProduct_S04(searchMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		result.addDataSet("dsProdContractM", contents);
+		return result;
+	}
+    
+	/**
+	 * presales 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_PurchaseProduct_S02.do")
+	public NexacroResult SP_PurchaseProduct_S02(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		List<Map<String,Object>> contents = ProjectService.SP_PurchaseProduct_S02(searchMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		result.addDataSet("dsProdContract", contents);
+		return result;
+	}    
+    
+	/**
+	 * presales 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/saveSP_PurchaseS_R01.do")
+	public NexacroResult saveSP_PurchaseS_R01(@ParamDataSet(name = "dsInput1", required = false) List<Map<String,Object>> dsInput1
+										, @ParamDataSet(name = "dsInput2", required = false) List<Map<String,Object>> dsInput2
+										, @ParamDataSet(name = "dsInput3", required = false) List<Map<String,Object>> dsInput3
+										, @ParamDataSet(name = "dsInput4", required = false) List<Map<String,Object>> dsInput4
+										, @ParamDataSet(name = "dsInput5", required = false) List<Map<String,Object>> dsInput5
+										, @ParamDataSet(name = "dsInput6", required = false) List<Map<String,Object>> dsInput6
+										, @ParamDataSet(name = "dsInput7", required = false) List<Map<String,Object>> dsInput7
+										, @ParamDataSet(name = "dsMap", required = false) Map<String,String> queryMap
+										, @ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		
+		Map<String,Object> datasetMap = new HashMap<>();
+		
+		datasetMap.put("dsPurchase", 			dsInput1);
+		datasetMap.put("dsPurchaseDet", 	dsInput2);
+		datasetMap.put("dsPurchasePay", 	dsInput3);
+		datasetMap.put("dsProdContractM", 	dsInput4);
+		datasetMap.put("dsSiContractDet", 			dsInput5);
+		datasetMap.put("dsProdContractTotal", 		dsInput6);
+		datasetMap.put("dsNewKey", 			dsInput7);
+		datasetMap.put("dsCond", 				searchMap);
+		
+    	
+		Map<String,Object> ds = ProjectService.saveSP_PurchaseS_R01(datasetMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		result.addDataSet("dsNewKey", ds);
+		return result;
+	}  		  
+    
+	/**
+	 * presales 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/saveSP_PurchaseP_R01.do")
+	public NexacroResult saveSP_PurchaseP_R01(@ParamDataSet(name = "dsInput1", required = false) List<Map<String,Object>> dsInput1
+										, @ParamDataSet(name = "dsInput2", required = false) List<Map<String,Object>> dsInput2
+										, @ParamDataSet(name = "dsInput3", required = false) List<Map<String,Object>> dsInput3
+										, @ParamDataSet(name = "dsInput4", required = false) List<Map<String,Object>> dsInput4
+										, @ParamDataSet(name = "dsInput5", required = false) List<Map<String,Object>> dsInput5
+										, @ParamDataSet(name = "dsInput6", required = false) List<Map<String,Object>> dsInput6
+										, @ParamDataSet(name = "dsInput7", required = false) List<Map<String,Object>> dsInput7
+										, @ParamDataSet(name = "dsMap", required = false) Map<String,String> queryMap
+										, @ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		
+		Map<String,Object> datasetMap = new HashMap<>();
+		
+		datasetMap.put("dsPurchase", 			dsInput1);
+		datasetMap.put("dsPurchaseDet", 	dsInput2);
+		datasetMap.put("dsPurchasePay", 	dsInput3);
+		datasetMap.put("dsProdContractM", 	dsInput4);
+		datasetMap.put("dsSiContractDet", 			dsInput5);
+		datasetMap.put("dsProdContractTotal", 		dsInput6);
+		datasetMap.put("dsNewKey", 			dsInput7);
+		datasetMap.put("dsCond", 				searchMap);
+		
+    	
+		Map<String,Object> ds = ProjectService.saveSP_PurchaseP_R01(datasetMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		result.addDataSet("dsNewKey", ds);
+		return result;
+	}  	    
  }

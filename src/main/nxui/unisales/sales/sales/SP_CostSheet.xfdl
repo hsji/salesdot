@@ -531,7 +531,7 @@ this.GetCostsheetAddRowconfirm = function ()
 	//전자결재 상신 이후에는 여신초과금액 체크를 안함
 	if (nClOverCost < 0 && this.gfnIsEmpty(this.ds_Master.getColumn(this.ds_Master.rowposition, "DOC_STATUS"))) {
 		if (this.gfnIsEmpty( sClException ) || sClException == "000") {
-			this.alert(this.gfnGetTransTxt(1352,"여신 초과금액 발생으로 예외사항 선택은 필수 입니다."));
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1352,"여신 초과금액 발생으로 예외사항 선택은 필수 입니다."));
 			this.div_main.form.cmb_ExceptionCd.setFocus();
 			bRtnVal =  false;
 		}
@@ -1149,7 +1149,7 @@ this.fn_SaveData = function ()
 		//고객담당자
 		if(this.gfnIsEmpty(this.div_main.form.div_header.form.edt_SalesEmpNo.value))
 		{
-			alert(this.gfnGetTransTxt(1354,"고객담당자 정보를 입력하세요"));
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1354,"고객담당자 정보를 입력하세요"));
 			this.div_main.form.div_header.form.edt_SalesEmpNo.setFocus();
 			if(this.FV_REPORT_ONLY)
 				this.commUtil.popupClose();
@@ -1670,7 +1670,7 @@ this.fn_setPrint = function ()
 	if(this.gfnIsEmpty(sContractNM))
 	{
 		sContractNM = this.ds_ProjectPrt.getColumn(0, "PROJECT_NAME");
-		this.alert(this.gfnGetTransTxt(1358,"없어진 계약입니다.\n(삭제된 계약 or Merge되어 다른 프로젝트로 이동된 계약)"));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1358,"없어진 계약입니다.\n(삭제된 계약 or Merge되어 다른 프로젝트로 이동된 계약)"));
 	}
 	this.ds_ProjectPrt.setColumn(0, "CONTRACT_NAME", this.fn_GetReplaceContractNm(sContractNM));
 	
@@ -1825,7 +1825,7 @@ this.fn_setPrint = function ()
 	
 	var sCcseq = this.ds_Project.getColumn(0, "CC_SEQ");
 	if (this.gfnIsEmpty(sCcseq)) {
-		this.alert(this.gfnGetTransTxt(1359,"저장후 진행하세요[일련번호 미생성]"));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1359,"저장후 진행하세요[일련번호 미생성]"));
 		return;
 	}
 	
@@ -1854,41 +1854,7 @@ this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.fn_SaveData();
 };
 
-// 행추가 공통 이벤트 처리
-this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	var ojbDs;
-	var sSeqColId = "";
-	
-	var sContractType = "";
-	var sSeqList = "";
-	if (obj.name == "btn_ContractProdAdd") {	// 매출제품상품
-		sContractType = "CP";
-		sSeqColId = "CRD_SEQ";
-		ojbDs = this.objects["ds_ContractProd"];
-	} else if (obj.name == "btn_PurchaseProdAdd") {	// 매입 제품상품
-		sContractType = "PP";
-		sSeqColId = "PPD_SEQ";
-		ojbDs = this.objects["ds_PurchaseProd"];		
-	} else if (obj.name == "btn_ContractSiAdd") {	// 매출 용역
-		sContractType = "CS";
-		sSeqColId = "CSD_SEQ";
-		ojbDs = this.objects["ds_ContractSi"];
-	} else if (obj.name == "btn_PurchaseSiAdd") {	// 매입 용역
-		sContractType = "PS";
-		sSeqColId = "PSD_SEQ";
-		ojbDs = this.objects["ds_PurchaseSi"];
-	} 
-	
-	// 매입 상품제품 제외 직접 입력 등록 가능
-	var bConfirmFlag = false;
-	if (obj.name != "btn_PurchaseProdAdd") {
-		if (this.confirm(this.gfnGetTransTxt(1692,"등록된 계약을 추가하시겠습니까?\n\n확인버튼을 누르면 등록된 계약을 선택할수 있습니다.\n취소버튼을 누르면 직접 입력이 가능합니다."))) {
-			bConfirmFlag = true;
-		}
-	} else {
-		bConfirmFlag = true;
-	}
+this.CommAddRow_onclickAfter(obj, e, bConfirmFlag) {
 	
 	if (!bConfirmFlag) {
 		nIdx = ojbDs.insertRow(ojbDs.rowposition + 1);
@@ -1920,31 +1886,101 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	}
 };
 
+// 행추가 공통 이벤트 처리
+this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var ojbDs;
+	var sSeqColId = "";
+	
+	var sContractType = "";
+	var sSeqList = "";
+	if (obj.name == "btn_ContractProdAdd") {	// 매출제품상품
+		sContractType = "CP";
+		sSeqColId = "CRD_SEQ";
+		ojbDs = this.objects["ds_ContractProd"];
+	} else if (obj.name == "btn_PurchaseProdAdd") {	// 매입 제품상품
+		sContractType = "PP";
+		sSeqColId = "PPD_SEQ";
+		ojbDs = this.objects["ds_PurchaseProd"];		
+	} else if (obj.name == "btn_ContractSiAdd") {	// 매출 용역
+		sContractType = "CS";
+		sSeqColId = "CSD_SEQ";
+		ojbDs = this.objects["ds_ContractSi"];
+	} else if (obj.name == "btn_PurchaseSiAdd") {	// 매입 용역
+		sContractType = "PS";
+		sSeqColId = "PSD_SEQ";
+		ojbDs = this.objects["ds_PurchaseSi"];
+	} 
+	
+	var bConfirmFlag = false;
+	if (obj.name != "btn_PurchaseProdAdd") {
+		this.gfnAlert('confirm.general',"등록된 계약을 추가하시겠습니까?\n\n확인버튼을 누르면 등록된 계약을 선택할수 있습니다.\n취소버튼을 누르면 직접 입력이 가능합니다.",null
+			,function(srvId,rtn) {
+				if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") {
+				} else {
+					bConfirmFlag = true;
+				}
+				this.CommAddRow_onclickAfter(obj, e, bConfirmFlag);
+			});	
+		return;
+	} else {
+		bConfirmFlag = true;
+		this.CommAddRow_onclickAfter(obj, e, bConfirmFlag);
+	}
+
+};
+
 // 행삭제 공통 이벤트 처리
 this.CommDelRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	if (obj.name == "btn_ContractProdDel") {
-		if (this.confirm(this.gfnGetTransTxt(1693,"매출 제품(상품)을 삭제 하시겠습니까?"))) {
-			this.ds_ContractProd.deleteRow(this.ds_ContractProd.rowposition);
-			this.fn_setExpectedProfitProd();	// 제품 예상 이익 계산 처리
-		}
+		this.gfnAlert('confirm.general',"매출 제품(상품)을 삭제 하시겠습니까?",null
+			,function(srvId,rtn) {
+				if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+				this.ds_ContractProd.deleteRow(this.ds_ContractProd.rowposition);
+				this.fn_setExpectedProfitProd();	// 제품 예상 이익 계산 처리	
+			});		
+// 		if (this.confirm(this.gfnGetTransTxt(1693,"매출 제품(상품)을 삭제 하시겠습니까?"))) {
+// 			this.ds_ContractProd.deleteRow(this.ds_ContractProd.rowposition);
+// 			this.fn_setExpectedProfitProd();	// 제품 예상 이익 계산 처리
+// 		}
 	}else if (obj.name == "btn_ContractSiDel") {
-		if (this.confirm(this.gfnGetTransTxt(1694,"매출 용역을 삭제 하시겠습니까?"))) {
-			this.ds_ContractSi.deleteRow(this.ds_ContractSi.rowposition);
-			this.fn_setContractSiPrice();
-			this.fn_setMenMonth();
-		}
+		this.gfnAlert('confirm.general',"매출 용역을 삭제 하시겠습니까?",null
+			,function(srvId,rtn) {
+				if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+				this.ds_ContractSi.deleteRow(this.ds_ContractSi.rowposition);
+				this.fn_setContractSiPrice();
+				this.fn_setMenMonth();
+			});		
+// 		if (this.confirm(this.gfnGetTransTxt(1694,"매출 용역을 삭제 하시겠습니까?"))) {
+// 			this.ds_ContractSi.deleteRow(this.ds_ContractSi.rowposition);
+// 			this.fn_setContractSiPrice();
+// 			this.fn_setMenMonth();
+// 		}
 	}  else if (obj.name == "btn_PurchaseProdDel") {
-		if (this.confirm(this.gfnGetTransTxt(1695,"매입 상품을 삭제 하시겠습니까?"))) {
-			this.ds_PurchaseProd.deleteRow(this.ds_PurchaseProd.rowposition);
-			this.fn_setExpectedProfitProd();	// 제품 예상 이익 계산 처리
-		}
+		this.gfnAlert('confirm.general',"매입 상품을 삭제 하시겠습니까?",null
+			,function(srvId,rtn) {
+				if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+				this.ds_PurchaseProd.deleteRow(this.ds_PurchaseProd.rowposition);
+				this.fn_setExpectedProfitProd();	// 제품 예상 이익 계산 처리
+			});			
+// 		if (this.confirm(this.gfnGetTransTxt(1695,"매입 상품을 삭제 하시겠습니까?"))) {
+// 			this.ds_PurchaseProd.deleteRow(this.ds_PurchaseProd.rowposition);
+// 			this.fn_setExpectedProfitProd();	// 제품 예상 이익 계산 처리
+// 		}
 	} else if (obj.name == "btn_PurchaseSiDel") {
-		if (this.confirm(this.gfnGetTransTxt(1696,"매입 용역을 삭제 하시겠습니까?"))) {
-			this.ds_PurchaseSi.deleteRow(this.ds_PurchaseSi.rowposition);
-			this.fn_setContractSiPrice();
-			this.fn_setMenMonth();
-		}
+		this.gfnAlert('confirm.general',"매입 용역을 삭제 하시겠습니까?",null
+			,function(srvId,rtn) {
+				if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+				this.ds_PurchaseSi.deleteRow(this.ds_PurchaseSi.rowposition);
+				this.fn_setContractSiPrice();
+				this.fn_setMenMonth();
+			});			
+// 		if (this.confirm(this.gfnGetTransTxt(1696,"매입 용역을 삭제 하시겠습니까?"))) {
+// 			this.ds_PurchaseSi.deleteRow(this.ds_PurchaseSi.rowposition);
+// 			this.fn_setContractSiPrice();
+// 			this.fn_setMenMonth();
+// 		}
 	} 
 };
 
@@ -2014,7 +2050,7 @@ this.div_main_cmb_ExceptionCd_onitemchanged = function(obj:nexacro.Combo,e:nexac
 			
 			sExceptionNm = this.gfnGetTransTxt(1968,"[@1@] 를 선택할수 없습니다.",[this.ds_cmm_ClExceptionCd.getColumnNF(sExceptionIdx, "CAPTION")]);
 			
-			this.alert(sExceptionOrgNm + sExceptionNm);
+			this.gfnAlert('msg.general',sExceptionOrgNm + sExceptionNm);
 			this.ds_Project.enableevent = false;
 			this.div_main.form.cmb_ExceptionCd.set_value(e.prevalue);
 			this.ds_Project.enableevent = true;
@@ -2024,7 +2060,7 @@ this.div_main_cmb_ExceptionCd_onitemchanged = function(obj:nexacro.Combo,e:nexac
 	if (sClExceptionCd2 != "004") {
 		// 주거래 파트너사(004)
 		if (e.postvalue == "004") {
-			this.alert(this.gfnGetTransTxt(1360,"[주거래 파트너사] 를 선택할수 없습니다."));
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1360,"[주거래 파트너사] 를 선택할수 없습니다."));
 			this.ds_Project.enableevent = false;
 			this.div_main.form.cmb_ExceptionCd.set_value(e.prevalue);
 			this.ds_Project.enableevent = true;

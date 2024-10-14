@@ -31,4 +31,18 @@ public interface projectService {
 	public Map<String,Object> searchMap(Map<String,String> query, Map<String,Object> search, UserInfo userInfo);		
 
 	public void saveSP_Contract_R02(Map<String,Object> dsIn, UserInfo userInfo) throws Exception;
+	
+	/* 조회 */
+	public List<Map<String,Object>> SP_PurchaseProduct_S03(Map<String,Object> dsInput, UserInfo userInfo);	
+
+	/* 조회 */
+	public List<Map<String,Object>> SP_PurchaseProduct_S04(Map<String,Object> search, UserInfo userInfo);	
+
+	/* 조회 */
+	public List<Map<String,Object>> SP_PurchaseProduct_S02(Map<String,Object> search, UserInfo userInfo);	
+	
+	public Map<String,Object> saveSP_PurchaseS_R01(Map<String,Object> datasetMap, UserInfo userInfo) throws Exception;
+	
+	public Map<String,Object> saveSP_PurchaseP_R01(Map<String,Object> datasetMap, UserInfo userInfo) throws Exception;
+	
 }
