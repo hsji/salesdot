@@ -1,0 +1,1733 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_ProjectBillDeliveryPopup" width="1240" height="830" titletext="청구서,납품서" cssclass="frm_popBg" onload="SP_ProjectBillDeliveryPopup_onload">
+    <Layouts>
+      <Layout height="830" mobileorientation="landscape" width="1240">
+        <Button id="btn_Cancel" taborder="0" text="닫기" width="70" height="28" cssclass="btn_WF_cancel" right="19" onclick="common_onclick" TL_SEQ="59" top="792"/>
+        <Static id="stc_BillDeliveryTxt" taborder="1" text="청구서,납품서 목록" left="20" top="20" width="171" height="26" cssclass="sta_POP_GroupTit" TL_SEQ="12498"/>
+        <Div id="div_BillDeliveryEtc" taborder="8" left="20" top="620" cssclass="div_WF_detailBg" right="20" height="162">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Remarks" taborder="0" text="비고" left="4" top="7" width="122" height="51" cssclass="sta_WF_DetailTit" TL_SEQ="45"/>
+              <TextArea id="txt_Remarks" taborder="1" left="stc_Remarks:8" top="7" width="351" height="51"/>
+              <Static id="stc_RemarksDet" taborder="2" text="내부비고" left="txt_Remarks:8" top="7" width="82" height="51" cssclass="sta_WF_DetailTit" TL_SEQ="12508"/>
+              <TextArea id="txt_RemarksDet" taborder="3" left="stc_RemarksDet:8" top="7" height="51" right="10"/>
+              <Static id="stc_StartDate" taborder="4" text="시작일자" left="4" top="66" width="122" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="94"/>
+              <Calendar id="cal_StartDate" taborder="5" left="stc_StartDate:8.00" top="66" width="103" height="24" dateformat="yyyy-MM-dd"/>
+              <Static id="stc_EndDate" taborder="6" text="종료일자" left="cal_StartDate:8.00" top="66" width="65" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="95"/>
+              <Calendar id="cal_EndDate" taborder="7" left="stc_EndDate:8.00" top="66" width="103" height="24" dateformat="yyyy-MM-dd"/>
+              <Static id="stc_OrderNo" taborder="8" text="주문서번호" left="492" top="66" width="82" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="12509"/>
+              <Edit id="edt_OrderNo" taborder="9" left="stc_OrderNo:9.00" top="66" height="24" right="10"/>
+              <Static id="stc_EstimateNo" taborder="10" text="유지보수갱신&#13;&#10;통지서번호" left="4.00" top="98" width="122" height="31" cssclass="sta_WF_DetailTit" TL_SEQ="12510"/>
+              <Edit id="edt_EstimateNo" taborder="11" left="stc_EstimateNo:8.00" top="98" height="24" readonly="true" right="713"/>
+              <Static id="stc_DeliveryContractName" taborder="13" text="납품서계약명" left="492" top="98" width="82" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="12511"/>
+              <Edit id="edt_DeliveryContractName" taborder="14" left="582" top="98" height="24" right="4" readonly="true"/>
+              <CheckBox id="chk_PrtRemarks" taborder="15" left="4" top="7" width="22" height="51" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_PrtDate" taborder="16" left="4" top="66" width="22" height="24" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_PrtEstimateNo" taborder="17" left="4" top="98" width="22" height="24" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_PrtOrderNo" taborder="18" left="493" top="66" width="22" height="24" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_EstimateNoList" taborder="19" left="4" top="130" width="22" height="24" falsevalue="0" truevalue="1"/>
+              <Static id="stc_EstimateNoList" taborder="20" text="견적서번호" left="4.00" top="130" width="122" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="12429"/>
+              <Edit id="edt_EstimateNoList" taborder="21" left="134.00" top="130" height="24" readonly="false" width="351"/>
+              <Button id="btn_EstimateNoList" taborder="22" left="edt_EstimateNoList:-20.00" top="130" width="22" height="24" cssclass="btn_WF_Sch" text="" onclick="div_BillDeliveryEtc_btn_EstimateNoList_onclick"/>
+              <Button id="btn_EstimateNo" taborder="12" left="465.00" top="98" width="22" height="24" cssclass="btn_WF_Sch" onclick="div_BillDeliveryEtc_btn_EstimateNo_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_BillDeliveryList" taborder="2" left="20" top="stc_BillDeliveryTxt:0" bottom="220" binddataset="dsBillDeliveryList" autofittype="col" right="1040">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="28" band="head"/>
+                <Row size="28" band="head"/>
+                <Row size="28" band="head"/>
+                <Row size="28"/>
+                <Row size="28"/>
+                <Row size="28"/>
+              </Rows>
+              <Band id="head">
+                <Cell colspan="2" text="청구서번호" TL_SEQ="12499"/>
+                <Cell row="1" colspan="2" text="제출처" TL_SEQ="193"/>
+                <Cell row="2" colspan="2" text="작성자" TL_SEQ="207"/>
+              </Band>
+              <Band id="body">
+                <Cell colspan="2" text="bind:BILL_DELIVERY_NO"/>
+                <Cell row="1" colspan="2" text="bind:CONTRACT_MAIN_NAME"/>
+                <Cell row="2" colspan="2" text="bind:INSERT_EMP_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_BillDeliveryDetInfoTxt" taborder="7" text="청구서,납품서 상세정보" left="204.00" top="301" width="254" height="26" cssclass="sta_POP_GroupTit" TL_SEQ="12505"/>
+        <Tab id="tab_BillDelivery" taborder="9" tabindex="0" left="204" top="stc_BillDeliveryDetInfoTxt:2" bottom="div_BillDeliveryEtc:10" right="20" onchanged="tab_BillDelivery_onchanged">
+          <Tabpages>
+            <Tabpage id="tpg_Bill" text="청구서" TL_SEQ="12506">
+              <Layouts>
+                <Layout>
+                  <Grid id="grd_Bill" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="dsBill" autofittype="col">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="200"/>
+                          <Column size="50"/>
+                          <Column size="80"/>
+                          <Column size="100"/>
+                          <Column size="100"/>
+                          <Column size="100"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="28" band="head"/>
+                          <Row size="28"/>
+                          <Row size="28" band="summ"/>
+                          <Row size="28" band="summ"/>
+                          <Row size="28" band="summ"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell text="품명" TL_SEQ="679"/>
+                          <Cell col="1" text="수량" TL_SEQ="103"/>
+                          <Cell col="2" text="단위" TL_SEQ="104"/>
+                          <Cell col="3" text="단가" TL_SEQ="102"/>
+                          <Cell col="4" text="금액" TL_SEQ="97"/>
+                          <Cell col="5" text="소비세액" TL_SEQ="12469"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell text="bind:PRODUCT_NAME" edittype="text" textAlign="left"/>
+                          <Cell col="1" text="bind:QUANTITY" edittype="mask" displaytype="mask" maskeditformat="#,#0.#0"/>
+                          <Cell col="2" text="bind:PRODUCT_UNIT" displaytype="combocontrol" edittype="combo" combodataset="expr:CONTRACT_TYPE==&quot;P&quot;?&quot;ds_cmm_ProductUnit&quot;:CONTRACT_TYPE==&quot;G&quot;?&quot;ds_cmm_ProductUnit&quot;:&quot;ds_cmm_SiUnit&quot;" combocodecol="CODE" combodatacol="CAPTION"/>
+                          <Cell col="3" text="bind:UNIT_COST" displaytype="number" edittype="text" textAlign="right"/>
+                          <Cell col="4" text="bind:CONTRACT_PRICE" displaytype="number" textAlign="right" edittype="text"/>
+                          <Cell col="5" text="bind:CONSUMPTION_TAX_PRICE" textAlign="right" displaytype="number" edittype="text"/>
+                        </Band>
+                        <Band id="summary">
+                          <Cell colspan="5" text="소계" TL_SEQ="12468"/>
+                          <Cell col="5" textAlign="right" displaytype="number" expr="dataset.getSum(&quot;CONTRACT_PRICE&quot;)"/>
+                          <Cell row="1" colspan="5" text="소비세액" TL_SEQ="12469"/>
+                          <Cell row="1" col="5" textAlign="right" displaytype="number" expr="dataset.getSum(&quot;CONSUMPTION_TAX_PRICE&quot;)"/>
+                          <Cell row="2" colspan="5" text="합계" TL_SEQ="437"/>
+                          <Cell row="2" col="5" textAlign="right" displaytype="number"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tpg_Delivery" text="납품서" TL_SEQ="12507">
+              <Layouts>
+                <Layout>
+                  <Grid id="grd_Delivery" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="dsDelivery" autofittype="col">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="200"/>
+                          <Column size="50"/>
+                          <Column size="80"/>
+                          <Column size="100"/>
+                          <Column size="100"/>
+                          <Column size="100"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="28" band="head"/>
+                          <Row size="28"/>
+                          <Row size="28" band="summ"/>
+                          <Row size="28" band="summ"/>
+                          <Row size="28" band="summ"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell text="품명" TL_SEQ="679"/>
+                          <Cell col="1" text="수량" TL_SEQ="103"/>
+                          <Cell col="2" text="단위" TL_SEQ="104"/>
+                          <Cell col="3" text="단가" TL_SEQ="102"/>
+                          <Cell col="4" text="금액" TL_SEQ="97"/>
+                          <Cell col="5" text="소비세액" TL_SEQ="12469"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell text="bind:PRODUCT_NAME" edittype="text" textAlign="left"/>
+                          <Cell col="1" text="bind:QUANTITY" edittype="mask" displaytype="mask" maskeditformat="#,#0.#0"/>
+                          <Cell col="2" text="bind:PRODUCT_UNIT" displaytype="combocontrol" edittype="combo" combodataset="expr:CONTRACT_TYPE==&quot;P&quot;?&quot;ds_cmm_ProductUnit&quot;:CONTRACT_TYPE==&quot;G&quot;?&quot;ds_cmm_ProductUnit&quot;:&quot;ds_cmm_SiUnit&quot;" combodatacol="CAPTION" combocodecol="CODE"/>
+                          <Cell col="3" text="bind:UNIT_COST" displaytype="number" edittype="text" textAlign="right"/>
+                          <Cell col="4" text="bind:CONTRACT_PRICE" displaytype="number" textAlign="right" edittype="text"/>
+                          <Cell col="5" text="bind:CONSUMPTION_TAX_PRICE" displaytype="number" edittype="text" textAlign="right"/>
+                        </Band>
+                        <Band id="summary">
+                          <Cell colspan="5" text="소계" TL_SEQ="12468"/>
+                          <Cell col="5" expr="dataset.getSum(&quot;CONTRACT_PRICE&quot;)" textAlign="right" displaytype="number"/>
+                          <Cell row="1" colspan="5" text="소비세액" TL_SEQ="12469"/>
+                          <Cell row="1" col="5" expr="dataset.getSum(&quot;CONSUMPTION_TAX_PRICE&quot;)" textAlign="right" displaytype="number"/>
+                          <Cell row="2" colspan="5" text="합계" TL_SEQ="437"/>
+                          <Cell row="2" col="5" textAlign="right" displaytype="number"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+        <Static id="stc_ContractListTxt" taborder="3" text="계약목록" left="204.00" top="20" width="235" height="26" cssclass="sta_POP_GroupTit" TL_SEQ="12420"/>
+        <Grid id="grd_ContractList" taborder="4" left="204" top="stc_ContractListTxt:0" height="100" right="20" binddataset="dsContractList" autofittype="col" oncellclick="grd_ContractList_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="250"/>
+                <Column size="120"/>
+                <Column size="150"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="28" band="head"/>
+                <Row size="28"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="선택" TL_SEQ="113"/>
+                <Cell col="1" text="계약구분" TL_SEQ="123"/>
+                <Cell col="2" text="계약번호" TL_SEQ="316"/>
+                <Cell col="3" displaytype="normal" text="계약일자" TL_SEQ="156"/>
+                <Cell col="4" text="계약명" TL_SEQ="33"/>
+                <Cell col="5" text="계약금액" TL_SEQ="40"/>
+                <Cell col="6" text="견적서번호" TL_SEQ="12429"/>
+                <Cell col="7" text="소비세액" TL_SEQ="12469"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:ISCHECKED"/>
+                <Cell col="1" text="bind:CONTRACT_TYPE" displaytype="combotext" combodataset="ds_cmm_ContractType" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="2" text="bind:CONTRACT_NO"/>
+                <Cell col="3" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:CONTRACT_DATE"/>
+                <Cell col="4" text="bind:CONTRACT_NAME" textAlign="left"/>
+                <Cell col="5" text="bind:CONTRACT_PRICE" textAlign="right"/>
+                <Cell col="6" text="bind:ESTIMATE_NO"/>
+                <Cell col="7" text="bind:CONSUMPTION_TAX" displaytype="combotext" combodataset="ds_cmm_ConsumptionTax" combodatacol="CAPTION" combocodecol="CODE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_BillDeliveryInfoTxt" taborder="5" text="청구서,납품서 정보" left="204.00" top="151" width="135" height="26" cssclass="sta_POP_GroupTit" TL_SEQ="12500"/>
+        <Div id="div_BillDeliveryInfo" taborder="6" left="204" top="stc_BillDeliveryInfoTxt:2" height="116" cssclass="div_WF_detailBg" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="stc_BillDeliveryNo" taborder="0" text="청구서번호" left="4" top="7" width="82" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="12499"/>
+              <Edit id="edt_BillDeliveryNo" taborder="1" left="stc_BillDeliveryNo:8" top="7" width="241" height="24" readonly="true"/>
+              <Static id="stc_PublishedDate" taborder="2" text="발행일자" left="edt_BillDeliveryNo:8" top="7" width="82" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="976"/>
+              <Calendar id="cal_PublishedDate" taborder="3" left="stc_PublishedDate:8" top="7" width="121" height="24" dateformat="yyyy-MM-dd" onchanged="div_BillDeliveryInfo_cal_PublishedDate_onchanged"/>
+              <Static id="stc_BillContractName" taborder="4" text="청구서계약명" left="4" top="39" width="82" height="44" cssclass="sta_WF_DetailTit" TL_SEQ="12503"/>
+              <Static id="stc_DepositRequestDate" taborder="5" text="입금요청일" left="cal_PublishedDate:8" top="7" width="82" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="12504"/>
+              <Calendar id="cal_DepositRequestDate" taborder="6" left="stc_DepositRequestDate:8" top="7" height="24" dateformat="yyyy-MM-dd" right="8"/>
+              <Static id="stc_ConsumptionTax" taborder="9" text="소비세액" left="3" top="88" width="82" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="12469"/>
+              <Combo id="cmb_ConsumptionTax" taborder="10" left="stc_ConsumptionTax:9" top="88" width="121" height="24" innerdataset="ds_cmm_ConsumptionTax" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_BillDeliveryInfo_cmb_ConsumptionTax_onitemchanged"/>
+              <Static id="stc_OfficialSealType" taborder="7" text="직인종류" left="cmb_ConsumptionTax:8" top="90" width="82" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="12435"/>
+              <Radio id="rdo_OfficialSealType" taborder="8" left="stc_OfficialSealType:8" top="90" width="151" height="24" innerdataset="ds_cmm_OfficialSealType" codecolumn="CODE" datacolumn="CAPTION" direction="vertical" value="1" text="인감 (■)" index="0" TL_FLAG="1"/>
+              <TextArea id="txt_BillContractName" taborder="11" left="stc_BillContractName:8" top="39" width="877" height="44"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Radio id="rdo_SameFlag" taborder="10" left="357.00" top="155" width="283" height="20" innerdataset="ds_cmm_SameFlag" codecolumn="CODE" datacolumn="CAPTION" direction="vertical" value="1" text="동일" index="0" onitemchanged="rdo_SameFlag_onitemchanged" TL_FLAG="1"/>
+        <Button id="btn_Save" taborder="11" text="저장" top="792" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:8" onclick="common_onclick" TL_SEQ="115" width="60"/>
+        <Button id="btn_Print" taborder="12" text="출력" top="792" height="28" cssclass="btn_WF_tran" right="btn_Save:8" onclick="common_onclick" enable="false" TL_SEQ="394" width="60"/>
+        <Button id="btn_Delete" taborder="13" text="삭제" top="792" height="28" cssclass="btn_WF_Crud" right="btn_Print:8" onclick="common_onclick" enable="false" TL_SEQ="117" width="60"/>
+        <Button id="btn_BillDeliveryDetDel" taborder="15" left="1195.00" top="331" width="20" height="16" cssclass="btn_POP_Del" onclick="common_onclick"/>
+        <Button id="btn_BillDeliveryDetAdd" taborder="14" left="1166.00" top="331" height="16" cssclass="btn_POP_Add" onclick="common_onclick" right="btn_BillDeliveryDetDel:8"/>
+        <Button id="btn_Copy" taborder="16" text="복사추가" left="1154.00" top="150" width="66" height="26" onclick="common_onclick" enable="false" TL_SEQ="210"/>
+        <Button id="btn_Down" taborder="17" left="1114.00" top="331" width="18" height="18" cssclass="btn_WF_schdDown" onclick="common_onclick"/>
+        <Button id="btn_Up" taborder="18" left="1140.00" top="331" width="18" height="18" cssclass="btn_WF_schdUp" onclick="common_onclick"/>
+        <Button id="btn_New" taborder="19" text="신규" top="150" height="26" right="btn_Copy:8" onclick="common_onclick" TL_SEQ="116" width="66" cssclass="btn_WF_Crud"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item2" compid="div_BillDeliveryInfo.form.edt_BillDeliveryNo" propid="value" datasetid="dsBillDeliveryList" columnid="BILL_DELIVERY_NO"/>
+      <BindItem id="item0" compid="div_BillDeliveryInfo.form.cal_PublishedDate" propid="value" datasetid="dsBillDeliveryList" columnid="PUBLISHED_DATE"/>
+      <BindItem id="item3" compid="div_BillDeliveryInfo.form.cal_DepositRequestDate" propid="value" datasetid="dsBillDeliveryList" columnid="DEPOSIT_REQUEST_DATE"/>
+      <BindItem id="item5" compid="div_BillDeliveryEtc.form.txt_Remarks" propid="value" datasetid="dsBillDeliveryList" columnid="REMARKS"/>
+      <BindItem id="item6" compid="div_BillDeliveryEtc.form.txt_RemarksDet" propid="value" datasetid="dsBillDeliveryList" columnid="DET_REMARKS"/>
+      <BindItem id="item7" compid="div_BillDeliveryEtc.form.cal_StartDate" propid="value" datasetid="dsBillDeliveryList" columnid="START_DATE"/>
+      <BindItem id="item8" compid="div_BillDeliveryEtc.form.cal_EndDate" propid="value" datasetid="dsBillDeliveryList" columnid="END_DATE"/>
+      <BindItem id="item9" compid="div_BillDeliveryEtc.form.edt_OrderNo" propid="value" datasetid="dsBillDeliveryList" columnid="ORDER_NO"/>
+      <BindItem id="item10" compid="div_BillDeliveryEtc.form.edt_DeliveryContractName" propid="value" datasetid="dsBillDeliveryList" columnid="DELIVERY_CONTRACT_NAME"/>
+      <BindItem id="item11" compid="rdo_SameFlag" propid="value" datasetid="dsBillDeliveryList" columnid="SAME_FLAG"/>
+      <BindItem id="item12" compid="div_BillDeliveryEtc.form.edt_EstimateNo" propid="value" datasetid="dsBillDeliveryList" columnid="ESTIMATE_NO"/>
+      <BindItem id="item13" compid="div_BillDeliveryEtc.form.chk_PrtRemarks" propid="value" datasetid="dsBillDeliveryList" columnid="REMARKS_FLAG"/>
+      <BindItem id="item14" compid="div_BillDeliveryEtc.form.chk_PrtDate" propid="value" datasetid="dsBillDeliveryList" columnid="DATE_FLAG"/>
+      <BindItem id="item15" compid="div_BillDeliveryEtc.form.chk_PrtEstimateNo" propid="value" datasetid="dsBillDeliveryList" columnid="EM_FLAG"/>
+      <BindItem id="item17" compid="div_BillDeliveryEtc.form.chk_PrtOrderNo" propid="value" datasetid="dsBillDeliveryList" columnid="ORDER_NO_FLAG"/>
+      <BindItem id="item18" compid="div_BillDeliveryInfo.form.rdo_OfficialSealType" propid="value" datasetid="dsBillDeliveryList" columnid="OFFICIAL_SEAL_TYPE"/>
+      <BindItem id="item16" compid="div_BillDeliveryInfo.form.cmb_ConsumptionTax" propid="value" datasetid="dsBillDeliveryList" columnid="CONSUMPTION_TAX"/>
+      <BindItem id="item4" compid="div_BillDeliveryInfo.form.txt_BillContractName" propid="value" datasetid="dsBillDeliveryList" columnid="BILL_CONTRACT_NAME"/>
+      <BindItem id="item19" compid="div_BillDeliveryEtc.form.chk_EstimateNoList" propid="value" datasetid="dsBillDeliveryList" columnid="PRT_ESTIMATE_NO_LIST_FLAG"/>
+      <BindItem id="item20" compid="div_BillDeliveryEtc.form.edt_EstimateNoList" propid="value" datasetid="dsBillDeliveryList" columnid="ESTIMATE_NO_LIST"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 프로젝트관리
+* 02. 화면명		: 청구서 납품서 팝업
+* 03. 화면설명 	: 청구서 납품서
+						
+* 04. 작성일   	: 2023.08.22
+* 05. 작성자   	: 박종언
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_Report.xjs"
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_PARENT_FORM = this.parent.parent.parent;
+this.FV_PARENT_PROJECT_CODE = "";	// 프로젝트 코드
+this.FV_PARENT_CONTRACT_MAIN = "";	// 계약처
+this.FV_PARENT_EM_SEQ = "";			// 견적서번호
+this.FV_PARENT_CONTRACT_NO = "";	// 계약번호
+this.FV_PARENT_CONTRACT_TYPE = "";	// 계약구분
+this.FV_PARENT_CLIENT_NAME = "";	// 고객사명
+this.FV_PARENT_CONTRACT_MAIN_NAME = ""; // 계약처명
+this.COPY_FLAG = false;				// 복사 여부
+this.NEW_FLAG = false;				// 신규 추가 여부
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.SP_ProjectBillDeliveryPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnInitForm();
+};
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.div_BillDeliveryInfo_cal_PublishedDate_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var curRow = this.dsBillDeliveryList.rowposition;
+	
+	var sPublishedDate = this.dsBillDeliveryList.getColumn(curRow, "PUBLISHED_DATE");
+	var sDepositRequestDate = this.gfnAddDate(sPublishedDate, 30);
+	var lastDay = this.gfnGetLastDayOfMonth(sDepositRequestDate);
+	
+	sDepositRequestDate = sDepositRequestDate.substring(0, 6) + lastDay;
+	
+	this.dsBillDeliveryList.setColumn(curRow, "DEPOSIT_REQUEST_DATE", sDepositRequestDate);
+	
+	var sBillDeliveryNo = this.dsBillDeliveryList.getColumn(curRow, "BILL_DELIVERY_NO");
+	
+	var sSeq = sBillDeliveryNo.substr(-4); // right 4글자 자르기
+	
+	if(e.prevalue.substr(0, 4) != e.postvalue.substr(0, 4)) sSeq = 0;
+	
+	this.fnGetBillDeliveryNo(e.postvalue, sSeq);
+};
+
+
+this.grd_ContractList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 체크 박스 true , false 확인
+	if(e.col == "0") {
+		var sBillType = this.rdo_BillType.value;
+		var sEmSeq = this.dsContractList.getColumn(this.dsContractList.rowposition, "EM_SEQ");
+		if(sBillType == "ESTIMATE" && this.gfnIsEmpty(sEmSeq) && this.dsContractList.getColumn(this.dsContractList.rowposition, e.col) == "1") {
+			gfnAlert('msg.general',this.gfnGetTransTxt(22595,"연결된 견적서 데이터가 없습니다.")); 
+			this.rdo_BillType.set_index(1);
+			
+			this.fnCheckedContractNo();
+			
+// 			this.dsContractList.set_enableevent(false);
+// 			this.dsContractList.setColumn(e.row, "ISCHECKED", "0");
+// 			this.dsContractList.set_enableevent(true);
+// 			return;
+		}
+		else {
+			if(this.dsContractList.getColumn(this.dsContractList.rowposition, e.col) == "1")
+			{
+				this.fnCheckedContractNo("ADD");
+				
+// 				this.dsContractList.filter("ISCHECKED=='1'");
+// 				var sBdSeq = this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "BD_SEQ");
+// 				
+// 				var sRelatedContractNo, sRelatedContractType;
+// 				
+// 				for(var i = 0; i < this.dsContractList.rowcount; i++)
+// 				{
+// 					var sContractNo = this.dsContractList.getColumn(i, "CONTRACT_NO");
+// 					var sContractType = this.dsContractList.getColumn(i, "CONTRACT_TYPE");
+// 					
+// 					var findRow = this.dsBDContractList.findRow("CONTRACT_NO", sContractNo);
+// 				
+// 					// 연결 계약번호가 없는 경우
+// 					if(findRow == -1)
+// 					{
+// 						var nRow = this.dsBDContractList.addRow();
+// 						if(!this.gfnIsEmpty(sBdSeq)) this.dsBDContractList.setColumn(nRow, "BD_SEQ", sBdSeq);
+// 						this.dsBDContractList.setColumn(nRow, "CONTRACT_NO", sContractNo);
+// 						sRelatedContractNo = sContractNo;
+// 						sRelatedContractType = sContractType
+// 						break;
+// 					}
+// 				}
+// 				
+// 				this.dsContractList.filter("");
+// 				this.fnSetBillDelivery(sRelatedContractNo, sRelatedContractType, sEmSeq);
+			}
+			else
+			{
+				var sContractNo = this.dsContractList.getColumn(this.dsContractList.rowposition, "CONTRACT_NO");
+				var sEstimateNo = this.dsContractList.getColumn(this.dsContractList.rowposition, "ESTIMATE_NO");
+				var delCount = this.dsBDContractList.getCaseCount("CONTRACT_NO=='"+sContractNo+"'");
+				
+				this.fnSetEstimateNoList(sEstimateNo, "DELETE");
+				
+				if(delCount > 0)
+				{
+					this.dsBDContractList.filter("CONTRACT_NO=='"+sContractNo+"'");
+					this.dsBillDeliveryDet.filter("CONTRACT_NO=='"+sContractNo+"'");
+					this.dsBill.filter("CONTRACT_NO=='"+sContractNo+"'");
+					this.dsDelivery.filter("CONTRACT_NO=='"+sContractNo+"'");
+					this.dsBillDeliveryDet.deleteAll();
+					this.dsBDContractList.deleteAll();
+					this.dsBill.deleteAll();
+					this.dsDelivery.deleteAll();
+				}
+				this.dsBDContractList.filter("");
+				this.dsBillDeliveryDet.filter("");
+				this.dsBill.filter("");
+				this.dsDelivery.filter("");
+			}
+		}
+	}
+};
+
+this.fnCheckedContractNo = function(sMode)
+{
+	this.dsContractList.filter("ISCHECKED=='1'");
+	var sEmSeq = this.dsContractList.getColumn(this.dsContractList.rowposition, "EM_SEQ");
+	var sEstimateNo = this.dsContractList.getColumn(this.dsContractList.rowposition, "ESTIMATE_NO");
+	var sBdSeq = this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "BD_SEQ");
+	
+	if(!this.gfnIsEmpty(sMode)) this.fnSetEstimateNoList(sEstimateNo, sMode);
+	
+	var sRelatedContractNo, sRelatedContractType;
+	
+	for(var i = 0; i < this.dsContractList.rowcount; i++)
+	{
+		var sContractNo = this.dsContractList.getColumn(i, "CONTRACT_NO");
+		var sContractType = this.dsContractList.getColumn(i, "CONTRACT_TYPE");
+		
+		var findRow = this.dsBDContractList.findRow("CONTRACT_NO", sContractNo);
+	
+		// 연결 계약번호가 없는 경우
+		if(findRow == -1)
+		{
+			var nRow = this.dsBDContractList.addRow();
+			if(!this.gfnIsEmpty(sBdSeq)) this.dsBDContractList.setColumn(nRow, "BD_SEQ", sBdSeq);
+			this.dsBDContractList.setColumn(nRow, "CONTRACT_NO", sContractNo);
+			sRelatedContractNo = sContractNo;
+			sRelatedContractType = sContractType
+			break;
+		}
+	}
+	
+	this.dsContractList.filter("");
+	this.fnSetBillDelivery(sRelatedContractNo, sRelatedContractType, sEmSeq);
+};
+
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_Close": case "btn_Cancel":
+			this.close("");
+		break;
+		
+		case "btn_Save" :
+			if(this.fnValidation()) {
+				this.fnSetData();
+				this.fnSave("Save");
+			}
+		break;
+		
+		case "btn_Print" :
+			this.fnPrint();
+		break;
+		
+		case "btn_Delete" :
+			this.gfnAlert('confirm.general',"해당 청구서 납품서를 삭제 하시겠습니까?",null
+				,function(srvId,rtn) {
+					if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;		
+					this.dsBillDeliveryList.set_enableevent(false);
+					var curRow = this.dsBillDeliveryList.rowposition;
+					this.dsBillDeliveryList.deleteRow(curRow);
+					this.fnSave("Delete");
+					this.dsBillDeliveryList.set_enableevent(true);					
+			});	
+		break;
+		
+		case "btn_BillDeliveryDetAdd" :
+			var curTabIdx = this.tab_BillDelivery.tabindex;
+			var targetTpg = this.tab_BillDelivery.tabpages[curTabIdx];
+			var sDsId = targetTpg.form.components[0].binddataset;
+			var objDs = this.objects[sDsId];
+			
+			if(objDs.rowposition > -1) {
+				this.fnBillDeliveryDetAdd();
+			}
+		break;
+		
+		case "btn_BillDeliveryDetDel" :
+			this.fnBillDeliveryDetDel();
+		break;
+		
+		case "btn_Copy" :
+			this.gfnAlert('confirm.general',"해당 청구서 납품서를 복사 추가 하시겠습니까?",null
+				,function(srvId,rtn) {
+					if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+					this.fnCopy();
+				});			
+		break;
+		
+		case "btn_Down" :
+			var curTabIdx = this.tab_BillDelivery.tabindex;
+			var targetTpg = this.tab_BillDelivery.tabpages[curTabIdx];
+			var sDsId = targetTpg.form.components[0].binddataset;
+			var objDs = this.objects[sDsId];
+			
+			var nRow = objDs.rowposition;
+			if (nRow < (objDs.rowcount-1))
+			{
+				objDs.moveRow(nRow, nRow+1);
+				objDs.set_rowposition(nRow+1);
+			}
+			break;
+			
+		case "btn_Up" :
+			var curTabIdx = this.tab_BillDelivery.tabindex;
+			var targetTpg = this.tab_BillDelivery.tabpages[curTabIdx];
+			var sDsId = targetTpg.form.components[0].binddataset;
+			var objDs = this.objects[sDsId];
+			
+			var nRow = objDs.rowposition;
+			if (nRow > 0)
+			{
+				objDs.moveRow(nRow, nRow-1);
+				objDs.set_rowposition(nRow-1);
+			}
+			break;
+		
+		case "btn_New" :
+			if(this.fnGetChangeDs())
+			{
+				this.gfnAlert('msg.general',this.gfnGetTransTxt(1392, "저장 후 진행 해주세요"));
+				return;
+			}
+			else 
+			{
+				this.dsBDContractList.clearData();
+				this.dsBillDeliveryDet.clearData();
+				this.dsBill.clearData();
+				this.dsDelivery.clearData();
+				
+				this.NEW_FLAG = true;
+				this.fnBillDeliveryListInit();
+				this.fnContractList(this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "BD_SEQ"));
+			}
+			break;
+	}
+};
+
+
+this.div_BillDeliveryEtc_btn_EstimateNo_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var Argument =  {
+						pvProjectCode:this.FV_PARENT_PROJECT_CODE
+					};
+	this.commUtil.popup(this, "popupEstimateListPopup", "Sales::SS_EstimateListPopup.xfdl", -1, -1, 1000, 400, true, false, false, Argument, "fnPopupCallBack");
+};
+
+this.dsBillDeliveryList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(this.fnGetChangeDs())
+	{
+		this.dsBillDeliveryList.set_enableevent(false);
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1392, "저장 후 진행 해주세요"));
+		this.dsBillDeliveryList.set_rowposition(e.oldrow);
+		this.dsBillDeliveryList.set_enableevent(true);
+		return;
+	}
+	else 
+	{
+		var sBdSeq = this.dsBillDeliveryList.getColumn(e.newrow, "BD_SEQ"); 
+		var sValue = this.dsBillDeliveryList.getColumn(e.newrow, "SAME_FLAG");
+		
+		this.fnSetDeliveryContractName(sValue);
+		this.fnContractList(sBdSeq);
+	}	
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInitForm = function()
+{
+	/*1. 프로젝트코드 파라미터*/
+	if(this.parent.hasOwnProperty("PROJECT_CODE"))
+	{
+		this.FV_PARENT_PROJECT_CODE = this.parent.PROJECT_CODE;
+	}
+	
+	/*2. 거래처 파라미터*/
+	if(this.parent.hasOwnProperty("CONTRACT_MAIN"))
+	{
+		this.FV_PARENT_CONTRACT_MAIN = this.parent.CONTRACT_MAIN;
+	}
+	
+	/*3. 견적서 파라미터*/
+	if(this.parent.hasOwnProperty("EM_SEQ"))
+	{
+		this.FV_PARENT_EM_SEQ = this.parent.EM_SEQ;
+	}
+	
+	/*4. 계약번호 파라미터*/
+	if(this.parent.hasOwnProperty("CONTRACT_NO"))
+	{
+		this.FV_PARENT_CONTRACT_NO = this.parent.CONTRACT_NO;
+	}
+	
+	/*5. 계약구분 파라미터*/
+	if(this.parent.hasOwnProperty("CONTRACT_TYPE"))
+	{
+		this.FV_PARENT_CONTRACT_TYPE = this.parent.CONTRACT_TYPE;
+	}
+	
+	/*6. 고객사 파라미터*/
+	if(this.parent.hasOwnProperty("CLIENT_NAME"))
+	{
+		this.FV_PARENT_CLIENT_NAME = this.parent.CLIENT_NAME;
+	}
+	
+	/*7. 계약처명 파라미터*/
+	if(this.parent.hasOwnProperty("CONTRACT_MAIN_NAME"))
+	{
+		this.FV_PARENT_CONTRACT_MAIN_NAME = this.parent.CONTRACT_MAIN_NAME;
+	}
+	
+	this.fnGetCode();
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_BillType",		"BILL_TYPE"); 			// 청구구분
+	this.gfnAddCodeDataset("ds_cmm_ContractType",	"CONTRACT_TYPE"); 		// 계약구분
+	this.gfnAddCodeDataset("ds_cmm_ProductUnit",	"PRODUCT_UNIT"); 		// 제품, 상품 단위
+	this.gfnAddCodeDataset("ds_cmm_SiUnit"	,"SI_UNIT");	// 용역 단위
+	this.gfnAddCodeDataset("ds_cmm_ConsumptionTax"	,"CONSUMPTION_TAX");	// 소비세액
+	this.gfnCodeTransaction();
+};
+
+//청구서 조회
+this.fnBillDeliveryList = function()
+{
+	this.dsBDContractList.clearData();
+	this.dsBillDeliveryDet.clearData();
+	this.dsBill.clearData();
+	this.dsDelivery.clearData();
+	
+	// 조건값 셋팅
+	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_PROJECT_CODE);
+	this.gfnAddSendParameter("CONTRACT_MAIN",	this.FV_PARENT_CONTRACT_MAIN);
+	if(this.FV_PARENT_CONTRACT_TYPE == "M") {
+		this.gfnAddSendParameter("CONTRACT_NO",	this.FV_PARENT_CONTRACT_NO);
+		this.gfnAddSendParameter("MA_FLAG",	"1");
+	}
+	else {
+		this.gfnAddSendParameter("MA_FLAG",	"0");
+	}
+	
+	this.dsBillDeliveryList.set_enableevent(false);
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("dsBillDeliveryList", "dsOutput");
+// 	this.gfnCommonTransaction("BillDeliveryList", "SP_ProjectBillDelivery_S01");
+	this.gfnSetMap("projectMapper", ['SP_ProjectBillDelivery_S01'], ['dsBillDeliveryList']);
+	this.gfnCommonTransaction("BillDeliveryList", "selectNextMultiList.do");		
+};
+
+//계약 조회
+this.fnContractList = function(sBdSeq)
+{
+	// 조건값 셋팅
+	// 계약 구분
+	this.gfnAddSendParameter("CONTRACT_TYPE",	this.FV_PARENT_CONTRACT_TYPE);
+	// 프로젝트 코드
+	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_PROJECT_CODE);
+	// 계약처
+	this.gfnAddSendParameter("CONTRACT_MAIN",	this.FV_PARENT_CONTRACT_MAIN);
+	// 유지보수인 경우 계약 번호로 조회 
+	this.gfnAddSendParameter("CONTRACT_NO",		this.FV_PARENT_CONTRACT_NO);
+	// 청구서,납품서 일련번호
+	this.gfnAddSendParameter("BD_SEQ",			sBdSeq);
+	
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("dsContractList", "dsContractList");
+// 	this.gfnCommonTransaction("ContractList", "SP_ProjectBillDelivery_S02");
+	this.gfnSetMap("projectMapper", ['SP_ProjectBillDelivery_S02'], ['dsContractList']);
+	this.gfnCommonTransaction("ContractList", "selectNextMultiList.do");	
+};
+
+// 청구서 번호 생성
+this.fnGetBillDeliveryNo = function(sPublishedDate, sSeq)
+{
+	var sToday = new Date();
+	var curDate = this.gfnGetDateMaskFormatString(sToday, "yyyyMMdd");
+	if(!this.gfnIsEmpty(sPublishedDate)) curDate = sPublishedDate
+	
+	this.dsBillDeliveryNo.clearData();
+	
+	if(this.gfnIsEmpty(sSeq)) sSeq = 0;
+	
+	// 순번
+	this.gfnAddSendParameter("SEQ",	sSeq);
+	// 발행일자
+	this.gfnAddSendParameter("PUBLISHED_DATE",	curDate);
+	// 계약처
+	this.gfnAddSendParameter("CONTRACT_MAIN",	this.FV_PARENT_CONTRACT_MAIN);
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("dsBillDeliveryNo", "dsOutput");
+// 	this.gfnCommonTransaction("GetBilldeliveryNo", "SP_ProjectBillDelivery_S03");
+	this.gfnSetMap("projectMapper", ['SP_ProjectBillDelivery_S03'], ['dsBillDeliveryNo']);
+	this.gfnCommonTransaction("GetBilldeliveryNo", "selectNextMultiList.do");	
+};
+
+// 초기화 데이터 셋팅
+this.fnSetBillDelivery = function(sContractNo, sContractType, sEmSeq)
+{
+	this.dsBillDeliveryTmp.clearData();
+	this.dsBillDeliveryDetTmp.clearData();
+	
+	var sBillType = this.rdo_BillType.value;
+	
+	// 계약번호
+	this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);
+	// 계약구분
+	this.gfnAddSendParameter("CONTRACT_TYPE",	sContractType);
+	// 계약번호
+	this.gfnAddSendParameter("BILL_TYPE",	sBillType);
+	// 견적서 번호
+	this.gfnAddSendParameter("EM_SEQ",	sEmSeq);
+
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("dsBillDeliveryTmp",		"dsBillDeliveryTmp");
+// 	this.gfnAddOutputDataset("dsBillDeliveryDetTmp",	"dsBillDeliveryDetTmp");
+// 	
+// 	this.gfnCommonTransaction("SetBillDelivery", "SP_ProjectBillDelivery_S04");
+	this.gfnSetMap("projectMapper", ['SP_ProjectBillDelivery_S04_1','SP_ProjectBillDelivery_S04_2'], ['dsBillDeliveryTmp','dsBillDeliveryDetTmp']);
+	this.gfnCommonTransaction("SetBillDelivery", "selectNextMultiList.do");		
+};
+
+// 청구서 납품서 상세
+this.fnBillDeliveryDet = function(sBdSeq)
+{
+	// 계약번호
+	this.gfnAddSendParameter("BD_SEQ",	sBdSeq);
+
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("dsBDContractList",		"dsOutput");
+// 	this.gfnAddOutputDataset("dsBillDeliveryDet",		"dsOutput2");
+// 	this.gfnCommonTransaction("BillDeliveryDet", "SP_ProjectBillDelivery_S05");
+	
+	this.gfnSetMap("projectMapper", ['SP_ProjectBillDelivery_S05_1','SP_ProjectBillDelivery_S05_2'], ['dsBDContractList','dsBillDeliveryDet']);
+	this.gfnCommonTransaction("BillDeliveryDet", "selectNextMultiList.do");		
+};
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		return;
+	}
+	else
+	{
+		if(strSvcID == "gfnGetCode") 
+		{
+			if(this.gfnIsEmpty(this.FV_PARENT_EM_SEQ)) this.rdo_BillType.set_index(1);
+			this.fnBillDeliveryList();
+		}
+		else if(strSvcID == "BillDeliveryList")
+		{	
+			if(this.dsBillDeliveryList.rowcount==0) {
+				this.btn_Delete.set_enable(false);
+				this.btn_Print.set_enable(false);
+				this.btn_Copy.set_enable(false);
+			} else {
+				this.btn_Delete.set_enable(true);
+				this.btn_Print.set_enable(true);
+				this.btn_Copy.set_enable(true);
+			}
+			
+			var sValue = this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "SAME_FLAG");
+			this.fnSetDeliveryContractName(sValue);
+			
+			this.fnContractList(this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "BD_SEQ"));
+		}
+		else if(strSvcID == "ContractList")
+		{
+			var sBdSeq = this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "BD_SEQ");
+			
+			// 등록한 청구서가 없을 때 초기화
+			if(this.gfnIsEmpty(sBdSeq))
+			{
+				if(!this.NEW_FLAG) this.fnBillDeliveryListInit(); 
+				else this.NEW_FLAG = false;
+				//this.fnGetBillDeliveryNo();
+			}
+			else 
+			{
+				this.fnBillDeliveryDet(sBdSeq);
+			}
+			this.dsBillDeliveryList.set_enableevent(true);
+			
+		}
+		else if(strSvcID=="GetBilldeliveryNo")
+		{
+			var sBillDeliveryNo = this.dsBillDeliveryNo.getColumn(0, "BILL_DELIVERY_NO");
+			this.dsBillDeliveryList.setColumn(this.dsBillDeliveryList.rowposition, "BILL_DELIVERY_NO", sBillDeliveryNo);
+		}
+		else if(strSvcID=="SetBillDelivery")
+		{
+			// 청구서, 납품서 셋팅
+			var sContractNo = this.dsBDContractList.getColumn(this.dsBDContractList.rowposition, "CONTRACT_NO");
+			var sContractName = this.dsBillDeliveryTmp.getColumn(this.dsBillDeliveryTmp.rowposition, "CONTRACT_NAME");
+			var sStartDate = this.dsBillDeliveryTmp.getColumn(this.dsBillDeliveryTmp.rowposition, "START_DATE");
+			var sEndDate = this.dsBillDeliveryTmp.getColumn(this.dsBillDeliveryTmp.rowposition, "END_DATE");
+			var sPreEmSeq = this.dsBillDeliveryTmp.getColumn(this.dsBillDeliveryTmp.rowposition, "EM_SEQ");
+			var sPreEstimateNo = this.dsBillDeliveryTmp.getColumn(this.dsBillDeliveryTmp.rowposition, "PRE_ESTIMATE_NO");
+			var sConSumptionTax = this.dsBillDeliveryTmp.getColumn(this.dsBillDeliveryTmp.rowposition, "CONSUMPTION_TAX");
+			
+			var curRow = this.dsBillDeliveryList.rowposition;
+			var sBdSeq = this.dsBillDeliveryList.getColumn(curRow, "BD_SEQ");
+			var sBillContractName = this.dsBillDeliveryList.getColumn(curRow, "BILL_CONTRACT_NAME");
+			
+			if(this.gfnIsEmpty(sBillContractName)) this.dsBillDeliveryList.setColumn(curRow, "BILL_CONTRACT_NAME", sContractName);
+			this.dsBillDeliveryList.setColumn(curRow, "START_DATE", sStartDate);
+			this.dsBillDeliveryList.setColumn(curRow, "END_DATE", sEndDate);
+			this.dsBillDeliveryList.setColumn(curRow, "EM_SEQ", sPreEmSeq);
+			this.dsBillDeliveryList.setColumn(curRow, "ESTIMATE_NO", sPreEstimateNo);
+			this.dsBillDeliveryList.setColumn(curRow, "SAME_FLAG", "1");
+			this.dsBillDeliveryList.setColumn(curRow, "CONSUMPTION_TAX", sConSumptionTax);
+			
+			this.fnSetDeliveryContractName("1");
+			
+			if(this.FV_PARENT_CONTRACT_TYPE == "M") this.dsBillDeliveryList.setColumn(curRow, "MA_FLAG", "1");
+			else this.dsBillDeliveryList.setColumn(curRow, "MA_FLAG", "0");
+			
+			// 청구서, 납품서 상세 셋팅
+			var sCnt = this.dsBillDeliveryDetTmp.rowcount;
+			
+			if(sCnt > 0) {
+				for(var i = 0; i < sCnt; i++) {
+					var nRow = this.dsBillDeliveryDet.addRow();
+					
+					var sProductName = this.dsBillDeliveryDetTmp.getColumn(i, "PRODUCT_NAME"); // 제품명
+					var sContractNo = this.dsBillDeliveryDetTmp.getColumn(i, "CONTRACT_NO"); // 계약번호
+					var sContractType = this.dsBillDeliveryDetTmp.getColumn(i, "CONTRACT_TYPE"); // 계약구분
+					var sQuantity = this.dsBillDeliveryDetTmp.getColumn(i, "QUANTITY"); // 수량
+					var sProductUnit = this.dsBillDeliveryDetTmp.getColumn(i, "PRODUCT_UNIT"); // 단위
+					var sUnitCost = this.dsBillDeliveryDetTmp.getColumn(i, "UNIT_COST"); // 소비자 단가
+					var sDeliveryCost = this.dsBillDeliveryDetTmp.getColumn(i, "DELIVERY_COST"); // 단가
+					var sContractPrice = this.dsBillDeliveryDetTmp.getColumn(i, "CONTRACT_PRICE"); // 계약금액
+					
+					this.dsBillDeliveryDet.setColumn(nRow, "BD_SEQ", sBdSeq);
+					this.dsBillDeliveryDet.setColumn(nRow, "CONTRACT_NO", sContractNo);
+					this.dsBillDeliveryDet.setColumn(nRow, "CONTRACT_TYPE", sContractType);
+					this.dsBillDeliveryDet.setColumn(nRow, "PRODUCT_NAME", sProductName);
+					this.dsBillDeliveryDet.setColumn(nRow, "QUANTITY", sQuantity);
+					this.dsBillDeliveryDet.setColumn(nRow, "PRODUCT_UNIT", sProductUnit);
+					//this.dsBillDeliveryDet.setColumn(nRow, "UNIT_COST", sContractPrice / sQuantity);
+					this.dsBillDeliveryDet.setColumn(nRow, "UNIT_COST", sUnitCost);
+					this.dsBillDeliveryDet.setColumn(nRow, "DELIVERY_COST", sDeliveryCost);
+					this.dsBillDeliveryDet.setColumn(nRow, "CONTRACT_PRICE", sContractPrice);
+					this.dsBillDeliveryDet.setColumn(nRow, "CONSUMPTION_TAX_PRICE", sContractPrice * sConSumptionTax / 100);
+					
+					var nBillRow = this.dsBill.addRow();
+					var nDeliveryRow = this.dsDelivery.addRow();
+					this.dsBill.copyRow(nBillRow, this.dsBillDeliveryDet, nRow);
+					this.dsDelivery.copyRow(nDeliveryRow, this.dsBillDeliveryDet, nRow);
+				}
+			}
+			this.fnConsumptionTax();
+		}
+		else if(strSvcID=="BillDeliveryDet")
+		{
+			this.dsBillDeliveryDet.filter("KIND=='BILL'");
+			this.dsBill.copyData(this.dsBillDeliveryDet, true);
+			this.dsBillDeliveryDet.filter("KIND=='DELIVERY'");
+			this.dsDelivery.copyData(this.dsBillDeliveryDet, true);
+			
+			this.fnConsumptionTax();
+		}
+		else if(strSvcID=="Delete")
+		{
+			gfnAlert('msg.general',this.gfnGetTransTxt(12512,"삭제 완료 됬습니다."));
+			this.fnBillDeliveryList();
+		}
+		else if(strSvcID=="Save")
+		{
+			gfnAlert('msg.general',this.gfnGetTransTxt(12513,"저장 완료 됬습니다."));
+			this.fnBillDeliveryList();
+		}
+		else if(strSvcID=="Copy")
+		{
+			gfnAlert('msg.general',this.gfnGetTransTxt(12514,"복사추가 완료 됬습니다."));
+			this.fnBillDeliveryList();
+		}
+	}
+};
+
+ this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		switch(sPopupId)
+		{
+			case "popupEstimateListPopup" :
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				
+				var sEmSeq = ds.getColumn(0, "EM_SEQ");
+				var sEstimateNo = ds.getColumn(0, "ESTIMATE_NO");
+				
+				var curRow = this.dsBillDeliveryList.rowposition;
+				
+				this.dsBillDeliveryList.setColumn(curRow, "EM_SEQ", sEmSeq);
+				this.dsBillDeliveryList.setColumn(curRow, "ESTIMATE_NO", sEstimateNo);
+				break;
+				
+			case "popupEstimateNoList" :
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				
+				var sEstimateNo = ds.getColumn(0, "ESTIMATE_NO");
+				
+				this.fnSetEstimateNoList(sEstimateNo, "ADD");
+				break;
+		}
+	}
+};
+
+this.fnSetEstimateNoList = function(sEstimateNo, sMode)
+{
+	var curRow = this.dsBillDeliveryList.rowposition;
+	var sEstimateNoList = this.dsBillDeliveryList.getColumn(curRow, "ESTIMATE_NO_LIST");
+	
+	if(!this.gfnIsEmpty(sEstimateNo) && sMode == "ADD") {
+		if(this.gfnIsEmpty(sEstimateNoList)) {
+			this.dsBillDeliveryList.setColumn(curRow, "ESTIMATE_NO_LIST", sEstimateNo);
+		} else {
+			if(sEstimateNoList.indexOf(sEstimateNo) == -1) {
+				sEstimateNoList += "," + sEstimateNo;
+				
+				this.dsBillDeliveryList.setColumn(curRow, "ESTIMATE_NO_LIST", sEstimateNoList);
+			}
+		}
+	} else if(!this.gfnIsEmpty(sEstimateNo) && sMode == "DELETE") {
+		var findIndex;
+		var arr = sEstimateNoList.split(",");
+		
+		var filterArr = arr.filter(function(data) {
+			return data != sEstimateNo;
+		});
+		
+		sEstimateNoList = "";
+		if(filterArr.length > 0) {
+			for(var i = 0; i < filterArr.length; i++) {
+				sEstimateNoList  += filterArr[i];
+				if(filterArr.length - 1 > i) sEstimateNoList += ",";
+			}
+		} 
+		
+		this.dsBillDeliveryList.setColumn(curRow, "ESTIMATE_NO_LIST", sEstimateNoList);
+	}
+};
+
+this.fnValidation = function()
+{
+	var sSameFlag = this.rdo_SameFlag.value;
+	var bResult;
+	bResult = this.gfnIsUpdateDs(this.dsBillDeliveryList);
+	
+	/*
+		필수 값 :
+		입금요청일 	: DEPOSIT_REQUEST_DATE
+		청구서계약명 	: BILL_CONTRACT_NAME
+	*/
+	var curRow = this.dsBillDeliveryList.rowposition;
+	if(this.gfnIsEmpty(this.dsBillDeliveryList.getColumn(curRow, "DEPOSIT_REQUEST_DATE"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(12515,"입금요청일은 필수 항목입니다.")); return false;}
+	else if(this.gfnIsEmpty(this.dsBillDeliveryList.getColumn(curRow, "BILL_CONTRACT_NAME"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(12516,"청구서계약명은 필수 항목입니다.")); return false;}
+	
+	if(sSameFlag == "0") {
+		if(this.gfnIsEmpty(this.dsBillDeliveryList.getColumn(curRow, "DELIVERY_CONTRACT_NAME"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(12517,"납품서계약명은 필수 항목입니다.")); return false;}
+	}
+	
+	bResult = this.gfnIsUpdateDs(this.dsBill);
+	
+	/*
+		필수 값 :
+		제품명 : PRODUCT_NAME
+		수량 : QUANTITY
+		단위 : PRODUCT_UNIT
+		단가 : UNIT_COST
+	*/
+	for(var i = 0; i < this.dsBill.rowcount;  i++) {
+		if(this.gfnIsEmpty(this.dsBill.getColumn(i, "PRODUCT_NAME"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(12518,"제품상세명은 필수 항목입니다.")); return false;}
+		else if(this.gfnIsEmpty(this.dsBill.getColumn(i, "QUANTITY"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1382,"수량은 필수 항목입니다.")); return false;}
+		else if(this.gfnIsEmpty(this.dsBill.getColumn(i, "PRODUCT_UNIT"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1898,"단위는 필수 항목입니다.")); return false;}
+		else if(this.gfnIsEmpty(this.dsBill.getColumn(i, "UNIT_COST"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(12459,"단가는 필수 항목입니다.")); return false;}
+	}
+	
+	if(sSameFlag == "0") {
+		for(var i = 0; i < this.dsDelivery.rowcount;  i++) {
+			if(this.gfnIsEmpty(this.dsDelivery.getColumn(i, "PRODUCT_NAME"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(12518,"제품상세명은 필수 항목입니다.")); return false;}
+			else if(this.gfnIsEmpty(this.dsDelivery.getColumn(i, "QUANTITY"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1382,"수량은 필수 항목입니다.")); return false;}
+			else if(this.gfnIsEmpty(this.dsDelivery.getColumn(i, "PRODUCT_UNIT"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(1898,"단위는 필수 항목입니다.")); return false;}
+			else if(this.gfnIsEmpty(this.dsDelivery.getColumn(i, "UNIT_COST"))) { this.gfnAlert('msg.general',this.gfnGetTransTxt(12459,"단가는 필수 항목입니다.")); return false;}
+		}
+	}
+	
+	return true;
+};
+
+// 저장
+this.fnSave = function(mode)
+{
+	if(mode=="Delete") {
+		strSvcID = "Delete";
+		strModelId = "SP_ProjectBillDelivery_R02";
+	}
+	else {
+		strSvcID = "Save";
+		strModelId = "SP_ProjectBillDelivery_R01";
+	}
+	
+	var sBdSeq = this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "BD_SEQ");
+	var sPublishedDate = this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "PUBLISHED_DATE");
+	// 계약번호
+	this.gfnAddSendParameter("BD_SEQ",	sBdSeq);
+	
+	// 순번
+	this.gfnAddSendParameter("SEQ",	0);
+	// 발행일자
+	this.gfnAddSendParameter("PUBLISHED_DATE",	sPublishedDate);
+	// 계약처
+	this.gfnAddSendParameter("CONTRACT_MAIN",	this.FV_PARENT_CONTRACT_MAIN);
+	
+	// 입력용 Input Dataset 세팅
+	this.gfnAddInputDataset ("dsBillDeliveryList",	"dsInput1");
+	
+	if(mode=="Save") {
+		this.gfnAddInputDataset ("dsBDContractList",	"dsInput2");
+		this.gfnAddInputDataset ("dsBill",				"dsInput3");
+		this.gfnAddInputDataset ("dsDelivery",			"dsInput4");
+
+		this.gfnSetMap("projectMapper", [strModelId], ['']);
+		this.gfnCommonTransaction(strSvcID, "SP_ProjectBillDelivery_R01.do");
+		
+	}	else {
+		this.gfnSetMap("projectMapper", [strModelId], ['']);
+		this.gfnCommonTransaction(strSvcID, "saveNextList.do.do");
+	}
+	
+	/*this.gfnCommonTransaction(strSvcID, strModelId);*/
+};
+
+this.rdo_SameFlag_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSetDeliveryContractName(e.postvalue);
+};
+
+// 납품서계약명 셋팅
+this.fnSetDeliveryContractName = function(value)
+{
+	if(value == "1") {
+		this.div_BillDeliveryEtc.form.edt_DeliveryContractName.set_readonly(true);
+		
+		// 납품서 데이터 초기화
+		this.dsDelivery.deleteAll();
+		for(var i = 0; i < this.dsBill.rowcount; i++) {
+			var nRow = this.dsDelivery.addRow();
+			this.dsDelivery.copyRow(nRow, this.dsBill, i);
+		}
+	} else {
+		this.div_BillDeliveryEtc.form.edt_DeliveryContractName.set_readonly(false);
+	}
+};
+
+this.fnBillDeliveryDetAdd = function()
+{
+	var curTabIdx = this.tab_BillDelivery.tabindex;
+	var targetTpg = this.tab_BillDelivery.tabpages[curTabIdx];
+	var sDsId = targetTpg.form.components[0].binddataset;
+	var objDs = this.objects[sDsId];
+	var curRow = objDs.rowposition;
+	
+	var sBdSeq = this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "BD_SEQ");
+	var sContractNo = this.dsContractList.getColumn(this.dsContractList.rowposition, "CONTRACT_NO");
+	var sContractType = this.dsContractList.getColumn(this.dsContractList.rowposition, "CONTRACT_TYPE");
+	
+	var nRow = objDs.addRow();
+	objDs.copyRow(nRow, objDs, curRow);
+// 	objDs.setColumn(nRow, "BD_SEQ", sBdSeq);
+// 	objDs.setColumn(nRow, "CONTRACT_NO", sContractNo);
+// 	objDs.setColumn(nRow, "CONTRACT_TYPE", sContractType);
+// 	
+// 	if(targetTpg.name == "tpg_Bill") objDs.setColumn(nRow, "KIND", "BILL");
+// 	else objDs.setColumn(nRow, "KIND", "DELIVERY");
+};
+
+this.fnBillDeliveryDetDel = function()
+{
+	var curTabIdx = this.tab_BillDelivery.tabindex;
+	var targetTpg = this.tab_BillDelivery.tabpages[curTabIdx];
+	var sDsId = targetTpg.form.components[0].binddataset;
+	var objDs = this.objects[sDsId];
+	objDs.deleteRow(objDs.rowposition);
+};
+
+this.setContractPrice = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	var sBillType = this.rdo_BillType.value;
+	var sConsumptionTax = this.div_BillDeliveryInfo.form.cmb_ConsumptionTax.value;
+	
+	if(e.columnid == "QUANTITY") {
+		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+		var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+		var sDeliveryCost = obj.getColumn(e.row, "DELIVERY_COST");
+		
+		if(sBillType == "CONTRACT") obj.setColumn(e.row, "CONTRACT_PRICE", sQuantity * sUnitCost);
+		else obj.setColumn(e.row, "CONTRACT_PRICE", sQuantity * sDeliveryCost);
+		
+		var curTabIdx = this.tab_BillDelivery.tabindex;
+		var targetTpg = this.tab_BillDelivery.tabpages[curTabIdx];
+		var sDsId = targetTpg.form.components[0].binddataset;
+		var objDs = this.objects[sDsId];
+			
+		for(var i = 0; i < objDs.rowcount; i++) {
+			var sConsumptionTaxPrice = objDs.getColumn(i, "CONTRACT_PRICE");
+			
+			objDs.setColumn(i, "CONSUMPTION_TAX_PRICE", sConsumptionTaxPrice * nexacro.toNumber(sConsumptionTax) / 100);
+		}	
+		
+		this.fnConsumptionTax();
+	} else if(e.columnid == "UNIT_COST") {
+		var sQuantity = obj.getColumn(e.row, "QUANTITY");
+		var sUnitCost = obj.getColumn(e.row, "UNIT_COST");
+		
+		if(sBillType == "CONTRACT") obj.setColumn(e.row, "CONTRACT_PRICE", sQuantity * sUnitCost);
+		
+		var curTabIdx = this.tab_BillDelivery.tabindex;
+		var targetTpg = this.tab_BillDelivery.tabpages[curTabIdx];
+		var sDsId = targetTpg.form.components[0].binddataset;
+		var objDs = this.objects[sDsId];
+			
+		for(var i = 0; i < objDs.rowcount; i++) {
+			var sConsumptionTaxPrice = objDs.getColumn(i, "CONTRACT_PRICE");
+			
+			objDs.setColumn(i, "CONSUMPTION_TAX_PRICE", sConsumptionTaxPrice * nexacro.toNumber(sConsumptionTax) / 100);
+		}	
+		
+		this.fnConsumptionTax();
+	} else if(e.columnid == "CONSUMPTION_TAX_PRICE") {
+		this.fnConsumptionTax();
+	} else if(e.columnid == "CONTRACT_PRICE") {
+		var sContractPrice = e.newvalue;
+		
+		var curTabIdx = this.tab_BillDelivery.tabindex;
+		var targetTpg = this.tab_BillDelivery.tabpages[curTabIdx];
+		var sDsId = targetTpg.form.components[0].binddataset;
+		var objDs = this.objects[sDsId];
+		
+		objDs.setColumn(e.row, "CONSUMPTION_TAX_PRICE", sContractPrice * nexacro.toNumber(sConsumptionTax) / 100);
+		
+		this.fnConsumptionTax();
+	}
+};
+
+//변경 내역 확인
+this.fnGetChangeDs = function()
+{
+	var objDsList = {
+		BillDeliveryList: this.dsBillDeliveryList,
+		Bill:   this.dsBill,
+		Delivery:   this.dsDelivery,
+	}
+	
+	return this.gfnIsUpdateDsList(objDsList);
+};
+
+// 복사추가
+this.fnCopy = function()
+{
+	var sBdSeq = this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "BD_SEQ");
+	var sPublishedDate = this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "PUBLISHED_DATE");
+	// 일련번호
+	this.gfnAddSendParameter("SEQ",	0);
+	// 계약번호
+	this.gfnAddSendParameter("ORG_BD_SEQ",	sBdSeq);
+	// 발행일자
+	this.gfnAddSendParameter("PUBLISHED_DATE",	sPublishedDate);
+	// 계약처
+	this.gfnAddSendParameter("CONTRACT_MAIN",	this.FV_PARENT_CONTRACT_MAIN);
+/*	this.gfnCommonTransaction("Copy", "SP_ProjectBillDelivery_R03");*/
+	
+	this.gfnSetMap("projectMapper", ['SP_ProjectBillDelivery_R03'], ['']);
+	this.gfnCommonTransaction("Copy", "SP_ProjectBillDelivery_R03.do");			
+};
+
+this.fnPrint = function()
+{
+	if(this.fnGetChangeDs())
+	{
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1374, "저장 후 출력 해주세요"));
+		return;
+	}
+	else
+	{
+		this.dsBillDeliveryListPrt.clear();
+		this.dsBillPrt.clear();
+		this.dsDeliveryPrt.clear();
+		this.dsBillDeliveryListTmp.clear();
+		
+		this.dsBillDeliveryList.set_enableevent(false);
+		var sBillDeliveryNo = this.dsBillDeliveryList.getColumn(this.dsBillDeliveryList.rowposition, "BILL_DELIVERY_NO");
+		this.dsBillDeliveryListTmp.copyData(this.dsBillDeliveryList, true); // Copy Temp DS에 복사
+		this.dsBillDeliveryListTmp.filter("BILL_DELIVERY_NO=='"+sBillDeliveryNo+"'"); // 선택한 청구서 납품서 filter
+		this.dsBillDeliveryList.set_enableevent(true);
+		
+		this.dsBillDeliveryListPrt.copyData(this.dsBillDeliveryListTmp, true);	// 청구서 납품서 메인 
+		
+		this.dsBillPrt.copyData(this.dsBill); //청구서
+		this.dsDeliveryPrt.copyData(this.dsDelivery); //납품서
+		
+		var sContractNm = this.dsBillDeliveryListPrt.getColumn(0, "BILL_CONTRACT_NAME");
+		
+		var sToday = this.gfnToday();
+		
+		var sTitleNm = this.gfnGetTransTxt(12416, "청구서 납품서");
+		var strSaveFileNm = this.gfnGetTransTxt(12416, "청구서 납품서") + "_" + sContractNm + "_" + this.FV_PARENT_CONTRACT_MAIN_NAME + "_" + sToday;
+		
+		//var strSaveFileNm = this.gfnGetTransTxt(659, "거래명세서") + "TOBE_" + this.ds_TSReport.getColumn(0, "CLIENT_NAME") + "_" + this.ds_TSReport.getColumn(0, "CONTRACT_NAME") + "_" + this.ds_TSReport.getColumn(0, "SUPPLY_MONTH");
+		var sReportFileName = "PRINT_PROJECT_BILL_DELIVERY.jrf";
+		
+		this.dsBillDeliveryListPrt.addColumn("TOTAL_PRICE_PRT", "STRING"); // 소계 금액 Prt
+		this.dsBillDeliveryListPrt.addColumn("TOTAL_TAX_PRT", "STRING"); // 소비세액 금액 Prt
+		this.dsBillDeliveryListPrt.addColumn("TOTAL_TAX_PRICE_PRT", "STRING"); // 총계 금액 Prt
+		
+		var sConsumptionTaxSum = this.dsBill.getSum("CONSUMPTION_TAX_PRICE")
+		var sContractPriceSum = this.dsBill.getSum("CONTRACT_PRICE");
+		var sTotalSum = sContractPriceSum + sConsumptionTaxSum;
+		
+		this.dsBillDeliveryListPrt.setColumn(0, "TOTAL_PRICE_PRT", sContractPriceSum);
+		this.dsBillDeliveryListPrt.setColumn(0, "TOTAL_TAX_PRT", sConsumptionTaxSum);
+		this.dsBillDeliveryListPrt.setColumn(0, "TOTAL_TAX_PRICE_PRT", sTotalSum);
+		
+		//Dataset 설정
+		this.dsBillDeliveryListPrt.applyChange();
+		this.dsBillPrt.applyChange();
+		this.dsDeliveryPrt.applyChange();
+		
+		this.gfn_SetAddInputDs("dsBillDeliveryListPrt", this.dsBillDeliveryListPrt);
+		this.gfn_SetAddInputDs("dsBillPrt", this.dsBillPrt);
+		this.gfn_SetAddInputDs("dsDeliveryPrt", this.dsDeliveryPrt);
+		
+		//출력버튼 클릭시 리포트 출력
+		this.gfnPopupReportViewer(sReportFileName, strSaveFileNm);
+	}
+};
+
+this.fnSetData = function()
+{
+	var sCnt = this.dsBill.getRowCount();
+	for(var i = 0; i < sCnt; i++) {
+		this.dsBill.setColumn(i, "ORD", i+1);
+	}
+	
+	sCnt = this.dsDelivery.getRowCount();
+	for(var i = 0; i < sCnt; i++) {
+		this.dsDelivery.setColumn(i, "ORD", i+1);
+	}
+	
+	var sSameFlag = this.rdo_SameFlag.value;
+	
+	if(sSameFlag == "1") {
+		this.dsDelivery.deleteAll();
+		for(var i = 0; i < this.dsBill.rowcount; i++) {
+			var nRow = this.dsDelivery.insertRow();
+			this.dsDelivery.copyRow(nRow, this.dsBill, i);
+		}
+	}
+};
+
+this.fnBillDeliveryListInit = function()
+{
+	this.dsBillDeliveryList.set_enableevent(false);
+	var app = nexacro.getApplication();	
+	var nRow = this.dsBillDeliveryList.addRow();
+	
+	this.dsBillDeliveryList.setColumn(nRow, "PROJECT_CODE", this.FV_PARENT_PROJECT_CODE);
+	this.dsBillDeliveryList.setColumn(nRow, "CONTRACT_MAIN", this.FV_PARENT_CONTRACT_MAIN);
+	
+	if(this.gfnIsEmpty(this.FV_PARENT_EM_SEQ)) this.dsBillDeliveryList.setColumn(nRow, "BILL_TYPE", "CONTRACT");
+	else this.dsBillDeliveryList.setColumn(nRow, "BILL_TYPE", "ESTIMATE");
+	
+	var sToday = new Date();
+	var year = sToday.getFullYear();
+	
+	var curDate = this.gfnGetDateMaskFormatString(sToday, "yyyyMMdd");
+	var sDepositRequestDate = this.gfnAddDate(curDate, 30);
+	var lastDay = this.gfnGetLastDayOfMonth(sDepositRequestDate);
+	sDepositRequestDate = sDepositRequestDate.substring(0, 6) + lastDay;
+	
+	this.dsBillDeliveryList.setColumn(nRow, "YEAR", year);
+	this.dsBillDeliveryList.setColumn(nRow, "PUBLISHED_DATE", curDate);
+	this.dsBillDeliveryList.setColumn(nRow, "DEPOSIT_REQUEST_DATE", sDepositRequestDate);
+	
+	// 거래처명
+	var sContractMainName = this.dsContractList.getColumn(0, "CONTRACT_MAIN_NAME");
+	// 계약처명 셋팅
+	this.dsBillDeliveryList.setColumn(nRow, "CONTRACT_MAIN_NAME", sContractMainName);
+	// 성명
+	this.dsBillDeliveryList.setColumn(nRow, "INSERT_EMP_NAME", app.gdsUserInfo.getColumn(0, "EMP_NM"));
+	
+	this.dsBillDeliveryList.set_enableevent(true);
+	
+	this.div_BillDeliveryInfo.form.rdo_OfficialSealType.set_index(0);
+	this.div_BillDeliveryInfo.form.cmb_ConsumptionTax.set_index(0);
+	this.rdo_SameFlag.set_index(0);
+	this.fnSetDeliveryContractName(this.rdo_SameFlag.value);
+};
+
+this.fnConsumptionTax = function()
+{
+	var curTabIdx = this.tab_BillDelivery.tabindex;
+	var targetTpg = this.tab_BillDelivery.tabpages[curTabIdx];
+	var sDsId = targetTpg.form.components[0].binddataset;
+	var objDs = this.objects[sDsId];
+	
+	var sContractPriceSum = objDs.getSum("CONTRACT_PRICE");
+	var sConsumptionTaxPriceSum = objDs.getSum("CONSUMPTION_TAX_PRICE");
+	
+	targetTpg.form.components[0].setCellProperty("summary",5, "expr", sContractPriceSum + sConsumptionTaxPriceSum);
+};
+
+this.div_BillDeliveryInfo_cmb_ConsumptionTax_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var arrDs = [this.dsBill, this.dsDelivery];
+	
+	for(var j = 0; j < arrDs.length; j++) {
+		for(var i = 0; i < arrDs[j].rowcount; i++) {
+			var sConsumptionTaxPrice = arrDs[j].getColumn(i, "CONTRACT_PRICE");
+			
+			arrDs[j].setColumn(i, "CONSUMPTION_TAX_PRICE", sConsumptionTaxPrice * nexacro.toNumber(e.postvalue) / 100);
+		}
+	}
+};
+
+this.tab_BillDelivery_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChangeEventInfo)
+{
+	this.fnConsumptionTax();
+};
+
+this.div_BillDeliveryEtc_btn_EstimateNoList_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var Argument =  {
+						pvProjectCode:this.FV_PARENT_PROJECT_CODE
+					};
+	this.commUtil.popup(this, "popupEstimateNoList", "Sales::SS_EstimateListPopup.xfdl", -1, -1, 1000, 400, true, false, false, Argument, "fnPopupCallBack");
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_cmm_OfficialSealType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">인감 (■)</Col>
+            <Col id="VAL1"/>
+            <Col id="ORD">1</Col>
+            <Col id="CAPTION_JAP">印鑑</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">직접날인</Col>
+            <Col id="VAL1"/>
+            <Col id="ORD">3</Col>
+            <Col id="CAPTION_JAP">直接捺印</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cmm_BillType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBillDeliveryList" onrowposchanged="dsBillDeliveryList_onrowposchanged">
+        <ColumnInfo>
+          <Column id="BD_SEQ" type="INT" size="256"/>
+          <Column id="BILL_DELIVERY_NO" type="STRING" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="MA_FLAG" type="STRING" size="256"/>
+          <Column id="BILL_TYPE" type="STRING" size="256"/>
+          <Column id="PUBLISHED_DATE" type="STRING" size="256"/>
+          <Column id="DEPOSIT_REQUEST_DATE" type="STRING" size="256"/>
+          <Column id="BILL_CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="DELIVERY_CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="DATE_FLAG" type="STRING" size="256"/>
+          <Column id="ORDER_NO" type="STRING" size="256"/>
+          <Column id="ORDER_NO_FLAG" type="STRING" size="256"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="STRING" size="256"/>
+          <Column id="CONSUMPTION_TAX" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="REMARKS_FLAG" type="STRING" size="256"/>
+          <Column id="DET_REMARKS" type="STRING" size="256"/>
+          <Column id="SAME_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NAME" type="STRING" size="256"/>
+          <Column id="EM_SEQ" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="EM_FLAG" type="STRING" size="256"/>
+          <Column id="PRT_ESTIMATE_NO_LIST_FLAG" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO_LIST" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractList">
+        <ColumnInfo>
+          <Column id="ISCHECKED" type="STRING" size="256"/>
+          <Column id="BILL_DELIVERY_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="PROJECT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_DATE" type="STRING" size="256"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_ORD" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="STRING" size="256"/>
+          <Column id="CONSUMPTION_TAX" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBillDeliveryDet">
+        <ColumnInfo>
+          <Column id="BDD_SEQ" type="INT" size="256"/>
+          <Column id="BD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="KIND" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="BIGDECIMAL" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="PRODUCT_UNIT_NAME" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="INT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="CONSUMPTION_TAX_PRICE" type="INT" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="DELIVERY_COST" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBillDeliveryNo">
+        <ColumnInfo>
+          <Column id="BILL_DELIVERY_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ContractType">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBill" oncolumnchanged="setContractPrice">
+        <ColumnInfo>
+          <Column id="BDD_SEQ" type="INT" size="256"/>
+          <Column id="BD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="KIND" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="BIGDECIMAL" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="PRODUCT_UNIT_NAME" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="INT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="CONSUMPTION_TAX_PRICE" type="INT" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="DELIVERY_COST" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDelivery" oncolumnchanged="setContractPrice">
+        <ColumnInfo>
+          <Column id="BDD_SEQ" type="INT" size="256"/>
+          <Column id="BD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="KIND" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="BIGDECIMAL" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="PRODUCT_UNIT_NAME" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="INT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="CONSUMPTION_TAX_PRICE" type="INT" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="DELIVERY_COST" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_SameFlag">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">동일</Col>
+            <Col id="CAPTION_JAP">同一</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">납품서 별도 기입</Col>
+            <Col id="CAPTION_JAP">納品書の別途記入</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsBDContractList">
+        <ColumnInfo>
+          <Column id="BD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBillDeliveryTmp">
+        <ColumnInfo>
+          <Column id="BD_SEQ" type="INT" size="256"/>
+          <Column id="BILL_DELIVERY_NO" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="MA_FLAG" type="STRING" size="256"/>
+          <Column id="BILL_TYPE" type="STRING" size="256"/>
+          <Column id="PUBLISHED_DATE" type="STRING" size="256"/>
+          <Column id="DEPOSIT_REQUEST_DATE" type="STRING" size="256"/>
+          <Column id="BILL_CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="DELIVERY_CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="ORDER_NO" type="STRING" size="256"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="STRING" size="256"/>
+          <Column id="CONSUMPTION_TAX" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="DET_REMARKS" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBillDeliveryDetTmp">
+        <ColumnInfo>
+          <Column id="BDD_SEQ" type="INT" size="256"/>
+          <Column id="BD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+          <Column id="KIND" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="BIGDECIMAL" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="PRODUCT_UNIT_NAME" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="INT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="CONSUMPTION_TAX_PRICE" type="INT" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+          <Column id="DELIVERY_COST" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ProductUnit">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBillDeliveryListPrt">
+        <ColumnInfo>
+          <Column id="BILL_DELIVERY_NO" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="MA_FLAG" type="STRING" size="256"/>
+          <Column id="BILL_TYPE" type="STRING" size="256"/>
+          <Column id="PUBLISHED_DATE" type="STRING" size="256"/>
+          <Column id="DEPOSIT_REQUEST_DATE" type="STRING" size="256"/>
+          <Column id="BILL_CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="DELIVERY_CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="DATE_FLAG" type="STRING" size="256"/>
+          <Column id="ORDER_NO" type="STRING" size="256"/>
+          <Column id="ORDER_NO_FLAG" type="STRING" size="256"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="STRING" size="256"/>
+          <Column id="CONSUMPTION_TAX" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="REMARKS_FLAG" type="STRING" size="256"/>
+          <Column id="DET_REMARKS" type="STRING" size="256"/>
+          <Column id="SAME_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NAME" type="STRING" size="256"/>
+          <Column id="EM_SEQ" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="EM_FLAG" type="STRING" size="256"/>
+          <Column id="PRT_ESTIMATE_NO_LIST_FLAG" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO_LIST" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBillPrt" oncolumnchanged="setContractPrice">
+        <ColumnInfo>
+          <Column id="BDD_SEQ" type="INT" size="256"/>
+          <Column id="BD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="KIND" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="INT" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="PRODUCT_UNIT_NAME" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="INT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="CONSUMPTION_TAX_PRICE" type="INT" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDeliveryPrt" oncolumnchanged="setContractPrice">
+        <ColumnInfo>
+          <Column id="BDD_SEQ" type="INT" size="256"/>
+          <Column id="BD_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="KIND" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="INT" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="PRODUCT_UNIT_NAME" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="INT" size="256"/>
+          <Column id="CONTRACT_PRICE" type="INT" size="256"/>
+          <Column id="CONSUMPTION_TAX_PRICE" type="INT" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBillDeliveryListTmp">
+        <ColumnInfo>
+          <Column id="BILL_DELIVERY_NO" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="MA_FLAG" type="STRING" size="256"/>
+          <Column id="BILL_TYPE" type="STRING" size="256"/>
+          <Column id="PUBLISHED_DATE" type="STRING" size="256"/>
+          <Column id="DEPOSIT_REQUEST_DATE" type="STRING" size="256"/>
+          <Column id="BILL_CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="DELIVERY_CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="DATE_FLAG" type="STRING" size="256"/>
+          <Column id="ORDER_NO" type="STRING" size="256"/>
+          <Column id="ORDER_NO_FLAG" type="STRING" size="256"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="REMARKS_FLAG" type="STRING" size="256"/>
+          <Column id="DET_REMARKS" type="STRING" size="256"/>
+          <Column id="DET_REMARKS_FLAG" type="STRING" size="256"/>
+          <Column id="SAME_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NAME" type="STRING" size="256"/>
+          <Column id="EM_SEQ" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="EM_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ConsumptionTax">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_SiUnit">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

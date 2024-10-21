@@ -308,4 +308,334 @@ public class projectController {
 		result.addDataSet("dsNewKey", ds);
 		return result;
 	}  	    
+    
+	/**
+	 * SP_RequestContract.xfdl 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/saveSP_RequestContract_R01.do")
+	public NexacroResult saveSP_RequestContract_R01(@ParamDataSet(name = "dsInput1", required = false) List<Map<String,Object>> dsInput1
+										, @ParamDataSet(name = "dsInput2", required = false) List<Map<String,Object>> dsInput2
+										, @ParamDataSet(name = "dsMap", required = false) Map<String,String> queryMap
+										, @ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		
+		Map<String,Object> datasetMap = new HashMap<>();
+		
+		datasetMap.put("ds_ReqContract", dsInput1);
+		datasetMap.put("ds_FileInfo", 	dsInput2);
+		
+    	
+		Map<String,Object> ds = ProjectService.saveSP_RequestContract_R01(datasetMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		result.addDataSet("dsNewKey", ds);
+		return result;
+	}  	     
+    
+	/**
+	 * SP_RequestContract.xfdl 저장
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_ProjectNewReg_R01.do")
+	public NexacroResult saveSP_RequestContract_R01(@ParamDataSet(name = "dsInput1", required = false) Map<String,Object> dsInput1
+										, @ParamDataSet(name = "dsMap", required = false) Map<String,String> queryMap
+										, @ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		
+		Map<String,Object> datasetMap = new HashMap<>();
+    	
+		Map<String,Object> ds = ProjectService.SP_ProjectNewReg_R01(dsInput1, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		result.addDataSet("dsProjectCode", ds);
+		return result;
+	}  	      
+    
+	/**
+	 * 프로젝트머지
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_ContractMerge_R01.do")
+	public NexacroResult SP_ContractMerge_R01(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, @ParamDataSet(name = "dsInput1", required = false) List<Map<String,Object>> dsInput1
+										, @ParamDataSet(name = "dsInput2", required = false) List<Map<String,Object>> dsInput2
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		ProjectService.SP_ContractMerge_R01(searchMap, dsInput1, dsInput2, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	      
+    
+	/**
+	 * 
+	 * 계약확정취소
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_Contract_R03.do")
+	public NexacroResult SP_Contract_R03(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		ProjectService.SP_Contract_R03(searchMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		
+		return result;
+	}  	      
+    
+	/**
+	 * 
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_ProjectTS_S04.do")
+	public NexacroResult SP_ProjectTS_S04(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		Map<String,Object> map = ProjectService.SP_ProjectTS_S04(searchMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		result.addDataSet("dsTsNo", map);
+		return result;
+	}
+    
+	/**
+	 * 
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_ProjectTS_S03.do")
+	public NexacroResult SP_ProjectTS_S03(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, @ParamDataSet(name = "dsInput1", required = false) List<Map<String,Object>> dsInput1
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		List<Map<String,Object>> list = ProjectService.SP_ProjectTS_S03(searchMap, dsInput1, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		result.addDataSet("dsTSContractDetTmp", list);
+		return result;
+	}  	        
+    
+	/**
+	 * 거래명세서
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_ProjectTS_R02.do")
+	public NexacroResult SP_ProjectTS_R02(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, @ParamDataSet(name = "dsTradingStatementList", required = false) List<Map<String,Object>> dsTradingStatementList
+										, @ParamDataSet(name = "dsTSContractList", required = false) List<Map<String,Object>> dsTSContractList
+										, @ParamDataSet(name = "dsTSContractDet", required = false) List<Map<String,Object>> dsTSContractDet
+										, @ParamDataSet(name = "ds_deleted", required = false) List<Map<String,Object>> ds_deleted
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		ProjectService.SP_ProjectTS_R02(searchMap, dsTradingStatementList, dsTSContractList, dsTSContractDet, ds_deleted, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	     
+    
+	/**
+	 * 거래명세서
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_ProjectTS_R04.do")
+	public NexacroResult SP_ProjectTS_R04(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		ProjectService.SP_ProjectTS_R04(searchMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	    
+    
+	/**
+	 * 청구,납품서
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_ProjectBillDelivery_R01.do")
+	public NexacroResult SP_ProjectBillDelivery_R01(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, @ParamDataSet(name = "dsInput1", required = false) List<Map<String,Object>> dsInput1
+										, @ParamDataSet(name = "dsInput2", required = false) List<Map<String,Object>> dsInput2
+										, @ParamDataSet(name = "dsInput3", required = false) List<Map<String,Object>> dsInput3
+										, @ParamDataSet(name = "dsInput4", required = false) List<Map<String,Object>> dsInput4
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		
+		Map<String,Object> datasetMap = new HashMap<>();
+		
+		datasetMap.put("dsBillDeliveryList", 	dsInput1);
+		datasetMap.put("dsBDContractList", 		dsInput2);
+		datasetMap.put("dsBill", 				dsInput3);
+		datasetMap.put("dsDelivery", 			dsInput4);
+		
+		ProjectService.SP_ProjectBillDelivery_R01(searchMap, datasetMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	     
+    
+	/**
+	 * 청구,납품서 복사
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_ProjectBillDelivery_R03.do")
+	public NexacroResult SP_ProjectBillDelivery_R03(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		ProjectService.SP_ProjectBillDelivery_R03(searchMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	     
+    
+	/**
+	 * 거래명세서 복사
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_ProjectTS_R01.do")
+	public NexacroResult SP_ProjectTS_R01(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		ProjectService.SP_ProjectTS_R01(searchMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	      
+    
+	/**
+	 * 거래명세서 복사
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_DeliveryConfirm_R01.do")
+	public NexacroResult SP_DeliveryConfirm_R01(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, @ParamDataSet(name = "dsInput1", required = false) List<Map<String,Object>> dsInput1
+										, @ParamDataSet(name = "dsInput2", required = false) List<Map<String,Object>> dsInput2
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		ProjectService.SP_DeliveryConfirm_R01(searchMap, dsInput1, dsInput2, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	     
  }

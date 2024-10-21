@@ -214,7 +214,7 @@
 *******************************************************************************************/
 		popupProjectSearch : function (objOpener, sPopupID, popupCallBack, sArgument)
 		{
-			this.popup(objOpener, sPopupID, "sales::comm/CE_ProjectSearch.xfdl", -1, -1, 830, 568, true, true, true, sArgument, popupCallBack);
+			this.popup(objOpener, sPopupID, "sales::comm/CE_ProjectSearch.xfdl", -1, -1, -1, -1, true, true, true, sArgument, popupCallBack);
 		},
 				
 /*******************************************************************************************

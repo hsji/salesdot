@@ -280,6 +280,7 @@ this.ds_Product_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.D
 		else if ((licenseKind == "XP" || licenseKind == "NP" || licenseKind == "NexacroN")
 				&& mainProdFlag == "1") bLicenseInfoView = false;
 
+		bLicenseInfoView = false;
 		
 		// 라이선스 관련 선택정보가 1개라도 존재
 		if (bLicenseInfoView) {
@@ -298,8 +299,8 @@ this.ds_Product_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.D
 			this.div_LicenseInfo.set_visible(true);
 		} else {
 			//라이선스정보 선택창 숨김
-			this.div_Prod.set_right(4);
-			this.div_ProdRelated.set_right(4);
+// 			this.div_Prod.set_right(20);
+// 			this.div_ProdRelated.set_right(4);
 			this.div_LicenseInfo.set_visible(false);
 		}
 	}

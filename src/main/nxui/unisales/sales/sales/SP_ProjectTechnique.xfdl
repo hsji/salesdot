@@ -3,10 +3,16 @@
   <Form id="SP_ProjectTechnique" width="1345" height="472" titletext="기술지원" onload="SP_ProjectTechnique_onload">
     <Layouts>
       <Layout height="472" mobileorientation="landscape" width="1345">
-        <Static id="Static05" taborder="10" left="0" height="31" cssclass="sta_POP_GroupBg" width="880" bottom="86"/>
-        <Static id="Static03" taborder="6" left="884" top="233" height="31" cssclass="sta_POP_GroupBg" right="0"/>
-        <Static id="Static01" taborder="4" left="884" top="4" height="31" cssclass="sta_POP_GroupBg" right="0"/>
-        <Grid id="grd_List" taborder="0" left="0" top="50" width="880" bottom="116" binddataset="ds_List" oncelldblclick="grd_List_oncelldblclick" formatid="default" autofittype="col" cellsizingtype="col" oncellclick="grd_List_oncellclick">
+        <Div id="div_Search" taborder="7" left="10" top="10" width="864" height="40" cssclass="div_WF_Search">
+          <Layouts>
+            <Layout>
+              <Static id="stc_TechType" taborder="0" text="기술지원구분" left="8.00" top="7" width="78" height="24" cssclass="sta_WF_DetailTit" TL_SEQ="791"/>
+              <Combo id="cmb_TechType" taborder="1" left="94.00" top="7" width="213" height="24" innerdataset="ds_cmm_TechType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Search_cmb_TechType_onitemchanged"/>
+              <CheckBox id="chk_RegularVisit" taborder="2" text="정기방문" left="cmb_TechType:8.00" top="7" width="70" height="24" falsevalue="0" truevalue="1" onchanged="div_Search_chk_RegularVisit_onchanged" TL_SEQ="41"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_List" taborder="0" left="10" top="div_Search:10" width="864" bottom="124" binddataset="ds_List" oncelldblclick="grd_List_oncelldblclick" formatid="default" cellsizingtype="col" oncellclick="grd_List_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -20,8 +26,8 @@
                 <Column size="80"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
                 <Row size="24" band="summ"/>
               </Rows>
               <Band id="head">
@@ -112,14 +118,12 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static09" taborder="1" text="4" left="0" top="0" width="1344" height="4" background="olive" opacity="0.5" textAlign="center" visible="false"/>
-        <Static id="Static10" taborder="2" text="5" left="879" top="0" width="5" height="472" background="crimson" opacity="0.5" textAlign="center" visible="false"/>
-        <Static id="Static02" taborder="3" text="작업 요청 내용" left="894" top="13" width="144" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="796"/>
-        <Static id="Static00" taborder="5" text="작업 완료 내용" left="894" top="242" width="144" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="797"/>
-        <TextArea id="ta_RequestContents" taborder="7" left="884" top="34" height="200" right="0" readonly="true"/>
-        <TextArea id="ta_WorkContents" taborder="8" left="884" top="263" bottom="0" right="0" readonly="true"/>
-        <Static id="Static04" taborder="9" text="첨부파일" left="10" width="168" height="15" cssclass="sta_POP_GroupTit" bottom="93" TL_SEQ="798"/>
-        <Grid id="grd_File" taborder="11" left="0" width="880" height="88" bottom="0" binddataset="ds_File" oncelldblclick="grd_File_oncelldblclick">
+        <Static id="Static02" taborder="1" text="작업 요청 내용" left="884.00" top="13" width="144" height="20" cssclass="sta_POP_GroupTit" TL_SEQ="796"/>
+        <Static id="Static00" taborder="2" text="작업 완료 내용" left="884.00" top="239" width="144" height="20" cssclass="sta_POP_GroupTit" TL_SEQ="797"/>
+        <TextArea id="ta_RequestContents" taborder="3" left="884" top="34" height="200" right="0" readonly="true"/>
+        <TextArea id="ta_WorkContents" taborder="4" left="884" top="263" bottom="10" right="0" readonly="true"/>
+        <Static id="Static04" taborder="5" text="첨부파일" left="10.00" width="168" height="20" cssclass="sta_POP_GroupTit" bottom="102" TL_SEQ="798"/>
+        <Grid id="grd_File" taborder="6" left="10" width="864" height="88" bottom="10" binddataset="ds_File" oncelldblclick="grd_File_oncelldblclick" autofittype="col">
           <Formats>
             <Format id="default">
               <Columns>
@@ -127,8 +131,8 @@
                 <Column size="818"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="NO"/>
@@ -141,15 +145,6 @@
             </Format>
           </Formats>
         </Grid>
-        <Div id="div_Search" taborder="12" left="0" top="4" width="880" height="40" cssclass="div_WF_SchList">
-          <Layouts>
-            <Layout>
-              <Static id="stc_TechType" taborder="0" text="기술지원구분" left="8" top="9" width="78" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="791"/>
-              <Combo id="cmb_TechType" taborder="1" left="94" top="9" width="213" height="22" innerdataset="ds_cmm_TechType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="div_Search_cmb_TechType_onitemchanged"/>
-              <CheckBox id="chk_RegularVisit" taborder="2" text="정기방문" left="cmb_TechType:8" top="9" width="70" height="22" falsevalue="0" truevalue="1" onchanged="div_Search_chk_RegularVisit_onchanged" TL_SEQ="41"/>
-            </Layout>
-          </Layouts>
-        </Div>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/************************************************************************************************
@@ -219,8 +214,11 @@ include "Script::ext_CommEco.xjs"
 	else this.gfnAddSendParameter("TECH_TYPE",		this.div_Search.form.cmb_TechType.value);
 	
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_List", "ds_output");
-	this.gfnCommonTransaction("SP_ProjectTechnique_S01", "SP_ProjectTechnique_S01", this.grd_List);
+// 	this.gfnAddOutputDataset("ds_List", "ds_output");
+// 	this.gfnCommonTransaction("SP_ProjectTechnique_S01", "SP_ProjectTechnique_S01", this.grd_List);
+// 	
+	this.gfnSetMap("techMapper", ['SP_ProjectTechnique_S01'], ['dsList']);
+	this.gfnCommonTransaction("SP_ProjectTechnique_S01", "selectNextMultiList.do", this.grd_List);	
  };
  
  

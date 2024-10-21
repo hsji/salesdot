@@ -1168,4 +1168,735 @@ public class projectServiceImpl implements projectService {
 	    	return dsNewKey;
 	    }    		    
 		
+	    
+	   /**
+		 * 저장한다.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public Map<String,Object> saveSP_RequestContract_R01(Map<String,Object> datasetMap, UserInfo userInfo) 
+	    				throws Exception {
+
+			Map<String,Object> dsNewKey = new HashMap<>();
+	    	
+	    	try {
+	    		List<Map<String,Object>> ds_ReqContract = (List<Map<String, Object>>) datasetMap.get("ds_ReqContract");
+	    		List<Map<String,Object>> ds_FileInfo = (List<Map<String, Object>>) datasetMap.get("ds_FileInfo");
+	    		
+	    		int rowType;
+	            int size = ds_ReqContract.size();
+	            for (int i=0; i<size; i++) {
+	                Map<String,Object> saveMap = ds_ReqContract.get(i);
+	                
+	                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+	                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+	                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+	                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+	                
+	                //rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	                
+	                String sProjectCd = (String) saveMap.get("PROJECT_CODE");
+	        		String sContractNo = (String) saveMap.get("CONTRACT_NO");
+	        		
+	        		if (sContractNo.substring(0,2).equals("ZS")) {
+	            		Map<String, Object> newMap = new HashMap<>();
+	            		newMap.put("PROJECT_CODE"	, sProjectCd);
+	            		newMap.put("CONTRACT_NO"	, sContractNo);   
+	            		
+	            		ds_FileInfo.add(newMap);
+	            		// FIND_CONTRACT_NO
+	            		List<Map<String, Object>> ds_costsheet = sqlSession1.selectList("projectMapper.selectSP_CostSheet_R02", newMap);
+	            		if(ds_costsheet.size()>0) {
+	            			// FIND_PROJECT_CODE
+	            			List<Map<String, Object>> ds_project = sqlSession1.selectList("projectMapper.selectSP_CostSheet_R02_findProject", newMap);
+	            			// decision1
+	            			if(ds_project.size()>0) {
+	            				sqlSession1.insert("projectMapper.insertCostSheet_R02_COSTSHEET_CONTRACT",newMap);
+	            				Map<String, Object> ds_ccseq = sqlSession1.selectOne("projectMapper.selectSP_CostSheet_R02_GetSeq");
+	            				newMap.put("CC_SEQ", ds_ccseq.get("CC_SEQ"));
+	            				sqlSession1.insert("projectMapper.insertCostSheet_R02_COSTSHEET_CONTRACT",newMap);
+	            				sqlSession1.insert("projectMapper.insertCostSheet_R02_COSTSHEET_PURCHASE_SI",newMap);
+	            			}
+	            		}
+	        		}
+            		sqlSession1.update("projectMapper.updateCostSheet_R02_modify",saveMap);
+	            }	
+	            
+	            size = ds_FileInfo.size();
+	            for (int i=0; i<size; i++) {
+	                Map<String,Object> saveMap = ds_FileInfo.get(i);
+	                
+	                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+	                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+	                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+	                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+	                
+	                //rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	                sqlSession1.update("projectMapper.updateCostSheet_R02_modify2",saveMap);
+	            }		            
+	    	} catch (Exception e) {
+	    		throw new Exception();
+	    	} finally {
+	    	}
+	    	
+	    	return dsNewKey;
+	    }    			    
+	    
+	   /**
+		 * 저장한다.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public Map<String,Object> SP_ProjectNewReg_R01(Map<String,Object> dsProjectCode, UserInfo userInfo) 
+	    				throws Exception {
+			Map<String,Object> dsNewKey = sqlSession1.selectOne("salesManagerMapper.selectCreateProjectCode");
+			dsProjectCode.put("PROJECT_CODE", dsNewKey.get("PROJECT_CODE"));
+			sqlSession1.insert("projectMapper.insertSP_ProjectNewReg_R01",dsProjectCode);
+	    	
+	    	return dsNewKey;
+	    }    	
+	    
+	   /**
+		 * 저장한다.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_ProjectTS_R04(Map<String,Object> searchMap, UserInfo userInfo) 
+	    				throws Exception {
+			int seq = sqlSession1.selectOne("salesManagerMapper.selectSP_ProjectTS_R04_1");
+			List<Map<String,Object>> list = sqlSession1.selectList("salesManagerMapper.selectSP_ProjectTS_R04_2");
+	    	int rowType;
+	        int size = list.size();
+	        for (int i=0; i<size; i++) {
+	            Map<String,Object> saveMap = list.get(i);
+	            
+	            saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+	            saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+	            saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+	            saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+	            
+            	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R04_3",saveMap);
+	        }			
+	        
+	        if(searchMap.get("CONTRACT_TYPE").equals("M")) {
+	        	// TRADING_STATEMENT_KEY_S(
+	        	Map<String,Object> seqMap = sqlSession1.selectOne("salesManagerMapper.SP_ProjectTS_R02_11");
+	        	// TS_CONT_S
+	        	List<Map<String,Object>> dsTSContractList = sqlSession1.selectOne("salesManagerMapper.selectSP_ProjectTS_R04_4", seqMap);
+		        size = dsTSContractList.size();
+		        for (int i=0; i<size; i++) {
+		            Map<String,Object> saveMap = dsTSContractList.get(i);
+		            
+		            saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		            saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		            saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		            saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		            // TS_CONT_I
+	            	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R04_5",saveMap);
+		        }		
+		        // TS_DET_S
+		        List<Map<String,Object>> dsTSDet = sqlSession1.selectOne("salesManagerMapper.selectSP_ProjectTS_R04_6", seqMap);
+		        
+		        size = dsTSContractList.size();
+		        for (int i=0; i<size; i++) {
+		            Map<String,Object> saveMap = dsTSContractList.get(i);
+		            
+		            saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		            saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		            saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		            saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		            saveMap.put("ds_TSSeqTS_SEQ", seqMap.get("TS_SEQ"));
+		            // TS_DET_I
+	            	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R04_7",saveMap);
+		        }				        
+	        }
+	    }    		    
+	    
+	   /**
+		 * 
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_ProjectTS_R02(Map<String,Object> searchMap, List<Map<String,Object>> dsTradingStatementList,
+	    		List<Map<String,Object>> dsTSContractList,
+	    		List<Map<String,Object>> dsTSContractDet,
+	    		List<Map<String,Object>> ds_deleted,
+	    		UserInfo userInfo)
+	    				throws Exception {
+	    	
+	    	int rowType;
+	        int size = dsTradingStatementList.size();
+	        for (int i=0; i<size; i++) {
+	            Map<String,Object> saveMap = dsTradingStatementList.get(i);
+	            
+	            saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+	            saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+	            saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+	            saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+	            
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	            
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){
+	            	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R02",saveMap);
+	            }else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	            	sqlSession1.update("projectMapper.updateSP_ProjectTS_R02",saveMap);
+	            }
+	        }
+	        // decision
+	        int mode = (int) searchMap.get("MODE_FLAG");
+	        // decisionconnection
+	        if(mode == 1) {
+	        	// TS_SEQ_S
+	        	int seq = sqlSession1.selectOne("salesManagerMapper.SP_ProjectTS_R02_1");
+	        	
+	        	// N_TS_CONTRACT_LIST_I_D
+	        	if(dsTSContractList != null) {
+			        size = dsTSContractList.size();
+			        for (int i=0; i<size; i++) {
+			            Map<String,Object> saveMap = dsTSContractList.get(i);
+			            
+			            saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+			            saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+			            saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+			            saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+			            saveMap.put("ds_TSSeqTS_SEQ", seq);
+			            
+			            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+			            
+			            if (rowType == DataSet.ROW_TYPE_INSERTED){
+			            	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R02_1",saveMap);
+			            }else if (rowType == DataSet.ROW_TYPE_UPDATED){
+			            	sqlSession1.insert("projectMapper.deleteSP_ProjectTS_R02_1",saveMap);
+			            }else if (rowType == DataSet.ROW_TYPE_DELETED){
+			            }
+			        }	   
+	        	}
+		        
+		        // N_TS_CONTRACT_DET_I
+		        size = dsTSContractDet.size();
+		        for (int i=0; i<size; i++) {
+		            Map<String,Object> saveMap = dsTSContractDet.get(i);
+		            
+		            saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		            saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		            saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		            saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		            saveMap.put("ds_TSSeqTS_SEQ", seq);
+		            
+		            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		            
+		            if (rowType == DataSet.ROW_TYPE_INSERTED){
+		            	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R02_2",saveMap);
+		            }else if (rowType == DataSet.ROW_TYPE_UPDATED){
+		            	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R02_2",saveMap);
+		            }else if (rowType == DataSet.ROW_TYPE_DELETED){
+		            }
+		        }			        
+	        } else {	// decisionconnection1
+	        	
+	        	// dataSetRowLoop1
+	        	
+	        	// decision2
+		        size = dsTSContractDet.size();
+		        for (int i=0; i<size; i++) {
+		            Map<String,Object> saveMap = dsTSContractDet.get(i);
+		            
+		            saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		            saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		            saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		            saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		            
+		            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		            
+		            // decision2connection
+		            if (rowType == DataSet.ROW_TYPE_INSERTED){
+		            	// select
+		            	int seq1 = sqlSession1.selectOne("salesManagerMapper.selectSP_ProjectTS_R02_3");
+		            	
+		            	// decision3connection
+		            	if(seq1 == 0) {
+		            		// TS_CONTRACT_LIST_I
+		            		sqlSession1.insert("projectMapper.insertSP_ProjectTS_R02_4",saveMap);
+		            		// TS_CONTRACT_DET_I
+		            		sqlSession1.insert("projectMapper.insertSP_ProjectTS_R02_5",saveMap);
+		            	} else {
+		            		sqlSession1.insert("projectMapper.insertSP_ProjectTS_R02_5",saveMap);
+		            	}
+		            	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R02_2",saveMap);
+		            }else{	// decision2connection1
+		            	sqlSession1.update("projectMapper.updateSP_ProjectTS_R02_6",saveMap);
+		            }
+		        }		    
+		        
+		        // dataSetRowLoop
+		        size = ds_deleted.size();
+		        for (int i=0; i<size; i++) {
+		            Map<String,Object> saveMap = ds_deleted.get(i);
+		            
+		            saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+		            saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+		            saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+		            saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+		            
+		            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		            
+		            // TS_CONTRACT_DET_D(
+		            if (rowType == DataSet.ROW_TYPE_INSERTED){
+		            	sqlSession1.delete("projectMapper.deleteSP_ProjectTS_R02_7",saveMap);
+		            }
+		            
+		            int seq3 = sqlSession1.selectOne("salesManagerMapper.selectSP_ProjectTS_R02_8");
+		            if(seq3 == 0) {
+		            	sqlSession1.delete("projectMapper.deleteSP_ProjectTS_R02_9",saveMap);
+		            }
+		        }				        
+	        }
+	    }    		    
+	    
+	   /**
+		 * 확정취소.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public List<Map<String,Object>> SP_ProjectTS_S03(Map<String,Object> searchMap, List<Map<String,Object>> dsInput1, UserInfo userInfo)
+	    				throws Exception {
+	    	
+	    	int rowIdx = 0;
+	    	List<Map<String,Object>> dsRtn = new ArrayList<Map<String,Object>>();
+	    	
+	    	while(dsInput1.size() > rowIdx) {
+	    		Map<String, Object> rowMap =  dsInput1.get(rowIdx);
+	    		
+	    		// setInfo
+	    		Map<String, Object> newMap = new HashMap<>();
+	    		newMap.put("CONTRACT_NO"	, rowMap.get("CONTRACT_NO"));
+	    		
+	    		// TSDetListNew_search
+	    		List<Map<String,Object>> dsOut = sqlSession1.selectList("projectMapper.SP_ProjectTS_S03_1",newMap);
+	    		
+	    		// addRowCount
+	    		int ord = rowIdx + 1;
+	    		
+	    		for(int i=0,len=dsOut.size();i<len;i++) {
+	    			Map<String, Object> outMap =  dsOut.get(i);
+	    			outMap.put("ORD", ord);
+	    			dsRtn.add(outMap);
+	    		}
+	    		
+	    		rowIdx++;
+	    	}
+
+	    	return dsRtn;
+	    }    		
+	    
+	   /**
+		 * 확정취소.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public Map<String,Object> SP_ProjectTS_S04(Map<String,Object> searchMap, UserInfo userInfo)
+	    				throws Exception {
+	    	
+	    	int cnt1 = sqlSession1.selectOne("projectMapper.selectSSP_ProjectTS_S04",searchMap);
+	    	Map<String,Object> map;
+	    	if(cnt1 == 0) {
+	    		map = sqlSession1.selectOne("projectMapper.selectSSP_ProjectTS_S04_2",searchMap);
+	    	} else {
+	    		map = sqlSession1.selectOne("projectMapper.selectSSP_ProjectTS_S04_3",searchMap);
+	    	}
+	    	return map;
+	    }    			    
+	    
+	   /**
+		 * 확정취소.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_Contract_R03(Map<String,Object> searchMap, UserInfo userInfo)
+	    				throws Exception {
+	    	
+	    	sqlSession1.update("projectMapper.updateSP_Contract_R03",searchMap);
+	    	
+	    	sqlSession1.delete("projectMapper.deleteSP_Contract_R03_1",searchMap);
+			List<Map<String,Object>> dsSeq = sqlSession1.selectList("projectMapper.selectSP_Contract_R03_1");
+			
+			int size = dsSeq.size();
+			for(int i=0;i<size;i++) {
+				Map<String,Object> map = dsSeq.get(i);
+				sqlSession1.delete("projectMapper.deleteSP_Contract_R03_2",map);
+			}
+	    }    	    
+	    
+	   /**
+		 * 프로젝트 머지.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_ContractMerge_R01(Map<String,Object> searchMap, List<Map<String,Object>> dsInput1, List<Map<String,Object>> dsInput2, UserInfo userInfo)
+	    				throws Exception {
+	    	
+	    	int cnt1 = sqlSession1.selectOne("projectMapper.selectSP_ContractMerge_R01_Source_ContractCount",searchMap);
+	    	
+	 		int rowType;
+	        int size = dsInput1.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsInput1.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+                saveMap.put("T_PROJECT_CODE", searchMap.get("T_PROJECT_CODE"));
+                
+	             rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	             if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.update("projectMapper.updateSP_ContractMerge_R01_ContractList", saveMap);
+	             }
+	        }
+	         
+	        size = dsInput2.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsInput2.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+                saveMap.put("T_PROJECT_CODE", searchMap.get("T_PROJECT_CODE"));
+                
+	             rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	             if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.update("projectMapper.updateSP_ContractMerge_R01_PURCHASE", saveMap);
+	             }
+	        }		        
+	        
+	        int cnt2 = sqlSession1.selectOne("projectMapper.selectSP_ContractMerge_R01_CONTRACT_CNT",searchMap);
+	        if(cnt2 == 0) {
+	        	sqlSession1.update("projectMapper.updateSP_ContractMerge_R01_PROJECT_LIST_DEL", searchMap);
+	        }
+	        
+	        if(cnt1 == dsInput1.size()) {
+	        	sqlSession1.update("projectMapper.updateSP_ContractMerge_R01_ETC", searchMap);
+	        }
+	    }  
+	    
+	   /**
+		 * 확정취소.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_ProjectBillDelivery_R01(Map<String,Object> searchMap, Map<String,Object> datasetMap, UserInfo userInfo)
+	    				throws Exception {
+	    	
+	    	Map<String,Object> dsOutput = sqlSession1.selectOne("projectMapper.selectSP_ProjectBillDelivery_S03",searchMap);
+	    	// BILL_DELIVERY_I_U
+	 		int rowType;
+	 		List<Map<String,Object>> dsBillDeliveryList = (List<Map<String, Object>>) datasetMap.get("dsBillDeliveryList");
+	        int size = dsBillDeliveryList.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsBillDeliveryList.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+                saveMap.put("NEW_BILL_DELIVERY_NO", dsOutput.get("BILL_DELIVERY_NO"));
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.insert("projectMapper.insertSP_ProjectBillDelivery_R01_1", saveMap);
+	            } else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	        		sqlSession1.update("projectMapper.updateSP_ProjectBillDelivery_R01_1",saveMap);         		
+	            }	             
+	        }
+	        // select1(
+	        Map<String,Object> dsBD_SEQ = sqlSession1.selectOne("projectMapper.selectLAST_BD_SEQ");
+	        // BD_CONTRACT_LIST_I_U
+	        List<Map<String,Object>> dsBDContractList = (List<Map<String, Object>>) datasetMap.get("dsBDContractList");
+	        size = dsBDContractList.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsBDContractList.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+                saveMap.put("NEW_BD_SEQ", dsBD_SEQ.get("BD_SEQ"));
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.insert("projectMapper.insertSP_ProjectBillDelivery_R01_3", saveMap);
+	            }	             
+	        }	        
+	        // BILL_DELIVERY_DET_BILL_I_U_D
+	        List<Map<String,Object>> dsBill = (List<Map<String, Object>>) datasetMap.get("dsBill");
+	        size = dsBill.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsBill.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+                saveMap.put("NEW_BD_SEQ", dsBD_SEQ.get("BD_SEQ"));
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.insert("projectMapper.insertSP_ProjectBillDelivery_R01_4", saveMap);
+	            } else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	            	sqlSession1.update("projectMapper.updateSP_ProjectBillDelivery_R01_4", saveMap);
+	            } else if (rowType == DataSet.ROW_TYPE_DELETED){
+	            	sqlSession1.delete("projectMapper.deleteSP_ProjectBillDelivery_R01_4", saveMap);
+	            }	             
+	        }	  	        
+	        // BILL_DELIVERY_DET_DELIVERY_I_U_D
+	        List<Map<String,Object>> dsDelivery = (List<Map<String, Object>>) datasetMap.get("dsDelivery");
+	        size = dsDelivery.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsDelivery.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+                saveMap.put("NEW_BD_SEQ", dsBD_SEQ.get("BD_SEQ"));
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.insert("projectMapper.insertSP_ProjectBillDelivery_R01_5", saveMap);
+	            } else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	            	sqlSession1.update("projectMapper.updateSP_ProjectBillDelivery_R01_4", saveMap);
+	            } else if (rowType == DataSet.ROW_TYPE_DELETED){
+	            	sqlSession1.delete("projectMapper.deleteSP_ProjectBillDelivery_R01_4", saveMap);
+	            }	             
+	        }
+	        
+			List<Map<String,Object>> dsBDContractDelList = sqlSession1.selectList("projectMapper.selectSP_ProjectBillDelivery_R01_6", searchMap);
+	        size = dsBDContractDelList.size();
+	        
+	        // modify
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsBDContractDelList.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+             	sqlSession1.delete("projectMapper.deleteSP_ProjectBillDelivery_R01_7", saveMap);
+	        }	  	        
+	    }
+	    
+	   /**
+		 * 청구서 복사
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_ProjectBillDelivery_R03(Map<String,Object> searchMap, UserInfo userInfo)
+		    				throws Exception {
+	    
+	    	Map<String,Object> dsOutput = sqlSession1.selectOne("projectMapper.selectSP_ProjectBillDelivery_S03",searchMap);	
+	    	
+	    	searchMap.put("VAR_BILL_DELIVERY_NO", dsOutput.get("BILL_DELIVERY_NO"));
+	    	sqlSession1.insert("projectMapper.insertSP_ProjectBillDelivery_R03_1", searchMap);
+	    	
+	    	Map<String,Object> dsBD_SEQ = sqlSession1.selectOne("projectMapper.selectLAST_BD_SEQ");
+	    	searchMap.put("VAR_INSERT_SEQ", dsBD_SEQ.get("BD_SEQ"));
+	    	
+	    	sqlSession1.insert("projectMapper.insertSP_ProjectBillDelivery_R03_2", searchMap);
+	    	
+	    }
+	    
+	   /**
+		 * 거래명세서 복사
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_ProjectTS_R01(Map<String,Object> searchMap, UserInfo userInfo)
+		    				throws Exception {
+	    
+	    	int cnt = sqlSession1.selectOne("projectMapper.selectSP_ProjectTS_R01_1",searchMap);	
+	    	if(cnt == 0) {
+	    		searchMap.put("TS_NO_SEQ", "01");
+	    	} else {
+	    		String seq = sqlSession1.selectOne("projectMapper.selectSP_ProjectTS_R01_2",searchMap);
+	    		searchMap.put("TS_NO_SEQ", seq);
+	    	}
+	    	// TRADING_STATEMENT_S(
+	    	List<Map<String,Object>> dsTradingStatement = sqlSession1.selectList("projectMapper.selectSP_ProjectTS_R01_3", searchMap);
+	    	// 
+	        int size = dsTradingStatement.size();
+	        int rowType;
+	        // TRADING_STATEMENT_I
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsTradingStatement.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+	            //rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+             	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R01_3_4", saveMap);
+	        }	
+	        
+	        Map<String,Object> ds_TSSeq = sqlSession1.selectOne("projectMapper.selectLAST_BD_SEQ");
+	        searchMap.put("ds_TSSeqTS_SEQ", ds_TSSeq.get("BD_SEQ"));
+	        // TS_CONTRACT_LIST_S
+	        List<Map<String,Object>> dsTSContractList = sqlSession1.selectList("projectMapper.selectSP_ProjectTS_R01_5", searchMap);
+	        size = dsTSContractList.size();
+	        // TRADING_STATEMENT_I
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsTSContractList.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+	            //rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+             	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R01_3_6", saveMap);
+	        }		    	
+	        // TS_CONTRACT_DET_S
+	        List<Map<String,Object>> dsTSDet = sqlSession1.selectList("projectMapper.selectSP_ProjectTS_R01_3_7", searchMap);
+	        size = dsTSDet.size();
+	        // TRADING_STATEMENT_I
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsTSDet.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+	            //rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+             	sqlSession1.insert("projectMapper.insertSP_ProjectTS_R01_3_8", saveMap);
+	        }		        
+	    }	  
+	    
+	   /**
+		 * 거래명세서 복사
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_DeliveryConfirm_R01(Map<String,Object> searchMap, List<Map<String,Object>> dsList1, List<Map<String,Object>> dsList2, UserInfo userInfo)
+		    				throws Exception {
+	    	String docId = sqlSession1.selectOne("projectMapper.selectSP_DeliveryConfirm_R01_getCDC_DOC_ID",searchMap);	
+	    	
+			int rowCount = dsList1.size();
+			int rowType;
+			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+				
+				Map<String,Object> rowMap = dsList1.get(rowIndex);
+
+				rowMap.put("USER_ID_SRV", userInfo.getStrEmpNo());
+				rowMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+				rowMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());			
+				rowMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+	
+			    rowType = Integer.parseInt(String.valueOf(rowMap.get(DataSetRowTypeAccessor.NAME)));
+			    
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){	// 계약추가
+	            	rowMap.put("NEW_CDC_DOC_ID", docId);
+	            	sqlSession1.insert("projectMapper.insertSP_DeliveryConfirm_R01",rowMap);
+	            } else if (rowType == DataSet.ROW_TYPE_UPDATED){
+            		sqlSession1.update("projectMapper.updateSP_DeliveryConfirm_R01",rowMap);         		
+	            } else if (rowType == DataSet.ROW_TYPE_DELETED){	
+	            	sqlSession1.delete("projectMapper.deleteSP_DeliveryConfirm_R01",rowMap);	
+	            }
+			}	   
+			
+			rowCount = dsList2.size();
+			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+				
+				Map<String,Object> rowMap = dsList2.get(rowIndex);
+
+				rowMap.put("USER_ID_SRV", userInfo.getStrEmpNo());
+				rowMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+				rowMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());			
+				rowMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+	
+			    rowType = Integer.parseInt(String.valueOf(rowMap.get(DataSetRowTypeAccessor.NAME)));
+			    
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){	// 계약추가
+	            	rowMap.put("NEW_CDC_DOC_ID", docId);
+	            	sqlSession1.insert("projectMapper.insertSP_DeliveryConfirm_R01_2",rowMap);
+	            } else if (rowType == DataSet.ROW_TYPE_UPDATED){
+            		sqlSession1.update("projectMapper.updateSP_DeliveryConfirm_R01_2",rowMap);         		
+	            } else if (rowType == DataSet.ROW_TYPE_DELETED){	
+	            	sqlSession1.delete("projectMapper.deleteSP_DeliveryConfirm_R01_2",rowMap);	
+	            }
+			}	 			
+	    }	    
 }

@@ -188,7 +188,7 @@
         <TextArea id="txt_Remark" taborder="12" left="635" top="cmb_SalesEmpNo:4" height="43" right="30"/>
         <Static id="stc_ContractName" taborder="14" text="계약명" left="div_ContractMain:0" top="185" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="33"/>
         <Static id="stc_ClientCode" taborder="21" text="고객사" left="559.00" top="129" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="32"/>
-        <Static id="stc_ProductCode" taborder="15" text="사업분류" left="559" top="stc_ClientCode:4" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="83"/>
+        <Static id="stc_ProductCode" taborder="15" text="계약구분" left="559" top="stc_ClientCode:4" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="83"/>
         <Static id="stc_SalesStatus" taborder="17" text="영업상태" left="cmb_SalesProduct:0" top="157" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="84"/>
         <Combo id="cmb_SalesStatus" taborder="18" text="" left="stc_SalesStatus:10.00" top="157" height="24" innerdataset="ds_cmm_SalesStatus" codecolumn="CODE" datacolumn="CAPTION" width="130"/>
         <Static id="stc_RelatedProject" taborder="19" text="연결프로젝트" left="cmb_SalesStatus:0" top="157" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="82"/>
@@ -211,7 +211,7 @@
                     <Div id="divProd" taborder="0" left="0" top="0" right="0" height="50%">
                       <Layouts>
                         <Layout>
-                          <Static id="stc_SalesProd1" taborder="0" text="매출 상세내역" left="10.00" top="6" width="134" height="19" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="88"/>
+                          <Static id="stc_SalesProd1" taborder="0" text="제품 매출 상세내역" left="10.00" top="6" width="152" height="19" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="88"/>
                           <Button id="btn_ProdDel" taborder="3" top="7" width="16" height="16" onclick="CommDelRow_onclick" right="8" cssclass="btn_POP_Del" text=""/>
                           <Button id="btn_ProdAdd" taborder="2" top="7" width="16" height="16" onclick="CommAddRow_onclick" right="32" cssclass="btn_POP_Add"/>
                           <Button id="btn_ContractUnion" taborder="4" text="계약연결" top="5" width="70" height="22" right="btn_ProdAdd:9" onclick="divDet_divDet1_divProd_btn_ContractUnion_onclick" TL_SEQ="89" visible="false"/>
@@ -343,7 +343,7 @@
                               </Format>
                             </Formats>
                           </Grid>
-                          <Static id="stc_SalesProd2" taborder="2" text="기타매출 상세내역" left="10.00" width="167" height="19" visible="true" cssclass="sta_POP_GroupTit" top="7" TL_SEQ="90"/>
+                          <Static id="stc_SalesProd2" taborder="2" text="상품 매출 상세내역" left="10.00" width="167" height="19" visible="true" cssclass="sta_POP_GroupTit" top="7" TL_SEQ="90"/>
                           <Button id="btn_GoodsDel" taborder="0" width="16" height="16" onclick="CommDelRow_onclick" right="8" top="7" cssclass="btn_POP_Del"/>
                           <Button id="btn_GoodsAdd" taborder="1" width="16" height="16" onclick="CommAddRow_onclick" right="32" top="7" cssclass="btn_POP_Add"/>
                         </Layout>
@@ -2493,7 +2493,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			if (this.dsContractSi.rowcount > 0) {
 				this.dsContractSi.setColumn(nAddRow, "CONTRACT_NO", this.dsContractSi.getColumn(0, "CONTRACT_NO"));
 			}
-			this.dsContractSi.setColumn(nAddRow, "CONTRACT_TYPE", "SI");
+			this.dsContractSi.setColumn(nAddRow, "CONTRACT_TYPE", "ZS");
 			this.dsContractSi.setColumn(nAddRow, "STRATEGY_SALES_FLAG", "0");
 			
 			//trace("CONTRACT_SEQ:"+this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_SEQ"));

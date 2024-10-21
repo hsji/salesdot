@@ -7,8 +7,8 @@
           <Layouts>
             <Layout>
               <Div id="div_Attachment" taborder="6" width="110" height="22" async="false" BINDDATASET="ds_MainContract" SOURCE_CD="CL" SOURCE_SEQ="CONTRACT_NO" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="true" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" url="sales::comm/COM_Attachment.xfdl" right="8" PROJECT_CODE="PROJECT_CODE" enable="false" bottom="8"/>
-              <Button id="btn_RequestLicense" taborder="5" text="라이선스요청" height="22" onclick="btn_RequestLicense_onclick" width="90" right="div_Attachment:6" enable="false" bottom="7" TL_SEQ="130"/>
-              <Button id="btn_Online" taborder="1" text="온라인LIC요청" height="22" onclick="btn_Online_onclick" bottom="7" right="btn_RequestLicense:6" width="90" enable="false" TL_SEQ="625"/>
+              <Button id="btn_RequestLicense" taborder="5" text="라이선스요청" height="22" onclick="btn_RequestLicense_onclick" width="90" right="div_Attachment:6" enable="false" bottom="7" TL_SEQ="130" visible="false"/>
+              <Button id="btn_Online" taborder="1" text="온라인LIC요청" height="22" onclick="btn_Online_onclick" bottom="7" right="btn_RequestLicense:6" width="90" enable="false" TL_SEQ="625" visible="false"/>
               <Button id="btn_DeliveryConfirm" taborder="4" text="납품확인서" height="22" onclick="btn_DeliveryConfirm_onclick" width="90" right="btn_Online:6" enable="false" bottom="7" TL_SEQ="626"/>
               <Button id="btn_CostSheet" taborder="3" text="매출원가표" height="22" onclick="btn_CostSheet_onclick" width="90" right="btn_DeliveryConfirm:6" enable="false" bottom="7" TL_SEQ="129"/>
               <Button id="btn_CommCode" taborder="2" text="공통코드추가" height="22" width="90" right="btn_CostSheet:6" onclick="btn_CommCode_onclick" enable="false" bottom="7" TL_SEQ="627"/>
@@ -26,7 +26,7 @@
                     <Combo id="cmb_SalesProduct" taborder="7" text="Combo00" left="249" top="6" width="204" height="22" innerdataset="ds_cmm_Product" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME"/>
                     <CheckBox id="chb_Export" taborder="8" text="수출" left="461" top="6" width="48" height="22" cssclass="sta_WF_DetailTit" falsevalue="0" truevalue="1" TL_SEQ="584"/>
                     <Static id="stc_ContractMain" taborder="9" text="계약처" left="9" top="66" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="34"/>
-                    <Div id="div_ContractMain" taborder="10" left="65" top="66" width="259" height="22" url="Common::COM_Search.xfdl" binddataset="ds_MainContract" codecolumn="CONTRACT_MAIN" datacolumn="CONTRACT_MAIN_NAME" kind="COMPANY" param="" user_onchanged="Com_Search_onChanged" autoSearch="false"/>
+                    <Div id="div_ContractMain" taborder="10" left="65" top="66" width="259" height="22" url="sales::comm/COM_Search.xfdl" binddataset="ds_MainContract" codecolumn="CONTRACT_MAIN" datacolumn="CONTRACT_MAIN_NAME" kind="COMPANY" param="" user_onchanged="Com_Search_onChanged" autoSearch="false"/>
                     <CheckBox id="chb_StrategySales" taborder="11" text="전략영업" left="517" top="6" width="73" height="22" cssclass="sta_WF_DetailTit" falsevalue="0" truevalue="1" TL_SEQ="613"/>
                     <Static id="stc_SalesStatus" taborder="12" text="영업 상태" left="324" top="66" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="620"/>
                     <Combo id="cmb_SalesStatus" taborder="13" text="" left="389" top="66" height="22" innerdataset="ds_cmm_SalesStatus" codecolumn="CODE" datacolumn="CAPTION" width="120"/>
@@ -46,12 +46,12 @@
                     <Static id="stc_PrepaymentExecutionRate" taborder="27" text="선급금이행율" left="505" top="156" width="74" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="619"/>
                     <Edit id="medt_PrepaymentExecutionRate" taborder="28" left="583" top="156" width="65" height="22" textAlign="right" inputtype="number"/>
                     <Static id="stc_SalesStatus00" taborder="29" text="사업구분" left="532" top="36" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="112"/>
-                    <Combo id="cmb_BusinessType" taborder="30" text="" top="36" height="22" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" right="7" width="84"/>
+                    <Combo id="cmb_BusinessType" taborder="30" text="" top="36" height="22" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" right="7" width="102"/>
                     <Static id="stc_ClientPoNo" taborder="31" text="전자구매 계약번호" left="462" top="96" width="104" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="621"/>
                     <Edit id="edt_ClientPoNo" taborder="32" top="96" height="22" textAlign="left" left="571" right="7"/>
                     <CheckBox id="chb_UnionFlag" taborder="33" text="통합" left="517" top="6" width="49" height="22" cssclass="sta_WF_DetailTit" falsevalue="0" truevalue="1" visible="false" TL_SEQ="622"/>
                     <CheckBox id="chb_AutoExtension" taborder="34" text="자동" left="574" top="6" width="48" height="22" cssclass="sta_WF_DetailTit" falsevalue="0" truevalue="1" visible="false" TL_SEQ="44"/>
-                    <CheckBox id="chk_SitecheckFlag" taborder="35" text="검수" top="156" height="22" cssclass="sta_WF_DetailTit" truevalue="1" falsevalue="0" TL_SEQ="623" width="47" left="655"/>
+                    <CheckBox id="chk_SitecheckFlag" taborder="35" text="검수" top="156" height="22" cssclass="sta_WF_DetailTit" truevalue="1" falsevalue="0" TL_SEQ="623" width="47" left="655.00"/>
                     <Button id="btn_CopyAdd" taborder="36" text="복사추가" left="623" top="6" width="59" height="22" visible="false" TL_SEQ="210" onclick="btn_CopyAdd_onclick"/>
                     <Combo id="cmb_SubSalesEmpNo" taborder="37" text="" left="65" top="126" width="90" height="22" innerdataset="ds_cmm_SalesEmp" codecolumn="EMP_NO" datacolumn="EMP_NAME" onitemchanged="div_ContractInfo_cmb_SalesEmpNo_onitemchanged" displayrowcount="15"/>
                     <Static id="stc_SubContractPrice" taborder="38" text="Sub 계약금액" left="165" top="126" width="72" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="624"/>
@@ -59,13 +59,13 @@
                     <CheckBox id="chb_NetSales" taborder="40" text="순매출" top="6" width="60" height="22" falsevalue="0" truevalue="1" left="598" enable="false" visible="false" TL_SEQ="279"/>
                     <CheckBox id="chb_DivisionFlag" taborder="41" text="분리등록" width="73" height="22" cssclass="sta_WF_DetailTit" truevalue="1" falsevalue="0" right="242" top="126" TL_SEQ="629"/>
                     <Button id="btn_Account" taborder="42" text="회계용" top="126" width="59" height="22" visible="false" TL_SEQ="630" right="7" onclick="btn_Account_onclick"/>
-                    <Button id="btn_MaintenceEmail" taborder="43" text="점검이력메일" left="613" top="126" height="22" right="7" visible="false" enable="false" onclick="btn_MaintenceEmail_onclick"/>
+                    <Button id="btn_MaintenceEmail" taborder="43" text="점검이력메일" left="543.00" top="126" height="22" right="77" visible="false" enable="false" onclick="btn_MaintenceEmail_onclick"/>
                     <Static id="stc_ConsumptionTax" taborder="44" text="소비세액" left="462" top="106" width="104" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="12469" visible="false"/>
                     <Combo id="cmb_ConsumptionTax" taborder="45" left="571" top="106" width="131" height="22" visible="false" innerdataset="ds_cmm_ConsumptionTax" codecolumn="CODE" datacolumn="CAPTION"/>
                   </Layout>
                 </Layouts>
               </Div>
-              <Div id="div_ContractSub" taborder="0" left="2" top="188" height="114" async="false" text="" right="0" url="Sales::SP_ContractProduct.xfdl"/>
+              <Div id="div_ContractSub" taborder="0" left="2" top="188" height="114" async="false" text="" right="0" url="sales::sales/SP_ContractProduct.xfdl"/>
             </Layout>
           </Layouts>
         </Div>
@@ -313,15 +313,15 @@
         </Tab>
         <Button id="btn_ProgressMinus" taborder="4" width="16" height="16" onclick="CommDelRow_onclick" top="grd_ContractList:15" right="div_ContractInfo:12" enable="false" cssclass="btn_POP_Del"/>
         <Button id="btn_ProgressPlus" taborder="3" width="16" height="16" top="grd_ContractList:15" right="btn_ProgressMinus:4" onclick="CommAddRow_onclick" enable="false" cssclass="btn_POP_Add"/>
-        <Grid id="grd_ContractDetail" taborder="5" left="10" right="10" binddataset="ds_ContractProdDet" autofittype="col" formatid="PROD" onexpandup="grd_ContractDetail_onexpandup" autoenter="select" oncellclick="grd_ContractDetail_oncellclick" onheadclick="grd_ContractDetail_onheadclick" top="tab_Progress:4" bottom="0">
+        <Grid id="grd_ContractDetail" taborder="5" left="10" right="10" binddataset="ds_ContractProdDet" autofittype="col" formatid="PROD" onexpandup="grd_ContractDetail_onexpandup" autoenter="select" oncellclick="grd_ContractDetail_oncellclick" onheadclick="grd_ContractDetail_onheadclick" top="tab_Progress:4" bottom="10" minheight="150" maxheight="">
           <Formats>
             <Format id="PROD">
               <Columns>
                 <Column size="270"/>
                 <Column size="100"/>
-                <Column size="55"/>
+                <Column size="0"/>
                 <Column size="80"/>
-                <Column size="80"/>
+                <Column size="0"/>
                 <Column size="100"/>
                 <Column size="80"/>
                 <Column size="60"/>
@@ -372,8 +372,8 @@
                 <Column size="230"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="역할" TL_SEQ="75"/>
@@ -418,8 +418,8 @@
                 <Column size="230"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="역할" TL_SEQ="75"/>
@@ -463,8 +463,8 @@
                 <Column size="300"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="유지보수타입" TL_SEQ="1105"/>
@@ -495,7 +495,7 @@
         <Button id="btn_Up" taborder="7" cssclass="btn_WF_schdUp" top="div_ContractInfo:11" width="18" height="18" onclick="btn_Up_onclick" right="24"/>
         <Button id="btn_Down" taborder="6" cssclass="btn_WF_schdDown" top="div_ContractInfo:11" height="18" onclick="btn_Down_onclick" width="18" right="btn_Up:4"/>
         <Button id="btn_ContractDetailMinus" taborder="9" left="btn_ContractDetailPlus:4.00" top="tab_Progress:10" width="16" height="16" enable="false" onclick="CommDelRow_onclick" cssclass="btn_POP_Del"/>
-        <Div id="div_Account" top="305" width="296" height="78" visible="false" background="white" border="1px solid #c8c8c8" onkillfocus="div_Account_onkillfocus" right="396">
+        <Div id="div_Account" top="265" width="296" height="78" visible="false" background="white" border="1px solid #c8c8c8" onkillfocus="div_Account_onkillfocus" right="396">
           <Layouts>
             <Layout>
               <CheckBox id="chb_ProgressExceptFlag" taborder="0" text="진행제외" width="73" height="22" cssclass="sta_WF_DetailTit" truevalue="1" falsevalue="0" top="16" left="31" TL_SEQ="645"/>
@@ -598,7 +598,7 @@ this.SP_Contract_onload = function(obj:nexacro.Form, e:nexacro.LoadEventInfo)
 this.fnAuthConfig = function()
 {
 	var bDisableFlag;
-	var sLoginEmpNo = nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NO");
+	var sLoginEmpNo = this.gfnGetUserInfo("EMP_NO");
 	var sContractType = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "CONTRACT_TYPE");
 	if (this.gfnIsEmpty(sContractType)) sContractType = "PD";
 	
@@ -622,19 +622,15 @@ this.fnAuthConfig = function()
 	arrCompInfo.push(this.div_ContractInfo.form.div_ContractMain_K.form.btn_Account);			// 회계용 버튼
 	arrCompInfo.push(this.div_Account);									// 회계용 진행율 div
 	
-	if (this.FV_CO_CD != "J02") {
-		arrCompInfo.push(this.contract_div.form.btn_MaintenceEmail);	// 점검이력메일 버튼
-	} else {
-		arrCompInfo.push(this.contract_div.form.medt_Royalty);			// 로열티 금액
-	}
+	arrCompInfo.push(this.contract_div.form.btn_MaintenceEmail);	// 점검이력메일 버튼
 	
-	if (sContractType == "P" || sContractType == "G") {
+	if (sContractType == "PD" || sContractType == "GD") {
 		arrCompInfo.push(this.div_ContractInfo.form.div_ContractSub.form.cal_StartDt);		// [제품계약] 시작일
 		arrCompInfo.push(this.div_ContractInfo.form.div_ContractSub.form.cal_EndDt);		// [제품계약] 종료일
 		arrCompInfo.push(this.div_ContractInfo.form.div_ContractSub.form.cal_ResultDt);		// [제품계약] 실적반영일
 		arrCompInfo.push(this.div_ContractInfo.form.div_ContractSub.form.cal_LICDate);		// [제품계약] LIC 발급일
 	}
-	else if (sContractType == "S" || sContractType == "T") {
+	else if (sContractType == "ZS" || sContractType == "ZT") {
 		arrCompInfo.push(this.div_ContractInfo.form.div_ContractSub.form.edt_WithDrawUser);	// [용역계약]철수(일자) 등록자
 		arrCompInfo.push(this.div_ContractInfo.form.div_ContractSub.form.medt_Menmonth);	// [용역계약]MM
 	}
@@ -697,14 +693,14 @@ this.fnAuthConfig = function()
 	}
 	
 	// 납품일자 수정 권한
-	if (sContractType == "P" || sContractType == "G") {
+	if (sContractType == "PD" || sContractType == "GD") {
 		if (this.commUtil.getFormAuthority(242,2)) {
 			this.div_ContractInfo.form.div_ContractSub.form.cal_FreeMaEndDate.set_readonly(false);
 		}
 	}
 		
 	// 용역 철수일 수정 권한
-	if (sContractType == "S") {
+	if (sContractType == "ZS") {
 		if (this.div_ContractInfo.form.div_ContractSub.form.name == "SP_ContractSI") {
 			if (this.commUtil.getFormAuthority(242,6)) {
 				this.div_ContractInfo.form.div_ContractSub.form.cal_WithDrawDate.set_readonly(false);
@@ -784,7 +780,7 @@ this.fnAuthConfig = function()
 	this.gfnAddCodeDataset("ds_cmm_RoyaltyType"	,"ROYALTY_TYPE");	// 로열티 구분
 	this.gfnAddCodeDataset("ds_cmm_ExchageStatus"	,"EXCHAGE_STATUS");	// 로열티 확정 여부
 	
-	this.gfnAddCodeDataset("ds_cmm_Product",			"AREA_CODE"); 			// 근무지역
+	//this.gfnAddCodeDataset("ds_cmm_Product",			"AREA_CODE"); 			// 근무지역
 	this.gfnAddCodeDataset("ds_cmm_Publisher_SI",		"PUBLISHER"); 			// 계산서발행처
 	
 	this.gfnCodeTransaction();
@@ -993,7 +989,7 @@ this.fn_ExchageQueryData = function()
 		/*	this.gfnCommonTransaction("ContractCancel", "SP_Contract_R03");*/
 			
 			this.gfnSetMap("projectMapper", "SP_Contract_R03", "", "update");
-			this.gfnCommonTransaction("ContractCancel", 	"updateNextData.do");		
+			this.gfnCommonTransaction("ContractCancel", 	"SP_Contract_R03.do");		
 		});	
 	
 // 	if( this.confirm(sContractName + this.gfnGetTransTxt(1888, "계약의 계약확정을 취소 하시겠습니까?")) )
@@ -1039,7 +1035,7 @@ this.fn_ExchageQueryData = function()
 		switch (strSvcID) 
 		{
 			case "gfnGetCode" :			
-				this.ds_cmm_ContractType.filter("VAL1=='1'");
+				this.ds_cmm_ContractType.filter("GRP_CD_1=='1'");
 				this.ds_cmm_ServerGrade.insertRow(0);
 				this.ds_cmm_ServerGrade.setColumn(0, "CAPTION", " ");
 				
@@ -1119,6 +1115,7 @@ this.fn_ExchageQueryData = function()
 				break;
 			case "MaCopyAdd" :
 			case "ContractCancel" :
+				this.ds_MainContract.clearData();
 				this.fn_QueryData();
 				break;
 			case "getMM":
@@ -1334,7 +1331,7 @@ this.fn_ExchageQueryData = function()
 		{
 			case "popupProductSearch" : // 제품
 				var ds = new nexacro.Dataset();
-				ds.loadXML(Variant);
+				ds.loadJSON(Variant);
 				this.recentVariant = ds;
 			
 				var sFormatId = this.grd_ContractDetail.formatid;
@@ -1837,7 +1834,7 @@ this.fnSetComCmbConfig = function ()
 	if (sContractType == "ZS" || sContractType == "ZT")		
 	{
 		// 용역, 기술서비스 계약
-		sDivUrl = "Sales::SP_ContractSI.xfdl";
+		sDivUrl = "sales::sales/SP_ContractSI.xfdl";
 		sBindDsId = "ds_ContractSiDet";
 		if (sContractType == "ZS" )	sGrdFormatId = "SI";
 		else						sGrdFormatId = "CS";
@@ -1851,19 +1848,19 @@ this.fnSetComCmbConfig = function ()
 		this.contract_div.form.chb_NetSales.set_visible(false);
 				
 		// this.ds_cmm_Role.filter();
-		if (sContractType == "T") {
-			this.ds_cmm_Role.filter("VAL2 == 'T'");
+		if (sContractType == "ZT") {
+			this.ds_cmm_Role.filter("GRP_CD_1 == 'T'");
 		} else {
-			this.ds_cmm_Role.filter("VAL2 == 'S'");
+			this.ds_cmm_Role.filter("GRP_CD_1 == 'S'");
 		}		
 		
 		if (this.div_ContractInfo.form.div_ContractSub.url == sDivUrl) {
 			this.div_ContractInfo.form.div_ContractSub.form.fn_SetInitDisp(sContractType);
 		}
 		
-	} else if (sContractType == "M") {
+	} else if (sContractType == "SM") {
 	// 유지보수 계약
-		sDivUrl = "Sales::SP_ContractMaintenance.xfdl";
+		sDivUrl = "sales::sales/SP_ContractMaintenance.xfdl";
 		sGrdFormatId = "MA";
 		sBindDsId = "ds_ContractMaDet";
 		this.contract_div.form.chb_StrategySales.set_visible(false);
@@ -1876,7 +1873,7 @@ this.fnSetComCmbConfig = function ()
 		
 	} else {
 	// 제품, 상품, 기타 계약
-		sDivUrl = "Sales::SP_ContractProduct.xfdl";
+		sDivUrl = "sales::sales/SP_ContractProduct.xfdl";
 		sGrdFormatId = "PROD";
 		sBindDsId = "ds_ContractProdDet";
 		this.contract_div.form.chb_StrategySales.set_visible(true);
@@ -2021,11 +2018,11 @@ this.ds_MainContract_onrowposchangedAfter = function(obj,e)
 		
 		
 		// 제품계약인 경우만 라이선스 요청 버튼 활성화
-		if (sContractType == "P")	{
+		if (sContractType == "PD")	{
 			this.div_ContractInfo.form.btn_RequestLicense.set_enable(true);
 			this.div_ContractInfo.form.btn_Online.set_enable(true);
 		}
-		else if (sContractType == "G" || obj.getColumn(e.newrow, "PRODUCT_CODE") == "G0101") {
+		else if (sContractType == "GD") {
 			this.div_ContractInfo.form.btn_RequestLicense.set_enable(true);
 			this.div_ContractInfo.form.btn_Online.set_enable(true);
 		}
@@ -2035,7 +2032,7 @@ this.ds_MainContract_onrowposchangedAfter = function(obj,e)
 		}
 		
 		// 점검이력메일 버튼 "유지보수" 이고 TBJ가 아닌 경우에만 활성화
-		if(sContractType == "M" && this.FV_CO_CD != "J02") {
+		if(sContractType == "SM") {
 			this.contract_div.form.btn_MaintenceEmail.set_enable(true);
 		} 
 		
@@ -2316,8 +2313,8 @@ this.grd_ContractDetail_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMou
 			Argument.functionlist = this.ds_ContractProdDet.getColumn(e.row, "FUNCTION_LIST");
 		}
 		
-		if (sContractType == "P") {
-			Argument.sFilterExpr = "CODE=='P'||CODE=='G'";
+		if (sContractType == "PD") {
+			Argument.sFilterExpr = "CODE=='PD'||CODE=='GD'";
 		} else {
 			Argument.sFilterExpr = "";
 		}
@@ -2349,7 +2346,7 @@ this.fn_AddRecord = function()
 {
 	var sProjectCd = this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value;
 	this.ds_MainContract.set_enableevent(false);
-	this.ds_cmm_ContractType.filter("VAL1=='1'");
+	this.ds_cmm_ContractType.filter("GRP_CD_1=='1'");
 	var nRow = this.ds_MainContract.addRow();
 	
 	// 초기값 세팅
@@ -2526,7 +2523,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			bAddRowFlag = false;
 			var sArgument = {};
 			sArgument.pvMode = "C";	// 고객사
-			sArgument.contracttype = "P,G";	// 고객사
+			sArgument.contracttype = "PD,GD";	// 고객사
 			sArgument.sSubject = this.FV_PARENT_FORM.div_search.form.div_ClientName.getData(); // 고객사명
 			this.commUtil.popupProjectSearch(this, "popupContractSearch", "fnPopupCallBack", sArgument);
 			
@@ -2697,6 +2694,7 @@ this.btn_CostSheet_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInf
 {
 	var sProjectCd = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "PROJECT_CODE");
 	var Argument = {pv_project_cd:sProjectCd, pv_costsheet_type:"2"};
+	Argument.title = "매출원가표";
 	this.commUtil.popup(this, "popupCostSheet", "sales::sales/SP_CostSheet.xfdl", -1, -1, -1, -1, true, true, false, Argument, "fnPopupCallBack");
 };
 
@@ -2708,7 +2706,8 @@ this.btn_DeliveryConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEv
 	var sSalesEmpNo = this.ds_MainContract.getColumn(this.ds_MainContract.rowposition, "SALES_EMP_NO");
 	
 	var Argument = {pv_project_cd:sProjectCd, pv_sales_empno:sSalesEmpNo};
-	this.commUtil.popup(this, "popupDeliveryConfirm", "Sales::SP_DeliveryConfirm.xfdl", -1, -1, 800, 720, true, false, false, Argument, "fnPopupCallBack");
+	Argument.title = "납품확인서";
+	this.commUtil.popup(this, "popupDeliveryConfirm", "sales::sales/SP_DeliveryConfirm.xfdl", -1, -1, -1, -1, true, false, false, Argument, "fnPopupCallBack");
 };
 
 
@@ -2771,7 +2770,7 @@ this.fn_RequestLicense = function (bOnlineFlag)
 	// bSucc = this.ds_ParamLic.copyRow(0, this.ds_ContractProdDet, this.ds_ContractProdDet.rowposition);
 	
 	var Argument = {pvLicenseKind:sLicenseKind, pvProjectCode:sProjectCode, pvProjectName:sProjectName, pvContractNo:sContractNo, pvContractName:sContractName, pvClientCode:sClientCode, pvClientName:sClientName, pvContractMain:sContractMain, pvParamDsj:this.ds_ParamLic, pvOnlineFlag:bOnlineFlag};
-	this.commUtil.popup(this, "popupRequestLicense", "Sales::SP_RequestLicense_pop.xfdl", -1, -1, 1200, 600, true, false, false, Argument, "fnPopupCallBack");
+	this.commUtil.popup(this, "popupRequestLicense", "sales::sales/SP_RequestLicense_pop.xfdl", -1, -1, -1, -1, true, false, false, Argument, "fnPopupCallBack");
 }
 
 // 라이선스요청 POPUP
@@ -2810,17 +2809,17 @@ this.grd_ContractDetail_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridCl
 	{
 		var strRoleCode = ds.getColumn(e.row, "ROLE_CODE");
 		var nRow = this.ds_cmm_Role.findRow("CODE", strRoleCode);
-		var strKind = this.ds_cmm_Role.getColumn(nRow, "VAL1");	
+		var strKind = this.ds_cmm_Role.getColumn(nRow, "GRP_CD_1");	
 		
 		var sFormatId = this.grd_ContractDetail.formatid;
 		if (sFormatId == "CS") {
-			this.ds_cmm_Level.filter("VAL1=='DEV' || VAL1=='ALL' ");
+			this.ds_cmm_Level.filter("GRP_CD_1=='DEV' || GRP_CD_1=='ALL' ");
 		} else {
 			
 			if (strKind == "ALL") {
 				this.ds_cmm_Level.filter("");
 			} else {
-				this.ds_cmm_Level.filter("VAL1=='"+strKind+"' || VAL1=='ALL' ");
+				this.ds_cmm_Level.filter("GRP_CD_1=='"+strKind+"' || GRP_CD_1=='ALL' ");
 			}
 		}
 	}
@@ -3130,7 +3129,7 @@ this.div_ContractInfo_btn_HistoryMail_onclick = function(obj:nexacro.Button,e:ne
 	var nRow			= this.ds_MainContract.rowposition;
 	var sContractNo		= this.ds_MainContract.getColumn(nRow, "CONTRACT_NO");	
 	var sArgument = {pvContractNo:sContractNo, pvKind:"Contract"};
-	this.commUtil.popup(this, "CompanyAddMM", "Sales::SP_ContractHistoryMail.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");	
+	this.commUtil.popup(this, "CompanyAddMM", "sales::sales/SP_ContractHistoryMail.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");	
 };
 
 this.tab_Progress_tpg_PersonInCharge_grd_PersonInCharge_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)

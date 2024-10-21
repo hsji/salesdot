@@ -200,7 +200,12 @@
 	    CL.CONTRACT_NO,
 	    CL.CONTRACT_TYPE,
 	    <!-- CONCAT(CASE CL.CONTRACT_STATUS WHEN '3' THEN '' ELSE '[AAA]' END, CD.SSC_CD_KORN_NM) AS CONTRACT_TYPE_NAME,  -->
-	    CONCAT('[', CD.SSC_CD_KORN_NM,']') AS CONTRACT_TYPE_NAME, 
+	    CONCAT(CASE CL.CONTRACT_STATUS 
+	    		WHEN '3' THEN '[진계약]'
+	    		WHEN '2' THEN '[계약확정]'  
+	    		ELSE '[프리세일즈]' 
+	    		END, CD.SSC_CD_KORN_NM) AS CONTRACT_TYPE_NAME,
+	    <!--  CONCAT('[', CD.SSC_CD_KORN_NM,']') AS CONTRACT_TYPE_NAME, --> 
 	    CL.CONTRACT_NAME,
 	    CL.CONTRACT_DATE,
 	    CL.SALES_EMP_NO AS BIZ_STAFF,
@@ -248,7 +253,7 @@
 	JOIN    
 	    T_SYTM_CODE CD ON CD.HCL_CD = 'CONTRACT_TYPE' AND CD.SSC_CD = CL.CONTRACT_TYPE
 	JOIN    
-	    T_SYTM_CODE CD1 ON CD1.HCL_CD = 'CONTRACT_STATUS' AND CD1.SSC_CD = CL.CONTRACT_STATUS
+	    T_SYTM_CODE CD1 ON CD1.HCL_CD = 'CONTRACTSTATUS' AND CD1.SSC_CD = CL.CONTRACT_STATUS
 	LEFT JOIN   
 	    SALES_PRODUCT_LIST PROD ON PROD.PRODUCT_CODE = CL.PRODUCT_CODE AND PROD.DELETE_FLAG = '0'
 	WHERE   
@@ -258,10 +263,10 @@
 	<if test="ESTIMATE_FLAG != null and ESTIMATE_FLAG != '' and ESTIMATE_CONTRACT_TYPE != null and ESTIMATE_CONTRACT_TYPE != ''">
 	    <choose>
 	        <when test='ESTIMATE_CONTRACT_TYPE == "MA"'>
-	            AND CL.CONTRACT_TYPE IN ('P','G')
+	            AND CL.CONTRACT_TYPE IN ('PD','GD')
 	        </when>
 	        <when test='ESTIMATE_CONTRACT_TYPE == "UNION_MA"'>
-	            AND CL.CONTRACT_TYPE IN ('M')
+	            AND CL.CONTRACT_TYPE IN ('SM')
 	        </when>
 	    </choose>
 	</if>
@@ -275,13 +280,13 @@
 	        <otherwise>
 	            <if test="CONTRACT_TYPE != null and CONTRACT_TYPE != ''">
 	                <choose>
-	                    <when test='CONTRACT_TYPE == "G"'>
-	                        AND (CL.CONTRACT_TYPE = 'G' OR PROD.GOODS_FLAG = '1')
+	                    <when test='CONTRACT_TYPE == "GD"'>
+	                        AND (CL.CONTRACT_TYPE = 'GD' OR PROD.GOODS_FLAG = '1')
 	                    </when>
-	                    <when test='CONTRACT_TYPE == "S"'>
-	                        AND CL.CONTRACT_TYPE IN ('S','T')
+	                    <when test='CONTRACT_TYPE == "ZS"'>
+	                        AND CL.CONTRACT_TYPE IN ('ZS','ZT')
 	                    </when>
-	                    <when test='CONTRACT_TYPE != "G" and CONTRACT_TYPE != "S" and CONTRACT_TYPE != "E"'>
+	                    <when test='CONTRACT_TYPE != "GD" and CONTRACT_TYPE != "ZS" and CONTRACT_TYPE != "ET"'>
 	                        AND CL.CONTRACT_TYPE = #{CONTRACT_TYPE}
 	                    </when>
 	                </choose>
@@ -420,7 +425,7 @@
 	JOIN    
 	    T_SYTM_CODE CD2 ON CD2.HCL_CD = 'CONTRACT_TYPE' AND CD2.SSC_CD = PL.CONTRACT_TYPE
 	JOIN    
-	    T_SYTM_CODE CD3 ON CD3.HCL_CD = 'CONTRACT_STATUS' AND CD3.SSC_CD = PL.CONTRACT_STATUS
+	    T_SYTM_CODE CD3 ON CD3.HCL_CD = 'CONTRACTSTATUS' AND CD3.SSC_CD = PL.CONTRACT_STATUS
 	WHERE   
 	    P.DELETE_FLAG = '0'
 	
@@ -543,7 +548,7 @@
 	JOIN    
 	    T_SYTM_CODE CD ON CD.HCL_CD = 'CONTRACT_TYPE' AND CD.SSC_CD = CL.CONTRACT_TYPE
 	JOIN    
-	    T_SYTM_CODE CD1 ON CD1.HCL_CD = 'CONTRACT_STATUS' AND CD1.SSC_CD = CL.CONTRACT_STATUS
+	    T_SYTM_CODE CD1 ON CD1.HCL_CD = 'CONTRACTSTATUS' AND CD1.SSC_CD = CL.CONTRACT_STATUS
 	JOIN    
 	    T_SYTM_USER VE ON CL.SALES_EMP_NO = VE.EMP_NO
 	JOIN    
@@ -660,7 +665,7 @@
 	JOIN    
 		 T_SYTM_CODE CD ON CD.HCL_CD = 'CONTRACT_TYPE' AND CD.SSC_CD = CL.CONTRACT_TYPE
 	JOIN    
-		 T_SYTM_CODE CD1 ON CD1.HCL_CD = 'CONTRACT_STATUS' AND CD1.SSC_CD = CL.CONTRACT_STATUS
+		 T_SYTM_CODE CD1 ON CD1.HCL_CD = 'CONTRACTSTATUS' AND CD1.SSC_CD = CL.CONTRACT_STATUS
 	JOIN    
 	    T_SYTM_USER VE ON CL.SALES_EMP_NO = VE.EMP_NO
 	JOIN    
@@ -766,7 +771,7 @@
 			)
 		</if>
 		<if test='MAIN_PRODUCT_FLAG != null and MAIN_PRODUCT_FLAG != "" and MAIN_PRODUCT_FLAG == "1" '>
-		 AND P.MAIN_PRODUCT_FLAG = '1'
+		 -- AND P.MAIN_PRODUCT_FLAG = '1'
 		</if>
 	ORDER BY 
 		CD.SORT_ORDR, P.PRODUCT_CODE, P.PRODUCT_ORDR

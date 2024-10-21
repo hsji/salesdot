@@ -481,7 +481,5 @@
 	) YR
 	GROUP BY YEAR
 	ORDER BY YEAR DESC
-	
-	
 </select>
 </mapper>

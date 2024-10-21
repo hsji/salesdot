@@ -242,7 +242,17 @@ this.rdo_PurchaseTyp_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemCh
 this.fnReturnOne = function(row)
 {
 	if(row < 0) return;
-	this.close(this.dsOutput.getColumn(row, "PROJECT_CODE") + "|" + this.dsOutput.getColumn(row, "PROJECT_NAME"));
+	
+	var ds = new nexacro.Dataset();
+	ds.copyData(this.dsOutput);
+	ds.clearData();
+	ds.addRow();
+	ds.copyRow(0, this.dsOutput, row);
+	this.close(ds.saveJSON());
+	
+	//var rtn = { "rtnValue" : [this.dsOutput.getColumn(row, "PROJECT_CODE"), this.dsOutput.getColumn(row, "PROJECT_NAME")] };
+	//this.close(JSON.stringify(rtn));	
+	//this.close(this.dsOutput.getColumn(row, "PROJECT_CODE") + "|" + this.dsOutput.getColumn(row, "PROJECT_NAME"));
 // 	this.dsSelected.clearData();
 // 	var nRow = this.dsSelected.addRow();
 // 	this.dsSelected.copyRow(nRow, this.dsOutput, row);

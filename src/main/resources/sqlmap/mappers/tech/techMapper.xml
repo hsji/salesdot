@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="techMapper">
+
+<!-- 영업정보  -->
+<select id="selectTS_StaffSetProject_S01" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectTS_StaffSetProject_S01
+	SELECT PSE.PSE_SEQ,
+	       PSE.CONTRACT_NO,
+	       PL.CONTRACT_NO_PURCHASE,
+	       PPT.PURCHASE_TYPE,
+	       P.PROJECT_NAME,
+	       CL.CONTRACT_NAME,
+	       COM.COMPANY_NAME AS CLIENT_NAME,
+	       PL.CONTRACT_NAME AS CONTRACT_PURCHASE_NAME,
+	       PSE.RSSC_SEQ,
+	       PSE.EMP_NO,
+	       VE.EMP_NM AS EMP_NAME,
+	       PSE.ROLE_CODE,
+	       PSE.LEVEL_CODE,
+	       PSE.UNIT_COST,
+	       PSE.EXPENSE,
+	       PSE.MEN_MONTH,
+	       DATE_FORMAT(PSE.START_DATE, '%Y%m%d') AS START_DATE,
+	       DATE_FORMAT(PSE.END_PLAN_DATE, '%Y%m%d') AS END_PLAN_DATE,
+	       DATE_FORMAT(PSE.END_DATE, '%Y%m%d') AS END_DATE,
+	       PSE.NONRESIDENT_FLAG,
+	       PSE.FREE_SVC_FLAG,
+	       PSE.REMARKS
+	FROM    SALES_PROJECT_SI_EMP PSE
+	JOIN    V_PSE_PURCHASE_TYPE PPT ON PPT.PSE_SEQ = PSE.PSE_SEQ
+	JOIN    SALES_CONTRACT_LIST CL ON PSE.CONTRACT_NO = CL.CONTRACT_NO
+	                          AND CL.DELETE_FLAG = '0'
+	                          AND CL.CO_CD = #{SERVER_CO_CD}
+	JOIN    SALES_PROJECT_LIST P ON CL.PROJECT_CODE = P.PROJECT_CODE
+	                       AND P.DELETE_FLAG = '0'
+	LEFT JOIN SALES_PURCHASE_LIST PL ON PSE.CONTRACT_NO_PURCHASE = PL.CONTRACT_NO_PURCHASE
+	                            AND PL.DELETE_FLAG = '0'
+	                            AND PL.CO_CD = #{SERVER_CO_CD}
+	LEFT JOIN SALES_COMPANY_LIST COM ON P.CLIENT_CODE = COM.COMPANY_CODE
+	LEFT JOIN T_SYTM_USER VE ON PSE.EMP_NO = VE.EMP_NO
+	WHERE   PSE.PSE_SEQ = @{PSE_SEQ}
+	AND     PSE.DELETE_FLAG = '0';
+		  
+</select>
+
+
+<update id="updateTS_StaffSetProject_R01" parameterType="java.util.Map">
+	-- updateTS_StaffSetProject_R01
+	UPDATE SALES_PROJECT_SI_EMP
+	SET 
+	    CONTRACT_NO = #{CONTRACT_NO}
+	    ,CONTRACT_NO_PURCHASE = #{CONTRACT_NO_PURCHASE}
+		<if test="UNIT_COST != null and UNIT_COST != ''">
+			,UNIT_COST = #{UNIT_COST}
+		</if>
+		<if test="EXPENSE != null and EXPENSE != ''">
+			,EXPENSE = #{EXPENSE}
+		</if>
+	    ,MEN_MONTH = #{MEN_MONTH}
+		<if test="REMARKS != null and REMARKS != ''">
+			,REMARKS = #{REMARKS}
+		</if>
+		, CHGE_ID 		= #{EMP_NO_SRV}
+		, CHGE_DTTM 	= NOW()
+		, CHGE_IP 		= #{USER_CON_IPADDR_SRV}
+	WHERE PSE_SEQ = #{PSE_SEQ};
+</update>
+
+<select id="selectSP_ProjectTechnique_S01" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+		P.PROJECT_CODE,
+		CL.CONTRACT_NO,
+		P.CLIENT_CODE,
+		CL.CONTRACT_NAME,
+		RTS.RTS_SEQ,
+		RTS.TECH_TYPE,
+		DATE_FORMAT(RTS.WORK_START_DATE, '%Y%m%d') AS WORK_START_DATE,
+		DATE_FORMAT(RTS.WORK_END_DATE, '%Y%m%d') AS WORK_END_DATE,
+		RTS.WORK_TOTAL_TIME,
+		RTS.WORK_EMP_NO,
+		VE.EMP_NM AS WORK_EMP_NAM,
+		RTS.REQUEST_CONTENTS,
+		RTS.WORK_CONTENTS,
+		RTS.CONFIRM_CD,
+		CASE
+			WHEN RVL.CNT <![CDATA[>]]> 0 THEN 'O'
+			ELSE 'X'
+		END AS RVL_YN
+	FROM SALES_PROJECT_LIST P
+	JOIN SALES_CONTRACT_LIST CL
+		ON P.PROJECT_CODE = CL.PROJECT_CODE
+		AND CL.DELETE_FLAG = '0'
+	JOIN SALES_REQUEST_TECHNICAL_STAFF RTS
+		ON CL.CONTRACT_NO = RTS.CONTRACT_NO
+	LEFT JOIN (
+		SELECT RTS_SEQ, COUNT(*) AS CNT
+		FROM SALES_REGULAR_VISIT_LIST
+		WHERE WORK_SIGN IS NOT NULL
+		GROUP BY RTS_SEQ
+	) RVL 
+		ON RVL.RTS_SEQ = RTS.RTS_SEQ
+	LEFT JOIN T_SYTM_USER VE
+		ON RTS.WORK_EMP_NO = VE.EMP_NO
+	WHERE P.DELETE_FLAG = '0'
+	AND P.PROJECT_CODE = #{PROJECT_CODE}
+	<if test="TECH_TYPE != null and TECH_TYPE != ''">
+		AND RTS.TECH_TYPE = #{TECH_TYPE}
+	</if>
+	ORDER BY RTS.WORK_START_DATE DESC, CL.CONTRACT_NO, RTS.RTS_SEQ;
+</select>
+
+</mapper>

@@ -3,7 +3,7 @@
   <Form id="SP_ProjectSIEmp" width="1345" height="472" titletext="투입인력" onload="SP_ProjectSIEmp_onload">
     <Layouts>
       <Layout height="472" mobileorientation="landscape" width="1345">
-        <Grid id="grd_ProjectSiEmp" taborder="0" left="0" top="24" right="0" bottom="0" binddataset="ds_SiList" autoenter="select" oncelldblclick="grd_ProjectSiEmp_oncelldblclick" cellsizingtype="col">
+        <Grid id="grd_ProjectSiEmp" taborder="0" left="10" top="10" right="10" bottom="10" binddataset="ds_SiList" autoenter="select" oncelldblclick="grd_ProjectSiEmp_oncelldblclick" cellsizingtype="col">
           <Formats>
             <Format id="default">
               <Columns>
@@ -24,9 +24,9 @@
                 <Column size="400"/>
               </Columns>
               <Rows>
-                <Row size="25" band="head"/>
-                <Row size="24"/>
-                <Row size="24" band="summ"/>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+                <Row size="30" band="summ"/>
               </Rows>
               <Band id="head">
                 <Cell text="순번" TL_SEQ="333"/>
@@ -81,8 +81,7 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static09" taborder="1" text="4" left="0" top="0" width="1344" height="4" background="olive" opacity="0.5" textAlign="center" visible="false"/>
-        <Static id="st_OtherCo" taborder="2" text="※ 타사투입 인력건" top="4" height="16" color="green" width="110" right="8" TL_SEQ="347"/>
+        <Static id="st_OtherCo" taborder="1" text="※ 타사투입 인력건" top="4" height="16" color="green" width="110" right="8" TL_SEQ="347"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -173,7 +172,7 @@ this.FV_AUTH_PRICE_MASK = false;
 {
 	this.gfnCompInit(obj);  	// Grid 공통함수 호출
 	
-	if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;		// 계약금액 마스킹 처리 권한
+	//if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;		// 계약금액 마스킹 처리 권한
 	this.fnGetCode();
 };
 
@@ -193,17 +192,19 @@ this.FV_AUTH_PRICE_MASK = false;
  
  
   // 조회
- this.fn_QueryData = function()
- {
+this.fn_QueryData = function()
+{
 	if (!this.fn_getValidation("S"))	return;
 		
 	// 조건값 셋팅
 	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
 		
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_SiList", "ds_output");
-	this.gfnCommonTransaction("select", "SP_ProjectSIEmp_S01");
- };
+// 	this.gfnAddOutputDataset("ds_SiList", "ds_output");
+// 	this.gfnCommonTransaction("select", "SP_ProjectSIEmp_S01");
+	this.gfnSetMap("projectMapper", ['SP_ProjectSIEmp_S01'], ['ds_SiList']);
+	this.gfnCommonTransaction("select", "selectNextMultiList.do");		
+};
  
   
  // 화면 콜백
@@ -252,7 +253,7 @@ this.FV_AUTH_PRICE_MASK = false;
 	if (sType == "S") {
 		if (this.gfnIsEmpty(sProjectCd))
 		{
-			this.alert(this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
 			return false;
 		}
 	}

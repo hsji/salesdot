@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_ContractSI" width="709" height="114" titletext="용역계약-프로젝트관리" onload="SP_ContractSI_onload">
+    <Layouts>
+      <Layout height="114" mobileorientation="landscape" width="709">
+        <Calendar id="cal_OpenDate" taborder="1" top="30" width="144" height="22" dateformat="yyyy-MM-dd" autoselect="true" visible="false" right="15"/>
+        <Static id="stc_ContractDate" taborder="6" text="계약일자" left="8" top="0" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="156"/>
+        <Calendar id="cal_ContractDate" taborder="0" left="stc_ContractDate:8" top="0" width="144" height="22" dateformat="yyyy-MM-dd" autoselect="true"/>
+        <Calendar id="cal_WithDrawDate" taborder="2" top="60" height="22" dateformat="yyyy-MM-dd" left="64.00" width="144" onchanged="cal_WithDrawDate_onchanged" autoselect="true"/>
+        <Combo id="cmb_Area" taborder="3" text="" left="64.00" top="30" width="144" height="22" innerdataset="ds_cmm_Area_SI" codecolumn="CODE" datacolumn="CAPTION"/>
+        <Static id="stc_WithDrawDate" taborder="7" text="철수일자" left="8" top="60" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="1101"/>
+        <Static id="stc_Area" taborder="8" text="근무지역" left="8" top="30" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="98"/>
+        <Static id="stc_WithDrawUser" taborder="9" text="철수등록" left="218.00" top="60" width="70" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="1102"/>
+        <Edit id="edt_WithDrawUser" taborder="4" left="299.00" top="60" width="144" height="22" readonly="true"/>
+        <Static id="stc_Publisher" taborder="10" text="계산서발행처" left="457" top="30" width="72" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="495"/>
+        <Combo id="cmb_Publisher" taborder="5" text="" top="30" height="22" width="144" innerdataset="ds_cmm_Publisher_SI" datacolumn="CAPTION" codecolumn="CODE" right="15"/>
+        <Static id="stc_StartDt" taborder="11" text="시작일자" left="218.00" top="0" width="70" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="94"/>
+        <Calendar id="cal_StartDt" taborder="12" left="299" top="0" width="144" height="22" dateformat="yyyy-MM-dd" autoselect="true"/>
+        <Static id="stc_EndDt" taborder="13" text="종료일자" left="457" top="0" width="72" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="95"/>
+        <Calendar id="cal_EndDt" taborder="14" top="0" width="144" height="22" dateformat="yyyy-MM-dd" autoselect="true" right="15"/>
+        <Static id="stc_Menmonth" taborder="15" text="MM" left="218.00" top="30" width="70" height="22" cssclass="sta_WF_DetailTit" textAlign="right"/>
+        <MaskEdit id="medt_Menmonth" taborder="16" left="299.00" top="30" width="144" height="22" readonly="true"/>
+        <Static id="stc_ProfitsRate" taborder="17" text="이익율" left="457" top="60" width="72" height="22" cssclass="sta_WF_DetailTit" textAlign="right" visible="true" TL_SEQ="1019"/>
+        <Edit id="medt_ProfitsRate" taborder="18" top="60" width="144" height="22" right="15"/>
+        <Static id="stc_EstimateNo" taborder="19" text="견적번호" left="9" top="90" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="12470" visible="false"/>
+        <Edit id="edt_EstimateNo" taborder="20" left="stc_EstimateNo:7.00" top="90" width="144" height="22" readonly="true" enable="false" visible="false"/>
+        <Button id="btn_Estimate" taborder="21" left="186.00" top="90" width="22" height="22" cssclass="btn_WF_Sch" onclick="btn_Estimate_onclick" visible="false"/>
+        <Static id="stc_PreEstimateNo" taborder="22" text="이전견적" left="218.00" top="90" width="70" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="22547" visible="false"/>
+        <Edit id="edt_PreEstimateNo" taborder="23" left="299" top="90" width="144" height="22" readonly="true" enable="false" visible="false"/>
+        <Static id="stc_OrgEstimateNo" taborder="24" text="원견적" left="484" top="90" width="45" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="22548" visible="false"/>
+        <Edit id="edt_OrgEstimateNo" taborder="25" left="550" top="90" width="154" height="22" readonly="true" enable="false" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 프로젝트관리 (매출계약탭)
+ * 02. 화면명   : 용역계약-프로젝트관리(매출계약) (SP_ContractSI)
+ * 03. 화면설명 : 용역계약-프로젝트관리(매출계약)
+ * 04. 작성일   : 2018.09.24
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommUtil.xjs"
+include "Script::CommGrid.xjs"
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.FV_PARENT_FORM = this.parent.parent.parent.parent;
+
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+ this.SP_ContractSI_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.FV_PARENT_FORM.fnAuthConfig();
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+	 
+	// 용역 철수일 수정 권한[초기 화면 오픈용]
+	if (this.commUtil.getFormAuthority(242,6)) {
+		//this.cal_WithDrawDate.set_readonly(false);
+	}
+	
+	//this.fn_SetInitDisp(this.FV_PARENT_FORM.div_ContractInfo.form.div_ContractMst.form.cmb_ContractType.value);
+	this.fn_SetInitDisp(this.FV_PARENT_FORM.contract_div.form.cmb_ContractType.value);
+	
+	
+};
+ 
+  /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+ // 공통코드 조회
+ this.fnGetCode = function()
+ { 
+	this.gfnAddCodeDataset("ds_cmm_Area_SI",			"AREA_CODE"); 			// 근무지역
+	this.gfnAddCodeDataset("ds_cmm_Publisher_SI",		"PUBLISHER"); 			// 계산서발행처
+	
+	this.gfnCodeTransaction();
+ }
+ 
+ this.fnDisplayBtn = function()
+ {
+		this.stc_EstimateNo.set_visible(false);
+		this.edt_EstimateNo.set_visible(false);
+		this.btn_Estimate.set_visible(false);
+		this.stc_PreEstimateNo.set_visible(false);
+		this.edt_PreEstimateNo.set_visible(false);
+		this.stc_OrgEstimateNo.set_visible(false);
+		this.edt_OrgEstimateNo.set_visible(false);
+ };
+ 
+ // 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	switch (strSvcID) 
+	{
+		case "gfnGetCode" :
+			this.fnDisplayBtn();
+			break;
+	}
+ };
+
+ // 팝업 콜백
+ this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		switch(sPopupId)
+		{
+			case "popupEstimateListPopup" :
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				
+				var sEmSeq = ds.getColumn(0, "EM_SEQ");
+				var sEstimateNo = ds.getColumn(0, "ESTIMATE_NO");
+				
+				var dsContractList = this.FV_PARENT_FORM.ds_MainContract;
+				var nCurrow = dsContractList.rowposition;
+				
+				dsContractList.setColumn(nCurrow, "EM_SEQ", sEmSeq);
+				dsContractList.setColumn(nCurrow, "ESTIMATE_NO", sEstimateNo);
+				break;
+		}
+	}
+};
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+this.fn_SetInitDisp = function (sContractType)
+{	
+	var bVisibleFlag = true;
+	
+	if ( sContractType == "T") {
+		bVisibleFlag = true;
+	} else {
+		bVisibleFlag = true;
+	} 
+	
+	this.stc_WithDrawDate.set_visible(bVisibleFlag);
+	this.cal_WithDrawDate.set_visible(bVisibleFlag);
+	this.stc_WithDrawUser.set_visible(bVisibleFlag);
+	this.edt_WithDrawUser.set_visible(bVisibleFlag);
+	//this.cal_OpenDate.set_visible(bVisibleFlag);
+}
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+
+
+this.cal_WithDrawDate_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var sEmpNm = nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NM");
+	var sEmpNo = nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NO");
+	// WITHDRAW_EMP_NO
+	
+	var dsObj = this.FV_PARENT_FORM.objects["ds_MainContract"];
+	
+	dsObj.setColumn( dsObj.rowposition, "WITHDRAW_EMP_NO", sEmpNo);
+	dsObj.setColumn( dsObj.rowposition, "WITHDRAW_EMP_NAME", sEmpNm);
+	//this.edt_WithDrawUser.set_value(sEmpNm);
+}
+
+/*
+	해당 건 수정시 각 div URL 연결 된 버튼 수정해야 함 
+	SP_ContractMaintenance
+	SP_ContractProduct
+	SP_ContractSI
+*/
+this.btn_Estimate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var dsContractList = this.FV_PARENT_FORM.ds_MainContract;
+	var nCurrow = dsContractList.rowposition;
+	
+	var sProjectCode = dsContractList.getColumn(nCurrow, "PROJECT_CODE");
+	var Argument =  {
+						pvProjectCode:sProjectCode
+					};
+	this.commUtil.popup(this, "popupEstimateListPopup", "Sales::SS_EstimateListPopup.xfdl", -1, -1, 1000, 400, true, false, false, Argument, "fnPopupCallBack");
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_cmm_Area_SI">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Publisher_SI">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item10" compid="cal_ContractDate" propid="value" datasetid="ds_MainContract" columnid="CONTRACT_DATE"/>
+      <BindItem id="item13" compid="cal_OpenDate" propid="value" datasetid="ds_MainContract" columnid="OPEN_DATE"/>
+      <BindItem id="item15" compid="cmb_Area" propid="value" datasetid="ds_MainContract" columnid="AREA_CODE"/>
+      <BindItem id="item16" compid="cmb_Publisher" propid="value" datasetid="ds_MainContract" columnid="PUBLISHER"/>
+      <BindItem id="item20" compid="cal_WithDrawDate" propid="value" datasetid="ds_MainContract" columnid="WITHDRAW_DATE"/>
+      <BindItem id="item21" compid="edt_WithDrawUser" propid="value" datasetid="ds_MainContract" columnid="WITHDRAW_EMP_NAME"/>
+      <BindItem id="item0" compid="cal_StartDt" propid="value" datasetid="ds_MainContract" columnid="START_DATE"/>
+      <BindItem id="item1" compid="cal_EndDt" propid="value" datasetid="ds_MainContract" columnid="END_DATE"/>
+      <BindItem id="item2" compid="medt_Menmonth" propid="value" datasetid="ds_MainContract" columnid="MEN_MONTH"/>
+      <BindItem id="item3" compid="medt_ProfitsRate" propid="value" datasetid="ds_MainContract" columnid="PROFITS_RATE"/>
+      <BindItem id="item4" compid="edt_EstimateNo" propid="value" datasetid="ds_MainContract" columnid="ESTIMATE_NO"/>
+      <BindItem id="item5" compid="edt_EstimateNo" propid="tooltiptext" datasetid="ds_MainContract" columnid="ESTIMATE_NO"/>
+      <BindItem id="item6" compid="edt_PreEstimateNo" propid="value" datasetid="ds_MainContract" columnid="PRE_ESTIMATE_NO"/>
+      <BindItem id="item7" compid="edt_PreEstimateNo" propid="tooltiptext" datasetid="ESTIMATE_NO" columnid="PRE_ESTIMATE_NO"/>
+      <BindItem id="item8" compid="edt_OrgEstimateNo" propid="value" datasetid="ds_MainContract" columnid="ORG_ESTIMATE_NO"/>
+      <BindItem id="item9" compid="edt_OrgEstimateNo" propid="tooltiptext" datasetid="PRE_ESTIMATE_NO" columnid="PRE_ESTIMATE_NO"/>
+    </Bind>
+  </Form>
+</FDL>

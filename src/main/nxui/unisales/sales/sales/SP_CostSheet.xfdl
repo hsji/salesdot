@@ -516,8 +516,7 @@ this.GetCostsheetAddRowconfirm = function ()
 		}
 	}
 	return true;
-}
-
+};
 
  this.fn_getChkExceptionCd = function ()
  {
@@ -537,7 +536,7 @@ this.GetCostsheetAddRowconfirm = function ()
 		}
 	} 
 	return bRtnVal;
- }
+ };
  
   /************************************************************************************************
  * TRANSACTION 및 추가 FUNCTION 영역

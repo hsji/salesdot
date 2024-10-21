@@ -5,7 +5,7 @@
 <mapper namespace="projectMapper">
 
 <!-- 매출계약  -->
-<select id="searchSP_RequestContract_S02" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_RequestContract_S02" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_RequestContract_S02
 	SELECT  PL.PROJECT_CODE,
 	        CL.CONTRACT_NO,
@@ -44,7 +44,7 @@
 </select>
 
 <!-- 매출계약  -->
-<select id="searchSP_Contract_S01" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_Contract_S01" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_Contract_S01
 	SELECT CL.CONTRACT_TYPE
 		 , P.PROJECT_CODE
@@ -60,9 +60,9 @@
 		 , CL.PAY_METHOD
 		 , CL.INCENTIVE_EMP_NO
 		 , CL.SALES_EMP_NO
-		 , (SELECT EMP_NAME FROM F_EMP(#gdsGlobal.LANGUAGE#) WHERE EMP_NO = CL.SALES_EMP_NO) AS SALES_EMP_NAME
+		 , (SELECT EMP_NM FROM T_SYTM_USER WHERE EMP_NO = CL.SALES_EMP_NO) AS SALES_EMP_NAME
 		 , CL.CONFIRM_EMP_NO AS CREATE_EMP_NO
-		 , (SELECT EMP_NAME FROM F_EMP(#gdsGlobal.LANGUAGE#) WHERE EMP_NO = CL.CONFIRM_EMP_NO) AS CREATE_EMP_NAME
+		 , (SELECT EMP_NM FROM T_SYTM_USER WHERE EMP_NO = CL.CONFIRM_EMP_NO) AS CREATE_EMP_NAME
 		 , VCP.CONTRACT_PRICE
 		 , CL.PREPAYMENT_EXECUTION_RATE
 		 , CL.CONTRACT_EXECUTION_RATE
@@ -75,48 +75,48 @@
 		 , DATE_FORMAT(CL.BAD_DEBT_DATE, '%Y%m%d') AS BAD_DEBT_DATE
 		 , CL.EXPORT_FLAG
 		 , CASE 
-			WHEN CL.CONTRACT_TYPE IN ('P', 'G', 'E') THEN DATE_FORMAT(CP.OPEN_DATE, '%Y%m%d')
-			WHEN CL.CONTRACT_TYPE IN ('S', 'T') THEN DATE_FORMAT(CS.OPEN_DATE, '%Y%m%d')
+			WHEN CL.CONTRACT_TYPE IN ('PD', 'GD', 'ET') THEN DATE_FORMAT(CP.OPEN_DATE, '%Y%m%d')
+			WHEN CL.CONTRACT_TYPE IN ('ZS', 'ZT') THEN DATE_FORMAT(CS.OPEN_DATE, '%Y%m%d')
 			ELSE NULL
 		   END AS OPEN_DATE
 		 , (SELECT MAX(DATE_FORMAT(B.ISSUE_DATE, '%Y%m%d'))
-			FROM PRODUCT_LICENSE_LIST B
+			FROM SALES_PRODUCT_LICENSE_LIST B
 			WHERE B.CONTRACT_NO = CL.CONTRACT_NO
 			AND B.ISSUE_DATE IS NOT NULL
 		   ) AS ISSUE_DATE
 		 , CASE 
-			WHEN CL.CONTRACT_TYPE IN ('P', 'G', 'E') THEN DATE_FORMAT(CP.DELIVERY_DATE, '%Y%m%d')
+			WHEN CL.CONTRACT_TYPE IN ('PD', 'GD', 'ET') THEN DATE_FORMAT(CP.DELIVERY_DATE, '%Y%m%d')
 			ELSE NULL
 		   END AS DELIVERY_DATE
 		 , CASE 
-			WHEN CL.CONTRACT_TYPE IN ('P', 'G', 'E') THEN CP.STRATEGY_SALES_FLAG
-			WHEN CL.CONTRACT_TYPE IN ('S', 'T') THEN CS.STRATEGY_SALES_FLAG
+			WHEN CL.CONTRACT_TYPE IN ('PD', 'GD', 'ET') THEN CP.STRATEGY_SALES_FLAG
+			WHEN CL.CONTRACT_TYPE IN ('ZS', 'ZT') THEN CS.STRATEGY_SALES_FLAG
 			ELSE NULL
 		   END AS STRATEGY_SALES_FLAG
 		 , CP.ANNUAL_FLAG
 		 , DATE_FORMAT(
 			CASE 
 			  WHEN CL.CONTRACT_TYPE = 'M' THEN CM.START_DATE
-			  WHEN CL.CONTRACT_TYPE IN ('S', 'T') THEN CS.START_DATE
+			  WHEN CL.CONTRACT_TYPE IN ('ZS', 'ZT') THEN CS.START_DATE
 			  ELSE CP.FREE_MA_START_DATE
 			END, '%Y%m%d'
 		   ) AS START_DATE
 		 , DATE_FORMAT(
 			CASE 
 			  WHEN CL.CONTRACT_TYPE = 'M' THEN CM.END_DATE
-			  WHEN CL.CONTRACT_TYPE IN ('S', 'T') THEN CS.END_DATE
+			  WHEN CL.CONTRACT_TYPE IN ('ZS', 'ZT') THEN CS.END_DATE
 			  ELSE CP.FREE_MA_END_DATE
 			END, '%Y%m%d'
 		   ) AS END_DATE
 		 , DATE_FORMAT(CP.START_DATE, '%Y%m%d') AS START_DATE2
 		 , DATE_FORMAT(CP.END_DATE, '%Y%m%d') AS END_DATE2
 		 , CASE 
-			WHEN CL.CONTRACT_TYPE IN ('P', 'G', 'E') THEN DATE_FORMAT(CP.RESULT_DATE, '%Y%m%d')
+			WHEN CL.CONTRACT_TYPE IN ('PD', 'GD', 'ER') THEN DATE_FORMAT(CP.RESULT_DATE, '%Y%m%d')
 			WHEN CL.CONTRACT_TYPE = 'M' THEN DATE_FORMAT(CM.RESULT_DATE, '%Y%m%d')
 			ELSE ''
 		   END AS RESULT_DATE
 		 , CASE 
-			WHEN CL.CONTRACT_TYPE IN ('S', 'T') THEN CS.PUBLISHER
+			WHEN CL.CONTRACT_TYPE IN ('ZS', 'ZT') THEN CS.PUBLISHER
 			WHEN CL.CONTRACT_TYPE = 'M' THEN CM.PUBLISHER
 			ELSE ''
 		   END AS PUBLISHER
@@ -164,7 +164,7 @@
 	LEFT JOIN SALES_CONTRACT_SI CS ON (CL.CONTRACT_NO = CS.CONTRACT_NO)
 	LEFT JOIN (SELECT CONTRACT_NO
 				  , SUM(MEN_MONTH) AS MEN_MONTH
-			   FROM SALES_CONTRACT_SI_DET
+			   FROM SALES_CONTRACT_SI_DETAIL
 			   WHERE DELETE_FLAG = '0'
 			   GROUP BY CONTRACT_NO
 			  ) CSD ON (CS.CONTRACT_NO = CSD.CONTRACT_NO)
@@ -172,7 +172,7 @@
 	LEFT JOIN (SELECT CONTRACT_NO
 				  , MIN(START_DATE) AS START_DATE
 				  , MAX(END_DATE) AS END_DATE
-			   FROM SALES_CONTRACT_MA_DET
+			   FROM SALES_CONTRACT_MA_DETAIL
 			   WHERE DELETE_FLAG = '0'
 			   GROUP BY CONTRACT_NO
 			  ) CMD ON (CM.CONTRACT_NO = CMD.CONTRACT_NO)
@@ -182,8 +182,8 @@
 	LEFT JOIN V_CONTRACT_PRICE VCP ON (CL.CONTRACT_NO = VCP.CONTRACT_NO)
 	LEFT JOIN SALES_COMPANY_LIST COM ON (CL.CONTRACT_MAIN = COM.COMPANY_CODE)
 	LEFT JOIN SALES_PRODUCT_LIST PROD ON (CL.PRODUCT_CODE = PROD.PRODUCT_CODE)
-	LEFT JOIN V_EMP VE ON (CS.WITHDRAW_EMP_NO = VE.EMP_NO)
-	--LEFT JOIN T_SYTM_CODE CD ON (CL.CONTRACT_TYPE = CD.SSC_CD
+	LEFT JOIN T_SYTM_USER VE ON (CS.WITHDRAW_EMP_NO = VE.EMP_NO)
+	-- LEFT JOIN T_SYTM_CODE CD ON (CL.CONTRACT_TYPE = CD.SSC_CD
 	-- AND CD.HCL_CD = 'CONTRACT_TYPE'
 	-- AND CD.GRP_CD_1 = '1')
 	-- LEFT JOIN V_ROYALTY_INFO VRI ON VRI.CONTRACT_NO = CL.CONTRACT_NO
@@ -202,7 +202,7 @@
 </select>
 
 <!-- 매출계약  -->
-<select id="searchSP_Contract_S03" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_Contract_S03" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_Contract_S03
 	SELECT A.PROJECT_CODE
 		 , A.CONTRACT_NO
@@ -232,7 +232,7 @@
 </select>
 
 <!-- 매출계약  -->
-<select id="searchSP_Contract_S02_sales_schedule" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_Contract_S02_sales_schedule" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_Contract_S02_sales_schedule
 	SELECT SS.SS_SEQ
 		 , SS.PROJECT_CODE
@@ -250,7 +250,7 @@
 </select>
 
 <!-- 매출계약  -->
-<select id="searchSP_Contract_S02_company_addressbook" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_Contract_S02_company_addressbook" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_Contract_S02_company_addressbook
 	SELECT CAM.SOURCE_CD
 	     , CAM.SOURCE_DATA
@@ -284,7 +284,7 @@
 </select>
 
 <!-- 매출계약  -->
-<select id="searchSP_Contract_S02_contract_promise" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_Contract_S02_contract_promise" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_Contract_S02_contract_promise
 	SELECT CP_SEQ
 		 , CONTRACT_NO
@@ -298,7 +298,7 @@
 </select>
 
 <!-- 매출계약  -->
-<select id="searchSP_Contract_S02_contract_ma_union" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_Contract_S02_contract_ma_union" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_Contract_S02_contract_ma_union
 	SELECT CMU.CONTRACT_NO
 		 , CMU.UNION_CONTRACT_NO
@@ -332,7 +332,7 @@
 </select>
 
 <!-- 매출계약  -->
-<select id="searchSP_Contract_S02_contract_prod_det" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_Contract_S02_contract_prod_det" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_Contract_S02_contract_prod_det
 	SELECT CRD.CRD_SEQ
 		 , CRD.CONTRACT_NO
@@ -340,11 +340,13 @@
 		 , PL.PRODUCT_NAME
 		 -- , PLI.PRODUCT_VERSION
 		 , PL.PRODUCT_NAME_SHORT
-		 , CASE WHEN LENGTH(CRD.PRODUCT_LIST) > 0 THEN '<![CDATA[[]]>' ELSE '' END +
-		   CASE WHEN REPLACE(CRD.PRODUCT_LIST, '0', '') != CRD.PRODUCT_LIST THEN 'S' ELSE '' END +
-		   CASE WHEN REPLACE(CRD.PRODUCT_LIST, '1', '') != CRD.PRODUCT_LIST THEN 'T' ELSE '' END +
-		   CASE WHEN REPLACE(CRD.PRODUCT_LIST, '2', '') != CRD.PRODUCT_LIST THEN 'C' ELSE '' END +
-		   CASE WHEN LENGTH(CRD.PRODUCT_LIST) > 0 THEN '<![CDATA[] ]]>' ELSE '' END + PL.PRODUCT_NAME AS PRODUCT_LIST_NAME
+		 , CONCAT(
+		 		CASE WHEN LENGTH(CRD.PRODUCT_LIST) <![CDATA[>]]> 0 THEN '<![CDATA[[]]>' ELSE '' END,
+		 		CASE WHEN REPLACE(CRD.PRODUCT_LIST, '0', '') != CRD.PRODUCT_LIST THEN 'S' ELSE '' END,
+		 		CASE WHEN REPLACE(CRD.PRODUCT_LIST, '1', '') != CRD.PRODUCT_LIST THEN 'T' ELSE '' END,
+		 		CASE WHEN REPLACE(CRD.PRODUCT_LIST, '2', '') != CRD.PRODUCT_LIST THEN 'C' ELSE '' END,
+		 		CASE WHEN LENGTH(CRD.PRODUCT_LIST) <![CDATA[>]]> 0 THEN '<![CDATA[]]]>' ELSE '' END,
+		 		PL.PRODUCT_NAME) AS PRODUCT_LIST_NAME
 		 , CRD.PRODUCT_LIST
 		 , CRD.PLATFORM_LIST
 		 , CRD.FUNCTION_LIST
@@ -368,7 +370,7 @@
 </select>
 
 <!-- 매출계약  -->
-<select id="searchSP_Contract_S02_contract_ma_det" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_Contract_S02_contract_ma_det" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_Contract_S02_contract_ma_det
 	SELECT CMD.CMD_SEQ
 		 , CMD.CONTRACT_NO
@@ -395,7 +397,7 @@
 </select>
 
 <!-- 매출계약  -->
-<select id="searchSP_Contract_S02_contract_si_det" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_Contract_S02_contract_si_det" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_Contract_S02_contract_si_det
 	SELECT CSD.CSD_SEQ
 		 , CSD.CONTRACT_NO
@@ -414,7 +416,7 @@
 		 , CSD.ORD
 		 , CSD.EXECUTION_TYPE
 		 , CSD.TECH_SUPPORT_UNIT
-	FROM SALES_CONTRACT_SI_DET CSD
+	FROM SALES_CONTRACT_SI_DETAIL CSD
 	JOIN SALES_CONTRACT_LIST CL
 	  ON CSD.CONTRACT_NO = CL.CONTRACT_NO
 	LEFT JOIN SALES_LEVEL_UNIT_COST LUC
@@ -427,7 +429,7 @@
 </select>
 
 <!-- 매출계약  -->
-<select id="searchSP_Contract_S02_TOBE_ROYALTY_SELECT" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_Contract_S02_TOBE_ROYALTY_SELECT" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_Contract_S02_TOBE_ROYALTY_SELECT 추후
 	SELECT RI.PROJECT_CODE
 		 , RI.CONTRACT_NO
@@ -1654,7 +1656,7 @@
 </update>
 
 <update id="updateSP_Contract_R03" parameterType="java.util.Map">
-	-- updateSP_Contract_R01_Royalty
+	-- updateSP_Contract_R03
 	UPDATE SALES_CONTRACT_LIST
 	SET 
 	  CONTRACT_STATUS = '2'
@@ -1664,8 +1666,48 @@
 	WHERE 
 	  CONTRACT_NO = #{CONTRACT_NO}
 	  AND CONTRACT_STATUS = '3';
-	
 </update>
+
+<select id="selectSP_Contract_R03_1" parameterType="java.util.List" resultType="java.util.Map">
+	-- selectSP_Contract_R03_1
+    SELECT CC_SEQ
+    FROM SALES_COSTSHEET_CONTRACT_SI
+    WHERE AUTO_REG_FLAG = '1'
+    AND CONTRACT_NO = #{CONTRACT_NO}
+    GROUP BY CC_SEQ;
+</select>
+
+<delete id="deleteSP_Contract_R03_1" parameterType="java.util.Map">
+	-- deleteSP_Contract_R03_1
+	DELETE FROM SALES_COSTSHEET_CONTRACT_SI
+	WHERE AUTO_REG_FLAG = '1'
+	AND CONTRACT_NO = #{CONTRACT_NO};
+	
+	DELETE FROM SALES_COSTSHEET_PURCHASE_SI
+	WHERE AUTO_REG_FLAG = '1'
+	AND CONTRACT_NO = #{CONTRACT_NO};
+</delete>
+
+<delete id="deleteSP_Contract_R03_2" parameterType="java.util.Map">
+	-- deleteSP_Contract_R03_2
+    DELETE FROM SALES_COSTSHEET_MAP
+    WHERE CC_SEQ = #{CC_SEQ};
+    
+    DELETE FROM COSTSHEET_CONTRACT
+    WHERE CC_SEQ IN (
+        SELECT CC.CC_SEQ
+        FROM COSTSHEET_CONTRACT CC
+        LEFT JOIN COSTSHEET_CONTRACT_PRODUCT CCP ON CC.CC_SEQ = CCP.CC_SEQ
+        LEFT JOIN COSTSHEET_PURCHASE_PRODUCT CPP ON CC.CC_SEQ = CPP.CC_SEQ
+        LEFT JOIN COSTSHEET_CONTRACT_SI CCS ON CC.CC_SEQ = CCS.CC_SEQ AND CCS.AUTO_REG_FLAG = '0'
+        LEFT JOIN COSTSHEET_PURCHASE_SI CPS ON CC.CC_SEQ = CPS.CC_SEQ AND CPS.AUTO_REG_FLAG = '0'
+        WHERE CC.COSTSHEET_TYPE = '1'
+        AND CC.CC_SEQ = #{CC_SEQ}
+        AND CCP.CC_SEQ IS NULL
+        AND CPP.CC_SEQ IS NULL
+        AND CCS.CC_SEQ IS NULL
+        AND CPS.CC_SEQ IS NULL);
+</delete>
 
 <select id="selectSP_Contract_S04_1" parameterType="java.util.List" resultType="java.util.Map">
 	-- selectSP_Contract_S04_1
@@ -2096,7 +2138,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseContract_S01" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseContract_S01" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseContract_S01
 	SELECT PL.PROJECT_CODE,
 	       P.PROJECT_NAME,
@@ -2125,7 +2167,7 @@
 	LEFT JOIN (SELECT PPD.CONTRACT_NO_PURCHASE,
 	                  SUM(PPD.CONTRACT_PRICE) AS CONTRACT_AMT
 	           FROM   SALES_PURCHASE_LIST PL
-	           JOIN   SALES_PURCHASE_PRODUCT_DET PPD ON PL.CONTRACT_NO_PURCHASE = PPD.CONTRACT_NO_PURCHASE
+	           JOIN   SALES_PURCHASE_PRODUCT_DETAIL PPD ON PL.CONTRACT_NO_PURCHASE = PPD.CONTRACT_NO_PURCHASE
 	                                           AND PPD.DELETE_FLAG = '0'
 	           WHERE  PL.DELETE_FLAG = '0'
 	           GROUP BY PPD.CONTRACT_NO_PURCHASE) PPD
@@ -2133,7 +2175,7 @@
 	LEFT JOIN (SELECT PSD.CONTRACT_NO_PURCHASE,
 	                  SUM(PSD.CONTRACT_PRICE) AS CONTRACT_AMT
 	           FROM   SALES_PURCHASE_LIST PL
-	           JOIN   SALES_PURCHASE_SI_DET PSD ON PL.CONTRACT_NO_PURCHASE = PSD.CONTRACT_NO_PURCHASE
+	           JOIN   SALES_PURCHASE_SI_DETAIL PSD ON PL.CONTRACT_NO_PURCHASE = PSD.CONTRACT_NO_PURCHASE
 	                                       AND PSD.DELETE_FLAG = '0'
 	           WHERE  PL.DELETE_FLAG = '0'
 	           GROUP BY PSD.CONTRACT_NO_PURCHASE) PSD
@@ -2144,7 +2186,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseSi_S01" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseSi_S01" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseSi_S01
 	SELECT 
 		PL.CONTRACT_NO_PURCHASE,
@@ -2226,7 +2268,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseProduct_S01" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseProduct_S01" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseProduct_S01
 	SELECT
 		PL.CONTRACT_NO_PURCHASE,
@@ -2328,7 +2370,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseSiDet_S01" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseSiDet_S01" parameterType="java.util.Map" resultType="java.util.Map">
 	-- SP_PurchaseSiDet_S01
 	SELECT
 		PSPD.PSD_SEQ,
@@ -2370,7 +2412,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseProductDet_S01" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseProductDet_S01" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseProductDet_S01
 	SELECT
 	    PLPD.PPD_SEQ,
@@ -2392,13 +2434,13 @@
 	    PLPD.REMARKS,
 	    PLPD.DELETE_FLAG,
 	    CASE
-	        WHEN PU.CONTRACT_TYPE IN ('C', 'D') THEN PD3.PRODUCT_NAME
+	        WHEN PU.CONTRACT_TYPE IN ('CM', 'DM') THEN PD3.PRODUCT_NAME
 	        WHEN PD3.PRODUCT_NAME IS NULL THEN PD.PRODUCT_NAME
 	        ELSE CONCAT(PD.PRODUCT_NAME, '(', PD3.PRODUCT_NAME, ')')
 	    END AS REPROT_PRODUCT_NAME,
 	    CASE 
-	        WHEN PU.CONTRACT_TYPE IN ('C', 'M', 'D') THEN IFNULL(PLPD.ROYALTY_TYPE, PD2.ROYALTY_TYPE)
-	        WHEN PU.CONTRACT_TYPE = 'P' THEN IFNULL(PLPD.ROYALTY_TYPE, PD.ROYALTY_TYPE)
+	        WHEN PU.CONTRACT_TYPE IN ('CM', 'SM', 'DM') THEN IFNULL(PLPD.ROYALTY_TYPE, PD2.ROYALTY_TYPE)
+	        WHEN PU.CONTRACT_TYPE = 'PD' THEN IFNULL(PLPD.ROYALTY_TYPE, PD.ROYALTY_TYPE)
 	        ELSE IFNULL(PLPD.ROYALTY_TYPE, 'NA')
 	    END AS ROYALTY_TYPE
 	FROM
@@ -2419,7 +2461,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchasePay_S01" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchasePay_S01" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchasePay_S01
 	SELECT
 		ROW_NUMBER() OVER(ORDER BY PPY.PAY_PLAN_DATE, PAY_DATE) AS ROW_NO,
@@ -2511,7 +2553,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseProduct_S05" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseProduct_S05" parameterType="java.util.Map" resultType="java.util.Map">
 	-- SP_PurchaseProduct_S05
 	SELECT 
 	    CMD.CONTRACT_NO,
@@ -2549,13 +2591,13 @@
 
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseSi_S02_1" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseSi_S02_1" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseSi_S02_1
 	SELECT 
 	    CL.CONTRACT_NO,
 	    CSD.CSD_SEQ,
 	    CSD.LEVEL_CODE,
-	    CD1.CAPTION AS LEVEL_CODE_NAME,
+	    CD1.SSC_CD_KORN_NM AS LEVEL_CODE_NAME,
 	    DATE_FORMAT(CSD.START_DATE, '%Y%m%d') AS START_DATE,
 	    DATE_FORMAT(CSD.END_DATE, '%Y%m%d') AS END_DATE,
 	    CSD.PERSON_NUMBER,
@@ -2586,7 +2628,7 @@
 </select>	    
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseSi_S02_2" parameterType="java.util.Map" resultType="_int">
+<select id="selectSP_PurchaseSi_S02_2" parameterType="java.util.Map" resultType="_int">
 	-- searchSP_PurchaseSi_S02_2
 	 SELECT  COUNT(*) AS PSD_CSD_CNT
 	 FROM    SALES_PSD_CSD PCDL
@@ -2596,7 +2638,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseSi_S02_3" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseSi_S02_3" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseSi_S02_3
 	
 	SELECT  
@@ -2607,7 +2649,7 @@
 		PSD.EMP_NO,
 		VE.EMP_NAME,
 		CSD.LEVEL_CODE,
-		CD1.CAPTION AS LEVEL_CODE_NAME,
+		CD1.SSC_CD_KORN_NM AS LEVEL_CODE_NAME,
 		DATE_FORMAT(PCSDL.START_DATE, '%Y%m%d') AS START_DATE,  -- CONVERT(VARCHAR(8), PCSDL.START_DATE, 112) -> DATE_FORMAT
 		DATE_FORMAT(PCSDL.END_DATE, '%Y%m%d') AS END_DATE,      -- CONVERT(VARCHAR(8), PCSDL.END_DATE, 112) -> DATE_FORMAT
 		CSD.PERSON_NUMBER,
@@ -2643,17 +2685,17 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseProduct_S02" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseProduct_S02" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseProduct_S02
 	SELECT  
 		PRD2.PRODUCT_NAME,
 		CRD.PRODUCT_CODE,
-		CD1.CAPTION AS PURPOSE_NAME,
+		CD1.SSC_CD_KORN_NM AS PURPOSE_NAME,
 		CRD.ISDEV_FLAG,
 		CRD.CONTRACT_NO,
 		CRD.UNIT_COST,
-		CD2.CAPTION AS SERVER_GRADE_NAME,
-		CD3.CAPTION AS PRODUCT_UNIT_NAME,
+		CD2.SSC_CD_KORN_NM AS SERVER_GRADE_NAME,
+		CD3.SSC_CD_KORN_NM AS PRODUCT_UNIT_NAME,
 		CRD.PRODUCT_UNIT,
 		CRD.QUANTITY,
 		CRD.CONTRACT_PRICE,
@@ -2690,7 +2732,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseProduct_S04_1" parameterType="java.util.Map" resultType="_int">
+<select id="selectSP_PurchaseProduct_S04_1" parameterType="java.util.Map" resultType="_int">
 	-- searchSP_PurchaseProduct_S04_1
 	SELECT  COUNT(*) AS CNT 
 	FROM    SALES_PURCHASE_MA_UNION   PMU 
@@ -2749,7 +2791,7 @@
 </insert>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseProduct_S04_2" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseProduct_S04_2" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseProduct_S04_2
 	SELECT  
 		PL.CLIENT_CODE,
@@ -2792,7 +2834,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseList_S03" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseList_S03" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseList_S03
 	SELECT 
 		ROW_NUMBER() OVER(ORDER BY PU.CONTRACT_NO_PURCHASE) AS NO
@@ -2823,7 +2865,7 @@
 </select>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseProduct_S03_1" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseProduct_S03_1" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseProduct_S03_1
 	SELECT 
 	    CONTRACT_NO_PURCHASE,
@@ -2842,7 +2884,7 @@
 </update>
 
 <!-- 매입계약  -->
-<select id="searchSP_PurchaseProduct_S03_2" parameterType="java.util.Map" resultType="java.util.Map">
+<select id="selectSP_PurchaseProduct_S03_2" parameterType="java.util.Map" resultType="java.util.Map">
 	-- searchSP_PurchaseProduct_S03_2
 	SELECT 
 	    CONTRACT_NO_PURCHASE,
@@ -3094,14 +3136,19 @@
 	WHERE PSD_SEQ = #{PSD_SEQ};
 </update>
 
-<select id="searchSP_PurchaseSIDet_select" resultType="java.util.Map">
+<select id="selectSP_PurchaseSIDet_select" resultType="java.util.Map">
 	-- searchSP_PurchaseSIDet_select
 	SELECT LAST_INSERT_ID() AS PSD_SEQ_NEW;
 </select>
 
-<select id="searchSP_PurchasePDet_select" resultType="java.util.Map">
+<select id="selectSP_PurchasePDet_select" resultType="java.util.Map">
 	-- searchSP_PurchaseSIDet_select
 	SELECT LAST_INSERT_ID() AS PPD_SEQ_NEW;
+</select>
+
+<select id="selectLAST_BD_SEQ" resultType="java.util.Map">
+	-- selectLAST_BD_SEQ
+	SELECT LAST_INSERT_ID() AS BD_SEQ;
 </select>
 	    
 <insert id="insertSP_PurchasePay_R01" parameterType="java.util.Map">
@@ -3562,4 +3609,4170 @@ LEFT JOIN T_SYTM_UER VE ON PB.INSERT_EMP_NO = VE.EMP_NO
 WHERE CONTRACT_NO_PURCHASE = #{CONTRACT_NO_PURCHASE}
 ORDER BY PB.PB_SEQ DESC;
 </select>
+
+<select id="selectSP_ProjectSIEmp_S01" parameterType="java.util.List" resultType="java.util.Map">
+	-- selectSP_ProjectSIEmp_S01
+	SELECT  CL.PROJECT_CODE,
+			CL.CONTRACT_NO,
+			CL.CO_CD,
+			PSE.PSE_SEQ,
+			PSE.EMP_NO,
+			VE.EMP_NM AS EMP_NAME,
+			COM.COMPANY_NAME AS CO_NAME,
+			PSE.START_DATE,
+			PSE.END_PLAN_DATE,
+			PSE.END_DATE,
+			PSE.NONRESIDENT_FLAG,
+			PSE.FREE_SVC_FLAG,
+			PSE.MEN_MONTH,
+			CL.CONTRACT_NAME,
+			IFNULL(VCP.CONTRACT_PRICE, 0) AS CONTRACT_PRICE,
+			PSE.CONTRACT_NO_PURCHASE,
+			PL.CONTRACT_NAME AS PURCHASE_CONTRACT_NAME,
+			PSE.ROLE_CODE,
+			PSE.LEVEL_CODE,
+			PSE.UNIT_COST,
+			PSE.REMARKS,
+			CASE
+				WHEN PSE.RELATED_PSE_SEQ IS NOT NULL THEN 'GREEN'
+				WHEN CL.CO_CD = #{SERVER_CO_CD} THEN ''
+				ELSE 'GREEN'
+			END AS COLOR
+	FROM    SALES_PROJECT_SI_EMP PSE
+	JOIN    SALES_CONTRACT_LIST CL ON (PSE.CONTRACT_NO = CL.CONTRACT_NO
+								 AND CL.DELETE_FLAG = '0'
+								 AND CL.CONTRACT_STATUS = '3'
+								 AND CL.CO_CD = #{SERVER_CO_CD})
+	JOIN    SALES_PROJECT_LIST P ON (CL.PROJECT_CODE = P.PROJECT_CODE
+							   AND P.DELETE_FLAG = '0')
+	LEFT JOIN SALES_PURCHASE_LIST PL ON (PSE.CONTRACT_NO_PURCHASE = PL.CONTRACT_NO_PURCHASE
+								   AND PL.DELETE_FLAG = '0'
+								   AND PL.CO_CD = #{SERVER_CO_CD})
+	LEFT JOIN V_CONTRACT_PRICE VCP ON (CL.CONTRACT_NO = VCP.CONTRACT_NO)
+	LEFT JOIN T_SYTM_USER VE ON (PSE.EMP_NO = VE.EMP_NO)
+													 -- AND VE.MAIN_DEPT_FLAG = '1')
+	LEFT JOIN SALES_COMPANY_LIST COM ON COM.COMPANY_CODE = VE.COMPANY_CD
+	WHERE   PSE.DELETE_FLAG = '0'
+	AND     CL.PROJECT_CODE = #{PROJECT_CODE}
+	ORDER BY PSE.START_DATE;
+</select>
+
+<select id="selectSP_GuaranteeInsurance_S01" parameterType="java.util.List" resultType="java.util.Map">
+	-- selectSP_GuaranteeInsurance_S01
+	SELECT 
+		CL.PROJECT_CODE, 
+		CL.CONTRACT_NO, 
+		CL.CO_CD, 
+		CL.CONTRACT_TYPE, 
+		CD.SSC_CD_KORN_NM AS CONTRACT_TYPE_NAME, 
+		CL.PREPAYMENT_EXECUTION_RATE, 
+		CL.CONTRACT_EXECUTION_RATE, 
+		CL.DEFECT_EXECUTION_RATE, 
+		CGI.PI_BOND_NO, 
+		CGI.CI_BOND_NO, 
+		CGI.DI_BOND_NO, 
+		CGI.PI_CALL_BOX_NO, 
+		CGI.CI_CALL_BOX_NO, 
+		CGI.DI_CALL_BOX_NO, 
+		CGI.PI_EXECUTION, 
+		CGI.CI_EXECUTION, 
+		CGI.DI_EXECUTION, 
+		CGI.PI_INSUPRICE, 
+		CGI.CI_INSUPRICE, 
+		CGI.DI_INSUPRICE, 
+		DATE_FORMAT(CGI.PI_START_DATE, '%Y%m%d') AS PI_START_DATE, 
+		DATE_FORMAT(CGI.CI_START_DATE, '%Y%m%d') AS CI_START_DATE, 
+		DATE_FORMAT(CGI.DI_START_DATE, '%Y%m%d') AS DI_START_DATE, 
+		DATE_FORMAT(CGI.PI_END_DATE, '%Y%m%d') AS PI_END_DATE, 
+		DATE_FORMAT(CGI.CI_END_DATE, '%Y%m%d') AS CI_END_DATE, 
+		DATE_FORMAT(CGI.DI_END_DATE, '%Y%m%d') AS DI_END_DATE, 
+		VCP.CONTRACT_PRICE, 
+		CGI.REMARKS, 
+		CASE 
+			WHEN CGI.CONTRACT_NO IS NULL THEN 0 
+			ELSE 1 
+		END AS ROWTYPE
+	FROM 
+		SALES_PROJECT_LIST P 
+	JOIN 
+		SALES_CONTRACT_LIST CL ON (P.PROJECT_CODE = CL.PROJECT_CODE 
+		AND CL.DELETE_FLAG = '0' 
+		AND CL.CONTRACT_STATUS = '3' 
+		AND CL.CO_CD = #{SERVER_CO_CD})
+	LEFT JOIN 
+		SALES_CONTRACT_GUARANTEE_INSURANCE CGI ON (CL.CONTRACT_NO = CGI.CONTRACT_NO)
+	LEFT JOIN 
+		V_CONTRACT_PRICE VCP ON (CL.CONTRACT_NO = VCP.CONTRACT_NO)
+	LEFT JOIN 
+		T_SYTM_CODE CD ON (CL.CONTRACT_TYPE = CD.SSC_CD 
+		AND CD.HCL_CD = 'CONTRACT_TYPE')
+	WHERE 
+		P.DELETE_FLAG = '0' 
+		AND P.PROJECT_CODE = #{PROJECT_CODE}
+	ORDER BY 
+		CASE 
+			WHEN CL.CONTRACT_TYPE = 'PD' THEN '001' 
+			WHEN CL.CONTRACT_TYPE = 'GD' THEN '002' 
+			WHEN CL.CONTRACT_TYPE = 'ET' THEN '003' 
+			WHEN CL.CONTRACT_TYPE = 'ZS' THEN '004' 
+			ELSE '005' 
+		END, 
+		CL.CONTRACT_NO;
+</select>
+
+<insert id="insertSP_GuaranteeInsurance_R01" parameterType="java.util.Map">
+	INSERT INTO SALES_CONTRACT_GUARANTEE_INSURANCE
+		(CONTRACT_NO, PI_BOND_NO, PI_CALL_BOX_NO
+		<if test="PI_EXECUTION != null and PI_EXECUTION != ''">
+			, PI_EXECUTION
+		</if>
+		<if test="PI_INSUPRICE != null and PI_INSUPRICE != ''">
+			, PI_INSUPRICE
+		</if>
+		, PI_START_DATE, PI_END_DATE, CI_BOND_NO, CI_CALL_BOX_NO
+		<if test="CI_EXECUTION != null and CI_EXECUTION != ''">
+			, CI_EXECUTION
+		</if>
+		<if test="CI_INSUPRICE != null and CI_INSUPRICE != ''">
+			, CI_INSUPRICE
+		</if>
+		, CI_START_DATE, CI_END_DATE, DI_BOND_NO, DI_CALL_BOX_NO
+		<if test="DI_EXECUTION != null and DI_EXECUTION != ''">
+			, DI_EXECUTION
+		</if>
+		<if test="DI_INSUPRICE != null and DI_INSUPRICE != ''">
+			, DI_INSUPRICE
+		</if>
+		, DI_START_DATE, DI_END_DATE
+		<if test="REMARKS != null and REMARKS != ''">
+			, REMARKS
+		</if>
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+		)
+	VALUES
+		(#{CONTRACT_NO}, #{PI_BOND_NO}, #{PI_CALL_BOX_NO}
+		<if test="PI_EXECUTION != null and PI_EXECUTION != ''">
+			, #{PI_EXECUTION}
+		</if>
+		<if test="PI_INSUPRICE != null and PI_INSUPRICE != ''">
+			, #{PI_INSUPRICE}
+		</if>
+		, #{PI_START_DATE}, #{PI_END_DATE}, #{CI_BOND_NO}, #{CI_CALL_BOX_NO}
+		<if test="CI_EXECUTION != null and CI_EXECUTION != ''">
+			, #{CI_EXECUTION}
+		</if>
+		<if test="CI_INSUPRICE != null and CI_INSUPRICE != ''">
+			, #{CI_INSUPRICE}
+		</if>
+		, #{CI_START_DATE}, #{CI_END_DATE}, #{DI_BOND_NO}, #{DI_CALL_BOX_NO}
+		<if test="DI_EXECUTION != null and DI_EXECUTION != ''">
+			, #{DI_EXECUTION}
+		</if>
+		<if test="DI_INSUPRICE != null and DI_INSUPRICE != ''">
+			, #{DI_INSUPRICE}
+		</if>
+		, #{DI_START_DATE}, #{DI_END_DATE}
+		<if test="REMARKS != null and REMARKS != ''">
+			, #{REMARKS}
+		</if>
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	);
+
+</insert>
+
+<update id="updateSP_GuaranteeInsurance_R01" parameterType="java.util.Map">
+	-- updateSP_GuaranteeInsurance_R01
+	UPDATE SALES_CONTRACT_GUARANTEE_INSURANCE
+	SET    
+	    PI_BOND_NO = #{PI_BOND_NO}, 
+	    PI_CALL_BOX_NO = #{PI_CALL_BOX_NO},
+	    
+	    <if test="PI_EXECUTION != null and PI_EXECUTION != ''">
+	        PI_EXECUTION = #{PI_EXECUTION},
+	    </if>
+	    <if test="PI_INSUPRICE != null and PI_INSUPRICE != ''">
+	        PI_INSUPRICE = #{PI_INSUPRICE},
+	    </if>
+	    
+	    PI_START_DATE = #{PI_START_DATE}, 
+	    PI_END_DATE = #{PI_END_DATE}, 
+	    CI_BOND_NO = #{CI_BOND_NO}, 
+	    CI_CALL_BOX_NO = #{CI_CALL_BOX_NO},
+	    
+	    <if test="CI_EXECUTION != null and CI_EXECUTION != ''">
+	        CI_EXECUTION = #{CI_EXECUTION},
+	    </if>
+	    <if test="CI_INSUPRICE != null and CI_INSUPRICE != ''">
+	        CI_INSUPRICE = #{CI_INSUPRICE},
+	    </if>
+	    
+	    CI_START_DATE = #{CI_START_DATE}, 
+	    CI_END_DATE = #{CI_END_DATE}, 
+	    DI_BOND_NO = #{DI_BOND_NO}, 
+	    DI_CALL_BOX_NO = #{DI_CALL_BOX_NO},
+	    
+	    <if test="DI_EXECUTION != null and DI_EXECUTION != ''">
+	        DI_EXECUTION = #{DI_EXECUTION},
+	    </if>
+	    <if test="DI_INSUPRICE != null and DI_INSUPRICE != ''">
+	        DI_INSUPRICE = #{DI_INSUPRICE},
+	    </if>
+	    
+	    DI_START_DATE = #{DI_START_DATE}, 
+	    DI_END_DATE = #{DI_END_DATE},
+	    
+	    <if test="REMARKS != null and REMARKS != ''">
+	        REMARKS = #{REMARKS},
+	    </if>
+		 CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE 
+	    CONTRACT_NO = #{CONTRACT_NO};
+</update>
+
+<select id="selectSP_Expend_S01" parameterType="java.util.List" resultType="java.util.Map">
+	-- selectSP_Expend_S01
+</select>
+
+<select id="selectSP_RequestContract_S01" parameterType="java.util.List" resultType="java.util.Map">
+	-- selectSP_RequestContract_S01
+	SELECT  
+		P.CLIENT_CODE,
+		COM.COMPANY_NAME AS CLIENT_NAME,
+		'0' AS PROJECT_CHECK,
+		P.PROJECT_CODE,
+		P.PROJECT_NAME,
+		CL.CONTRACT_TYPE,
+		CD.SSC_CD_KORN_NM AS CONTRACT_TYPE_NAME,
+		'0' AS CONTRACT_CHECK,
+		CL.CONTRACT_NO,
+		CL.CONTRACT_NAME,
+		CL.CONTRACT_MAIN,
+		COM2.COMPANY_NAME AS CONTRACT_MAIN_NAME,
+		CL.CONTRACT_STATUS,
+		DATE_FORMAT(CONTRACT_DATE, '%Y%m%d') AS CONTRACT_DATE,
+		VE.EMP_NM AS SALES_EMP_NAME,
+		VCP.CONTRACT_PRICE,
+		CL.REMARKS,
+		IFNULL(COM.TMP_FLAG, '0') AS TMP_FLAG, 
+		AD.DOC_STATUS,
+		CD2.SSC_CD_KORN_NM AS DOC_STATUS_NAME,
+		AL.EMP_NO AS DOC_EMP_NO,
+		VE1.EMP_NM AS DOC_EMP_NAME,
+		'N' AS ESTIMATE_COPY_YN,
+		(
+			SELECT COUNT(*)
+			FROM SALES_FILE_MAP
+			WHERE 
+				(SOURCE_CD = 'CL' AND SOURCE_SEQ = CL.CONTRACT_NO)
+				OR (SOURCE_CD = 'P' AND SOURCE_SEQ = CL.PROJECT_CODE)
+		) AS FILE_CNT,
+		CASE
+			WHEN ESTIMATE.CONTRACT_NO IS NOT NULL THEN 'Y'
+			ELSE 'N'
+		END AS ESTIMATE_FINAL_FLAG
+	FROM 
+		SALES_PROJECT_LIST P
+	JOIN 
+		SALES_CONTRACT_LIST CL ON (
+			P.PROJECT_CODE = CL.PROJECT_CODE
+			AND CL.CONTRACT_STATUS = '2'
+			AND CL.CO_CD = #{SERVER_CO_CD}
+			AND CL.DELETE_FLAG = '0'
+		)
+	JOIN 
+		V_CONTRACT_PRICE VCP ON (CL.CONTRACT_NO = VCP.CONTRACT_NO)
+	LEFT JOIN 
+		(
+			SELECT 
+				MAX(CC_SEQ) AS CC_SEQ,
+				PROJECT_CODE
+			FROM 
+				SALES_COSTSHEET_CONTRACT
+			GROUP BY 
+				PROJECT_CODE
+		) CC ON (CC.PROJECT_CODE = P.PROJECT_CODE)
+	LEFT JOIN 
+		SALES_E_APPROVAL_DOC AD ON (
+			AD.DOC_KIND = 'COSTSHEET_1'
+			AND AD.SOURCE_CD = 'CC_SEQ'
+			AND AD.SOURCE_DATA = CC.CC_SEQ
+			AND AD.AD_SEQ IN (
+				SELECT MAX(AD.AD_SEQ) AS AD_SEQ
+				FROM SALES_E_APPROVAL_DOC AD
+				WHERE 
+					AD.DOC_KIND = 'COSTSHEET_1'
+					AND AD.SOURCE_CD = 'CC_SEQ'
+					AND AD.SOURCE_DATA = CC.CC_SEQ
+			)
+		)
+	LEFT JOIN 
+		SALES_E_APPROVAL_LINE AL ON (
+			AL.AD_SEQ = AD.AD_SEQ
+			AND AL.AL_SEQ IN (
+				SELECT MAX(AL2.AL_SEQ) AS AL_SEQ
+				FROM SALES_E_APPROVAL_LINE AL2
+				WHERE 
+					AL2.APPROVAL_FLAG = '1'
+					AND AL2.AD_SEQ = AD.AD_SEQ
+			)
+		)
+	LEFT JOIN 
+		T_SYTM_CODE CD ON (
+			CL.CONTRACT_TYPE = CD.SSC_CD
+			AND CD.HCL_CD = 'CONTRACT_TYPE'
+		)
+	LEFT JOIN 
+		T_SYTM_CODE CD2 ON (
+			AD.DOC_STATUS = CD2.SSC_CD
+			AND CD2.HCL_CD = 'DOC_STATUS'
+		)
+	LEFT JOIN 
+		SALES_COMPANY_LIST COM ON (P.CLIENT_CODE = COM.COMPANY_CODE)
+	LEFT JOIN 
+		SALES_COMPANY_LIST COM2 ON (CL.CONTRACT_MAIN = COM2.COMPANY_CODE)
+	LEFT JOIN 
+		T_SYTM_USER VE ON (VE.EMP_NO = CL.SALES_EMP_NO)
+	LEFT JOIN 
+		T_SYTM_USER VE1 ON (VE1.EMP_NO = AL.EMP_NO)
+	LEFT JOIN 
+		(
+			SELECT CPD.CONTRACT_NO
+			FROM SALES_ESTIMATE_MANGEMENT_DET EMD
+			JOIN SALES_CONTRACT_PRODUCT_DETAIL CPD ON (EMD.CRD_SEQ = CPD.CRD_SEQ AND CPD.DELETE_FLAG = '0')
+			JOIN SALES_ESTIMATE_MANGEMENT EM ON (EMD.EM_SEQ = EM.EM_SEQ)
+			JOIN SALES_DOC_MAP SDM ON (
+				EM.PROJECT_CODE = SDM.PROJECT_CODE 
+				AND EM.SALES_DOC_NO = SDM.SALES_DOC_NO 
+				AND SDM.DELETE_FLAG = '0'
+			)
+			WHERE 
+				EM.DELETE_FLAG = '0'
+				AND EM.FINAL_ESTIMATE_FLAG = '1'
+				AND SDM.ESTIMATE_KIND = 'PRODUCT'
+			GROUP BY CPD.CONTRACT_NO
+			UNION
+			SELECT CSD.CONTRACT_NO
+			FROM SALES_ESTIMATE_MANGEMENT_DET_SI EMDS
+			JOIN SALES_CONTRACT_SI_DETAIL CSD ON (EMDS.CSD_SEQ = CSD.CSD_SEQ AND CSD.DELETE_FLAG = '0')
+			JOIN SALES_ESTIMATE_MANGEMENT EM ON (EMDS.EM_SEQ = EM.EM_SEQ)
+			JOIN SALES_DOC_MAP SDM ON (
+				EM.PROJECT_CODE = SDM.PROJECT_CODE 
+				AND EM.SALES_DOC_NO = SDM.SALES_DOC_NO 
+				AND SDM.DELETE_FLAG = '0'
+			)
+			WHERE 
+				EM.DELETE_FLAG = '0'
+				AND EM.FINAL_ESTIMATE_FLAG = '1'
+				AND SDM.ESTIMATE_KIND = 'PRODUCT'
+			GROUP BY CSD.CONTRACT_NO
+		) ESTIMATE ON (CL.CONTRACT_NO = ESTIMATE.CONTRACT_NO)
+	WHERE 
+		P.DELETE_FLAG = '0'
+	ORDER BY 
+		COM.COMPANY_NAME, P.PROJECT_CODE, CD.SORT_ORDR, CL.CONTRACT_NO;
+
+</select>
+
+<select id="selectSP_CostSheet_R02" parameterType="java.util.List" resultType="java.util.Map">
+	-- "selectSP_CostSheet_R02"
+	SELECT 
+		CCS.CCS_SEQ,
+		CC.PROJECT_CODE,
+		CC.COSTSHEET_TYPE,
+		CCS.CONTRACT_NO
+	FROM 
+		SALES_COSTSHEET_CONTRACT_SI CCS
+	JOIN 
+		SALES_COSTSHEET_CONTRACT CC ON (CC.CC_SEQ = CCS.CC_SEQ)
+	WHERE 
+		CC.COSTSHEET_TYPE = '1'
+		AND CCS.CONTRACT_NO = #{CONTRACT_NO}
+	
+</select>
+
+<select id="selectSP_CostSheet_R02_findProject" parameterType="java.util.List" resultType="java.util.Map">
+	-- "selectSP_CostSheet_R02_findProject"
+	SELECT 
+		PROJECT_CODE,
+		COSTSHEET_TYPE
+	FROM 
+		SALES_COSTSHEET_CONTRACT
+	WHERE 
+		PROJECT_CODE = #{PROJECT_CODE}
+		AND COSTSHEET_TYPE = '1'	
+</select>
+
+<insert id="insertCostSheet_R02_COSTSHEET_CONTRACT" parameterType="java.util.Map">
+	-- insertCostSheet_R02_COSTSHEET_CONTRACT
+	INSERT INTO SALES_COSTSHEET_CONTRACT
+		(PROJECT_CODE, COSTSHEET_TYPE, CONTRACT_MAIN_LIST, CONTRACT_DATE, PAY_TERM, 
+		BILL_DATE_LIST, FREE_MA_YEAR, APPROVAL_TYPE
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+		)
+	SELECT 
+		P.PROJECT_CODE,
+		'1' AS COSTSHEET_TYPE,
+		GROUP_CONCAT(DISTINCT COM.COMPANY_NAME SEPARATOR ' / ') AS CONTRACT_MAIN_LIST,
+		CL.CONTRACT_DATE,
+		NULL AS PAY_TERM,
+		GROUP_CONCAT(DISTINCT 
+			CONCAT(DATE_FORMAT(T.BILL_DATE, '%Y년 %m월 %d일'), T.COMAND) 
+			SEPARATOR ' / ') AS BILL_DATE_LIST,
+		0 AS FREE_MA_YEAR,
+		'0'
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()	
+	FROM 
+		SALES_PROJECT_LIST P
+	JOIN 
+		(SELECT PROJECT_CODE, CONTRACT_NO, SALES_EMP_NO
+		 FROM SALES_CONTRACT_LIST
+		 WHERE DELETE_FLAG = '0'
+		   AND PROJECT_CODE = #{PROJECT_CODE}
+		   AND CONTRACT_NO = #{CONTRACT_NO}
+		   AND CONTRACT_TYPE <![CDATA[<>]]> 'SM'
+		   AND CO_CD = #{gdsGlobal.CO_CD}
+		   AND CONTRACT_STATUS = '2'
+		 LIMIT 1) TCL
+		ON P.PROJECT_CODE = TCL.PROJECT_CODE
+	JOIN 
+		SALES_CONTRACT_LIST CL
+		ON TCL.CONTRACT_NO = CL.CONTRACT_NO
+		AND CL.CONTRACT_TYPE <![CDATA[<>]]> 'SM'
+	LEFT JOIN 
+		SALES_COMPANY_LIST COM
+		ON P.CLIENT_CODE = COM.COMPANY_CODE
+	LEFT JOIN 
+		(SELECT CL.PROJECT_CODE, SUM(VCP.CONTRACT_PRICE) AS CONTRACT_PRICE
+		 FROM SALES_CONTRACT_LIST CL
+		 JOIN V_CONTRACT_PRICE VCP
+		 ON CL.CONTRACT_NO = VCP.CONTRACT_NO
+		 WHERE CL.DELETE_FLAG = '0'
+		   AND CL.CONTRACT_TYPE <![CDATA[<>]]> 'SM'
+		   AND CONTRACT_STATUS = '2'
+		 GROUP BY CL.PROJECT_CODE) VCL
+		ON P.PROJECT_CODE = VCL.PROJECT_CODE
+	WHERE 
+		P.DELETE_FLAG = '0'
+		AND P.PROJECT_CODE = #{PROJECT_CODE}
+		AND CL.CONTRACT_NO = #{CONTRACT_NO};
+</insert>
+
+<select id="selectSP_CostSheet_R02_GetSeq" resultType="java.util.Map">
+	SELECT LAST_INSERT_ID() AS CC_SEQ;
+</select>
+
+<insert id="insertCostSheet_R02_COSTSHEET_CONTRACT_SI" parameterType="java.util.Map">
+	-- insertCostSheet_R02_COSTSHEET_CONTRACT_SI
+	INSERT INTO SALES_COSTSHEET_CONTRACT_SI
+	( 
+		CC_SEQ
+	 , ROLE_CODE
+	 , LEVEL_CODE
+	 , UNIT_COST
+	 , MEN_MONTH
+	 , CONTRACT_PRICE
+	 , CONTRACT_NO
+	 , CSD_SEQ
+	 , AUTO_REG_FLAG
+	 , ORD
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	)
+	SELECT
+	 #{CC_SEQ}
+	 , CSD.ROLE_CODE
+	 , CSD.LEVEL_CODE
+	 , CSD.UNIT_COST
+	 , CSD.MEN_MONTH
+	 , CSD.CONTRACT_PRICE
+	 , CSD.CONTRACT_NO
+	 , CSD.CSD_SEQ
+	 , '1'
+	 , ROW_NUMBER() OVER( ORDER BY CD.SORT_ORDR, CD2.SORT_ORDR) AS ORD
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	FROM SALES_PROJECT_LIST P
+	JOIN SALES_CONTRACT_LIST CL
+	 ON P.PROJECT_CODE = CL.PROJECT_CODE
+	 AND CL.DELETE_FLAG = '0'
+	 AND CL.CONTRACT_STATUS = '2'
+	JOIN SALES_CONTRACT_SI_DET CSD
+	 ON CL.CONTRACT_NO = CSD.CONTRACT_NO
+	 AND CSD.DELETE_FLAG = '0'
+	LEFT JOIN T_SYTM_CODE CD
+	 ON CSD.ROLE_CODE = CD.SSC_CD
+	 AND CD.HCL_CD = 'ROLE_CODE'
+	LEFT JOIN T_SYTM_CODE CD2
+	 ON CSD.LEVEL_CODE = CD2.SSC_CD
+	 AND CD2.HCL_CD = 'LEVEL_CODE'
+	WHERE P.DELETE_FLAG = '0'
+	 AND P.PROJECT_CODE = #{PROJECT_CODE}
+	 AND CSD.CONTRACT_NO = #{CONTRACT_NO}
+	 AND CL.CO_CD = #{SERVER_CO_CD}
+	ORDER BY CD.SORT_ORDR, CD2.SORT_ORDR;
+</insert>
+
+<insert id="insertCostSheet_R02_COSTSHEET_PURCHASE_SI" parameterType="java.util.Map">
+	-- insertCostSheet_R02_COSTSHEET_CONTRACT_SI
+	INSERT INTO SALES_COSTSHEET_PURCHASE_SI
+	( CC_SEQ
+	 , LEVEL_CODE
+	 , COMPANY_CODE
+	 , EMP_NO
+	 , UNIT_COST
+	 , MEN_MONTH
+	 , CONTRACT_PRICE
+	 , CONTRACT_NO
+	 , PSD_SEQ
+	 , PSE_SEQ
+	 , AUTO_REG_FLAG
+	 , ORD
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	 )
+	SELECT #{CC_SEQ}
+	 , T.LEVEL_CODE
+	 , T.COMPANY_CODE
+	 , T.EMP_NO
+	 , T.UNIT_COST
+	 , T.MEN_MONTH
+	 , T.CONTRACT_PRICE
+	 , T.CONTRACT_NO
+	 , T.PSD_SEQ
+	 , T.PSE_SEQ
+	 , '1'
+	 , ROW_NUMBER() OVER( ORDER BY T.LEVEL_CODE,  T.GB, T.COMPANY_CODE) AS ORD
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	FROM (
+		SELECT CL.PROJECT_CODE
+			 , '1' AS COSTSHEET_TYPE
+			 , CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.LEVEL_CODE ELSE PSE.LEVEL_CODE END AS LEVEL_CODE
+			 , VED.COMPANY_CD
+			 , CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.EMP_NO ELSE PSE.EMP_NO END AS EMP_NO
+			 , CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.UNIT_COST ELSE PSE.UNIT_COST END AS UNIT_COST
+			 , COALESCE(CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.MEN_MONTH ELSE PSE.MEN_MONTH END, 0) AS MEN_MONTH
+			 , CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.CONTRACT_PRICE ELSE PSE.UNIT_COST * PSE.MEN_MONTH END AS CONTRACT_PRICE
+			 , CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PL.CONTRACT_NO ELSE PSE.CONTRACT_NO END AS CONTRACT_NO
+			 , PSD.PSD_SEQ
+			 , PSE.PSE_SEQ
+			 , '1' AS GB
+		FROM SALES_CONTRACT_LIST CL
+		LEFT JOIN SALES_PURCHASE_LIST PL
+			ON CL.CONTRACT_NO = PL.CONTRACT_NO
+			AND PL.DELETE_FLAG = '0'
+			AND PL.CONTRACT_TYPE = 'ZS'
+			AND PL.CONTRACT_NO IS NOT NULL
+		LEFT JOIN SALES_PURCHASE_SI_DET PSD
+			ON PL.CONTRACT_NO_PURCHASE = PSD.CONTRACT_NO_PURCHASE
+			AND PSD.DELETE_FLAG = '0'
+		LEFT JOIN SALES_PROJECT_SI_EMP PSE
+			ON CL.CONTRACT_NO = PSE.CONTRACT_NO
+			AND PSE.DELETE_FLAG = '0'
+		LEFT JOIN T_SYTM_CODE COM
+			ON COM.SSC_CD = CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.LEVEL_CODE ELSE PSE.LEVEL_CODE END
+			AND COM.HCL_CD = 'LEVEL_CODE'
+			AND COM.USED_YN = '1'
+		LEFT JOIN T_SYTM_USER VED
+			ON VED.EMP_NO = CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.EMP_NO ELSE PSE.EMP_NO END
+		WHERE CL.DELETE_FLAG = '0'
+		  AND CL.CONTRACT_NO = #{CONTRACT_NO}
+		  AND (PSD.PSD_SEQ IS NOT NULL OR PSE.PSE_SEQ IS NOT NULL)
+		  AND CL.CO_CD = #{SERVER_CO_CD}
+		UNION ALL
+		SELECT CC.PROJECT_CODE
+			 , '1' AS COSTSHEET_TYPE
+			 , CC.LEVEL_CODE
+			 , 'TOBE' AS COMPANY_CODE
+			 , CASE CC.LEVEL_CODE 
+				 WHEN '001' THEN 'E00001183' /* 특급 */
+				 WHEN '002' THEN 'E00000182' /* 고급 */
+				 WHEN '003' THEN 'E00000183' /* 중급 */
+				 WHEN '004' THEN 'E00000184' /* 초급 */
+				 WHEN '007' THEN 'E00000188' /* 디고급 */
+				 WHEN '005' THEN 'E00000189' /* 디중급 */
+				 WHEN '006' THEN 'E00000190' /* 디초급 */
+			   END AS EMP_NO
+			 , LUC.UNIT_COST AS UNIT_COST
+			 , COALESCE(CC.MEN_MONTH, 0) - COALESCE(CC2.MEN_MONTH, 0) AS MEN_MONTH
+			 , CAST((COALESCE(CC.MEN_MONTH, 0) - COALESCE(CC2.MEN_MONTH, 0)) * LUC.UNIT_COST AS SIGNED) AS CONTRACT_PRICE
+			 , CC.CONTRACT_NO
+			 , NULL AS PSD_SEQ
+			 , NULL AS PSE_SEQ
+			 , '2' AS GB
+		FROM (
+			SELECT P.PROJECT_CODE
+				 , CL.CONTRACT_NO
+				 , CSD.LEVEL_CODE
+				 , SUM(CSD.CONTRACT_PRICE) AS CONTRACT_PRICE
+				 , COALESCE(SUM(CSD.MEN_MONTH),0) AS MEN_MONTH
+			FROM SALES_PROJECT_LIST P
+			JOIN SALES_CONTRACT_LIST CL
+				ON P.PROJECT_CODE = CL.PROJECT_CODE
+				AND CL.CONTRACT_STATUS= '2'
+				AND CL.CONTRACT_TYPE = 'ZS'
+				AND CL.DELETE_FLAG = '0'
+			JOIN SALES_CONTRACT_SI_DET CSD
+				ON CL.CONTRACT_NO = CSD.CONTRACT_NO
+				AND CSD.DELETE_FLAG = '0'
+			WHERE P.DELETE_FLAG = '0'
+			  AND CL.CO_CD = #{SERVER_CO_CD}
+			GROUP BY P.PROJECT_CODE
+				   , CL.CONTRACT_NO
+				   , CSD.LEVEL_CODE
+		) CC
+		LEFT JOIN (
+			SELECT CL.CONTRACT_NO
+				 , CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.LEVEL_CODE ELSE PSE.LEVEL_CODE END AS LEVEL_CODE
+				 , COM.SSC_CD_KORN_NM AS LEVEL_NAME
+				 , SUM(CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.CONTRACT_PRICE ELSE PSE.UNIT_COST * PSE.MEN_MONTH END) AS CONTRACT_PRICE
+				 , COALESCE(SUM(CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.MEN_MONTH ELSE PSE.MEN_MONTH END), 0) AS MEN_MONTH
+			FROM SALES_CONTRACT_LIST CL
+			LEFT JOIN SALES_PURCHASE_LIST PL
+				ON CL.CONTRACT_NO = PL.CONTRACT_NO
+				AND PL.DELETE_FLAG = '0'
+				AND PL.CONTRACT_TYPE = 'ZS'
+				AND PL.CONTRACT_NO IS NOT NULL
+			LEFT JOIN SALES_PURCHASE_SI_DET PSD
+				ON PL.CONTRACT_NO_PURCHASE = PSD.CONTRACT_NO_PURCHASE
+				AND PSD.DELETE_FLAG = '0'
+			LEFT JOIN SALES_PROJECT_SI_EMP PSE
+				ON CL.CONTRACT_NO = PSE.CONTRACT_NO
+				AND PSE.DELETE_FLAG = '0'
+			LEFT JOIN T_SYTM_CODE COM
+				ON COM.SSC_CD = CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.LEVEL_CODE ELSE PSE.LEVEL_CODE END
+				AND COM.HCL_CD = 'LEVEL_CODE'
+				AND COM.USED_YN = '1'
+			WHERE CL.DELETE_FLAG = '0'
+			  AND CL.CONTRACT_NO = #ds_input.CONTRACT_NO#
+			  AND (PSD.PSD_SEQ IS NOT NULL OR PSE.PSE_SEQ IS NOT NULL)
+			GROUP BY CL.CONTRACT_NO
+				   , CASE WHEN PSD.PSD_SEQ IS NOT NULL THEN PSD.LEVEL_CODE ELSE PSE.LEVEL_CODE END
+				   , COM.SSC_CD_KORN_NM
+		) CC2
+		ON CC.CONTRACT_NO = CC2.CONTRACT_NO
+		AND CC.LEVEL_CODE = CC2.LEVEL_CODE
+		JOIN SALES_CONTRACT_LIST CL
+			ON CL.CONTRACT_NO = CC.CONTRACT_NO
+		JOIN SALES_LEVEL_UNIT_COST LUC
+			ON LUC.YEAR = DATE_FORMAT(CL.CONTRACT_DATE, '%Y') 
+			AND LUC.LEVEL_CODE = CC.LEVEL_CODE
+			AND LUC.LEVEL_TYPE = 'S'
+		WHERE (CC.MEN_MONTH > CC2.MEN_MONTH OR CC2.CONTRACT_NO IS NULL)
+		  AND CL.CONTRACT_NO = #{CONTRACT_NO}
+	) T
+</insert>
+
+<update id="updateCostSheet_R02_modify" parameterType="java.util.Map">
+	-- updateCostSheet_R02_modify
+	
+	UPDATE SALES_CONTRACT_LIST
+	SET 
+		CONTRACT_STATUS = '3',
+		SALES_STATUS = '009',
+		CONTRACT_DATE = NOW(), 
+		CONFIRM_EMP_NO = #{EMP_NO_SRV},
+		CONFIRM_DATE = NOW()
+	, CHGE_ID = #{EMP_NO_SRV}
+	, CHGE_IP = #{USER_CON_IPADDR_SRV}
+	, CHGE_DTTM = NOW()
+	WHERE 
+		CONTRACT_NO = #{CONTRACT_NO};
+
+	UPDATE SALES_PROJECT_LIST
+	SET 
+		CONTRACT_STATUS = '3'
+	, CHGE_ID = #{EMP_NO_SRV}
+	, CHGE_IP = #{USER_CON_IPADDR_SRV}
+	, CHGE_DTTM = NOW()
+	WHERE 
+		PROJECT_CODE = #{PROJECT_CODE};
+
+	UPDATE SALES_CONTRACT_LIST
+	SET 
+		PRODUCT_CODE = (
+			SELECT PD.PRODUCT_CODE
+			FROM SALES_CONTRACT_PRODUCT_DETAIL CPD
+			JOIN SALES_PRODUCT_LIST PD
+				-- 소스 수정 부분임 : 확인필요 
+				-- ON PD.MAIN_PRODUCT_FLAG = '1' 
+				-- ON CPD.PRODUCT_CODE LIKE CONCAT(PD.PRODUCT_CODE, '%')
+				ON CPD.PRODUCT_CODE = PD.PRODUCT_CODE
+			WHERE 
+				CPD.CRD_SEQ = (
+					SELECT MIN(CRD_SEQ)
+					FROM SALES_CONTRACT_PRODUCT_DETAIL
+					WHERE CONTRACT_NO = #{CONTRACT_NO}
+				)
+		)
+	WHERE 
+		CONTRACT_NO = #{CONTRACT_NO}
+		AND CONTRACT_TYPE IN ('PD', 'GD');
+</update>	
+
+<update id="updateCostSheet_R02_modify2" parameterType="java.util.Map">
+	-- updateCostSheet_R02_modify2
+UPDATE SALES_FILE_MAP
+SET 
+    SOURCE_CD = 'CL',
+    SOURCE_SEQ = #{CONTRACT_NO}
+	, CHGE_ID = #{EMP_NO_SRV}
+	, CHGE_IP = #{USER_CON_IPADDR_SRV}
+	, CHGE_DTTM = NOW()
+WHERE 
+    SOURCE_CD = 'P'
+    AND SOURCE_SEQ = #{PROJECT_CODE}
+    /* 계약 등록일보다 이전에 등록된 첨부파일은 제외 */
+    AND DATE_FORMAT(INPT_DTTM, '%Y%m%d') <![CDATA[>=]]> (
+        SELECT DATE_FORMAT(INPT_DTTM, '%Y%m%d')
+        FROM SALES_CONTRACT_LIST
+        WHERE CONTRACT_NO = #{CONTRACT_NO}
+    );	
+</update>
+
+<select id="selectSP_RequestContract_S03_1" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_RequestContract_S03_1
+	SELECT 
+		CPD.CONTRACT_NO,
+		'N' AS ESTIMATE_COPY_YN
+	FROM 
+		SALES_ESTIMATE_MANGEMENT EM
+	JOIN 
+		SALES_ESTIMATE_MANGEMENT_DET EMD ON EM.EM_SEQ = EMD.EM_SEQ
+	JOIN 
+		SALES_CONTRACT_PRODUCT_DETAIL CPD ON EMD.CRD_SEQ = CPD.CRD_SEQ AND CPD.DELETE_FLAG = '0'
+	WHERE 
+		EM.DELETE_FLAG = '0'
+		AND EM.FINAL_ESTIMATE_FLAG = '1'
+		AND CPD.CONTRACT_NO IN (#{CONTRACT_NO_LIST_DATA}) 
+	GROUP BY 
+		CPD.CONTRACT_NO
+
+	UNION ALL
+
+	SELECT 
+		CSD.CONTRACT_NO,
+		'N' AS ESTIMATE_COPY_YN
+	FROM 
+		SALES_ESTIMATE_MANGEMENT EM
+	JOIN 
+		SALES_ESTIMATE_MANGEMENT_DET_SI EMDS ON EM.EM_SEQ = EMDS.EM_SEQ
+	JOIN 
+		SALES_CONTRACT_SI_DETAIL CSD ON EMDS.CSD_SEQ = CSD.CSD_SEQ AND CSD.DELETE_FLAG = '0'
+	WHERE 
+		EM.DELETE_FLAG = '0'
+		AND EM.FINAL_ESTIMATE_FLAG = '1'
+		AND CSD.CONTRACT_NO IN (#{CONTRACT_NO_LIST_DATA})
+	GROUP BY 
+		CSD.CONTRACT_NO;
+</select>
+
+<select id="selectSP_RequestContract_S03_2" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_RequestContract_S03_2
+	SELECT 
+	    EM.EM_SEQ,
+	    COUNT(EM.EM_SEQ) AS CNT
+	FROM 
+	    SALES_ESTIMATE_MANGEMENT EM
+	JOIN 
+	    SALES_ESTIMATE_MANGEMENT_DET EMD ON EM.EM_SEQ = EMD.EM_SEQ
+	JOIN 
+	    SALES_CONTRACT_PRODUCT_DETAIL CPD ON EMD.CRD_SEQ = CPD.CRD_SEQ AND CPD.DELETE_FLAG = '0'
+	WHERE 
+	    EM.DELETE_FLAG = '0'
+	    AND EM.FINAL_ESTIMATE_FLAG = '1'
+	    AND CPD.CONTRACT_NO IN (#{CONTRACT_NO_LIST_DATA})  -- IN 절에 리스트 삽입
+	GROUP BY 
+	    EM.EM_SEQ;	
+</select>
+
+<insert id="insertSP_ProjectNewReg_R01" parameterType="java.util.Map">
+	-- SP_ProjectNewReg_R01
+	INSERT INTO SALES_PROJECT_LIST (
+	    PROJECT_CODE,
+	    PROJECT_NAME,
+	    CLIENT_CODE,
+	    CONTRACT_STATUS,
+	    DELETE_FLAG
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	) VALUES (
+	    #{PROJECT_CODE},
+	    #{PROJECT_NAME},
+	    #{CLIENT_CODE},
+	    '3',
+	    '0'
+		    ,#{EMP_NO_SRV}
+		    ,#{USER_CON_IPADDR_SRV}
+		    ,NOW()
+		    ,#{EMP_NO_SRV}
+		    ,#{USER_CON_IPADDR_SRV}
+		    ,NOW()		
+	);
+</insert>	
+
+<select id="selectSS_EstimateReg_S10" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSS_EstimateReg_S10
+	WITH PRODUCT_PRICE AS (
+		SELECT  IFNULL(SUM(EMD.CONTRACT_PRICE), 0) AS CONTRACT_PRICE,
+				EMD.EM_SEQ
+		FROM    SALES_ESTIMATE_MANGEMENT_DET  EMD
+		JOIN    SALES_ESTIMATE_MANGEMENT      EM ON(EM.EM_SEQ = EMD.EM_SEQ)
+		JOIN    SALES_DOC_MAP           SDM ON(EM.SALES_DOC_NO = SDM.SALES_DOC_NO AND EM.PROJECT_CODE = SDM.PROJECT_CODE)
+		LEFT JOIN SALES_E_APPROVAL_DOC   EAD ON(EAD.SOURCE_CD = 'EM_SEQ' AND EAD.SOURCE_DATA = EM.EM_SEQ)
+		WHERE   EM.DELETE_FLAG = '0'
+		AND     EM.PROJECT_CODE = #{PROJECT_CODE}
+		AND     EAD.DOC_STATUS = 'FINISH'
+		AND     EM.FINAL_ESTIMATE_FLAG = '1'
+		GROUP BY EMD.EM_SEQ
+	), SI_PRICE AS (
+		SELECT  IFNULL(SUM(EMDS.CONTRACT_PRICE), 0) AS CONTRACT_PRICE,
+				EMDS.EM_SEQ
+		FROM    SALES_ESTIMATE_MANGEMENT_DET_SI  EMDS
+		JOIN    SALES_ESTIMATE_MANGEMENT         EM ON(EM.EM_SEQ = EMDS.EM_SEQ)
+		JOIN    SALES_DOC_MAP              SDM ON(EM.SALES_DOC_NO = SDM.SALES_DOC_NO AND EM.PROJECT_CODE = SDM.PROJECT_CODE)
+		LEFT JOIN SALES_E_APPROVAL_DOC      EAD ON(EAD.SOURCE_CD = 'EM_SEQ' AND EAD.SOURCE_DATA = EM.EM_SEQ)
+		WHERE   EM.DELETE_FLAG = '0'
+		AND     EM.PROJECT_CODE = #{PROJECT_CODE}
+		AND     EAD.DOC_STATUS = 'FINISH'
+		AND     EM.FINAL_ESTIMATE_FLAG = '1'
+		GROUP BY EMDS.EM_SEQ
+	)
+	SELECT  SDM.ESTIMATE_KIND,
+			EM.CLIENT_CODE,
+			EM.CLIENT_NAME,
+			COM.COMPANY_NAME AS CONTRACT_MAIN_NAME,
+			REPLACE(EM.CONTRACT_NAME, '\n', '') AS CONTRACT_NAME,  -- 줄바꿈 제거
+			EM.EM_SEQ,
+			EM.ESTIMATE_NO,
+			DATE_FORMAT(EM.PUBLISHED_DATE, '%Y%m%d') AS PUBLISHED_DATE,  -- 날짜 형식 변환
+			IFNULL(PP.CONTRACT_PRICE, 0) + IFNULL(SP.CONTRACT_PRICE, 0) AS TOTAL_PRICE
+	FROM    SALES_ESTIMATE_MANGEMENT  EM
+	JOIN    SALES_DOC_MAP       SDM ON(EM.SALES_DOC_NO = SDM.SALES_DOC_NO AND EM.PROJECT_CODE = SDM.PROJECT_CODE)
+	LEFT JOIN SALES_E_APPROVAL_DOC EAD ON(EAD.SOURCE_CD = 'EM_SEQ' AND EAD.SOURCE_DATA = EM.EM_SEQ)
+	LEFT JOIN T_SYTM_CODE VED ON(VED.HCL_CD = 'DOC_STATUS' AND VED.SSC_CD = EAD.DOC_STATUS)
+	LEFT JOIN SALES_COMPANY_LIST     COM ON(COM.COMPANY_CODE = EM.CONTRACT_MAIN)
+	LEFT JOIN SALES_PRODUCT_PRICE      PP ON(EM.EM_SEQ = PP.EM_SEQ)
+	LEFT JOIN SALES_SI_PRICE           SP ON(EM.EM_SEQ = SP.EM_SEQ)
+	WHERE   EM.DELETE_FLAG = '0'
+	AND     EM.PROJECT_CODE = #{PROJECT_CODE}
+	AND     EAD.DOC_STATUS = 'FINISH'
+	AND     EM.FINAL_ESTIMATE_FLAG = '1';
+	
+</select>
+
+<insert id="insertSP_ContractBill_R01__" parameterType="java.util.Map">
+	-- SP_ContractBill_R01
+INSERT INTO SALES_CONTRACT_BILL
+ ( 
+ CONTRACT_NO
+ , BILL_STATUS
+ , PAY_METHOD
+ 
+ <if test="TAX_PRICE != null and TAX_PRICE != ''">
+ , TAX_PRICE
+ </if>
+ <if test="VAT_PRICE != null and VAT_PRICE != ''">
+ , VAT_PRICE
+ </if>
+ 
+ <if test="BILL_PRICE != null and BILL_PRICE != ''">
+ , BILL_PRICE
+ </if>
+ 
+ <if test="TAX_PLAN_DATE != null and TAX_PLAN_DATE != ''">
+ , TAX_PLAN_DATE
+ </if>
+ <if test="TAX_DATE != null and TAX_DATE != ''">
+ , TAX_DATE
+ </if>
+ <if test="BILL_PLAN_DATE != null and BILL_PLAN_DATE != ''">
+ , BILL_PLAN_DATE
+ </if>
+ <if test="BILL_DATE != null and BILL_DATE != ''">
+ , BILL_DATE
+ </if>
+ <if test="BILL_PROC_DATE != null and BILL_PROC_DATE != ''">
+ , BILL_PROC_DATE
+ </if>
+
+ , BILL_EXCEPT_FLAG
+ , SITECHK_STATUS
+ <if test="REMARKS != null and REMARKS != ''">
+ , REMARKS
+ </if>
+ <if test="REMARKS_UNBILL != null and REMARKS_UNBILL != ''">
+ , REMARKS_UNBILL
+ </if>
+ <if test="SITECHK_REMARKS != null and SITECHK_REMARKS != ''">
+ , SITECHK_REMARKS
+ </if>
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM	
+ )
+VALUES
+ ( #{CONTRACT_NO}
+ , #{BILL_STATUS}
+ , #{PAY_METHOD}
+
+ <if test="TAX_PRICE != null and TAX_PRICE != ''">
+ , #{TAX_PRICE}
+ </if>
+ <if test="VAT_PRICE != null and VAT_PRICE != ''">
+ , #{VAT_PRICE}
+ </if>
+
+ <if test="BILL_PRICE != null and BILL_PRICE != ''">
+ , #{BILL_PRICE}
+ </if>
+
+ <if test="TAX_PLAN_DATE != null and TAX_PLAN_DATE != ''">
+ , #{TAX_PLAN_DATE}
+ </if>
+ <if test="TAX_DATE != null and TAX_DATE != ''">
+ , #{TAX_DATE}
+ </if>
+ <if test="BILL_PLAN_DATE != null and BILL_PLAN_DATE != ''">
+ , #{BILL_PLAN_DATE}
+ </if>
+ <if test="BILL_DATE != null and BILL_DATE != ''">
+ , #{BILL_DATE}
+ </if>
+ <if test="BILL_PROC_DATE != null and BILL_PROC_DATE != ''">
+ , #{BILL_PROC_DATE}
+ </if>
+
+ , #{BILL_EXCEPT_FLAG}
+ , #{SITECHK_STATUS}
+ <if test="REMARKS != null and REMARKS != ''">
+ , #{REMARKS}
+ </if>
+ <if test="REMARKS_UNBILL != null and REMARKS_UNBILL != ''">
+ , #{REMARKS_UNBILL}
+ </if>
+ <if test="SITECHK_REMARKS != null and SITECHK_REMARKS != ''">
+ , #{SITECHK_REMARKS}
+ </if>
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()		
+ )
+	
+</insert>
+
+<update id="updateSP_ContractBill_R01__" parameterType="java.util.Map">
+	-- SP_ContractBill_R01
+	UPDATE SALES_CONTRACT_BILL
+	SET
+	 BILL_STATUS = #{BILL_STATUS}
+	 , PAY_METHOD = #{PAY_METHOD}
+	 
+	 <if test="TAX_PRICE != null and TAX_PRICE != ''">
+	 , TAX_PRICE = #{TAX_PRICE}
+	 </if>
+	 <if test="VAT_PRICE != null and VAT_PRICE != ''">
+	 , VAT_PRICE = #{VAT_PRICE}
+	 </if> 
+	 , TAX_PLAN_DATE = #{TAX_PLAN_DATE}
+	 , TAX_DATE = #{TAX_DATE}
+	 <if test="BILL_PRICE != null and BILL_PRICE != ''">
+	 , BILL_PRICE = #{BILL_PRICE}
+	 </if>
+	 , BILL_PLAN_DATE = #{BILL_PLAN_DATE} 
+	 , BILL_DATE = #{BILL_DATE} 
+	 , BILL_PROC_DATE = #{BILL_PROC_DATE}
+	 , BILL_EXCEPT_FLAG = #{BILL_EXCEPT_FLAG}
+	 , SITECHK_STATUS = #{SITECHK_STATUS}
+	 , SITECHK_REMARKS = #{SITECHK_REMARKS}
+	 , REMARKS = #{REMARKS}
+	 , REMARKS_UNBILL = #{REMARKS_UNBILL}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE CB_SEQ = #{CB_SEQ}	
+</update>
+
+<delete id="deleteSP_ContractBill_R01" parameterType="java.util.Map">
+	-- SP_ContractBill_R01
+	DELETE FROM SALES_CONTRACT_BILL 
+	WHERE CB_SEQ = #{CB_SEQ};
+</delete>
+
+
+<select id="selectSP_ContractBill_S01" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ContractBill_S01
+	SELECT 
+		CL.CONTRACT_TYPE,
+		CL.CONTRACT_NO,
+		CL.CO_CD,
+		CL.PROJECT_CODE,
+		CL.CONTRACT_MAIN,
+		COM.COMPANY_NAME AS CONTRACT_MAIN_NAME,
+		DATE_FORMAT(CL.CONTRACT_DATE, '%Y%m%d') AS CONTRACT_DATE,
+		VP.CONTRACT_PRICE,
+		CL.PAY_METHOD,
+		CB.TAX_PRICE,
+		CB.TOTAL_TAX_PRICE,
+		CB.BILL_PRICE,
+		CB.RECV_PRICE,
+		CASE 
+			WHEN CB.RECV_PRICE <![CDATA[>]]> 0 THEN '0'
+			ELSE '1'
+		END AS END_YN,
+		IFNULL(CP.SUPPORT_STATUS, '004') AS SUPPORT_STATUS,
+		DATE_FORMAT(CP.FREE_MA_START_DATE, '%Y%m%d') AS FREE_MA_START_DATE,
+		DATE_FORMAT(CP.FREE_MA_END_DATE, '%Y%m%d') AS FREE_MA_END_DATE,
+		CL.SITECHK_FLAG,
+		CASE 
+			WHEN CB.PAYMENT_AVG <![CDATA[<]]> 1 AND CB.PAYMENT_AVG <![CDATA[>]]> 0 THEN '0초과 1미만'
+			WHEN CB.PAYMENT_AVG <![CDATA[>=]]> 1 THEN '1이상'
+			WHEN VP.CONTRACT_PRICE = 0 THEN '0'
+			ELSE '-'
+		END AS PAYMENT_STATUS,
+		CL.EM_SEQ,
+		IFNULL(CL.CONSUMPTION_TAX, 10) AS CONSUMPTION_TAX
+	FROM 
+		SALES_CONTRACT_LIST CL
+	JOIN 
+		V_CONTRACT_PRICE VP ON CL.CONTRACT_NO = VP.CONTRACT_NO
+	LEFT JOIN (
+		SELECT 
+			T.CONTRACT_NO,
+			T.TAX_PRICE, 
+			T.BILL_PRICE,
+			(T.TAX_PRICE + T.VAT_PRICE) AS TOTAL_TAX_PRICE,
+			(T.TAX_PRICE + T.VAT_PRICE) - T.BILL_PRICE AS RECV_PRICE,
+			T.PAYMENT_AVG
+		FROM (
+			SELECT 
+				CONTRACT_NO,
+				SUM(CASE WHEN TAX_DATE IS NOT NULL THEN IFNULL(TAX_PRICE, 0) ELSE 0 END) AS TAX_PRICE,
+				SUM(CASE WHEN TAX_DATE IS NOT NULL THEN IFNULL(VAT_PRICE, 0) ELSE 0 END) AS VAT_PRICE,
+				SUM(CASE WHEN BILL_DATE IS NOT NULL THEN IFNULL(BILL_PRICE, 0) ELSE 0 END) AS BILL_PRICE,
+				AVG(CASE 
+					WHEN IFNULL(TAX_PRICE, 0) = 0 OR IFNULL(BILL_PRICE, 0) = 0 THEN 0.0
+					WHEN (TAX_PRICE + IFNULL(VAT_PRICE, 0)) - BILL_PRICE = 0 THEN 1.0
+					WHEN (TAX_PRICE + IFNULL(VAT_PRICE, 0)) - BILL_PRICE <![CDATA[>]]> 0 THEN 0.5
+					ELSE 0.0
+				END) AS PAYMENT_AVG
+			FROM 
+				SALES_CONTRACT_BILL
+			WHERE 
+				BILL_EXCEPT_FLAG = '0'
+			GROUP BY 
+				CONTRACT_NO
+		) T
+	) CB ON CL.CONTRACT_NO = CB.CONTRACT_NO
+	LEFT JOIN 
+		SALES_CONTRACT_PRODUCT CP ON CL.CONTRACT_NO = CP.CONTRACT_NO
+	LEFT JOIN 
+		SALES_ESTIMATE_MANGEMENT EM ON CL.EM_SEQ = EM.EM_SEQ
+	LEFT JOIN 
+		SALES_COMPANY_LIST COM ON COM.COMPANY_CODE = CL.CONTRACT_MAIN
+	WHERE 
+		CL.DELETE_FLAG = '0'
+		AND CL.CONTRACT_STATUS = '3'
+		AND CL.CO_CD = #{SERVER_CO_CD}
+		AND CL.PROJECT_CODE = #{PROJECT_CODE}
+	ORDER BY 
+		CASE 
+			WHEN CB.PAYMENT_AVG <![CDATA[>=]]> 1 OR VP.CONTRACT_PRICE = 0 THEN '1'
+			ELSE '0'
+		END,
+		SUBSTRING(CL.CONTRACT_NO, 2, 9) DESC,
+		COM.COMPANY_NAME;
+</select>
+
+<select id="selectSP_ContractBill_S02" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ContractBill_S02
+	SELECT 
+		ROW_NUMBER() OVER (ORDER BY IFNULL(CB.TAX_DATE, IFNULL(CB.TAX_PLAN_DATE, '99991231')) ) AS ORD_NUM,
+		CB.CB_SEQ,
+		CL.PROJECT_CODE,
+		CL.CONTRACT_TYPE,
+		CB.CONTRACT_NO,
+		CASE 
+			WHEN BILL_EXCEPT_FLAG = '1' THEN '1'
+			WHEN IFNULL(CB.TAX_PRICE, 0) = 0 OR IFNULL(CB.BILL_PRICE, 0) = 0 THEN '0'
+			WHEN (CB.TAX_PRICE + IFNULL(CB.VAT_PRICE, 0)) - CB.BILL_PRICE = 0 THEN '1'
+			WHEN (CB.TAX_PRICE + IFNULL(CB.VAT_PRICE, 0)) - CB.BILL_PRICE <![CDATA[>]]> 0 THEN '2'
+			ELSE '0'
+		END AS BILL_STATUS,
+		CB.PAY_METHOD,
+		CB.TAX_PRICE,
+		DATE_FORMAT(CB.TAX_PLAN_DATE, '%Y%m%d') AS TAX_PLAN_DATE,
+		DATE_FORMAT(CB.TAX_DATE, '%Y%m%d') AS TAX_DATE,
+		IFNULL(CB.VAT_PRICE, 0) AS VAT_PRICE,
+		DATE_FORMAT(CB.BILL_PLAN_DATE, '%Y%m%d') AS BILL_PLAN_DATE,
+		DATE_FORMAT(CB.BILL_DATE, '%Y%m%d') AS BILL_DATE,
+		DATE_FORMAT(CB.BILL_PROC_DATE, '%Y%m%d') AS BILL_PROC_DATE,
+		CB.BILL_PRICE,
+		CB.REMARKS,
+		CB.REMARKS_UNBILL,
+		CB.BILL_EXCEPT_FLAG,
+		CB.SITECHK_STATUS,
+		CB.SITECHK_REMARKS,
+		'0' AS CHK
+	FROM 
+		SALES_CONTRACT_BILL CB
+	JOIN 
+		SALES_CONTRACT_LIST CL ON CB.CONTRACT_NO = CL.CONTRACT_NO
+		AND CL.DELETE_FLAG = '0'
+		AND CL.CONTRACT_STATUS = '3'
+	WHERE 
+		CB.CONTRACT_NO = #{CONTRACT_NO}
+	ORDER BY 
+		IFNULL(CB.TAX_DATE, IFNULL(CB.TAX_PLAN_DATE, '9999-12-31'));
+</select>
+
+<insert id="insertSP_ContractBill_R01" parameterType="java.util.Map">
+	INSERT INTO SALES_CONTRACT_BILL
+	(
+		CONTRACT_NO,
+		BILL_STATUS,
+		PAY_METHOD
+		<if test="TAX_PRICE != null and TAX_PRICE != ''">
+			, TAX_PRICE
+		</if>
+		<if test="VAT_PRICE != null and VAT_PRICE != ''">
+			, VAT_PRICE
+		</if>
+		<if test="BILL_PRICE != null and BILL_PRICE != ''">
+			, BILL_PRICE
+		</if>
+		<if test="TAX_PLAN_DATE != null and TAX_PLAN_DATE != ''">
+			, TAX_PLAN_DATE
+		</if>
+		<if test="TAX_DATE != null and TAX_DATE != ''">
+			, TAX_DATE
+		</if>
+		<if test="BILL_PLAN_DATE != null and BILL_PLAN_DATE != ''">
+			, BILL_PLAN_DATE
+		</if>
+		<if test="BILL_DATE != null and BILL_DATE != ''">
+			, BILL_DATE
+		</if>
+		<if test="BILL_PROC_DATE != null and BILL_PROC_DATE != ''">
+			, BILL_PROC_DATE
+		</if>
+		, BILL_EXCEPT_FLAG,
+		SITECHK_STATUS
+		<if test="REMARKS != null and REMARKS != ''">
+			, REMARKS
+		</if>
+		<if test="REMARKS_UNBILL != null and REMARKS_UNBILL != ''">
+			, REMARKS_UNBILL
+		</if>
+		<if test="SITECHK_REMARKS != null and SITECHK_REMARKS != ''">
+			, SITECHK_REMARKS
+		</if>
+			, INPT_ID
+			, INPT_IP
+			, INPT_DTTM
+			, CHGE_ID
+			, CHGE_IP
+			, CHGE_DTTM
+	)
+	VALUES
+	(
+		#{CONTRACT_NO},
+		#{BILL_STATUS},
+		#{PAY_METHOD}
+		<if test="TAX_PRICE != null and TAX_PRICE != ''">
+			, #{TAX_PRICE}
+		</if>
+		<if test="VAT_PRICE != null and VAT_PRICE != ''">
+			, #{VAT_PRICE}
+		</if>
+		<if test="BILL_PRICE != null and BILL_PRICE != ''">
+			, #{BILL_PRICE}
+		</if>
+		<if test="TAX_PLAN_DATE != null and TAX_PLAN_DATE != ''">
+			, #{TAX_PLAN_DATE}
+		</if>
+		<if test="TAX_DATE != null and TAX_DATE != ''">
+			, #{TAX_DATE}
+		</if>
+		<if test="BILL_PLAN_DATE != null and BILL_PLAN_DATE != ''">
+			, #{BILL_PLAN_DATE}
+		</if>
+		<if test="BILL_DATE != null and BILL_DATE != ''">
+			, #{BILL_DATE}
+		</if>
+		<if test="BILL_PROC_DATE != null and BILL_PROC_DATE != ''">
+			, #{BILL_PROC_DATE}
+		</if>
+		, #{BILL_EXCEPT_FLAG},
+		#{SITECHK_STATUS}
+		<if test="REMARKS != null and REMARKS != ''">
+			, #{REMARKS}
+		</if>
+		<if test="REMARKS_UNBILL != null and REMARKS_UNBILL != ''">
+			, #{REMARKS_UNBILL}
+		</if>
+		<if test="SITECHK_REMARKS != null and SITECHK_REMARKS != ''">
+			, #{SITECHK_REMARKS}
+		</if>
+				, #{EMP_NO_SRV}
+				, #{USER_CON_IPADDR_SRV}
+				, NOW()
+				, #{EMP_NO_SRV}
+				, #{USER_CON_IPADDR_SRV}
+				, NOW()		
+	);
+</insert>
+<update id="updateSP_ContractBill_R01" parameterType="java.util.Map">
+	UPDATE SALES_CONTRACT_BILL
+	SET
+		BILL_STATUS = #{BILL_STATUS},
+		PAY_METHOD = #{PAY_METHOD}
+		<if test="TAX_PRICE != null and TAX_PRICE != ''">
+			, TAX_PRICE = #{TAX_PRICE}
+		</if>
+		<if test="VAT_PRICE != null and VAT_PRICE != ''">
+			, VAT_PRICE = #{VAT_PRICE}
+		</if>
+		<if test="TAX_PLAN_DATE != null and TAX_PLAN_DATE != ''">
+			, TAX_PLAN_DATE = #{TAX_PLAN_DATE}
+		</if>
+		<if test="TAX_PLAN_DATE == null or TAX_PLAN_DATE == ''">
+			, TAX_PLAN_DATE = null
+		</if>
+		<if test="TAX_DATE != null and TAX_DATE != ''">
+			, TAX_DATE = #{TAX_DATE}
+		</if>
+		<if test="TAX_DATE == null or TAX_DATE == ''">
+			, TAX_DATE = null
+		</if>
+		<if test="BILL_PRICE != null and BILL_PRICE != ''">
+			, BILL_PRICE = #{BILL_PRICE}
+		</if>
+		<if test="BILL_PLAN_DATE != null and BILL_PLAN_DATE != ''">
+			, BILL_PLAN_DATE = #{BILL_PLAN_DATE}
+		</if>
+		<if test="BILL_PLAN_DATE == null or BILL_PLAN_DATE == ''">
+			, BILL_PLAN_DATE = null
+		</if>
+		<if test="BILL_DATE != null and BILL_DATE != ''">
+			, BILL_DATE = #{BILL_DATE}
+		</if>
+		<if test="BILL_DATE == null or BILL_DATE == ''">
+			, BILL_DATE = null
+		</if>
+		<if test="BILL_PROC_DATE != null and BILL_PROC_DATE != ''">
+			, BILL_PROC_DATE = #{BILL_PROC_DATE}
+		</if>
+		<if test="BILL_PROC_DATE == null or BILL_PROC_DATE == ''">
+			, BILL_PROC_DATE = null
+		</if>
+		, BILL_EXCEPT_FLAG = #{BILL_EXCEPT_FLAG},
+		SITECHK_STATUS = #{SITECHK_STATUS}
+		<if test="SITECHK_REMARKS != null and SITECHK_REMARKS != ''">
+			, SITECHK_REMARKS = #{SITECHK_REMARKS}
+		</if>
+		<if test="SITECHK_REMARKS == null or SITECHK_REMARKS == ''">
+			, SITECHK_REMARKS = null
+		</if>
+		<if test="REMARKS != null and REMARKS != ''">
+			, REMARKS = #{REMARKS}
+		</if>
+		<if test="REMARKS == null or REMARKS == ''">
+			, REMARKS = null
+		</if>
+		<if test="REMARKS_UNBILL != null and REMARKS_UNBILL != ''">
+			, REMARKS_UNBILL = #{REMARKS_UNBILL}
+		</if>
+		<if test="REMARKS_UNBILL == null or REMARKS_UNBILL == ''">
+			, REMARKS_UNBILL = null
+		</if>
+			, CHGE_ID 		= #{EMP_NO_SRV}
+			, CHGE_DTTM 	= NOW()
+			, CHGE_IP 		= #{USER_CON_IPADDR_SRV}	
+	WHERE CB_SEQ = #{CB_SEQ};
+</update>
+<delete id="deleteSP_ContractBill_R01__" parameterType="java.util.Map">
+	DELETE FROM SALES_CONTRACT_BILL 
+	WHERE CB_SEQ = #{CB_SEQ}
+</delete>
+
+<update id="updateSP_ContractBill_R01_1" parameterType="java.util.Map">
+	-- updateSP_ContractBill_R01_1
+	UPDATE SALES_CONTRACT_PRODUCT
+	SET
+		SUPPORT_STATUS = #{SUPPORT_STATUS},
+		FREE_MA_START_DATE = #{FREE_MA_START_DATE},
+		FREE_MA_END_DATE = #{FREE_MA_END_DATE}
+		<if test="SUPPORT_REMARKS != null and SUPPORT_REMARKS != ''">
+			, SUPPORT_REMARKS = #{SUPPORT_REMARKS}
+		</if>
+		, SUPPORT_STATUS_UPDATE_DATE = NOW()
+		,SUPPORT_STATUS_UPDATE_EMP_NO = #{EMP_NO_SRV}
+				, CHGE_ID 		= #{EMP_NO_SRV}
+				, CHGE_DTTM 	= NOW()
+				, CHGE_IP 		= #{USER_CON_IPADDR_SRV}	
+	WHERE CONTRACT_NO = #{CONTRACT_NO};
+
+	INSERT INTO SALES_SUPPORT_STATUS_HISTORY
+	(
+		CONTRACT_NO,
+		SUPPORT_STATUS
+		<if test="SUPPORT_REMARKS != null and SUPPORT_REMARKS != ''">
+			, SUPPORT_REMARKS
+		</if>
+			, INPT_ID
+			, INPT_IP
+			, INPT_DTTM
+			, CHGE_ID
+			, CHGE_IP
+			, CHGE_DTTM
+	)
+	VALUES
+	(
+		#{CONTRACT_NO},
+		#{SUPPORT_STATUS}
+		<if test="SUPPORT_REMARKS != null and SUPPORT_REMARKS != ''">
+			, #{SUPPORT_REMARKS}
+		</if>
+				, #{EMP_NO_SRV}
+				, #{USER_CON_IPADDR_SRV}
+				, NOW()
+				, #{EMP_NO_SRV}
+				, #{USER_CON_IPADDR_SRV}
+				, NOW()	
+	);
+</update>
+
+<insert id="insertSP_ProjectChange_R01" parameterType="java.util.Map">
+	-- insertSP_ProjectChange_R01
+	UPDATE SALES_PROJECT_LIST
+	SET 
+	    PROJECT_NAME = #{PROJECT_NAME},
+	    CLIENT_CODE = #{CLIENT_CODE},
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE 
+	    PROJECT_CODE = #{PROJECT_CODE};	
+</insert>
+<update id="updateSP_ProjectChange_R01" parameterType="java.util.Map">
+	-- updateSP_ProjectChange_R01
+	UPDATE SALES_PROJECT_LIST
+	SET 
+	    PROJECT_NAME = #{PROJECT_NAME},
+	    CLIENT_CODE = #{CLIENT_CODE},
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE 
+	    PROJECT_CODE = #{PROJECT_CODE};	
+</update>
+
+<select id="selectSP_ContractMerge_S01_1" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ContractMerge_S01_1
+	SELECT  
+	    P.PROJECT_CODE,
+	    P.PROJECT_NAME,
+	    P.CLIENT_CODE,
+	    COM.COMPANY_NAME AS CLIENT_NAME,
+	    CL.CONTRACT_TYPE,
+	    CL.CONTRACT_NO,
+	    CL.CONTRACT_NAME,
+	    P.RELATED_PROJECT_CODE,
+	    CL.SALES_EMP_NO,
+	    VE.EMP_NM AS SALES_EMP_NAME,
+	    DATE_FORMAT(CL.CONTRACT_DATE, '%Y%m%d') AS CONTRACT_DATE,
+	    VCP.CONTRACT_PRICE,
+	    P.CONTRACT_STATUS AS PROJECT_CONTRACT_STATUS,
+	    CL.CONTRACT_STATUS,
+	    '0' AS PROJECT_CHK,
+	    '0' AS CONTRACT_CHK
+	FROM 
+	    SALES_PROJECT_LIST P
+	JOIN 
+	    SALES_CONTRACT_LIST CL 
+	    ON P.PROJECT_CODE = CL.PROJECT_CODE
+	    AND CL.DELETE_FLAG = '0'
+	    AND CL.CONTRACT_STATUS = '3'
+	    AND CL.CO_CD = #{SERVER_CO_CD}
+	LEFT JOIN 
+	    SALES_COMPANY_LIST COM ON P.CLIENT_CODE = COM.COMPANY_CODE
+	LEFT JOIN 
+	    V_CONTRACT_PRICE VCP 
+	    ON CL.CONTRACT_NO = VCP.CONTRACT_NO
+	LEFT JOIN 
+	    T_SYTM_USER VE 
+	    ON VE.EMP_NO = CL.SALES_EMP_NO
+	WHERE 
+	    P.DELETE_FLAG = '0'
+	    AND P.PROJECT_CODE = #{PROJECT_CODE};
+</select>
+
+<select id="selectSP_ContractMerge_S01_2" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ContractMerge_S01_2
+	SELECT  
+		PL.PROJECT_CODE,
+		PL.CONTRACT_NO,
+		PL.CONTRACT_NO_PURCHASE,
+		CASE
+			WHEN PL.CONTRACT_NO IS NULL THEN 'X'
+			ELSE 'O'
+		END AS CONTRACT_LINK_FLAG,
+		PL.CONTRACT_TYPE,
+		PL.CONTRACT_NAME,
+		PL.CONTRACT_MAIN,
+		COM.COMPANY_NAME AS CONTRACT_MAIN_NAME,
+		DATE_FORMAT(PL.CONTRACT_DATE, '%Y%m%d') AS CONTRACT_DATE,
+		VCPP.CONTRACT_PRICE_PURCHASE,
+		PL.CONTRACT_STATUS,
+		'0' AS CONTRACT_CHK
+	FROM 
+		SALES_PURCHASE_LIST PL
+	LEFT JOIN 
+		V_CONTRACT_PRICE_PURCHASE VCPP 
+		ON PL.CONTRACT_NO_PURCHASE = VCPP.CONTRACT_NO_PURCHASE
+	LEFT JOIN 
+		SALES_COMPANY_LIST COM 
+		ON PL.CONTRACT_MAIN = COM.COMPANY_CODE
+	WHERE 
+		PL.DELETE_FLAG = '0'
+		AND PL.CONTRACT_STATUS = '3'
+		AND PL.CO_CD = #{SERVER_CO_CD}
+		AND PL.PROJECT_CODE = #{PROJECT_CODE};
+</select>
+
+<select id="selectSP_ContractMerge_R01_Source_ContractCount" parameterType="java.util.Map" resultType="_int">
+	-- selectSP_ContractMerge_R01_Source_ContractCount
+	SELECT COUNT(*) AS CONTRACT_CNT
+	FROM SALES_CONTRACT_LIST
+	WHERE PROJECT_CODE = #{S_PROJECT_CODE};
+</select>
+
+<update id="updateSP_ContractMerge_R01_ContractList" parameterType="java.util.Map">
+	-- updateSP_ContractMerge_R01_ContractList
+	UPDATE SALES_CONTRACT_LIST
+	SET
+	    PROJECT_CODE = #{T_PROJECT_CODE}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE PROJECT_CODE = #{PROJECT_CODE}
+	AND CONTRACT_NO = #{CONTRACT_NO};
+	
+	-- 선투입 인건비 업데이트
+	UPDATE SALES_PROJECT_SI_EMP_PRE
+	SET
+	    PROJECT_CODE = #{T_PROJECT_CODE}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE PROJECT_CODE = #{PROJECT_CODE}
+	AND CONTRACT_NO = #{CONTRACT_NO};
+	
+	-- 영업 일정 업데이트
+	UPDATE SALES_SCHEDULE
+	SET
+	    PROJECT_CODE = #{T_PROJECT_CODE}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE PROJECT_CODE = #{PROJECT_CODE}
+	AND CONTRACT_NO = #{CONTRACT_NO};
+	
+	-- 첨부 파일 업데이트
+	UPDATE SALES_FILE_MAP
+	SET
+	    SOURCE_SEQ = #{T_PROJECT_CODE}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE SOURCE_SEQ = #{PROJECT_CODE}
+	AND SOURCE_CD = 'P';
+</update>
+
+<update id="updateSP_ContractMerge_R01_PURCHASE" parameterType="java.util.Map">
+	-- updateSP_ContractMerge_R01_PURCHASE
+	UPDATE SALES_PURCHASE_LIST
+	SET
+	    PROJECT_CODE = #{T_PROJECT_CODE}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE 
+	    PROJECT_CODE = #{PROJECT_CODE}
+	    AND CONTRACT_NO_PURCHASE = #{CONTRACT_NO_PURCHASE};	
+</update>
+
+<select id="selectSP_ContractMerge_R01_CONTRACT_CNT" parameterType="java.util.Map" resultType="_int">
+	-- selectSP_ContractMerge_R01_CONTRACT_CNT
+    SELECT COUNT(*)
+    FROM (
+        SELECT PROJECT_CODE
+        FROM SALES_CONTRACT_LIST
+        WHERE PROJECT_CODE = #{S_PROJECT_CODE}
+        UNION ALL
+        SELECT PROJECT_CODE
+        FROM SALES_PURCHASE_LIST
+        WHERE PROJECT_CODE = #{S_PROJECT_CODE}
+    ) T	
+</select>
+
+<update id="updateSP_ContractMerge_R01_PROJECT_LIST_DEL" parameterType="java.util.Map">
+	-- updateSP_ContractMerge_R01_PROJECT_LIST_DEL
+    UPDATE SALES_PROJECT_LIST
+    SET
+        DELETE_FLAG = '0'
+	, CHGE_ID = #{EMP_NO_SRV}
+	, CHGE_IP = #{USER_CON_IPADDR_SRV}
+	, CHGE_DTTM = NOW()
+    WHERE PROJECT_CODE = #{S_PROJECT_CODE};	
+</update>
+
+<update id="updateSP_ContractMerge_R01_ETC" parameterType="java.util.Map">
+	-- updateSP_ContractMerge_R01_ETC
+	-- CA_MAP 테이블 업데이트
+	UPDATE SALES_CA_MAP
+	SET 
+		SOURCE_DATA = #{T_PROJECT_CODE}
+	, CHGE_ID = #{EMP_NO_SRV}
+	, CHGE_IP = #{USER_CON_IPADDR_SRV}
+	, CHGE_DTTM = NOW()
+	WHERE 
+		SOURCE_CD = 'PL'
+		AND SOURCE_DATA = #{PROJECT_CODE}
+		-- 양쪽에 모두 있는 것은 제외
+		AND CA_SEQ NOT IN (
+			SELECT CA_SEQ
+			FROM CA_MAP
+			WHERE SOURCE_CD = 'PL'
+			AND SOURCE_DATA = #{T_PROJECT_CODE}
+		);
+
+	-- 양쪽에 모두 있는 것은 삭제
+	DELETE FROM SALES_CA_MAP
+	WHERE 
+		SOURCE_CD = 'PL'
+		AND SOURCE_DATA = #{T_PROJECT_CODE};
+
+	-- 납품확인서 업데이트
+	UPDATE SALES_CONTRACT_DELIVERY_CONFIRM
+	SET 
+		PROJECT_CODE = #{T_PROJECT_CODE}
+	, CHGE_ID = #{EMP_NO_SRV}
+	, CHGE_IP = #{USER_CON_IPADDR_SRV}
+	, CHGE_DTTM = NOW()
+	WHERE 
+		PROJECT_CODE = #{PROJECT_CODE};
+	
+</update>
+
+<delete id="deleteSP_ProjectTS_R03" parameterType="java.util.Map">
+	-- updateSP_ContractMerge_R01_ETC
+	-- TS_CONTRACT_DET 테이블 삭제
+	DELETE FROM SALES_TS_CONTRACT_DETAIL
+	WHERE TS_SEQ = #{TS_SEQ};
+	
+	-- TS_CONTRACT_LIST 테이블 삭제
+	DELETE FROM SALES_TS_CONTRACT_LIST
+	WHERE TS_SEQ = #{TS_SEQ};
+	
+	-- TRADING_STATEMENT 테이블 삭제
+	DELETE FROM SALES_TRADING_STATEMENT
+	WHERE TS_SEQ = #{TS_SEQ};
+</delete>
+
+<select id="selectSP_ProjectTS_S01" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectTS_S01
+	SELECT 
+		TS.TS_SEQ AS `거래명세서 일련번호`, 
+		TS.PROJECT_CODE AS `프로젝트코드`, 
+		PR.PROJECT_NAME AS `프로젝트명`, 
+		TS.CONTRACT_MAIN AS `거래처코드`, 
+		TS.MA_FLAG AS `계약구분`, 
+		CM2.COMPANY_NAME AS CONTRACT_MAIN_NAME AS `거래처명`, 
+		DATE_FORMAT(TS.SUPPLY_MONTH, '%Y%m%d') AS `공급일자`, 
+		TS.TS_NO AS `거래명세서번호`, 
+		TS.CONTRACT_NAME AS `계약명`, 
+		TS.SIGN_KIND AS `직인코드`, 
+		TS.REMARKS AS `비고`, 
+		TS.DET_REMARKS AS `상세비고`, 
+		TS.CA_SEQ AS `계약처담당자`, 
+		CA.EMP_NAME AS CA_NAME AS `계약처담당자명`, 
+		CM3.COMPANY_NAME AS CA_COMPANY_NAME AS `계약처담당자 회사명`, 
+		CA.EMAIL AS CA_EMAIL AS `계약처담당자 이메일`, 
+		CA.O_PHONE_NO AS `계약처담당자 연락처`, 
+		CA.GRADE_CODE AS `계약처담당자 직책`, 
+		TS.INSERT_EMP_NO AS `작성자`, 
+		VED.EMP_NM AS INSERT_EMP_NAME AS `작성자명`, 
+		TS.INSERT_DEPT_CD AS `작성자부서`, 
+		DEPT.DEPT_KORN_NM AS INSERT_DEPT_NAME AS `작성자부서명`, 
+		VED.WKPL_TELP_NUMB AS `작성자 내선번호`, 
+		VED.WKGD_CD AS INSERT_GRADE_CODE AS `작성자 직급`, 
+		PR.CLIENT_CODE AS `고객사코드`, 
+		CM.COMPANY_NAME AS CLIENT_NAME AS `고객사명` 
+	FROM 
+		SALES_TRADING_STATEMENT TS
+		LEFT JOIN SALES_TS_CONTRACT_LIST TCL ON TCL.TS_SEQ = TS.TS_SEQ
+		LEFT JOIN SALES_PROJECT_LIST PR ON PR.PROJECT_CODE = TS.PROJECT_CODE
+		LEFT JOIN SALES_COMPANY_ADDRESSBOOK CA ON CA.CA_SEQ = TS.CA_SEQ
+		LEFT JOIN SALES_COMPANY_LIST CM ON CM.COMPANY_CODE = PR.CLIENT_CODE
+		LEFT JOIN SALES_COMPANY_LIST CM2 ON CM2.COMPANY_CODE = TS.CONTRACT_MAIN
+		LEFT JOIN SALES_COMPANY_LIST CM3 ON CM3.COMPANY_CODE = CA.COMPANY_CODE
+		LEFT JOIN T_SYTM_USER VED ON TS.INPT_ID = VED.EMP_NO
+		LEFT JOIN T_SYTM_DEPT VED ON VED.DEPT_CD = DEPT.DEPT_CD
+	WHERE 
+		TS.PROJECT_CODE = #{PROJECT_CODE} 
+		AND TS.CONTRACT_MAIN = #{CONTRACT_MAIN}
+		AND TS.MA_FLAG = #{MA_FLAG}
+		AND (#{CONTRACT_NO} IS NULL OR TCL.CONTRACT_NO = #{CONTRACT_NO})
+	ORDER BY 
+		TS.SUPPLY_MONTH DESC, 
+		TS.TS_SEQ DESC;
+</select>
+	
+<select id="selectSP_ProjectTS_S01_1" parameterType="java.util.Map" resultType="java.util.Map">
+	-- 	selectSP_ProjectTS_S01_1
+    SELECT
+        CASE
+            WHEN TCL.CONTRACT_NO IS NOT NULL THEN '1'
+            ELSE '0'
+        END AS ISCHECKED,
+        CL.CONTRACT_NO AS `계약번호`,
+        CL.CONTRACT_TYPE AS `계약구분`,
+        CL.PROJECT_CODE AS `프로젝트코드`,
+        PL.PROJECT_NAME AS `프로젝트명`,
+        CL.CONTRACT_MAIN AS `계약처`,
+        CM2.COMPANY_NAME AS CONTRACT_MAIN_NAME AS `계약처명`,
+        DATE_FORMAT(CL.CONTRACT_DATE, '%Y%m%d') AS CONTRACT_DATE AS `계약일자`,
+        CL.CONTRACT_NAME AS `계약명`,
+        CM.COMPANY_NAME AS CLIENT_NAME AS `고객사명`,
+        1 AS CONTRACT_ORD AS `정렬`
+    FROM 
+        SALES_CONTRACT_LIST CL
+    LEFT JOIN 
+        SALES_PROJECT_LIST PL ON (PL.PROJECT_CODE = CL.PROJECT_CODE AND PL.DELETE_FLAG != '1')
+    LEFT JOIN 
+        SALES_COMPANY_LIST CM ON (CM.COMPANY_CODE = PL.CLIENT_CODE)
+    LEFT JOIN 
+        SALES_COMPANY_LIST CM2 ON (CM2.COMPANY_CODE = CL.CONTRACT_MAIN)
+    LEFT JOIN 
+        SALES_TS_CONTRACT_LIST TCL ON (TCL.CONTRACT_NO = CL.CONTRACT_NO AND TCL.TS_SEQ = #{TS_SEQ})
+    WHERE 
+        CL.PROJECT_CODE = #{PROJECT_CODE}
+        AND CL.CONTRACT_MAIN = #{CONTRACT_MAIN}
+        AND CL.CONTRACT_TYPE = #{CONTRACT_TYPE}
+        AND CL.CONTRACT_NO = #{CONTRACT_NO}
+        AND CL.DELETE_FLAG = '0'
+        AND CL.CONTRACT_STATUS = '3' /*진계약*/
+    ORDER BY 
+        CL.CONTRACT_DATE DESC, 
+        CONTRACT_ORD;	
+</select>
+
+<select id="selectSP_ProjectTS_S01_2" parameterType="java.util.Map" resultType="java.util.Map">
+	-- 	selectSP_ProjectTS_S01_2
+    SELECT
+        CASE
+            WHEN TCL.CONTRACT_NO IS NOT NULL THEN '1'
+            ELSE '0'
+        END AS ISCHECKED,
+        CL.CONTRACT_NO AS `계약번호`,
+        CL.CONTRACT_TYPE AS `계약구분`,
+        CL.PROJECT_CODE AS `프로젝트코드`,
+        PL.PROJECT_NAME AS `프로젝트명`,
+        CL.CONTRACT_MAIN AS `계약처`,
+        CM2.COMPANY_NAME AS CONTRACT_MAIN_NAME AS `계약처명`,
+        DATE_FORMAT(CL.CONTRACT_DATE, '%Y%m%d') AS CONTRACT_DATE AS `계약일자`,
+        CL.CONTRACT_NAME AS `계약명`,
+        CM.COMPANY_NAME AS CLIENT_NAME AS `고객사명`,
+        CASE
+            WHEN CL.CONTRACT_TYPE = 'PD' THEN 1
+            WHEN CL.CONTRACT_TYPE = 'GD' THEN 2
+            WHEN CL.CONTRACT_TYPE = 'ZS' THEN 3
+            WHEN CL.CONTRACT_TYPE = 'ZT' THEN 4
+            ELSE 99
+        END AS CONTRACT_ORD AS `제품,상품,용역,컨설팅 순 정렬`
+    FROM 
+        SALES_CONTRACT_LIST CL
+    LEFT JOIN 
+        SALES_PROJECT_LIST PL ON (PL.PROJECT_CODE = CL.PROJECT_CODE AND PL.DELETE_FLAG != '1')
+    LEFT JOIN 
+        SALES_COMPANY_LIST CM ON (CM.COMPANY_CODE = PL.CLIENT_CODE)
+    LEFT JOIN 
+        SALES_COMPANY_LIST CM2 ON (CM2.COMPANY_CODE = CL.CONTRACT_MAIN)
+    LEFT JOIN 
+        SALES_TS_CONTRACT_LIST TCL ON (TCL.CONTRACT_NO = CL.CONTRACT_NO AND TCL.TS_SEQ = #{TS_SEQ})
+    WHERE 
+        CL.PROJECT_CODE = #{PROJECT_CODE}
+        AND CL.CONTRACT_MAIN = #{CONTRACT_MAIN}
+        AND CL.CONTRACT_TYPE != 'SM'
+        AND CL.DELETE_FLAG = '0'
+        AND CL.CONTRACT_STATUS = '3'
+    ORDER BY 
+        CL.CONTRACT_DATE DESC, 
+        CONTRACT_ORD;
+</select>
+
+<select id="selectSP_ProjectTS_S01_3" parameterType="java.util.Map" resultType="java.util.Map">
+	-- 	selectSP_ProjectTS_S01_3
+	SELECT
+	    TSD.TSD_SEQ AS `TSD 일련번호`,
+	    TSD.TS_SEQ AS `TS 일련번호`,
+	    TSD.CONTRACT_NO AS `계약번호`,
+	    TSD.PRODUCT_NAME AS `품명`,
+	    TSD.STANDARD AS `규격`,
+	    TSD.PRODUCT_UNIT AS `단위`,
+	    TSD.QUANTITY AS `수량`,
+	    TSD.UNIT_COST AS `공급단가`,
+	    TSD.CONTRACT_PRICE AS `계약금액`,
+	    TSD.VAT_PRICE AS `부가세금액`,
+	    TSD.ORD AS `순번`,
+	    CL.CONTRACT_TYPE AS `계약구분`
+	FROM 
+	    SALES_TS_CONTRACT_DET TSD
+	LEFT JOIN 
+	    SALES_CONTRACT_LIST CL ON (CL.CONTRACT_NO = TSD.CONTRACT_NO)
+	WHERE 
+	    TSD.TS_SEQ = #{TS_SEQ}
+	<if test="TS_SEQNO !=null and TS_SEQNO != ''">
+		AND TSD.CONTRACT_NO = '-------'	-- DUMMY
+	</if>	    
+	ORDER BY 
+	    TSD.ORD;	
+</select>
+
+
+<select id="selectSP_ProjectTS_S01_4" parameterType="java.util.Map" resultType="java.util.Map">
+	-- 	selectSP_ProjectTS_S01_4
+	SELECT 
+	TS_SEQ ,CONTRACT_NO 
+	FROM SALES_TS_CONTRACT_LIST 
+	WHERE TS_SEQ = #{TS_SEQ}
+	<if test="TS_SEQNO !=null and TS_SEQNO != ''">
+		AND TSD.CONTRACT_NO = '-------'	-- DUMMY
+	</if>
+</select>      
+
+<select id="selectSSP_ProjectTS_S04_1" parameterType="java.util.Map" resultType="_int">
+	-- 	selectSSP_ProjectTS_S04_1
+        SELECT COUNT(*)
+        FROM TRADING_STATEMENT TS
+        WHERE 1=1
+        AND DATE_FORMAT(TS.SUPPLY_MONTH, '%Y%m%d') = #{SUPPLY_MONTH}	
+</select>  
+
+<select id="selectSSP_ProjectTS_S04_2" parameterType="java.util.Map" resultType="java.util.Map">
+	-- 	selectSSP_ProjectTS_S04_2
+		SELECT '01' AS TS_NO_SEQ;
+</select>
+
+<select id="selectSSP_ProjectTS_S04_3" parameterType="java.util.Map" resultType="java.util.Map">
+	-- 	selectSSP_ProjectTS_S04_3
+        SELECT 
+            LPAD(MAX(SUBSTRING(TS.TS_NO, 11, 2)) + 1, 2, '0') AS TS_NO_SEQ
+        FROM SALES_TRADING_STATEMENT TS
+        WHERE 1=1
+        AND DATE_FORMAT(TS.SUPPLY_MONTH, '%Y%m%d') = #{SUPPLY_MONTH}
+        GROUP BY DATE_FORMAT(TS.SUPPLY_MONTH, '%Y%m%d');
+</select>  
+
+<select id="SP_ProjectTS_S03_1" parameterType="java.util.Map" resultType="java.util.Map">
+	-- 	selectSSP_ProjectTS_S04_3
+	SELECT 
+		CPD.CONTRACT_NO /*계약번호*/, 
+		PL.PRODUCT_NAME /*품명*/, 
+		NULL AS STANDARD /*규격*/, 
+		'007' AS PRODUCT_UNIT /*단위*/, 
+		1 AS QUANTITY /*수량*/, 
+		VCP.CONTRACT_PRICE AS UNIT_COST /*공급단가*/, 
+		0 AS CONTRACT_PRICE /*계약금액*/, 
+		0 AS VAT_PRICE /*부가세금액*/, 
+		0 AS ORD /*순번*/, 
+		'P' AS CONTRACT_TYPE /*계약구분*/
+	FROM 
+		SALES_CONTRACT_PRODUCT_DETAIL CPD
+	JOIN 
+		V_CONTRACT_PRICE VCP ON (VCP.CONTRACT_NO = CPD.CONTRACT_NO)
+	LEFT JOIN 
+		SALES_PRODUCT_LIST PL ON (PL.PRODUCT_CODE = CPD.PRODUCT_CODE)
+	WHERE 
+		CRD_SEQ IN (
+			SELECT CRD_SEQ
+			FROM SALES_CONTRACT_PRODUCT_DETAIL
+			WHERE CONTRACT_NO = #{CONTRACT_NO}
+			ORDER BY CAST(CPD.ORD AS UNSIGNED), CRD_SEQ
+			LIMIT 1
+		)
+	UNION ALL
+	SELECT 
+		CSD.CONTRACT_NO /*계약번호*/, 
+		VCD.CAPTION AS PRODUCT_NAME /*품명*/, 
+		PL.PRODUCT_NAME AS STANDARD /*규격*/, 
+		'3' AS PRODUCT_UNIT /*단위*/, 
+		1 AS QUANTITY /*수량*/, 
+		VCP.CONTRACT_PRICE AS UNIT_COST /*공급단가*/, 
+		0 AS CONTRACT_PRICE /*계약금액*/, 
+		0 AS VAT_PRICE /*부가세*/, 
+		0 AS ORD /*순번*/, 
+		'S' AS CONTRACT_TYPE /*계약구분*/
+	FROM 
+		SALES_CONTRACT_SI_DETAIL CSD
+	JOIN 
+		V_CONTRACT_PRICE VCP ON (VCP.CONTRACT_NO = CSD.CONTRACT_NO)
+	JOIN 
+		SALES_CONTRACT_LIST CL ON (CL.CONTRACT_NO = CSD.CONTRACT_NO)
+	JOIN 
+		SALES_PRODUCT_LIST PL ON (PL.PRODUCT_CODE = CL.PRODUCT_CODE)
+	JOIN 
+		T_SYTM_CODE VCD ON (CSD.LEVEL_CODE = VCD.SSC_CD AND VCD.HCL_CD = 'LEVEL_CODE')
+	WHERE 
+		CSD_SEQ IN (
+			SELECT CSD_SEQ
+			FROM SALES_CONTRACT_SI_DETAIL
+			WHERE CONTRACT_NO = #{CONTRACT_NO}
+			ORDER BY CAST(ORD AS UNSIGNED), CSD_SEQ
+			LIMIT 1
+		)
+	UNION ALL
+	SELECT 
+		CMD.CONTRACT_NO /*계약번호*/, 
+		CL.CONTRACT_NAME AS PRODUCT_NAME /*품명*/, 
+		NULL AS STANDARD /*규격*/, 
+		CM.REQUEST_CYCLE AS PRODUCT_UNIT /*단위*/, 
+		1 AS QUANTITY /*수량*/, 
+		0 AS UNIT_COST /*공급단가*/, 
+		0 AS CONTRACT_PRICE /*계약금액*/, 
+		0 AS VAT_PRICE /*부가세*/, 
+		0 AS ORD /*순번*/, 
+		'M' AS CONTRACT_TYPE /*계약구분*/
+	FROM 
+		SALES_CONTRACT_MA_DETAIL CMD
+	JOIN 
+		SALES_CONTRACT_MA CM ON (CM.CONTRACT_NO = CMD.CONTRACT_NO)
+	JOIN 
+		SALES_CONTRACT_LIST CL ON (CL.CONTRACT_NO = CMD.CONTRACT_NO)
+	JOIN 
+		V_CONTRACT_PRICE VCP ON (VCP.CONTRACT_NO = CMD.CONTRACT_NO)
+	WHERE 
+		CMD_SEQ IN (
+			SELECT CMD_SEQ
+			FROM SALES_CONTRACT_MA_DETAIL
+			WHERE CONTRACT_NO = #{CONTRACT_NO}
+			ORDER BY CAST(ORD AS UNSIGNED), CMD_SEQ
+			LIMIT 1
+		);  
+</select>
+
+<insert id="insertSP_ProjectTS_R02" parameterType="java.util.Map">
+	INSERT INTO SALES_TRADING_STATEMENT
+	(
+		PROJECT_CODE,
+		CONTRACT_MAIN,
+		MA_FLAG,
+		SUPPLY_MONTH,
+		TS_NO,
+		CONTRACT_NAME,
+		SIGN_KIND,
+		REMARKS,
+		DET_REMARKS,
+		CA_SEQ
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM	
+	)
+	VALUES
+	(
+		#{PROJECT_CODE},
+		#{CONTRACT_MAIN},
+		#{MA_FLAG},
+		#{SUPPLY_MONTH},
+		#{TS_NO},
+		#{CONTRACT_NAME},
+		#{SIGN_KIND},
+		IFNULL(#{REMARKS}, NULL),
+		IFNULL(#{DET_REMARKS}, NULL),
+		#{CA_SEQ}
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()	
+	);
+</insert>
+		
+<update id="updateSP_ProjectTS_R02" parameterType="java.util.Map">		
+	UPDATE SALES_TRADING_STATEMENT
+	SET
+	    SUPPLY_MONTH = #{SUPPLY_MONTH},
+	    TS_NO = #{TS_NO},
+	    CONTRACT_NAME = #{CONTRACT_NAME},
+	    SIGN_KIND = #{SIGN_KIND},
+	    REMARKS = #{REMARKS},
+	    DET_REMARKS = #{DET_REMARKS},
+	    CA_SEQ = #{CA_SEQ}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE
+	    TS_SEQ = #{TS_SEQ};	
+</update>
+
+<select id="SP_ProjectTS_R02_1" parameterType="java.util.Map" resultType="_int">
+	-- 	SP_ProjectTS_R02_1
+	SELECT LAST_INSERT_ID() AS TS_SEQ;
+</select>
+
+<select id="SP_ProjectTS_R02_11" parameterType="java.util.Map" resultType="java.util.Map">
+	-- 	SP_ProjectTS_R02_1
+	SELECT LAST_INSERT_ID() AS TS_SEQ;
+</select>
+
+<insert id="insertSP_ProjectTS_R02_1" parameterType="java.util.Map">	
+	INSERT INTO SALES_TS_CONTRACT_LIST
+	(
+	  TS_SEQ
+	  ,CONTRACT_NO
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	)
+	VALUES
+	(
+	  #{ds_TSSeqTS_SEQ}
+	  ,#{CONTRACT_NO}
+		    ,#{EMP_NO_SRV}
+		    ,#{USER_CON_IPADDR_SRV}
+		    ,NOW()
+		    ,#{EMP_NO_SRV}
+		    ,#{USER_CON_IPADDR_SRV}
+		    ,NOW()	
+	);
+</insert>
+
+<delete id="deleteSP_ProjectTS_R02_1" parameterType="java.util.Map">
+	DELETE FROM SALES_TS_CONTRACT_LIST 
+	WHERE TS_SEQ = #{ds_TSSeqTS_SEQ}
+	 AND CONTRACT_NO = #{CONTRACT_NO};
+</delete>
+	   
+<insert id="insertSP_ProjectTS_R02_2" parameterType="java.util.Map">	    	
+	INSERT INTO SALES_TS_CONTRACT_DETAIL
+	(
+	  TS_SEQ
+	  ,CONTRACT_NO
+	  ,PRODUCT_NAME
+	  ,STANDARD
+	  ,PRODUCT_UNIT
+	  ,QUANTITY
+	  ,UNIT_COST
+	  ,CONTRACT_PRICE
+	  ,VAT_PRICE
+	  ,ORD
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	)
+	VALUES
+	(
+	  #{ds_TSSeqTS_SEQ}
+	  ,#{CONTRACT_NO}
+	  ,#{PRODUCT_NAME}
+	  ,#{STANDARD}
+	  ,#{PRODUCT_UNIT}
+	  ,#{QUANTITY}
+	  ,#{UNIT_COST}
+	  ,#{CONTRACT_PRICE}
+	  ,#{VAT_PRICE}
+	  ,#{ORD}
+		    ,#{EMP_NO_SRV}
+		    ,#{USER_CON_IPADDR_SRV}
+		    ,NOW()
+		    ,#{EMP_NO_SRV}
+		    ,#{USER_CON_IPADDR_SRV}
+		    ,NOW()	
+	);	    	
+</insert>
+
+<select id="selectSP_ProjectTS_R02_3" parameterType="java.util.Map" resultType="_int">
+	SELECT COUNT(*) AS TSContCount
+	FROM TS_CONTRACT_LIST
+	WHERE TS_SEQ = #{TS_SEQ}
+	AND CONTRACT_NO = #{CONTRACT_NO};
+</select>
+
+<insert id="insertSP_ProjectTS_R02_4" parameterType="java.util.Map">	
+	-- insertSP_ProjectTS_R02_4
+	INSERT INTO SALES_TS_CONTRACT_LIST
+	(
+	  TS_SEQ,
+	  CONTRACT_NO
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	)
+	VALUES
+	(
+	  #{tmp_ds_tsDet2.TS_SEQ},
+	  #{tmp_ds_tsDet2.CONTRACT_NO}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	);
+</insert>
+
+<insert id="insertSP_ProjectTS_R02_5" parameterType="java.util.Map">	
+	-- insertSP_ProjectTS_R02_5
+INSERT INTO SALES_TS_CONTRACT_DET
+(
+  TS_SEQ,
+  CONTRACT_NO,
+  PRODUCT_NAME,
+  STANDARD,
+  PRODUCT_UNIT,
+  QUANTITY,
+  UNIT_COST,
+  CONTRACT_PRICE,
+  VAT_PRICE,
+  ORD
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM	
+)
+VALUES
+(
+  #{TS_SEQ},
+  #{CONTRACT_NO},
+  #{PRODUCT_NAME},
+  #{STANDARD},
+  #{PRODUCT_UNIT},
+  #{QUANTITY},
+  #{UNIT_COST},
+  #{CONTRACT_PRICE},
+  #{VAT_PRICE},
+  #{ORD}
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()	
+);
+</insert>
+<update id="updateSP_ProjectTS_R02_6" parameterType="java.util.Map">	
+	-- updateSP_ProjectTS_R02_5
+	UPDATE SALES_TS_CONTRACT_DETAIL
+	SET
+	  PRODUCT_NAME = #{PRODUCT_NAME},
+	  STANDARD = #{STANDARD},
+	  PRODUCT_UNIT = #{PRODUCT_UNIT},
+	  QUANTITY = #{QUANTITY},
+	  UNIT_COST = #{UNIT_COST},
+	  CONTRACT_PRICE = #{CONTRACT_PRICE},
+	  VAT_PRICE = #{VAT_PRICE},
+	  ORD = #{ORD}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE TSD_SEQ = #{TSD_SEQ};
+</update>
+
+<delete id="deleteSP_ProjectTS_R02_7" parameterType="java.util.Map">	
+	-- deleteSP_ProjectTS_R02_7
+	DELETE FROM SALES_TS_CONTRACT_DETAIL
+	WHERE TSD_SEQ = #{TSD_SEQ}
+	  AND TS_SEQ = #{TS_SEQ}
+	  AND CONTRACT_NO = #{CONTRACT_NO};
+</delete>
+
+<select id="selectSP_ProjectTS_R02_8" parameterType="java.util.Map" resultType="_int">
+	-- selectSP_ProjectTS_R02_8
+	SELECT COUNT(*) AS TSDCount 
+	FROM SALES_TS_CONTRACT_DET 
+	WHERE TS_SEQ = #{TS_SEQ}
+	 AND CONTRACT_NO = #{CONTRACT_NO};
+</select>
+
+<delete id="deleteSP_ProjectTS_R02_9" parameterType="java.util.Map">	
+	-- deleteSP_ProjectTS_R02_9
+	DELETE FROM 
+	TS_CONTRACT_LIST 
+	WHERE TS_SEQ = #{TS_SEQ}
+	 AND CONTRACT_NO = #{CONTRACT_NO}
+</delete>
+
+<select id="selectSP_ProjectTS_S05" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectTS_S05
+	SELECT 
+	    TC.COMPANY_NAME AS COMPANY_NAME, /* 회사명 */
+	    TC.CEO_NAME AS CEO_NM, /* 대표 */
+	    TC.POST_ADDR AS ZIP_ADDR, /* 회사 주소 */
+	    TC.DETAIL_ADDR AS ADDR_DETAIL, /* 회사 상세 주소 */
+	    (SELECT SSC_CD_KORN_NM 
+	     FROM T_SYTM_CODE
+	     WHERE HCL_CD = 'BUSINESS_FORM' AND SSC_CD = '011') AS BUSINESS_FORM, /* 업종 - 서비스 외 */
+	    (SELECT SSC_CD_KORN_NM 
+	     FROM T_SYTM_CODE
+	     WHERE HCL_CD = 'BUSINESS_KIND' AND SSC_CD = '539') AS BUSINESS_KIND, /* 업태 - 소프트웨어자문개발및공급 */
+	    VED.EMP_NM AS EMP_NAME, /* 담당자 */
+	    VED.WKPL_TELP_NUMB AS OFFICE_TEL_NO, /* 연락처 */
+	    VED.EMAIL AS EMAIL, /* 이메일 */
+	    VCD.SSC_CD_KORN_NM AS GRADE_NM /* 직책 */
+	FROM T_SYTM_USER VED
+	INNER JOIN SALES_COMPANY_LIST TC ON (COM.COMPANY_CODE = VED.COMPANY_CD)
+	JOIN T_SYTM_CODE VCD ON (VCD.HCL_CD = 'SM06' AND VCD.SSC_CD = VED.GRADE_CODE)
+	WHERE VED.EMP_NO = #{EMP_NO};
+</select>
+
+<select id="selectSP_ProjectTS_S06" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectTS_S06
+	SELECT 
+		CL.COMPANY_NAME AS CA_COMPANY_NAME, /* 상호 */
+		CL.CORPORATE_REG_NO, /* 법인번호 */
+		CL.COMPANY_REG_NO, /* 사업자등록번호 */
+		CL.CEO_NAME, /* 대표 */
+		CL.POST_ADDR, /* 주소 */
+		CL.DETAIL_ADDR, /* 상세주소 */
+		CL.BUSINESS_FORM, /* 업태 */
+		(
+			SELECT CAPTION
+			FROM COMM.F_CODE_DETAIL(#{gdsGlobal.LANGUAGE}) BF
+			WHERE CM_CODE = 'BUSINESS_FORM'
+			AND BF.CD_CODE = CL.BUSINESS_FORM
+		) AS BUSINESS_FORM_NM, /* 업태명 */
+		CL.BUSINESS_KIND, /* 업종 */
+		(
+			SELECT CAPTION
+			FROM COMM.F_CODE_DETAIL(#{gdsGlobal.LANGUAGE}) BF
+			WHERE CM_CODE = 'BUSINESS_KIND'
+			AND BF.CD_CODE = CL.BUSINESS_KIND
+		) AS BUSINESS_KIND_NM, /* 업종명 */
+		CA.EMP_NAME, /* 담당자명 */
+		CA.O_PHONE_NO, /* 연락처 */
+		CA.EMAIL, /* 이메일 */
+		(
+			SELECT CAPTION
+			FROM COMM.F_CODE_DETAIL(#{gdsGlobal.LANGUAGE}) CGC
+			WHERE CM_CODE = 'CA_GRADE_CODE'
+			AND CGC.CD_CODE = CA.GRADE_CODE
+		) AS CA_GRADE_NM /* 직책명 */
+	FROM SALES_COMPANY_ADDRESSBOOK CA
+	JOIN SALES_COMPANY_LIST CL ON (CL.COMPANY_CODE = CA.COMPANY_CODE)
+	WHERE CA_SEQ = #{CA_SEQ};
+</select>
+
+<select id="selectSP_ProjectTS_S07" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectTS_S07
+	SELECT REQUEST_PRICE AS CONTRACT_PRICE 
+	FROM SALES_CONTRACT_MA 
+	WHERE CONTRACT_NO = #{CONTRACT_NO}
+</select>
+
+
+<select id="selectSP_ProjectTS_R04_1" parameterType="java.util.Map" resultType="_int">
+	-- selectSP_ProjectTS_R04_1
+    SELECT COUNT(*)
+    FROM SALES_TRADING_STATEMENT TS
+    WHERE DATE_FORMAT(TS.SUPPLY_MONTH, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+</select>
+
+<select id="selectSP_ProjectTS_R04_2" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectTS_R04_2
+	SELECT
+	    TS_SEQ,
+	    PROJECT_CODE,
+	    CONTRACT_MAIN,
+	    MA_FLAG,
+	    NOW() AS SUPPLY_MONTH,
+	    CONCAT('TB', DATE_FORMAT(NOW(), '%Y%m%d'), #dsTsNoSeq.TS_NO_SEQ#) AS TS_NO,
+	    CONTRACT_NAME,
+	    SIGN_KIND,
+	    CASE
+	        WHEN #{CONTRACT_TYPE} = 'SM' THEN CONCAT(SUBSTRING(DATE_FORMAT(NOW(), '%Y%m%d'), 5, 2), '월분')
+	        ELSE REMARKS
+	    END AS REMARKS,
+	    DET_REMARKS,
+	    CA_SEQ,
+	    TS.INPT_ID,
+	    US.DEPT_CD AS INSERT_DEPT_CD,
+	    DP.DEPT_CD_KORN_NM AS INSERT_DEPT_NM
+	FROM TRADING_STATEMENT TS
+	WHERE TS_SEQ = #{TS_SEQ}
+	LEFT JOIN T_SYTM_USER US ON US.EMP_NO = TS.INPT_ID
+	LEFT JOIN T_SYTM_DEPT DP ON US.DECP_CD = DP.DEPT_CD
+</select>
+
+<insert id="insertSP_ProjectTS_R04_3" parameterType="java.util.Map">
+	-- insertSP_ProjectTS_R04_3
+	INSERT INTO SALES_TRADING_STATEMENT (
+		PROJECT_CODE,
+		CONTRACT_MAIN,
+		MA_FLAG,
+		SUPPLY_MONTH,
+		TS_NO,
+		CONTRACT_NAME,
+		SIGN_KIND
+		-- REMARKS와 DET_REMARKS는 조건부로 추가됨
+		-- 주석은 MariaDB에서 처리하는 방식에 맞게 조정 필요
+		,REMARKS
+		,DET_REMARKS
+		,CA_SEQ
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	) VALUES (
+		#{PROJECT_CODE},
+		#{CONTRACT_MAIN},
+		#{MA_FLAG},
+		#{SUPPLY_MONTH},
+		#{TS_NO},
+		#{CONTRACT_NAME},
+		#{SIGN_KIND},
+		-- REMARKS와 DET_REMARKS 조건부 추가
+		#{REMARKS},  -- 이 줄은 REMARKS가 비어있지 않을 때만 사용
+		#{DET_REMARKS}, -- 이 줄은 DET_REMARKS가 비어있지 않을 때만 사용
+		#{CA_SEQ}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	);
+</insert>
+<select id="selectSP_ProjectTS_R04_4" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectTS_R04_4
+	SELECT #{ds_TSSeqTS_SEQ} AS TS_SEQ ,CONTRACT_NO FROM SALES_TS_CONTRACT_LIST WHERE TS_SEQ = #{TS_SEQ};
+</select>
+
+<insert id="insertSP_ProjectTS_R04_5" parameterType="java.util.Map">
+	-- insertSP_ProjectTS_R04_5
+	INSERT INTO SALES_TS_CONTRACT_LIST
+	(
+		TS_SEQ,
+		CONTRACT_NO
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM
+	)
+	VALUES
+	(
+		#{TS_SEQ},
+		#{CONTRACT_NO}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	);
+</insert>
+
+<select id="selectSP_ProjectTS_R04_6" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectTS_R04_6
+	SELECT
+	    CONTRACT_NO,
+	    PRODUCT_NAME,
+	    STANDARD,
+	    PRODUCT_UNIT,
+	    QUANTITY,
+	    UNIT_COST,
+	    CONTRACT_PRICE,
+	    VAT_PRICE,
+	    ORD
+	FROM SALES_TS_CONTRACT_DETAIL
+	WHERE TS_SEQ = #{TS_SEQ};
+</select>
+
+<insert id="insertSP_ProjectTS_R04_7" parameterType="java.util.Map">
+	-- insertSP_ProjectTS_R04_7
+	INSERT INTO SALES_TS_CONTRACT_DETAIL (
+		TS_SEQ,
+		CONTRACT_NO,
+		PRODUCT_NAME,
+		STANDARD,
+		PRODUCT_UNIT,
+		QUANTITY,
+		UNIT_COST,
+		CONTRACT_PRICE,
+		VAT_PRICE,
+		ORD
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	) VALUES (
+		#{ds_TSSeqTS_SEQ},
+		#{CONTRACT_NO},
+		#{PRODUCT_NAME},
+		#{STANDARD},
+		#{PRODUCT_UNIT},
+		#{QUANTITY},
+		#{UNIT_COST},
+		#{CONTRACT_PRICE},
+		#{VAT_PRICE},
+		#{ORD}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	);
+</insert>
+
+<select id="selectSP_ProjectBillDelivery_S01" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectBillDelivery_S01
+	SELECT BD.BD_SEQ,
+	       BD.BILL_DELIVERY_NO,
+	       BD.YEAR,
+	       BD.PROJECT_CODE,
+	       BD.CONTRACT_MAIN,
+	       BD.MA_FLAG,
+	       COM.COMPANY_NAME AS CONTRACT_MAIN_NAME,
+	       BD.BILL_TYPE,
+	       DATE_FORMAT(BD.PUBLISHED_DATE, '%Y%m%d') AS PUBLISHED_DATE,
+	       BD.DEPOSIT_REQUEST_DATE,
+	       BD.BILL_CONTRACT_NAME,
+	       BD.DELIVERY_CONTRACT_NAME,
+	       BD.START_DATE,
+	       BD.END_DATE,
+	       BD.DATE_FLAG,
+	       BD.ORDER_NO,
+	       BD.ORDER_NO_FLAG,
+	       BD.OFFICIAL_SEAL_TYPE,
+	       BD.CONSUMPTION_TAX,
+	       BD.REMARKS,
+	       BD.REMARKS_FLAG,
+	       BD.DET_REMARKS,
+	       BD.DET_REMARKS_FLAG,
+	       BD.SAME_FLAG,
+	       BD.INSERT_EMP_NO,
+	       VE.EMP_NM AS INSERT_EMP_NAME,
+	       BD.EM_SEQ,
+	       EM.ESTIMATE_NO,
+	       BD.EM_FLAG,
+	       BD.PRT_ESTIMATE_NO_LIST_FLAG,
+	       BD.ESTIMATE_NO_LIST
+	FROM SALES_BILL_DELIVERY BD
+	<if test="CONTRACT_NO != null and CONTRACT_NO != ''">
+	JOIN SALES_BD_CONTRACT_LIST BDCL ON BD.BD_SEQ = BDCL.BD_SEQ
+	</if>
+	LEFT JOIN SALES_ESTIMATE_MANGEMENT EM ON BD.EM_SEQ = EM.EM_SEQ
+	LEFT JOIN SALES_COMPANY_LIST COM ON BD.CONTRACT_MAIN = COM.COMPANY_CODE
+	LEFT JOIN T_SYTM_USER VE ON BD.INPT_ID = VE.EMP_NO
+	WHERE BD.PROJECT_CODE = #{PROJECT_CODE}
+	  AND BD.CONTRACT_MAIN = #{CONTRACT_MAIN}
+	<if test="CONTRACT_NO != null and CONTRACT_NO != ''">
+	  AND BDCL.CONTRACT_NO = #{CONTRACT_NO}
+	</if>
+	<if test="MA_FLAG != null and MA_FLAG != ''">
+	  AND BD.MA_FLAG = #{MA_FLAG}
+	</if>
+	ORDER BY BD.BD_SEQ DESC;
+</select>
+
+
+<select id="selectSP_ProjectBillDelivery_S02" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectBillDelivery_S02
+	<choose>
+		<when test=' CONTRACT_TYPE != null and CONTRACT_TYPE == "M" '>
+			SELECT
+				CASE
+					WHEN BDCL.CONTRACT_NO IS NOT NULL THEN '1'
+					ELSE '0'
+				END AS ISCHECKED,
+				CL.CONTRACT_NO,  /* 계약번호 */
+				CL.CONTRACT_TYPE,  /* 계약구분 */
+				CL.PROJECT_CODE,  /* 프로젝트코드 */
+				PL.PROJECT_NAME,  /* 프로젝트명 */
+				CL.CONTRACT_MAIN,  /* 계약처 */
+				CM2.COMPANY_NAME AS CONTRACT_MAIN_NAME,  /* 계약처명 */
+				DATE_FORMAT(CL.CONTRACT_DATE, '%Y%m%d') AS CONTRACT_DATE,  /* 계약일자 */
+				REPLACE(CL.CONTRACT_NAME, '\n', '') AS CONTRACT_NAME,  /* 계약명 */
+				CM.COMPANY_NAME AS CLIENT_NAME,  /* 고객사명 */
+				1 AS CONTRACT_ORD,  /* 정렬 */
+				VCP.CONTRACT_PRICE,
+				CL.CONSUMPTION_TAX,
+				EM.ESTIMATE_NO,
+				EM.EM_SEQ
+			FROM SALES_CONTRACT_LIST CL
+			LEFT JOIN SALES_PROJECT_LIST PL ON PL.PROJECT_CODE = CL.PROJECT_CODE AND PL.DELETE_FLAG != '1'
+			LEFT JOIN V_CONTRACT_PRICE VCP ON CL.CONTRACT_NO = VCP.CONTRACT_NO
+			LEFT JOIN SALES_COMPANY_LIST CM ON CM.COMPANY_CODE = PL.CLIENT_CODE
+			LEFT JOIN SALES_COMPANY_LIST CM2 ON CM2.COMPANY_CODE = CL.CONTRACT_MAIN
+			LEFT JOIN SALES_BD_CONTRACT_LIST BDCL ON BDCL.CONTRACT_NO = CL.CONTRACT_NO AND BDCL.BD_SEQ = CAST(#{BD_SEQ} AS SIGNED)
+			LEFT JOIN SALES_ESTIMATE_MANGEMENT EM ON CL.EM_SEQ = EM.EM_SEQ
+			WHERE CL.PROJECT_CODE = #{PROJECT_CODE}
+			  AND CL.CONTRACT_MAIN = #{CONTRACT_MAIN}
+			  AND CL.CONTRACT_TYPE = #{CONTRACT_TYPE}
+			  AND CL.CONTRACT_NO = #{CONTRACT_NO}
+			  AND CL.DELETE_FLAG = '0'
+			  AND CL.CONTRACT_STATUS = '3'
+			ORDER BY CONTRACT_ORD, CL.CONTRACT_DATE DESC;
+		</when>
+		<otherwise>
+		   SELECT
+				CASE
+					WHEN BDCL.CONTRACT_NO IS NOT NULL THEN '1'
+					ELSE '0'
+				END AS ISCHECKED,
+				CL.CONTRACT_NO,  /* 계약번호 */
+				CL.CONTRACT_TYPE,  /* 계약구분 */
+				CL.PROJECT_CODE,  /* 프로젝트코드 */
+				PL.PROJECT_NAME,  /* 프로젝트명 */
+				CL.CONTRACT_MAIN,  /* 계약처 */
+				CM2.COMPANY_NAME AS CONTRACT_MAIN_NAME,  /* 계약처명 */
+				DATE_FORMAT(CL.CONTRACT_DATE, '%Y%m%d') AS CONTRACT_DATE,  /* 계약일자 */
+				REPLACE(CL.CONTRACT_NAME, '\n', '') AS CONTRACT_NAME,  /* 계약명 */
+				CM.COMPANY_NAME AS CLIENT_NAME,  /* 고객사명 */
+				CASE
+					WHEN CL.CONTRACT_TYPE = 'PD' THEN 1
+					WHEN CL.CONTRACT_TYPE = 'GD' THEN 2
+					WHEN CL.CONTRACT_TYPE = 'ZS' THEN 3
+					WHEN CL.CONTRACT_TYPE = 'ZT' THEN 4
+					ELSE 99
+				END AS CONTRACT_ORD,  /* 제품, 상품, 용역, 컨설팅 순 정렬 */
+				VCP.CONTRACT_PRICE,
+				CL.CONSUMPTION_TAX,
+				EM.ESTIMATE_NO,
+				EM.EM_SEQ
+			FROM SALES_CONTRACT_LIST CL
+			LEFT JOIN SALES_PROJECT_LIST PL ON PL.PROJECT_CODE = CL.PROJECT_CODE AND PL.DELETE_FLAG != '1'
+			LEFT JOIN V_CONTRACT_PRICE VCP ON CL.CONTRACT_NO = VCP.CONTRACT_NO
+			LEFT JOIN SALES_COMPANY_LIST CM ON CM.COMPANY_CODE = PL.CLIENT_CODE
+			LEFT JOIN SALES_COMPANY_LIST CM2 ON CM2.COMPANY_CODE = CL.CONTRACT_MAIN
+			LEFT JOIN SALES_BD_CONTRACT_LIST BDCL ON BDCL.CONTRACT_NO = CL.CONTRACT_NO AND BDCL.BD_SEQ = CAST(#{BD_SEQ} AS SIGNED)
+			LEFT JOIN SALES_ESTIMATE_MANGEMENT EM ON CL.EM_SEQ = EM.EM_SEQ
+			WHERE CL.PROJECT_CODE = #{PROJECT_CODE}
+			  AND CL.CONTRACT_MAIN = #{CONTRACT_MAIN}
+			  AND CL.CONTRACT_TYPE != 'SM'
+			  AND CL.DELETE_FLAG = '0'
+			  AND CL.CONTRACT_STATUS = '3'
+			ORDER BY CONTRACT_ORD, CL.CONTRACT_DATE DESC;
+		</otherwise>
+	</choose>
+</select>
+
+<!--  -->
+<select id="selectSP_ProjectBillDelivery_S03" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectBillDelivery_S03
+	SELECT GET_BILL_DELIVERY_NO(
+		(SELECT IFNULL(COMPANY_ABBREVIATION, COMPANY_NAME) AS COMPANY_ABBREVIATION
+			FROM SALES_COMPANY_LIST
+			WHERE COMPANY_CODE = #{CONTRACT_MAIN}),
+		#{PUBLISHED_DATE}, 
+		#{SEQ}
+		) AS BILL_DELIVERY_NO;
+</select>
+
+<select id="selectSP_ProjectBillDelivery_S04_1" parameterType="java.util.Map" resultType="java.util.Map">
+	-- SP_ProjectBillDelivery_S04_1
+	<choose>
+		<when test=' BILL_TYPE != null and BILL_TYPE == "ESTIMATE" '>
+			SELECT CONCAT(COM.COMPANY_NAME, ' ', EM.CONTRACT_NAME) AS CONTRACT_NAME,
+				   DATE_FORMAT(EM.START_DATE, '%Y%m%d') AS START_DATE,
+				   DATE_FORMAT(EM.END_DATE, '%Y%m%d') AS END_DATE,
+				   PRE_EM.EM_SEQ,
+				   PRE_EM.ESTIMATE_NO AS PRE_ESTIMATE_NO,
+				   EM.CONSUMPTION_TAX
+			FROM SALES_CONTRACT_LIST CL
+			JOIN SALES_PROJECT_LIST PL ON CL.PROJECT_CODE = PL.PROJECT_CODE AND PL.DELETE_FLAG = '0'
+			JOIN SALES_ESTIMATE_MANGEMENT EM ON CL.EM_SEQ = EM.EM_SEQ AND CL.DELETE_FLAG = '0'
+			LEFT JOIN SALES_ESTIMATE_MANGEMENT PRE_EM ON EM.PRE_EM_SEQ = PRE_EM.EM_SEQ
+			LEFT JOIN SALES_COMPANY_LIST COM ON PL.CLIENT_CODE = COM.COMPANY_CODE
+			WHERE CL.CONTRACT_NO = #{CONTRACT_NO};
+		</when>
+		<when test=' CONTRACT_TYPE != null and (CONTRACT_TYPE == "PD" or CONTRACT_TYPE == "GD")  '>
+			SELECT CONCAT(COM.COMPANY_NAME, ' ', CL.CONTRACT_NAME) AS CONTRACT_NAME,
+				   NULL AS START_DATE,
+				   NULL AS END_DATE,
+				   '' AS EM_SEQ,
+				   '' AS PRE_ESTIMATE_NO,
+				   CL.CONSUMPTION_TAX
+			FROM SALES_CONTRACT_LIST CL
+			JOIN SALES_CONTRACT_PRODUCT CP ON CL.CONTRACT_NO = CP.CONTRACT_NO AND CL.DELETE_FLAG = '0'
+			JOIN SALES_PROJECT_LIST PL ON CL.PROJECT_CODE = PL.PROJECT_CODE AND PL.DELETE_FLAG = '0'
+			LEFT JOIN SALES_COMPANY_LIST COM ON PL.CLIENT_CODE = COM.COMPANY_CODE
+			WHERE CL.CONTRACT_NO = #{CONTRACT_NO};
+		</when>
+		<when test=' CONTRACT_TYPE != null and (CONTRACT_TYPE == "ZS" or CONTRACT_TYPE == "ZT")  '>
+			SELECT CONCAT(COM.COMPANY_NAME, ' ', CL.CONTRACT_NAME) AS CONTRACT_NAME,
+				   DATE_FORMAT(CS.START_DATE, '%Y%m%d') AS START_DATE,
+				   DATE_FORMAT(CS.END_DATE, '%Y%m%d') AS END_DATE,
+				   '' AS EM_SEQ,
+				   '' AS PRE_ESTIMATE_NO,
+				   CL.CONSUMPTION_TAX
+			FROM SALES_CONTRACT_LIST CL
+			JOIN SALES_CONTRACT_SI CS ON CL.CONTRACT_NO = CS.CONTRACT_NO AND CL.DELETE_FLAG = '0'
+			JOIN SALES_PROJECT_LIST PL ON CL.PROJECT_CODE = PL.PROJECT_CODE AND PL.DELETE_FLAG = '0'
+			LEFT JOIN SALES_COMPANY_LIST COM ON PL.CLIENT_CODE = COM.COMPANY_CODE
+			WHERE CL.CONTRACT_NO = #{CONTRACT_NO};
+		</when>
+		<otherwise>
+			SELECT CONCAT(COM.COMPANY_NAME, ' ', CL.CONTRACT_NAME) AS CONTRACT_NAME,
+				   DATE_FORMAT(CM.START_DATE, '%Y%m%d') AS START_DATE,
+				   DATE_FORMAT(CM.END_DATE, '%Y%m%d') AS END_DATE,
+				   '' AS EM_SEQ,
+				   '' AS PRE_ESTIMATE_NO,
+				   CL.CONSUMPTION_TAX
+			FROM SALES_CONTRACT_LIST CL
+			JOIN SALES_CONTRACT_MA CM ON CL.CONTRACT_NO = CM.CONTRACT_NO AND CL.DELETE_FLAG = '0'
+			JOIN SALES_PROJECT_LIST PL ON CL.PROJECT_CODE = PL.PROJECT_CODE AND PL.DELETE_FLAG = '0'
+			LEFT JOIN SALES_COMPANY_LIST COM ON PL.CLIENT_CODE = COM.COMPANY_CODE
+			WHERE CL.CONTRACT_NO = #{CONTRACT_NO};
+		</otherwise>
+	</choose>
+</select>
+
+<select id="selectSP_ProjectBillDelivery_S04_2" parameterType="java.util.Map" resultType="java.util.Map">
+	-- SP_ProjectBillDelivery_S04_2
+	<choose>
+		<when test=' BILL_TYPE != null and BILL_TYPE == "ESTIMATE" '>
+			<choose>
+				<when test=' CONTRACT_TYPE != null and (CONTRACT_TYPE == "PD" or CONTRACT_TYPE == "GD") '>
+					SELECT CL.CONTRACT_NO,
+						   CL.CONTRACT_TYPE,
+						   CONCAT(EMD.PRODUCT_NAME, ' ', IFNULL(EMD.PRODUCT_INFO_DET, '')) AS PRODUCT_NAME,
+						   EMD.QUANTITY,
+						   EMD.PRODUCT_UNIT,
+						   VCD.SSC_CD_KORN_NM AS PRODUCT_UNIT_NAME,
+						   EMD.UNIT_COST,
+						   EMD.DELIVERY_COST AS DELIVERY_COST,
+						   EMD.CONTRACT_PRICE
+					FROM SALES_ESTIMATE_MANGEMENT_DET EMD
+					JOIN SALES_CONTRACT_PRODUCT_DETAIL CPD ON EMD.CRD_SEQ = CPD.CRD_SEQ
+					JOIN SALES_CONTRACT_LIST CL ON CPD.CONTRACT_NO = CL.CONTRACT_NO
+					LEFT JOIN T_SYTM_CODE VCD ON EMD.PRODUCT_UNIT = VCD.SSC_CD AND VCD.HCL_CD = 'PRODUCT_UNIT'
+					WHERE CL.CONTRACT_NO = #{CONTRACT_NO}
+					AND EMD.CRD_SEQ IS NOT NULL
+					AND EMD.EM_SEQ = @EM_SEQ;
+				</when>
+				<when test=' CONTRACT_TYPE != null and (CONTRACT_TYPE == "ZS" or CONTRACT_TYPE == "ZT") '>
+					SELECT CSD.CONTRACT_NO,
+						   CL.CONTRACT_TYPE,
+						   CONCAT(EMDS.PRODUCT_MAIN_NAME, ' ', EMDS.SI_INFO_DET, ' ', VCD2.CAPTION, ' ', IFNULL(VCD3.CAPTION, '')) AS PRODUCT_NAME,
+						   EMDS.MEN_MONTH AS QUANTITY,
+						   EMDS.SI_UNIT AS PRODUCT_UNIT,
+						   VCD.SSC_CD_KORN_NM AS PRODUCT_UNIT_NAME,
+						   CSD.UNIT_COST,
+						   CSD.UNIT_COST AS DELIVERY_COST,
+						   EMDS.CONTRACT_PRICE
+					FROM ESTIMATE_MANGEMENT_DET_SI EMDS
+					JOIN SALES_CONTRACT_SI_DET CSD ON CSD.CSD_SEQ = EMDS.CSD_SEQ AND CSD.DELETE_FLAG = '0'
+					JOIN SALES_CONTRACT_LIST CL ON CSD.CONTRACT_NO = CL.CONTRACT_NO
+					LEFT JOIN T_SYTM_CODE VCD ON EMDS.SI_UNIT = VCD.SSC_CD AND VCD.HCL_CD = 'SI_UNIT'
+					LEFT JOIN T_SYTM_CODE VCD2 ON EMDS.ROLE_CODE = VCD2.CD_CODE AND VCD2.CM_CODE = 'ROLE_CODE'
+					LEFT JOIN T_SYTM_CODE VCD3 ON EMDS.LEVEL_CODE = VCD3.CD_CODE AND VCD3.CM_CODE = 'LEVEL_CODE'
+					WHERE CSD.CONTRACT_NO = #{CONTRACT_NO}
+					AND EMDS.CSD_SEQ IS NOT NULL
+					AND EMDS.EM_SEQ = @EM_SEQ;
+				</when>
+				<when test=' CONTRACT_TYPE != null and CONTRACT_TYPE == "SM" '>
+					SELECT CL.CONTRACT_NO,
+						   CL.CONTRACT_TYPE,
+						   CONCAT(EMD.PRODUCT_NAME, ' ', IFNULL(EMD.PRODUCT_INFO_DET, '')) AS PRODUCT_NAME,
+						   EMD.QUANTITY,
+						   '004' AS PRODUCT_UNIT,
+						   VCD.SSC_CD_KORN_NM AS PRODUCT_UNIT_NAME,
+						   EMD.UNIT_COST,
+						   EMD.DELIVERY_COST AS DELIVERY_COST,
+						   EMD.CONTRACT_PRICE
+					FROM SALES_ESTIMATE_MANGEMENT_DET EMD
+					JOIN SALES_CONTRACT_PRODUCT_DETAIL CPD ON EMD.CRD_SEQ = CPD.CRD_SEQ
+					JOIN SALES_ESTIMATE_MANGEMENT EM ON EMD.EM_SEQ = EM.EM_SEQ AND EM.DELETE_FLAG = '0'
+					JOIN SALES_CONTRACT_LIST CL ON EM.EM_SEQ = CL.EM_SEQ AND CL.DELETE_FLAG = '0'
+					LEFT JOIN T_SYTM_CODE VCD ON '004' = VCD.SSC_CD AND VCD.HCL_CD = 'SI_UNIT'
+					WHERE CL.CONTRACT_NO = #{CONTRACT_NO}
+					AND EMD.CRD_SEQ IS NOT NULL
+					AND EMD.EM_SEQ = @EM_SEQ;
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</when>
+		<when test=' CONTRACT_TYPE != null and (CONTRACT_TYPE == "PD" or CONTRACT_TYPE == "GD") '>
+	        SELECT CL.CONTRACT_NO,
+	               CL.CONTRACT_TYPE,
+	               PRL.PRODUCT_NAME,
+	               CPD.QUANTITY,
+	               CPD.PRODUCT_UNIT,
+	               VCD.SSC_CD_KORN_NM AS PRODUCT_UNIT_NAME,
+	               CPD.CONTRACT_PRICE / IFNULL(CPD.QUANTITY, 1) AS UNIT_COST,
+	               0 AS DELIVERY_COST,
+	               CPD.CONTRACT_PRICE
+	        FROM SALES_CONTRACT_LIST CL
+	        JOIN SALES_CONTRACT_PRODUCT_DETAIL CPD ON CL.CONTRACT_NO = CPD.CONTRACT_NO AND CL.DELETE_FLAG = '0'
+	        JOIN SALES_PROJECT_LIST PL ON CL.PROJECT_CODE = PL.PROJECT_CODE AND PL.DELETE_FLAG = '0'
+	        LEFT JOIN F_PRODUCT_LIST(@LANGUAGE) PRL ON CPD.PRODUCT_CODE = PRL.PRODUCT_CODE
+	        LEFT JOIN F_COMPANY_LIST(@LANGUAGE) COM ON PL.CLIENT_CODE = COM.COMPANY_CODE
+	        LEFT JOIN T_SYTM_CODE VCD ON CPD.PRODUCT_UNIT = VCD.SSC_CD AND VCD.HCL_CD = 'PRODUCT_UNIT'
+	        WHERE CL.CONTRACT_NO = #{CONTRACT_NO}
+	        AND CPD.DELETE_FLAG = '0';
+		</when>
+		<when test=' CONTRACT_TYPE != null and (CONTRACT_TYPE == "ZS" or CONTRACT_TYPE == "ZT") '>
+	        SELECT CL.CONTRACT_NO,
+	               CL.CONTRACT_TYPE,
+	               CONCAT(PRL.PRODUCT_NAME, CASE WHEN CL.CONTRACT_TYPE = 'S' THEN COMM.GET_TRANS_TXT(@LANGUAGE, 17) ELSE COMM.GET_TRANS_TXT(@LANGUAGE, 407) END, ' ', VCD.SSC_CD_KORN_NM, ' ', VCD2.CAPTION) AS PRODUCT_NAME,
+	               CSD.MEN_MONTH AS QUANTITY,
+	               NULL AS PRODUCT_UNIT,
+	               NULL AS PRODUCT_UNIT_NAME,
+	               CSD.CONTRACT_PRICE / IFNULL(CSD.MEN_MONTH, 1) AS UNIT_COST,
+	               0 AS DELIVERY_COST,
+	               CSD.CONTRACT_PRICE
+	        FROM SALES_CONTRACT_LIST CL
+	        JOIN SALES_CONTRACT_SI_DET CSD ON CL.CONTRACT_NO = CSD.CONTRACT_NO AND CL.DELETE_FLAG = '0'
+	        JOIN SALES_PROJECT_LIST PL ON CL.PROJECT_CODE = PL.PROJECT_CODE AND PL.DELETE_FLAG = '0'
+	        LEFT JOIN SALES_PRODUCT_LIST PRL ON CL.PRODUCT_CODE = PRL.PRODUCT_CODE
+	        LEFT JOIN SALES_COMPANY_LIST COM ON PL.CLIENT_CODE = COM.COMPANY_CODE
+	        LEFT JOIN T_SYTM_CODE VCD ON CSD.ROLE_CODE = VCD.SSC_CD AND VCD.HCL_CD = 'ROLE_CODE'
+	        LEFT JOIN T_SYTM_CODE VCD2 ON CSD.LEVEL_CODE = VCD2.CD_CODE AND VCD2.CM_CODE = 'LEVEL_CODE'
+	        WHERE CL.CONTRACT_NO = #{CONTRACT_NO}
+	        AND CSD.DELETE_FLAG = '0';
+		</when>
+		<when test=' CONTRACT_TYPE != null and CONTRACT_TYPE == "SM" '>
+	        SELECT #{CONTRACT_NO} AS CONTRACT_NO,
+	               CL.CONTRACT_TYPE,
+	               PRL.PRODUCT_NAME AS PRODUCT_NAME,
+	               1 AS QUANTITY,
+	               '004' AS PRODUCT_UNIT,
+	               VCD.SSC_CD_KORN_NM AS PRODUCT_UNIT_NAME,
+	               CMD.CONTRACT_PRICE AS UNIT_COST,
+	               0 AS DELIVERY_COST,
+	               CMD.CONTRACT_PRICE
+	        FROM SALES_CONTRACT_LIST CL
+	        JOIN SALES_CONTRACT_MA_DETAIL CMD ON CL.CONTRACT_NO = CMD.CONTRACT_NO AND CL.DELETE_FLAG = '0'
+	        JOIN SALES_PROJECT_LIST PL ON CL.PROJECT_CODE = PL.PROJECT_CODE AND PL.DELETE_FLAG = '0'
+	        LEFT JOIN SALES_PRODUCT_LIST PRL ON CMD.PRODUCT_CODE = PRL.PRODUCT_CODE
+	        LEFT JOIN SALES_COMPANY_LIST COM ON PL.CLIENT_CODE = COM.COMPANY_CODE
+	        LEFT JOIN T_SYTM_CODE VCD ON '004' = VCD.SSC_CD AND VCD.HCL_CD = 'SI_UNIT'
+	        WHERE CL.CONTRACT_NO = #{CONTRACT_NO}
+	        AND CMD.DELETE_FLAG = '0';
+		</when>
+		<otherwise>
+		</otherwise>
+	</choose>	
+</select>
+
+<select id="selectSP_ProjectBillDelivery_S05_1" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectBillDelivery_S05_1
+	SELECT BD_SEQ,
+	       CONTRACT_NO
+	FROM   BD_CONTRACT_LIST
+	WHERE  BD_SEQ = #{BD_SEQ};	
+</select>
+
+<select id="selectSP_ProjectBillDelivery_S05_2" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectBillDelivery_S05_2
+	SELECT BDD.BDD_SEQ,
+	       BDD.BD_SEQ,
+	       BDD.CONTRACT_NO,
+	       CL.CONTRACT_TYPE,
+	       BDD.KIND,
+	       BDD.PRODUCT_NAME,
+	       BDD.QUANTITY,
+	       BDD.PRODUCT_UNIT,
+	       CASE
+	           WHEN CL.CONTRACT_TYPE IN ('S', 'T', 'M') THEN VCD2.CAPTION
+	           ELSE VCD.CAPTION
+	       END AS PRODUCT_UNIT_NAME,
+	       BDD.UNIT_COST,
+	       BDD.DELIVERY_COST,
+	       BDD.CONTRACT_PRICE,
+	       BDD.CONSUMPTION_TAX_PRICE,
+	       BDD.ORD
+	FROM   SALES_BILL_DELIVERY_DET BDD
+	JOIN   SALES_CONTRACT_LIST CL ON BDD.CONTRACT_NO = CL.CONTRACT_NO
+	LEFT JOIN T_SYTM_CODE VCD 
+	       ON BDD.PRODUCT_UNIT = VCD.SSC_CD AND VCD.HCL_CD = 'PRODUCT_UNIT'
+	LEFT JOIN T_SYTM_CODE VCD2 
+	       ON BDD.PRODUCT_UNIT = VCD2.SSC_CD AND VCD2.HCL_CD = 'SI_UNIT'
+	WHERE  BD_SEQ = #{BD_SEQ}
+	ORDER BY BDD.ORD;
+</select>
+
+<insert id="insertSP_ProjectBillDelivery_R01_1" parameterType="java.util.Map">
+	-- insertSP_ProjectBillDelivery_R01_1
+	INSERT INTO SALES_BILL_DELIVERY (
+		BILL_DELIVERY_NO,
+		YEAR,
+		PROJECT_CODE,
+		CONTRACT_MAIN,
+		MA_FLAG,
+		BILL_TYPE,
+		PUBLISHED_DATE,
+		DEPOSIT_REQUEST_DATE,
+		BILL_CONTRACT_NAME,
+		DELIVERY_CONTRACT_NAME,
+		START_DATE,
+		END_DATE,
+		DATE_FLAG,
+		ORDER_NO,
+		ORDER_NO_FLAG,
+		OFFICIAL_SEAL_TYPE,
+		CONSUMPTION_TAX,
+		<if test="REMARKS != null and REMARKS != ''">
+			REMARKS,
+		</if>
+		REMARKS_FLAG,
+		<if test="DET_REMARKS != null and DET_REMARKS != ''">
+			DET_REMARKS,
+		</if>
+		DET_REMARKS_FLAG,
+		SAME_FLAG,
+		EM_SEQ,
+		EM_FLAG,
+		PRT_ESTIMATE_NO_LIST_FLAG,
+		ESTIMATE_NO_LIST
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	)
+	VALUES (
+		#{NEW_BILL_DELIVERY_NO},
+		LEFT(#{PUBLISHED_DATE}, 4),
+		#{PROJECT_CODE},
+		#{CONTRACT_MAIN},
+		#{MA_FLAG},
+		#{BILL_TYPE},
+		#{PUBLISHED_DATE},
+		#{DEPOSIT_REQUEST_DATE},
+		#{BILL_CONTRACT_NAME},
+		#{DELIVERY_CONTRACT_NAME},
+		#{START_DATE},
+		#{END_DATE},
+		#{DATE_FLAG},
+		#{ORDER_NO},
+		#{ORDER_NO_FLAG},
+		#{OFFICIAL_SEAL_TYPE},
+		#{CONSUMPTION_TAX},
+		<if test="REMARKS != null and REMARKS != ''">
+			#{REMARKS},
+		</if>
+		REMARKS_FLAG,
+		<if test="DET_REMARKS != null and DET_REMARKS != ''">
+			#{DET_REMARKS},
+		</if>
+		#{DET_REMARKS_FLAG},
+		#{SAME_FLAG},
+		#{EM_SEQ},
+		#{EM_FLAG},
+		#{PRT_ESTIMATE_NO_LIST_FLAG},
+		#{ESTIMATE_NO_LIST}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()	
+	);
+</insert>
+
+<update id="updateSP_ProjectBillDelivery_R01_1" parameterType="java.util.Map">
+	-- updateSP_ProjectBillDelivery_R01_1
+	UPDATE SALES_BILL_DELIVERY
+	SET BILL_DELIVERY_NO = #{BILL_DELIVERY_NO},
+		YEAR = LEFT(#{PUBLISHED_DATE}, 4),
+		BILL_TYPE = #{BILL_TYPE},
+		PUBLISHED_DATE = #{PUBLISHED_DATE},
+		DEPOSIT_REQUEST_DATE = #{DEPOSIT_REQUEST_DATE},
+		BILL_CONTRACT_NAME = #{BILL_CONTRACT_NAME},
+		DELIVERY_CONTRACT_NAME = #{DELIVERY_CONTRACT_NAME},
+		START_DATE = #{START_DATE},
+		END_DATE = #{END_DATE},
+		DATE_FLAG = #{DATE_FLAG},
+		ORDER_NO = #{ORDER_NO},
+		ORDER_NO_FLAG = #{ORDER_NO_FLAG},
+		OFFICIAL_SEAL_TYPE = #{OFFICIAL_SEAL_TYPE},
+		CONSUMPTION_TAX = #{CONSUMPTION_TAX},
+		REMARKS = #{REMARKS},
+		REMARKS_FLAG = #{REMARKS_FLAG},
+		DET_REMARKS = #{DET_REMARKS},
+		DET_REMARKS_FLAG = #{DET_REMARKS_FLAG},
+		SAME_FLAG = #{SAME_FLAG},
+		EM_SEQ = #{EM_SEQ},
+		EM_FLAG = #{EM_FLAG},
+		PRT_ESTIMATE_NO_LIST_FLAG = #{PRT_ESTIMATE_NO_LIST_FLAG},
+		ESTIMATE_NO_LIST = #{ESTIMATE_NO_LIST}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE BD_SEQ = #{BD_SEQ};
+</update>	
+
+<insert id="insertSP_ProjectBillDelivery_R01_3" parameterType="java.util.Map">
+	-- insertSP_ProjectBillDelivery_R01_3
+	INSERT INTO SALES_BD_CONTRACT_LIST (
+		BD_SEQ,
+		CONTRACT_NO
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM
+	)
+	VALUES (
+		<choose>
+			<when test="BD_SEQ !=null and BD_SEQ != ''">
+				#{BD_SEQ}
+			</when>
+			<otherwise>
+			(
+				#{NEW_BD_SEQ}
+			)		
+			</otherwise>
+		</choose>
+		,#{dsBDContractList.CONTRACT_NO}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()	
+	);
+</insert>
+
+<insert id="insertSP_ProjectBillDelivery_R01_4" parameterType="java.util.Map">
+	-- insertSP_ProjectBillDelivery_R01_4
+	INSERT INTO SALES_BILL_DELIVERY_DETAIL (
+	    BD_SEQ,
+	    CONTRACT_NO,
+	    KIND,
+	    PRODUCT_NAME,
+	    QUANTITY,
+	    PRODUCT_UNIT,
+	    UNIT_COST,
+	    DELIVERY_COST,
+	    CONTRACT_PRICE,
+	    CONSUMPTION_TAX_PRICE,
+	    ORD
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	)
+	VALUES (
+		<choose>
+			<when test="BD_SEQ !=null and BD_SEQ != ''">
+				#{BD_SEQ}
+			</when>
+			<otherwise>
+			(
+				#{NEW_BD_SEQ}
+			)		
+			</otherwise>
+		</choose>,
+	    #{CONTRACT_NO},
+	    'BILL',
+	    #{PRODUCT_NAME},
+	    #{QUANTITY},
+	    #{PRODUCT_UNIT},
+	    #{UNIT_COST},
+	    #{DELIVERY_COST},
+	    #{CONTRACT_PRICE},
+	    #{CONSUMPTION_TAX_PRICE},
+	    #{ORD}
+		    ,#{EMP_NO_SRV}
+		    ,#{USER_CON_IPADDR_SRV}
+		    ,NOW()
+		    ,#{EMP_NO_SRV}
+		    ,#{USER_CON_IPADDR_SRV}
+		    ,NOW()	
+	);
+</insert>
+
+<update id="updateSP_ProjectBillDelivery_R01_4" parameterType="java.util.Map">
+	-- updateSP_ProjectBillDelivery_R01_5
+	UPDATE SALES_BILL_DELIVERY_DETAIL
+	SET PRODUCT_NAME = #{PRODUCT_NAME},
+	    QUANTITY = #{QUANTITY},
+	    PRODUCT_UNIT = #{PRODUCT_UNIT},
+	    UNIT_COST = #{UNIT_COST},
+	    CONTRACT_PRICE = #{CONTRACT_PRICE},
+	    CONSUMPTION_TAX_PRICE = #{CONSUMPTION_TAX_PRICE},
+	    ORD = #{ORD}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE BDD_SEQ = #{BDD_SEQ};
+</update>
+
+<delete id="deleteSP_ProjectBillDelivery_R01_4" parameterType="java.util.Map">
+	-- deleteSP_ProjectBillDelivery_R01_4
+	DELETE FROM SALES_BILL_DELIVERY_DETAIL
+	WHERE BDD_SEQ = #{BDD_SEQ}
+	AND KIND = 'BILL';
+</delete>
+
+<insert id="insertSP_ProjectBillDelivery_R01_5" parameterType="java.util.Map">
+	-- insertSP_ProjectBillDelivery_R01_5
+	INSERT INTO SALES_BILL_DELIVERY_DETAIL (
+		BD_SEQ,
+		CONTRACT_NO,
+		KIND,
+		PRODUCT_NAME,
+		QUANTITY,
+		PRODUCT_UNIT,
+		UNIT_COST,
+		DELIVERY_COST,
+		CONTRACT_PRICE,
+		CONSUMPTION_TAX_PRICE,
+		ORD
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	)
+	VALUES (
+		<choose>
+			<when test="BD_SEQ !=null and BD_SEQ != ''">
+				#{BD_SEQ}
+			</when>
+			<otherwise>
+			(
+				#{NEW_BD_SEQ}
+			)		
+			</otherwise>
+		</choose>,
+		#{CONTRACT_NO},
+		'DELIVERY',
+		#{PRODUCT_NAME},
+		#{QUANTITY},
+		#{PRODUCT_UNIT},
+		#{UNIT_COST},
+		#{DELIVERY_COST},
+		#{CONTRACT_PRICE},
+		#{CONSUMPTION_TAX_PRICE},
+		#{ORD}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	);
+</insert>
+
+<update id="updateSP_ProjectBillDelivery_R01_5" parameterType="java.util.Map">
+	-- updateSP_ProjectBillDelivery_R01_5
+	UPDATE SALES_BILL_DELIVERY_DETAIL
+	SET PRODUCT_NAME = #{PRODUCT_NAME}
+	    , QUANTITY = #{QUANTITY}
+	    , PRODUCT_UNIT = #{PRODUCT_UNIT}
+	    , UNIT_COST = #{UNIT_COST}
+	    , CONTRACT_PRICE = #{CONTRACT_PRICE}
+	    , CONSUMPTION_TAX_PRICE = #{CONSUMPTION_TAX_PRICE}
+	    , ORD = #{ORD}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE BDD_SEQ = #{BDD_SEQ};	
+</update>
+
+<delete id="deleteSP_ProjectBillDelivery_R01_5" parameterType="java.util.Map">
+	-- deleteSP_ProjectBillDelivery_R01_5
+	DELETE FROM SALES_BILL_DELIVERY_DETAIL
+	WHERE BDD_SEQ = #{BDD_SEQ}
+	  AND KIND = 'DELIVERY';	
+</delete>
+
+<select id="selectSP_ProjectBillDelivery_R01_6" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_ProjectBillDelivery_R01_6
+	SELECT BDCL.CONTRACT_NO,
+	       BDCL.BD_SEQ
+	FROM SALES_BD_CONTRACT_LIST BDCL
+	LEFT JOIN (
+	    SELECT CONTRACT_NO, BD_SEQ
+	    FROM SALES_BILL_DELIVERY_DETAIL
+	    WHERE BD_SEQ = #{BD_SEQ}
+	    GROUP BY CONTRACT_NO, BD_SEQ
+	) BDD ON BDCL.BD_SEQ = BDD.BD_SEQ AND BDCL.CONTRACT_NO = BDD.CONTRACT_NO
+	WHERE BDD.CONTRACT_NO IS NULL
+	  AND BDCL.BD_SEQ = #{BD_SEQ};
+</select>
+
+<delete id="deleteSP_ProjectBillDelivery_R01_7" parameterType="java.util.Map">
+	-- deleteSP_ProjectBillDelivery_R01_7
+	DELETE FROM SALES_BD_CONTRACT_LIST
+	WHERE CONTRACT_NO = #{CONTRACT_NO}
+	  AND BD_SEQ = #{BD_SEQ};	
+</delete>
+
+
+<delete id="deleteSP_ProjectBillDelivery_R02" parameterType="java.util.Map">
+	-- deleteSP_ProjectBillDelivery_R02
+	DELETE FROM SALES_BILL_DELIVERY_DET
+	WHERE BD_SEQ = #{BD_SEQ};
+	
+	DELETE FROM SALES_BD_CONTRACT_LIST
+	WHERE BD_SEQ = #{BD_SEQ};
+	
+	DELETE FROM SALES_BILL_DELIVERY
+	WHERE BD_SEQ = #{BD_SEQ};	
+</delete>
+
+<insert id="insertSP_ProjectBillDelivery_R03_1" parameterType="java.util.Map">
+	-- insertSP_ProjectBillDelivery_R03_1
+	-- BILL_DELIVERY 테이블에 데이터 삽입
+	INSERT INTO SALES_BILL_DELIVERY
+	(
+		BILL_DELIVERY_NO,
+		YEAR,
+		PROJECT_CODE,
+		CONTRACT_MAIN,
+		MA_FLAG,
+		BILL_TYPE,
+		PUBLISHED_DATE,
+		DEPOSIT_REQUEST_DATE,
+		BILL_CONTRACT_NAME,
+		DELIVERY_CONTRACT_NAME,
+		START_DATE,
+		END_DATE,
+		DATE_FLAG,
+		ORDER_NO,
+		ORDER_NO_FLAG,
+		OFFICIAL_SEAL_TYPE,
+		CONSUMPTION_TAX,
+		REMARKS,
+		REMARKS_FLAG,
+		DET_REMARKS,
+		DET_REMARKS_FLAG,
+		SAME_FLAG,
+		EM_SEQ,
+		EM_FLAG,
+		PRT_ESTIMATE_NO_LIST_FLAG,
+		ESTIMATE_NO_LIST
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM	
+	)
+	SELECT  
+		#{VAR_BILL_DELIVERY_NO} AS BILL_DELIVERY_NO,
+		SUBSTRING(PUBLISHED_DATE, 1, 4) AS YEAR,  -- MariaDB에서는 간단한 문자열 처리를 사용
+		PROJECT_CODE,
+		CONTRACT_MAIN,
+		MA_FLAG,
+		BILL_TYPE,
+		PUBLISHED_DATE,
+		DEPOSIT_REQUEST_DATE,
+		BILL_CONTRACT_NAME,
+		DELIVERY_CONTRACT_NAME,
+		START_DATE,
+		END_DATE,
+		DATE_FLAG,
+		ORDER_NO,
+		ORDER_NO_FLAG,
+		OFFICIAL_SEAL_TYPE,
+		CONSUMPTION_TAX,
+		REMARKS,
+		REMARKS_FLAG,
+		DET_REMARKS,
+		DET_REMARKS_FLAG,
+		SAME_FLAG,
+		EM_SEQ,
+		EM_FLAG,
+		PRT_ESTIMATE_NO_LIST_FLAG,
+		ESTIMATE_NO_LIST
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()		
+	FROM SALES_BILL_DELIVERY
+	WHERE BD_SEQ = #{ORG_BD_SEQ};
+</insert>
+
+<insert id="insertSP_ProjectBillDelivery_R03_2" parameterType="java.util.Map">
+	-- insertSP_ProjectBillDelivery_R03_1
+	-- BD_CONTRACT_LIST 테이블에 데이터 삽입
+	INSERT INTO SALES_BD_CONTRACT_LIST
+	(
+	    BD_SEQ,
+	    CONTRACT_NO
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM	
+	)
+	SELECT  
+	    #{VAR_INSERT_SEQ} AS BD_SEQ,
+	    CONTRACT_NO
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()	
+	FROM SALES_BD_CONTRACT_LIST
+	WHERE BD_SEQ = #{ORG_BD_SEQ};
+	
+	-- BILL_DELIVERY_DET 테이블에 데이터 삽입
+	INSERT INTO SALES_BILL_DELIVERY_DETAIL
+	(
+	    BD_SEQ,
+	    CONTRACT_NO,
+	    KIND,
+	    PRODUCT_NAME,
+	    QUANTITY,
+	    PRODUCT_UNIT,
+	    UNIT_COST,
+	    DELIVERY_COST,
+	    CONTRACT_PRICE,
+	    CONSUMPTION_TAX_PRICE
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM	
+	)
+	SELECT  
+	    #{VAR_INSERT_SEQ} AS BD_SEQ,
+	    CONTRACT_NO,
+	    KIND,
+	    PRODUCT_NAME,
+	    QUANTITY,
+	    PRODUCT_UNIT,
+	    UNIT_COST,
+	    DELIVERY_COST,
+	    CONTRACT_PRICE,
+	    CONSUMPTION_TAX_PRICE
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()	
+	FROM SALES_BILL_DELIVERY_DETAIL
+	WHERE BD_SEQ = #{ORG_BD_SEQ};
+</insert>	
+
+<select id="selectSP_ProjectTS_R01_1" parameterType="java.util.Map" resultType="_int">
+	-- selectSP_ProjectTS_R01_1
+    SELECT COUNT(*) AS CNT
+    FROM SALES_TRADING_STATEMENT TS
+    WHERE TS.SUPPLY_MONTH = #{SUPPLY_MONTH}
+</select>
+
+<select id="selectSP_ProjectTS_R01_2" parameterType="java.util.Map" resultType="string">
+	-- selectSP_ProjectTS_R01_2
+    SELECT LPAD(MAX(CAST(SUBSTRING(TS.TS_NO, 11, 2) AS UNSIGNED)) + 1, 2, '0') AS TS_NO_SEQ
+    FROM SALES_TRADING_STATEMENT TS
+    WHERE TS.SUPPLY_MONTH = #{SUPPLY_MONTH}
+    GROUP BY TS.SUPPLY_MONTH;
+</select>
+
+<select id="selectSP_ProjectTS_R01_3" parameterType="java.util.Map" resultType="java.util.Map">
+	-- 데이터 조회
+	SELECT 
+		TS_SEQ,
+		PROJECT_CODE,
+		CONTRACT_MAIN,
+		MA_FLAG,
+		#{gdsParam.SUPPLY_MONTH} AS SUPPLY_MONTH,
+		CONCAT('TB', #{SUPPLY_MONTH}, #{TS_NO_SEQ}) AS TS_NO,
+		CONTRACT_NAME,
+		SIGN_KIND,
+		CASE 
+			WHEN #{CONTRACT_TYPE} = 'M' THEN CONCAT(SUBSTRING(#{SUPPLY_MONTH}, 5, 2), '월분')
+			ELSE REMARKS
+		END AS REMARKS,
+		DET_REMARKS,
+		CA_SEQ,
+		INSERT_EMP_NO,
+		INSERT_DEPT_CD,
+		INSERT_DEPT_NM
+	FROM SALES_TRADING_STATEMENT
+	WHERE TS_SEQ = #{TS_SEQ};
+</select>
+
+<insert id="insertSP_ProjectTS_R01_3_4" parameterType="java.util.Map">
+	-- insertSP_ProjectTS_R01_3_4
+	INSERT INTO SALES_TRADING_STATEMENT
+	(
+		PROJECT_CODE,
+		CONTRACT_MAIN,
+		MA_FLAG,
+		SUPPLY_MONTH,
+		TS_NO,
+		CONTRACT_NAME,
+		SIGN_KIND,
+		-- 조건부로 REMARKS와 DET_REMARKS를 추가
+		<if test="REMARKS != null and REMARKS != ''">
+			REMARKS,
+		</if>
+		<if test="DET_REMARKS != null and DET_REMARKS != ''">
+			DET_REMARKS,
+		</if>
+		CA_SEQ
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM	
+	)
+	VALUES
+	(
+		#{PROJECT_CODE},
+		#{CONTRACT_MAIN},
+		#{MA_FLAG},
+		#{SUPPLY_MONTH},
+		#{TS_NO},
+		#{CONTRACT_NAME},
+		#{SIGN_KIND},
+		-- 조건부로 REMARKS와 DET_REMARKS 값을 추가
+		<if test="REMARKS != null and REMARKS != ''">
+			#{REMARKS},
+		</if>
+		<if test="DET_REMARKS != null and DET_REMARKS != ''">
+			#{DET_REMARKS},
+		</if>
+		#{CA_SEQ}
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()	
+	);
+</insert>
+
+<select id="selectSP_ProjectTS_R01_5" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectLAST_BD_SEQ
+	SELECT 
+	    #{ds_TSSeqTS_SEQ} AS TS_SEQ,
+	    CONTRACT_NO
+	FROM TS_CONTRACT_LIST
+	WHERE TS_SEQ = #{TS_SEQ};
+</select>
+
+<insert id="insertSP_ProjectTS_R01_3_6" parameterType="java.util.Map">
+	-- insertSP_ProjectTS_R01_3_6
+	INSERT INTO SALES_TS_CONTRACT_LIST
+	(
+		TS_SEQ,
+		CONTRACT_NO
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	)
+	VALUES
+	(
+		#{TS_SEQ},
+		#{CONTRACT_NO}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()	
+	);	
+</insert>
+
+<select id="selectSP_ProjectTS_R01_3_7" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+		CONTRACT_NO,
+		PRODUCT_NAME,
+		STANDARD,
+		PRODUCT_UNIT,
+		QUANTITY,
+		UNIT_COST,
+		CONTRACT_PRICE,
+		VAT_PRICE,
+		ORD
+	FROM TS_CONTRACT_DET
+	WHERE TS_SEQ = #{TS_SEQ};
+</select>	
+
+<insert id="insertSP_ProjectTS_R01_3_8" parameterType="java.util.Map">
+	INSERT INTO SALES_TS_CONTRACT_DETAIL
+	(
+		TS_SEQ,
+		CONTRACT_NO,
+		PRODUCT_NAME,
+		STANDARD,
+		PRODUCT_UNIT,
+		QUANTITY,
+		UNIT_COST,
+		CONTRACT_PRICE,
+		VAT_PRICE,
+		ORD
+		,INPT_ID
+		,INPT_IP
+		,INPT_DTTM
+		,CHGE_ID
+		,CHGE_IP
+		,CHGE_DTTM	
+	)
+	VALUES
+	(
+		#{ds_TSSeqTS_SEQ},
+		#{CONTRACT_NO},
+		#{PRODUCT_NAME},
+		#{STANDARD},
+		#{PRODUCT_UNIT},
+		#{QUANTITY},
+		#{UNIT_COST},
+		#{CONTRACT_PRICE},
+		#{VAT_PRICE},
+		#{ORD}
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()		
+	);
+</insert>
+
+<select id="selectSP_DeliveryConfirm_S01_1" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_DeliveryConfirm_S01_1
+	SELECT 
+		CDC.CDC_DOC_ID,
+		CDC.CDC_DOC_ID AS DOC_TITLE,
+		CDC.PROJECT_CODE,
+		CDC.DELIVERY_FLAG,
+		CDC.INSTALL_FLAG,
+		DATE_FORMAT(CDC.DELIVERY_DATE, '%Y%m%d') AS DELIVERY_DATE,  -- CONVERT를 DATE_FORMAT으로 변경
+		CDC.PROJECT_NAME,
+		CDC.REMARKS,
+		CDC.DEPT_NAME,
+		CDC.PHONE_NO,
+		CDC.DUTY_NAME,
+		CDC.EMP_NAME,
+		CDC.EMP_NO,
+		CDC.CLIENT_NAME,
+		CDC.CLIENT_DEPT_NAME,
+		CDC.CLIENT_PHONE_NO,
+		CDC.CLIENT_DUTY_NAME,
+		CDC.CLIENT_EMP_NAME,
+		CDC.DELIVERY_DATE_FLAG,
+		P.PROJECT_NAME AS ORG_PROJECT_NAME,
+		COALESCE(CDC.CLIENT_NAME_RENAME, COM.COMPANY_NAME) AS CLIENT_NAME_RENAME,  -- ISNULL을 COALESCE로 변경
+		CDC.SERVER_SPEC
+	FROM 
+		SALES_CONTRACT_DELIVERY_CONFIRM CDC
+	JOIN 
+		SALES_PROJECT_LIST P ON CDC.PROJECT_CODE = P.PROJECT_CODE
+	LEFT JOIN 
+		SALES_COMPANY_LIST COM ON COM.COMPANY_CODE = P.CLIENT_CODE
+	WHERE 
+		CDC.PROJECT_CODE = #{PROJECT_CODE};
+</select>
+
+<select id="selectSP_DeliveryConfirm_S01_2" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_DeliveryConfirm_S01_2
+	SELECT 
+		P.PROJECT_CODE,
+		P.PROJECT_NAME,
+		CL.CONTRACT_NO,
+		CL.CONTRACT_NAME,
+		CL.CONTRACT_TYPE,
+		CD.SSC_CD_KORN_NM AS CONTRACT_TYPE_NM,
+		DATE_FORMAT(CL.CONTRACT_DATE, '%Y%m%d') AS CONTRACT_DATE,  -- CONVERT를 DATE_FORMAT으로 변경
+		P.CLIENT_CODE,
+		COM.COMPANY_NAME AS CLIENT_NAME,
+		CASE WHEN CDCD.CONTRACT_NO IS NOT NULL THEN '1' ELSE '0' END AS CONTRACT_CHK,
+		PLL.COMPANY_NAME AS CLIENT_NAME2,
+		PLL.CUSTOMER_NAME AS PROJECT_NAME2
+	FROM 
+		SALES_PROJECT_LIST P
+	JOIN 
+		SALES_CONTRACT_LIST CL ON P.PROJECT_CODE = CL.PROJECT_CODE 
+		AND CL.DELETE_FLAG = '0' 
+		AND CL.CONTRACT_STATUS = '3'
+	LEFT JOIN 
+		SALES_COMPANY_LIST COM ON P.CLIENT_CODE = COM.COMPANY_CODE
+	LEFT JOIN 
+		T_SYTM_CODE CD ON CL.CONTRACT_TYPE = CD.SSC_CD 
+		AND CD.HCL_CD = 'CONTRACT_TYPE'
+	LEFT JOIN 
+		(SELECT CONTRACT_NO 
+		 FROM SALES_CONTRACT_DELIVERY_CONFIRM_DETAIL 
+		 WHERE CDC_DOC_ID = #{CDC_DOC_ID} 
+		 GROUP BY CONTRACT_NO) CDCD ON CL.CONTRACT_NO = CDCD.CONTRACT_NO
+	LEFT JOIN 
+		(SELECT T.PROJECT_CODE, PLL.TOOL_LICENSE_FLAG, PLL.COMPANY_NAME, PLL.CUSTOMER_NAME
+		 FROM 
+			 (SELECT P.PROJECT_CODE, MAX(PLL.PLL_SEQ) AS PLL_SEQ 
+			  FROM SALES_PROJECT_LIST P 
+			  JOIN SALES_CONTRACT_LIST CL ON P.PROJECT_CODE = CL.PROJECT_CODE 
+			  AND CL.DELETE_FLAG = '0' 
+			  JOIN SALES_PRODUCT_LICENSE_LIST PLL ON CL.CONTRACT_NO = PLL.CONTRACT_NO 
+			  AND PLL.TOOL_DELETE_FLAG = '0' 
+			  AND PLL.ISDEV_FLAG = '0' 
+			  AND PLL.TOOL_LICENSE_FLAG = '1' 
+			  WHERE P.DELETE_FLAG = '0' 
+			  AND P.PROJECT_CODE = #{PROJECT_CODE} 
+			  GROUP BY P.PROJECT_CODE) T 
+		 JOIN SALES_PRODUCT_LICENSE_LIST PLL ON T.PLL_SEQ = PLL.PLL_SEQ) PLL 
+	ON P.PROJECT_CODE = PLL.PROJECT_CODE
+	WHERE 
+		P.PROJECT_CODE = #{PROJECT_CODE} 
+		AND P.DELETE_FLAG = '0'
+	ORDER BY 
+		CASE 
+			WHEN CL.CONTRACT_TYPE = 'PD' THEN 1
+			WHEN CL.CONTRACT_TYPE = 'GD' THEN 2
+			WHEN CL.CONTRACT_TYPE = 'ZS' THEN 3
+			WHEN CL.CONTRACT_TYPE = 'SM' THEN 4
+			ELSE 9
+		END,
+		CL.CONTRACT_NO;
+</select>
+
+<select id="selectSP_DeliveryConfirm_S01_3" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_DeliveryConfirm_S01_3
+	SELECT 
+		CL.PROJECT_CODE,
+		CL.CONTRACT_NO,
+		CRD.PRODUCT_CODE,
+		PL.PRODUCT_NAME,
+		CASE 
+			WHEN CRD.PRODUCT_UNIT = '010' THEN 
+				CASE 
+					WHEN SUBSTRING(PL.PRODUCT_NAME_SHORT, 1, 2) = 'MP' THEN '<![CDATA[ Presentation Interface Designer (P.I.D) ]]>'
+					WHEN SUBSTRING(PL.PRODUCT_NAME_SHORT, 1, 2) = 'XP' THEN '<![CDATA[ UX-Studio ]]>'
+					WHEN SUBSTRING(PL.PRODUCT_NAME_SHORT, 1, 2) = 'NP' THEN 'nexacro Studio'
+					WHEN PL.PRODUCT_NAME_SHORT = 'NexacroN' THEN 'Nexacro Studio'
+					WHEN PL.PRODUCT_NAME_SHORT = 'NexacroN V24' THEN 'Nexacro Studio'
+					ELSE ''
+				END
+			ELSE CONCAT('Service License_', CD.SSC_CD_KORN_NM)
+		END AS PRODUCT_INFO_DET,
+		CRD.PRODUCT_UNIT,
+		CRD.QUANTITY,
+		CRD.PURPOSE,
+		CRD.REMARKS
+	FROM 
+		SALES_CONTRACT_LIST CL
+	LEFT JOIN 
+		SALES_CONTRACT_PRODUCT_DETAIL CRD ON CL.CONTRACT_NO = CRD.CONTRACT_NO AND CRD.DELETE_FLAG = '0'
+	LEFT JOIN 
+		SALES_PRODUCT_LIST PL ON CRD.PRODUCT_CODE = PL.PRODUCT_CODE
+	LEFT JOIN 
+		T_SYTM_CODE CD ON CRD.PURPOSE = CD.SSC_CD AND CD.HCL_CD = 'PURPOSE'
+	WHERE 
+		CL.DELETE_FLAG = '0' 
+		AND CL.CONTRACT_STATUS = '3' 
+		AND CL.CONTRACT_TYPE IN ('PD', 'GD') 
+		AND CL.PROJECT_CODE = #{PROJECT_CODE}
+	ORDER BY 
+		CL.CONTRACT_NO, CRD.CRD_SEQ;
+</select>
+	
+<select id="selectSP_DeliveryConfirm_S01_4" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_DeliveryConfirm_S01_4	
+	SELECT 
+		VED.EMP_NO,
+		VED.EMP_NAME,
+		VED.DEPT_CD,
+		VED.DEPT_NAME,
+		VED.HP_TEL_NO,
+		CD2.SSC_CD_KORN_NM AS DUTY_NAME
+	FROM 
+		T_SYTM_USER VED
+	LEFT JOIN 
+		T_SYTM_CODE CD2
+	ON 
+		VED.WKGD_CD = CD2.SSC_CD AND CD2.HCL_CD = 'SM05'
+	WHERE 
+		EMP_NO = #{SALES_EMP_NO};
+</select>
+
+<select id="selectSP_DeliveryConfirm_S02" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_DeliveryConfirm_S01_4	
+	SELECT 
+		CDCD.CDCD_SEQ,
+		CDCD.CDC_DOC_ID,
+		CDCD.CONTRACT_NO,
+		CDCD.PRODUCT_CODE,
+		PL.PRODUCT_NAME,
+		CASE 
+			WHEN SUBSTRING(CDCD.PRODUCT_CODE, 1, 5) = 'P0503' 
+			THEN REPLACE(PL.PRODUCT_NAME, '17.1', '17') 
+			ELSE PL.PRODUCT_NAME 
+		END AS PRODUCT_NAME2,
+		CDCD.PRODUCT_INFO_DET,
+		CDCD.PRODUCT_UNIT,
+		CDCD.QUANTITY,
+		CDCD.ORD,
+		CDCD.REMARKS
+	FROM 
+		SALES_CONTRACT_DELIVERY_CONFIRM_DET CDCD
+	LEFT JOIN 
+		SALES_PRODUCT_LIST PL
+	ON 
+		CDCD.PRODUCT_CODE = PL.PRODUCT_CODE
+	WHERE 
+		CDC_DOC_ID = #{CDC_DOC_ID}
+	ORDER BY 
+		CDCD.ORD;
+</select>
+
+<select id="selectSP_DeliveryConfirm_R01_getCDC_DOC_ID" parameterType="java.util.Map" resultType="string">
+	-- selectSP_DeliveryConfirm_R01_getCDC_DOC_ID	
+	SELECT GET_CDC_DOC_ID(DATE_FORMAT(NOW(), '%Y%m%d')) AS CDC_DOC_ID;
+</select>
+
+<insert id="insertSP_DeliveryConfirm_R01" parameterType="java.util.Map">
+	-- insertSP_DeliveryConfirm_R01
+	INSERT INTO SALES_CONTRACT_DELIVERY_CONFIRM
+	(
+		CDC_DOC_ID,
+		PROJECT_CODE,
+		CLIENT_NAME_RENAME,
+		DELIVERY_FLAG,
+		INSTALL_FLAG,
+		DELIVERY_DATE,
+		DELIVERY_DATE_FLAG,
+		PROJECT_NAME,
+		REMARKS,
+		DEPT_NAME,
+		PHONE_NO,
+		DUTY_NAME,
+		EMP_NO,
+		EMP_NAME,
+		CLIENT_NAME,
+		CLIENT_DEPT_NAME,
+		CLIENT_PHONE_NO,
+		CLIENT_DUTY_NAME,
+		CLIENT_EMP_NAME,
+		SERVER_SPEC
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	)
+	VALUES
+	(
+		#{NEW_CDC_DOC_ID},
+		#{PROJECT_CODE},
+		#{CLIENT_NAME_RENAME},
+		#{DELIVERY_FLAG},
+		#{INSTALL_FLAG},
+		#{DELIVERY_DATE},
+		#{DELIVERY_DATE_FLAG},
+		#{PROJECT_NAME},
+		#{REMARKS},
+		#{DEPT_NAME},
+		#{PHONE_NO},
+		#{DUTY_NAME},
+		#{EMP_NO},
+		#{EMP_NAME},
+		#{CLIENT_NAME},
+		#{CLIENT_DEPT_NAME},
+		#{CLIENT_PHONE_NO},
+		#{CLIENT_DUTY_NAME},
+		#{CLIENT_EMP_NAME},
+		#{SERVER_SPEC}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	);
+</insert>
+
+<update id="updateSP_DeliveryConfirm_R01" parameterType="java.util.Map">
+	-- insertSP_DeliveryConfirm_R01
+	UPDATE SALES_CONTRACT_DELIVERY_CONFIRM
+	SET
+		DELIVERY_FLAG = #{DELIVERY_FLAG},
+		INSTALL_FLAG = #{INSTALL_FLAG},
+		DELIVERY_DATE = #{DELIVERY_DATE},
+		DELIVERY_DATE_FLAG = #{DELIVERY_DATE_FLAG},
+		PROJECT_NAME = #{PROJECT_NAME},
+		CLIENT_NAME_RENAME = #{CLIENT_NAME_RENAME},
+		REMARKS = #{REMARKS},
+		DEPT_NAME = #{DEPT_NAME},
+		PHONE_NO = #{PHONE_NO},
+		DUTY_NAME = #{DUTY_NAME},
+		EMP_NO = #{EMP_NO},
+		EMP_NAME = #{EMP_NAME},
+		CLIENT_NAME = #{CLIENT_NAME},
+		CLIENT_DEPT_NAME = #{CLIENT_DEPT_NAME},
+		CLIENT_PHONE_NO = #{CLIENT_PHONE_NO},
+		CLIENT_DUTY_NAME = #{CLIENT_DUTY_NAME},
+		CLIENT_EMP_NAME = #{CLIENT_EMP_NAME},
+		SERVER_SPEC = #{SERVER_SPEC}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE
+		CDC_DOC_ID = #{CDC_DOC_ID};
+</update>
+
+<delete id="deleteSP_DeliveryConfirm_R01" parameterType="java.util.Map">
+	-- insertSP_DeliveryConfirm_R01
+	DELETE FROM SALES_CONTRACT_DELIVERY_CONFIRM_DETAIL
+	WHERE CDC_DOC_ID = #{CDC_DOC_ID};
+
+	DELETE FROM SALES_CONTRACT_DELIVERY_CONFIRM
+	WHERE CDC_DOC_ID = #{CDC_DOC_ID};
+</delete>
+
+<insert id="insertSP_DeliveryConfirm_R01_1" parameterType="java.util.Map">
+	-- insertSP_DeliveryConfirm_R01_1
+	INSERT INTO SALES_CONTRACT_DELIVERY_CONFIRM_DETAIL
+	( 
+		CDC_DOC_ID,
+		CONTRACT_NO,
+		PRODUCT_CODE,
+		PRODUCT_INFO_DET,
+		PRODUCT_UNIT,
+		QUANTITY,
+		ORD,
+		REMARKS
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+	) 
+	VALUES
+	(
+		<choose>
+			<when test=' CDC_DOC_ID != null and CDC_DOC_ID != "" '>
+				 #{CDC_DOC_ID},
+			</when>
+			<otherwise>
+				#{NEW_CDC_DOC_ID}
+			</otherwise>
+		</choose>,
+		#{CONTRACT_NO},
+		#{PRODUCT_CODE},
+		#{PRODUCT_INFO_DET},
+		#{PRODUCT_UNIT},
+		#{QUANTITY},
+		#{ORD},
+		#{REMARKS}
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	);
+</insert>
+
+<update id="updateSP_DeliveryConfirm_R01_2" parameterType="java.util.Map">
+	-- updateSP_DeliveryConfirm_R01_2
+	UPDATE SALES_CONTRACT_DELIVERY_CONFIRM_DETAIL
+	SET 
+		CDC_DOC_ID = #{CDC_DOC_ID},
+		CONTRACT_NO = #{CONTRACT_NO},
+		PRODUCT_CODE = #{PRODUCT_CODE},
+		PRODUCT_INFO_DET = #{PRODUCT_INFO_DET},
+		PRODUCT_UNIT = #{PRODUCT_UNIT},
+		QUANTITY = #{QUANTITY},
+		ORD = #{ORD}
+		, REMARKS = #{REMARKS}
+		, CHGE_ID = #{EMP_NO_SRV}
+		, CHGE_IP = #{USER_CON_IPADDR_SRV}
+		, CHGE_DTTM = NOW()
+	WHERE 
+		CDCD_SEQ = #{CDCD_SEQ};
+</update>
+
+<delete id="deleteSP_DeliveryConfirm_R01_2" parameterType="java.util.Map">
+	-- deleteSP_DeliveryConfirm_R01_2
+	DELETE FROM SALES_CONTRACT_DELIVERY_CONFIRM_DETAIL
+	WHERE CDCD_SEQ = #{CDCD_SEQ};
+</delete>
+
+<select id="selectSP_DeliveryConfirm_S03_1" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_DeliveryConfirm_S03_1
+	SELECT CDC.CDC_DOC_ID,
+		   IFNULL(CDC.CLIENT_NAME_RENAME, COM.COMPANY_NAME) AS COMPANY_NAME,
+		   (
+			   SELECT GROUP_CONCAT(SCDCD.CONTRACT_NO SEPARATOR ' , ')
+			   FROM CONTRACT_DELIVERY_CONFIRM SCDC
+			   JOIN CONTRACT_DELIVERY_CONFIRM_DET SCDCD ON SCDC.CDC_DOC_ID = SCDCD.CDC_DOC_ID
+			   WHERE SCDC.CDC_DOC_ID = CDC.CDC_DOC_ID
+			   GROUP BY SCDCD.CONTRACT_NO
+		   ) AS CONTRACT_NO_LIST,
+		   CDC.PROJECT_NAME,
+		   (CASE 
+			   WHEN IFNULL(CDC.DELIVERY_FLAG, '0') = '1' THEN CONCAT('<![CDATA[', COMM.DBO.GET_TRANS_TXT(#gdsGlobal.LANGUAGE#, 675), '(O)]]>')
+			   ELSE CONCAT('<![CDATA[', COMM.DBO.GET_TRANS_TXT(#gdsGlobal.LANGUAGE#, 675), '( )]]>')
+			END
+			+ CASE 
+			   WHEN IFNULL(CDC.INSTALL_FLAG, '0') = '1' THEN CONCAT('<![CDATA[', COMM.DBO.GET_TRANS_TXT(#gdsGlobal.LANGUAGE#, 676), '(O)]]>')
+			   ELSE CONCAT('<![CDATA[', COMM.DBO.GET_TRANS_TXT(#gdsGlobal.LANGUAGE#, 676), '( )]]>')
+			END
+		   ) AS DC_TYPE_NM,
+		   CDC.REMARKS AS SYS_EMVIRONMENT,
+		   CDC.CLIENT_NAME AS DC_COMP_NAME,
+		   CDC.CLIENT_DEPT_NAME AS DC_USERDEPT,
+		   CDC.CLIENT_PHONE_NO AS DC_USERPHONE,
+		   CDC.CLIENT_DUTY_NAME AS DC_USERDUTY,
+		   CDC.CLIENT_EMP_NAME AS DC_USER,
+		   CDC.DEPT_NAME AS DC_SALES_USERDEPT,
+		   CDC.PHONE_NO AS DC_SALES_USERPHONE,
+		   CDC.DUTY_NAME AS DC_SALES_USERDUTY,
+		   CDC.EMP_NAME AS DC_SALES_USER,
+		   CONCAT('https://next.tobesoft.com/NEXTp/Report/SLAES_SIGN/', '/', CDC.EMP_NO, '.jpg') AS SIGN_IMAGE_PATH,
+		   CASE 
+			   WHEN IFNULL(CDC.DELIVERY_DATE_FLAG, '0') = '1' THEN DATE_FORMAT(CDC.DELIVERY_DATE, '%Y')
+			   ELSE ''
+		   END AS DELIVERY_YYYY,
+		   CASE 
+			   WHEN IFNULL(CDC.DELIVERY_DATE_FLAG, '0') = '1' THEN DATE_FORMAT(CDC.DELIVERY_DATE, '%m')
+			   ELSE ''
+		   END AS DELIVERY_MM,
+		   CASE 
+			   WHEN IFNULL(CDC.DELIVERY_DATE_FLAG, '0') = '1' THEN DATE_FORMAT(CDC.DELIVERY_DATE, '%d')
+			   ELSE ''
+		   END AS DELIVERY_DD,
+		   CDC.SERVER_SPEC
+	FROM SALES_CONTRACT_DELIVERY_CONFIRM CDC
+	JOIN SALES_PROJECT_LIST P ON CDC.PROJECT_CODE = P.PROJECT_CODE AND P.DELETE_FLAG = '0'
+	LEFT JOIN SALES_COMPANY_LIST COM ON P.CLIENT_CODE = COM.COMPANY_CODE
+	WHERE CDC.CDC_DOC_ID = #{CDC_DOC_ID}
+	AND P.PROJECT_CODE = #{PROJECT_CODE};
+</select>
+
+<select id="selectSP_DeliveryConfirm_S03_2" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_DeliveryConfirm_S03_2
+	SELECT CASE 
+			   WHEN SUBSTRING(CDCD.PRODUCT_CODE, 1, 5) = 'P0503' THEN REPLACE(PL.PRODUCT_NAME, '17.1', '17') 
+			   ELSE PL.PRODUCT_NAME 
+		   END AS PRODUCT_NAME,
+		   CDCD.PRODUCT_INFO_DET,
+		   CDCD.QUANTITY AS CONTRACT_QTY,
+		   IFNULL(CD.SSC_CD_KORN_NM, '') AS PRODUCT_UNIT,
+		   IFNULL(CDCD.REMARKS, '') AS REMARKS,
+		   '' AS NO_NUM
+	FROM SALES_CONTRACT_DELIVERY_CONFIRM_DETAIL CDCD
+	JOIN SALES_PRODUCT_LIST PL ON CDCD.PRODUCT_CODE = PL.PRODUCT_CODE
+	LEFT JOIN T_SYTM_CODE CD ON CDCD.PRODUCT_UNIT = CD.SSL_CD AND CD.HCL_CD = 'PRODUCT_UNIT'
+	WHERE CDCD.CDC_DOC_ID = #{CDC_DOC_ID}
+	ORDER BY CAST(CDCD.ORD AS UNSIGNED);
+	
+</select>
+
+<select id="selectTR_RequestSupport_S01" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectTR_RequestSupport_S01
+	SELECT CL.PROJECT_CODE,
+		   P.PROJECT_NAME,
+		   RTS.CONTRACT_NO,
+		   CL.CONTRACT_NAME,
+		   CL.CONTRACT_STATUS,
+		   P.CLIENT_CODE,
+		   COM.COMPANY_NAME AS CLIENT_NAME,
+		   CL.SALES_EMP_NO,
+		   VE.EMP_NM AS SALES_EMP_NAME,
+		   RTS.RTS_SEQ,
+		   RTS.TECH_TYPE,
+		   DATE_FORMAT(RTS.REQUEST_START_DATE, '%Y%m%d') AS REQUEST_START_DATE,
+		   REPLACE(DATE_FORMAT(RTS.REQUEST_START_DATE, '%H%i'), ':', '') AS REQUEST_START_TIME,
+		   DATE_FORMAT(RTS.REQUEST_END_DATE, '%Y%m%d') AS REQUEST_END_DATE,
+		   REPLACE(DATE_FORMAT(RTS.REQUEST_END_DATE, '%H%i'), ':', '') AS REQUEST_END_TIME,
+		   RTS.REQUEST_EMP_NO,
+		   VE2.EMP_NM AS REQUEST_EMP_NAME,
+		   RTS.REQUEST_CONTENTS,
+		   RTS.CONFIRM_CD,
+		   DATE_FORMAT(RTS.CONFIRM_DATE, '%Y%m%d') AS CONFIRM_DATE,
+		   RTS.CONFIRM_EMP_NO,
+		   DATE_FORMAT(RTS.WORK_START_DATE, '%Y%m%d') AS WORK_START_DATE,
+		   REPLACE(DATE_FORMAT(RTS.WORK_START_DATE, '%H%i'), ':', '') AS WORK_START_TIME,
+		   DATE_FORMAT(RTS.WORK_END_DATE, '%Y%m%d') AS WORK_END_DATE,
+		   REPLACE(DATE_FORMAT(RTS.WORK_END_DATE, '%H%i'), ':', '') AS WORK_END_TIME,
+		   RTS.WORK_TOTAL_TIME,
+		   RTS.WORK_EMP_NO,
+		   VE3.EMP_NM AS WORK_EMP_NAME,
+		   RTS.WORK_CONTENTS,
+		   RTS.REMARKS,
+		   RTS.INPT_ID AS INSERT_EMP_NO,
+		   VE4.EMP_NM AS INSERT_EMP_NAME,
+		   RTS.INSERT_DEPT_CD,
+		   DEPT.DEPT_KORN_NM AS INSERT_DEPT_NM,
+		   DATE_FORMAT(RTS.INPT_DTTM, '%Y%m%d') AS INPT_DTTM,
+		   '0' AS SMS
+	FROM SALES_REQUEST_TECHNICAL_STAFF RTS
+	JOIN SALES_CONTRACT_LIST CL ON RTS.CONTRACT_NO = CL.CONTRACT_NO
+		AND CL.DELETE_FLAG = '0'
+		AND CL.CO_CD = #gdsGlobal.CO_CD#
+	JOIN SALES_PROJECT_LIST P ON CL.PROJECT_CODE = P.PROJECT_CODE
+		AND P.DELETE_FLAG = '0'
+	LEFT JOIN SALES_COMPANY_LIST COM ON P.CLIENT_CODE = COM.COMPANY_CODE
+	LEFT JOIN T_SYTM_USER VE ON CL.SALES_EMP_NO = VE.EMP_NO
+	LEFT JOIN T_SYTM_USER VE2 ON RTS.REQUEST_EMP_NO = VE2.EMP_NO
+	LEFT JOIN T_SYTM_USER VE3 ON RTS.WORK_EMP_NO = VE3.EMP_NO
+	LEFT JOIN T_SYTM_USER VE4 ON RTS.INSERT_EMP_NO = VE4.EMP_NO
+	LEFT JOIN T_SYTM_DEPT DEPT ON RTS.INSERT_EMP_NO = DEPT.DEPT_CD
+	WHERE RTS.TECH_TYPE != 'E'
+
+	<if test="CONTRACT_NO !=null and CONTRACT_NO != ''">
+	  CL.CONTRACT_NO = #{CONTRACT_NO#
+	</if>
+
+	<if test=' DATE_FLAG !=null and DATE_FLAG == "0" '>
+	  AND DATE_FORMAT(RTS.INPT_DTTM, '%Y%m') BETWEEN #{REQUEST_FROM_DATE# AND #{REQUEST_TO_DATE#
+	</if>
+
+	<if test="CONFIRM_CD !=null and CONFIRM_CD != ''">
+	  RTS.CONFIRM_CD = #{CONFIRM_CD#
+	</if>
+
+	<if test="CLIENT_CODE !=null and CLIENT_CODE != ''">
+	  P.CLIENT_CODE = #{CLIENT_CODE#
+	</if>
+
+	<if test="PROJECT_CODE !=null and PROJECT_CODE != ''">
+	  CL.PROJECT_CODE = #{PROJECT_CODE#
+	</if>
+
+	<if test=' EMP_KIND !=null and EMP_KIND == "RT" '>
+	  <isNotEmpty prepend="AND" property="gdsParam.EMP_NAME">
+		VE2.EMP_NAME LIKE CONCAT('%', #{EMP_NAME#, '%')
+	  </if>
+	</if>
+
+	<if test=' EMP_KIND !=null and EMP_KIND == "W" '>
+	  <isNotEmpty prepend="AND" property="gdsParam.EMP_NAME">
+		VE3.EMP_NAME LIKE CONCAT('%', #{EMP_NAME#, '%')
+	  </if>
+	</if>
+
+	<if test=' EMP_KIND !=null and EMP_KIND == "I" '>
+	  <isNotEmpty prepend="AND" property="gdsParam.EMP_NAME">
+		VE4.EMP_NAME LIKE CONCAT('%', #{EMP_NAME#, '%')
+	  </if>
+	</if>
+
+	<if test=' CS_ONLY !=null and CS_ONLY == "1" '>
+	  RTS.CS_CONNKEY IS NOT NULL
+	</if>
+
+	<if test="TECH_TYPE !=null and TECH_TYPE != ''">
+	  RTS.TECH_TYPE = #{TECH_TYPE#
+	</if>
+
+	ORDER BY DATE_FORMAT(RTS.INPT_DTTM, '%Y%m%d') DESC, CL.PROJECT_CODE, RTS.CONTRACT_NO, RTS.RTS_SEQ;
+</select>
+
+<select id="selectTR_RequestSupport_S02" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectTR_RequestSupport_S02
+	SELECT P.PROJECT_CODE,
+		   P.PROJECT_NAME,
+		   CL.CONTRACT_NO,
+		   CL.RELATED_CONTRACT_NO,
+		   CL.CONTRACT_NAME,
+		   CL.CONTRACT_STATUS,
+		   CD.SSC_CD_KORN_NM AS CONTRACT_STATUS_NAME,
+		   RSS.RSS_SEQ,
+		   DATE_FORMAT(RSS.INSERT_DATE, '%Y%m%d') AS INSERT_DATE,
+		   VE.EMP_NM AS INSERT_EMP_NO,
+		   RSS.REQUEST_TYPE,
+		   RSS.CHECK_TYPE,
+		   IFNULL(PSE.CONFIRM_CD, '0') AS CONFIRM_CD,
+		   P.CLIENT_CODE,
+		   COM.COMPANY_NAME AS CLIENT_NAME,
+		   DATE_FORMAT(RSS.REQUEST_START_DATE, '%Y%m%d') AS REQUEST_START_DATE,
+		   DATE_FORMAT(RSS.REQUEST_END_DATE, '%Y%m%d') AS REQUEST_END_DATE,
+		   RSS.AREA_CODE,
+		   RSS.WORK_CONTENTS,
+		   '0' AS SMS,
+		   BR.FM_SEQ AS BZ_REVIEW_FM_SEQ
+	FROM SALES_REQUEST_SI_STAFF RSS
+	JOIN SALES_CONTRACT_LIST CL ON RSS.CONTRACT_NO = CL.CONTRACT_NO
+		AND CL.DELETE_FLAG = '0'
+	JOIN SALES_PROJECT_LIST P ON CL.PROJECT_CODE = P.PROJECT_CODE
+		AND P.DELETE_FLAG = '0'
+	JOIN T_SYTM_CODE CD ON CD.HCL_CD = 'CONTRACT_STATUS'
+		AND CD.SSC_CD = CL.CONTRACT_STATUS
+	LEFT JOIN SALES_COMPANY_LIST COM ON P.CLIENT_CODE = COM.COMPANY_CODE
+	LEFT JOIN T_SYTM_USER VE ON RSS.INSERT_EMP_NO = VE.EMP_NO
+	LEFT JOIN (
+		SELECT PSE.RSS_SEQ,
+			   CASE
+				   WHEN PSE.SI_EMP_SUM = 0 THEN '0'
+				   WHEN PSE.SI_EMP_SUM = PSE.CONFIRM_CNT THEN '2'
+				   ELSE '1'
+			   END AS CONFIRM_CD
+		FROM (
+			SELECT RSS.RSS_SEQ,
+				   COUNT(*) AS CONFIRM_CNT,
+				   SUM(CASE WHEN PSE.PSE_SEQ IS NULL THEN 0 ELSE 1 END) AS SI_EMP_SUM
+			FROM SALES_REQUEST_SI_STAFF RSS
+			JOIN SALES_REQUEST_SI_STAFF_DETAIL RSSD ON RSS.RSS_SEQ = RSSD.RSS_SEQ
+			JOIN SALES_REQUEST_SI_STAFF_CONFIRM RSSC ON RSSD.RSSD_SEQ = RSSC.RSSD_SEQ
+			LEFT JOIN SALES_PROJECT_SI_EMP PSE ON RSSC.RSSC_SEQ = PSE.RSSC_SEQ
+				AND PSE.DELETE_FLAG = '0'
+			JOIN SALES_CONTRACT_LIST CL ON CL.CONTRACT_NO = RSS.CONTRACT_NO
+				AND CL.DELETE_FLAG = '0'
+			WHERE (CASE
+					WHEN #{SERVER_CO_CD} = CL.CO_CD THEN '1'
+					WHEN RSSC.OTHER_CONFIRM_DATE IS NULL THEN '0'
+					ELSE '1'
+				   END) = '1'
+			GROUP BY RSS.RSS_SEQ
+		) PSE
+	) PSE ON RSS.RSS_SEQ = PSE.RSS_SEQ
+	LEFT JOIN (
+		SELECT SOURCE_SEQ,
+			   FM_SEQ
+		FROM SALES_FILE_MAP
+		WHERE SOURCE_CD = 'RSS'
+		  AND STATUS_CD = 'BZ_REVIEW'
+	) BR ON BR.SOURCE_SEQ = RSS.RSS_SEQ
+	WHERE (CL.CO_CD = #{SERVER_CO_CD}
+		   OR RSS.RSS_SEQ IN (
+			   SELECT RSS_SEQ
+			   FROM SALES_REQUEST_SI_STAFF_DET
+			   WHERE RSSD_SEQ IN (
+				   SELECT RSSD_SEQ
+				   FROM SALES_REQUEST_SI_STAFF_CONFIRM
+				   WHERE OTHER_CONFIRM_DATE IS NOT NULL
+			   )
+		   )
+	)
+
+	<if test="CONTRACT_NO !=null and CONTRACT_NO != ''">
+	  CL.CONTRACT_NO = #{CONTRACT_NO}
+	</if>
+
+	<if test=' DATE_FLAG !=null and DATE_FLAG == "0" '>
+	  AND DATE_FORMAT(RSS.INSERT_DATE, '%Y%m') BETWEEN #{REQUEST_FROM_DATE} AND #{REQUEST_TO_DATE}
+	</if>
+
+	<if test="CLIENT_CODE !=null and CLIENT_CODE != ''">
+	  P.CLIENT_CODE = #{CLIENT_CODE}
+	</if>
+
+	<if test="PROJECT_CODE !=null and PROJECT_CODE != ''">
+	  CL.PROJECT_CODE = #{PROJECT_CODE}
+	</if>
+
+	<if test="CONFIRM_CD !=null and CONFIRM_CD != ''">
+	  IFNULL(PSE.CONFIRM_CD, '0') IN (SELECT VAL1 FROM FN_SPLIT(#{CONFIRM_CD}, ','))
+	</if>
+
+	<if test="EMP_NAME !=null and EMP_NAME != ''">
+	  RSS.RSS_SEQ IN (
+		  SELECT RSS_SEQ
+		  FROM REQUEST_SI_STAFF_DET
+		  WHERE RSSD_SEQ IN (
+			  SELECT RSSD_SEQ
+			  FROM REQUEST_SI_STAFF_CONFIRM
+			  WHERE RSSC_SEQ IN (
+				  SELECT RSSC_SEQ
+				  FROM PROJECT_SI_EMP RSE
+				  JOIN T_SYTM_USER VE ON VE.EMP_NO = RSE.EMP_NO
+				  WHERE VE.EMP_NM = #{EMP_NAME}
+					AND RSE.DELETE_FLAG = '0'
+			  )
+		  )
+	  )
+	</if>
+
+	ORDER BY DATE_FORMAT(RSS.INSERT_DATE, '%Y%m%d') DESC,
+			 P.PROJECT_CODE,
+			 CL.CONTRACT_NO;
+	
+</select>
+
+<select id="selectTR_RequestSupport_S03" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectTR_RequestSupport_S03
+	SELECT RTS.RTS_SEQ,
+		   CL.PROJECT_CODE,
+		   P.PROJECT_NAME,
+		   RTS.CONTRACT_NO,
+		   CL.CONTRACT_NAME,
+		   CL.CONTRACT_STATUS,
+		   P.CLIENT_CODE,
+		   COM.COMPANY_NAME AS CLIENT_NAME,
+		   CL.PRODUCT_CODE,
+		   PL.PRODUCT_NAME,
+		   VE3.EMP_NM AS INSERT_EMP_NAME,
+		   DATE_FORMAT(RTS.INSERT_DATE, '%Y%m%d') AS INSERT_DATE,
+		   DATE_FORMAT(RTS.REQUEST_START_DATE, '%Y%m%d') AS REQUEST_START_DATE,
+		   DATE_FORMAT(RTS.REQUEST_START_DATE, '%H:%i') AS REQUEST_START_TIME,
+		   DATE_FORMAT(RTS.REQUEST_END_DATE, '%Y%m%d') AS REQUEST_END_DATE,
+		   DATE_FORMAT(RTS.REQUEST_END_DATE, '%H:%i') AS REQUEST_END_TIME,
+		   RTS.REQUEST_EMP_NO,
+		   VE.EMP_NM AS REQUEST_EMP_NAME,
+		   RTS.REQUEST_CONTENTS,
+		   RTS.CONFIRM_CD,
+		   RTS.CONFIRM_DATE,
+		   RTS.CONFIRM_EMP_NO,
+		   DATE_FORMAT(RTS.WORK_START_DATE, '%Y%m%d') AS WORK_START_DATE,
+		   DATE_FORMAT(RTS.WORK_START_DATE, '%H:%i') AS WORK_START_TIME,
+		   DATE_FORMAT(RTS.WORK_END_DATE, '%Y%m%d') AS WORK_END_DATE,
+		   DATE_FORMAT(RTS.WORK_END_DATE, '%H:%i') AS WORK_END_TIME,
+		   RTS.WORK_TOTAL_TIME,
+		   RTS.WORK_EMP_NO,
+		   VE2.EMP_NM AS WORK_EMP_NAME,
+		   RTS.WORK_CONTENTS,
+		   RTS.REMARKS,
+		   REI.DEPT_NAME,
+		   REI.EMP_NAME,
+		   REI.GRADE_NAME,
+		   REI.H_PHONE_NO,
+		   REI.EMAIL,
+		   REI.EDU_COUNT,
+		   REI.PROJECTOR_FLAG,
+		   REI.PC_FLAG,
+		   REI.NETWORK_FLAG,
+		   REI.TEXTBOOK_FLAG,
+		   REI.EDU_PLACE,
+		   REI.EDU_REAL_COUNT,
+		   '0' AS SMS
+	FROM SALES_REQUEST_TECHNICAL_STAFF RTS
+	LEFT JOIN SALES_REQUEST_EDU_INFO REI ON RTS.RTS_SEQ = REI.RTS_SEQ
+	JOIN SALES_CONTRACT_LIST CL ON RTS.CONTRACT_NO = CL.CONTRACT_NO
+		AND CL.DELETE_FLAG = '0'
+		AND CL.CO_CD = #{SERVER_CO_CD}
+	JOIN SALES_PROJECT_LIST P ON CL.PROJECT_CODE = P.PROJECT_CODE
+		AND P.DELETE_FLAG = '0'
+	JOIN SALES_COMPANY_LIST COM ON P.CLIENT_CODE = COM.COMPANY_CODE
+	LEFT JOIN T_SYTM_USER VE ON RTS.REQUEST_EMP_NO = VE.EMP_NO
+	LEFT JOIN T_SYTM_USER VE2 ON RTS.WORK_EMP_NO = VE2.EMP_NO
+	LEFT JOIN T_SYTM_USER VE3 ON RTS.INSERT_EMP_NO = VE3.EMP_NO
+	LEFT JOIN SALES_PRODUCT_LIST PL ON CL.PRODUCT_CODE = PL.PRODUCT_CODE
+	WHERE RTS.TECH_TYPE = 'E'
+
+	<if test="CONTRACT_NO !=null and CONTRACT_NO != ''">
+	  CL.CONTRACT_NO = #{CONTRACT_NO}
+	</if>
+
+	<if test=' DATE_FLAG !=null and DATE_FLAG == "0" '>
+	  AND DATE_FORMAT(RTS.INSERT_DATE, '%Y%m') BETWEEN #{REQUEST_FROM_DATE} AND #{REQUEST_TO_DATE}
+	</if>
+
+	<if test="CLIENT_CODE !=null and CLIENT_CODE != ''">
+	  P.CLIENT_CODE = #{CLIENT_CODE}
+	</if>
+
+	<if test="PROJECT_CODE !=null and PROJECT_CODE != ''">
+	  CL.PROJECT_CODE = #{PROJECT_CODE}
+	</if>
+
+	<if test="CONFIRM_CD !=null and CONFIRM_CD != ''">
+	  RTS.CONFIRM_CD = #{CONFIRM_CD}
+	</if>
+
+	<if test=' EMP_KIND !=null and EMP_KIND == "RT" '>
+	  <if test="EMP_NAME !=null and EMP_NAME != ''">
+		VE.EMP_NM LIKE CONCAT('%', #{EMP_NAME}, '%')
+	  </if>
+	</if>
+
+	<if test=' EMP_KIND !=null and EMP_KIND == "W" '>
+		<if test="EMP_NAME !=null and EMP_NAME != ''">
+		VE2.EMP_NM LIKE CONCAT('%', #{EMP_NAME}, '%')
+	  </if>
+	</if>
+
+	<if test=' EMP_KIND !=null and EMP_KIND == "I" '>
+		<if test="EMP_NAME !=null and EMP_NAME != ''">
+		VE3.EMP_NM LIKE CONCAT('%', #{EMP_NAME}, '%')
+	  </if>
+	</if>
+
+	ORDER BY DATE_FORMAT(RTS.INSERT_DATE, '%Y%m%d') DESC,
+			 CL.PROJECT_CODE,
+			 RTS.CONTRACT_NO,
+			 RTS.RTS_SEQ;
+	
+</select>
+
 </mapper>

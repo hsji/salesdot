@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_ProjectChange" width="600" height="190" titletext="프로젝트 수정" cssclass="frm_popBg" onload="SP_ProjectChange_onload" scrolltype="none">
+    <Layouts>
+      <Layout height="190" mobileorientation="landscape" width="600">
+        <Button id="btn_Cancel" taborder="1" text="닫기" width="60" height="28" cssclass="btn_WF_tran" bottom="20" onclick="btn_Close_onclick" TL_SEQ="59" right="20"/>
+        <Button id="btn_Save" taborder="0" text="저장" width="60" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:5" bottom="20" onclick="btn_Save_onclick" TL_SEQ="115"/>
+        <Div id="div_Project" taborder="2" left="20" top="20" cssclass="div_WF_detailBg" right="20" bottom="70">
+          <Layouts>
+            <Layout>
+              <Static id="stc_ClientCode" taborder="0" text="고 객 사" left="4" top="14" width="105" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="214"/>
+              <Div id="div_Client" taborder="1" left="stc_ClientCode:0.00" top="14" width="336" height="24" url="sales::comm/COM_Search.xfdl" kind="COMPANY" user_onchanged="Com_Search_onChanged" param="1"/>
+              <Static id="stc_ProjectName" taborder="2" text="프로젝트명" left="4.00" top="48" width="105" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="114"/>
+              <Edit id="edt_ProjectName" taborder="3" left="stc_ProjectName:0.00" top="48" height="24" right="113"/>
+              <Edit id="edt_ProjectCode" taborder="4" left="449.00" top="48" width="91" height="24" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 프로젝트관리(매출계약)
+* 02. 화면명		: 프로젝트 고객사변경 팝업 (SP_ProjectChange)
+* 03. 화면설명 	: 프로젝트의 고객사 변경
+* 04. 작성일   	: 2019.04.09
+* 05. 작성자   	: 채종한
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.SP_ProjectChange_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	
+	this.div_Project.form.div_Client.setCode(this.parent.pvClientCode);
+	this.div_Project.form.div_Client.setData(this.parent.pvClientName);
+	this.div_Project.form.edt_ProjectName.set_value(this.parent.pvProjectName);
+	this.div_Project.form.edt_ProjectCode.set_value(this.parent.pvProjectCode);
+	
+	this.dsProject.clearData();
+	this.dsProject.addRow();
+	this.dsProject.setColumn(0, "PROJECT_CODE", this.parent.pvProjectCode);
+	this.dsProject.setColumn(0, "PROJECT_NAME", this.parent.pvProjectName);
+	this.dsProject.setColumn(0, "CLIENT_CODE", this.parent.pvClientCode);
+};
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+ // 저장
+ this.fnSaveData = function()
+ {	
+	this.dsProject.setColumn(0, "PROJECT_NAME", this.div_Project.form.edt_ProjectName.value);
+	this.dsProject.setColumn(0, "CLIENT_CODE", this.div_Project.form.div_Client.getCode());
+	this.gfnAddInputDataset("dsProject", "dsInput1");	
+/*	this.gfnCommonTransaction("Save", "SP_ProjectChange_R01");
+*/	
+	
+	this.gfnSetMap("projectMapper", ['SP_ProjectChange_R01'], ['']);
+	this.gfnCommonTransaction("Save", "saveNextList.do");			
+ } 
+ 
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		//gfnAlert('msg.general',"strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	switch (strSvcID) 
+	{
+		case "Save" :
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1368, "프로젝트 정보가 변경 되었습니다."), null,
+				function() {
+					var arrRtnVal = new Array();
+					arrRtnVal[0] = this.div_Project.form.edt_ProjectCode.value;
+					arrRtnVal[1] = this.div_Project.form.edt_ProjectName.value;
+					arrRtnVal[2] = this.div_Project.form.div_Client.getCode();
+					arrRtnVal[3] = this.div_Project.form.div_Client.getData();
+			
+					this.close(arrRtnVal);
+				});
+			// sProjectCode, sProjectNm, sClientCd, sClientNm
+		break;
+	}
+}
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+// 닫기
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+// 저장
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSaveData();
+};
+
+// 공통검색 component callback 처리
+this.Com_Search_onChanged = function (obj, e)
+{
+	// 초기화 처리
+	if (!this.gfnIsEmpty(e.newCode)){
+		var ds = obj.getRecentVariant();
+		var sClientCd = e.newCode;
+		var sClientNm = e.newName;
+		
+		obj.setCode(sClientCd);
+		obj.setData(sClientNm);
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsProject">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="PROJECT_NAME" type="STRING" size="256"/>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

@@ -3,8 +3,7 @@
   <Form id="SP_Expend" width="1345" height="472" titletext="지출" onload="SP_Expend_onload">
     <Layouts>
       <Layout height="472" mobileorientation="landscape" width="1345">
-        <Static id="Static09" taborder="1" text="4" left="0" top="0" width="1344" height="4" background="olive" opacity="0.5" textAlign="center" visible="false"/>
-        <Grid id="grd_ProjectSiEmp" taborder="1" left="0" top="4" right="0" bottom="0" binddataset="dsExpend" autoenter="select" oncelldblclick="grd_ProjectSiEmp_oncelldblclick" cellsizingtype="col" autofittype="col">
+        <Grid id="grd_ProjectSiEmp" taborder="1" left="10" top="10" right="10" bottom="10" binddataset="dsExpend" autoenter="select" oncelldblclick="grd_ProjectSiEmp_oncelldblclick" cellsizingtype="col" autofittype="col">
           <Formats>
             <Format id="default">
               <Columns>
@@ -16,9 +15,9 @@
                 <Column size="100"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
-                <Row size="24" band="summ"/>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+                <Row size="32" band="summ"/>
               </Rows>
               <Band id="head">
                 <Cell text="직원" TL_SEQ="769"/>

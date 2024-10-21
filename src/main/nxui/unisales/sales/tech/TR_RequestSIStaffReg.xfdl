@@ -1,0 +1,2129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="TR_RequestSIStaffReg" width="1365" height="650" titletext="SI인력요청" cssclass="frm_popBg" onload="TR_RequestSIStaffReg_onload">
+    <Layouts>
+      <Layout height="650" mobileorientation="landscape" width="1365">
+        <Button id="btn_Close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_Close_onclick"/>
+        <Div id="div_Request" taborder="4" left="4" top="39" text="" height="130" right="4" cssclass="div_WF_detailBg" formscrolltype="none">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Contract_Date00" taborder="14" text="요청일자" top="68" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="507" TL_SEQ="322"/>
+              <Static id="stc_Contract_Date" taborder="8" text="요청기간" top="98" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="385" TL_SEQ="323"/>
+              <Calendar id="cal_ReqStartDt" taborder="1" top="98" width="100" height="22" dateformat="yyyy-MM-dd" left="stc_Contract_Date:6"/>
+              <Static id="stc_Project_Name" taborder="9" text="계약명" left="11" top="68" width="48" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="33"/>
+              <Static id="stc_ClientName" taborder="12" text="고객사" left="11" top="38" width="48" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="32"/>
+              <Edit id="edt_ClientName" taborder="13" left="stc_ClientName:6" top="38" height="22" width="179" readonly="true"/>
+              <Static id="stc_ProjectName" taborder="11" text="프로젝트" left="edt_ClientName:7" top="38" width="48" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="114"/>
+              <Edit id="edt_ProjectName" taborder="10" left="stc_ProjectName:9" top="38" height="22" readonly="true" width="353"/>
+              <MaskEdit id="msk_InsertDt" taborder="5" top="68" width="100" height="22" readonly="true" left="stc_Contract_Date00:6" type="string" format="####-##-##" textAlign="left"/>
+              <Static id="stc_Project_Name03" taborder="15" text="요청자" top="68" width="50" height="22" textAlign="right" cssclass="sta_WF_DetailTit" left="667" TL_SEQ="321"/>
+              <Edit id="edt_InsertEmp" taborder="6" top="68" height="22" width="86" readonly="true" left="stc_Project_Name03:8"/>
+              <Calendar id="cal_ReqEndDt" taborder="2" top="98" height="22" dateformat="yyyy-MM-dd" width="100" left="561"/>
+              <Static id="Static05" taborder="16" text="~" top="98" height="22" textAlign="center" width="10" left="545"/>
+              <Static id="stc_Contract_Date04" taborder="17" text="요청내용" left="917" top="38" width="56" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="324"/>
+              <Static id="stc_Project_Name04" taborder="18" text="근무지" top="98" height="22" textAlign="right" cssclass="sta_WF_DetailTit" width="48" left="141" TL_SEQ="325"/>
+              <TextArea id="ta_WorkContents" taborder="7" left="stc_Contract_Date04:8" top="38" height="82" scrolltype="vertical" wordWrap="english" right="4"/>
+              <Combo id="cmb_Area" taborder="4" top="98" height="22" width="180" innerdataset="ds_cmm_Area" codecolumn="CODE" datacolumn="CAPTION" left="stc_Project_Name04:9"/>
+              <Static id="stc_Contract_Date02" taborder="19" text="요청구분" top="98" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="11" TL_SEQ="326"/>
+              <Combo id="cmb_ReqType" taborder="3" top="98" height="22" width="77" innerdataset="ds_cmm_RequestType" codecolumn="CODE" datacolumn="CAPTION" left="stc_Contract_Date02:6"/>
+              <Div id="div_Contract" taborder="0" left="stc_Project_Name:6" top="68" height="22" url="Common::COM_Search.xfdl" binddataset="ds_List" kind="CONTRACT" async="false" codecolumn="CONTRACT_NO" datacolumn="CONTRACT_NAME" mode="" user_onchanged="Com_Search_onChanged" param="searchtype:N,contracttype:S" width="431">
+                <Layouts>
+                  <Layout/>
+                  <Layout name="portrait"/>
+                </Layouts>
+              </Div>
+              <Static id="stc_CheckType" taborder="20" text="확인구분" top="98" width="50" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="667" TL_SEQ="327"/>
+              <Combo id="cmb_CheckType" taborder="21" top="98" height="22" width="86" innerdataset="ds_cmm_Check" codecolumn="CODE" datacolumn="CAPTION" left="stc_CheckType:8" readonly="true"/>
+              <Static id="sta03_00" taborder="22" text="사업검토서" left="817" top="98" width="64" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="331"/>
+              <Div id="div_ReView_Upload" taborder="23" left="sta03_00:8" top="98" width="86" height="22" async="false" BINDDATASET="ds_List" SOURCE_CD="RSS" SOURCE_SEQ="RSS_SEQ" USE_NEXT_FILE_TYPE="false" USE_LINK_TYPE="false" USE_MULTI_FILE="false" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" url="Common::COM_Attachment.xfdl" STATUS_CD="BZ_REVIEW" tooltiptext="SI인력요청 저장후 파일등록이 가능합니다.">
+                <Layouts>
+                  <Layout/>
+                  <Layout name="portrait"/>
+                </Layouts>
+              </Div>
+              <Static id="stc_Product_Name" taborder="24" text="계약제품" top="38" width="50" height="22" textAlign="right" cssclass="sta_WF_DetailTit" left="edt_ProjectName:6" TL_SEQ="332"/>
+              <Edit id="edt_Product_Name" taborder="25" top="38" height="22" readonly="true" left="stc_Product_Name:8" right="450"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Contract_Date04" left="8" top="306" width="64" height="22"/>
+              <TextArea id="ta_WorkContents" left="80" top="276" height="82" right="4"/>
+              <Static id="stc_Contract_Date00" height="30" left="8" top="140" width="64"/>
+              <Static id="stc_Contract_Date" height="30" left="8" top="208" width="64"/>
+              <Calendar id="cal_ReqStartDt" height="30" left="80" top="208" width="130"/>
+              <Static id="stc_Project_Name" height="30" left="8" top="106" width="64"/>
+              <Edit id="edt_ProjectName" height="30" left="80" top="72" right="4"/>
+              <Static id="stc_ProjectName" height="30" left="8" top="72" width="64"/>
+              <Static id="stc_ClientName" height="30" left="8" top="38" width="64"/>
+              <Edit id="edt_ClientName" height="30" left="80" top="38" width="213"/>
+              <MaskEdit id="msk_InsertDt" height="30" left="80" top="140" width="92"/>
+              <Static id="stc_Project_Name03" height="30" left="163" top="140" width="64"/>
+              <Edit id="edt_InsertEmp" height="30" left="231" top="140" width="60"/>
+              <Calendar id="cal_ReqEndDt" height="30" left="231" top="208" width="130"/>
+              <Static id="Static05" height="30" left="215" top="208" width="10"/>
+              <Static id="stc_Project_Name04" height="30" left="163" top="174" width="64"/>
+              <Combo id="cmb_Area" height="30" left="231" top="174" right="4"/>
+              <Static id="stc_Contract_Date02" height="30" left="8" top="174" width="64"/>
+              <Combo id="cmb_ReqType" height="30" left="80" top="174" width="92"/>
+              <Div id="div_Contract" height="30" left="80" top="106" right="4"/>
+              <Static id="stc_CheckType" height="30" top="38" width="64" right="110"/>
+              <Combo id="cmb_CheckType" height="30" top="38" width="102" right="4"/>
+              <Static id="sta03_00" height="30" top="140" width="88" right="110" text="사업검토"/>
+              <Div id="div_ReView_Upload" height="30" top="140" width="102" right="4"/>
+              <Static id="stc_Product_Name" left="8" top="242" width="64" height="30"/>
+              <Edit id="edt_Product_Name" left="80" top="242" height="30" right="4"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_Req" taborder="7" text="Div00" left="4" top="div_Request:4" height="177" right="4">
+          <Layouts>
+            <Layout>
+              <Static id="Static01" taborder="1" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" right="0"/>
+              <Static id="Static02" taborder="0" text="요청내용" left="10" top="0" width="120" height="31" cssclass="sta_POP_GroupTit" TL_SEQ="324"/>
+              <Grid id="grd_List" taborder="2" left="0" top="31" right="0" autofittype="col" binddataset="ds_DetList" bottom="0" autoenter="select" formatid="default" oncellclick="Grid_oncellclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="20"/>
+                      <Column size="20"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="170"/>
+                      <Column size="70"/>
+                      <Column size="70"/>
+                      <Column size="50"/>
+                      <Column size="400"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell colspan="2" text="순번" TL_SEQ="333"/>
+                      <Cell col="2" text="역할" TL_SEQ="75"/>
+                      <Cell col="3" text="등급" TL_SEQ="92"/>
+                      <Cell col="4" text="매출단가" TL_SEQ="334"/>
+                      <Cell col="5" text="필수기술" TL_SEQ="335"/>
+                      <Cell col="6" text="시작일" TL_SEQ="38"/>
+                      <Cell col="7" text="종료일" TL_SEQ="39"/>
+                      <Cell col="8" text="MM"/>
+                      <Cell col="9" text="비고" TL_SEQ="45"/>
+                      <Cell col="10" text="상태" TL_SEQ="209"/>
+                      <Cell col="11" text="수정일" TL_SEQ="336"/>
+                      <Cell col="12" text="수정자" TL_SEQ="337"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell colspan="2">
+                        <Cell displaytype="expr:currow == comp.currentrow ? &quot;imagecontrol&quot; : &quot;none&quot;" text="expr:currow == comp.currentrow ? &quot;theme://images/img_check_N.png&quot; : &quot;&quot;"/>
+                        <Cell col="1" text="expr:currow+1"/>
+                      </Cell>
+                      <Cell col="2" text="bind:ROLE_CODE" displaytype="combotext" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION"/>
+                      <Cell col="3" displaytype="combotext" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" text="bind:LEVEL_CODE"/>
+                      <Cell col="4" text="bind:UNIT_COST" displaytype="mask" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;mask&quot;" textAlign="right" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="5" displaytype="combotext" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;" text="bind:SKILL_1" combodataset="ds_comm_Skill" combocodecol="CD_CODE" combodatacol="CAPTION"/>
+                      <Cell col="6" displaytype="date" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;date&quot;" text="bind:START_DATE" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="7" displaytype="date" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;date&quot;" text="bind:END_DATE" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="8" displaytype="mask" edittype="none" textAlign="right" maskeditformat="#,#0.00" text="bind:MEN_MONTH"/>
+                      <Cell col="9" displaytype="text" edittype="text" textAlign="left" text="bind:REMARKS" tooltiptext="bind:REMARKS"/>
+                      <Cell col="10" text="bind:CONFIRM_CD" displaytype="combotext" combodataset="ds_comm_SIConfirmCd" combocodecol="CODE" combodatacol="CAPTION"/>
+                      <Cell col="11" text="bind:UPDATE_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="12" text="bind:UPDATE_EMP_NAME"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="90"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell colspan="2" text="순번" TL_SEQ="333"/>
+                      <Cell col="2" text="역할" TL_SEQ="75"/>
+                      <Cell col="3" text="시작일" TL_SEQ="38"/>
+                      <Cell col="4" text="매출단가" TL_SEQ="334"/>
+                      <Cell col="5" text="수정일" TL_SEQ="336"/>
+                      <Cell row="1" colspan="2" text="상태" TL_SEQ="209"/>
+                      <Cell row="1" col="2" text="등급" TL_SEQ="92"/>
+                      <Cell row="1" col="3" text="종료일" TL_SEQ="39"/>
+                      <Cell row="1" col="4" text="MM"/>
+                      <Cell row="1" col="5" text="수정자" TL_SEQ="337"/>
+                      <Cell row="2" colspan="3" text="필수기술" TL_SEQ="335"/>
+                      <Cell row="2" col="3" colspan="3" text="비고" TL_SEQ="45"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell colspan="2">
+                        <Cell displaytype="expr:currow == comp.currentrow ? &quot;imagecontrol&quot; : &quot;none&quot;" text="expr:currow == comp.currentrow ? &quot;theme://images/img_check_N.png&quot; : &quot;&quot;"/>
+                        <Cell col="1" text="expr:currow+1"/>
+                      </Cell>
+                      <Cell col="2" text="bind:ROLE_CODE" displaytype="combotext" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;"/>
+                      <Cell col="3" displaytype="date" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;date&quot;"/>
+                      <Cell col="4" text="bind:UNIT_COST" displaytype="mask" textAlign="right" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;mask&quot;" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="5" text="bind:UPDATE_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell row="1" colspan="2" text="bind:CONFIRM_CD" displaytype="combotext" combodataset="ds_comm_SIConfirmCd" combocodecol="CODE" combodatacol="CAPTION"/>
+                      <Cell row="1" col="2" displaytype="combotext" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" text="bind:LEVEL_CODE"/>
+                      <Cell row="1" col="3" displaytype="date" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;date&quot;"/>
+                      <Cell row="1" col="4" displaytype="mask" textAlign="right" maskeditformat="#,#0.00" text="bind:MEN_MONTH"/>
+                      <Cell row="1" col="5" text="bind:UPDATE_EMP_NAME"/>
+                      <Cell row="2" colspan="3" text="bind:SKILL_1" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;"/>
+                      <Cell row="2" col="3" colspan="3" text="bind:REMARKS" edittype="text" tooltiptext="bind:REMARKS"/>
+                    </Band>
+                  </Format>
+                  <Format id="default_ETC">
+                    <Columns>
+                      <Column size="20"/>
+                      <Column size="20"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="170"/>
+                      <Column size="70"/>
+                      <Column size="70"/>
+                      <Column size="50"/>
+                      <Column size="400"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell colspan="2" text="순번" TL_SEQ="333"/>
+                      <Cell col="2" text="역할" TL_SEQ="75"/>
+                      <Cell col="3" text="등급" TL_SEQ="92"/>
+                      <Cell col="4" text="필수기술" TL_SEQ="335"/>
+                      <Cell col="5" text="시작일" TL_SEQ="38"/>
+                      <Cell col="6" text="종료일" TL_SEQ="39"/>
+                      <Cell col="7" text="MM"/>
+                      <Cell col="8" text="비고" TL_SEQ="45"/>
+                      <Cell col="9" text="상태" TL_SEQ="209"/>
+                      <Cell col="10" text="수정일" TL_SEQ="336"/>
+                      <Cell col="11" text="수정자" TL_SEQ="337"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell colspan="2">
+                        <Cell displaytype="expr:currow == comp.currentrow ? &quot;imagecontrol&quot; : &quot;none&quot;" text="expr:currow == comp.currentrow ? &quot;theme://images/img_check_N.png&quot; : &quot;&quot;"/>
+                        <Cell col="1" text="expr:currow+1"/>
+                      </Cell>
+                      <Cell col="2" text="bind:ROLE_CODE" displaytype="combotext" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION"/>
+                      <Cell col="3" displaytype="combotext" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" text="bind:LEVEL_CODE"/>
+                      <Cell col="4" displaytype="combotext" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;" text="bind:SKILL_1" combodataset="ds_comm_Skill" combocodecol="CD_CODE" combodatacol="CAPTION"/>
+                      <Cell col="5" displaytype="date" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;date&quot;" text="bind:START_DATE" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="6" displaytype="date" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;date&quot;" text="bind:END_DATE" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="7" displaytype="mask" edittype="none" textAlign="right" maskeditformat="#,#0.00" text="bind:MEN_MONTH"/>
+                      <Cell col="8" displaytype="text" edittype="text" textAlign="left" text="bind:REMARKS" tooltiptext="bind:REMARKS"/>
+                      <Cell col="9" text="bind:CONFIRM_CD" displaytype="combotext" combodataset="ds_comm_SIConfirmCd" combocodecol="CODE" combodatacol="CAPTION"/>
+                      <Cell col="10" text="bind:UPDATE_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="11" text="bind:UPDATE_EMP_NAME"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile_ETC">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="90"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell colspan="2" text="순번" TL_SEQ="333"/>
+                      <Cell col="2" text="역할" TL_SEQ="75"/>
+                      <Cell col="3" text="시작일" TL_SEQ="38"/>
+                      <Cell col="4" text="매출단가" TL_SEQ="334"/>
+                      <Cell col="5" text="수정일" TL_SEQ="336"/>
+                      <Cell row="1" colspan="2" text="상태" TL_SEQ="209"/>
+                      <Cell row="1" col="2" text="등급" TL_SEQ="92"/>
+                      <Cell row="1" col="3" text="종료일" TL_SEQ="39"/>
+                      <Cell row="1" col="4" text="MM"/>
+                      <Cell row="1" col="5" text="수정자" TL_SEQ="337"/>
+                      <Cell row="2" colspan="3" text="필수기술" TL_SEQ="335"/>
+                      <Cell row="2" col="3" colspan="3" text="비고" TL_SEQ="45"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell colspan="2">
+                        <Cell displaytype="expr:currow == comp.currentrow ? &quot;imagecontrol&quot; : &quot;none&quot;" text="expr:currow == comp.currentrow ? &quot;theme://images/img_check_N.png&quot; : &quot;&quot;"/>
+                        <Cell col="1" text="expr:currow+1"/>
+                      </Cell>
+                      <Cell col="2" text="bind:ROLE_CODE" displaytype="combotext" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;"/>
+                      <Cell col="3" displaytype="date" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;date&quot;"/>
+                      <Cell col="4" textAlign="right" maskeditformat="#,##"/>
+                      <Cell col="5" text="bind:UPDATE_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                      <Cell row="1" colspan="2" text="bind:CONFIRM_CD" displaytype="combotext" combodataset="ds_comm_SIConfirmCd" combocodecol="CODE" combodatacol="CAPTION"/>
+                      <Cell row="1" col="2" displaytype="combotext" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" text="bind:LEVEL_CODE"/>
+                      <Cell row="1" col="3" displaytype="date" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;date&quot;"/>
+                      <Cell row="1" col="4" displaytype="mask" textAlign="right" maskeditformat="#,#0.00" text="bind:MEN_MONTH"/>
+                      <Cell row="1" col="5" text="bind:UPDATE_EMP_NAME"/>
+                      <Cell row="2" colspan="3" text="bind:SKILL_1" edittype="expr:comp.parent.parent.parent.FV_FORM_TYPE==&quot;TC&quot;?&quot;none&quot;:&quot;combo&quot;"/>
+                      <Cell row="2" col="3" colspan="3" text="bind:REMARKS" edittype="text" tooltiptext="bind:REMARKS"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button id="btn_ReqDel" taborder="4" top="8" width="16" height="16" onclick="div_Req_btn_ReqDel_onclick" cssclass="btn_POP_Del" enable="true" left="Static01:-24"/>
+              <Button id="btn_ReqAdd" taborder="3" top="8" width="16" height="16" right="btn_ReqDel:8" onclick="div_Req_btn_ReqAdd_onclick" cssclass="btn_POP_Add" enable="true"/>
+            </Layout>
+            <Layout name="portrait">
+              <Grid id="grd_List" left="0" top="36" right="0" formatid="mobile" height="362"/>
+              <Static id="Static02" height="35" left="10" top="0" width="120"/>
+              <Static id="Static01" height="35" left="0" top="0" right="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Splitter id="spt_Vertical" taborder="18" left="4" top="div_Req:-1" height="7" type="vertical" right="4">
+          <Layouts>
+            <Layout/>
+            <Layout name="portrait"/>
+          </Layouts>
+        </Splitter>
+        <Div id="div_Confirm" taborder="5" left="4" top="spt_Vertical:-1" text="" right="4" bottom="43">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_List" taborder="0" left="0" top="31" binddataset="ds_ConfirmList" formatid="default" onexpandup="div_Confirm_grd_List_onexpandup" accessibilityrole="grid" autoenter="select" bottom="0" autofittype="col" oncellclick="Grid_oncellclick" right="516" oncelldblclick="Grid_oncelldblclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="210"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번" TL_SEQ="333"/>
+                      <Cell col="1" text="인력명" TL_SEQ="338"/>
+                      <Cell col="2" text="역할" TL_SEQ="75"/>
+                      <Cell col="3" text="매입단가" TL_SEQ="339"/>
+                      <Cell col="4" text="시작일" TL_SEQ="38"/>
+                      <Cell col="5" text="비상주" TL_SEQ="340"/>
+                      <Cell col="6" rowspan="2" text="비고" TL_SEQ="45"/>
+                      <Cell row="1" text="MM"/>
+                      <Cell row="1" col="1" text="회사" TL_SEQ="73"/>
+                      <Cell row="1" col="2" text="등급" TL_SEQ="92"/>
+                      <Cell row="1" col="3" text="경비" TL_SEQ="341"/>
+                      <Cell row="1" col="4" text="종료일" TL_SEQ="39"/>
+                      <Cell row="1" col="5" text="무상" TL_SEQ="342"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow+1" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="1" text="bind:EMP_NAME" expandshow="show" expandimage="expr:EMP_NAME==undefined?'theme://images/btn_WF_Sch_P.png':'theme://images/tab_MDI_MdiTabCls.png'" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="2" text="bind:ROLE_CODE" displaytype="combotext" edittype="expr:PSE_FLAG=='1'?'none':'combo'" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="3" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:UNIT_COST" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)" textAlign="right" edittype="normal" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="4" displaytype="date" edittype="expr:PSE_FLAG=='1'?'none':'date'" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="5" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':'checkbox'" text="bind:NONRESIDENT_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="6" rowspan="2" text="bind:REMARKS" edittype="text" displaytype="text" textAlign="left" tooltiptext="bind:REMARKS"/>
+                      <Cell row="1" displaytype="mask" text="bind:MEN_MONTH" maskeditformat="#,#0.#0" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="1" text="bind:CO_NAME" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="2" edittype="expr:PSE_FLAG=='1'?'none':'combo'" displaytype="combotext" text="bind:LEVEL_CODE" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="3" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:EXPENSE" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(EXPENSE)" textAlign="right" edittype="normal" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell row="1" col="4" edittype="expr:PSE_FLAG=='1'?'none':'date'" displaytype="date" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="5" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':'checkbox'" text="bind:FREE_SVC_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                    </Band>
+                  </Format>
+                  <Format id="TC">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="70"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="50"/>
+                      <Column size="70"/>
+                      <Column size="70"/>
+                      <Column size="40"/>
+                      <Column size="50"/>
+                      <Column size="50"/>
+                      <Column size="210"/>
+                      <Column size="70"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번" TL_SEQ="333"/>
+                      <Cell col="1" text="투비윈배정" TL_SEQ="1962"/>
+                      <Cell col="2" text="인력명" TL_SEQ="338"/>
+                      <Cell col="3" text="회사" TL_SEQ="73"/>
+                      <Cell col="4" text="역할" TL_SEQ="75"/>
+                      <Cell col="5" text="등급" TL_SEQ="92"/>
+                      <Cell col="6" text="매입단가" TL_SEQ="339"/>
+                      <Cell col="7" text="경비" TL_SEQ="341"/>
+                      <Cell col="8" text="%"/>
+                      <Cell col="9" text="시작일" TL_SEQ="38"/>
+                      <Cell col="10" text="종료일" TL_SEQ="39"/>
+                      <Cell col="11" text="MM"/>
+                      <Cell col="12" text="비상주" TL_SEQ="340"/>
+                      <Cell col="13" text="무상" TL_SEQ="342"/>
+                      <Cell col="14" text="비고" TL_SEQ="45"/>
+                      <Cell col="15" text="수정일" TL_SEQ="336"/>
+                      <Cell col="16" text="수정자" TL_SEQ="337"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow+1" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="1" text="bind:OTHER_CONFIRM_FLAG" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':'checkbox'" tooltiptext="bind:OTHER_CONFIRM_DATE" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="2" text="bind:EMP_NAME" expandimage="expr:EMP_NAME==undefined?'theme://images/btn_WF_Sch_P.png':'theme://images/tab_MDI_MdiTabCls.png'" expandshow="show" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="3" text="bind:CO_NAME" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="4" text="bind:ROLE_CODE" displaytype="combotext" edittype="expr:PSE_FLAG=='1'?'none':'combo'" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="5" edittype="expr:PSE_FLAG=='1'?'none':'combo'" displaytype="combotext" text="bind:LEVEL_CODE" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="6" edittype="normal" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:UNIT_COST" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)" textAlign="right" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="7" edittype="normal" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:EXPENSE" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(EXPENSE)" textAlign="right" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="8" text="bind:PER_UNIT_COST" displaytype="mask" textAlign="right" maskedittype="number" maskeditformat="9,90.90"/>
+                      <Cell col="9" displaytype="date" edittype="expr:PSE_FLAG=='1'?'none':'date'" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="10" edittype="expr:PSE_FLAG=='1'?'none':'date'" displaytype="date" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="11" displaytype="mask" text="bind:MEN_MONTH" maskeditformat="#,#0.#0" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="12" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':'checkbox'" text="bind:NONRESIDENT_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="13" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':'checkbox'" text="bind:FREE_SVC_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="14" text="bind:REMARKS" edittype="text" displaytype="text" textAlign="left" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''" tooltiptext="bind:REMARKS"/>
+                      <Cell col="15" text="bind:UPDATE_DATE" displaytype="date" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="16" text="bind:UPDATE_EMP_NAME" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번" TL_SEQ="333"/>
+                      <Cell col="1" text="인력명" TL_SEQ="338"/>
+                      <Cell col="2" text="역할" TL_SEQ="75"/>
+                      <Cell col="3" text="매입단가" TL_SEQ="339"/>
+                      <Cell col="4" text="시작일" TL_SEQ="38"/>
+                      <Cell col="5" text="비상주" TL_SEQ="340"/>
+                      <Cell row="1" text="MM"/>
+                      <Cell row="1" col="1" text="회사" TL_SEQ="73"/>
+                      <Cell row="1" col="2" text="등급" TL_SEQ="92"/>
+                      <Cell row="1" col="3" text="경비" TL_SEQ="341"/>
+                      <Cell row="1" col="4" text="종료일" TL_SEQ="39"/>
+                      <Cell row="1" col="5" text="무상" TL_SEQ="342"/>
+                      <Cell row="2" colspan="6" text="비고" TL_SEQ="45"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow+1" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="1" text="bind:EMP_NAME" expandshow="show" expandimage="expr:EMP_NAME==undefined?'theme://images/btn_WF_Sch_P.png':'theme://images/tab_MDI_MdiTabCls.png'" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="2" text="bind:ROLE_CODE" displaytype="combotext" edittype="expr:PSE_FLAG=='1'?'none':'combo'" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="3" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:UNIT_COST" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)" textAlign="right" edittype="normal" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="4" displaytype="date" edittype="expr:PSE_FLAG=='1'?'none':'date'" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="5" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':'checkbox'" text="bind:NONRESIDENT_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" displaytype="mask" text="bind:MEN_MONTH" maskeditformat="#,#0.#0" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="1" text="bind:CO_NAME" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="2" edittype="expr:PSE_FLAG=='1'?'none':'combo'" displaytype="combotext" text="bind:LEVEL_CODE" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="3" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:EXPENSE" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(EXPENSE)" textAlign="right" edittype="normal" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell row="1" col="4" edittype="expr:PSE_FLAG=='1'?'none':'date'" displaytype="date" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="5" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':'checkbox'" text="bind:FREE_SVC_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="2" colspan="6" text="bind:REMARKS" edittype="text" displaytype="text" textAlign="left" tooltiptext="bind:REMARKS"/>
+                    </Band>
+                  </Format>
+                  <Format id="default_ETC">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="210"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번" TL_SEQ="333"/>
+                      <Cell col="1" text="인력명" TL_SEQ="338"/>
+                      <Cell col="2" text="역할" TL_SEQ="75"/>
+                      <Cell col="3" text="매출단가" TL_SEQ="334"/>
+                      <Cell col="4" text="매입단가" TL_SEQ="339"/>
+                      <Cell col="5" text="시작일" TL_SEQ="38"/>
+                      <Cell col="6" text="비상주" TL_SEQ="340"/>
+                      <Cell col="7" rowspan="2" text="비고" TL_SEQ="45"/>
+                      <Cell row="1" text="MM"/>
+                      <Cell row="1" col="1" text="회사" TL_SEQ="73"/>
+                      <Cell row="1" col="2" text="등급" TL_SEQ="92"/>
+                      <Cell row="1" col="3" text="매출경비" TL_SEQ="1961"/>
+                      <Cell row="1" col="4" text="경비" TL_SEQ="341"/>
+                      <Cell row="1" col="5" text="종료일" TL_SEQ="39"/>
+                      <Cell row="1" col="6" text="무상" TL_SEQ="342"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow+1" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="1" text="bind:EMP_NAME" expandshow="show" expandimage="expr:EMP_NAME==undefined?'theme://images/btn_WF_Sch_P.png':'theme://images/tab_MDI_MdiTabCls.png'" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="2" text="bind:ROLE_CODE" displaytype="combotext" edittype="expr:PSE_FLAG=='1'?'none':OTHER_CONFIRM_FLAG=='1'?'none':'combo'" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="3" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:UNIT_COST" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="4" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:OTHER_UNIT_COST" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(OTHER_UNIT_COST)" textAlign="right" edittype="normal" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="5" displaytype="date" edittype="expr:PSE_FLAG=='1'?'none':'date'" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="6" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':OTHER_CONFIRM_FLAG=='1'?'none':'checkbox'" text="bind:NONRESIDENT_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="7" rowspan="2" text="bind:REMARKS" edittype="text" displaytype="text" textAlign="left" tooltiptext="bind:REMARKS"/>
+                      <Cell row="1" displaytype="mask" text="bind:MEN_MONTH" maskeditformat="#,#0.#0" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="1" text="bind:CO_NAME" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="2" edittype="expr:PSE_FLAG=='1'?'none':OTHER_CONFIRM_FLAG=='1'?'none':'combo'" displaytype="combotext" text="bind:LEVEL_CODE" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="3" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:EXPENSE" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(EXPENSE)" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell row="1" col="4" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:OTHER_EXPENSE" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(OTHER_EXPENSE)" textAlign="right" edittype="normal" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell row="1" col="5" edittype="expr:PSE_FLAG=='1'?'none':'date'" displaytype="date" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="6" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':OTHER_CONFIRM_FLAG=='1'?'none':'checkbox'" text="bind:FREE_SVC_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                    </Band>
+                  </Format>
+                  <Format id="TC_ETC">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="70"/>
+                      <Column size="70"/>
+                      <Column size="40"/>
+                      <Column size="50"/>
+                      <Column size="50"/>
+                      <Column size="210"/>
+                      <Column size="70"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번" TL_SEQ="333"/>
+                      <Cell col="1" text="인력명" TL_SEQ="338"/>
+                      <Cell col="2" text="회사" TL_SEQ="73"/>
+                      <Cell col="3" text="역할" TL_SEQ="75"/>
+                      <Cell col="4" text="등급" TL_SEQ="92"/>
+                      <Cell col="5" text="매출단가" TL_SEQ="334"/>
+                      <Cell col="6" text="매출경비" TL_SEQ="1961"/>
+                      <Cell col="7" text="매입단가" TL_SEQ="339"/>
+                      <Cell col="8" text="경비" TL_SEQ="341"/>
+                      <Cell col="9" text="시작일" TL_SEQ="38"/>
+                      <Cell col="10" text="종료일" TL_SEQ="39"/>
+                      <Cell col="11" text="MM"/>
+                      <Cell col="12" text="비상주" TL_SEQ="340"/>
+                      <Cell col="13" text="무상" TL_SEQ="342"/>
+                      <Cell col="14" text="비고" TL_SEQ="45"/>
+                      <Cell col="15" text="수정일" TL_SEQ="336"/>
+                      <Cell col="16" text="수정자" TL_SEQ="337"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow+1" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="1" text="bind:EMP_NAME" expandimage="expr:EMP_NAME==undefined?'theme://images/btn_WF_Sch_P.png':'theme://images/tab_MDI_MdiTabCls.png'" expandshow="show" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="2" text="bind:CO_NAME" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="3" text="bind:ROLE_CODE" displaytype="combotext" edittype="expr:PSE_FLAG=='1'?'none':OTHER_CONFIRM_FLAG=='1'?'none':'combo'" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="4" edittype="expr:PSE_FLAG=='1'?'none':OTHER_CONFIRM_FLAG=='1'?'none':'combo'" displaytype="combotext" text="bind:LEVEL_CODE" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="5" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:UNIT_COST" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)" textAlign="right" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="6" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:EXPENSE" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(EXPENSE)" textAlign="right" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="7" edittype="normal" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:OTHER_UNIT_COST" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(OTHER_UNIT_COST)" textAlign="right" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="8" edittype="normal" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:OTHER_EXPENSE" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(OTHER_EXPENSE)" textAlign="right" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="9" displaytype="date" edittype="expr:PSE_FLAG=='1'?'none':'date'" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="10" edittype="expr:PSE_FLAG=='1'?'none':'date'" displaytype="date" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="11" displaytype="mask" text="bind:MEN_MONTH" maskeditformat="#,#0.#0" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="12" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':OTHER_CONFIRM_FLAG=='1'?'none':'checkbox'" text="bind:NONRESIDENT_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="13" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':OTHER_CONFIRM_FLAG=='1'?'none':'checkbox'" text="bind:FREE_SVC_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="14" text="bind:REMARKS" edittype="text" displaytype="text" textAlign="left" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''" tooltiptext="bind:REMARKS"/>
+                      <Cell col="15" text="bind:UPDATE_DATE" displaytype="date" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="16" text="bind:UPDATE_EMP_NAME" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile_ETC">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번" TL_SEQ="333"/>
+                      <Cell col="1" text="인력명" TL_SEQ="338"/>
+                      <Cell col="2" text="역할" TL_SEQ="75"/>
+                      <Cell col="3" text="매출단가" TL_SEQ="334"/>
+                      <Cell col="4" text="매입단가" TL_SEQ="339"/>
+                      <Cell col="5" text="시작일" TL_SEQ="38"/>
+                      <Cell col="6" text="비상주" TL_SEQ="340"/>
+                      <Cell row="1" text="MM"/>
+                      <Cell row="1" col="1" text="회사" TL_SEQ="73"/>
+                      <Cell row="1" col="2" text="등급" TL_SEQ="92"/>
+                      <Cell row="1" col="3" text="메출경비" TL_SEQ=""/>
+                      <Cell row="1" col="4" text="경비" TL_SEQ="341"/>
+                      <Cell row="1" col="5" text="종료일" TL_SEQ="39"/>
+                      <Cell row="1" col="6" text="무상" TL_SEQ="342"/>
+                      <Cell row="2" colspan="7" text="비고" TL_SEQ="45"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow+1" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="1" text="bind:EMP_NAME" expandshow="show" expandimage="expr:EMP_NAME==undefined?'theme://images/btn_WF_Sch_P.png':'theme://images/tab_MDI_MdiTabCls.png'" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="2" text="bind:ROLE_CODE" displaytype="combotext" edittype="expr:PSE_FLAG=='1'?'none':'combo'" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="3" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:UNIT_COST" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="4" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:OTHER_UNIT_COST" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(OTHER_UNIT_COST)" textAlign="right" edittype="normal" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell col="5" displaytype="date" edittype="expr:PSE_FLAG=='1'?'none':'date'" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell col="6" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':'checkbox'" text="bind:NONRESIDENT_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" displaytype="mask" text="bind:MEN_MONTH" maskeditformat="#,#0.#0" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="1" text="bind:CO_NAME" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="2" edittype="expr:PSE_FLAG=='1'?'none':'combo'" displaytype="combotext" text="bind:LEVEL_CODE" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="3" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:EXPENSE" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(EXPENSE)" textAlign="right" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell row="1" col="4" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:OTHER_EXPENSE" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(OTHER_EXPENSE)" textAlign="right" edittype="normal" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()"/>
+                      <Cell row="1" col="5" edittype="expr:PSE_FLAG=='1'?'none':'date'" displaytype="date" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="1" col="6" displaytype="checkboxcontrol" edittype="expr:PSE_FLAG=='1'?'none':'checkbox'" text="bind:FREE_SVC_FLAG" cssclass="expr:PSE_FLAG=='1'?'Expr_Case_Font_blue':''"/>
+                      <Cell row="2" colspan="7" text="bind:REMARKS" edittype="text" displaytype="text" textAlign="left" tooltiptext="bind:REMARKS"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static03" taborder="1" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" right="516"/>
+              <Static id="Static04" taborder="2" text="승인(배정)" left="10" top="0" width="90" height="31" cssclass="sta_POP_GroupTit" TL_SEQ="343"/>
+              <Static id="Static00" taborder="7" top="0" height="31" cssclass="sta_POP_GroupBg" right="0" width="512"/>
+              <Button id="btn_ConfDel" taborder="4" top="8" height="16" visible="true" cssclass="btn_POP_Del" onclick="btn_ConfDel_onclick" enable="false" width="16" left="Static03:-24"/>
+              <Button id="btn_ConfAdd" taborder="3" top="8" width="16" height="16" visible="true" cssclass="btn_POP_Add" onclick="btn_ConfAdd_onclick" enable="false" right="btn_ConfDel:8"/>
+              <Radio id="rdo_Confirm" taborder="5" left="110" top="8" width="146" height="15" innerdataset="ds_Confirm" codecolumn="CODE" datacolumn="CAPTION" index="0" text="전체" value="0" rowcount="1" onitemchanged="Radio_onitemchanged" TL_FLAG="1"/>
+              <Grid id="grd_SiInput" taborder="6" top="31" binddataset="ds_ProjectSiEmp" formatid="default" accessibilityrole="grid" autoenter="select" bottom="0" autofittype="col" right="0" oncelldblclick="Grid_oncelldblclick" width="512" oncellclick="div_Confirm_grd_SiInput_oncellclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="130"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번" TL_SEQ="333"/>
+                      <Cell col="1" text="인력명" TL_SEQ="338"/>
+                      <Cell col="2" text="역할" TL_SEQ="75"/>
+                      <Cell col="3" text="시작일" TL_SEQ="38"/>
+                      <Cell col="4" text="월단가" TL_SEQ="344"/>
+                      <Cell col="5" text="비상주" TL_SEQ="340"/>
+                      <Cell col="6" rowspan="2" text="비고" TL_SEQ="45"/>
+                      <Cell row="1" text="MM"/>
+                      <Cell row="1" col="1" text="회사" TL_SEQ="73"/>
+                      <Cell row="1" col="2" text="등급" TL_SEQ="92"/>
+                      <Cell row="1" col="3" text="종료일" TL_SEQ="39"/>
+                      <Cell row="1" col="4" text="경비" TL_SEQ="341"/>
+                      <Cell row="1" col="5" text="무상" TL_SEQ="342"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow+1" edittype="none" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                      <Cell col="1" text="bind:EMP_NAME" edittype="none" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                      <Cell col="2" text="bind:ROLE_CODE" displaytype="combotext" edittype="expr:EDIT_FLAG=='0'?'none':'combo'" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                      <Cell col="3" displaytype="date" edittype="expr:comp.parent.parent.parent.fn_setEditProjectSiEmpDate(currow)" text="bind:START_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                      <Cell col="4" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:UNIT_COST" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(UNIT_COST)"/>
+                      <Cell col="5" displaytype="checkboxcontrol" edittype="expr:EDIT_FLAG=='0'?'none':'checkbox'" text="bind:NONRESIDENT_FLAG" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                      <Cell col="6" rowspan="2" text="bind:REMARKS" displaytype="text" edittype="text" textAlign="left" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''" tooltiptext="bind:REMARKS"/>
+                      <Cell row="1" displaytype="mask" text="bind:MEN_MONTH" maskeditformat="#,##0.00" edittype="none" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                      <Cell row="1" col="1" text="bind:CO_NAME" edittype="none" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                      <Cell row="1" col="2" displaytype="combotext" text="bind:LEVEL_CODE" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" edittype="expr:EDIT_FLAG=='0'?'none':'combo'" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                      <Cell row="1" col="3" edittype="expr:comp.parent.parent.parent.fn_setEditProjectSiEmpDate(currow)" displaytype="date" text="bind:END_DATE" calendardateformat="yyyy-MM-dd" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                      <Cell row="1" col="4" displaytype="expr:comp.parent.parent.parent.gfn_getPriceDisplayType('number')" text="bind:EXPENSE" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''" maskedittype="expr:comp.parent.parent.parent.gfn_getPriceMaskEdtType()" maskeditformat="expr:comp.parent.parent.parent.gfn_getPriceMaskformat(EXPENSE)"/>
+                      <Cell row="1" col="5" displaytype="checkboxcontrol" edittype="expr:EDIT_FLAG=='0'?'none':'checkbox'" text="bind:FREE_SVC_FLAG" cssclass="expr:COLOR=='GREEN'?'Expr_Case_Font_green':''"/>
+                    </Band>
+                  </Format>
+                  <Format id="mobile">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                      <Row size="30"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번" TL_SEQ="333"/>
+                      <Cell col="1" text="인력명" TL_SEQ="338"/>
+                      <Cell col="2" text="역할" TL_SEQ="75"/>
+                      <Cell col="3" text="시작일" TL_SEQ="38"/>
+                      <Cell col="4" text="비상주" TL_SEQ="340"/>
+                      <Cell row="1" text="MM"/>
+                      <Cell row="1" col="1" text="회사" TL_SEQ="73"/>
+                      <Cell row="1" col="2" text="등급" TL_SEQ="92"/>
+                      <Cell row="1" col="3" text="종료일" TL_SEQ="39"/>
+                      <Cell row="1" col="4" text="무상" TL_SEQ="342"/>
+                      <Cell row="2" colspan="5" text="비고" TL_SEQ="45"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow+1" edittype="none"/>
+                      <Cell col="1" text="bind:EMP_NAME" edittype="none"/>
+                      <Cell col="2" text="bind:ROLE_CODE" displaytype="combotext" edittype="combo" combodataset="ds_cmm_Role" combocodecol="CODE" combodatacol="CAPTION"/>
+                      <Cell col="3" displaytype="date" edittype="date" text="bind:START_DATE" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="4" displaytype="checkboxcontrol" edittype="checkbox" text="bind:NONRESIDENT_FLAG"/>
+                      <Cell row="1" displaytype="mask" text="bind:MEN_MONTH" maskeditformat="#,##0.00" edittype="none"/>
+                      <Cell row="1" col="1" text="bind:CO_NAME" edittype="none"/>
+                      <Cell row="1" col="2" displaytype="combotext" text="bind:LEVEL_CODE" combodataset="ds_cmm_Level" combocodecol="CODE" combodatacol="CAPTION" edittype="combo"/>
+                      <Cell row="1" col="3" edittype="date" displaytype="date" text="bind:END_DATE" calendardateformat="yyyy-MM-dd"/>
+                      <Cell row="1" col="4" displaytype="checkboxcontrol" edittype="checkbox" text="bind:FREE_SVC_FLAG"/>
+                      <Cell row="2" colspan="5" text="bind:REMARKS" tooltiptext="bind:REMARKS"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static01" taborder="8" text="투입" top="0" width="58" height="31" cssclass="sta_POP_GroupTit" right="444" TL_SEQ="345"/>
+              <Static id="Static02" taborder="9" top="7" height="18" text="※ 투입완료건" width="80" color="blue" right="btn_ConfAdd:8" TL_SEQ="346"/>
+              <Button id="btn_ConfDel_PSE" taborder="10" top="8" height="16" visible="true" cssclass="btn_POP_Del" enable="false" width="16" right="8" onclick="div_Confirm_btn_ConfDel_PSE_onclick"/>
+              <Static id="st_OtherCo" taborder="11" text="※ 타사투입 인력건" top="8" height="16" color="green" width="110" right="btn_ConfDel_PSE:8" TL_SEQ="347"/>
+            </Layout>
+            <Layout name="portrait">
+              <Grid id="grd_List" left="0" top="36" formatid="mobile" right="0" height="362"/>
+              <Static id="Static03" left="0" top="0" height="35" right="0"/>
+              <Static id="Static00" top="401" height="35" left="0" right="0"/>
+              <Grid id="grd_SiInput" top="437" left="0" formatid="mobile" height="362" right="0"/>
+              <Static id="Static01" top="401" width="58" height="35" left="10"/>
+              <Button id="btn_ConfDel_PSE" top="410" height="16" width="16" left="Static00:-24"/>
+              <Static id="Static04" height="35" left="10" top="0" width="90"/>
+              <Radio id="rdo_Confirm" left="110" top="0" width="170" height="35"/>
+              <Static id="Static02" top="0" width="104" height="35" right="btn_ConfAdd:8"/>
+              <Static id="st_OtherCo" top="401" width="120" height="35" right="btn_ConfDel_PSE:18"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="1" left="1" height="38" right="1" bottom="1" cssclass="sta_POP_BtnBg" text=""/>
+        <Button id="btn_Cancel" taborder="2" text="닫기" width="60" height="22" cssclass="btn_WF_cancel" right="13" bottom="9" onclick="btn_Close_onclick" TL_SEQ="59"/>
+        <Button id="btn_Save" taborder="3" text="저장" width="60" height="22" cssclass="btn_WF_tran" right="btn_Cancel:8" bottom="9" onclick="btn_Save_onclick" enable="true" TL_SEQ="115"/>
+        <Static id="st_Title" taborder="6" text="SI인력요청" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="348"/>
+        <Button id="btn_Delete" taborder="15" text="삭제" width="60" height="22" cssclass="btn_WF_tran" right="btn_Save:8" bottom="9" enable="false" onclick="btn_Delete_onclick" TL_SEQ="117"/>
+        <Static id="Static01" taborder="8" left="4" top="39" height="31" cssclass="sta_POP_GroupBg" right="4"/>
+        <Static id="Static02" taborder="9" text="요청" left="14" top="39" width="122" height="31" cssclass="sta_POP_GroupTit" TL_SEQ="22"/>
+        <Static id="stc_ClientName" taborder="10" text="고객사" left="59" top="43" width="48" height="22" textAlign="right" cssclass="sta_WF_DetailTit" visible="false" TL_SEQ="32"/>
+        <Edit id="edt_ClientName" taborder="11" left="stc_ClientName:6" top="43" height="22" width="205" readonly="true" visible="false"/>
+        <Static id="stc_ProjectName" taborder="12" text="프로젝트" left="333" top="43" width="48" height="22" textAlign="right" cssclass="sta_WF_DetailTit" visible="false" TL_SEQ="114"/>
+        <Edit id="edt_ProjectName" taborder="13" left="stc_ProjectName:9" top="43" height="22" readonly="true" visible="false" right="456"/>
+        <Button id="btn_schdDown" taborder="14" top="46" width="16" height="16" cssclass="btn_WF_schdUp" right="8" onclick="btn_schdDown_onclick"/>
+        <Static id="stc_CheckType" taborder="16" text="확인구분" top="43" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="1162" visible="false" TL_SEQ="327"/>
+        <Combo id="cmb_CheckType" taborder="17" top="43" height="22" width="115" innerdataset="ds_cmm_Check" codecolumn="CODE" datacolumn="CAPTION" left="stc_CheckType:6" visible="false" readonly="true"/>
+        <Static id="stc_Product_Name" taborder="19" text="계약제품" top="43" width="64" height="22" textAlign="right" cssclass="sta_WF_DetailTit" left="903" visible="false" TL_SEQ="332"/>
+        <Edit id="edt_Product_Name" taborder="20" top="43" height="22" width="176" readonly="true" left="stc_Product_Name:8" visible="false"/>
+      </Layout>
+      <Layout name="portrait" screenid="Mobile_screen" width="480" height="1617" mobileorientation="portrait">
+        <Div id="div_Req" left="4" top="div_Request:4" height="398" right="4"/>
+        <Div id="div_Request" left="4" top="39" height="364" right="4"/>
+        <Splitter id="spt_Vertical" left="4" top="div_Req:-1" height="7" right="4"/>
+        <Static id="Static01" height="35" left="4" top="39" right="4"/>
+        <Static id="Static02" height="35" left="14" top="39" width="122"/>
+        <Div id="div_Confirm" left="4" top="spt_Vertical:-1" right="4" height="799"/>
+        <Button id="btn_schdDown" width="30" top="41" height="30" right="8"/>
+        <Button id="btn_Delete" height="30" width="70" right="btn_Save:4" top="1583"/>
+        <Button id="btn_Save" height="30" width="70" right="btn_Cancel:4" top="1583"/>
+        <Button id="btn_Cancel" height="30" width="70" right="4" top="1583"/>
+        <Static id="Static00" left="1" height="38" right="1" top="1579"/>
+        <Static id="st_Title" left="10" top="0" width="140" height="35"/>
+        <Button id="btn_Close" width="35" top="0" height="35" right="10"/>
+        <Static id="stc_Product_Name" left="903" top="43" width="64" height="22"/>
+        <Edit id="edt_Product_Name" left="975" top="43" width="176" height="22"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 
+* 02. 화면명		: 
+* 03. 화면설명 	: 
+* 04. 작성일   	: 2018.12.19
+* 05. 작성자   	: 채종한
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_FORM_TYPE = "TR";
+this.FV_RSS_SEQ = "";
+this.bOtherConfirmFlag = false;
+this.sContractCoCd;	//계약회사코드
+this.sLoginCoCd;	//로그인회사코드
+this.sLoginEmpNo;	//로그인사번
+this.sLoginEmpNm;	//로그인이름
+this.bFormInit = true;	
+
+this.FV_AUTH_PRICE_MASK = false; 
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.TR_RequestSIStaffReg_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnInitForm();
+	this.fnGetCode();
+	
+	//Splitter item 적용
+	this.spt_Vertical.addItem([{componentid:"div_Req", offset:-1, position:"top"}, {componentid:"div_Confirm", offset:-1, position:"bottom"}]);
+	
+	//Splitter 최소, 최대 position 기준 컴포넌트 적용
+	//순서 : top, bottom, left, right 
+	this.spt_Vertical.addSplitter(this.div_Request, this.Static00, null, null);		
+}
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 공통 코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_RequestType",	"REQUEST_TYPE");	// 요청구분
+	this.gfnAddCodeDataset("ds_comm_SIConfirmCd",	"SI_CONFIRM_CD");	// SI승인상태	
+	this.gfnAddCodeDataset("ds_cmm_Area",			"AREA_CODE"); 		// 근무지역
+	this.gfnAddCodeDataset("ds_cmm_Role",			"ROLE_CODE"); 		// 역할코드
+	this.gfnAddCodeDataset("ds_cmm_Level",			"LEVEL_CODE"); 		// 등급
+	this.gfnAddCodeDataset("ds_cmm_Check",			"CHECK_TYPE"); 		// 확인구분
+	
+	this.gfnCodeTransaction();
+}
+
+ // Skill 코드 조회	
+ this.fn_GetSkillCode = function()
+ {
+	this.gfnAddOutputDataset("ds_comm_Skill", "ds_output");
+	this.gfnCommonTransaction("CO_SkillCode_S01", "CO_SkillCode_S01", null, false);
+ }
+
+// 조회
+this.fnSearch = function()
+{	
+	this.gfnAddSendParameter("RSS_SEQ", this.FV_RSS_SEQ);
+	this.gfnAddOutputDataset("ds_List", "ds_output");
+	this.gfnAddOutputDataset("ds_DetList", "ds_output2");
+	this.gfnAddOutputDataset("ds_ConfirmList", "ds_output3");
+	this.gfnAddOutputDataset("ds_ProjectSiEmp", "ds_output4");
+	this.gfnCommonTransaction("Select", "TR_RequestSIStaffReg_S01");
+}
+
+// 시작 종료일에 대한 MEN_MONTH 조회
+this.fnGetMM = function(strSvcID, sStartDt, sEndDt, nRow) {
+	if (this.gfnIsEmpty(sStartDt) || this.gfnIsEmpty(sEndDt)) {
+		return;	
+	}
+	
+	this.gfnAddSendParameter("START_DATE",	sStartDt);
+	this.gfnAddSendParameter("END_DATE",	sEndDt);
+	this.gfnAddSendParameter("ROW",			nRow);
+	this.gfnAddOutputDataset("ds_MM", "ds_output");
+	this.gfnCommonTransaction(strSvcID, "CO_GetMM_S01");
+}
+
+// SI투입중복여부 확인
+this.fnCheckDuplicateSI = function(nRow, objDS, e) 
+{
+	var bPseFalg = objDS.getColumn(nRow, "PSE_FLAG");
+	var nPseSeq = objDS.getColumn(nRow, "PSE_SEQ");
+	var strEmoNo = objDS.getColumn(nRow, "EMP_NO");
+	var strCoCd = objDS.getColumn(nRow, "CO_CD");
+	var strStartDt = objDS.getColumn(nRow, "START_DATE");
+	var strEndDt = objDS.getColumn(nRow, "END_DATE");
+	//투입인력 중복확인시 변경하려는값으호 셋팅
+	if(objDS==this.ds_ProjectSiEmp && e.columnid=="START_DATE")
+		strStartDt = e.newvalue;
+	else if(objDS==this.ds_ProjectSiEmp && e.columnid=="END_DATE")
+		strEndDt = e.newvalue;
+		
+	var bNonResident = objDS.getColumn(nRow, "NONRESIDENT_FLAG");
+	
+	if (this.gfnIsEmpty(strEmoNo) 
+		|| this.gfnIsEmpty(strStartDt) 
+		|| this.gfnIsEmpty(strEndDt) 
+		|| bNonResident=="1" 		//비상주는 체크안함
+		|| bPseFalg =='1' 			//기존투입인력은 체크안함
+		|| (strEmoNo==strCoCd))		//사번과 회사코드가 같으면 원청턴키이므로 중복체크 안함
+	{
+		return true;
+	}
+	
+	this.gfnAddSendParameter("PSE_SEQ",		nPseSeq);	//투입인력에서 중복확인시 선택된 투입내역은 제외하고 조회
+	this.gfnAddSendParameter("EMP_NO",		strEmoNo);
+	this.gfnAddSendParameter("START_DATE",	strStartDt);
+	this.gfnAddSendParameter("END_DATE",	strEndDt);
+	this.gfnAddSendParameter("ROW",			nRow);
+	this.gfnAddOutputDataset("ds_CheckDuplicateSI", "ds_output");
+	this.gfnCommonTransaction("CheckDuplicateSI", "TR_RequestSIStaffReg_S02", null, false);
+	
+	if (this.ds_CheckDuplicateSI.rowcount>0) {
+		var nROW = this.ds_CheckDuplicateSI.getColumn(0, "ROW");
+		var strEmpNm = objDS.getColumn(nROW, "EMP_NAME");
+		//배정시 일정중복이면 배정인력 삭제해줌
+		if(objDS==this.ds_ConfirmList)
+		{
+			objDS.setColumn(nROW, "EMP_NO");
+			objDS.setColumn(nROW, "EMP_NAME");
+			objDS.setColumn(nROW, "CO_NAME");
+			objDS.setColumn(nROW, "CO_CD");
+		}
+		alert(this.gfnGetTransTxt(1533,"투입일정이 중복되었습니다.\n@1@ 투입일정을 확인하시기 바랍니다.",[strEmpNm]));
+		return false;
+	}
+	else
+		return true;
+}
+
+// 저장 (요청, 승인)
+this.fnSave = function()
+{	
+	var strModelID = "";
+	if (this.FV_FORM_TYPE == "TR") {
+		if (!this.fn_getValidation()) return;
+		
+		//신규추가 저장시 담당자에게 문자를 보낸다
+		if(this.ds_List.getRowType(0)==2)
+		{
+			if ( this.confirm(this.gfnGetTransTxt(1741,"SI인력투입 요청 SMS를 전송하시겠습니까?")))
+			{
+				var strMsg = this.gfnGetTransTxt(348, "SI인력요청") + "-" + this.ds_List.getColumn(0, "CLIENT_NAME") + "/" + this.ds_List.getColumn(0, "PROJECT_NAME") + "/"+this.gfnGetTransTxt(1099, "인원")+":" + this.ds_DetList.getRowCount();
+				var sUserCode = "261,3"	//SI인력요청SMS 수신자
+				if(this.sContractCoCd!="A01")
+					sUserCode = "261,4"	//투비윈 SI인력요청SMS 수신자
+				this.fnSendSMS(strMsg, "FORM_AUTH", sUserCode, "REQ_SI_STAFF");	
+			}
+		}
+		
+		this.gfnAddInputDataset("ds_List",		"dsInput");
+		this.gfnAddInputDataset("ds_DetList",	"dsInput2");
+		strModelID = "TR_RequestSupport_R02";
+			
+	} else if (this.FV_FORM_TYPE == "TC") {
+		if (!this.fn_getValidation()) return;
+		
+		/*타사배정시 담당자에게 문자*/
+		if(this.bOtherConfirmFlag)
+		{
+	 		if (this.confirm(this.gfnGetTransTxt(1742,"투비윈 배정 통보 SMS를 전송하시겠습니까?")))
+	 		{
+	 			var strMsg = this.gfnGetTransTxt(22824, "TOBE SI인력 배정") + "-" + this.ds_List.getColumn(0, "CLIENT_NAME") + "/" + this.ds_List.getColumn(0, "PROJECT_NAME");
+	 			this.fnSendSMS(strMsg, "FORM_AUTH", "261,4", "ALLOC_SI_STAFF");	//투비윈 SI인력요청SMS 수신자
+	 		}
+			this.bOtherConfirmFlag=false;
+		}
+		/*SI투입일 중복 확인*/
+		for(var i=0; i<this.ds_ConfirmList.getRowCountNF(); i++) 
+		{
+			if(this.fnCheckDuplicateSI(i, this.ds_ConfirmList))
+				continue;
+			else
+				return;
+		}
+		
+		var nCount = 0;
+		/*SI투입 확정*/
+		for(var i=0; i<this.ds_ConfirmList.getRowCountNF(); i++) 
+		{
+			if(!this.gfnIsEmpty(this.ds_ConfirmList.getColumnNF(i, "EMP_NO")) 
+				&& this.ds_ConfirmList.getColumnNF(i, "PSE_FLAG")!="1")
+			{
+				this.fnSetDecideData(i);
+				nCount = nCount+1;
+			}
+		}
+		
+		if (nCount > 0)
+		{
+			var strMsg = this.gfnGetTransTxt(22825, "SI투입확정") + "-" + this.ds_List.getColumn(0, "CLIENT_NAME") + "/" + this.ds_List.getColumn(0, "PROJECT_NAME")+"/"+nCount+this.gfnGetTransTxt(51, "건");
+			//투비윈에서 SI투입확정시 SI인력요청SMS 수신자에게 SMS전송
+			if(this.sContractCoCd == 'A01' && this.sLoginCoCd != 'A01')
+			{
+				this.fnSendSMS(strMsg, "FORM_AUTH", "261,3");	//SI인력요청SMS 수신자
+			}
+			//SI투입확정시 요청자에게 SMS전송
+			this.fnSendSMS(strMsg, "EMP", this.ds_List.getColumn(0, "INSERT_EMP_NO"), "CONFIRM_SI_STAFF");		//요청자
+		}
+		
+		this.gfnAddInputDataset("ds_ConfirmList", 	"dsInput");
+		this.gfnAddInputDataset("ds_ProjectSiEmp", 	"dsInput1");
+		this.gfnAddInputDataset("ds_DetList",		"dsInput2");
+		this.gfnAddInputDataset("ds_List",			"dsInput3");
+		
+		strModelID = "TR_RequestSIStaffReg_R01";
+	}
+	
+	this.gfnCommonTransaction("Save", strModelID);
+}
+
+this.fnSendSMS = function (strMsg, sUserKind, sUserCode, sAlimTalkService)
+{
+	var sSendType = "SELF";
+	var sTelNoKind = "M";
+	var arrSmsInfo = new Array();
+		arrSmsInfo[0] = {};
+		arrSmsInfo[0].pvUserKind = sUserKind;
+		arrSmsInfo[0].pvUserCode = sUserCode;
+		
+	if (this.commUtil.getByteSize(strMsg) > 80) {
+		strMsg = strMsg.substr(0, 80);
+	}
+	
+	//this.gfnAddSmsList(arrSmsInfo);				// 수신자 처리
+	this.gfnAddAlimTalkList(arrSmsInfo);			// 수신자 처리
+	//this.gfnSendSms ("SendSMS", sSendType, sTelNoKind, "", strMsg, "");	// SMS 발송
+	this.gfnSendAlimTalk ("SendSMS", sSendType, sTelNoKind, "", strMsg, "", sAlimTalkService);	// 알림톡 발송
+}
+
+// 콜백처리
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) {
+		return;
+	} else {
+		if(strSvcID=="gfnGetCode") {
+			this.fn_GetSkillCode();
+			this.fnSearch();			
+			this.ds_cmm_Check.addRow();
+			
+		} else if(strSvcID=="Select")	{
+			this.sContractCoCd = this.ds_List.getColumn(this.ds_List.rowposition, "CO_CD");	//계약회사코드
+			
+			if (this.FV_FORM_TYPE == "TC" && this.commUtil.getFormAuthority(262,2) && !this.commUtil.gfnGetMobile())
+			{
+				if(this.bFormInit)
+					this.btn_schdDown.click();
+				this.bFormInit = false;
+			}
+			else if(this.sLoginCoCd!="A01")
+			{
+				this.fnSetFormatid();
+			}
+			//타사계약일경우 요청사항 수정 못함
+			if(this.sContractCoCd!=this.sLoginCoCd && !this.gfnIsEmpty(this.sContractCoCd))
+			{
+				// 예외대상 목록
+				var arrCompInfo = new Array();
+				arrCompInfo[0] = this.div_Request.form.cmb_CheckType;	// 파일 버튼
+				this.gfnCompDisable(this.div_Request.form, true, arrCompInfo);
+				this.div_Req.form.grd_List.set_readonly(true);
+			}
+			/*투입이력이 없을경우 등록자외 SI 승인권한자는 삭제가능*/
+			var strInsertEmp = this.ds_List.getColumn(this.ds_List.rowposition, "INSERT_EMP_NO");	//등록자
+			if(this.ds_List.getColumn(0,"CNT") =="0" && (this.sLoginEmpNo==strInsertEmp || this.commUtil.getFormAuthority(262,2)))
+				this.btn_Delete.set_enable(true);
+				
+			if(this.ds_List.getRowCount() <= 0)	{
+				this.fnAddRow();
+			}
+		} else if(strSvcID=="ConfirmSelect")	{
+
+		} else if (strSvcID=="getMM_DetList") {
+			if (this.ds_MM.rowcount>0) {
+				var nMM = this.ds_MM.getColumn(0, "MM");
+				var nROW = this.ds_MM.getColumn(0, "ROW");
+				this.ds_DetList.setColumn(nROW, "MEN_MONTH", nMM);
+			}
+		} else if (strSvcID=="getMM_ConfirmList") {
+			if (this.ds_MM.rowcount>0) {
+				var nMM = this.ds_MM.getColumn(0, "MM");
+				var nROW = this.ds_MM.getColumn(0, "ROW");
+				this.ds_ConfirmList.setColumn(nROW, "MEN_MONTH", nMM);
+			}
+		} else if (strSvcID=="getMM_ProjectSiEmp") {
+			if (this.ds_MM.rowcount>0) {
+				var nMM = this.ds_MM.getColumn(0, "MM");
+				var nROW = this.ds_MM.getColumn(0, "ROW");
+				this.ds_ProjectSiEmp.setColumn(nROW, "MEN_MONTH", nMM);
+			}
+		} else if (strSvcID=="CheckDuplicateSI") {
+
+		} else if(strSvcID=="Save")	{
+			if (this.FV_FORM_TYPE == "TR") {
+				alert(this.gfnGetTransTxt(1534,"SI인력요청이 완료되었습니다."));
+			} else {				
+				alert(this.gfnGetTransTxt(1137,"저장되었습니다."));
+			}
+			this.fnSearch();
+		} else if(strSvcID=="Delete")	{
+			alert(this.gfnGetTransTxt(1223,"삭제되었습니다."));
+			this.commUtil.popupClose("Delete");
+		}
+	}
+}
+
+// 팝업 콜백처리
+this.fnPopupCallBack = function (popupId, popupArg)
+{
+	popupArg = this.commUtil.popupReturn();
+	
+	switch(popupId)
+	{
+		case "popupFindSiEmp" :
+			if(!this.gfnIsEmpty(popupArg))
+			{
+				var ds = new nexacro.Dataset();
+					ds.loadXML(popupArg);
+				
+				this.ds_ConfirmList.setColumn(this.ds_ConfirmList.rowposition, "EMP_NO",	ds.getColumn(0, "EMP_NO"));
+				this.ds_ConfirmList.setColumn(this.ds_ConfirmList.rowposition, "EMP_NAME",	ds.getColumn(0, "EMP_NAME"));
+				this.ds_ConfirmList.setColumn(this.ds_ConfirmList.rowposition, "CO_NAME",	ds.getColumn(0, "COMPANY_NAME"));
+				this.ds_ConfirmList.setColumn(this.ds_ConfirmList.rowposition, "CO_CD",		ds.getColumn(0, "CO_CD"));
+				//등급단가 연동 제거
+				//if(!this.gfnIsEmpty(ds.getColumn(0, "UNIT_COST")))
+				//	this.ds_ConfirmList.setColumn(this.ds_ConfirmList.rowposition, "UNIT_COST",	ds.getColumn(0, "UNIT_COST"));
+			}
+			break;
+			
+		default:
+	}
+}
+
+// 공통검색 component callback 처리
+this.Com_Search_onChanged = function (obj, e)
+{
+	// 초기화 처리
+	if (this.gfnIsEmpty(e.newCode))	 {
+		this.div_RequestContract.form.div_Contract.setCode(null);
+		this.div_RequestContract.form.div_Contract.setData(null);
+		
+		this.div_Request.form.edt_ClientName.set_value(null);
+		this.div_Request.form.edt_ProjectName.set_value(null);
+	} else {
+		var ds = obj.getRecentVariant();
+		var sClientNm = ds.getColumn(0, "CLIENT_NAME");
+		var sProjectNm = ds.getColumn(0, "PROJECT_NAME");
+		this.sContractCoCd = ds.getColumn(0, "CO_CD");
+		this.fnSetFormatid();
+		
+		this.div_Request.form.edt_ClientName.set_value(sClientNm);
+		this.div_Request.form.edt_ProjectName.set_value(sProjectNm);		
+	}
+}
+
+this.fnSetFormatid = function(bDown)
+{
+	var strFormatID = this.getCurrentLayoutID()=="portrait"?"mobile":"default";
+	if(this.sLoginCoCd!="A01" && this.sContractCoCd!=this.sLoginCoCd)
+		strFormatID = this.getCurrentLayoutID()=="portrait"?"mobile_ETC":"default_ETC";
+	this.div_Req.form.grd_List.set_formatid(strFormatID);
+
+	if (!this.gfnIsEmpty(bDown))
+	{
+		strFormatID = bDown?"TC":"default";
+		if(this.sLoginCoCd!="A01")
+			strFormatID = bDown?"TC_ETC":"default_ETC";
+	}
+ 	this.div_Confirm.form.grd_List.set_formatid(strFormatID);
+}
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+// 초기 화면 처리
+this.fnInitForm = function()
+{
+	this.sLoginCoCd = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");	//로그인회사코드
+	this.sLoginEmpNo = nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NO");
+	this.sLoginEmpNm = nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NM");
+
+	if(this.commUtil.gfnGetMobile())
+	{
+		this.btn_schdDown.set_visible(false);
+		this.spt_Vertical.set_visible(false);
+		this.div_Confirm.set_height(799);
+	}
+				
+	this.FV_FORM_TYPE = this.parent.pvFormType;
+	this.FV_RSS_SEQ = this.parent.pvRtsSeq;
+	this.FV_REQ_DT = this.parent.pvReqDt;
+	
+	this.fnSetFormatid();
+	
+	if (this.commUtil.getFormAuthority(261,6))	this.FV_AUTH_PRICE_MASK = true;	// 계약금액 마스킹 처리 권한
+	
+	
+	if (this.FV_FORM_TYPE == "TR")	{			// 요청
+		this.div_Confirm.form.btn_ConfAdd.set_enable(false);
+		this.div_Confirm.form.btn_ConfDel.set_enable(false);
+		this.div_Confirm.form.btn_ConfDel_PSE.set_enable(false);
+
+		// 승인(배정) Grid readonly
+		this.div_Confirm.form.grd_List.set_readonly(true);
+		this.div_Confirm.form.grd_SiInput.set_readonly(true);
+		
+		// 요청일자 초기화 처리
+		if (!this.gfnIsEmpty(this.div_Request.form.msk_InsertDt.value)) {
+			var sToday = this.gfnToday();
+			this.div_Request.form.msk_InsertDt.set_value(sToday);
+		}
+		
+		// 요청자 초기화 처리
+		if (!this.gfnIsEmpty(this.div_Request.form.edt_InsertEmp.value)) {
+			this.div_Request.form.edt_InsertEmp.set_value(this.sLoginEmpNm);
+		}
+	} else if (this.FV_FORM_TYPE == "TC") {		// 요청승인
+		this.st_Title.set_text(this.gfnGetTransTxt(22826, "SI인력요청 승인"));
+		// SI 승인권한
+		if(this.commUtil.getFormAuthority(262,2))
+		{
+			this.div_Confirm.form.btn_ConfAdd.set_enable(true);
+			this.div_Confirm.form.btn_ConfDel.set_enable(true);
+			this.div_Confirm.form.btn_ConfDel_PSE.set_enable(true);
+			this.btn_Save.set_enable(true);
+		}
+		else if (this.commUtil.getFormAuthority(262,6))
+		{
+			this.btn_Save.set_enable(true);
+		}
+		else
+			this.btn_Save.set_enable(false);
+			
+		this.div_Request.form.div_ReView_Upload.set_enable(true);
+		
+		// 예외대상 목록
+		var arrCompInfo = new Array();
+		arrCompInfo[0] = this.div_Request.form.div_ReView_Upload;	// 파일 버튼
+		this.gfnCompDisable(this.div_Request.form, true, arrCompInfo);
+				
+		this.div_Req.form.btn_ReqAdd.set_enable(false);
+		this.div_Req.form.btn_ReqDel.set_enable(false);
+		
+		this.cmb_CheckType.set_readonly(false);
+		this.div_Request.form.cmb_CheckType.set_readonly(false);
+	}
+}
+
+// Row 추가
+this.fnAddRow = function()
+{
+	var sToday = this.gfnToday();
+	var sYYYYMMDD = sToday
+	
+	if(!this.gfnIsEmpty(this.FV_REQ_DT))
+	{
+		sYYYYMMDD = this.FV_REQ_DT;
+	}
+	
+	this.ds_List.set_enableevent(false);
+	var newrow = this.ds_List.addRow();
+	//this.ds_List.setColumn(newrow, "REQUEST_TYPE",				"001");
+	this.ds_List.setColumn(newrow, "REQUEST_START_DATE",	sYYYYMMDD);
+	this.ds_List.setColumn(newrow, "REQUEST_END_DATE",		sYYYYMMDD);
+	var strWorkContents = "1. "+this.gfnGetTransTxt(22827, "수행사")+" : \n"
+						 +"2. "+this.gfnGetTransTxt(66, "담당자")+" : \n"
+						 +"3. "+this.gfnGetTransTxt(22828, "연락처(전화/이메일)")+" : \n"
+						 +"4. "+this.gfnGetTransTxt(22829, "수행장소")+" : \n"
+						 +"5. "+this.gfnGetTransTxt(245, "특이사항")+" :\n";
+	this.ds_List.setColumn(newrow, "WORK_CONTENTS",		strWorkContents);
+	
+	if(this.FV_FORM_TYPE == "TC") {
+		this.ds_List.setColumn(newrow, "CONFIRM_EMP_NO", 	this.sLoginEmpNo);
+		this.ds_List.setColumn(newrow, "CONFIRM_EMP_NAME",	this.sLoginEmpNm);
+	}
+	
+	/*영업관리에서 인력요청시 계약내용 추가*/
+	if(!this.gfnIsEmpty(this.parent.pvProjectCode))
+	{
+		this.ds_List.setColumn(newrow, "PROJECT_CODE",		this.parent.pvProjectCode);
+		this.ds_List.setColumn(newrow, "PROJECT_NAME",		this.parent.pvProjectName);
+		this.ds_List.setColumn(newrow, "CLIENT_CODE",		this.parent.pvClientCode);
+		this.ds_List.setColumn(newrow, "CLIENT_NAME",		this.parent.pvClientName);
+		this.ds_List.setColumn(newrow, "CONTRACT_NO",		this.parent.pvContractNo);
+		this.ds_List.setColumn(newrow, "CONTRACT_NAME",		this.parent.pvContractName);
+		this.ds_List.setColumn(newrow, "REQUEST_START_DATE",this.parent.pvStartDate);
+		this.ds_List.setColumn(newrow, "REQUEST_END_DATE",	this.parent.pvEndDate);
+		this.ds_List.setColumn(newrow, "AREA_CODE",			this.parent.pvAreacode);
+		var ds = new nexacro.Dataset();
+		ds.loadXML(this.parent.pvdsContractSi);
+
+		for(var i=0; i<ds.getRowCount(); i++)
+		{
+			var nAddRow = this.ds_DetList.addRow();
+			this.ds_DetList.setColumn(nAddRow, "ROLE_CODE", 	ds.getColumn(i, "ROLE_CODE"));
+			this.ds_DetList.setColumn(nAddRow, "LEVEL_CODE", 	ds.getColumn(i, "LEVEL_CODE"));
+			this.ds_DetList.setColumn(nAddRow, "UNIT_COST", 	ds.getColumn(i, "UNIT_COST"));
+			this.ds_DetList.setColumn(nAddRow, "SKILL_1", 		this.parent.pvProductCode);
+			this.ds_DetList.setColumn(nAddRow, "MEN_MONTH", 	ds.getColumn(i, "MEN_MONTH"));
+			this.ds_DetList.setColumn(nAddRow, "START_DATE", 	ds.getColumn(i, "START_DATE"));
+			this.ds_DetList.setColumn(nAddRow, "END_DATE", 		ds.getColumn(i, "END_DATE"));
+		}
+	}
+	
+	this.ds_List.set_enableevent(true);
+	this.div_Request.form.div_Contract.setFocus();
+}
+
+// Validation check
+ this.fn_getValidation = function()
+ {
+	var nRowCnt;
+	var objDS;
+	
+	if (this.FV_FORM_TYPE == "TR") {
+		nRowCnt = this.ds_DetList.rowcount;
+		objDS = this.ds_DetList;
+	}
+	else if (this.FV_FORM_TYPE == "TC") {
+		nRowCnt = this.ds_ConfirmList.getRowCountNF();
+		objDS = this.ds_ConfirmList;
+	}
+		
+	if ( this.gfnIsEmpty(this.ds_List.getColumn(0, "CONTRACT_NO"))) {
+			alert(this.gfnGetTransTxt(1535,"계약을 선택해 주세요"));
+			this.div_Request.form.div_Contract.setFocus();
+			return false;
+	}
+		
+	if ( this.gfnIsEmpty(this.ds_List.getColumn(0, "REQUEST_TYPE"))) {
+			alert(this.gfnGetTransTxt(1536,"요청구분을 선택해 주세요"));
+			this.div_Request.form.cmb_ReqType.setFocus();
+			return false;
+	}
+	
+	for (var i=0; i<nRowCnt; i++)
+	{
+		if ( this.gfnIsEmpty(objDS.getColumnNF(i, "ROLE_CODE"))) {
+			alert(this.gfnGetTransTxt(1537,"역활을 입력하세요 "));
+			objDS.set_rowposition(i);
+			return false;
+		}
+		if ( this.gfnIsEmpty(objDS.getColumnNF(i, "LEVEL_CODE"))) {
+			alert(this.gfnGetTransTxt(1538,"등급을 입력하세요 "));
+			objDS.set_rowposition(i);
+			return false;
+		}
+		
+		var bCheckUnitCost = this.gfnIsEmpty(objDS.getColumnNF(i, "UNIT_COST"));
+		if(this.sContractCoCd!="A01" && objDS == this.ds_ConfirmList)	//투비가 아닌경우 단가체크컬럼이 틀림
+		{
+			bCheckUnitCost = this.gfnIsEmpty(objDS.getColumnNF(i, "OTHER_UNIT_COST"));
+		}
+		
+		//인력배정이 안되었으면 단가확인이 필요없음
+		if ( bCheckUnitCost && !this.gfnIsEmpty(objDS.getColumnNF(i, "EMP_NO")) ) {
+			alert(this.gfnGetTransTxt(1539,"단가를 입력하세요 "));
+			objDS.set_rowposition(i);
+			return false;
+		}
+		
+		var strStartDt = objDS.getColumnNF(i, "START_DATE");
+		var strEndDt = objDS.getColumnNF(i, "END_DATE");		
+		if (strStartDt > strEndDt) {
+			alert(this.gfnGetTransTxt(1540,"시작일이 종료일 보다 큽니다. 확인하세요 "));
+			return false;
+		}
+		if ( this.gfnIsEmpty(strStartDt) && (!this.gfnIsEmpty(objDS.getColumnNF(i, "EMP_NO")) || this.FV_FORM_TYPE != "TC")) {
+			alert(this.gfnGetTransTxt(1541,"시작일을 입력하세요 "));
+			objDS.set_rowposition(i);
+			return false;
+		}
+		if ( this.gfnIsEmpty(strEndDt) && (!this.gfnIsEmpty(objDS.getColumnNF(i, "EMP_NO")) || this.FV_FORM_TYPE != "TC")) {
+			alert(this.gfnGetTransTxt(1542,"종료일을 입력하세요 "));
+			objDS.set_rowposition(i);
+			return false;
+		}
+		if ( this.gfnIsEmpty(this.ds_DetList.getColumn(i, "SKILL_1")) && this.FV_FORM_TYPE == "TR") {
+			alert(this.gfnGetTransTxt(1543,"필수기술을 입력하세요 "));
+			objDS.set_rowposition(i);
+			return false;
+		}
+	}
+	return true;
+ }
+  
+ // 투입확정 체크 및 언체크 입력값 처리
+this.fnSetDecideData = function(nRow)
+{	
+	var nAddRow = this.ds_ProjectSiEmp.addRow();
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "PSE_SEQ", 				this.ds_ConfirmList.getColumnNF(nRow, "PSE_SEQ"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "CONTRACT_NO", 			this.ds_List.getColumn(0, "CONTRACT_NO"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "CONTRACT_NO_PURCHASE", this.ds_ConfirmList.getColumnNF(nRow, "CONTRACT_NO_PURCHASE"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "RSSC_SEQ", 			this.ds_ConfirmList.getColumnNF(nRow, "RSSC_SEQ"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "EMP_NO", 				this.ds_ConfirmList.getColumnNF(nRow, "EMP_NO"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "EMP_NAME", 			this.ds_ConfirmList.getColumnNF(nRow, "EMP_NAME"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "CO_NAME", 				this.ds_ConfirmList.getColumnNF(nRow, "CO_NAME"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "CO_CD", 				this.ds_ConfirmList.getColumnNF(nRow, "CO_CD"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "ROLE_CODE", 			this.ds_ConfirmList.getColumnNF(nRow, "ROLE_CODE"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "LEVEL_CODE", 			this.ds_ConfirmList.getColumnNF(nRow, "LEVEL_CODE"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "UNIT_COST", 			this.ds_ConfirmList.getColumnNF(nRow, "UNIT_COST"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "EXPENSE", 				this.ds_ConfirmList.getColumnNF(nRow, "EXPENSE"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "OTHER_UNIT_COST", 		this.ds_ConfirmList.getColumnNF(nRow, "OTHER_UNIT_COST"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "OTHER_EXPENSE", 		this.ds_ConfirmList.getColumnNF(nRow, "OTHER_EXPENSE"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "MEN_MONTH", 			this.ds_ConfirmList.getColumnNF(nRow, "MEN_MONTH"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "START_DATE", 			this.ds_ConfirmList.getColumnNF(nRow, "START_DATE"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "END_PLAN_DATE", 		this.ds_ConfirmList.getColumnNF(nRow, "END_DATE"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "END_DATE", 			this.ds_ConfirmList.getColumnNF(nRow, "END_DATE"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "NONRESIDENT_FLAG", 	this.ds_ConfirmList.getColumnNF(nRow, "NONRESIDENT_FLAG"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "FREE_SVC_FLAG", 		this.ds_ConfirmList.getColumnNF(nRow, "FREE_SVC_FLAG"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "REMARKS", 				this.ds_ConfirmList.getColumnNF(nRow, "REMARKS"));
+	this.ds_ProjectSiEmp.setColumn(nAddRow, "EARLY_OUT_FLAG", 		"0");
+}
+
+this.fn_GeCoConfirmAuthority = function()
+{
+	if(this.commUtil.getFormAuthority(262,2)	//SI 승인권한
+		&& this.sContractCoCd==this.sLoginCoCd	//자사계약일경우
+		)
+		return true;
+	else 
+		return false;
+}
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+// 요청상세 추가
+this.div_Req_btn_ReqAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.FV_FORM_TYPE == "TR")	{
+		var nAddRowIdx = this.ds_DetList.addRow();
+		this.ds_DetList.setColumn(nAddRowIdx, "RSS_SEQ", 	this.ds_List.getColumn(this.ds_List.rowposition, "RSS_SEQ"));		
+		this.ds_DetList.setColumn(nAddRowIdx, "START_DATE",	this.ds_List.getColumn(this.ds_List.rowposition,  "REQUEST_START_DATE"));
+		this.ds_DetList.setColumn(nAddRowIdx, "END_DATE",	this.ds_List.getColumn(this.ds_List.rowposition,  "REQUEST_END_DATE"));
+	}
+}
+
+// 요청상세 삭제
+this.div_Req_btn_ReqDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	if (this.FV_FORM_TYPE == "TR")	{
+		var nCurrow = this.ds_DetList.rowposition;
+		var nRssdSeq = this.ds_DetList.getColumn(nCurrow, "RSSD_SEQ");
+		var nFindRow = this.ds_ConfirmList.findRow("RSSD_SEQ", nRssdSeq);
+		var sEmpNo = this.ds_ConfirmList.getColumn(nFindRow, "EMP_NO");
+		
+		if (nFindRow >= 0 && !this.gfnIsEmpty(sEmpNo)) {
+			alert(this.gfnGetTransTxt(1544,"배정내역이 있어서 삭제할수 없습니다."));
+			return;
+		}		
+		if (this.confirm(this.gfnGetTransTxt(1743,"선택한 요청상세를 삭제하시겠습니까?"))) {
+			//실제 배정된 인력이 없을경우 삭제 가능하게 변경
+			this.ds_DetList.deleteRow(nCurrow);			
+			this.ds_ConfirmList.deleteRow(nFindRow);
+		}
+	}
+}
+
+// 승인(배정) 추가
+this.btn_ConfAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(!this.fn_GeCoConfirmAuthority())
+	{
+		alert(this.gfnGetTransTxt(1545,"타사계약건으로 추가 할수 없습니다.\n컨설팅 관리자에게 문의 하세요"));
+		return;
+	}
+	var nAddRowIdx = this.ds_ConfirmList.addRow();
+	var nCurrow = this.ds_DetList.rowposition;
+	this.ds_ConfirmList.setColumn(nAddRowIdx, "RSS_SEQ",			this.ds_DetList.getColumn(nCurrow,  "RSS_SEQ"));
+	this.ds_ConfirmList.setColumn(nAddRowIdx, "RSSD_SEQ",			this.ds_DetList.getColumn(nCurrow,  "RSSD_SEQ"));
+	this.ds_ConfirmList.setColumn(nAddRowIdx, "CONTRACT_NO",		this.ds_List.getColumn(0,  "CONTRACT_NO"));
+	this.ds_ConfirmList.setColumn(nAddRowIdx, "NONRESIDENT_FLAG",	"0");
+	this.ds_ConfirmList.setColumn(nAddRowIdx, "FREE_SVC_FLAG",		"0");
+	this.ds_ConfirmList.setColumn(nAddRowIdx, "PSE_FLAG",			"0");	
+	this.ds_ConfirmList.setColumn(nAddRowIdx, "ROLE_CODE",			this.ds_DetList.getColumn(nCurrow,  "ROLE_CODE"));
+	this.ds_ConfirmList.setColumn(nAddRowIdx, "LEVEL_CODE",			this.ds_DetList.getColumn(nCurrow,  "LEVEL_CODE"));
+	this.ds_ConfirmList.setColumn(nAddRowIdx, "START_DATE",			this.ds_List.getColumn(0,  "REQUEST_START_DATE"));
+	this.ds_ConfirmList.setColumn(nAddRowIdx, "END_DATE",			this.ds_List.getColumn(0,  "REQUEST_END_DATE"));
+}
+
+// 승인(배정) 삭제
+this.btn_ConfDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(!this.fn_GeCoConfirmAuthority())
+	{
+		alert(this.gfnGetTransTxt(1546,"타사계약건으로 삭제 할수 없습니다.\n컨설팅 관리자에게 문의 하세요"));
+		return;
+	}
+	var nCurrow = this.ds_ConfirmList.rowposition;
+	var sConfirmCd = this.ds_ConfirmList.getColumn(nCurrow, "PSE_FLAG");
+	if (sConfirmCd != "0") {
+		alert(this.gfnGetTransTxt(1547,"인력투입이 완료되어 삭제할수 없습니다."));
+		return;
+	}
+		
+	if (this.confirm(this.gfnGetTransTxt(1744,"선택하신 승인내용을 삭제하시겠습니까?"))) {
+		
+		this.ds_ConfirmList.deleteRow(nCurrow);
+	}
+}
+
+this.div_Confirm_btn_ConfDel_PSE_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nCurrow = this.ds_ProjectSiEmp.rowposition;	
+	var sEmpName = this.ds_ProjectSiEmp.getColumn(nCurrow, "EMP_NAME");
+	
+	if(this.ds_ProjectSiEmp.getColumn(nCurrow, "COLOR")=="GREEN")
+	{
+		alert(this.gfnGetTransTxt(1548,"타사투입건으로 삭제 할수 없습니다.\n컨설팅 관리자에게 문의 하세요"));
+		return;
+	}
+	if(nCurrow<0)
+		return;
+	if (this.confirm(this.gfnGetTransTxt(1745,"선택하신 @1@의 투입을 삭제하시겠습니까?\n삭제시 배정인력도 같이 삭제됩니다.",[sEmpName]))) {		
+		var nRsscSeq = this.ds_ProjectSiEmp.getColumn(nCurrow, "RSSC_SEQ");
+		var nFindRow = this.ds_ConfirmList.findRow("RSSC_SEQ", nRsscSeq);
+		if(nFindRow >= 0)
+		{
+			/*배정인력 제거*/
+			this.ds_ConfirmList.setColumn(nFindRow, "EMP_NO");
+			this.ds_ConfirmList.setColumn(nFindRow, "EMP_NAME");
+			this.ds_ConfirmList.setColumn(nFindRow, "CO_NAME");
+			this.ds_ConfirmList.setColumn(nFindRow, "CO_CD");
+			this.ds_ConfirmList.setColumn(nFindRow, "PSE_FLAG", "0");
+		}
+		this.ds_ProjectSiEmp.deleteRow(nCurrow);
+	}
+};
+
+// 요청내역 row 변경처리
+this.ds_DetList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	//this.div_Confirm.form.rdo_Confirm.set_index(1);
+	if(this.div_Confirm.form.rdo_Confirm.index==1)
+	{
+		var strRSSD_SEQ = this.ds_DetList.getColumn(e.newrow, "RSSD_SEQ");
+		
+		this.ds_ConfirmList.set_enableevent(false);
+		this.ds_ProjectSiEmp.set_enableevent(false);
+		this.ds_ConfirmList.filter("");
+		this.ds_ProjectSiEmp.filter("");
+		this.ds_ConfirmList.filter("RSSD_SEQ=='"+strRSSD_SEQ+"'");
+		this.ds_ProjectSiEmp.filter("RSSD_SEQ=='"+strRSSD_SEQ+"'");
+		this.ds_ConfirmList.set_enableevent(true);
+		this.ds_ProjectSiEmp.set_enableevent(true);
+		this.ds_ConfirmList.set_rowposition(0);
+		this.ds_ProjectSiEmp.set_rowposition(0);
+	}
+}
+
+// 그리드 column 변경
+this.Dataset_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	var strSvcID;
+	if(obj==this.ds_DetList)
+		strSvcID = "getMM_DetList";
+	else if(obj==this.ds_ConfirmList)
+		strSvcID = "getMM_ConfirmList";
+	else if(obj==this.ds_ProjectSiEmp)
+		strSvcID = "getMM_ProjectSiEmp";
+		
+	if(obj==this.ds_ConfirmList && e.columnid == "OTHER_CONFIRM_FLAG" && obj.getColumn(e.row, "OTHER_CONFIRM_FLAG")=="1")
+		this.bOtherConfirmFlag = true;
+	if(obj==this.ds_ConfirmList	&& (e.columnid == "UNIT_COST" ||e.columnid == "EXPENSE"))
+	{
+		var RSSD_SEQ = this.ds_ConfirmList.getColumn(this.ds_ConfirmList.rowposition, "RSSD_SEQ");
+		var nFindRow = this.ds_DetList.findRow("RSSD_SEQ", RSSD_SEQ);
+		var nDUnitCost = this.ds_DetList.getColumn(nFindRow, "UNIT_COST");
+		
+		var nCUnitCost = obj.getColumn(nFindRow, "UNIT_COST");
+		var nCExpense = obj.getColumn(nFindRow, "EXPENSE");
+		if(this.gfnIsEmpty(nCUnitCost))	nCUnitCost = 0;
+		if(this.gfnIsEmpty(nCExpense))	nCExpense = 0;
+		var nPerUnitCost = ((e.columnid=="UNIT_COST"?nCExpense:nCUnitCost)+e.newvalue)/nDUnitCost*100;
+		
+		this.ds_ConfirmList.setColumn(this.ds_ConfirmList.rowposition, "PER_UNIT_COST",nPerUnitCost);
+	}
+	
+	// 시작일, 종료일 변경시 M/M계산 조회
+	if (e.columnid == "START_DATE" || e.columnid == "END_DATE") {
+		var strStartDt = obj.getColumn(e.row, "START_DATE");
+		var strEndDt = obj.getColumn(e.row, "END_DATE");
+		var strOrgEndDt = obj.getOrgColumn(e.row, "END_DATE");		
+		
+		this.fnGetMM(strSvcID, strStartDt, strEndDt, e.row);
+	}
+	
+	// 투입이력 일정변경 처리 (변경사유 등록)
+	if (obj==this.ds_ProjectSiEmp && (e.columnid == "START_DATE" ||e.columnid == "END_DATE") && !this.gfnIsEmpty(e.oldvalue))
+	{
+		var date = new Date();
+		var sDate = (e.columnid == "START_DATE"?this.gfnGetTransTxt(38,"시작일"):this.gfnGetTransTxt(39,"종료일"));
+		alert(this.gfnGetTransTxt(1637,"@1@을 변경하였습니다.\n저장하십시요!",[sDate]));
+		var strReason = this.ds_ProjectSiEmp.getColumn(e.row, e.columnid == "START_DATE"?"START_CHANGE_REASON":"EARLY_OUT_REASON");
+		var strText = "※ "+e.columnid == "START_DATE"?this.gfnGetTransTxt(38,"시작일"):this.gfnGetTransTxt(39,"종료일")+" "+this.gfnGetTransTxt(1953,"변경")+" ( "
+					+this.gfnGetDateMaskFormatString(this.gfnStrToDate(e.oldvalue), "yyyy-MM-dd")+" → "
+					+this.gfnGetDateMaskFormatString(this.gfnStrToDate(e.newvalue), "yyyy-MM-dd")+" ) "
+					+" "+this.gfnGetTransTxt(336,"수정일")+" : "+this.gfnGetDateMaskFormatString(date, "yyyy-MM-dd")
+					+" "+this.gfnGetTransTxt(337,"수정자")+" : "+this.sLoginEmpNm;
+		
+		if(this.gfnIsEmpty(strReason))
+			strReason = strText;
+		else
+			strReason = strText+" \n\n"+strReason;
+		
+		this.ds_ProjectSiEmp.setColumn(e.row, e.columnid == "START_DATE"?"START_CHANGE_REASON":"EARLY_OUT_REASON", strReason);
+// 		if(e.columnid == "END_DATE")
+// 			this.ds_ProjectSiEmp.setColumn(e.row, "EARLY_OUT_FLAG", 	"1");
+	}
+}
+
+this.ds_ProjectSiEmp_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(!this.fnCheckDuplicateSI(e.row, this.ds_ProjectSiEmp, e))	//투입인력의 일정조정시 중복일정 확인
+		return false;
+	else if (e.columnid == "START_DATE") {
+		var strStartDt = e.newvalue;
+		var strOrgStartDt = e.oldvalue;
+		var strEndDt = obj.getColumn(e.row, "END_DATE");
+		
+		if (strStartDt > strEndDt) {
+			alert(this.gfnGetTransTxt(1549,"투입일이 종료일 보다 큽니다. 확인하세요 "));
+			return false;
+		}
+				
+		if(strStartDt != strOrgStartDt)
+		{
+			return true;
+		}
+	} 
+	else if (e.columnid == "END_DATE") {
+		var strEndDt = e.newvalue;
+		var strOrgEndDt = e.oldvalue;
+		var strStartDt = obj.getColumn(e.row, "START_DATE");
+		
+		if (strStartDt > strEndDt) {
+			alert(this.gfnGetTransTxt(1549,"투입일이 종료일 보다 큽니다. 확인하세요 "));
+			return false;
+		}		
+// 		if(strEndDt > strOrgEndDt)
+// 		{	
+// 			alert("투입일정 연장은 추가배정 통하여 추가투입을 하셔야 합니다.");
+// 			return false;
+// 		}
+		if(strEndDt < strOrgEndDt)
+		{
+			return true;
+		}
+	} 
+};
+
+// 제거 버튼 클릭 처리
+this.div_Confirm_grd_List_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	if (this.FV_FORM_TYPE == "TR")
+		return;
+	
+	var sCellProp = obj.getCellProperty("body", e.cell, "text");	//제거 버튼
+	if(!this.gfnIsEmpty(sCellProp))
+	{	
+		var sColNm = sCellProp.split(":")[1];
+		var ds = obj.getBindDataset();
+				
+		if(sColNm == "EMP_NAME")
+		{
+			//인력배정
+			if(this.gfnIsEmpty(this.ds_ConfirmList.getColumn(e.row, "EMP_NO")))
+			{
+				var sOtherFlag = this.ds_ConfirmList.getColumn(e.row, "OTHER_CONFIRM_FLAG");
+				if(this.sLoginCoCd=="A01" && sOtherFlag=="1")
+				{
+					alert(this.gfnGetTransTxt(1550,"투비CNS 배정건은 인력배정을 할수 없습니다."));
+					return;
+				}
+				var sArgument = {};
+				this.commUtil.popupFindSiEmp(this, "popupFindSiEmp", "fnPopupCallBack", sArgument);
+			}			
+			else
+			{
+				if(ds.getColumn(e.row, "PSE_FLAG")=="1")
+				{
+					alert(this.gfnGetTransTxt(1551,"투입확정된 건은 배정인력을 변경할수 없습니다."));
+					return;
+				}
+				/*배정인력 제거*/
+				ds.setColumn(obj.getDatasetRow(e.row), "EMP_NO");
+				ds.setColumn(obj.getDatasetRow(e.row), "EMP_NAME");
+				ds.setColumn(obj.getDatasetRow(e.row), "CO_NAME");
+				ds.setColumn(obj.getDatasetRow(e.row), "CO_CD");
+			}			
+		}
+	}
+}
+
+// 저장 버튼
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSave();
+}
+
+// 닫기
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+}
+
+this.ds_List_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if (e.columnid == "CONTRACT_NO")
+	{
+		if(!this.gfnIsEmpty(e.newvalue))
+		{
+			var dsRecentVariant = this.div_Request.form.div_Contract.getRecentVariant();
+			if(!this.gfnIsEmpty(dsRecentVariant))
+			{
+				this.ds_List.setColumn(0, "CLIENT_CODE", dsRecentVariant.getColumn(0,"CLIENT_CODE"));
+				this.ds_List.setColumn(0, "CLIENT_NAME", dsRecentVariant.getColumn(0,"CLIENT_NAME"));
+				this.ds_List.setColumn(0, "PROJECT_CODE", dsRecentVariant.getColumn(0,"PROJECT_CODE"));
+				this.ds_List.setColumn(0, "PROJECT_NAME", dsRecentVariant.getColumn(0,"PROJECT_NAME"));
+			}		
+		} else {
+			this.ds_List.setColumn(0, "CLIENT_CODE", "");
+			this.ds_List.setColumn(0, "CLIENT_NAME", "");
+			this.ds_List.setColumn(0, "PROJECT_CODE", "");
+			this.ds_List.setColumn(0, "PROJECT_NAME", "");
+		}
+	}
+}
+
+this.Radio_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	var strRSSD_SEQ = this.ds_DetList.getColumn(this.ds_DetList.rowposition, "RSSD_SEQ");
+	var strFilter = "RSSD_SEQ=='"+strRSSD_SEQ+"'"
+	
+	this.ds_ConfirmList.set_enableevent(false);
+	this.ds_ProjectSiEmp.set_enableevent(false);
+	if(e.postvalue==0)
+	{
+		this.ds_ConfirmList.filter("");
+		this.ds_ProjectSiEmp.filter("");
+	}
+	else if(e.postvalue==1)
+	{
+		this.ds_ConfirmList.filter(strFilter);
+		this.ds_ProjectSiEmp.filter(strFilter);
+	}
+	this.ds_ConfirmList.set_enableevent(true);
+	this.ds_ProjectSiEmp.set_enableevent(true);
+};
+
+this.ds_ConfirmList_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if (e.columnid == "START_DATE" || e.columnid == "END_DATE") {
+		var strStartDt = e.columnid == "START_DATE"? e.newvalue:obj.getColumn(e.row, "START_DATE");
+		var strEndDt = e.columnid == "END_DATE"? e.newvalue:obj.getColumn(e.row, "END_DATE");
+		
+		if (strStartDt > strEndDt) {
+			alert(this.gfnGetTransTxt(1549,"투입일이 종료일 보다 큽니다. 확인하세요 "));
+			return false;
+		}
+	}
+	else if (e.columnid == "OTHER_CONFIRM_FLAG" && !this.gfnIsEmpty(this.ds_ConfirmList.getColumn(e.row, "EMP_NO")))
+	{
+		alert(this.gfnGetTransTxt(1552,"투입인력이 배정된 상태에서는 변경할수 없습니다."));
+		return false;
+	}
+};
+
+this.Grid_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//역할에 맞는 등급만 나오고 필터
+	var sCellProp = obj.getCellProperty("body", e.cell, "text");
+	if(!this.gfnIsEmpty(sCellProp))
+	{
+		var sColNm = sCellProp.split(":")[1];
+		var ds = obj.getBindDataset();
+		if(sColNm == "LEVEL_CODE")
+		{
+			var strRoleCode = ds.getColumn(e.row, "ROLE_CODE");
+			var nRow = this.ds_cmm_Role.findRow("CODE", strRoleCode);
+			var strKind = this.ds_cmm_Role.getColumn(nRow, "VAL1");	
+			
+			if (strKind == "ALL") {
+				this.ds_cmm_Level.filter("VAL1!='ALL'");
+			} else {
+				this.ds_cmm_Level.filter("VAL1=='"+strKind+"'");
+			}
+		}
+	}	
+};
+
+this.btn_schdDown_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var bDown = this.btn_schdDown.cssclass=="btn_WF_schdUp"?true:false;
+
+	this.stc_ClientName.set_visible(bDown);
+	this.edt_ClientName.set_visible(bDown);
+	this.stc_ProjectName.set_visible(bDown);
+	this.edt_ProjectName.set_visible(bDown);
+	this.stc_CheckType.set_visible(bDown);
+	this.cmb_CheckType.set_visible(bDown);
+	this.stc_Product_Name.set_visible(bDown);
+	this.edt_Product_Name.set_visible(bDown);
+
+	this.div_Request.set_height(bDown?31:130);
+	this.div_Req.set_top("div_Request:4");
+	this.div_Req.set_height(bDown?225:177);
+	this.div_Confirm.set_top("div_Req:4");	
+	this.fnSetFormatid(bDown);
+	this.div_Confirm.form.Static03.set_right(bDown?0:516);
+	this.div_Confirm.form.grd_List.set_right(bDown?0:516);
+	this.div_Confirm.form.btn_ConfDel.set_left("Static03:-24");
+	this.div_Confirm.form.btn_ConfAdd.set_right("btn_ConfDel:8");
+	this.div_Confirm.form.Static02.set_right("btn_ConfAdd:8");
+	this.div_Confirm.form.Static00.set_visible(!bDown);
+	this.div_Confirm.form.Static01.set_visible(!bDown);
+	this.div_Confirm.form.grd_SiInput.set_visible(!bDown);
+	this.div_Confirm.form.btn_ConfDel_PSE.set_visible(!bDown);	
+	this.div_Confirm.form.st_OtherCo.set_visible(!bDown);	
+	this.btn_schdDown.set_cssclass(this.btn_schdDown.cssclass=="btn_WF_schdDown"?"btn_WF_schdUp":"btn_WF_schdDown");
+	this.spt_Vertical.set_top("div_Req:1");
+};
+
+
+this.Grid_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var sCellProp = obj.getCellProperty("body", e.cell, "text");
+	var sColNm = sCellProp.split(":")[1];	
+	var objDB = obj.getBindDataset();	
+		
+	if(this.FV_FORM_TYPE="TC" && sColNm == "EMP_NAME")// obj.getBindCellIndex("body", "EMP_NAME") == e.cell)
+	{
+		var sEmpNo = objDB.getColumn(objDB.rowposition, "EMP_NO");
+		var sEmpName = objDB.getColumn(objDB.rowposition, "EMP_NAME");
+		if(!this.gfnIsEmpty(sEmpNo))
+		{
+			var Argument = {pvEMP_NO:sEmpNo, pvEMP_NAME:sEmpName};
+			this.commUtil.popup (this, "TR_RequestOnsiteEduReg", "Common::CO_StaffInfo.xfdl", -1, -1, 986, 744, true, true, false, Argument, "fnPopupCallBack")
+		}
+	}
+	else if(this.FV_FORM_TYPE="TC" && (sColNm=="UNIT_COST" || sColNm=="EXPENSE"))
+	{
+		var sPse_seq = objDB.getColumn(e.row, "PSE_SEQ");
+		var sColor = objDB.getColumn(e.row, "COLOR");
+		if(sColor=="GREEN")
+		{
+			sPse_seq = objDB.getColumn(e.row, "RELATED_PSE_SEQ");
+			if(this.gfnIsEmpty(sPse_seq))
+			{
+				alert(this.gfnGetTransTxt(1553,"타사 계약건입니다."));
+				return;
+			}
+		}
+		/*프로젝트할당 팝업*/		
+		var sProjectCd = objDB.getColumn(e.row, "PROJECT_CODE");
+		this.commUtil.popup (this, "TR_RequestTechniqueReg", "Technique::TS_StaffSetProject.xfdl", -1, -1, 785, 558, true, true, false, {pv_pse_seq:sPse_seq, pv_project_code:sProjectCd}, "fnPopupCallBack");
+	}
+};
+
+this.btn_Delete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.dsDelete.clearData();
+	this.dsDelete.addRow();
+	this.dsDelete.setColumn(0, "RSS_SEQ", this.FV_RSS_SEQ);
+	this.gfnAddInputDataset("dsDelete", "dsInput");
+	this.gfnCommonTransaction("Delete", "TR_RequestSIStaffReg_R02");
+};
+
+
+this.ds_List_onload = function(obj:nexacro.NormalDataset,e:nexacro.DSLoadEventInfo)
+{
+	var RSS_SEQ = this.ds_List.getColumn(0, "RSS_SEQ");
+	if ( this.gfnIsEmpty(RSS_SEQ)) {
+		this.div_Request.form.div_ReView_Upload.set_enable(false);
+	} else {
+		this.div_Request.form.div_ReView_Upload.set_enable(true);
+	}
+};
+
+this.div_Confirm_grd_SiInput_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var sCellProp = obj.getCellProperty("body", e.cell, "text");
+	var sColNm = sCellProp.split(":")[1];
+	
+	if (!this.commUtil.getFormAuthority(262,6)) {
+		if(this.ds_ProjectSiEmp.getColumn(this.ds_ProjectSiEmp.rowposition,"EDIT_FLAG")=="0"
+			&& sColNm!="REMARKS")
+		{
+			alert(this.gfnGetTransTxt(1554,"투비소프트에서 배정한 건은 수정 할수 없습니다.\n컨설팅 관리자에게 문의 하세요"));
+		}
+	}
+};
+
+
+this.fn_setEditProjectSiEmpDate = function(nRow)
+{
+	var sEditFlag = this.ds_ProjectSiEmp.getColumn(nRow, "EDIT_FLAG");
+	var sColor = this.ds_ProjectSiEmp.getColumn(nRow, "COLOR");
+	var sRtnVal = "none";	
+	var sCocd = nexacro.getApplication().gdsGlobal.getColumn(0, "CO_CD");
+	
+	// tobesoft는 현상황 동일 그외 CNC 투입인력 일자변경 권한만 수정 가능
+	if (sCocd != "A01") {
+		if (this.commUtil.getFormAuthority(262,6)) {		// CNC 투입인력 시작,종료일 변경 기능 추가
+			
+			if (sColor != "GREEN") {
+				sRtnVal = "date";
+			}
+		} else {
+			 if (sEditFlag == "1")	sRtnVal = "date";
+		}
+	} else {
+		if (sEditFlag == "1")	sRtnVal = "date";
+	}
+	return sRtnVal;
+}]]></Script>
+    <Objects>
+      <Dataset id="ds_cmm_RequestType">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Area">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Role">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Level">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_comm_SIConfirmCd">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_comm_Skill">
+        <ColumnInfo>
+          <Column id="CD_CODE" type="STRING" size="256"/>
+          <Column id="CAPTION" type="STRING" size="256"/>
+          <Column id="ORD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_List" oncolumnchanged="ds_List_oncolumnchanged" onload="ds_List_onload">
+        <ColumnInfo>
+          <Column id="RSS_SEQ" type="bigdecimal" size="20"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="REQUEST_TYPE" type="string" size="20"/>
+          <Column id="REQUEST_START_DATE" type="string" size="30"/>
+          <Column id="REQUEST_END_DATE" type="string" size="30"/>
+          <Column id="AREA_CODE" type="string" size="20"/>
+          <Column id="WORK_CONTENTS" type="string" size="1073741823"/>
+          <Column id="INSERT_DATE" type="string" size="8"/>
+          <Column id="INSERT_EMP_NO" type="string" size="60"/>
+          <Column id="INSERT_EMP_NAME" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_DetList" onrowposchanged="ds_DetList_onrowposchanged" oncolumnchanged="Dataset_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="RSSD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="RSS_SEQ" type="bigdecimal" size="20"/>
+          <Column id="ROLE_CODE" type="string" size="20"/>
+          <Column id="LEVEL_CODE" type="string" size="20"/>
+          <Column id="UNIT_COST" type="float" size="22"/>
+          <Column id="MEN_MONTH" type="float" size="22"/>
+          <Column id="SKILL_1" type="string" size="20"/>
+          <Column id="SKILL_2" type="string" size="20"/>
+          <Column id="START_DATE" type="string" size="8"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="CONFIRM_CD" type="string" size="8"/>
+          <Column id="RSSC_CNT" type="int" size="11"/>
+          <Column id="CONFIRM_CNT" type="int" size="11"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_ConfirmList" oncolumnchanged="Dataset_oncolumnchanged" cancolumnchange="ds_ConfirmList_cancolumnchange">
+        <ColumnInfo>
+          <Column id="RSS_SEQ" type="bigdecimal" size="20"/>
+          <Column id="RSSD_SEQ" type="bigdecimal" size="20"/>
+          <Column id="RSSC_SEQ" type="bigdecimal" size="20"/>
+          <Column id="PSE_SEQ" type="bigdecimal" size="20"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NAME" type="string" size="255"/>
+          <Column id="ROLE_CODE" type="string" size="20"/>
+          <Column id="LEVEL_CODE" type="string" size="20"/>
+          <Column id="UNIT_COST" type="float" size="22"/>
+          <Column id="EXPENSE" type="float" size="22"/>
+          <Column id="MEN_MONTH" type="float" size="22"/>
+          <Column id="START_DATE" type="string" size="8"/>
+          <Column id="END_DATE" type="string" size="8"/>
+          <Column id="NONRESIDENT_FLAG" type="string" size="1"/>
+          <Column id="FREE_SVC_FLAG" type="string" size="1"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="CONFIRM_CD" type="string" size="1"/>
+          <Column id="DECIDE_FLAG" type="string" size="1"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_MM">
+        <Column id="MM" type="bigdecimal" size="20"/>
+      </Dataset>
+      <Dataset id="ds_ProjectSiEmp" cancolumnchange="ds_ProjectSiEmp_cancolumnchange" oncolumnchanged="Dataset_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="UPDATE_STATUS" type="STRING" size="256"/>
+          <Column id="PSE_SEQ" type="STRING" size="256"/>
+          <Column id="RSSC_SEQ" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="STRING" size="256"/>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="ROLE_CODE" type="STRING" size="256"/>
+          <Column id="LEVEL_CODE" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="STRING" size="256"/>
+          <Column id="MEN_MONTH" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_PLAN_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="NONRESIDENT_FLAG" type="STRING" size="256"/>
+          <Column id="FREE_SVC_FLAG" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="EARLY_OUT_FLAG" type="STRING" size="256"/>
+          <Column id="EARLY_OUT_REASON" type="STRING" size="256"/>
+          <Column id="START_CHANGE_REASON" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CheckDuplicateSI"/>
+      <Dataset id="dsDelete">
+        <ColumnInfo>
+          <Column id="RSS_SEQ" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Check"/>
+      <Dataset id="ds_Confirm">
+        <ColumnInfo>
+          <Column id="CODE" size="256" type="STRING"/>
+          <Column id="CAPTION" size="256" type="STRING"/>
+          <Column id="CAPTION_JAP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">0</Col>
+            <Col id="CAPTION">전체</Col>
+            <Col id="CAPTION_JAP">全体</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="CAPTION">요청건별</Col>
+            <Col id="CAPTION_JAP">要請件ごと</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_Request.form.ta_WorkContents" propid="value" datasetid="ds_List" columnid="WORK_CONTENTS"/>
+      <BindItem id="item1" compid="div_Request.form.edt_ClientName" propid="value" datasetid="ds_List" columnid="CLIENT_NAME"/>
+      <BindItem id="item2" compid="div_Request.form.edt_ProjectName" propid="value" datasetid="ds_List" columnid="PROJECT_NAME"/>
+      <BindItem id="item3" compid="div_Request.form.cal_ReqEndDt" propid="value" datasetid="ds_List" columnid="REQUEST_END_DATE"/>
+      <BindItem id="item4" compid="div_Request.form.cal_ReqStartDt" propid="value" datasetid="ds_List" columnid="REQUEST_START_DATE"/>
+      <BindItem id="item5" compid="div_Request.form.cmb_Area" propid="value" datasetid="ds_List" columnid="AREA_CODE"/>
+      <BindItem id="item6" compid="div_Request.form.cmb_ReqType" propid="value" datasetid="ds_List" columnid="REQUEST_TYPE"/>
+      <BindItem id="item7" compid="div_Request.form.msk_InsertDt" propid="value" datasetid="ds_List" columnid="INSERT_DATE"/>
+      <BindItem id="item8" compid="div_Request.form.edt_InsertEmp" propid="value" datasetid="ds_List" columnid="INSERT_EMP_NAME"/>
+      <BindItem id="item10" compid="div_Reason.form.txt_Remark" propid="value" datasetid="ds_ProjectSiEmp" columnid="EARLY_OUT_REASON"/>
+      <BindItem id="item9" compid="edt_ClientName" propid="value" datasetid="ds_List" columnid="CLIENT_NAME"/>
+      <BindItem id="item11" compid="edt_ProjectName" propid="value" datasetid="ds_List" columnid="PROJECT_NAME"/>
+      <BindItem id="item12" compid="cmb_CheckType" propid="value" datasetid="ds_List" columnid="CHECK_TYPE"/>
+      <BindItem id="item13" compid="div_Request.form.cmb_CheckType" propid="value" datasetid="ds_List" columnid="CHECK_TYPE"/>
+      <BindItem id="item14" compid="div_Request.form.edt_Product_Name" propid="value" datasetid="ds_List" columnid="PRODUCT_NAME"/>
+      <BindItem id="item15" compid="edt_Product_Name" propid="value" datasetid="ds_List" columnid="PRODUCT_NAME"/>
+      <BindItem id="item16" compid="div_Request.form.ta_WorkContents" propid="tooltiptext" datasetid="ds_List" columnid="WORK_CONTENTS"/>
+    </Bind>
+  </Form>
+</FDL>

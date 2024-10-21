@@ -1,0 +1,473 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_ContractMerge" width="680" height="530" titletext="프로젝트 Merge" cssclass="frm_popBg" onload="SP_ContractMerge_onload">
+    <Layouts>
+      <Layout height="530" mobileorientation="landscape" width="680">
+        <Static id="stc_GbSalesProd00" taborder="5" cssclass="sta_POP_GroupBg" top="39" height="32" right="4" left="342"/>
+        <Static id="stc_GbSalesProd1" taborder="3" cssclass="sta_POP_GroupBg" left="4" top="39" height="32" width="334"/>
+        <Button id="btn_Cancel" taborder="12" text="닫기" width="60" height="28" cssclass="btn_WF_tran" bottom="20" onclick="btn_Close_onclick" TL_SEQ="59" right="20"/>
+        <Button id="btn_Save" taborder="0" text="적용" height="28" cssclass="btn_WF_Crud" bottom="20" onclick="comm_Click" TL_SEQ="684" right="btn_Cancel:5" width="60"/>
+        <Edit id="edt_SrcClient" taborder="1" left="20" top="47" width="237" height="24" readonly="true"/>
+        <Static id="stc_SalesProd1" taborder="2" text="Source 프로젝트" left="20" top="20" width="134" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="715"/>
+        <Static id="stc_SalesProd00" taborder="4" text="Target 프로젝트" left="352.00" top="20" width="134" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="716"/>
+        <Div id="div_TrgProject" taborder="6" left="346.00" top="76" height="24" url="sales::comm/COM_Search.xfdl" kind="PROJECT" param="" user_onchanged="Com_Search_onChanged" right="20"/>
+        <Edit id="edt_SrcProjectCode" taborder="7" left="edt_SrcClient:2" top="47" width="75" height="24" readonly="true"/>
+        <Edit id="edt_TrgClientName" taborder="10" left="346.00" top="47" height="24" readonly="true" right="97"/>
+        <Edit id="edt_TrgProjectCode" taborder="8" top="47" height="24" readonly="true" width="75" left="edt_TrgClientName:2"/>
+        <Edit id="edt_SrcProjectName" taborder="9" left="20" top="76" width="314" height="24" readonly="true"/>
+        <Grid id="grd_SrcList" taborder="11" left="20" top="edt_SrcProjectName:10" height="218" binddataset="ds_ContractList" right="20" autoenter="select" autofittype="col" cellsizingtype="col" oncellclick="grd_SrcList_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="120"/>
+                <Column size="32"/>
+                <Column size="140"/>
+                <Column size="32"/>
+                <Column size="58"/>
+                <Column size="193"/>
+                <Column size="85"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="고객사" TL_SEQ="32"/>
+                <Cell col="1" colspan="2" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="3" colspan="3" text="계약" TL_SEQ="126"/>
+                <Cell col="6" text="계약일" TL_SEQ="490"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CLIENT_NAME" textAlign="left" suppress="1"/>
+                <Cell col="1" text="bind:PROJECT_CHK" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="2" text="bind:PROJECT_NAME" textAlign="left" suppress="1"/>
+                <Cell col="3" text="bind:CONTRACT_CHK" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="4" text="bind:CONTRACT_TYPE" displaytype="combotext" combodataset="ds_cmm_ContractType" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="5" text="bind:CONTRACT_NAME" textAlign="left"/>
+                <Cell col="6" text="bind:CONTRACT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_SrcPurList" taborder="13" left="20" top="grd_SrcList:10" height="122" binddataset="ds_PurchaseList" right="20" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="60"/>
+                <Column size="35"/>
+                <Column size="90"/>
+                <Column size="251"/>
+                <Column size="140"/>
+                <Column size="85"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="매출연결" TL_SEQ="111"/>
+                <Cell col="1" colspan="3" text="매입계약" TL_SEQ="651"/>
+                <Cell col="4" text="매입계약처" TL_SEQ="163"/>
+                <Cell col="5" text="계약일자" TL_SEQ="156"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CONTRACT_LINK_FLAG"/>
+                <Cell col="1" text="bind:CONTRACT_CHK" displaytype="checkboxcontrol"/>
+                <Cell col="2" text="bind:CONTRACT_TYPE" displaytype="combotext" combodataset="ds_cmm_ContractType" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="3" text="bind:CONTRACT_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:CONTRACT_MAIN_NAME" textAlign="left"/>
+                <Cell col="5" text="bind:CONTRACT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 프로젝트관리(매출계약)
+* 02. 화면명		: 프로젝트 Merge 팝업 (SP_ContractMerge)
+* 03. 화면설명 	: Source 프로젝트의 계약을 Target 프로젝트로 Move 처리
+* 04. 작성일   	: 2019.04.09
+* 05. 작성자   	: 채종한
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.SP_ContractMerge_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.div_TrgProject.param = "searchtype:P,contractstatus:1";
+	
+	this.edt_SrcClient.set_value(this.parent.pvClientNm);
+	// this.edt_TrgClientName.set_value(this.parent.pvClientNm);
+	this.div_TrgProject.form.FV_VALUE = this.parent.pvClientNm;
+	this.div_TrgProject.form.FV_SEARCHTYPE = "C";
+	
+	
+	this.edt_SrcProjectCode.set_value(this.parent.pvProjectCode);
+	this.edt_SrcProjectName.set_value(this.parent.pvProjectName);
+	this.fnGetCode();
+	
+	this.fnSearch();	// Merge 대상 조회
+};
+
+
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+  // 공통코드 조회
+ this.fnGetCode = function()
+ {
+ 	this.gfnAddCodeDataset("ds_cmm_ContractType",	"CONTRACT_TYPE"); 		// 계약구분
+	this.gfnCodeTransaction();
+ };
+ 
+ // 조회
+ this.fnSearch = function() {
+
+	// 조건값 셋팅
+	this.gfnAddSendParameter("PROJECT_CODE", this.edt_SrcProjectCode.value);
+	
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("ds_ContractList",			"ds_output");
+// 	this.gfnAddOutputDataset("ds_PurchaseList", "ds_output2");
+// 	this.gfnCommonTransaction("Select", "SP_ContractMerge_S01", this.grd_ProjectSearch);
+	
+	this.gfnSetMap("projectMapper", ['SP_ContractMerge_S01_1','SP_ContractMerge_S01_2'], ['ds_ContractList','ds_PurchaseList']);
+	this.gfnCommonTransaction("Select", "selectNextMultiList.do", this.grd_ProjectSearch);
+	
+ }
+ 
+ // 저장
+ this.fnSaveData = function()
+ {
+	this.fnSetInputDs();
+	
+	this.gfnAddSendParameter("S_PROJECT_CODE", this.edt_SrcProjectCode.value);
+	this.gfnAddSendParameter("T_PROJECT_CODE", this.edt_TrgProjectCode.value);
+	
+	this.gfnAddInputDataset("ds_TrgContractList",	"dsInput1");
+	this.gfnAddInputDataset("ds_TrgPurchaseList",	"dsInput2");
+	
+/*	this.gfnCommonTransaction("Save", "SP_ContractMerge_R01");*/
+	
+	this.gfnSetMap("projectMapper", ['SP_ContractMerge_R01'], ['']);
+	this.gfnCommonTransaction("Save", "SP_ContractMerge_R01.do");			
+ } 
+ 
+// 화면 콜백
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		//gfnAlert('msg.general',"strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMag : " + strErrorMag);
+		return;
+	}
+	switch (strSvcID) 
+	{
+		case "Save" :
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1348, "Merge가 정상적으로 처리 되었습니다."),null,
+			function() {
+				// sProjectCode, sProjectNm, sClientCd, sClientNm
+				var arrRtnVal = new Array();
+				arrRtnVal[0] = this.edt_TrgProjectCode.value;
+				arrRtnVal[1] = this.edt_TrgProjectCode.name;
+				arrRtnVal[2] = this.edt_TrgClientName.code;
+				arrRtnVal[3] = this.edt_TrgClientName.value;
+				var rtn = { "rtnValue" : arrRtnVal };
+				this.close(JSON.stringify(rtn));				
+				//this.close(arrRtnVal);
+			}
+			);
+			
+		break;
+	}
+}
+
+
+// 공통검색 component callback 처리
+this.Com_Search_onChanged = function (obj, e)
+{
+	trace(obj.name);
+	trace(e.preCode + " // " + e.preName);
+	trace(e.newCode + "//" + e.newName);
+	
+	
+	if (obj.name == "div_TrgProject") 
+	{
+		if (!this.gfnIsEmpty(e.newCode)) {
+			this.div_TrgProject.form.FV_VALUE = "";
+			this.div_TrgProject.form.FV_SEARCHTYPE = "";
+			
+			// 고객사 변경시 처리
+			var ds = new nexacro.Dataset();
+			ds = this.div_TrgProject.form.recentVariant;
+			this.edt_TrgProjectCode.set_value(ds.getColumn(0, "PROJECT_CODE"));
+			this.edt_TrgProjectCode.name = ds.getColumn(0, "PROJECT_NAME")
+			this.edt_TrgClientName.set_value(ds.getColumn(0, "CLIENT_NAME"));
+			this.edt_TrgClientName.code = ds.getColumn(0, "CLIENT_CODE");
+		} else	{
+			this.div_TrgProject.form.FV_VALUE = this.edt_SrcClient.value;
+			this.div_TrgProject.form.FV_SEARCHTYPE = "C";
+		}
+	}
+	
+};
+
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+// Validation check
+ this.fn_getValidation = function()
+ {
+	// 미체크 상태
+	var nChkFindRow = this.ds_ContractList.findRow("CONTRACT_CHK", "1");
+	if (nChkFindRow < 0) {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1349, "선택한 계약이 존재 하지 않습니다."));
+		return false;
+	}
+	
+	// Target 프로젝트 선택하지 않은경우
+	if (this.gfnIsEmpty(this.edt_TrgProjectCode.value)) {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1350, "Merge대상(Target) 프로젝트가 존재 하지 않습니다."));
+		return false;
+	}
+	
+	// 매입계약중 1건이라도 매출계약연결되지 않은 경우
+	var nContractLinkFindRow = this.ds_PurchaseList.findRow("CONTRACT_LINK_FLAG", "X");
+	if (nContractLinkFindRow >= 0) {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1351, "매입계약 중 연결되지 않은 매출계약이 존재 합니다.\n확인후 처리하세요."));
+		return false;
+	}
+	
+	return true;
+ }
+
+// 입력 데이터셋 처리
+this.fnSetInputDs = function()
+{
+	/*	ds_ContractList -> ds_TrgContractList
+		ds_PurchaseList -> 	ds_TrgPurchaseList	*/
+	this.ds_TrgContractList.clearData();
+	for (var i=0; i<this.ds_ContractList.rowcount; i++)
+	{
+		var sContractChk = this.ds_ContractList.getColumn(i, "CONTRACT_CHK");
+		if (sContractChk == "1") 
+		{
+			var nAddRow = this.ds_TrgContractList.addRow();
+			this.ds_TrgContractList.setColumn(nAddRow, "PROJECT_CODE", this.ds_ContractList.getColumn(i, "PROJECT_CODE"));
+			this.ds_TrgContractList.setColumn(nAddRow, "CONTRACT_NO", this.ds_ContractList.getColumn(i, "CONTRACT_NO"));
+		}	
+	}
+	
+	this.ds_TrgPurchaseList.clearData();
+	for (var i=0; i<this.ds_PurchaseList.rowcount; i++)
+	{
+		var sContractChk = this.ds_PurchaseList.getColumn(i, "CONTRACT_CHK");
+		if (sContractChk == "1") 
+		{
+			var nAddRow = this.ds_TrgPurchaseList.addRow();
+			this.ds_TrgPurchaseList.setColumn(nAddRow, "PROJECT_CODE",			this.ds_PurchaseList.getColumn(i, "PROJECT_CODE"));
+			this.ds_TrgPurchaseList.setColumn(nAddRow, "CONTRACT_NO",			this.ds_PurchaseList.getColumn(i, "CONTRACT_NO"));
+			this.ds_TrgPurchaseList.setColumn(nAddRow, "CONTRACT_NO_PURCHASE",	this.ds_PurchaseList.getColumn(i, "CONTRACT_NO_PURCHASE"));
+		}	
+	}
+}
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+// 닫기
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+
+
+// 버튼 공통 이벤트
+this.comm_Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch (obj.name)
+	{
+		case "btn_Save" :	// 저장(Merge)
+			if (this.fn_getValidation()) {
+				if (this.confirm("[" + this.edt_SrcProjectName.value +"] → ["+this.div_TrgProject.getData()+"]" + this.gfnGetTransTxt(1885, "로 Merge하시겠습니까?"))){
+					this.fnSaveData();
+				}
+			}
+		break;
+	}
+};
+
+// Merge 대상 체크 이벤트 처리
+this.grd_SrcList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if (this.gfnIsEmpty(this.edt_TrgProjectCode.value))
+	{
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1350, "Merge대상(Target) 프로젝트가 존재 하지 않습니다."),null,
+		function() {
+			this.ds_ContractList.set_enableevent(false);
+			this.ds_ContractList.setColumn(e.row, "PROJECT_CHK", "0");
+			this.ds_ContractList.setColumn(e.row, "CONTRACT_CHK", "0");
+			this.ds_ContractList.set_enableevent(true);
+		});
+		return;
+	}
+	
+	
+	var strProjectCode = this.ds_ContractList.getColumn(e.row, "PROJECT_CODE");
+	var strProjectCheck = this.ds_ContractList.getColumn(e.row, "PROJECT_CHK");
+	
+	if (obj.getCellProperty("body", e.cell, "text")=="bind:PROJECT_CHK")
+	{
+		for (var i=0; i<this.ds_ContractList.getRowCount(); i++) 
+		{
+			if (this.ds_ContractList.getColumn(i, "PROJECT_CODE")==strProjectCode)
+			{
+				this.ds_ContractList.setColumn(i, "PROJECT_CHK", strProjectCheck);
+				this.ds_ContractList.setColumn(i, "CONTRACT_CHK", strProjectCheck);
+			}
+			else 
+			{
+				this.ds_ContractList.setColumn(i, "PROJECT_CHK", "0");
+				this.ds_ContractList.setColumn(i, "CONTRACT_CHK", "0");
+			}
+		}
+		
+		// 매입계약 목록 처리
+		for (var j=0; j<this.ds_PurchaseList.getRowCount(); j++)
+		{
+			if (this.ds_PurchaseList.getColumn(j, "PROJECT_CODE")==strProjectCode)
+			{
+				if (this.gfnIsEmpty(this.ds_PurchaseList.getColumn(j, "CONTRACT_NO")))
+				{
+					this.ds_PurchaseList.setColumn(j, "CONTRACT_CHK", "0");
+				}
+				else
+				{
+					this.ds_PurchaseList.setColumn(j, "CONTRACT_CHK", strProjectCheck);
+				}
+			}
+			else
+			{
+				this.ds_PurchaseList.setColumn(j, "CONTRACT_CHK", "0");
+			}
+		}
+	}
+	else if (obj.getCellProperty("body", e.cell, "text")=="bind:CONTRACT_CHK")
+	{
+		for (var i=0; i<this.ds_ContractList.getRowCount(); i++) 
+		{
+			if (this.ds_ContractList.getColumn(i, "PROJECT_CODE")!=strProjectCode)
+			{
+				this.ds_ContractList.setColumn(i, "PROJECT_CHK", "0");
+				this.ds_ContractList.setColumn(i, "CONTRACT_CHK", "0");
+			}
+			else 
+			{		
+				this.ds_ContractList.setColumn(i, "PROJECT_CHK", this.ds_ContractList.getColumn(i, "CONTRACT_CHK"));
+			}
+			
+			// 매입계약 목록 처리
+			var sContractNo = this.ds_ContractList.getColumn(i, "CONTRACT_NO");
+			for (var j=0; j<this.ds_PurchaseList.getRowCount(); j++)
+			{
+				if (this.ds_PurchaseList.getColumn(j, "CONTRACT_NO") == sContractNo)
+				{
+					this.ds_PurchaseList.setColumn(j, "CONTRACT_CHK", this.ds_ContractList.getColumn(i, "CONTRACT_CHK"));
+				}
+			}
+		}
+	}
+	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_cmm_ContractType">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_ContractList">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="RELATED_PROJECT_CODE" type="string" size="15"/>
+          <Column id="SALES_EMP_NO" type="string" size="60"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="CONTRACT_PRICE" type="float" size="22"/>
+          <Column id="PROJECT_CONTRACT_STATUS" type="string" size="1"/>
+          <Column id="CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="PROJECT_CHK" type="string" size="1"/>
+          <Column id="CONTRACT_CHK" type="string" size="1"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_PurchaseList">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="CONTRACT_LINK_FLAG" type="string" size="1"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="CONTRACT_PRICE_PURCHASE" type="float" size="22"/>
+          <Column id="CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="CONTRACT_CHK" type="string" size="1"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_TrgContractList">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_TrgPurchaseList">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

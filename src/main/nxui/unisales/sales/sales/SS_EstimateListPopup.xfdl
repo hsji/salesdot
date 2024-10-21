@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SS_EstimateListPopup" width="1000" height="460" titletext="견적서 목록 팝업" cssclass="frm_popBg" onload="SS_EstimateListPopup_onload">
+    <Layouts>
+      <Layout height="460" mobileorientation="landscape" width="1000">
+        <Button id="btn_Cancel" taborder="0" text="닫기" width="60" height="28" cssclass="btn_WF_cancel" right="20" bottom="15" TL_SEQ="59" onclick="common_onclick"/>
+        <Grid id="grd_EstimateList" taborder="1" left="20" top="20" autofittype="col" right="20" bottom="60" binddataset="dsEstimateList" oncelldblclick="grd_EstimateList_oncelldblclick" cellsizingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="300"/>
+                <Column size="160"/>
+                <Column size="120"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구분" TL_SEQ="68"/>
+                <Cell col="1" text="고객사" TL_SEQ="32"/>
+                <Cell col="2" text="계약처" TL_SEQ="34"/>
+                <Cell col="3" text="계약명" TL_SEQ="33"/>
+                <Cell col="4" text="견적번호" TL_SEQ="12470"/>
+                <Cell col="5" text="금액" TL_SEQ="97"/>
+                <Cell col="6" text="발행일자" TL_SEQ="976"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ESTIMATE_KIND"/>
+                <Cell col="1" text="bind:CLIENT_NAME" textAlign="left" tooltiptext="bind:CLIENT_NAME"/>
+                <Cell col="2" text="bind:CONTRACT_MAIN_NAME" textAlign="left" tooltiptext="bind:CONTRACT_MAIN_NAME"/>
+                <Cell col="3" text="bind:CONTRACT_NAME" textAlign="left" tooltiptext="bind:CONTRACT_NAME" displaytype="normal" edittype="none"/>
+                <Cell col="4" text="bind:ESTIMATE_NO" textAlign="left" tooltiptext="bind:ESTIMATE_NO"/>
+                <Cell col="5" displaytype="number" text="bind:TOTAL_PRICE" textAlign="right"/>
+                <Cell col="6" text="bind:PUBLISHED_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_Confirm" taborder="2" text="선택" height="28" cssclass="btn_WF_Crud" onclick="common_onclick" right="btn_Cancel:8" width="60" TL_SEQ="113" bottom="15"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsEstimateList">
+        <ColumnInfo>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="SALES_DOC_NO" type="STRING" size="256"/>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="ESTIMATE_TYPE" type="STRING" size="256"/>
+          <Column id="SUBJECT_FLAG" type="STRING" size="256"/>
+          <Column id="SUBJECT" type="STRING" size="256"/>
+          <Column id="CONTRACT_NAME" type="STRING" size="256"/>
+          <Column id="CLIENT_CODE" type="STRING" size="256"/>
+          <Column id="CLIENT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN_NAME" type="STRING" size="256"/>
+          <Column id="PAY_METHOD" type="STRING" size="256"/>
+          <Column id="PAY_METHOD_FLAG" type="STRING" size="256"/>
+          <Column id="PAY_METHOD_TXT" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION_FLAG" type="STRING" size="256"/>
+          <Column id="ESTIMATE_EXPIRATION_CONDITION_TXT" type="STRING" size="256"/>
+          <Column id="OFFICIAL_SEAL_TYPE" type="STRING" size="256"/>
+          <Column id="PUBLISHED_DATE" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="ESTIMATE_CONDITION" type="STRING" size="256"/>
+          <Column id="REMARKS" type="STRING" size="256"/>
+          <Column id="DELETE_FLAG" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="256"/>
+          <Column id="INSERT_EMP_NAME" type="STRING" size="256"/>
+          <Column id="CONSUMPTION_TAX" type="INT" size="256"/>
+          <Column id="PRE_EM_SEQ" type="INT" size="256"/>
+          <Column id="PRE_ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="ORG_EM_SEQ" type="STRING" size="256"/>
+          <Column id="ORG_ESTIMATE_NO" type="STRING" size="256"/>
+          <Column id="DOC_STATUS" type="STRING" size="256"/>
+          <Column id="AD_SEQ" type="STRING" size="256"/>
+          <Column id="DOC_STATUS_NAME" type="STRING" size="256"/>
+          <Column id="ESTIMATE_KIND" type="STRING" size="256"/>
+          <Column id="TOTAL_PRICE" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSelected">
+        <ColumnInfo>
+          <Column id="EM_SEQ" type="INT" size="256"/>
+          <Column id="ESTIMATE_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 견적서
+ * 02. 화면명   : 견적서 목록 팝업
+ * 03. 화면설명 : 견적서 목록 팝업
+ * 04. 작성일   : 2023.10.24
+ * 05. 작성자   : 박종언
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ ***********************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_QL_SEQ;
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.SS_EstimateListPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);	//	사용자 Grid
+	this.fnSearch();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+//조회
+this.fnSearch = function()
+{
+	this.gfnAddSendParameter("PROJECT_CODE", this.parent.pvProjectCode);
+	//this.gfnAddSendParameter("SALES_DOC_NO", this.parent.pvSalesDocNo);
+// 	this.gfnAddOutputDataset("dsEstimateList",  "dsOutput");
+// 	this.gfnCommonTransaction("Search", "SS_EstimateReg_S10");
+	this.gfnSetMap("projectMapper", ['SS_EstimateReg_S10'], ['dsEstimateList']);
+	this.gfnCommonTransaction("Select_S", "selectNextMultiList.do");	
+};
+
+this.fnSelected = function()
+{
+	this.dsSelected.clearData();
+	
+	var curRow = this.dsEstimateList.rowposition;
+	var nRow = this.dsSelected.addRow();
+	this.dsSelected.copyRow(nRow, this.dsEstimateList, curRow);
+	
+	this.close(this.dsSelected.saveJSON());
+};
+
+ // 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	switch (strSvcID) 
+	{
+		case "Search" : 
+			break;
+	}
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_Close": case "btn_Cancel":
+			this.close("");
+			break;
+		case "btn_Confirm" :
+			this.fnSelected();
+			break;
+	}
+};
+
+this.grd_EstimateList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.fnSelected();
+};]]></Script>
+  </Form>
+</FDL>

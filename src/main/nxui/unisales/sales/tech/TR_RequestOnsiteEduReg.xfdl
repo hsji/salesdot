@@ -1,0 +1,1375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="TR_RequestOnsiteEduReg" width="1000" height="716" titletext="온사이트교육" cssclass="frm_popBg" onload="TR_RequestOnsiteEduReg_onload">
+    <Layouts>
+      <Layout height="716" mobileorientation="landscape" width="1000" screenid="Desktop_screen">
+        <Div id="div_RequestContract" taborder="0" left="4" top="38" text="" height="69" enable="true" cssclass="div_WF_detailBg" width="992">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Project_Name01" taborder="0" text="고객사" left="8" top="8" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="32"/>
+              <Edit id="edt_ClientName" taborder="1" left="105" top="8" height="22" readonly="true" right="503"/>
+              <Static id="stc_Project_Name00" taborder="2" text="프로젝트" left="505" top="8" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="119"/>
+              <Edit id="edt_ProjectName" taborder="3" left="602" top="8" height="22" readonly="true" right="8"/>
+              <Static id="stc_Project_Name" taborder="4" text="계약명" left="8" top="38" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="33"/>
+              <Div id="div_Contract" taborder="5" left="105" top="38" height="22" url="Common::COM_Search.xfdl" binddataset="ds_List" kind="CONTRACT" async="false" codecolumn="CONTRACT_NO" datacolumn="CONTRACT_NAME" mode="" right="503" user_onchanged="Com_Search_onChanged" param="searchtype:N">
+                <Layouts>
+                  <Layout/>
+                  <Layout name="portrait"/>
+                </Layouts>
+              </Div>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Project_Name" left="8" top="72" width="64" height="30"/>
+              <Div id="div_Contract" left="80" top="72" height="30" right="4"/>
+              <Static id="stc_Project_Name00" left="8" top="38" width="64" height="30"/>
+              <Edit id="edt_ProjectName" left="80" top="38" height="30" right="4"/>
+              <Edit id="edt_ClientName" left="80" top="4" height="30" right="4"/>
+              <Static id="stc_Project_Name01" height="30" left="8" top="4" width="64"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_Request" taborder="1" left="4" text="" enable="true" width="495" height="252" top="111" cssclass="div_WF_detailBg" formscrollbartype="none">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Contract_Date" taborder="11" text="요청기간" left="8" top="69" width="84" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="323"/>
+              <Static id="stc_Contract_Date01" taborder="12" text="계약제품" left="8" top="39" width="84" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="332"/>
+              <Static id="stc_Project_Name02" taborder="13" text="요청교육담당자" left="8" top="99" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="2146"/>
+              <Static id="stc_Contract_Date00" taborder="14" text="요청일자" left="8" top="129" width="84" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="322"/>
+              <MaskEdit id="msk_DtRequest" taborder="8" left="105" top="129" width="109" height="22" enable="false" maskchar=" " type="string" format="####-##-##" textAlign="left"/>
+              <Static id="stc_Project_Name03" taborder="15" text="요청자" top="129" width="64" height="22" textAlign="right" cssclass="sta_WF_DetailTit" right="146" TL_SEQ="321"/>
+              <Edit id="edt_EmpReg" taborder="9" top="129" height="22" width="132" enable="false" right="8"/>
+              <Static id="Static05" taborder="16" text="~" left="290" top="69" width="10" height="22" textAlign="center"/>
+              <Edit id="edt_ProductName" taborder="0" left="105" top="39" height="22" readonly="true" width="382"/>
+              <Div id="div_EmpRequest" taborder="7" text="Div00" left="105" top="99" width="180" height="22" url="Common::COM_Search.xfdl" binddataset="ds_List" kind="EMPLOYEE" async="false" codecolumn="REQUEST_EMP_NO" datacolumn="REQUEST_EMP_NAME" mode="">
+                <Layouts>
+                  <Layout/>
+                  <Layout name="portrait"/>
+                </Layouts>
+              </Div>
+              <Combo id="cmb_MinTo" taborder="6" left="449" top="69" width="38" height="22" innerdataset="ds_CD_Min" codecolumn="codecolumn" datacolumn="datacolumn" type="filterlike" buttonsize="12 22" text="00" index="0" scrollbarbarminsize="12" scrollbarbaroutsize="12" scrollbardecbuttonsize="12" scrollbarincbuttonsize="12" scrollbarsize="12" scrollbartrackbarsize="12" scrollindicatorsize=""/>
+              <Combo id="cmb_HourTo" taborder="4" left="413" top="69" width="37" height="22" innerdataset="ds_CD_Hour" codecolumn="codecolumn" datacolumn="datacolumn" type="filterlike" buttonsize="12 22" text="17" index="17" scrollbarbarminsize="12" scrollbarbaroutsize="12" scrollbardecbuttonsize="12" scrollbarincbuttonsize="12" scrollbarsize="12" scrollbartrackbarsize="12" scrollindicatorsize="" value="17"/>
+              <Calendar id="cal_DtTo" taborder="5" left="305" top="69" width="109" height="22" dateformat="yyyy-MM-dd"/>
+              <Combo id="cmb_MinFrom" taborder="3" left="249" top="69" width="37" height="22" innerdataset="ds_CD_Min" codecolumn="codecolumn" datacolumn="datacolumn" type="filterlike" buttonsize="12 22" text="00" index="0" scrollbarbarminsize="12" scrollbardecbuttonsize="12" scrollbarincbuttonsize="12" scrollbarsize="12" scrollbartrackbarsize="12" scrollindicatorsize="" scrollbarbaroutsize="12"/>
+              <Combo id="cmb_HourFrom" taborder="2" left="213" top="69" width="37" height="22" innerdataset="ds_CD_Hour" codecolumn="codecolumn" datacolumn="datacolumn" type="filterlike" buttonsize="12 22" text="09" index="9" scrollbarbarminsize="12" scrollbardecbuttonsize="12" scrollbarincbuttonsize="12" scrollbarsize="12" scrollbartrackbarsize="12" scrollindicatorsize="" scrollbarbaroutsize="12"/>
+              <Calendar id="cal_DtFrom" taborder="1" left="105" top="69" width="109" height="22" onchanged="div_Request_cal_Contract_Date_onchanged" dateformat="yyyy-MM-dd"/>
+              <TextArea id="ta_ReqContents" taborder="10" left="105" top="159" right="8" scrolltype="vertical" wordWrap="english" bottom="8"/>
+              <Static id="stc_Contract_Date04" taborder="17" text="요청내용" left="8" top="189" width="84" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="324"/>
+              <Combo id="cmb_EmpList" taborder="18" text="" top="99" height="22" innerdataset="ds_EmpList" datacolumn="FULL_EMP_NAME" codecolumn="EMP_NO" right="208" width="180"/>
+              <Static id="stc_VoucherNo" taborder="20" text="바우처번호" top="99" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="2019" width="68" left="285"/>
+              <Edit id="edt_VoucherNo" taborder="21" top="99" height="22" width="110" left="353"/>
+              <Button id="btn_PopupVoucherNo" taborder="19" top="99" width="22" height="22" cssclass="btn_WF_Sch" onclick="div_Request_btn_PopupVoucherNo_onclick" left="edt_VoucherNo:0"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Project_Name02" left="8" top="141" width="64" height="30" text="담당자"/>
+              <Static id="stc_Contract_Date00" top="39" height="30" right="100" width="60" text="요청일"/>
+              <MaskEdit id="msk_DtRequest" top="39" height="30" width="92" right="4"/>
+              <Static id="stc_Project_Name03" top="73" width="60" height="30" right="100"/>
+              <Edit id="edt_EmpReg" top="73" width="92" height="30" right="4"/>
+              <TextArea id="ta_ReqContents" left="81" top="175" right="4" bottom="4"/>
+              <Static id="stc_Contract_Date04" left="8" top="244" width="64" height="22"/>
+              <Combo id="cmb_EmpList" left="81" top="141" height="30" right="30"/>
+              <Static id="stc_VoucherNo" top="107" width="60" height="30" right="100" text="바우처"/>
+              <Edit id="edt_VoucherNo" top="107" width="66" height="30" right="30"/>
+              <Div id="div_EmpRequest" left="81" top="141" height="30" right="4"/>
+              <Button id="btn_PopupVoucherNo" top="107" width="26" height="30" right="4"/>
+              <Static id="Static05" left="8" top="107" width="64" height="30" textAlign="right"/>
+              <Combo id="cmb_MinTo" left="253" top="107" width="42" height="30"/>
+              <Combo id="cmb_HourTo" left="211" top="107" width="42" height="30"/>
+              <Calendar id="cal_DtTo" left="81" top="107" width="130" height="30"/>
+              <Edit id="edt_ProductName" left="81" top="39" height="30" width="214"/>
+              <Calendar id="cal_DtFrom" width="130" left="81" top="73" height="30"/>
+              <Combo id="cmb_MinFrom" left="253" top="73" width="42" height="30"/>
+              <Combo id="cmb_HourFrom" left="211" top="73" width="42" height="30"/>
+              <Static id="stc_Contract_Date" height="30" left="8" top="73" width="64"/>
+              <Static id="stc_Contract_Date01" height="30" left="8" top="39" width="64"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_EduInfo" taborder="3" left="4" top="367" text="" height="155" cssclass="div_WF_detailBg" formscrollbartype="none" enable="true" width="992">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Project_Name04" taborder="11" text="담당자" left="8" top="39" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="66"/>
+              <Edit id="edt_ReqEmp" taborder="0" left="105" top="39" width="158" height="22"/>
+              <Static id="stc_Project_Name05" taborder="12" text="부서" left="285" top="39" width="44" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="74"/>
+              <Edit id="edt_ReqDept" taborder="1" left="345" top="39" width="142" height="22"/>
+              <Static id="stc_Project_Name06" taborder="13" text="연락번호" left="740" top="39" width="52" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="2150"/>
+              <Edit id="edt_ReqPhone" taborder="3" left="800" top="39" height="22" right="8"/>
+              <Static id="stc_Project_Name07" taborder="14" text="참가인원" left="8" top="69" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="2178"/>
+              <Static id="stc_Project_Name08" taborder="15" text="환경확인" left="8" top="96" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="2151"/>
+              <Static id="stc_Project_Name09" taborder="16" text="교육장소" left="8" top="123" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="2155"/>
+              <Edit id="edt_Place" taborder="10" left="105" top="123" height="22" right="8"/>
+              <Static id="stc_Project_Name12" taborder="17" text="직급" left="505" top="39" width="52" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="26"/>
+              <Edit id="edt_ReqGrade" taborder="2" left="565" top="39" width="142" height="22"/>
+              <Static id="stc_Project_Name13" taborder="18" text="E-Mail" left="285" top="69" width="44" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="707"/>
+              <Edit id="edt_ReqEmail" taborder="5" left="345" top="69" height="22" right="8"/>
+              <CheckBox id="ckb_Project" taborder="6" text="프로젝트 별도준비" left="105" top="96" width="126" height="22" falsevalue="0" truevalue="1" TL_SEQ="2152"/>
+              <CheckBox id="ckb_Pc" taborder="7" text="실습PC 준비안됨" left="ckb_Project:5" top="96" width="126" height="22" falsevalue="0" truevalue="1" TL_SEQ="2153"/>
+              <CheckBox id="ckb_Network" taborder="8" text="네트워크 사용안됨" left="ckb_Pc:6" top="96" width="126" height="22" falsevalue="0" truevalue="1" TL_SEQ="2154"/>
+              <CheckBox id="ckb_Textbook" taborder="9" text="교육자료 사전수신" left="ckb_Network:10" top="96" width="126" height="22" falsevalue="0" truevalue="1" TL_SEQ="2179"/>
+              <MaskEdit id="medt_EduCount" taborder="4" left="105" top="69" width="158" height="22"/>
+            </Layout>
+            <Layout name="portrait">
+              <Static id="stc_Project_Name08" left="8" top="141" width="64" height="30"/>
+              <Static id="stc_Project_Name09" left="8" top="205" width="64" height="30"/>
+              <Edit id="edt_Place" left="81" top="205" height="30" right="4"/>
+              <CheckBox id="ckb_Project" left="81" top="141" width="166" height="30"/>
+              <CheckBox id="ckb_Pc" left="258" top="141" width="166" height="30"/>
+              <CheckBox id="ckb_Network" left="81" top="171" width="166" height="30"/>
+              <CheckBox id="ckb_Textbook" left="258" top="171" width="166" height="30"/>
+              <Static id="stc_Project_Name07" top="107" width="64" height="30" right="81"/>
+              <Static id="stc_Project_Name13" left="8" top="107" width="64" height="30"/>
+              <Edit id="edt_ReqEmail" left="81" top="107" height="30" right="155"/>
+              <MaskEdit id="medt_EduCount" top="107" width="73" height="30" right="4"/>
+              <Static id="stc_Project_Name06" left="237" top="73" width="64" height="30"/>
+              <Edit id="edt_ReqPhone" left="313" top="73" height="30" right="4"/>
+              <Static id="stc_Project_Name12" left="8" top="73" width="64" height="30"/>
+              <Edit id="edt_ReqGrade" left="81" top="73" width="142" height="30"/>
+              <Edit id="edt_ReqEmp" left="81" top="39" width="142" height="30"/>
+              <Static id="stc_Project_Name05" left="237" top="39" width="64" height="30"/>
+              <Edit id="edt_ReqDept" left="313" top="39" height="30" right="4"/>
+              <Static id="stc_Project_Name04" width="64" left="8" top="39" height="30"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_Close" taborder="7" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_Close_onclick" escapebutton="true"/>
+        <Static id="Static00" taborder="8" left="1" height="38" right="1" bottom="1" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Cancel" taborder="6" text="닫기" width="70" height="22" cssclass="btn_WF_cancel" right="13" bottom="9" onclick="btn_Close_onclick" TL_SEQ="59"/>
+        <Button id="btn_Save" taborder="5" text="저장" width="60" height="22" cssclass="btn_WF_tran" right="91" bottom="9" onclick="btn_Save_onclick" enable="false" TL_SEQ="115"/>
+        <Div id="div_Confirm" taborder="2" top="111" enable="true" height="252" left="503" cssclass="div_WF_detailBg" formscrollbartype="none" width="493">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Contract_Date03" taborder="12" text="교육담당자" left="8" top="99" width="84" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="1992"/>
+              <Static id="stc_Contract_Date05" taborder="13" text="승인일자" left="8" top="129" width="84" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="803"/>
+              <Static id="stc_Project_Name06" taborder="14" text="승인여부" left="8" top="39" width="84" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="804"/>
+              <Static id="stc_Project_Name07" taborder="15" text="승인자" left="195" top="129" width="60" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="805"/>
+              <Edit id="edt_ConfirmEmp" taborder="9" left="261" top="129" height="22" enable="false" width="93"/>
+              <MaskEdit id="msk_ConfirmDate" taborder="8" left="105" top="129" width="109" height="22" enable="false" dateformat="yyyy-MM-dd" maskchar=" " type="string" format="####-##-##" textAlign="left"/>
+              <Combo id="cmb_ConfirmCd" taborder="0" text="" left="105" top="39" height="22" innerdataset="ds_comm_ConfirmCd" datacolumn="CAPTION" codecolumn="CODE" onitemchanged="div_Confirm_cmb_ConfirmCd_onitemchanged" right="8"/>
+              <Static id="stc_Contract_Date" taborder="16" text="교육기간" left="8" top="69" width="84" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="2147"/>
+              <Static id="Static05" taborder="17" text="~" left="290" top="69" width="10" height="22" textAlign="center"/>
+              <MaskEdit id="medt_EduRealCount" taborder="10" left="439" top="129" width="46" height="22"/>
+              <Static id="stc_Project_Name00" taborder="18" text="실 참석인원" left="357" top="129" width="76" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="2148"/>
+              <Div id="div_EmpWork" taborder="7" text="Div00" left="105" top="99" height="22" url="Common::COM_Search.xfdl" binddataset="ds_List" kind="EMPLOYEE" async="false" codecolumn="WORK_EMP_NO" datacolumn="WORK_EMP_NAME" mode="" right="206">
+                <Layouts>
+                  <Layout/>
+                  <Layout name="portrait"/>
+                </Layouts>
+              </Div>
+              <Calendar id="cal_DtFrom" taborder="1" left="105" top="69" width="109" height="22" dateformat="yyyy-MM-dd"/>
+              <Combo id="cmb_HourFrom" taborder="2" left="213" top="69" width="37" height="22" innerdataset="ds_CD_Hour" codecolumn="codecolumn" datacolumn="datacolumn" type="filterlike" buttonsize="12 22" text="09" index="9" scrollbarbarminsize="12" scrollbarbaroutsize="12" scrollbardecbuttonsize="12" scrollbarincbuttonsize="12" scrollbarsize="12" scrollbartrackbarsize="12" scrollindicatorsize=""/>
+              <Combo id="cmb_MinFrom" taborder="3" left="249" top="69" width="37" height="22" innerdataset="ds_CD_Min" codecolumn="codecolumn" datacolumn="datacolumn" type="filterlike" buttonsize="12 22" text="00" index="0" scrollbarbarminsize="12" scrollbarbaroutsize="12" scrollbardecbuttonsize="12" scrollbarincbuttonsize="12" scrollbarsize="12" scrollbartrackbarsize="12" scrollindicatorsize=""/>
+              <Calendar id="cal_DtTo" taborder="4" left="305" top="69" width="107" height="22" dateformat="yyyy-MM-dd"/>
+              <Combo id="cmb_HourTo" taborder="5" left="411" top="69" width="37" height="22" innerdataset="ds_CD_Hour" codecolumn="codecolumn" datacolumn="datacolumn" type="filterlike" buttonsize="12 22" text="17" index="17" scrollbarbarminsize="12" scrollbarbaroutsize="12" scrollbardecbuttonsize="12" scrollbarincbuttonsize="12" scrollbarsize="12" scrollbartrackbarsize="12" scrollindicatorsize="" value="17"/>
+              <Combo id="cmb_MinTo" taborder="6" left="447" top="69" width="38" height="22" innerdataset="ds_CD_Min" codecolumn="codecolumn" datacolumn="datacolumn" type="filterlike" buttonsize="12 22" text="00" index="0" scrollbarbarminsize="12" scrollbarbaroutsize="12" scrollbardecbuttonsize="12" scrollbarincbuttonsize="12" scrollbarsize="12" scrollbartrackbarsize="12" scrollindicatorsize=""/>
+              <TextArea id="ta_WorkContents" taborder="11" left="105" top="159" right="8" bottom="8" wordWrap="english" scrolltype="vertical"/>
+              <Static id="stc_Contract_Date04" taborder="19" text="결과 또는&#13;&#10;반려사유" left="8" top="181" width="84" height="38" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="2144"/>
+              <Combo id="cmb_EmpList" taborder="20" text="" left="105" top="99" height="22" innerdataset="ds_EmpList" datacolumn="FULL_EMP_NAME" codecolumn="EMP_NO" right="111"/>
+              <CheckBox id="cb_PSE_Flag" taborder="21" text="투입인력반영" left="387" top="100" width="93" height="20" tooltiptext="완료시 투입인력 반영" enable="false" falsevalue="0" truevalue="1"/>
+              <Button id="btn_PSE_Flag" taborder="22" text="투입인력반영" left="406" top="98" width="77" height="24" onclick="div_Confirm_btn_PSE_Flag_onclick" enable="false" TL_SEQ="809"/>
+            </Layout>
+            <Layout name="portrait">
+              <Combo id="cmb_EmpList" left="81" top="141" height="30" right="161"/>
+              <TextArea id="ta_WorkContents" left="81" top="175" right="4" height="160"/>
+              <Static id="stc_Contract_Date03" left="8" top="141" width="64" height="30" text="담당자"/>
+              <Static id="stc_Contract_Date05" top="39" width="60" height="30" right="100" text="승인일"/>
+              <Static id="stc_Project_Name07" top="73" width="60" height="30" right="100"/>
+              <Edit id="edt_ConfirmEmp" top="73" width="92" height="30" right="4"/>
+              <MaskEdit id="msk_ConfirmDate" top="39" width="92" height="30" right="4"/>
+              <MaskEdit id="medt_EduRealCount" top="107" width="92" height="30" right="4"/>
+              <Static id="stc_Project_Name00" top="107" width="60" height="30" right="100" text="실 참석"/>
+              <Div id="div_EmpWork" left="81" top="141" height="30" right="131"/>
+              <Calendar id="cal_DtFrom" left="81" top="73" width="130" height="30"/>
+              <Calendar id="cal_DtTo" left="81" top="107" width="130" height="30"/>
+              <Static id="Static05" left="8" top="107" width="64" height="30" textAlign="right"/>
+              <Combo id="cmb_HourFrom" left="211" top="73" width="42" height="30"/>
+              <Combo id="cmb_MinFrom" left="253" top="73" width="42" height="30"/>
+              <Combo id="cmb_HourTo" left="211" top="107" width="42" height="30"/>
+              <Combo id="cmb_MinTo" left="253" top="107" width="42" height="30"/>
+              <Static id="stc_Contract_Date04" left="8" top="236" width="64" height="38" text="결과 / &#13;&#10;반려사유"/>
+              <Combo id="cmb_ConfirmCd" left="81" top="39" height="30" width="214"/>
+              <Static id="stc_Project_Name06" height="30" left="8" top="39" width="64"/>
+              <Static id="stc_Contract_Date" height="30" left="8" top="73" width="64"/>
+              <CheckBox id="cb_PSE_Flag" top="141" width="123" height="30" right="4"/>
+              <Button id="btn_PSE_Flag" top="141" width="104" height="30" right="4"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_Delete" taborder="9" text="삭제" width="60" height="22" right="159" cssclass="btn_WF_tran" onclick="btn_Delete_onclick" bottom="9" enable="false" TL_SEQ="117"/>
+        <Div id="div_Etc" taborder="4" left="4" top="526" text="" height="147" enable="true" cssclass="div_WF_detailBg" formscrollbartype="none" width="992">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Contract_Date04" taborder="1" text="비고" left="8" top="73" width="84" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="45"/>
+              <TextArea id="txt_Remarks" taborder="0" left="105" top="39" width="386" wordWrap="english" scrolltype="vertical" bottom="8"/>
+              <Div id="div_Attachment" taborder="2" left="499" top="29" height="117" async="false" url="Common::COM_Attachment.xfdl" SOURCE_CD="RTS" SOURCE_SEQ="RTS_SEQ" USE_NEXT_FILE_TYPE="false" USE_LINK_TYPE="false" USE_MULTI_FILE="true" OPEN_ADD_DIALOG="false" DELETE_ALL="false" BINDDATASET="ds_List" right="-1">
+                <Layouts>
+                  <Layout/>
+                  <Layout name="portrait"/>
+                </Layouts>
+              </Div>
+            </Layout>
+            <Layout name="portrait">
+              <TextArea id="txt_Remarks" left="81" top="39" right="4" height="98"/>
+              <Div id="div_Attachment" top="140" left="4" height="116" right="4"/>
+              <Static id="stc_Contract_Date04" left="8" top="77" width="64" height="22"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="st_Title" taborder="10" text="온사이트교육" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="2145"/>
+        <Static id="Static03" taborder="11" left="4" top="111" height="31" cssclass="sta_POP_GroupBg" width="495"/>
+        <Static id="Static04" taborder="12" text="요청" left="13" top="119" width="122" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="22"/>
+        <Static id="Static01" taborder="13" left="503" top="111" height="31" cssclass="sta_POP_GroupBg" width="493"/>
+        <Static id="Static06" taborder="14" text="승인" left="512" top="119" width="122" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="811"/>
+        <Static id="Static07" taborder="15" left="4" top="367" height="31" cssclass="sta_POP_GroupBg" width="992"/>
+        <Static id="Static08" taborder="16" text="교육신청정보" left="14" top="375" width="122" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="2149"/>
+        <Static id="Static02" taborder="17" left="4" top="526" height="31" cssclass="sta_POP_GroupBg" width="992"/>
+        <Static id="Static05" taborder="18" text="추가정보" left="14" top="534" width="120" height="15" cssclass="sta_POP_GroupTit" TL_SEQ="812"/>
+      </Layout>
+      <Layout name="portrait" screenid="Mobile_screen" width="480" height="1389" mobileorientation="portrait">
+        <Div id="div_EduInfo" left="4" top="840" height="241" right="4"/>
+        <Div id="div_Etc" left="4" top="1085" height="262" right="4"/>
+        <Static id="Static07" left="4" top="840" height="35" right="4"/>
+        <Static id="Static08" left="14" top="840" width="122" height="35"/>
+        <Static id="Static02" left="4" top="1085" height="35" right="4"/>
+        <Static id="Static05" left="14" top="1085" width="120" height="35"/>
+        <Div id="div_Request" left="4" top="150" height="341" right="4"/>
+        <Div id="div_Confirm" left="4" top="495" height="341" right="4"/>
+        <Static id="Static03" left="4" top="150" height="35" right="4"/>
+        <Static id="Static04" left="13" top="150" width="122" height="35"/>
+        <Static id="Static01" left="4" top="495" height="35" right="4"/>
+        <Static id="Static06" left="13" top="495" width="122" height="35"/>
+        <Div id="div_RequestContract" left="4" top="38" height="108" right="4"/>
+        <Static id="Static00" left="1" top="1351" height="38" right="1"/>
+        <Button id="btn_Delete" top="1355" width="70" height="30" right="btn_Save:4"/>
+        <Button id="btn_Save" top="1355" width="70" height="30" right="btn_Cancel:4"/>
+        <Button id="btn_Cancel" top="1355" width="70" height="30" right="8"/>
+        <Button id="btn_Close" top="0" width="34" height="34" right="10"/>
+        <Static id="st_Title" height="34" left="10" top="0" width="158"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 
+* 02. 화면명		: 
+* 03. 화면설명 	: 
+* 04. 작성일   	: 2018.08.30
+* 05. 작성자   	: 이인규
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_FORM_TYPE = "TR";
+this.FV_RTS_SEQ = "";
+this.FV_REQ_DT = "";
+
+
+this.sLoginCoCd;	//로그인회사코드
+this.sLoginEmpNo;	//로그인사번
+this.sLoginEmpNm;	//로그인이름
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.TR_RequestOnsiteEduReg_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+// 저장
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSave();
+};
+
+// 삭제
+this.btn_Delete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnDelete();
+};
+
+// 닫기
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose("");
+};
+
+// 승인여부 변경시
+this.div_Confirm_cmb_ConfirmCd_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var _newv = e.postvalue;
+	var _oldv = e.prevalue;
+	var ds = this.ds_List;
+	var row = ds.rowposition;
+	
+	/*승인 = 원본 (신규:null, 요청:0, 반려:3, 취소:5) -> 신규 (승인:1, 완료:2, 진행:4)*/
+	if( 	(_newv == "1" || _newv == "2" || _newv == "4")
+		&&	(_oldv != "1" || _oldv != "2" || _oldv != "4") )
+	{
+		var workStartDt = ds.getColumn(this.ds_List, "WORK_START_DATE");
+		var workEndDt = ds.getColumn(this.ds_List, "WORK_END_DATE");
+		/*처리기간이 비어있다면 승인 시 요청기간으로 기본값 처리*/
+		if(this.gfnIsEmpty(workStartDt) || this.gfnIsEmpty(workEndDt))
+		{
+			ds.setColumn(row, "WORK_END_DATE",		ds.getColumn(e.row, "REQUEST_END_DATE"));
+			ds.setColumn(row, "WORK_END_HOUR",		ds.getColumn(e.row, "REQUEST_END_HOUR"));
+			ds.setColumn(row, "WORK_END_MIN",		ds.getColumn(e.row, "REQUEST_END_MIN"));
+			
+			ds.setColumn(row, "WORK_START_DATE",	ds.getColumn(e.row, "REQUEST_START_DATE"));
+			ds.setColumn(row, "WORK_START_HOUR", 	ds.getColumn(e.row, "REQUEST_START_HOUR"));
+			ds.setColumn(row, "WORK_START_MIN",		ds.getColumn(e.row, "REQUEST_START_MIN"));
+		}
+	}
+};
+
+// Dataset column 변경건 처리
+this.ds_List_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	return;
+	var sColId = e.columnid;
+	
+	/*비교전용 컬럼 리턴*/
+	var fnGetDateTime = function(col, row)	
+	{
+		var dt = obj.getColumn(row, col + "_YYYYMMDD") + obj.getColumn(row, col + "_HH") + obj.getColumn(row, col + "_MM");
+		return parseInt(dt);
+	}
+	
+	var fnUpdateDate = function(sStCol, sEdCol, isStart)
+	{
+		var curStDt = fnGetDateTime(sStCol, e.row);
+		var curEdDt = fnGetDateTime(sEdCol, e.row);
+		
+		//시작일이 변경 시 : 시작일이 종료일보다 미래라면, 종료일을 시작일로 덮어씀.
+		//종료일이 변경 시 : 종료일이 시작일보다 과거라면, 시작일을 종료일로 덮어씀.
+		if(isStart)
+		{
+			var newStDt =	obj.getColumn(e.row, sStCol + "_DATE")	+ " " + 
+							obj.getColumn(e.row, sStCol + "_HOUR") 		+ ":" + 
+							obj.getColumn(e.row, sStCol + "_MIN")		+ ":00";
+			obj.setColumn(e.row, sStCol, newStDt);
+			
+			if(curStDt > curEdDt)
+			{
+				obj.setColumn(e.row, sEdCol + "_DATE",	obj.getColumn(e.row, sStCol + "_DATE"));
+				obj.setColumn(e.row, sEdCol + "_HOUR",	obj.getColumn(e.row, sStCol + "_HOUR"));
+				obj.setColumn(e.row, sEdCol + "_MIN",	obj.getColumn(e.row, sStCol + "_MIN"));
+			}
+		}
+		else
+		{
+			var newEdDt	=	obj.getColumn(e.row, sEdCol + "_DATE")		+ " " + 
+							obj.getColumn(e.row, sEdCol + "_HOUR") 		+ ":" + 
+							obj.getColumn(e.row, sEdCol + "_MIN")		+ ":00";
+			obj.setColumn(e.row, sEdCol, newEdDt);
+			
+			if(curStDt > curEdDt)
+			{
+				obj.setColumn(e.row, sStCol + "_DATE",		obj.getColumn(e.row, sEdCol + "_DATE"));
+				obj.setColumn(e.row, sStCol + "_HOUR",		obj.getColumn(e.row, sEdCol + "_HOUR"));
+				obj.setColumn(e.row, sStCol + "_MIN",		obj.getColumn(e.row, sEdCol + "_MIN"));
+			}
+		}
+	}
+	
+	if(sColId.indexOf("REQUEST_START_") != -1)
+	{
+		fnUpdateDate("REQUEST_START"	, "REQUEST_END"	, true);
+	}
+	else if(sColId.indexOf("REQUEST_END_") != -1)
+	{
+		fnUpdateDate("REQUEST_START"	, "REQUEST_END"	, false);
+	}
+	else if(sColId.indexOf("WORK_START_") != -1)
+	{
+		fnUpdateDate("WORK_START"		, "WORK_END"	, true);
+	}
+	else if(sColId.indexOf("WORK_END_") != -1)
+	{
+		fnUpdateDate("WORK_START"		, "WORK_END"	, false);
+	}
+	else if (sColId == "CONTRACT_NO")
+	{
+		if(!this.gfnIsEmpty(e.newvalue))
+		{
+			var dsRecentVariant = this.div_RequestContract.form.div_Contract.getRecentVariant();
+			if(!this.gfnIsEmpty(dsRecentVariant))
+			{	
+				this.ds_List.setColumn(0, "CLIENT_CODE", dsRecentVariant.getColumn(0,"CLIENT_CODE"));
+				this.ds_List.setColumn(0, "CLIENT_NAME", dsRecentVariant.getColumn(0,"CLIENT_NAME"));
+				this.ds_List.setColumn(0, "PROJECT_CODE", dsRecentVariant.getColumn(0,"PROJECT_CODE"));
+				this.ds_List.setColumn(0, "PROJECT_NAME", dsRecentVariant.getColumn(0,"PROJECT_NAME"));
+			}		
+		}else{
+				this.ds_List.setColumn(0, "CLIENT_CODE", "");
+				this.ds_List.setColumn(0, "CLIENT_NAME", "");
+				this.ds_List.setColumn(0, "PROJECT_CODE", "");
+				this.ds_List.setColumn(0, "PROJECT_NAME", "");
+		}
+	}
+}
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInitForm = function()
+{
+	this.FV_FORM_TYPE = this.parent.pvFormType;
+	this.FV_RTS_SEQ = this.parent.pvRtsSeq;
+	this.FV_REQ_DT = this.parent.pvReqDt;
+
+	this.gfnCompDisable(this.div_RequestContract.form, true);
+	this.gfnCompDisable(this.div_Request.form, true);
+	var arrExceptionComp = [this.div_Confirm.form.btn_PSE_Flag];
+	this.gfnCompDisable(this.div_Confirm.form, true, arrExceptionComp);
+	this.gfnCompDisable(this.div_EduInfo.form, true);
+	this.gfnCompDisable(this.div_Etc.form, true);
+	/*
+		신규-요청-TR
+		수정-요청-TR (삭제가능)
+		수정-승인-TC (삭제가능)
+		
+		조회-관리-전체-TA
+	*/
+	if(this.FV_FORM_TYPE == "TR")
+	{		
+		this.st_Title.set_text(this.st_Title.text+" "+this.gfnGetTransTxt(22, "요청"));
+		// 요청일자 초기화 처리
+		if (!this.gfnIsEmpty(this.div_Request.form.msk_DtRequest.value)) {
+			var sToday = this.gfnToday();
+			this.div_Request.form.msk_DtRequest.set_value(sToday);
+		}
+		
+		// 요청자 초기화 처리
+		if (!this.gfnIsEmpty(this.div_Request.form.edt_EmpReg.value)) {
+			var sEmpNm = nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NM");
+			this.div_Request.form.edt_EmpReg.set_value(sEmpNm);
+		}
+	}
+	else if(this.FV_FORM_TYPE == "TC")
+	{
+		this.st_Title.set_text(this.st_Title.text+" "+this.gfnGetTransTxt(811, "승인"));
+		
+		// 승인일자 초기화 처리
+		if (!this.gfnIsEmpty(this.div_Confirm.form.msk_ConfirmDate.value)) {
+			var sToday = this.gfnToday();
+			this.div_Confirm.form.msk_ConfirmDate.set_value(sToday);
+		}
+		
+		// 승인자 초기화 처리
+		if (!this.gfnIsEmpty(this.div_Confirm.form.edt_ConfirmEmp.value)) {
+			var sEmpNm = nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NM");
+			this.div_Confirm.form.edt_ConfirmEmp.set_value(sEmpNm);
+		}
+	}
+	else if(this.FV_FORM_TYPE == "TA")
+	{
+		
+	}
+}
+
+this.fnAddRow = function()
+{
+	var today = new nexacro.Date();
+	var sYYYYMMDD = today.getYear()
+					+ (today.getMonth()+1).toString().padLeft(2,"0")
+					+ (today.getDate()).toString().padLeft(2,"0");
+	if(!this.gfnIsEmpty(this.FV_REQ_DT))
+	{
+		sYYYYMMDD = this.FV_REQ_DT;
+	}
+	
+	
+	this.ds_List.set_enableevent(false);
+	var newrow = this.ds_List.addRow();
+	
+	this.ds_List.setColumn(newrow, "TECH_TYPE",			"E");
+	this.ds_List.setColumn(newrow, "CONFIRM_CD",		"0");
+	this.ds_List.setColumn(newrow, "PSE_FLAG",			"0");
+	this.ds_List.setColumn(newrow, "REQUEST_START_DATE",sYYYYMMDD);
+	this.ds_List.setColumn(newrow, "REQUEST_START_HOUR","09");
+	this.ds_List.setColumn(newrow, "REQUEST_START_MIN",	"00");
+	this.ds_List.setColumn(newrow, "REQUEST_END_DATE",	sYYYYMMDD);
+	this.ds_List.setColumn(newrow, "REQUEST_END_HOUR",	"17");
+	this.ds_List.setColumn(newrow, "REQUEST_END_MIN",	"00");
+
+
+	this.ds_List.setColumn(newrow, "PROJECTOR_FLAG","0");
+	this.ds_List.setColumn(newrow, "PC_FLAG",		"0");
+	this.ds_List.setColumn(newrow, "NETWORK_FLAG",	"0");
+	this.ds_List.setColumn(newrow, "TEXTBOOK_FLAG",	"0");
+	
+
+	/*영업관리에서 인력요청시 계약내용 추가*/
+	if(!this.gfnIsEmpty(this.parent.pvProjectCode))
+	{
+		this.ds_List.setColumn(newrow, "PROJECT_CODE",		this.parent.pvProjectCode);
+		this.ds_List.setColumn(newrow, "PROJECT_NAME",		this.parent.pvProjectName);
+		this.ds_List.setColumn(newrow, "CLIENT_CODE",		this.parent.pvClientCode);
+		this.ds_List.setColumn(newrow, "CLIENT_NAME",		this.parent.pvClientName);
+		this.ds_List.setColumn(newrow, "CONTRACT_NO",		this.parent.pvContractNo);
+		this.ds_List.setColumn(newrow, "CONTRACT_NAME",		this.parent.pvContractName);
+		this.ds_List.setColumn(newrow, "REQUEST_START_DATE",this.parent.pvStartDate);
+		this.ds_List.setColumn(newrow, "REQUEST_END_DATE",	this.parent.pvEndDate);
+		// this.ds_List.setColumn(newrow, "PSE_FLAG",			"0");
+		
+		//var ds = new nexacro.Dataset();
+		//ds.loadXML(this.parent.pvdsContractSi);
+		
+		/*
+		for(var i=0; i<ds.getRowCount(); i++)
+		{
+			var nAddRow = this.ds_DetList.addRow();
+			this.ds_DetList.setColumn(nAddRow, "ROLE_CODE", 	ds.getColumn(i, "ROLE_CODE"));
+			this.ds_DetList.setColumn(nAddRow, "LEVEL_CODE", 	ds.getColumn(i, "LEVEL_CODE"));
+			this.ds_DetList.setColumn(nAddRow, "UNIT_COST", 	ds.getColumn(i, "UNIT_COST"));
+			this.ds_DetList.setColumn(nAddRow, "SKILL_1", 		this.parent.pvProductCode);
+			this.ds_DetList.setColumn(nAddRow, "MEN_MONTH", 	ds.getColumn(i, "MEN_MONTH"));
+			this.ds_DetList.setColumn(nAddRow, "START_DATE", 	ds.getColumn(i, "START_DATE"));
+			this.ds_DetList.setColumn(nAddRow, "END_DATE", 		ds.getColumn(i, "END_DATE"));
+		}
+		*/
+	}
+	
+	
+	
+	this.ds_List.set_enableevent(true);
+	
+	
+	
+	
+	var nFindRow = this.ds_EmpList.findRow("BLEADER", "1");
+	this.div_Request.form.cmb_EmpList.set_index(nFindRow);
+	
+	this.div_RequestContract.form.div_Contract.setFocus();
+}
+
+// 공통검색 component callback 처리
+this.Com_Search_onChanged = function (obj, e)
+{
+	// 초기화 처리
+	if (this.gfnIsEmpty(e.newCode))	 {
+		this.div_RequestContract.form.div_Contract.setCode(null);
+		this.div_RequestContract.form.div_Contract.setData(null);
+		
+		this.div_RequestContract.form.edt_ClientName.set_value(null);
+		this.div_RequestContract.form.edt_ProjectName.set_value(null);
+	} else {
+		var ds = obj.getRecentVariant();
+		var sClientNm = ds.getColumn(0, "CLIENT_NAME");
+		var sProjectNm = ds.getColumn(0, "PROJECT_NAME");
+		var sProductNm = ds.getColumn(0, "PRODUCT_NAME");
+		
+		this.div_RequestContract.form.edt_ClientName.set_value(sClientNm);
+		this.div_RequestContract.form.edt_ProjectName.set_value(sProjectNm);
+		this.div_Request.form.edt_ProductName.set_value(sProductNm);
+	}
+}
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 공통코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_comm_ConfirmCd",	"CONFIRM_CD");
+	this.gfnAddCodeDataset("ds_cmm_TechType", 	"REQUEST_TYPE");
+	this.gfnAddCodeDataset("ds_cmm_Role",		"ROLE_CODE"); 		// 역할코드
+	this.gfnAddCodeDataset("ds_cmm_Level",		"LEVEL_CODE"); 		// 등급
+	this.gfnCodeTransaction();
+}
+//직원조회
+this.fnGetEmpList = function()
+{
+	this.gfnAddSendParameter("ATM_SEQ", "172");		//교육 직원조회
+	this.gfnAddOutputDataset("ds_EmpList", "dsOutput");
+	this.gfnCommonTransaction("GetEmpList", "CO_FindAuthEmp_S01");	
+}
+// 조회
+this.fnSearch = function()
+{	
+	this.gfnAddSendParameter("RTS_SEQ", this.FV_RTS_SEQ);
+	this.gfnAddOutputDataset("ds_List",	"ds_output");
+	
+	this.gfnCommonTransaction("Select", "TR_RequestOnsiteEduReg_S01");
+}
+
+// 저장
+this.fnSave = function(bKind)
+{	
+	if(bKind!="D")
+	{
+		if(this.FV_FORM_TYPE != "TR" 
+			&& this.ds_List.getColumn(0, "CONFIRM_CD") != '0'
+			&& this.gfnIsEmpty(this.ds_List.getColumn(0, "CONFIRM_EMP_NO"))
+		) {
+			if(this.gfnIsEmpty(this.ds_List.getColumn(0, "WORK_EMP_NO")))
+			{
+				alert(this.gfnGetTransTxt(1529, "교육담당자를 지정하여야 합니다."));
+				this.div_Confirm.form.div_EmpWork.setFocus();
+				return;
+			}
+			this.ds_List.setColumn(0, "CONFIRM_EMP_NO",		nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NO"));
+			this.ds_List.setColumn(0, "CONFIRM_EMP_NAME",	nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NM"));
+			this.ds_List.setColumn(0, "CONFIRM_DATE",		this.gfnToday());
+		}
+		if(this.FV_FORM_TYPE == "TR")
+		{
+			if( this.gfnIsEmpty(this.ds_List.getColumn(0, "EMP_NAME"))
+			&&	this.gfnIsEmpty(this.ds_List.getColumn(0, "DEPT_NAME"))
+			&&	this.gfnIsEmpty(this.ds_List.getColumn(0, "GRADE_NAME"))
+			&&	this.gfnIsEmpty(this.ds_List.getColumn(0, "H_PHONE_NO"))
+			&&	this.gfnIsEmpty(this.ds_List.getColumn(0, "EDU_COUNT"))
+			&&	this.gfnIsEmpty(this.ds_List.getColumn(0, "EMAIL"))
+			&&	this.gfnIsEmpty(this.ds_List.getColumn(0, "EDU_PLACE"))
+			)
+			{
+				alert(this.gfnGetTransTxt(1530, "교육신청정보를 입력하여야 합니다."));
+				this.div_EduInfo.form.edt_ReqEmp.setFocus();
+				return;
+			}
+
+			if(this.gfnIsEmpty(this.ds_List.getColumn(0, "VOUCHER_NO")))
+			{
+				alert(this.gfnGetTransTxt(1531, "바우처번호를 선택 하여야 합니다."));
+				this.div_Request.form.btn_PopupVoucherNo.setFocus();
+				return;
+			}
+		}
+		//신규추가 저장시 담당자에게 문자를 보낸다	
+		if(this.FV_FORM_TYPE == "TR" || this.ds_List.getRowType()==2)
+		{
+			if ( this.confirm(this.gfnGetTransTxt(1738, "교육요청 SMS를 전송하시겠습니까?")))
+			{
+				var strMsg = this.gfnGetTransTxt(22810, "교육요청") + "-" + this.ds_List.getColumn(0, "CLIENT_NAME") + "/" + this.ds_List.getColumn(0, "PROJECT_NAME") + "/" + this.ds_List.getColumn(0, "REQUEST_START_DATE");
+				var strEmpNo = this.ds_List.getColumn(0, "REQUEST_EMP_NO");
+				this.fnSendSMS(strMsg,strEmpNo,"REQ_EDU");
+			}
+		}	
+		//완료시 요청자에게 문자를 보낸다
+		else if((this.FV_FORM_TYPE == "TC" || this.FV_FORM_TYPE == "TA") && this.ds_List.getColumn(0, "CONFIRM_CD")=="2"
+		&& this.ds_List.getColumn(0, "WORK_EMP_NO")!=this.ds_List.getColumn(0, "INSERT_EMP_NO"))
+		{
+			if (this.confirm(this.gfnGetTransTxt(1739, "요청자에게 처리결과를 전송하시겠습니까?")))
+			{
+				var strMsg = "-" + this.ds_List.getColumn(0, "REQUEST_START_DATE") + "/" + this.ds_List.getColumn(0, "CLIENT_NAME") +"/"+this.ds_List.getColumn(0, "PROJECT_NAME")+"/"+this.ds_List.getColumn(0, "WORK_EMP_NAME");
+				//문자발송
+				var strEmpNo = this.ds_List.getColumn(0, "INSERT_EMP_NO");
+				this.fnSendSMS(this.gfnGetTransTxt(22811, "온사이트교육 완료") + strMsg, strEmpNo,"ONSITE_EDU_COMPLETE");
+			}
+		}
+		/*반려, 취소 일경우 바우처 번호 초기화*/
+		if(this.ds_List.getColumn(0, "CONFIRM_CD")=="3"||this.ds_List.getColumn(0, "CONFIRM_CD")=="5")
+			this.ds_List.setColumn(0, "VOUCHER_NO");
+			
+		//교육기간 날짜만 입력시 시간자동셋팅
+		var workStartDt = this.ds_List.getColumn(this.ds_List.rowposition, "WORK_START_DATE");
+		var workStartH = this.ds_List.getColumn(this.ds_List.rowposition, "WORK_START_HOUR");
+		var workStartM = this.ds_List.getColumn(this.ds_List.rowposition, "WORK_START_MIN");
+		var workEndDt = this.ds_List.getColumn(this.ds_List.rowposition, "WORK_END_DATE");	
+		var workEndH = this.ds_List.getColumn(this.ds_List.rowposition, "WORK_END_HOUR");
+		var workEndM = this.ds_List.getColumn(this.ds_List.rowposition, "WORK_END_MIN");	
+		if(!this.gfnIsEmpty(workStartDt) && (this.gfnIsEmpty(workStartH)||this.gfnIsEmpty(workStartH)))
+		{
+			this.ds_List.setColumn(this.ds_List.rowposition, "WORK_START_HOUR",	"09");
+			this.ds_List.setColumn(this.ds_List.rowposition, "WORK_START_MIN",	"00");
+		}
+		if(!this.gfnIsEmpty(workEndDt) && (this.gfnIsEmpty(workEndH)||this.gfnIsEmpty(workEndM)))
+		{
+			this.ds_List.setColumn(this.ds_List.rowposition, "WORK_END_HOUR",	"17");
+			this.ds_List.setColumn(this.ds_List.rowposition, "WORK_END_MIN",	"00");
+		}			
+	}
+	this.gfnAddInputDataset("ds_List", "dsInput");
+	this.gfnCommonTransaction("Save", "TR_RequestOnsiteEduReg_R01");
+}
+
+this.fnSendSMS = function (strMsg,strEmpNo,sAlimTalkService)
+{
+	var sSendType = "SELF";
+	var sTelNoKind = "M";
+	var arrSmsInfo = new Array();
+		arrSmsInfo[0] = {};
+		arrSmsInfo[0].pvUserKind = "EMP";
+		arrSmsInfo[0].pvUserCode = strEmpNo;
+		
+	if (this.commUtil.getByteSize(strMsg) > 90) {
+		strMsg = strMsg.substr(0, 90);
+	}
+
+	//this.gfnAddSmsList(arrSmsInfo);		// 수신자 처리
+	this.gfnAddAlimTalkList(arrSmsInfo);	// 수신자 처리
+	//this.gfnSendSms ("SendSMS", sSendType, sTelNoKind, "", strMsg, "");	// SMS 발송
+	this.gfnSendAlimTalk ("SendSMS", sSendType, sTelNoKind, "", strMsg, "", sAlimTalkService);	// 알림톡 발송
+}
+
+// 삭제
+this.fnDelete = function()
+{
+	if(this.ds_List.getRowCount() > 0)
+	{
+		if(confirm(this.gfnGetTransTxt(1683, "삭제하시겠습니까?")))
+		{
+			this.ds_List.deleteRow(0);
+			this.fnSave("D");
+		}
+	}
+}
+
+// 콜백처리
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) {
+		return;
+	} else {
+		if(strSvcID=="gfnGetCode") {
+			this.fnInitForm();
+			if(this.FV_FORM_TYPE == "TC"){
+				this.ds_comm_ConfirmCd.set_enableevent(false);
+				this.ds_comm_ConfirmCd.filter("CODE!='0' && CODE!='4'");
+				this.ds_comm_ConfirmCd.set_enableevent(true);
+			}			
+			this.fnGetEmpList();
+		} else if(strSvcID=="GetEmpList") {
+			this.fnSearch();
+		} else if(strSvcID=="Select") {
+			var strLoginEmp = nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NO");			//로그인사용자
+			var strInsertEmp = this.ds_List.getColumn(this.ds_List.rowposition, "INSERT_EMP_NO");	//등록자
+			var strRequestEmp = this.ds_List.getColumn(this.ds_List.rowposition, "REQUEST_EMP_NO");	//요청담당자
+			var strWorkEmp = this.ds_List.getColumn(this.ds_List.rowposition, "WORK_EMP_NO");		//처리담당자
+			var strConfirmEmp = this.ds_List.getColumn(this.ds_List.rowposition, "CONFIRM_EMP_NO");	//승인자
+			var strConfirmCD = this.ds_List.getColumn(this.ds_List.rowposition, "CONFIRM_CD");		//승인여부		
+			
+			//trace("strLoginEmp : "+strLoginEmp +", strInsertEmp : "+strInsertEmp +", strRequestEmp : "+strRequestEmp +", strWorkEmp : "+strWorkEmp +", strConfirmEmp : "+strConfirmEmp);
+			strInsertEmp = this.gfnIsEmpty(strInsertEmp)==false?strInsertEmp:"";
+			strRequestEmp = this.gfnIsEmpty(strRequestEmp)==false?strRequestEmp:"";
+			strWorkEmp = this.gfnIsEmpty(strWorkEmp)==false?strWorkEmp:"";
+			strConfirmEmp = this.gfnIsEmpty(strConfirmEmp)==false?strConfirmEmp:"";
+			//trace("strLoginEmp : "+strLoginEmp +", strInsertEmp : "+strInsertEmp +", strRequestEmp : "+strRequestEmp +", strWorkEmp : "+strWorkEmp +", strConfirmEmp : "+strConfirmEmp);
+			
+			//저장은 관련자만
+			var bSave = false;
+			/*요청활성화 : 등록자, 요청담당자, 신규일경우*/
+			if(this.FV_FORM_TYPE != "TC" && (strLoginEmp == strInsertEmp || strLoginEmp == strRequestEmp || this.gfnIsEmpty(this.FV_RTS_SEQ)))
+			{
+				this.gfnCompDisable(this.div_RequestContract.form, false);
+				this.gfnCompDisable(this.div_Request.form, false);
+				this.gfnCompDisable(this.div_EduInfo.form, false);
+				this.gfnCompDisable(this.div_Etc.form, false);
+				bSave = true;
+			}
+			/*승인활성화*/
+			if((this.FV_FORM_TYPE != "TR") 
+			&& (strLoginEmp == strWorkEmp					//처리담당자
+				|| strLoginEmp == strConfirmEmp 			//승인자
+				|| this.commUtil.getFormAuthority(262,3)))	//교육 승인권한
+			{	
+				var arrExceptionComp = [this.div_Confirm.form.btn_PSE_Flag];
+				this.gfnCompDisable(this.div_Confirm.form, false, arrExceptionComp);
+				this.gfnCompDisable(this.div_EduInfo.form, false);
+				this.gfnCompDisable(this.div_Etc.form, false);
+				bSave = true;
+			}
+			/*승인여부가 [2 완료, 3 반려, 5 취소] 일 경우 조회만 가능 
+			교육승인권한자는 항상 수정가능*/
+			var arrConfirmCD = ['2','3','5'];
+			if(arrConfirmCD.indexOf(strConfirmCD) >= 0 && !this.commUtil.getFormAuthority(262,3))
+			{
+				this.gfnCompDisable(this.div_RequestContract.form, true);
+				this.gfnCompDisable(this.div_Request.form, true);
+				var arrExceptionComp = [this.div_Confirm.form.btn_PSE_Flag];
+				this.gfnCompDisable(this.div_Confirm.form, true, arrExceptionComp);
+				this.gfnCompDisable(this.div_EduInfo.form, true);
+				this.gfnCompDisable(this.div_Etc.form, true);
+				bSave = false;			
+			}
+			this.btn_Save.set_enable(bSave);
+
+			//삭제는 승인 안되었을경우 등록자만
+			if(strLoginEmp == strInsertEmp && this.gfnIsEmpty(strConfirmEmp) == true)
+				this.btn_Delete.set_enable(true);
+				
+			if(this.ds_List.getRowCount() <= 0)	{
+				this.fnAddRow();
+			} else {
+			}
+			
+		} else if(strSvcID=="Save")	{
+			this.commUtil.popupClose("save");
+		}
+	}
+}
+
+this.div_Request_btn_PopupVoucherNo_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sArgument = {Year: this.ds_List.getColumn(this.ds_List.rowposition, "REQUEST_START_DATE").substring(0,4)};
+	this.commUtil.popup(this, "TE_EduVoucherReg", "Technique::TE_EduVoucherReg.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+};
+
+this.fnPopupCallBack = function (popupId, popupArg)
+{	
+	popupArg = this.commUtil.popupReturn();
+	switch(popupId)
+	{
+		case "TE_EduVoucherReg" : 
+			if(!this.gfnIsEmpty(popupArg))
+				this.ds_List.setColumn(0, "VOUCHER_NO", popupArg);
+			break;
+		case "TR_RequestTechniquePSE" :	//투입인력반영
+			switch(popupArg) {
+				case "Save" :
+					this.ds_List.setColumn(this.ds_List.rowposition, "PSE_FLAG", "1");
+				break;
+				case "Delete" :
+					this.ds_List.setColumn(this.ds_List.rowposition, "PSE_FLAG", "0");
+				break;
+			}
+			break;			
+		default:
+			break;
+	}
+};
+this.ds_List_onload = function(obj:nexacro.NormalDataset,e:nexacro.DSLoadEventInfo)
+{
+	if (obj.getRowCount()>0)
+	{			
+		/*투입인력반영 권한*/
+		if(this.ds_List.getColumn(0, "CONTRACT_TYPE")=="T" && this.commUtil.getFormAuthority(262,5))
+		{
+			this.div_Confirm.form.btn_PSE_Flag.set_enable(true);
+		}
+	}
+};
+
+this.div_Confirm_btn_PSE_Flag_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	/*승인여부가 [1 승인, 2 완료] 일 경우 가능*/
+	var arrConfirmCD = ['1','2'];	
+	if(arrConfirmCD.indexOf(this.ds_List.getColumn(0, "CONFIRM_CD")) < 0
+		|| this.gfnIsEmpty(this.ds_List.getColumn(0, "WORK_EMP_NO"))
+		|| this.gfnIsEmpty(this.ds_List.getColumn(0, "WORK_START_DATE"))
+		|| this.gfnIsEmpty(this.ds_List.getColumn(0, "WORK_END_DATE"))
+		)
+	{
+		alert(this.gfnGetTransTxt(1532, "승인, 완료이후 투입인력 반영이 가능합니다."));
+		return;
+	}
+	var Argument = {pvDsList:this.ds_List.saveXML(), pvDsEmpList:this.ds_EmpList.saveXML(), pvRoleCode:'016'};
+	this.commUtil.popup(this, "TR_RequestTechniquePSE", "Technique::TR_RequestTechniquePSE.xfdl", -1, -1, 376, 221, true, true, false, Argument, "fnPopupCallBack");
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_List" oncolumnchanged="ds_List_oncolumnchanged" onload="ds_List_onload">
+        <ColumnInfo>
+          <Column id="RTS_SEQ" type="bigdecimal" size="20"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="TECH_TYPE" type="string" size="20"/>
+          <Column id="INSERT_EMP_NAME" type="string" size="255"/>
+          <Column id="INSERT_DATE" type="string" size="8"/>
+          <Column id="REQUEST_START_DATE" type="string" size="8"/>
+          <Column id="REQUEST_START_HOUR" type="string" size="2"/>
+          <Column id="REQUEST_START_MIN" type="string" size="2"/>
+          <Column id="REQUEST_END_DATE" type="string" size="8"/>
+          <Column id="REQUEST_END_HOUR" type="string" size="2"/>
+          <Column id="REQUEST_END_MIN" type="string" size="2"/>
+          <Column id="REQUEST_EMP_NO" type="string" size="60"/>
+          <Column id="REQUEST_EMP_NAME" type="string" size="255"/>
+          <Column id="REQUEST_CONTENTS" type="string" size="1073741823"/>
+          <Column id="CONFIRM_CD" type="string" size="20"/>
+          <Column id="CONFIRM_DATE" type="string" size="8"/>
+          <Column id="CONFIRM_EMP_NO" type="string" size="60"/>
+          <Column id="CONFIRM_EMP_NAME" type="string" size="255"/>
+          <Column id="WORK_START_DATE" type="string" size="8"/>
+          <Column id="WORK_START_HOUR" type="string" size="2"/>
+          <Column id="WORK_START_MIN" type="string" size="2"/>
+          <Column id="WORK_END_DATE" type="string" size="8"/>
+          <Column id="WORK_END_HOUR" type="string" size="2"/>
+          <Column id="WORK_END_MIN" type="string" size="2"/>
+          <Column id="WORK_TOTAL_TIME" type="float" size="22"/>
+          <Column id="WORK_EMP_NO" type="string" size="60"/>
+          <Column id="WORK_EMP_NAME" type="string" size="255"/>
+          <Column id="WORK_CONTENTS" type="string" size="1073741823"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="PRODUCT_CODE" type="string" size="20"/>
+          <Column id="PRODUCT_NAME" type="string" size="100"/>
+          <Column id="DEPT_NAME" type="string" size="100"/>
+          <Column id="EMP_NAME" type="string" size="100"/>
+          <Column id="GRADE_NAME" type="string" size="100"/>
+          <Column id="H_PHONE_NO" type="string" size="30"/>
+          <Column id="EMAIL" type="string" size="200"/>
+          <Column id="EDU_COUNT" type="int" size="11"/>
+          <Column id="PROJECTOR_FLAG" type="string" size="1"/>
+          <Column id="PC_FLAG" type="string" size="1"/>
+          <Column id="NETWORK_FLAG" type="string" size="1"/>
+          <Column id="TEXTBOOK_FLAG" type="string" size="1"/>
+          <Column id="EDU_PLACE" type="string" size="200"/>
+          <Column id="EDU_REAL_COUNT" type="int" size="11"/>
+          <Column id="PSE_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CD_Min">
+        <ColumnInfo>
+          <Column id="codecolumn" size="256"/>
+          <Column id="datacolumn" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="codecolumn">00</Col>
+            <Col id="datacolumn">00</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">01</Col>
+            <Col id="datacolumn">01</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">02</Col>
+            <Col id="datacolumn">02</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">03</Col>
+            <Col id="datacolumn">03</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">04</Col>
+            <Col id="datacolumn">04</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">05</Col>
+            <Col id="datacolumn">05</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">06</Col>
+            <Col id="datacolumn">06</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">07</Col>
+            <Col id="datacolumn">07</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">08</Col>
+            <Col id="datacolumn">08</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">09</Col>
+            <Col id="datacolumn">09</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">10</Col>
+            <Col id="datacolumn">10</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">11</Col>
+            <Col id="datacolumn">11</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">12</Col>
+            <Col id="datacolumn">12</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">13</Col>
+            <Col id="datacolumn">13</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">14</Col>
+            <Col id="datacolumn">14</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">15</Col>
+            <Col id="datacolumn">15</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">16</Col>
+            <Col id="datacolumn">16</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">17</Col>
+            <Col id="datacolumn">17</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">18</Col>
+            <Col id="datacolumn">18</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">19</Col>
+            <Col id="datacolumn">19</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">20</Col>
+            <Col id="datacolumn">20</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">21</Col>
+            <Col id="datacolumn">21</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">22</Col>
+            <Col id="datacolumn">22</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">23</Col>
+            <Col id="datacolumn">23</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">24</Col>
+            <Col id="datacolumn">24</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">25</Col>
+            <Col id="datacolumn">25</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">26</Col>
+            <Col id="datacolumn">26</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">27</Col>
+            <Col id="datacolumn">27</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">28</Col>
+            <Col id="datacolumn">28</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">29</Col>
+            <Col id="datacolumn">29</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">30</Col>
+            <Col id="datacolumn">30</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">31</Col>
+            <Col id="datacolumn">31</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">32</Col>
+            <Col id="datacolumn">32</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">33</Col>
+            <Col id="datacolumn">33</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">34</Col>
+            <Col id="datacolumn">34</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">35</Col>
+            <Col id="datacolumn">35</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">36</Col>
+            <Col id="datacolumn">36</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">37</Col>
+            <Col id="datacolumn">37</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">38</Col>
+            <Col id="datacolumn">38</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">39</Col>
+            <Col id="datacolumn">39</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">40</Col>
+            <Col id="datacolumn">40</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">41</Col>
+            <Col id="datacolumn">41</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">42</Col>
+            <Col id="datacolumn">42</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">43</Col>
+            <Col id="datacolumn">43</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">44</Col>
+            <Col id="datacolumn">44</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">45</Col>
+            <Col id="datacolumn">45</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">46</Col>
+            <Col id="datacolumn">46</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">47</Col>
+            <Col id="datacolumn">47</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">48</Col>
+            <Col id="datacolumn">48</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">49</Col>
+            <Col id="datacolumn">49</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">50</Col>
+            <Col id="datacolumn">50</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">51</Col>
+            <Col id="datacolumn">51</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">52</Col>
+            <Col id="datacolumn">52</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">53</Col>
+            <Col id="datacolumn">53</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">54</Col>
+            <Col id="datacolumn">54</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">55</Col>
+            <Col id="datacolumn">55</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">56</Col>
+            <Col id="datacolumn">56</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">57</Col>
+            <Col id="datacolumn">57</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">58</Col>
+            <Col id="datacolumn">58</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">59</Col>
+            <Col id="datacolumn">59</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_CD_Hour">
+        <ColumnInfo>
+          <Column id="codecolumn" size="256"/>
+          <Column id="datacolumn" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="codecolumn">00</Col>
+            <Col id="datacolumn">00</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">01</Col>
+            <Col id="datacolumn">01</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">02</Col>
+            <Col id="datacolumn">02</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">03</Col>
+            <Col id="datacolumn">03</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">04</Col>
+            <Col id="datacolumn">04</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">05</Col>
+            <Col id="datacolumn">05</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">06</Col>
+            <Col id="datacolumn">06</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">07</Col>
+            <Col id="datacolumn">07</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">08</Col>
+            <Col id="datacolumn">08</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">09</Col>
+            <Col id="datacolumn">09</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">10</Col>
+            <Col id="datacolumn">10</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">11</Col>
+            <Col id="datacolumn">11</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">12</Col>
+            <Col id="datacolumn">12</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">13</Col>
+            <Col id="datacolumn">13</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">14</Col>
+            <Col id="datacolumn">14</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">15</Col>
+            <Col id="datacolumn">15</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">16</Col>
+            <Col id="datacolumn">16</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">17</Col>
+            <Col id="datacolumn">17</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">18</Col>
+            <Col id="datacolumn">18</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">19</Col>
+            <Col id="datacolumn">19</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">20</Col>
+            <Col id="datacolumn">20</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">21</Col>
+            <Col id="datacolumn">21</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">22</Col>
+            <Col id="datacolumn">22</Col>
+          </Row>
+          <Row>
+            <Col id="codecolumn">23</Col>
+            <Col id="datacolumn">23</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_comm_ConfirmCd">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_TechType">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_EmpList"/>
+      <Dataset id="ds_cmm_Role">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Level">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item19" compid="div_Confirm.form.medt_EduRealCount" propid="value" datasetid="ds_List" columnid="EDU_REAL_COUNT"/>
+      <BindItem id="item20" compid="div_Confirm.form.cmb_ConfirmCd" propid="value" datasetid="ds_List" columnid="CONFIRM_CD"/>
+      <BindItem id="item4" compid="div_Confirm.form.edt_ConfirmEmp" propid="value" datasetid="ds_List" columnid="CONFIRM_EMP_NAME"/>
+      <BindItem id="item2" compid="div_Confirm.form.cal_DtFrom" propid="accessibilityaction" datasetid="ds_List" columnid="WORK_START_DATE"/>
+      <BindItem id="item3" compid="div_Confirm.form.cal_DtTo" propid="value" datasetid="ds_List" columnid="WORK_END_DATE"/>
+      <BindItem id="item5" compid="div_Confirm.form.cmb_HourFrom" propid="value" datasetid="ds_List" columnid="WORK_START_HOUR"/>
+      <BindItem id="item21" compid="div_Confirm.form.cmb_MinFrom" propid="value" datasetid="ds_List" columnid="WORK_START_MIN"/>
+      <BindItem id="item22" compid="div_Confirm.form.cmb_HourTo" propid="value" datasetid="ds_List" columnid="WORK_END_HOUR"/>
+      <BindItem id="item23" compid="div_Confirm.form.cmb_MinTo" propid="value" datasetid="ds_List" columnid="WORK_END_MIN"/>
+      <BindItem id="item31" compid="div_Confirm.form.cal_DtFrom" propid="value" datasetid="ds_List" columnid="WORK_START_DATE"/>
+      <BindItem id="item33" compid="div_Confirm.form.msk_ConfirmDate" propid="value" datasetid="ds_List" columnid="CONFIRM_DATE"/>
+      <BindItem id="item34" compid="div_Confirm.form.ta_WorkContents" propid="value" datasetid="ds_List" columnid="WORK_CONTENTS"/>
+      <BindItem id="item36" compid="div_Etc.form.txt_Remarks" propid="value" datasetid="ds_List" columnid="REMARKS"/>
+      <BindItem id="item40" compid="div_EduInfo.form.edt_ReqEmp" propid="value" datasetid="ds_List" columnid="EMP_NAME"/>
+      <BindItem id="item41" compid="div_EduInfo.form.edt_ReqDept" propid="value" datasetid="ds_List" columnid="DEPT_NAME"/>
+      <BindItem id="item42" compid="div_EduInfo.form.edt_ReqGrade" propid="value" datasetid="ds_List" columnid="GRADE_NAME"/>
+      <BindItem id="item43" compid="div_EduInfo.form.edt_ReqPhone" propid="value" datasetid="ds_List" columnid="H_PHONE_NO"/>
+      <BindItem id="item44" compid="div_EduInfo.form.edt_ReqEmail" propid="value" datasetid="ds_List" columnid="EMAIL"/>
+      <BindItem id="item45" compid="div_EduInfo.form.medt_EduCount" propid="value" datasetid="ds_List" columnid="EDU_COUNT"/>
+      <BindItem id="item46" compid="div_EduInfo.form.ckb_Project" propid="value" datasetid="ds_List" columnid="PROJECTOR_FLAG"/>
+      <BindItem id="item47" compid="div_EduInfo.form.ckb_Pc" propid="value" datasetid="ds_List" columnid="PC_FLAG"/>
+      <BindItem id="item48" compid="div_EduInfo.form.ckb_Network" propid="value" datasetid="ds_List" columnid="NETWORK_FLAG"/>
+      <BindItem id="item49" compid="div_EduInfo.form.ckb_Textbook" propid="value" datasetid="ds_List" columnid="TEXTBOOK_FLAG"/>
+      <BindItem id="item50" compid="div_EduInfo.form.edt_Place" propid="value" datasetid="ds_List" columnid="EDU_PLACE"/>
+      <BindItem id="item0" compid="div_Request.form.cal_DtFrom" propid="value" datasetid="ds_List" columnid="REQUEST_START_DATE"/>
+      <BindItem id="item1" compid="div_Request.form.cmb_HourFrom" propid="value" datasetid="ds_List" columnid="REQUEST_START_HOUR"/>
+      <BindItem id="item6" compid="div_Request.form.cmb_MinFrom" propid="value" datasetid="ds_List" columnid="REQUEST_START_MIN"/>
+      <BindItem id="item9" compid="div_Request.form.edt_ProductName" propid="value" datasetid="ds_List" columnid="PRODUCT_NAME"/>
+      <BindItem id="item10" compid="div_Request.form.msk_DtRequest" propid="value" datasetid="ds_List" columnid="INSERT_DATE"/>
+      <BindItem id="item11" compid="div_Request.form.edt_EmpReg" propid="value" datasetid="ds_List" columnid="INSERT_EMP_NAME"/>
+      <BindItem id="item12" compid="div_Request.form.ta_ReqContents" propid="value" datasetid="ds_List" columnid="REQUEST_CONTENTS"/>
+      <BindItem id="item7" compid="div_RequestContract.form.edt_ClientName" propid="value" datasetid="ds_List" columnid="CLIENT_NAME"/>
+      <BindItem id="item8" compid="div_RequestContract.form.edt_ProjectName" propid="value" datasetid="ds_List" columnid="PROJECT_NAME"/>
+      <BindItem id="item13" compid="div_Request.form.cal_DtTo" propid="value" datasetid="ds_List" columnid="REQUEST_END_DATE"/>
+      <BindItem id="item14" compid="div_Request.form.cmb_HourTo" propid="value" datasetid="ds_List" columnid="REQUEST_END_HOUR"/>
+      <BindItem id="item15" compid="div_Request.form.cmb_MinTo" propid="value" datasetid="ds_List" columnid="REQUEST_END_MIN"/>
+      <BindItem id="item16" compid="div_Request.form.cmb_EmpList" propid="value" datasetid="ds_List" columnid="REQUEST_EMP_NO"/>
+      <BindItem id="item17" compid="div_Confirm.form.cmb_EmpList" propid="value" datasetid="ds_List" columnid="WORK_EMP_NO"/>
+      <BindItem id="item18" compid="div_Request.form.edt_VoucherNo" propid="value" datasetid="ds_List" columnid="VOUCHER_NO"/>
+      <BindItem id="item24" compid="div_Confirm.form.cb_PSE_Flag" propid="value" datasetid="ds_List" columnid="PSE_FLAG"/>
+    </Bind>
+  </Form>
+</FDL>

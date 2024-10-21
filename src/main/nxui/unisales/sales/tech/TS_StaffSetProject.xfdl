@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="TS_StaffSetProject" width="810" height="600" titletext="프로젝트 할당" cssclass="frm_popBg" onload="TS_StaffSetProject_onload">
+    <Layouts>
+      <Layout height="600" mobileorientation="landscape" width="810">
+        <Grid id="grd_List" taborder="0" left="20" top="20" width="361" binddataset="ds_List" bottom="65" autofittype="col" cellsizingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="70"/>
+                <Column size="130"/>
+                <Column size="78"/>
+                <Column size="78"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="성명" TL_SEQ="27"/>
+                <Cell col="1" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="2" text="투입일" TL_SEQ="773"/>
+                <Cell col="3" text="종료일" TL_SEQ="39"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:EMP_NAME"/>
+                <Cell col="1" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:START_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="3" text="bind:END_DATE" displaytype="date" calendardateformat="yyyy-MM-dd"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static02" taborder="1" text="투입인력 정보" left="387.00" top="20" width="104" height="19" cssclass="sta_POP_GroupTit" TL_SEQ="787"/>
+        <Button id="btn_Cancel" taborder="2" text="닫기" height="28" cssclass="btn_WF_cancel" bottom="20" onclick="btn_Close_onclick" TL_SEQ="59" left="734" right="19"/>
+        <Button id="btn_Save" taborder="33" text="저장" width="60" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:5" bottom="20" onclick="btn_Save_onclick" enable="false" TL_SEQ="115"/>
+        <Static id="stc_Sales_List" taborder="3" cssclass="sta_WF_detailBg" top="46" text="" left="386.00" right="20" bottom="65"/>
+        <Static id="stc_Project_Name01" taborder="4" text="고객사" left="390.00" top="55" width="60" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="32"/>
+        <Edit id="edt_ClientName" taborder="5" left="467.00" top="55" height="22" right="30" readonly="true"/>
+        <Static id="stc_Project_Name00" taborder="6" text="프로젝트" left="390.00" top="85" width="60" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="119"/>
+        <Edit id="edt_ProjectName" taborder="7" left="467.00" top="85" height="22" right="30" readonly="true"/>
+        <Static id="stc_Project_Name" taborder="8" text="계약명" left="390.00" top="115" width="60" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="33"/>
+        <Div id="div_Contract" taborder="9" left="467.00" top="114" height="22" url="sales::comm/COM_Search.xfdl" binddataset="ds_List" kind="CONTRACT" async="false" codecolumn="CONTRACT_NO" datacolumn="CONTRACT_NAME" param="searchtype:N" right="30" enable="false"/>
+        <Static id="stc_Project_Name02" taborder="10" text="성명" left="390.00" top="145" width="60" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="27"/>
+        <Div id="div_Emp" taborder="11" left="467.00" top="144" height="22" url="sales:comm/COM_Search.xfdl" binddataset="ds_List" kind="SIEMPLOYEE" async="false" codecolumn="EMP_NO" datacolumn="EMP_NAME" mode="" right="-2" enable="false"/>
+        <Static id="stc_Project_Name03" taborder="12" text="등급" left="390.00" top="174" width="60" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="92"/>
+        <Combo id="cmb_Level" taborder="13" top="174" height="22" width="122" right="195" innerdataset="ds_cmm_Level" codecolumn="CODE" datacolumn="CAPTION" readonly="true"/>
+        <Static id="stc_Project_Name04" taborder="14" text="역할" left="601.00" top="174" width="60" height="22" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="75"/>
+        <Combo id="cmb_Role" taborder="15" top="174" height="22" right="30" innerdataset="ds_cmm_Role" codecolumn="CODE" datacolumn="CAPTION" left="671.00" readonly="true"/>
+        <Static id="stc_Contract_Date" taborder="16" text="투입일" left="390.00" top="204" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="773"/>
+        <Calendar id="cal_StartDt" taborder="17" left="468.00" top="204" width="116" height="22" dateformat="yyyy-MM-dd" readonly="true"/>
+        <Static id="stc_Contract_Date00" taborder="18" text="종료일" left="390.00" top="234" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="39"/>
+        <Calendar id="cal_EndDt" taborder="19" left="468.00" top="234" width="116" height="22" dateformat="yyyy-MM-dd" readonly="true"/>
+        <Static id="stc_Contract_Date01" taborder="20" text="종료예정일" left="794" top="257" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" visible="false" TL_SEQ="788"/>
+        <Calendar id="cal_EndPlanDt" taborder="21" left="864" top="257" height="22" dateformat="yyyy-MM-dd" right="-195" readonly="true" visible="false"/>
+        <CheckBox id="CheckBox00" taborder="22" text="무상지원" left="601.00" top="205" width="74" height="20" value="false" falsevalue="0" truevalue="1" enable="false" TL_SEQ="785"/>
+        <CheckBox id="CheckBox01" taborder="23" text="비상주" left="681.00" top="205" width="98" height="20" falsevalue="0" truevalue="1" enable="false" TL_SEQ="340"/>
+        <Static id="stc_Contract_Date02" taborder="24" text="MM" left="601.00" top="234" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ=""/>
+        <MaskEdit id="medt_MM" taborder="25" left="671.00" top="234" width="116" height="22" format="#,#0.00" readonly="true"/>
+        <Static id="stc_Contract_Date03" taborder="26" text="월단가" left="390.00" top="264" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="344"/>
+        <MaskEdit id="medt_UnitCost" taborder="27" left="468.00" top="264" height="22" right="201" readonly="true" type="number" format="#,#0"/>
+        <Static id="stc_Contract_Date04" taborder="28" text="매입계약" left="390.00" top="294" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="651"/>
+        <Div id="div_ContractNamePurchase" taborder="29" left="467.00" top="294" height="22" url="sales::comm/COM_Search.xfdl" binddataset="ds_List" kind="PURCHASE" async="false" codecolumn="CONTRACT_NO_PURCHASE" datacolumn="CONTRACT_PURCHASE_NAME" mode="" right="117" enable="false"/>
+        <Edit id="edt_ContractNoPurchase" taborder="30" top="294" height="22" right="30" width="116" readonly="true"/>
+        <Static id="stc_Contract_Date05" taborder="31" text="비고" left="390.00" top="324" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="45"/>
+        <TextArea id="ta_Remark" taborder="32" left="467.00" top="324" height="160" right="30" readonly="true"/>
+        <Static id="stc_Contract_Date06" taborder="34" text="경비" left="601.00" top="264" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="341"/>
+        <MaskEdit id="medt_Expense" taborder="35" left="671.00" top="264" height="22" right="30" readonly="true" type="number" format="#,#0"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="edt_ClientName" propid="value" datasetid="ds_List" columnid="CLIENT_NAME"/>
+      <BindItem id="item1" compid="edt_ProjectName" propid="value" datasetid="ds_List" columnid="PROJECT_NAME"/>
+      <BindItem id="item2" compid="cmb_Level" propid="value" datasetid="ds_List" columnid="LEVEL_CODE"/>
+      <BindItem id="item3" compid="cmb_Role" propid="value" datasetid="ds_List" columnid="ROLE_CODE"/>
+      <BindItem id="item4" compid="cal_StartDt" propid="value" datasetid="ds_List" columnid="START_DATE"/>
+      <BindItem id="item5" compid="cal_EndDt" propid="value" datasetid="ds_List" columnid="END_DATE"/>
+      <BindItem id="item6" compid="cal_EndPlanDt" propid="value" datasetid="ds_List" columnid="END_PLAN_DATE"/>
+      <BindItem id="item7" compid="CheckBox00" propid="value" datasetid="ds_List" columnid="FREE_SVC_FLAG"/>
+      <BindItem id="item8" compid="CheckBox01" propid="value" datasetid="ds_List" columnid="NONRESIDENT_FLAG"/>
+      <BindItem id="item9" compid="edt_ContractNoPurchase" propid="value" datasetid="ds_List" columnid="CONTRACT_NO_PURCHASE"/>
+      <BindItem id="item10" compid="medt_MM" propid="value" datasetid="ds_List" columnid="MEN_MONTH"/>
+      <BindItem id="item11" compid="medt_UnitCost" propid="value" datasetid="ds_List" columnid="UNIT_COST"/>
+      <BindItem id="item12" compid="ta_Remark" propid="value" datasetid="ds_List" columnid="REMARKS"/>
+      <BindItem id="item13" compid="medt_Expense" propid="value" datasetid="ds_List" columnid="EXPENSE"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 
+* 02. 화면명		: 
+* 03. 화면설명 	: 
+* 04. 작성일   	: 2018.12.19
+* 05. 작성자   	: 채종한
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_CommEco.xjs"
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.FV_PSE_SEQ = "";
+this.FV_PROJECT_CODE = "";
+
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.TS_StaffSetProject_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.FV_PSE_SEQ = this.parent.pv_pse_seq;
+	this.FV_PROJECT_CODE = this.parent.pv_project_code;
+	
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+	this.fnSetComCmbConfig();
+	
+	if(this.commUtil.getFormAuthority(265,1))	// 저장권한
+	{
+		this.div_Contract.set_enable(true);
+		this.div_ContractNamePurchase.set_enable(true);
+		this.btn_Save.set_enable(true);
+		this.medt_UnitCost.set_readonly(false);
+		this.medt_MM.set_readonly(false);
+		this.medt_Expense.set_readonly(false);
+		this.ta_Remark.set_readonly(false);
+	}
+};
+
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+// 공통 코드 조회
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_cmm_Role",		"ROLE_CODE"); 		// 역할코드
+	this.gfnAddCodeDataset("ds_cmm_Level",		"LEVEL_CODE"); 		// 등급
+	
+	this.gfnCodeTransaction();
+}
+
+// 조회
+this.fnSearch = function()
+{	
+	this.gfnAddSendParameter("PSE_SEQ", this.FV_PSE_SEQ);
+// 	this.gfnAddOutputDataset("ds_List", "ds_output");
+// 	this.gfnCommonTransaction("Select", "TS_StaffSetProject_S01");
+	this.gfnSetMap("techMapper", ['TS_StaffSetProject_S01'], ['ds_List']);
+	this.gfnCommonTransaction("Select", "selectNextMultiList.do");	
+}
+
+// 저장
+this.fnSaveData = function()
+{
+	this.gfnAddInputDataset("ds_List", "dsInput1");
+	/*this.gfnCommonTransaction("Save", "TS_StaffSetProject_R01");*/
+	this.gfnSetMap("techMapper", ['TS_StaffSetProject_R01'], ['']);
+	this.gfnCommonTransaction("Save", "saveNextList.do");		
+}
+
+// 시작 종료일에 대한 MEN_MONTH 조회
+this.fnGetMM = function(sStartDt, sEndDt) {
+	if (this.gfnIsEmpty(sStartDt) || this.gfnIsEmpty(sEndDt)) {
+		return;	
+	}
+	
+	this.gfnAddSendParameter("START_DATE",	sStartDt);
+	this.gfnAddSendParameter("END_DATE",	sEndDt);
+// 	this.gfnAddOutputDataset("ds_MM", "ds_output");
+// 	this.gfnCommonTransaction("getMM", "CO_GetMM_S01");
+	this.gfnSetMap("nextBaseMapper", "CO_GetMM_S01", "ds_MM");
+	this.gfnCommonTransaction("getMM", 	"selectNextList.do");		
+}
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) {
+		return;
+	} else {
+		if(strSvcID=="gfnGetCode") {
+			this.fnSearch();
+		} else if(strSvcID=="getMM")	{
+			this.ds_List.setColumn(this.ds_List.rowposition, "MEN_MONTH", this.ds_MM.getColumn(0, "MM"));
+		} else if (strSvcID == "Save") {
+			this.commUtil.popupClose("OK");
+		} else if (strSvcID == "Select") {
+			this.fnSetComCmbConfig();
+		}
+	}
+}
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+// 공통 검색 Popup 설정 처리
+this.fnSetComCmbConfig = function ()
+{
+	var strContractType = "S";
+	this.div_ContractNamePurchase.param = "pv_project_cd:"+this.FV_PROJECT_CODE+",pv_contract_type:"+strContractType+",pv_emp_no:"+this.ds_List.getColumn(this.ds_List.rowposition,"EMP_NO");
+}
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+// 닫기 버튼
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close("");
+};
+
+
+// 저장 버튼
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	for (var i=0; i<this.ds_List.rowcount; i++)
+	{
+		var sContractNo = this.ds_List.getColumn(i, "CONTRACT_NO");
+		var sEmpNo = this.ds_List.getColumn(i, "EMP_NO");
+		
+		if (this.gfnIsEmpty(sContractNo)) {
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1584, "계약명을 입력해 주세요"));
+			return;
+		} else if (this.gfnIsEmpty(sEmpNo)) {
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1585, "투입인력을 입력해 주세요"));
+			return;
+		}
+	}
+	
+	this.fnSaveData();
+};
+
+// column 변경 처리
+this.ds_List_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	// 시작일, 종료일 변경시 M/M계산 처리
+	if (e.columnid == "START_DATE" || e.columnid == "END_DATE") {
+		var sStartDt = this.ds_List.getColumn(e.row, "START_DATE");
+		var sEndDt = this.ds_List.getColumn(e.row, "END_DATE");
+		this.fnGetMM (sStartDt, sEndDt);
+	}
+};
+
+this.ds_List_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(this.commUtil.getFormAuthority(265,1))	// 저장권한
+	{
+		//투비소프트, 투비윈은 매입계약연결을 안함
+		if(obj.getColumn(e.newrow, "PURCHASE_TYPE") =="UNIDIA")
+			this.div_ContractNamePurchase.set_enable(false);
+		else
+			this.div_ContractNamePurchase.set_enable(true);
+	}	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_List" oncolumnchanged="ds_List_oncolumnchanged" onrowposchanged="ds_List_onrowposchanged">
+        <ColumnInfo>
+          <Column id="PSE_SEQ" type="bigdecimal" size="20"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="string" size="10"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_PURCHASE_NAME" type="string" size="100"/>
+          <Column id="RSSC_SEQ" type="bigdecimal" size="20"/>
+          <Column id="EMP_NO" type="string" size="60"/>
+          <Column id="EMP_NAME" type="string" size="255"/>
+          <Column id="ROLE_CODE" type="string" size="20"/>
+          <Column id="LEVEL_CODE" type="string" size="20"/>
+          <Column id="UNIT_COST" type="float" size="22"/>
+          <Column id="MEN_MONTH" type="float" size="22"/>
+          <Column id="START_DATE" type="string" size="8"/>
+          <Column id="END_PLAN_DATE" type="string" size="8"/>
+          <Column id="END_DATE" type="string" size="8"/>
+          <Column id="NONRESIDENT_FLAG" type="string" size="1"/>
+          <Column id="FREE_SVC_FLAG" type="string" size="1"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Role">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Level">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_MM">
+        <ColumnInfo>
+          <Column id="MM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Column id="MM" type="bigdecimal" size="20"/>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

@@ -291,6 +291,14 @@ this.gfnAddCodeDataset = function(strDataset, strCmCode, bAll, bCheck, bAce, str
 {
 	if(strCmCode == "CM0009") {	// 재직여부
 		strCmCode = "SM08";
+	} else if(strCmCode == "ROLE_CODE") {	// role
+		strCmCode = "PROJECTROLE";
+	} else if(strCmCode == "SALES_STATUS") {	// role
+		strCmCode = "SALESSTATUS";
+	} else if(strCmCode == "SALES_STATUS") {	// role
+		strCmCode = "SALESSTATUS";
+	} else if(strCmCode == "CONTRACT_STATUS") {	// role
+		strCmCode = "CONTRACTSTATUS";
 	}
 	if(bAll==undefined)
 		bAll=false;

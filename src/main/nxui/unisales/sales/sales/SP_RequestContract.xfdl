@@ -1,0 +1,452 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_RequestContract" width="1360" height="700" titletext="계약요청현황" cssclass="frm_popBg" onload="SP_RequestContract_onload">
+    <Layouts>
+      <Layout height="700" mobileorientation="landscape" width="1360">
+        <Static id="Static00" taborder="0" left="0" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg" text=""/>
+        <Button id="btn_Cancel" taborder="1" text="닫기" width="80" height="28" cssclass="btn_WF_cancel" bottom="15" onclick="btn_Close_onclick" right="20" TL_SEQ="59"/>
+        <Grid id="grd_ReqContract" taborder="2" left="20" top="20" right="20" bottom="60" autofittype="col" binddataset="ds_ReqContract" formatid="default" cellsizingtype="col" oncellclick="grd_ReqContract_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="150"/>
+                <Column size="25"/>
+                <Column size="150"/>
+                <Column size="25"/>
+                <Column size="60"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="60"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="60"/>
+                <Column size="60"/>
+                <Column size="60"/>
+                <Column size="259"/>
+                <Column size="60"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="고객사" TL_SEQ="32"/>
+                <Cell col="1" colspan="2" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="3" colspan="3" text="계약" TL_SEQ="126"/>
+                <Cell col="6" text="계약처" TL_SEQ="34"/>
+                <Cell col="7" text="담당자" TL_SEQ="66"/>
+                <Cell col="8" text="계약예정일" TL_SEQ="64"/>
+                <Cell col="9" text="계약금액" TL_SEQ="40"/>
+                <Cell col="10" text="상태" TL_SEQ="209"/>
+                <Cell col="11" text="결재진행" TL_SEQ="717"/>
+                <Cell col="12" text="최종견적" TL_SEQ="22579"/>
+                <Cell col="13" text="비고" TL_SEQ="45"/>
+                <Cell col="14" text="파일" TL_SEQ="718"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CLIENT_NAME" textAlign="left" suppress="1"/>
+                <Cell col="1" edittype="expr:comp.parent.gfnIsEmpty(DOC_STATUS)||DOC_STATUS=='FINISH'||comp.parent.commUtil.getFormAuthority(242,15)?'checkbox':'none'" displaytype="checkboxcontrol" text="bind:PROJECT_CHECK"/>
+                <Cell col="2" text="bind:PROJECT_NAME" textAlign="left" suppress="2"/>
+                <Cell col="3" edittype="expr:comp.parent.gfnIsEmpty(DOC_STATUS)||DOC_STATUS=='FINISH'||comp.parent.commUtil.getFormAuthority(242,15)?'checkbox':'none'" displaytype="checkboxcontrol" text="bind:CONTRACT_CHECK"/>
+                <Cell col="4" text="bind:CONTRACT_TYPE_NAME"/>
+                <Cell col="5" text="bind:CONTRACT_NAME" textAlign="left"/>
+                <Cell col="6" text="bind:CONTRACT_MAIN_NAME" textAlign="left"/>
+                <Cell col="7" text="bind:SALES_EMP_NAME"/>
+                <Cell col="8" text="bind:CONTRACT_DATE" calendardateformat="yyyy-MM-dd" displaytype="date"/>
+                <Cell col="9" text="bind:CONTRACT_PRICE" displaytype="number" textAlign="right"/>
+                <Cell col="10" text="bind:DOC_STATUS_NAME"/>
+                <Cell col="11" text="bind:DOC_EMP_NAME"/>
+                <Cell col="12" text="bind:ESTIMATE_FINAL_FLAG"/>
+                <Cell col="13" text="bind:REMARKS" textAlign="left"/>
+                <Cell col="14" text="expr:comp.parent.fnGetFileButtonTxt(currow)" displaytype="buttoncontrol" tooltiptext="expr:FILE_CNT"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_Save" taborder="3" text="계약확정" height="28" onclick="btn_Save_onclick" right="btn_Cancel:4" width="86" TL_SEQ="128" bottom="15" cssclass="btn_WF_Crud"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 프로젝트관리
+ * 02. 화면명   : 계약요청현황 POPUP (SP_RequesContract)
+ * 03. 화면설명 : 가계약을 진계약으로 변경 처리
+ * 04. 작성일   : 2018.11.05
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs";
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+ 
+ 
+ /************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+ this.FV_RTN_VAL = new Array();
+ this.FV_CONTRACT_NO = new Array();
+ 
+ 
+ 
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.SP_RequestContract_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fn_QueryData();
+}; 
+  
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+
+ // 조회
+ this.fn_QueryData = function()
+ {
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("ds_ReqContract", "dsOutput");
+// 	this.gfnCommonTransaction("SP_RequestContract_S01", "SP_RequestContract_S01", this.grd_ReqContract);
+	
+	this.gfnSetMap("projectMapper", ['SP_RequestContract_S01'], ['ds_ReqContract']);
+	this.gfnCommonTransaction("SP_RequestContract_S01", "selectNextMultiList.do", this.grd_ReqContract);	
+ };
+ 
+ 
+  // 저장 처리
+ this.fn_SaveData = function ()
+ {
+	var nRow=-1;
+
+	for(var i=0; i<this.ds_ReqContract.getRowCount(); i++) 
+	{
+		if(this.ds_ReqContract.getColumn(i, "PROJECT_CHECK")=="1")
+		{
+			nRow = i;
+			break;
+		}
+	}
+	if(nRow>=0)
+	{
+		this.gfnAlert('confirm.general',"계약확정 처리하시겠습니까?",null
+			,function(srvId,rtn) {
+				if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+				
+				var sClientCd = this.ds_ReqContract.getColumn(nRow, "CLIENT_CODE");
+				var sClientNm = this.ds_ReqContract.getColumn(nRow, "CLIENT_NAME");
+				var sProjectCd = this.ds_ReqContract.getColumn(nRow, "PROJECT_CODE");
+				var sProjectNm = this.ds_ReqContract.getColumn(nRow, "PROJECT_NAME");
+				
+				this.FV_RTN_VAL[0] = sClientCd;
+				this.FV_RTN_VAL[1] = sClientNm;
+				this.FV_RTN_VAL[2] = sProjectCd;
+				this.FV_RTN_VAL[3] = sProjectNm;
+				
+				// Project로 연결된 첨부 파일을 제품, 용역, 상품순으로 계약으로 변경 처리
+				this.fn_setFileInfo();
+				this.FV_RTN_VAL[4] = this.FV_CONTRACT_NO;
+				
+				//저장용 Input Dataset 세팅
+				this.gfnAddInputDataset("ds_ReqContract", "dsInput1", "U");
+				this.gfnAddInputDataset("ds_FileInfo", "dsInput2", "U");
+				/*this.gfnCommonTransaction("SP_RequestContract_R01", "SP_RequestContract_R01");*/
+				//this.fnCallBack("SP_RequestContract_R01", "", "");		
+					
+				this.gfnSetMap("projectMapper", ['SP_RequestContract_R01'], ['']);
+				this.gfnCommonTransaction("SP_RequestContract_R01", "saveSP_RequestContract_R01.do");					
+			});	
+	}
+	else {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1365, "선택된 계약이 없습니다."));
+	}
+ }
+ 
+ this.fn_setFileInfo = function ()
+ {
+	this.ds_FileInfo.clearData();
+	for (var i=0; i<this.ds_ReqContract.getRowCount(); i++)  {
+		
+		if (this.ds_ReqContract.getColumn(i, "CONTRACT_CHECK")=="1") {
+			
+			var sProjectCd = this.ds_ReqContract.getColumn(i, "PROJECT_CODE");
+			var sContractNo = this.ds_ReqContract.getColumn(i, "CONTRACT_NO");
+			var sContractType = this.ds_ReqContract.getColumn(i, "CONTRACT_TYPE");
+			this.FV_CONTRACT_NO.push(sContractNo);
+			
+			var nFindRow = this.ds_FileInfo.findRow("PROJECT_CODE", sProjectCd);
+			if (nFindRow<0) {
+				var nAddRow = this.ds_FileInfo.addRow();
+				this.ds_FileInfo.setColumn(nAddRow, "PROJECT_CODE",		sProjectCd);
+				this.ds_FileInfo.setColumn(nAddRow, "CONTRACT_NO",		sContractNo);
+				this.ds_FileInfo.setColumn(nAddRow, "CONTRACT_TYPE",	sContractType);
+			} else {
+				var bUpdateFlag = false;
+				var sFIContractType = this.ds_FileInfo.getColumn(nFindRow, "CONTRACT_TYPE");
+				if (sFIContractType != "P") {
+					if (sFIContractType == "S") {
+						if (sContractType == "P")		bUpdateFlag = true;
+						else							bUpdateFlag = false;
+					} else if (sFIContractType == "T") {
+						if (sContractType == "P")		bUpdateFlag = true;
+						else if (sContractType == "S")	bUpdateFlag = true;
+						else							bUpdateFlag = false;
+					} else if (sFIContractType == "G") {
+						if (sContractType != "G")		bUpdateFlag = true;
+						else 							bUpdateFlag = false;
+					}
+				} else {
+					bUpdateFlag = false;
+				}
+				
+				if (bUpdateFlag) {
+					this.ds_FileInfo.setColumn(nFindRow, "PROJECT_CODE",	sProjectCd);
+					this.ds_FileInfo.setColumn(nFindRow, "CONTRACT_NO",		sContractNo);
+					this.ds_FileInfo.setColumn(nFindRow, "CONTRACT_TYPE",	sContractType);
+				}
+			}
+		}
+	}
+	
+ }
+ 
+ this.fnCheckEstimate = function()
+{
+	var sContractNoList ="";
+	var sCheckCnt = this.ds_ReqContract.getCaseCount("CONTRACT_CHECK=='1'");
+	var j = 0;
+	for (var i=0; i<this.ds_ReqContract.getRowCount(); i++)  {
+		if (this.ds_ReqContract.getColumn(i, "CONTRACT_CHECK")=="1") {
+			var sContractType = this.ds_ReqContract.getColumn(i, "CONTRACT_TYPE");
+			var sContractNo = this.ds_ReqContract.getColumn(i, "CONTRACT_NO");			
+			sContractNoList = sContractNoList + sContractNo;
+			j++;
+			if(sCheckCnt>j)  sContractNoList += ",";
+		}
+	}
+	
+	if(this.gfnIsEmpty(sContractNoList)) {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1365, "선택된 계약이 없습니다."));
+	} else {
+		// 조건값 셋팅
+		
+		var arrList = sContractNoList.spit(",");
+		var strList = "";
+		for(var i=0;i<arrList.length;i++) {
+			if(i>0) strList += ",";
+			strList += "'" + arrList[i] + "'";
+		}
+		this.gfnAddSendParameter("CONTRACT_NO_LIST",	strList/*sContractNoList*/);
+			
+		// 조회용 Output dataset 세팅
+// 		this.gfnAddOutputDataset("dsCheckEstimate", "dsOutput");
+// 		this.gfnAddOutputDataset("dsDuplicationEstimate", "dsOutput2");
+// 		this.gfnCommonTransaction("SP_RequestContract_S03", "SP_RequestContract_S03", null, false);
+		
+		this.gfnSetMap("projectMapper", ['SP_RequestContract_S03_1','SP_RequestContract_S03_2'], ['dsCheckEstimate','dsDuplicationEstimate']);
+		this.gfnCommonTransaction("SP_RequestContract_S03", "selectNextMultiList.do", null, false);			
+	}
+};
+ 
+// 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	switch (strSvcID) 
+	{
+		case "SP_RequestContract_S01" :
+			// trace(this.ds_ReqContract.saveXML());
+			break;
+		case "SP_RequestContract_R01" :
+			var rtn = { "rtnValue" : this.FV_RTN_VAL };
+			this.close(rtn);
+			break;
+		case "SP_RequestContract_S03" :
+			var msg = "";
+			
+			for (var i=0; i<this.ds_ReqContract.getRowCount(); i++)  {
+				if (this.ds_ReqContract.getColumn(i, "CONTRACT_CHECK")=="1") {
+					var sContractType = this.ds_ReqContract.getColumn(i, "CONTRACT_TYPE");
+					var sContractNo = this.ds_ReqContract.getColumn(i, "CONTRACT_NO");
+					
+					var findRow = this.dsCheckEstimate.findRow("CONTRACT_NO", sContractNo);
+					if(findRow > -1) this.ds_ReqContract.setColumn(i, "ESTIMATE_COPY_YN", "Y");
+					else {
+						msg = this.gfnGetTransTxt(22560,"최종 견적 미표기된 항목이 있습니다. 그래도 진행하시겠습니까?");
+					}						
+				}
+			}
+			
+			if(!this.gfnIsEmpty(msg)) {
+				this.gfnAlert('confirm.general',msg,null
+					,function(srvId,rtn) {
+						if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+						this.fn_SaveData();
+					});				
+			} else {
+				this.fn_SaveData();
+			}
+			break;
+	}
+ };
+ 
+  /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+this.fnGetFileButtonTxt = function(nRowIdx)
+{
+	// FILE_CNT > 0 ? "수정["+FILE_CNT+"]" : "등록"	
+	var nFileCnt = this.ds_ReqContract.getColumn(nRowIdx, "FILE_CNT");
+	return nFileCnt > 0 ? this.gfnGetTransTxt(1903, "수정") +"["+nFileCnt+"]": this.gfnGetTransTxt(585, "등록");
+}
+
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+// 닫기 버튼 클릭
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+this.grd_ReqContract_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(obj.getCellProperty("body", e.cell, "tooltiptext")=="expr:FILE_CNT")
+	{
+		var ds 			= obj.getBindDataset();
+		var sContractNo = ds.getColumn( obj.getDatasetRow(e.row), "CONTRACT_NO" );
+		
+		if(!this.gfnIsEmpty(sContractNo))
+		{	
+			var args = {
+							SOURCE_CD:"CL"
+							,SOURCE_SEQ:sContractNo
+							,STATUS_CD:""
+							,USE_NEXT_FILE_TYPE:true
+						}	
+			this.commUtil.popupFileMaster(this, args, "fnPopupCallBack");
+		}
+	}
+	else 
+	{
+		var strProjectCode = this.ds_ReqContract.getColumn(e.row, "PROJECT_CODE");
+		var strProjectCheck = this.ds_ReqContract.getColumn(e.row, "PROJECT_CHECK");
+		trace(this.ds_ReqContract.getColumn(e.row, "DOC_STATUS"));
+		if(obj.getCellProperty("body", e.cell, "displaytype")=="checkboxcontrol"
+			&& (this.ds_ReqContract.getColumn(e.row, "DOC_STATUS")=="PROCESS"
+				||this.ds_ReqContract.getColumn(e.row, "DOC_STATUS")=="RETURN")
+			&& !this.commUtil.getFormAuthority(242,15)	//전자결제 무관하게 계약확정
+			)
+		{
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1407, "사전원가표 최종 승인후 계약확정 가능합니다."));
+			return;
+		}
+		
+		if(obj.getCellProperty("body", e.cell, "text")=="bind:PROJECT_CHECK")
+		{
+			for(var i=0; i<this.ds_ReqContract.getRowCount(); i++) 
+			{
+				if(this.ds_ReqContract.getColumn(i, "PROJECT_CODE")==strProjectCode)
+				{
+					this.ds_ReqContract.setColumn(i, "PROJECT_CHECK", strProjectCheck);
+					this.ds_ReqContract.setColumn(i, "CONTRACT_CHECK", strProjectCheck);
+				}
+				else 
+				{
+					this.ds_ReqContract.setColumn(i, "PROJECT_CHECK", "0");
+					this.ds_ReqContract.setColumn(i, "CONTRACT_CHECK", "0");
+				}
+			}
+		}
+		else if(obj.getCellProperty("body", e.cell, "text")=="bind:CONTRACT_CHECK")
+		{
+			for(var i=0; i<this.ds_ReqContract.getRowCount(); i++) 
+			{
+				if(this.ds_ReqContract.getColumn(i, "PROJECT_CODE")!=strProjectCode)
+				{
+					this.ds_ReqContract.setColumn(i, "PROJECT_CHECK", "0");
+					this.ds_ReqContract.setColumn(i, "CONTRACT_CHECK", "0");
+				}
+				else 
+				{		
+					this.ds_ReqContract.setColumn(i, "PROJECT_CHECK", this.ds_ReqContract.getColumn(i, "CONTRACT_CHECK"));
+				}
+			}
+		}
+	}	
+};
+
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_SaveData();
+};
+
+this.ds_ReqContract_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	/*
+	if (this.ds_ReqContract.getColumn(e.row, "TMP_FLAG") == "1") {
+		gfnAlert('msg.general',"가코드 업체입니다.\n여신정보 반영 후 계약확정 바랍니다.");
+		return false;
+	}
+	*/
+};]]></Script>
+    <Objects>
+      <Dataset id="ds_ReqContract" cancolumnchange="ds_ReqContract_cancolumnchange">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="PROJECT_CHECK" type="string" size="1"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_CHECK" type="string" size="1"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CONTRACT_PRICE" type="bigdecimal" size="40"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="TMP_FLAG" type="string" size="1"/>
+          <Column id="DOC_STATUS" type="string" size="20"/>
+          <Column id="DOC_STATUS_NAME" type="string" size="100"/>
+          <Column id="DOC_EMP_NO" type="string" size="20"/>
+          <Column id="DOC_EMP_NAME" type="string" size="255"/>
+          <Column id="ESTIMATE_FINAL_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_FileInfo">
+        <ColumnInfo>
+          <Column id="PROJECT_CODE" type="STRING" size="256"/>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="CONTRACT_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckEstimate">
+        <ColumnInfo>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="ESTIMATE_COPY_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDuplicationEstimate">
+        <ColumnInfo>
+          <Column id="EM_SEQ" type="STRING" size="256"/>
+          <Column id="CNT" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

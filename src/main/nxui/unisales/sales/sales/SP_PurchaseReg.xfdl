@@ -67,8 +67,8 @@
               <Combo id="cmb_ProvideType" taborder="11" text="" left="588" top="33" width="82" height="22" innerdataset="ds_CD_PAY_TERM" codecolumn="CODE" datacolumn="CAPTION"/>
               <Static id="stc_ProvideType" taborder="12" text="지급구분" top="33" width="52" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="528" TL_SEQ="740"/>
               <Static id="stc_CompanyName" taborder="13" text="매입계약처" top="123" width="68" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="4" TL_SEQ="163"/>
-              <Div id="div_PurchaseCompany" taborder="14" top="123" height="22" url="Common::COM_Search.xfdl" binddataset="dsPurchase" kind="COMPANY" async="false" codecolumn="CONTRACT_MAIN" datacolumn="CONTRACT_MAIN_NAME" mode="" left="80" width="271" user_onchanged="dsPurchase_user_onchanged" param="2"/>
-              <Div id="div_Contract" taborder="15" left="80" top="93" width="441" height="22" url="Common::COM_Search.xfdl" binddataset="dsPurchase" kind="CONTRACT_PROJECT" async="false" codecolumn="CL_CONTRACT_NO" datacolumn="CL_CONTRACT_NAME" param="searchtype:N" user_onchanged="dsPurchase_user_onchanged" projectcodecolumn="PROJECT_CODE"/>
+              <Div id="div_PurchaseCompany" taborder="14" top="123" height="22" url="sales::comm/COM_Search.xfdl" binddataset="dsPurchase" kind="COMPANY" async="false" codecolumn="CONTRACT_MAIN" datacolumn="CONTRACT_MAIN_NAME" mode="" left="80" width="271" user_onchanged="dsPurchase_user_onchanged" param="2"/>
+              <Div id="div_Contract" taborder="15" left="80" top="93" width="441" height="22" url="sales::comm/COM_Search.xfdl" binddataset="dsPurchase" kind="CONTRACT_PROJECT" async="false" codecolumn="CL_CONTRACT_NO" datacolumn="CL_CONTRACT_NAME" param="searchtype:N" user_onchanged="dsPurchase_user_onchanged" projectcodecolumn="PROJECT_CODE"/>
               <Edit id="edt_PurchaseContractName" taborder="16" left="80" top="153" width="441" height="22"/>
               <Static id="st_PurchaseContractName" taborder="17" text="매입계약명" top="153" width="68" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="4" TL_SEQ="161"/>
               <Static id="stc_ContractDueDate" taborder="18" text="계약일" top="33" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="676" TL_SEQ="490"/>
@@ -76,8 +76,8 @@
               <Static id="stc_ContractNo" taborder="20" text="계약서번호" top="63" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="676" TL_SEQ="743"/>
               <Edit id="edt_ContractDocNo" taborder="21" left="742" top="63" width="136" height="22" textAlign="center" maxlength="50"/>
               <CheckBox id="chb_LumpPay" taborder="22" text="일괄지급" left="958" top="33" width="76" height="22" falsevalue="0" truevalue="1" TL_SEQ="741"/>
-              <Div id="div_Project" taborder="23" left="80" top="33" width="441" height="22" url="Common::COM_Search.xfdl" binddataset="dsPurchase" kind="PROJECT" async="false" codecolumn="PROJECT_CODE" datacolumn="PROJECT_NAME" param="searchtype:P,searchcode:CLIENT_CODE" user_onchanged="dsPurchase_user_onchanged"/>
-              <Div id="div_Client" taborder="24" left="80" top="63" width="271" height="22" url="Common::COM_Search.xfdl" binddataset="dsPurchase" kind="PROJECT" async="false" codecolumn="CLIENT_CODE" datacolumn="CLIENT_NAME" param="searchtype:C" user_onchanged="dsPurchase_user_onchanged"/>
+              <Div id="div_Project" taborder="23" left="80" top="33" width="441" height="22" url="sales::comm/COM_Search.xfdl" binddataset="dsPurchase" kind="PROJECT" async="false" codecolumn="PROJECT_CODE" datacolumn="PROJECT_NAME" param="searchtype:P,searchcode:CLIENT_CODE" user_onchanged="dsPurchase_user_onchanged"/>
+              <Div id="div_Client" taborder="24" left="80" top="63" width="271" height="22" url="sales::comm/COM_Search.xfdl" binddataset="dsPurchase" kind="PROJECT" async="false" codecolumn="CLIENT_CODE" datacolumn="CLIENT_NAME" param="searchtype:C" user_onchanged="dsPurchase_user_onchanged"/>
               <Div id="div_ContractPeriod" taborder="25" left="528" top="93" width="581" height="22" visible="false">
                 <Layouts>
                   <Layout>
@@ -134,7 +134,7 @@
         <Button id="btn_Cancel" taborder="4" text="닫기" width="60" height="28" cssclass="btn_WF_cancel" right="10" bottom="8" onclick="btn_Cancel_onclick" TL_SEQ="59"/>
         <Button id="btn_SaveClose" taborder="6" text="저장 후 닫기" width="100" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:4" bottom="8" onclick="btn_SaveClose_onclick" enable="false" TL_SEQ="753"/>
         <Button id="btn_Save" taborder="0" text="저장" width="60" height="28" cssclass="btn_WF_Crud" right="btn_SaveClose:4" bottom="8" onclick="btn_Save_onclick" enable="false" TL_SEQ="115"/>
-        <Div id="div_Attachment" taborder="5" left="8" width="80" async="false" SOURCE_CD="PL" SOURCE_SEQ="CONTRACT_NO_PURCHASE_SEQ" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="false" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" BINDDATASET="dsPurchase" url="Common::COM_Attachment.xfdl" bottom="8" height="24"/>
+        <Div id="div_Attachment" taborder="5" left="8" width="80" async="false" SOURCE_CD="PL" SOURCE_SEQ="CONTRACT_NO_PURCHASE_SEQ" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="false" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" BINDDATASET="dsPurchase" url="sales::comm/COM_Attachment.xfdl" bottom="8" height="24"/>
         <Button id="btn_ProductPurchaseOrder" taborder="2" text="상품발주서" width="108" height="28" left="div_Attachment:4" bottom="8" onclick="btn_ProductPurchaseOrder_onclick" background="" TL_SEQ="754"/>
         <CheckBox id="chb_SalesDeliveryDateChangeFlag" taborder="3" text="매출 납품일자 덮어쓰기" width="156" height="22" right="btn_Save:4" bottom="11" falsevalue="0" truevalue="1" TL_SEQ="755"/>
         <Button id="btn_Delete" taborder="7" text="삭제" width="60" height="28" cssclass="btn_WF_Crud" right="chb_SalesDeliveryDateChangeFlag:4" bottom="8" onclick="btn_Delete_onclick" enable="false" TL_SEQ="117"/>

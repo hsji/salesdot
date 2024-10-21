@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_RequestEmpList" width="1200" height="350" titletext="인력요청현황" cssclass="frm_popBg" onload="SP_RequestEmpList_onload">
+    <Layouts>
+      <Layout height="350" mobileorientation="landscape" width="1200">
+        <Static id="Static00" taborder="0" left="0" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg" text=""/>
+        <Button id="btn_Cancel" taborder="1" text="닫기" width="60" height="28" cssclass="btn_WF_cancel" bottom="15" onclick="btn_Close_onclick" right="20" TL_SEQ="59"/>
+        <Button id="btn_RequireSI" taborder="2" text="신규인력요청" height="28" right="btn_Cancel:5" width="93" onclick="btn_RequireSI_onclick" bottom="15" TL_SEQ="319" cssclass="btn_WF_Crud"/>
+        <Grid id="grd_SiList" taborder="3" left="20" top="20" right="20" autofittype="col" binddataset="ds_List" formatid="Si" cellsizingtype="col" bottom="60" oncelldblclick="grd_SiList_oncelldblclick">
+          <Formats>
+            <Format id="Si">
+              <Columns>
+                <Column size="60"/>
+                <Column size="150"/>
+                <Column size="220"/>
+                <Column size="250"/>
+                <Column size="55"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="RSS_SEQ"/>
+                <Cell col="1" text="고객사" TL_SEQ="32"/>
+                <Cell col="2" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="3" text="계약명" TL_SEQ="33"/>
+                <Cell col="4" text="구분" TL_SEQ="68"/>
+                <Cell col="5" text="요청자" TL_SEQ="321"/>
+                <Cell col="6" text="요청일자" TL_SEQ="322"/>
+                <Cell col="7" text="시작일" TL_SEQ="38"/>
+                <Cell col="8" text="종료일" TL_SEQ="39"/>
+                <Cell col="9" text="상태" TL_SEQ="209"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:RSS_SEQ"/>
+                <Cell col="1" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:CONTRACT_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:REQUEST_TYPE" displaytype="combotext" combodataset="ds_cmm_RequestType" combocodecol="CODE" combodatacol="CAPTION"/>
+                <Cell col="5" text="bind:INSERT_EMP_NO"/>
+                <Cell col="6" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:INSERT_DATE"/>
+                <Cell col="7" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:REQUEST_START_DATE"/>
+                <Cell col="8" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:REQUEST_END_DATE"/>
+                <Cell col="9" text="bind:CONFIRM_CD" displaytype="combotext" combodataset="ds_comm_SIConfirmCd" combocodecol="CODE" combodatacol="CAPTION"/>
+              </Band>
+            </Format>
+            <Format id="Tech">
+              <Columns>
+                <Column size="230"/>
+                <Column size="350"/>
+                <Column size="80"/>
+                <Column size="60"/>
+                <Column size="90"/>
+                <Column size="50"/>
+                <Column size="90"/>
+                <Column size="50"/>
+                <Column size="80"/>
+                <Column size="60"/>
+                <Column size="60"/>
+                <Column size="100"/>
+                <Column size="60"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="고객사" TL_SEQ="32"/>
+                <Cell col="1" rowspan="2" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="2" rowspan="2" text="영업담당" TL_SEQ="936"/>
+                <Cell col="3" rowspan="2" text="승인상태" TL_SEQ="790"/>
+                <Cell col="4" colspan="2" text="시작일" TL_SEQ="38"/>
+                <Cell col="6" colspan="2" text="종료일" TL_SEQ="39"/>
+                <Cell col="8" rowspan="2" text="요청일자" TL_SEQ="322"/>
+                <Cell col="9" rowspan="2" text="요청기술&#13;&#10;담당자" TL_SEQ="1986"/>
+                <Cell col="10" rowspan="2" text="처리기술&#13;&#10;담당자" TL_SEQ="1987"/>
+                <Cell col="11" rowspan="2" text="요청구분" TL_SEQ="326"/>
+                <Cell col="12" rowspan="2" text="요청자" TL_SEQ="321"/>
+                <Cell row="1" col="4" text="일자" TL_SEQ="67"/>
+                <Cell row="1" col="5" text="시간" TL_SEQ="1988"/>
+                <Cell row="1" col="6" text="일자" TL_SEQ="67"/>
+                <Cell row="1" col="7" text="시간" TL_SEQ="1988"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="1" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:SALES_EMP_NAME"/>
+                <Cell col="3" displaytype="combotext" combodataset="ds_comm_ConfirmCd" combocodecol="CODE" combodatacol="CAPTION" text="bind:CONFIRM_CD"/>
+                <Cell col="4" displaytype="date" text="bind:REQUEST_START_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="5" displaytype="mask" maskeditformat="##:##" maskedittype="string" text="bind:REQUEST_START_TIME"/>
+                <Cell col="6" displaytype="date" text="bind:REQUEST_END_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="7" displaytype="mask" maskeditformat="##:##" maskedittype="string" text="bind:REQUEST_END_TIME"/>
+                <Cell col="8" displaytype="date" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="9" text="bind:REQUEST_EMP_NAME"/>
+                <Cell col="10" text="bind:WORK_EMP_NAME"/>
+                <Cell col="11" text="bind:TECH_TYPE" combodataset="ds_cmm_TechType" combocodecol="CODE" combodatacol="CAPTION" displaytype="combotext"/>
+                <Cell col="12" text="bind:INSERT_EMP_NAME"/>
+              </Band>
+            </Format>
+            <Format id="Edu">
+              <Columns>
+                <Column size="80"/>
+                <Column size="150"/>
+                <Column size="220"/>
+                <Column size="340"/>
+                <Column size="50"/>
+                <Column size="90"/>
+                <Column size="40"/>
+                <Column size="90"/>
+                <Column size="40"/>
+                <Column size="90"/>
+                <Column size="90"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="신청자" TL_SEQ="1989"/>
+                <Cell col="1" rowspan="2" text="제품" TL_SEQ="62"/>
+                <Cell col="2" rowspan="2" text="고객사" TL_SEQ="32"/>
+                <Cell col="3" rowspan="2" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="4" rowspan="2" text="승인" TL_SEQ="811"/>
+                <Cell col="5" colspan="2" text="시작일시" TL_SEQ="1990"/>
+                <Cell col="7" colspan="2" text="종료일시" TL_SEQ="1991"/>
+                <Cell col="9" rowspan="2" text="요청일자" TL_SEQ="322"/>
+                <Cell col="10" rowspan="2" text="교육담당자" TL_SEQ="1992"/>
+                <Cell row="1" col="5" text="일자" TL_SEQ="67"/>
+                <Cell row="1" col="6" text="시간" TL_SEQ="1988"/>
+                <Cell row="1" col="7" text="일자" TL_SEQ="67"/>
+                <Cell row="1" col="8" text="시간" TL_SEQ="1988"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:INSERT_EMP_NAME"/>
+                <Cell col="1" text="bind:PRODUCT_NAME" textAlign="left"/>
+                <Cell col="2" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="4" text="bind:CONFIRM_CD" combodataset="ds_comm_ConfirmCd_G" combocodecol="CODE" combodatacol="CAPTION" displaytype="combotext"/>
+                <Cell col="5" displaytype="date" text="bind:REQUEST_START_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="6" displaytype="mask" maskeditformat="##:##" maskedittype="string" text="bind:REQUEST_START_TIME"/>
+                <Cell col="7" displaytype="date" text="bind:REQUEST_END_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="8" displaytype="mask" maskeditformat="##:##" maskedittype="string" text="bind:REQUEST_END_TIME"/>
+                <Cell col="9" displaytype="date" text="bind:INSERT_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="10" text="bind:WORK_EMP_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 
+ * 02. 화면명   : 
+ * 03. 화면설명 : 
+ * 04. 작성일   : 
+ * 05. 작성자   : 
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::CommGrid.xjs";
+include "Script::CommUtil.xjs"
+include "Script::CommSystem.xjs"
+include "Script::ext_CommEco.xjs"
+  
+ /************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+ this.FV_RTN_VAL = new Array();
+  
+ 
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.SP_RequestEmpList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+}; 
+  
+ /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+ // 공통코드 조회
+ this.fnGetCode = function()
+ {
+	this.gfnAddCodeDataset("ds_cmm_RequestType",	"REQUEST_TYPE"); 		// 요청구분
+	this.gfnAddCodeDataset("ds_comm_SIConfirmCd",	"SI_CONFIRM_CD", true);	// SI승인상태
+	this.gfnAddCodeDataset("ds_comm_ConfirmCd",		"CONFIRM_CD", true);	// 승인상태
+	this.gfnAddCodeDataset("ds_cmm_TechType",		"TECH_TYPE"); 			// 기술지원구분
+	this.gfnCodeTransaction();
+ }
+ 
+ // 조회
+ this.fn_QueryData = function(strKind)
+ {
+	switch (this.parent.pvKind) 
+	{	
+		case "Si" :
+			strModelID = "TR_RequestSupport_S02";
+			break;
+		case "Tech" :
+			strModelID = "TR_RequestSupport_S01";
+			break;
+		case "Edu" :
+			strModelID = "TR_RequestSupport_S03";
+			break;
+	}
+	this.grd_SiList.set_formatid(this.parent.pvKind);
+	
+	// 조건값 셋팅
+	this.gfnAddSendParameter("CONTRACT_NO",			this.parent.pvContractNo);
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("ds_List", "ds_output");
+// 	this.gfnCommonTransaction(strKind, strModelID, this.grd_ReqContract);
+	
+	this.gfnSetMap("projectMapper", [strModelID], ['ds_List']);
+	this.gfnCommonTransaction(strKind, "selectNextMultiList.do", this.grd_ReqContract);
+ };
+  
+// 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	switch (strSvcID) 
+	{
+		case "gfnGetCode" :
+			this.ds_comm_ConfirmCd_G.set_enableevent(true);
+			this.ds_comm_ConfirmCd_G.assign(this.ds_comm_ConfirmCd);
+			this.ds_comm_ConfirmCd_G.deleteRow(0);
+			this.ds_comm_ConfirmCd_G.set_enableevent(true);
+			this.fn_QueryData("SearchNew");
+			break;
+		case "SearchNew" :
+			if(this.ds_List.getRowCount()==0)
+				this.fnNewRequestSI("PopupNew");
+			break;
+	}
+ };
+ 
+  /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+// 팝업 콜백
+ this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	switch(sPopupId) {
+		case "PopupNew" :
+			this.commUtil.popupClose();
+			break;
+		case "PopupRequest" :
+		case "PopupAdd" :
+			this.fn_QueryData("SearchAdd");
+			break;
+	}
+}
+
+this.fnNewRequestSI = function(strKind)
+{
+	var sFormID;
+	switch(this.grd_SiList.formatid)
+	{
+		case "Tech" :
+			sFormID = "TR_RequestTechniqueReg";
+			break;
+		case "Si" :
+			sFormID = "TR_RequestSIStaffReg";
+			break;
+		case "Edu" :
+			sFormID = "TR_RequestOnsiteEduReg";
+			break;
+	}
+	
+	var sArgument = {
+			 pvFormType		: this.parent.pvFormType
+			,pvProjectCode	: this.parent.pvProjectCode
+			,pvProjectName	: this.parent.pvProjectName
+			,pvClientCode	: this.parent.pvClientCode
+			,pvClientName	: this.parent.pvClientName
+			,pvProductCode	: this.parent.pvProductCode
+			,pvContractNo	: this.parent.pvContractNo
+			,pvContractName	: this.parent.pvContractName
+			,pvStartDate	: this.parent.pvStartDate
+			,pvEndDate		: this.parent.pvEndDate
+			,pvAreacode		: this.parent.pvAreacode
+			,pvdsContractSi	: this.parent.pvdsContractSi
+			,pvRoleCode		: this.parent.pvRoleCode
+			};
+		
+	this.commUtil.popup(this, strKind, "Technique::"+sFormID+".xfdl", -1, -1, 1365, 650, true, true, false, sArgument, "fnPopupCallBack");
+}
+
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+// 닫기 버튼 클릭
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+this.grd_SiList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var sFormID;
+	var nRtsSeq;
+	var Argument;
+	var sConfirmCd = this.ds_List.getColumn(e.row, "CONFIRM_CD");
+
+	switch(this.grd_SiList.formatid)
+	{
+		case "Tech" :
+			sFormID = "TR_RequestTechniqueReg";
+			nRtsSeq = this.ds_List.getColumn(e.row, "RTS_SEQ");
+			Argument = {pvFormType:this.strFormType, pvRtsSeq:nRtsSeq};
+			break;
+		case "Si" :
+			sFormID = "TR_RequestSIStaffReg";
+			nRSsSeq = this.ds_List.getColumn(e.row, "RSS_SEQ");
+			Argument = {pvFormType:this.strFormType, pvRtsSeq:nRSsSeq};
+			break;
+		case "Edu" :
+			sFormID = "TR_RequestOnsiteEduReg";
+			nRtsSeq = this.ds_List.getColumn(e.row, "RTS_SEQ");
+			Argument = {pvFormType:this.strFormType, pvRtsSeq:nRtsSeq};
+			break;
+	}
+	this.commUtil.popup(this, "PopupRequest", "Technique::"+sFormID+".xfdl", -1, -1, 1365, 650, true, true, false, Argument, "fnPopupCallBack");
+};
+
+this.btn_RequireSI_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	this.fnNewRequestSI("PopupAdd");
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_List">
+        <ColumnInfo>
+          <Column id="CLIENT_CODE" type="string" size="20"/>
+          <Column id="CLIENT_NAME" type="string" size="100"/>
+          <Column id="PROJECT_CHECK" type="string" size="1"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="PROJECT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_TYPE_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_CHECK" type="string" size="1"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="CONTRACT_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_MAIN" type="string" size="20"/>
+          <Column id="CONTRACT_MAIN_NAME" type="string" size="100"/>
+          <Column id="CONTRACT_STATUS" type="string" size="20"/>
+          <Column id="CONTRACT_DATE" type="string" size="8"/>
+          <Column id="SALES_EMP_NAME" type="string" size="255"/>
+          <Column id="CONTRACT_PRICE" type="bigdecimal" size="40"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="TMP_FLAG" type="string" size="1"/>
+          <Column id="DOC_STATUS" type="string" size="20"/>
+          <Column id="DOC_STATUS_NAME" type="string" size="100"/>
+          <Column id="DOC_EMP_NO" type="string" size="20"/>
+          <Column id="DOC_EMP_NAME" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_RequestType"/>
+      <Dataset id="ds_comm_SIConfirmCd"/>
+      <Dataset id="ds_comm_ConfirmCd"/>
+      <Dataset id="ds_cmm_TechType"/>
+      <Dataset id="ds_comm_ConfirmCd_G"/>
+    </Objects>
+  </Form>
+</FDL>

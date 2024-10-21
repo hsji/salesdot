@@ -1,0 +1,419 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_ContractMaintenance" width="709" height="114" titletext="유지보수계약-프로젝트관리" onload="SP_ContractMaintenance_onload">
+    <Layouts>
+      <Layout height="114" mobileorientation="landscape" width="709">
+        <Static id="stc_ContractDate" taborder="10" text="계약일자" left="0.00" top="0" width="57" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="156"/>
+        <Calendar id="cal_ContractDate" taborder="0" left="stc_ContractDate:4" top="0" width="100" height="22" dateformat="yyyy-MM-dd" autoselect="true"/>
+        <Static id="stc_RegularVisit" taborder="11" text="정기방문" left="0.00" top="30" width="57" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="41"/>
+        <Combo id="cmb_RegularVisit" taborder="2" text="" left="stc_RegularVisit:4" top="30" width="58" height="22" codecolumn="CODE" datacolumn="CAPTION" innerdataset="ds_cmm_RegularVisit"/>
+        <Static id="stc_RequestPrice" taborder="13" text="청구금액" left="0.00" top="60" width="57" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="497"/>
+        <MaskEdit id="medt_RequestPrice" taborder="7" top="60" width="70" height="22" format="#,##" left="stc_RequestPrice:4"/>
+        <Static id="stc_Attach" taborder="12" text="첨부서류" left="medt_RequestPrice:5.00" top="60" width="51" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="494"/>
+        <Combo id="cmb_Attach" taborder="8" text="" top="60" width="150" height="22" codecolumn="CODE" datacolumn="CAPTION" innerdataset="ds_cmm_Attach" left="stc_Attach:4"/>
+        <Static id="stc_VisitCycle" taborder="14" text="점검주기" left="cmb_RegularVisit:8" top="30" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="42"/>
+        <Combo id="cmb_VisitCycle" taborder="3" text="" top="30" height="22" codecolumn="CODE" datacolumn="CAPTION" innerdataset="ds_cmm_MaCycle" left="stc_VisitCycle:4" width="58"/>
+        <Static id="stc_RequestCycle" taborder="15" text="청구주기" left="cmb_VisitCycle:8.00" top="30" width="55" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="496"/>
+        <Combo id="cmb_RequestCycle" taborder="4" text="" left="stc_RequestCycle:4" top="30" width="55" height="22" codecolumn="CODE" datacolumn="CAPTION" innerdataset="ds_cmm_MaCycle"/>
+        <Static id="stc_Publisher2" taborder="16" text="계산서발행처" left="cmb_Attach:8" top="60" width="73" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="495"/>
+        <Combo id="cmb_Publisher2" taborder="9" text="" left="stc_Publisher2:4" top="60" width="87" height="22" codecolumn="CODE" datacolumn="CAPTION" innerdataset="ds_cmm_Publisher" displayrowcount="8" type="caseifilterlike" autoselect="true"/>
+        <Static id="stc_RequestMonth" taborder="17" text="청구월" left="cmb_RequestCycle:8" top="30" width="50" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="498"/>
+        <Combo id="cmb_RequestMonth" taborder="5" text="" left="stc_RequestMonth:4" top="30" width="70" height="22" codecolumn="CODE" datacolumn="CAPTION" innerdataset="ds_cmm_RequestMonth"/>
+        <Static id="stc_RequestDay" taborder="18" text="청구예정일" left="cmb_RequestMonth:8" top="30" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="499"/>
+        <Combo id="cmb_RequestDay" taborder="6" text="" top="30" height="22" codecolumn="CODE" datacolumn="CAPTION" innerdataset="ds_cmm_RequestDay" left="stc_RequestDay:4" right="8"/>
+        <CheckBox id="chb_AutoIssue_Flag" taborder="25" text="자동발행" top="60" width="69" height="22" cssclass="sta_WF_DetailTit" truevalue="1" falsevalue="0" left="542.00" TL_SEQ="1103"/>
+        <Button id="btn_TabReflect" taborder="19" text="수금탭반영" top="60" height="22" onclick="btn_TabReflect_onclick" TL_SEQ="1104" left="chb_AutoIssue_Flag:4" right="8"/>
+        <Static id="stc_ResultDate" taborder="20" text="실적반영일" left="cal_ContractDate:8" top="0" width="70" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="493"/>
+        <Calendar id="cal_ResultDate" taborder="1" top="0" width="100" height="22" left="stc_ResultDate:4" dateformat="yyyy-MM-dd" autoselect="true"/>
+        <Static id="stc_StartDate" taborder="21" text="시작일" left="cal_ResultDate:18" top="0" width="60" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="38"/>
+        <Calendar id="cal_StartDate" taborder="22" top="0" width="100" height="22" left="stc_StartDate:4" dateformat="yyyy-MM-dd" autoselect="true"/>
+        <Static id="stc_EndDate" taborder="23" text="종료일" left="530" top="0" width="67" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="39"/>
+        <Calendar id="cal_EndDate" taborder="24" top="0" height="22" dateformat="yyyy-MM-dd" autoselect="true" left="stc_EndDate:4" right="8"/>
+        <Static id="stc_EstimateNo" taborder="26" text="견적번호" left="0" top="90" width="57" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="12470" visible="false"/>
+        <Edit id="edt_EstimateNo" taborder="27" left="stc_EstimateNo:4" top="90" width="160" height="22" readonly="true" enable="false" visible="false"/>
+        <Button id="btn_Estimate" taborder="28" left="edt_EstimateNo:0" top="90" width="22" height="22" cssclass="btn_WF_Sch" onclick="btn_Estimate_onclick" visible="false"/>
+        <Static id="stc_PreEstimateNo" taborder="29" text="이전견적" left="251" top="90" width="68" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="22547" visible="false"/>
+        <Edit id="edt_PreEstimateNo" taborder="30" left="stc_PreEstimateNo:4" top="90" width="160" height="22" readonly="true" enable="false" visible="false"/>
+        <Static id="stc_OrgEstimateNo" taborder="31" text="원 견적" left="edt_PreEstimateNo:1" top="90" width="68" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="22548" visible="false"/>
+        <Edit id="edt_OrgEstimateNo" taborder="32" left="stc_OrgEstimateNo:1" top="90" width="154" height="22" readonly="true" enable="false" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * 01. 업무구분 : 프로젝트관리 (매출계약탭)
+ * 02. 화면명   : 유지보수계약-프로젝트관리(매출계약) (SP_ContractMaintenance)
+ * 03. 화면설명 : 유지보수계약-프로젝트관리(매출계약)
+ * 04. 작성일   : 2018.09.24
+ * 05. 작성자   : 채종한
+ * 06. 수정이력 :
+ ***********************************************************************************************
+ *     수정일          이  름    사유
+ ***********************************************************************************************
+ *
+ *
+ *
+ ***********************************************************************************************/
+
+
+/************************************************************************************************
+ * 공통 라이브러리 INCLUDE 영역
+ ************************************************************************************************/
+include "Script::CommTrans.xjs"
+include "Script::ext_CommEco.xjs"
+include "Script::CommGrid.xjs"
+/************************************************************************************************
+ * 전역 변수 영역
+ ************************************************************************************************/
+this.FV_PARENT_FORM = this.parent.parent.parent.parent;
+
+ /************************************************************************************************
+ * FORM 영역
+ ************************************************************************************************/
+this.SP_ContractMaintenance_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.FV_PARENT_FORM.fnAuthConfig();
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnGetCode();
+};
+ 
+  /************************************************************************************************
+ * TRANSACTION 및 추가 FUNCTION 영역
+ ************************************************************************************************/
+  // 공통코드 조회
+ this.fnGetCode = function()
+ { 
+ 
+ 	this.gfnAddCodeDataset("ds_cmm_RegularVisit",	"REGULAR_VISIT"); 		// 정기방문
+	this.gfnAddCodeDataset("ds_cmm_MaCycle",		"MA_CYCLE"); 			// 점검주기
+	this.gfnAddCodeDataset("ds_cmm_Attach",			"ATTACH"); 				// 첨부서류
+	this.gfnAddCodeDataset("ds_cmm_Publisher",		"PUBLISHER"); 			// 계산서발행처
+	this.gfnAddCodeDataset("ds_cmm_RequestMonth",	"REQUEST_MONTH"); 	// 청구월
+	this.gfnAddCodeDataset("ds_cmm_RequestDay",		"REQUEST_DAY"); 	// 청구예정일
+	
+	this.gfnCodeTransaction();
+ }
+ 
+ this.fnDisplayBtn = function()
+ {
+	this.stc_EstimateNo.set_visible(false);
+	this.edt_EstimateNo.set_visible(false);
+	this.btn_Estimate.set_visible(false);
+	this.stc_PreEstimateNo.set_visible(false);
+	this.edt_PreEstimateNo.set_visible(false);
+	this.stc_OrgEstimateNo.set_visible(false);
+	this.edt_OrgEstimateNo.set_visible(false);
+ };
+ 
+ // 화면 콜백
+ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+ {
+	switch (strSvcID) 
+	{
+		case "gfnGetCode" :
+			this.fnDisplayBtn();
+			break;
+	}
+ };
+
+ // 팝업 콜백
+ this.fnPopupCallBack = function(sPopupId, Variant)
+{
+	Variant = this.commUtil.popupReturn();
+	if(this.gfnIsEmpty(Variant))
+	{
+		return;
+	}
+	else
+	{	
+		switch(sPopupId)
+		{
+			case "popupEstimateListPopup" :
+				var ds = new nexacro.Dataset();
+				ds.loadXML(Variant);
+				
+				var sEmSeq = ds.getColumn(0, "EM_SEQ");
+				var sEstimateNo = ds.getColumn(0, "ESTIMATE_NO");
+				
+				var dsContractList = this.FV_PARENT_FORM.ds_MainContract;
+				var nCurrow = dsContractList.rowposition;
+				
+				dsContractList.setColumn(nCurrow, "EM_SEQ", sEmSeq);
+				dsContractList.setColumn(nCurrow, "ESTIMATE_NO", sEstimateNo);
+				break;
+		}
+	}
+};
+ /************************************************************************************************
+ * FORM 공통 FUNCTION 영역
+ ************************************************************************************************/
+
+ 
+ /************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+ ************************************************************************************************/
+
+
+this.btn_TabReflect_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var dsContrBill = this.FV_PARENT_FORM.ds_ContractBill;
+	if (dsContrBill.rowcount>0)	{
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1343, "수금정보가 존재하므로 자동생성을 할수 없습니다."));
+		return;
+	}
+	
+	if (this.gfnIsEmpty(this.cmb_RequestCycle.value)) {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1344, "청구주기를 입력하세요"));
+		return;
+	} else if (this.cmb_RequestCycle.value == "001") {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1344, "청구주기를 입력하세요"));
+		return;
+	}
+	
+	if (this.gfnIsEmpty(this.cmb_RequestMonth.value))	{
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1345, "청구월을 입력하세요"));
+		this.cmb_RequestMonth.setFocus();
+		return;
+	}
+	
+	if(this.gfnIsEmpty(this.cmb_RequestDay.value)) {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1346, "청구예정일를 입력하세요"));
+		this.cmb_RequestDay.setFocus();
+		return;
+	}
+	
+	if(this.gfnIsEmpty(this.medt_RequestPrice.value)) {
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1347, "청구금액를 입력하세요"));
+		this.medt_RequestPrice.setFocus();
+		return;
+	}
+	
+	// 입력용 Dataset(ds_AddContractBill) Layout 맞추기
+	dsContrBill.clearData();
+	this.ds_AddContractBill.assign (dsContrBill)
+	this.ds_AddContractBill.clearData();
+	
+	var dsContractList = this.FV_PARENT_FORM.ds_MainContract;
+	var nCurrow = dsContractList.rowposition;
+	
+	var sStartDt = dsContractList.getColumn(nCurrow, "START_DATE");
+	var sEndDt = dsContractList.getColumn(nCurrow, "END_DATE");
+	
+	// trace(sStartDt+" // "+sEndDt);
+	var nDiffMonth = this.fnCalcMonth(sStartDt, sEndDt);
+	
+	var nCnt = nexacro.toNumber(this.ds_cmm_MaCycle.getColumn(this.cmb_RequestCycle.index, "VAL1")) * nDiffMonth / 12;
+	if(nCnt == 0)	return;
+		
+		
+	var strDiffMonth = 12 / nexacro.toNumber(this.ds_cmm_MaCycle.getColumn(this.cmb_RequestCycle.index, "VAL1"));
+	
+	var strDay = this.ds_cmm_RequestDay.getColumn(this.cmb_RequestDay.index, "VAL1");
+	var nOffset = strDiffMonth + nexacro.toNumber(this.ds_cmm_RequestMonth.getColumn(this.cmb_RequestMonth.index, "VAL1"))-1;
+	var strMonth = this.gfnAddMonth(sStartDt.substr(0, 6) + strDay, nOffset);
+	
+	if(strDay == "0") {
+		nOffset = nexacro.toNumber(this.ds_cmm_RequestMonth.getColumn(this.cmb_RequestMonth.index, "VAL1"));
+		strMonth = this.gfnAddMonth(sStartDt.substr(0, 6) + this.gfnGetLastDayOfMonth(sStartDt.substr(0, 6)), nOffset);
+	}
+	
+	var sSitecheckFlag = dsContractList.getColumn(nCurrow, "SITECHK_FLAG");	// 검수여부
+	
+	// 부가세율 설정 (국내: 10%, 일본: 소비세액 비율 적용)
+	var nVatRate = 10;
+	
+	for(i=0; i<nCnt; i++)
+	{
+		var nRow = this.ds_AddContractBill.addRow();
+		//Trace(nRow+" : "+strMonth);
+		
+		this.ds_AddContractBill.setColumn(nRow, "CONTRACT_NO",		dsContractList.getColumn(nCurrow, "CONTRACT_NO"));
+		this.ds_AddContractBill.setColumn(nRow, "PAY_METHOD",		dsContractList.getColumn(nCurrow, "PAY_METHOD"));
+		this.ds_AddContractBill.setColumn(nRow, "BILL_STATUS",		"0");
+		this.ds_AddContractBill.setColumn(nRow, "TAX_PLAN_DATE",	strMonth);							// 세금계산서 발급예정일
+		this.ds_AddContractBill.setColumn(nRow, "TAX_PRICE",		this.medt_RequestPrice.value);		// 세금계산서 발행액
+		
+		
+		this.ds_AddContractBill.setColumn(nRow, "VAT_PRICE",		nexacro.toNumber( this.medt_RequestPrice.value * (nVatRate * 0.01) ));	// 부가세금액
+		
+		this.ds_AddContractBill.setColumn(nRow, "BILL_EXCEPT_FLAG",	"0");			// 수금제외여부
+		
+		// 검수여부에 따른 검수 상태 초기화
+		if (sSitecheckFlag == "0") {
+			this.ds_AddContractBill.setColumn(nRow, "SITECHK_STATUS",	"001");		// 미대상(001)	
+		} else {
+			this.ds_AddContractBill.setColumn(nRow, "SITECHK_STATUS",	"002");		// 미진행(002)
+		}
+		
+		strMonth = this.gfnAddMonth(strMonth,strDiffMonth);
+		
+		if(strDay==0) {	
+			strMonth = strMonth.substr(0, 6) + this.gfnGetLastDayOfMonth(strMonth.substr(0, 6)); 
+		}
+		
+	}
+
+	this.gfnAddInputDataset("ds_AddContractBill",	 "dsInput1", "U");
+/*	this.gfnCommonTransaction("SP_ContractBill_R01", "SP_ContractBill_R01");*/
+	this.gfnSetMap("projectMapper", ['SP_ContractBill_R01'], ['']);
+	this.gfnCommonTransaction("SP_ContractBill_R01", "saveNextList.do");	
+};
+
+
+this.fnCalcMonth = function (sFrMonth, sToMonth)
+{
+	var iMonth = 0;		// 계산된 개월수 
+	var iYear = 0;		// 계산된 년도
+	var rMonth = 0;		// 반환할 개월수
+	
+	if(parseInt(sFrMonth) <= parseInt(sToMonth))
+	{
+		iYear = parseInt(sToMonth.substr(0,4))- parseInt(sFrMonth.substr(0,4)) ;
+		iMonth = parseInt(nexacro.toNumber(sToMonth.substr(4,2)))- parseInt(nexacro.toNumber(sFrMonth.substr(4,2)));
+	
+		rMonth = (12 * iYear) + iMonth + 1;
+		return rMonth;
+	} 
+	else 
+	{
+		return 0;
+	}
+}
+
+/*
+	해당 건 수정시 각 div URL 연결 된 버튼 수정해야 함 
+	SP_ContractMaintenance
+	SP_ContractProduct
+	SP_ContractSI
+*/
+this.btn_Estimate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var dsContractList = this.FV_PARENT_FORM.ds_MainContract;
+	var nCurrow = dsContractList.rowposition;
+	
+	var sProjectCode = dsContractList.getColumn(nCurrow, "PROJECT_CODE");
+	var Argument =  {
+						pvProjectCode:sProjectCode
+					};
+	Argument.title = "견적서 목록";
+	this.commUtil.popup(this, "popupEstimateListPopup", "Sales::SS_EstimateListPopup.xfdl", -1, -1, -1, -1, true, false, false, Argument, "fnPopupCallBack");
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item5" compid="cal_ContractDate" propid="value" datasetid="ds_MainContract" columnid="CONTRACT_DATE"/>
+      <BindItem id="item20" compid="cmb_Publisher2" propid="value" datasetid="ds_MainContract" columnid="PUBLISHER"/>
+      <BindItem id="item22" compid="cal_ResultDate" propid="value" datasetid="ds_MainContract" columnid="RESULT_DATE"/>
+      <BindItem id="item23" compid="cmb_RegularVisit" propid="value" datasetid="ds_MainContract" columnid="REGULAR_VISIT"/>
+      <BindItem id="item24" compid="cmb_VisitCycle" propid="value" datasetid="ds_MainContract" columnid="VIST_CYCLE"/>
+      <BindItem id="item25" compid="cmb_Attach" propid="value" datasetid="ds_MainContract" columnid="ATTACH"/>
+      <BindItem id="item26" compid="cmb_RequestCycle" propid="value" datasetid="ds_MainContract" columnid="REQUEST_CYCLE"/>
+      <BindItem id="item27" compid="cmb_RequestMonth" propid="value" datasetid="ds_MainContract" columnid="REQUEST_MONTH"/>
+      <BindItem id="item28" compid="cmb_RequestDay" propid="value" datasetid="ds_MainContract" columnid="REQUEST_DAY"/>
+      <BindItem id="item29" compid="medt_RequestPrice" propid="value" datasetid="ds_MainContract" columnid="REQUEST_PRICE"/>
+      <BindItem id="item0" compid="cal_StartDate" propid="value" datasetid="ds_MainContract" columnid="START_DATE"/>
+      <BindItem id="item1" compid="cal_EndDate" propid="value" datasetid="ds_MainContract" columnid="END_DATE"/>
+      <BindItem id="item2" compid="chb_AutoIssue_Flag" propid="value" datasetid="ds_MainContract" columnid="AUTO_ISSUE_FLAG"/>
+      <BindItem id="item3" compid="edt_EstimateNo" propid="value" datasetid="ds_MainContract" columnid="ESTIMATE_NO"/>
+      <BindItem id="item4" compid="edt_PreEstimateNo" propid="value" datasetid="ds_MainContract" columnid="PRE_ESTIMATE_NO"/>
+      <BindItem id="item6" compid="edt_OrgEstimateNo" propid="value" datasetid="ds_MainContract" columnid="ORG_ESTIMATE_NO"/>
+      <BindItem id="item7" compid="edt_EstimateNo" propid="tooltiptext" datasetid="ds_MainContract" columnid="ESTIMATE_NO"/>
+      <BindItem id="item8" compid="edt_PreEstimateNo" propid="tooltiptext" datasetid="ESTIMATE_NO" columnid="PRE_ESTIMATE_NO"/>
+      <BindItem id="item9" compid="edt_OrgEstimateNo" propid="tooltiptext" datasetid="PRE_ESTIMATE_NO" columnid="PRE_ESTIMATE_NO"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_cmm_RegularVisit">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Attach">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Publisher">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_MaCycle">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_RequestMonth">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_RequestDay">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_AddContractBill">
+        <ColumnInfo>
+          <Column id="ORD_NUM" type="long" size="20"/>
+          <Column id="CB_SEQ" type="bigdecimal" size="20"/>
+          <Column id="PROJECT_CODE" type="string" size="15"/>
+          <Column id="CONTRACT_TYPE" type="string" size="20"/>
+          <Column id="CONTRACT_NO" type="string" size="10"/>
+          <Column id="BILL_STATUS" type="string" size="1"/>
+          <Column id="PAY_METHOD" type="string" size="20"/>
+          <Column id="TAX_PRICE" type="float" size="22"/>
+          <Column id="TAX_PLAN_DATE" type="string" size="8"/>
+          <Column id="TAX_DATE" type="string" size="8"/>
+          <Column id="VAT_PRICE" type="float" size="22"/>
+          <Column id="BILL_PLAN_DATE" type="string" size="8"/>
+          <Column id="BILL_DATE" type="string" size="8"/>
+          <Column id="BILL_PROC_DATE" type="string" size="8"/>
+          <Column id="BILL_PRICE" type="float" size="22"/>
+          <Column id="REMARKS" type="string" size="1073741823"/>
+          <Column id="REMARKS_UNBILL" type="string" size="1073741823"/>
+          <Column id="BILL_EXCEPT_FLAG" type="string" size="1"/>
+          <Column id="CHK" type="string" size="1"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

@@ -3,7 +3,7 @@
   <Form id="SP_ContractBill" width="1345" height="472" titletext="수금" onload="SP_ContractBill_onload" onbeforeclose="SP_ContractBill_onbeforeclose">
     <Layouts>
       <Layout height="472" mobileorientation="landscape" width="1345">
-        <Grid id="grd_ContractList" taborder="0" left="0" top="4" autofittype="col" bottom="0" width="270" binddataset="ds_ContractList" formatid="default">
+        <Grid id="grd_ContractList" taborder="0" left="10" top="10" autofittype="col" bottom="10" width="270" binddataset="ds_ContractList" formatid="default">
           <Formats>
             <Format id="default">
               <Columns>
@@ -12,16 +12,16 @@
                 <Column size="108"/>
               </Columns>
               <Rows>
-                <Row size="25" band="head"/>
-                <Row size="25" band="head"/>
-                <Row size="24"/>
-                <Row size="24"/>
-                <Row size="25" band="summ"/>
-                <Row size="25" band="summ"/>
-                <Row size="25" band="summ"/>
-                <Row size="25" band="summ"/>
-                <Row size="25" band="summ"/>
-                <Row size="25" band="summ"/>
+                <Row size="28" band="head"/>
+                <Row size="28" band="head"/>
+                <Row size="28"/>
+                <Row size="28"/>
+                <Row size="28" band="summ"/>
+                <Row size="28" band="summ"/>
+                <Row size="28" band="summ"/>
+                <Row size="28" band="summ"/>
+                <Row size="28" band="summ"/>
+                <Row size="28" band="summ"/>
               </Rows>
               <Band id="head">
                 <Cell text="계약구분" TL_SEQ="123"/>
@@ -52,7 +52,7 @@
             </Format>
           </Formats>
         </Grid>
-        <Grid id="grd_ContractBill" taborder="1" left="274" top="4" right="0" bottom="0" binddataset="ds_ContractBill" formatid="default" autoenter="select" onheadclick="grd_ContractBill_onheadclick" oncellposchanged="grd_ContractBill_oncellposchanged" oncellclick="grd_ContractBill_oncellclick">
+        <Grid id="grd_ContractBill" taborder="1" left="grd_ContractList:10" top="10" right="10" bottom="10" binddataset="ds_ContractBill" formatid="default" autoenter="select" onheadclick="grd_ContractBill_onheadclick" oncellposchanged="grd_ContractBill_oncellposchanged" oncellclick="grd_ContractBill_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -75,11 +75,11 @@
                 <Column size="55"/>
               </Columns>
               <Rows>
-                <Row size="25" band="head"/>
-                <Row size="25" band="head"/>
-                <Row size="24"/>
-                <Row size="25" band="summ"/>
-                <Row size="25" band="summ"/>
+                <Row size="28" band="head"/>
+                <Row size="28" band="head"/>
+                <Row size="28"/>
+                <Row size="28" band="summ"/>
+                <Row size="28" band="summ"/>
               </Rows>
               <Band id="head">
                 <Cell rowspan="2" edittype="checkbox" displaytype="checkboxcontrol" checkboxfalsevalue="0" checkboxtruevalue="1" text="0"/>
@@ -186,7 +186,7 @@ include "Script::ext_CommEco.xjs"
  this.SP_ContractBill_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	this.gfnCompInit(obj);  	// Grid 공통함수 호출
-	if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;		// 계약금액 마스킹 처리 권한
+	//if (this.commUtil.getFormAuthority(242,25))	this.FV_AUTH_PRICE_MASK = true;		// 계약금액 마스킹 처리 권한
 	
 	this.fnGetCode();	
 };
@@ -216,8 +216,10 @@ include "Script::ext_CommEco.xjs"
 	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
 		
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_ContractList", "ds_output");
-	this.gfnCommonTransaction("Select_M", "SP_ContractBill_S01");
+// 	this.gfnAddOutputDataset("ds_ContractList", "ds_output");
+// 	this.gfnCommonTransaction("Select_M", "SP_ContractBill_S01");
+	this.gfnSetMap("projectMapper", ['SP_ContractBill_S01'], ['ds_ContractList']);
+	this.gfnCommonTransaction("Select_M", "selectNextMultiList.do");		
  };
  
  
@@ -230,13 +232,15 @@ include "Script::ext_CommEco.xjs"
 	if (this.gfnIsEmpty(sContractNo)) {
 		return;
 	}
-	
+	// 소스 없음
 	// 조건값 셋팅
 	this.gfnAddSendParameter("CONTRACT_NO",	sContractNo);
 		
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_ContractBill", "ds_output");
-	this.gfnCommonTransaction("Select_Bill", "SP_ContractBill_S02");
+// 	this.gfnAddOutputDataset("ds_ContractBill", "ds_output");
+// 	this.gfnCommonTransaction("Select_Bill", "SP_ContractBill_S02");
+	this.gfnSetMap("projectMapper", ['SP_ContractBill_S02'], ['ds_ContractBill']);
+	this.gfnCommonTransaction("Select_Bill", "selectNextMultiList.do");	
  };
  
   // 저장
@@ -267,10 +271,13 @@ include "Script::ext_CommEco.xjs"
 	}
 
 	//저장용 Input Dataset 세팅
-	this.gfnAddInputDataset("ds_ContractBill",		"ds_ContractBill", "U");
-	this.gfnAddInputDataset("ds_InputContrProd",	"ds_ContractProduct", "U");
+	this.gfnAddInputDataset("ds_ContractBill",		"dsInput1", "U");
+	this.gfnAddInputDataset("ds_InputContrProd",	"dsInput2", "U");
 	
 	this.gfnCommonTransaction("Save", "SP_ContractBill_R01");
+	
+	this.gfnSetMap("projectMapper", ['SP_ContractBill_R01','SP_ContractBill_R01_1'], ['ds_ContractBill','ds_InputContrProd']);
+	this.gfnCommonTransaction("Save", "saveNextList.do");		
   }
  
  // 화면 콜백

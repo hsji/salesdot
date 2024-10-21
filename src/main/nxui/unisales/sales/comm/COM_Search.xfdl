@@ -295,11 +295,14 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 			break;
 			
 			case "popupProjectSearch" :  //프로젝트관리
-// 				var ds = new nexacro.Dataset();
-// 				ds.loadXML(Variant);
-// 				this.recentVariant = ds;
-				this.setCode(arrVariant[0]);
-				this.setData(arrVariant[1]);
+ 				var ds = new nexacro.Dataset();
+ 				ds.loadJSON(Variant);
+ 				this.recentVariant = ds;
+//				this.dsOutput.getColumn(row, "PROJECT_CODE"), this.dsOutput.getColumn(row, "PROJECT_NAME")
+// 				var json = JSON.parse(Variant);
+// 				Variant = json.rtnValue;
+				this.setCode(ds.getColumn(0, "PROJECT_CODE"));
+				this.setData(ds.getColumn(0, "PROJECT_NAME"));
 				this.onchanged();
 			break;
 			
