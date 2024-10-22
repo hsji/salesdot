@@ -509,6 +509,7 @@ this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
 		{
 			this.gfnAlert('msg.save.success',[],"SAVE",
 			function() {
+				this.fnSearch();
 			});
 		}
 		else if(strSvcID="fnGetCodeSub")

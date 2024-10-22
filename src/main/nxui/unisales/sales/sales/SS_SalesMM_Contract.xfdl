@@ -89,7 +89,7 @@
                 <Cell col="17" text="순매출" TL_SEQ="279"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="expr:CONTRACT_TYPE==&quot;유지보수&quot;?&quot;normal&quot;:CONTRACT_TYPE==&quot;가계약&quot;?&quot;normal&quot;:&quot;checkboxcontrol&quot;" edittype="expr:CONTRACT_TYPE==&quot;유지보수&quot;?&quot;none&quot;:CONTRACT_TYPE==&quot;가계약&quot;?&quot;none&quot;:&quot;checkbox&quot;" text="bind:CHECK_FLAG"/>
+                <Cell displaytype="checkboxcontrol" edittype="expr:CONTRACT_TYPE==&quot;유지보수&quot;?&quot;none&quot;:CONTRACT_TYPE==&quot;가계약&quot;?&quot;none&quot;:&quot;checkbox&quot;" text="bind:CHECK_FLAG"/>
                 <Cell col="1" text="bind:CLIENT_NAME" textAlign="left"/>
                 <Cell col="2" text="bind:PROJECT_NAME" textAlign="left"/>
                 <Cell col="3" text="bind:CONTRACT_TYPE"/>

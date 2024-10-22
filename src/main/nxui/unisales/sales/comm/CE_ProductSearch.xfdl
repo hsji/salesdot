@@ -365,7 +365,7 @@ this.fnInitForm = function()
 	if(this.bUseRelatedProduct)
 	{
 		//상품의경우 연관제품그리드와 사이즈 조절
-		if(this.parent.sContractType.indexOf("G")==0)
+		if(this.parent.sContractType.indexOf("GD")==0)
 		{
 			this.div_Prod.set_height(220);
 			this.div_ProdRelated.set_top(311);

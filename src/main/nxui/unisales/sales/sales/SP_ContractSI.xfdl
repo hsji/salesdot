@@ -18,7 +18,7 @@
         <Calendar id="cal_StartDt" taborder="12" left="299" top="0" width="144" height="22" dateformat="yyyy-MM-dd" autoselect="true"/>
         <Static id="stc_EndDt" taborder="13" text="종료일자" left="457" top="0" width="72" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="95"/>
         <Calendar id="cal_EndDt" taborder="14" top="0" width="144" height="22" dateformat="yyyy-MM-dd" autoselect="true" right="15"/>
-        <Static id="stc_Menmonth" taborder="15" text="MM" left="218.00" top="30" width="70" height="22" cssclass="sta_WF_DetailTit" textAlign="right"/>
+        <Static id="stc_Menmonth" taborder="15" text="M/M" left="218.00" top="30" width="70" height="22" cssclass="sta_WF_DetailTit" textAlign="right"/>
         <MaskEdit id="medt_Menmonth" taborder="16" left="299.00" top="30" width="144" height="22" readonly="true"/>
         <Static id="stc_ProfitsRate" taborder="17" text="이익율" left="457" top="60" width="72" height="22" cssclass="sta_WF_DetailTit" textAlign="right" visible="true" TL_SEQ="1019"/>
         <Edit id="medt_ProfitsRate" taborder="18" top="60" width="144" height="22" right="15"/>

@@ -696,10 +696,10 @@
 	-- updateSP_Contract_R01_CONTRACT_PRODUCT
 	UPDATE SALES_CONTRACT_PRODUCT
 	 SET
-	 <if test="FREE_MA_START_DATE != null and FREE_MA_START_DATE != ''">
+	 <if test="START_DATE != null and START_DATE != ''">
 	 FREE_MA_START_DATE = #{START_DATE}
 	 </if>
-	 <if test="FREE_MA_END_DATE != null and FREE_MA_END_DATE != ''">
+	 <if test="END_DATE != null and END_DATE != ''">
 	 , FREE_MA_END_DATE = #{END_DATE}
 	 </if>
 	 <if test="DELIVERY_DATE != null and DELIVERY_DATE != ''">
@@ -726,7 +726,7 @@
 	 WHERE CONTRACT_NO = #{CONTRACT_NO};
 	 
 	 /*	검수 상태 일괄 변경 처리 */
-	 UPDATE CONTRACT_BILL
+	 UPDATE SALES_CONTRACT_BILL
 	 SET
 		<choose>
 			<when test=' SITECHK_FLAG == "1" '>
@@ -1271,7 +1271,7 @@
 	    #{PROJECT_CODE},
 	
 	    -- CONTRACT_NO 필드 조건부 추가
-	    IFNULL(#{CONTRACT_NO}, #varContractNo#),  
+	    IFNULL(#{CONTRACT_NO}, #{varContractNo}),  
 	
 	    #{TYPE_CODE},
 	    #{ISSUE_DATE},
@@ -4996,7 +4996,7 @@ VALUES
 	UPDATE SALES_PROJECT_LIST
 	SET 
 	    PROJECT_NAME = #{PROJECT_NAME},
-	    CLIENT_CODE = #{CLIENT_CODE},
+	    CLIENT_CODE = #{CLIENT_CODE}
 		, CHGE_ID = #{EMP_NO_SRV}
 		, CHGE_IP = #{USER_CON_IPADDR_SRV}
 		, CHGE_DTTM = NOW()
@@ -5008,7 +5008,7 @@ VALUES
 	UPDATE SALES_PROJECT_LIST
 	SET 
 	    PROJECT_NAME = #{PROJECT_NAME},
-	    CLIENT_CODE = #{CLIENT_CODE},
+	    CLIENT_CODE = #{CLIENT_CODE}
 		, CHGE_ID = #{EMP_NO_SRV}
 		, CHGE_IP = #{USER_CON_IPADDR_SRV}
 		, CHGE_DTTM = NOW()
@@ -7520,22 +7520,18 @@ VALUES
 	  CL.PROJECT_CODE = #{PROJECT_CODE#
 	</if>
 
-	<if test=' EMP_KIND !=null and EMP_KIND == "RT" '>
-	  <isNotEmpty prepend="AND" property="gdsParam.EMP_NAME">
-		VE2.EMP_NAME LIKE CONCAT('%', #{EMP_NAME#, '%')
-	  </if>
-	</if>
+   <if test="EMP_NAME !=null and EMP_NAME != ''">
+		<if test=' EMP_KIND !=null and EMP_KIND == "RT" '>
+			VE2.EMP_NAME LIKE CONCAT('%', #{EMP_NAME#, '%')
+		</if>
 
-	<if test=' EMP_KIND !=null and EMP_KIND == "W" '>
-	  <isNotEmpty prepend="AND" property="gdsParam.EMP_NAME">
-		VE3.EMP_NAME LIKE CONCAT('%', #{EMP_NAME#, '%')
-	  </if>
-	</if>
+		<if test=' EMP_KIND !=null and EMP_KIND == "W" '>
+			VE3.EMP_NAME LIKE CONCAT('%', #{EMP_NAME#, '%')
+		</if>
 
-	<if test=' EMP_KIND !=null and EMP_KIND == "I" '>
-	  <isNotEmpty prepend="AND" property="gdsParam.EMP_NAME">
-		VE4.EMP_NAME LIKE CONCAT('%', #{EMP_NAME#, '%')
-	  </if>
+		<if test=' EMP_KIND !=null and EMP_KIND == "I" '>
+			VE4.EMP_NAME LIKE CONCAT('%', #{EMP_NAME#, '%')
+	  	</if>
 	</if>
 
 	<if test=' CS_ONLY !=null and CS_ONLY == "1" '>

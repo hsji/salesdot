@@ -324,6 +324,7 @@ public class projectServiceImpl implements projectService {
 		public void contractPromise(SqlSession sqlSession, Map<String,Object> datasetMap, UserInfo userInfo) throws Exception {
 			List<Map<String,Object>> ds = (List<Map<String, Object>>) datasetMap.get("ds_promise");
 			String varContractNo = (String) datasetMap.get("varContractNo");
+			if(varContractNo == null) varContractNo = "";
 			int rowCount = ds.size();
 			if(rowCount <= 0) return;
 			

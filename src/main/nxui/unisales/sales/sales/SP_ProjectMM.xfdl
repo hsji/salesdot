@@ -40,11 +40,11 @@
             <Layout>
               <Button id="btn_RequestContract" taborder="5" text="계약요청현황" width="100" height="26" onclick="btn_RequestContract_onclick" right="20" top="0" enable="false" TL_SEQ="655" maxwidth=""/>
               <Button id="btn_Merge" taborder="4" text="Merge" width="80" height="26" right="btn_RequestContract:5" top="0" onclick="btn_Merge_onclick" enable="false" maxwidth=""/>
-              <Button id="btn_ProjectChange" taborder="3" text="프로젝트수정" width="96" height="26" right="btn_Merge:5" top="0" enable="false" onclick="btn_ProjectChange_onclick" TL_SEQ="657" maxwidth=""/>
+              <Button id="btn_ProjectChange" taborder="3" text="프로젝트명수정" width="110" height="26" right="btn_Merge:5" top="0" enable="false" onclick="btn_ProjectChange_onclick" TL_SEQ="657" maxwidth=""/>
               <Button id="btn_NewProject" taborder="2" text="프로젝트추가" width="94" height="26" right="btn_ProjectChange:5" top="0" enable="false" onclick="btn_NewProject_onclick" TL_SEQ="658" maxwidth=""/>
               <Button id="btn_BillDelivery" taborder="1" text="청구서납품서" width="100" height="25" right="btn_NewProject:5" top="0" enable="false" fittocontents="width" minwidth="80" maxwidth="" visible="false" onclick="btn_BillDelivery_onclick" TL_SEQ="12416"/>
               <Button id="btn_ContractCancel" taborder="8" text="계약확정취소" width="100" height="26" right="btn_NewProject:5" top="0" enable="false" onclick="btn_ContractCancel_onclick" TL_SEQ="660" maxwidth=""/>
-              <Button id="btn_Excel" taborder="0" text="엑셀다운로드" top="0" height="26" cssclass="btn_WF_Excel" onclick="div_search_comm_btn_onclick" right="515" width="110"/>
+              <Button id="btn_Excel" taborder="0" text="엑셀다운로드" top="0" height="26" cssclass="btn_WF_Excel" onclick="div_search_comm_btn_onclick" right="531" width="110"/>
               <Button id="btn_Print" taborder="6" text="출력" top="0" height="26" onclick="div_search_comm_btn_onclick" right="btn_Excel:5" width="78"/>
               <Button id="btn_TradingStatement" taborder="7" text="거래명세서" width="100" height="24" right="btn_NewProject:5" top="0" enable="false" visible="false" onclick="btn_TradingStatement_onclick" TL_SEQ="659" fittocontents="width" minwidth="80" maxwidth=""/>
             </Layout>
@@ -600,6 +600,7 @@ this.btn_Merge_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	Argument.pvProjectCode = this.div_search.form.div_ProjectName.getCode();
 	Argument.pvProjectName = this.div_search.form.div_ProjectName.getData();
 	Argument.pvClientNm = this.div_search.form.div_ClientName.getData();
+	Argument.title = "프로젝트 Merge";
 	this.commUtil.popup(this, "popupContractMerge", "sales::sales/SP_ContractMerge.xfdl", -1, -1, -1, -1, true, false, false, Argument, "fnPopupCallBack");
 };
 

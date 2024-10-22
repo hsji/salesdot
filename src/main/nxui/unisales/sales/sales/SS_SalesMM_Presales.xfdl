@@ -178,17 +178,17 @@
         </Grid>
         <Static id="stc_Remark" taborder="11" text="비고" left="559.00" top="241" width="66" height="47" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="45"/>
         <Div id="div_ClientName" taborder="28" left="635" top="129" width="12.48062015503876%" height="24" url="sales::comm/COM_Search.xfdl" kind="CLIENT" param="" binddataset="dsList" codecolumn="CLIENT_CODE" datacolumn="CLIENT_NAME" compReg="true" maxwidth="250" minwidth="" user_onchanged="fnSelectCustomer"/>
-        <Combo id="cmb_SalesProduct" taborder="16" text="" left="635" top="div_ClientName:4" width="12.48062015503876%" height="24" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="cmb_SalesProduct_onitemchanged" maxwidth="250" minwidth=""/>
+        <Combo id="cmb_SalesProduct" taborder="16" text="" left="635" top="div_ClientName:4" width="12.48062015503876%" height="24" innerdataset="ds_cmm_Product" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME" onitemchanged="cmb_SalesProduct_onitemchanged" maxwidth="250" minwidth=""/>
         <Div id="div_ContractMain" taborder="13" left="635" top="cmb_SalesProduct:4" width="12.48062015503876%" height="24" url="sales::comm/COM_Search.xfdl" kind="COMPANY" param="" binddataset="dsList" codecolumn="CONTRACT_MAIN" datacolumn="CONTRACT_MAIN_NAME" user_onchanged="Com_Search_onChanged" compReg="true" maxwidth="250" minwidth=""/>
         <Combo id="cmb_SalesEmpNo" taborder="27" text="" left="635" top="div_ContractMain:4" height="24" innerdataset="ds_cmm_SalesEmp" codecolumn="EMP_NO" datacolumn="EMP_NAME" onitemchanged="cmb_SalesEmpNo_onitemchanged" width="12.48062015503876%" displayrowcount="15"/>
         <Static id="stc_ContractDate" taborder="23" text="계약예정일" left="cmb_SalesEmpNo:0" top="213" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="64"/>
         <Calendar id="cal_ContractDate" taborder="25" left="stc_ContractDate:10" top="213" height="24" dateformat="yyyy-MM-dd" autoselect="true" onchanged="cal_ContractDate_onchanged" minwidth="" width="130"/>
-        <Static id="stc_BusinessType" taborder="36" text="사업구분" left="cal_ContractDate:0" top="213" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="112" visible="false"/>
-        <Combo id="cmb_BusinessType" taborder="37" text="" left="stc_BusinessType:10" top="213" height="24" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="cmb_BusinessType_onitemchanged" width="12.33%" maxwidth="250" minwidth="" visible="false"/>
+        <Static id="stc_BusinessType" taborder="36" text="사업분류" left="cal_ContractDate:0" top="213" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="112" visible="true"/>
+        <Combo id="cmb_BusinessType" taborder="37" text="" left="stc_BusinessType:10" top="213" height="24" innerdataset="ds_cmm_BusinessType" codecolumn="CODE" datacolumn="CAPTION" onitemchanged="cmb_BusinessType_onitemchanged" width="12.33%" maxwidth="250" minwidth="" visible="true"/>
         <TextArea id="txt_Remark" taborder="12" left="635" top="cmb_SalesEmpNo:4" height="43" right="30"/>
         <Static id="stc_ContractName" taborder="14" text="계약명" left="div_ContractMain:0" top="185" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="33"/>
         <Static id="stc_ClientCode" taborder="21" text="고객사" left="559.00" top="129" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="32"/>
-        <Static id="stc_ProductCode" taborder="15" text="계약구분" left="559" top="stc_ClientCode:4" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="83"/>
+        <Static id="stc_ProductCode" taborder="15" text="영압제품" left="559" top="stc_ClientCode:4" width="66" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="83"/>
         <Static id="stc_SalesStatus" taborder="17" text="영업상태" left="cmb_SalesProduct:0" top="157" width="74" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="84"/>
         <Combo id="cmb_SalesStatus" taborder="18" text="" left="stc_SalesStatus:10.00" top="157" height="24" innerdataset="ds_cmm_SalesStatus" codecolumn="CODE" datacolumn="CAPTION" width="130"/>
         <Static id="stc_RelatedProject" taborder="19" text="연결프로젝트" left="cmb_SalesStatus:0" top="157" width="82" height="24" textAlign="right" cssclass="sta_WF_DetailTit" TL_SEQ="82"/>
@@ -732,7 +732,7 @@ this.fnGetCode = function()
 	this.gfnAddCodeDataset("ds_cmm_ExecutionType",	"EXECUTION_TYPE");		// 수행방법
 	this.gfnAddCodeDataset("ds_cmm_TechSupportUnit","TECH_SUPPORT_UNIT");	// 단위(기술서비스)
 	this.gfnAddCodeDataset("ds_cmm_PurchaseType","CONTRACT_TYPE");	
-	
+	this.gfnAddCodeDataset("ds_cmm_ContractType","CONTRACT_TYPE");	
 	
 	
 	//this.gfnAddCodeDataset("ds_cmm_RoyaltyType",	"ROYALTY_TYPE");	// 로열티종류
@@ -749,7 +749,7 @@ this.fnGetCode = function()
  
 this.fnProductQueryData = function()
 {
-	//	this.gfnAddSendParameter("CONTRACT_TYPE",		"P");
+	this.gfnAddSendParameter("CONTRACT_TYPE",		"PD");
 	this.gfnAddSendParameter("MAIN_PRODUCT_FLAG",	"1");
 	this.gfnAddSendParameter("E03",					"E03");
 	this.gfnAddSendParameter("COMPANY_CODE",		this.gfnGetCompanyCode());
@@ -793,7 +793,7 @@ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 	switch (strSvcID) 
 	{
 		case "AP_SalesProductMM_S01" :
-			this.ds_cmm_ProductAll.filter("PRODUCT_LVL==0");
+			//this.ds_cmm_ProductAll.filter("PRODUCT_LVL==0");
 			this.ds_cmm_Product.copyData(this.ds_cmm_ProductAll, true);	// 0 level만 복사
 			break;
 		case "SalesEmp" : 
@@ -913,7 +913,6 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 			case "popupProductSearch" : // 제품
 				var ds = new nexacro.Dataset();
 				ds.loadJSON(Variant);
-				console.log(ds.saveXML());
 				this.recentVariant = ds;
 				
 				var findRow = this.dsContractProd.findRow("PRODUCT_CODE", ds.getColumn(0, "PRODUCT_CODE"));
@@ -928,8 +927,9 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 					this.dsContractProd.setColumn(this.dsContractProd.rowposition, "RELATED_COMPANY_NAME", ds.getColumn(0, "RELATED_COMPANY_NAME"));
 
 					this.dsContractProd.setColumn(this.dsContractProd.rowposition, "PRODUCT_CODE", ds.getColumn(0, "PRODUCT_CODE"));
-					if(ds.getColumn(0, "PRODUCT_CODE").indexOf(this.cmb_SalesProduct.value)<0)
-						this.gfnAlert(this.gfnGetTransTxt(1504,"제품명 및 버전이 다릅니다. 다시 확인해주세요."));
+					if(ds.getColumn(0, "PRODUCT_CODE").indexOf(this.cmb_SalesProduct.value)<0) {
+						this.gfnAlert('msg.general',this.gfnGetTransTxt(1504,"제품명 및 버전이 다릅니다. 다시 확인해주세요."));
+					}
 				} else {
 					this.gfnAlert('msg.err.validator.duplcation',[findRow]);
 					return;
@@ -1009,7 +1009,7 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 				var ds = new nexacro.Dataset();
 				ds.loadJSON(Variant);
 				this.recentVariant = ds;
-				
+				console.log("==========",ds.saveXML());
 				// return 정보가 없으면 종료
 				if (ds.rowcount<=0) return;
 				
@@ -2457,6 +2457,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			this.dsContractProd.setColumn(nAddRow, "ANNUAL_FLAG", "0");
 			this.dsContractProd.setColumn(nAddRow, "STRATEGY_SALES_FLAG", "0");
 			this.dsContractProd.setColumn(nAddRow, "INSERT_STATUS", "I");
+			this.dsContractProd.setColumn(nAddRow, "CONTRACT_PRICE", 0);
 			
 			this.dsContractProd.setColumn(nAddRow, "CONTRACT_SEQ", this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_SEQ"));
 			
@@ -2482,6 +2483,7 @@ this.CommAddRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			this.dsContractGoods.setColumn(nAddRow, "ANNUAL_FLAG", "0");
 			this.dsContractGoods.setColumn(nAddRow, "STRATEGY_SALES_FLAG", "0");
 			this.dsContractGoods.setColumn(nAddRow, "INSERT_STATUS", "I");
+			this.dsContractGoods.setColumn(nAddRow, "CONTRACT_PRICE", 0);
 			
 			//trace("CONTRACT_SEQ:"+this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_SEQ"));
 			this.dsContractGoods.setColumn(nAddRow, "CONTRACT_SEQ", this.dsList.getColumn(this.dsList.rowposition, "CONTRACT_SEQ"));
@@ -2672,6 +2674,7 @@ this.divDet_divDet1_divGoods_grd_Salesgoods_onexpandup = function(obj:nexacro.Gr
 		var sArgument = {};		//{pvMode:this.parent.mode}
 		sArgument.sProductCd = this.dsContractGoods.getColumn(e.row, "PRODUCT_CODE");
 		sArgument.sContractType = "ALL";
+		sArgument.sComboContractType = "GD";
 		sArgument.sFilterExpr = "CODE!='" + this.cmb_SalesProduct.value + "'";
 		this.commUtil.popupProductSearch(this, "popupGoodsSearch", "fnPopupCallBack", sArgument);
 	}
@@ -3528,18 +3531,6 @@ this.dsList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSCol
           <Column id="ORD" type="string" size="10"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="ds_cmm_ContractStatus00">
-        <ColumnInfo>
-          <Column id="CODE" type="string" size="30"/>
-          <Column id="CAPTION" type="string" size="255"/>
-          <Column id="VAL1" type="string" size="100"/>
-          <Column id="VAL2" type="string" size="100"/>
-          <Column id="VAL3" type="string" size="100"/>
-          <Column id="VAL4" type="string" size="100"/>
-          <Column id="REMARK" type="string" size="1073741823"/>
-          <Column id="ORD" type="string" size="10"/>
-        </ColumnInfo>
-      </Dataset>
       <Dataset id="ds_cmm_Type">
         <ColumnInfo>
           <Column id="CODE" type="string" size="30"/>
@@ -4057,6 +4048,18 @@ this.dsList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSCol
         </ColumnInfo>
       </Dataset>
       <Dataset id="ds_cmm_PurchaseType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="30"/>
+          <Column id="CAPTION" type="STRING" size="255"/>
+          <Column id="VAL1" type="STRING" size="100"/>
+          <Column id="VAL2" type="STRING" size="100"/>
+          <Column id="VAL3" type="STRING" size="100"/>
+          <Column id="VAL4" type="STRING" size="100"/>
+          <Column id="REMARK" type="STRING" size="1073741823"/>
+          <Column id="ORD" type="STRING" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_ContractType">
         <ColumnInfo>
           <Column id="CODE" type="STRING" size="30"/>
           <Column id="CAPTION" type="STRING" size="255"/>

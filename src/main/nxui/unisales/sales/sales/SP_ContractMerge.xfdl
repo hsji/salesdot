@@ -7,13 +7,13 @@
         <Static id="stc_GbSalesProd1" taborder="3" cssclass="sta_POP_GroupBg" left="4" top="39" height="32" width="334"/>
         <Button id="btn_Cancel" taborder="12" text="닫기" width="60" height="28" cssclass="btn_WF_tran" bottom="20" onclick="btn_Close_onclick" TL_SEQ="59" right="20"/>
         <Button id="btn_Save" taborder="0" text="적용" height="28" cssclass="btn_WF_Crud" bottom="20" onclick="comm_Click" TL_SEQ="684" right="btn_Cancel:5" width="60"/>
-        <Edit id="edt_SrcClient" taborder="1" left="20" top="47" width="237" height="24" readonly="true"/>
+        <Edit id="edt_SrcClient" taborder="1" left="20.00" top="47" width="220" height="24" readonly="true"/>
         <Static id="stc_SalesProd1" taborder="2" text="Source 프로젝트" left="20" top="20" width="134" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="715"/>
         <Static id="stc_SalesProd00" taborder="4" text="Target 프로젝트" left="352.00" top="20" width="134" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="716"/>
         <Div id="div_TrgProject" taborder="6" left="346.00" top="76" height="24" url="sales::comm/COM_Search.xfdl" kind="PROJECT" param="" user_onchanged="Com_Search_onChanged" right="20"/>
-        <Edit id="edt_SrcProjectCode" taborder="7" left="edt_SrcClient:2" top="47" width="75" height="24" readonly="true"/>
-        <Edit id="edt_TrgClientName" taborder="10" left="346.00" top="47" height="24" readonly="true" right="97"/>
-        <Edit id="edt_TrgProjectCode" taborder="8" top="47" height="24" readonly="true" width="75" left="edt_TrgClientName:2"/>
+        <Edit id="edt_SrcProjectCode" taborder="7" left="edt_SrcClient:2.00" top="47" width="92" height="24" readonly="true"/>
+        <Edit id="edt_TrgClientName" taborder="10" left="346.00" top="47" height="24" readonly="true" right="114"/>
+        <Edit id="edt_TrgProjectCode" taborder="8" top="47" height="24" readonly="true" width="92" left="edt_TrgClientName:2.00"/>
         <Edit id="edt_SrcProjectName" taborder="9" left="20" top="76" width="314" height="24" readonly="true"/>
         <Grid id="grd_SrcList" taborder="11" left="20" top="edt_SrcProjectName:10" height="218" binddataset="ds_ContractList" right="20" autoenter="select" autofittype="col" cellsizingtype="col" oncellclick="grd_SrcList_oncellclick">
           <Formats>

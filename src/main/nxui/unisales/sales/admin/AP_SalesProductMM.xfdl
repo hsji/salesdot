@@ -52,7 +52,7 @@
                     <Div id="divDept" taborder="24" left="staTitle02:5" top="39" height="24" url="sales::comm/COM_ProductSearch.xfdl" right="5" uEssential="true" COMPANY_CODE="" CONTRACT_TYPE="" DATASET="ds_Product" CODECOLUMN="HIPO_PRODUCT_CODE" DATACOLUMN="HIPO_PRODUCT_NAME" SELECT_TYPE="PRODUCT"/>
                     <Div id="div_RelatedCompany" taborder="25" top="203" height="24" url="sales::comm/COM_Search.xfdl" binddataset="ds_Product" kind="COMPANY" async="false" codecolumn="RELATED_COMPANY_CODE" datacolumn="RELATED_COMPANY_NAME" mode="" left="staTitle07:5.00" formscrolltype="none" formscrollbartype="none none" right="5"/>
                     <TextArea id="txt_Remarks" taborder="26" top="402" left="staTitle11:5.00" height="125" right="5"/>
-                    <CheckBox id="cb_MainProductFlag" taborder="27" text="메인사업 여부" left="staTitle10:5.00" top="305" width="146" height="24" falsevalue="0" truevalue="1" readonly="false" TL_SEQ="12400"/>
+                    <CheckBox id="cb_MainProductFlag" taborder="27" text="메인제품 여부" left="staTitle10:5.00" top="305" width="146" height="24" falsevalue="0" truevalue="1" readonly="false" TL_SEQ="12400"/>
                     <CheckBox id="cb_SelectFlag" taborder="28" text="영업사업 선택 여부" left="staTitle10:5.00" top="334" width="146" height="24" falsevalue="0" truevalue="1" readonly="false" TL_SEQ="12401"/>
                     <CheckBox id="cb_MaFlag" taborder="29" text="유지보수 여부" left="staTitle10:5.00" top="365" width="146" height="24" falsevalue="0" truevalue="1" readonly="false" TL_SEQ="12402"/>
                     <CheckBox id="cb_GoodsFlag" taborder="30" text="상품 여부" left="cb_MainProductFlag:30.00" top="305" width="100" falsevalue="0" truevalue="1" readonly="false" TL_SEQ="12403" height="24"/>

@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="TR_RequestSIStaffReg" width="1365" height="650" titletext="SI인력요청" cssclass="frm_popBg" onload="TR_RequestSIStaffReg_onload">
+  <Form id="TR_RequestSIStaffReg" width="1365" height="700" titletext="SI인력요청" cssclass="frm_popBg" onload="TR_RequestSIStaffReg_onload">
     <Layouts>
-      <Layout height="650" mobileorientation="landscape" width="1365">
-        <Button id="btn_Close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_Close_onclick"/>
-        <Div id="div_Request" taborder="4" left="4" top="39" text="" height="130" right="4" cssclass="div_WF_detailBg" formscrolltype="none">
+      <Layout height="700" mobileorientation="landscape" width="1365">
+        <Div id="div_Request" taborder="3" left="20" top="20" text="" height="150" right="20" cssclass="div_WF_detailBg" formscrolltype="none">
           <Layouts>
             <Layout>
               <Static id="stc_Contract_Date00" taborder="14" text="요청일자" top="68" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="507" TL_SEQ="322"/>
@@ -26,7 +25,7 @@
               <Combo id="cmb_Area" taborder="4" top="98" height="22" width="180" innerdataset="ds_cmm_Area" codecolumn="CODE" datacolumn="CAPTION" left="stc_Project_Name04:9"/>
               <Static id="stc_Contract_Date02" taborder="19" text="요청구분" top="98" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="11" TL_SEQ="326"/>
               <Combo id="cmb_ReqType" taborder="3" top="98" height="22" width="77" innerdataset="ds_cmm_RequestType" codecolumn="CODE" datacolumn="CAPTION" left="stc_Contract_Date02:6"/>
-              <Div id="div_Contract" taborder="0" left="stc_Project_Name:6" top="68" height="22" url="Common::COM_Search.xfdl" binddataset="ds_List" kind="CONTRACT" async="false" codecolumn="CONTRACT_NO" datacolumn="CONTRACT_NAME" mode="" user_onchanged="Com_Search_onChanged" param="searchtype:N,contracttype:S" width="431">
+              <Div id="div_Contract" taborder="0" left="stc_Project_Name:6" top="68" height="22" url="sales::comm/COM_Search.xfdl" binddataset="ds_List" kind="CONTRACT" async="false" codecolumn="CONTRACT_NO" datacolumn="CONTRACT_NAME" mode="" user_onchanged="Com_Search_onChanged" param="searchtype:N,contracttype:S" width="431">
                 <Layouts>
                   <Layout/>
                   <Layout name="portrait"/>
@@ -35,7 +34,7 @@
               <Static id="stc_CheckType" taborder="20" text="확인구분" top="98" width="50" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="667" TL_SEQ="327"/>
               <Combo id="cmb_CheckType" taborder="21" top="98" height="22" width="86" innerdataset="ds_cmm_Check" codecolumn="CODE" datacolumn="CAPTION" left="stc_CheckType:8" readonly="true"/>
               <Static id="sta03_00" taborder="22" text="사업검토서" left="817" top="98" width="64" height="22" cssclass="sta_WF_DetailTit" TL_SEQ="331"/>
-              <Div id="div_ReView_Upload" taborder="23" left="sta03_00:8" top="98" width="86" height="22" async="false" BINDDATASET="ds_List" SOURCE_CD="RSS" SOURCE_SEQ="RSS_SEQ" USE_NEXT_FILE_TYPE="false" USE_LINK_TYPE="false" USE_MULTI_FILE="false" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" url="Common::COM_Attachment.xfdl" STATUS_CD="BZ_REVIEW" tooltiptext="SI인력요청 저장후 파일등록이 가능합니다.">
+              <Div id="div_ReView_Upload" taborder="23" left="sta03_00:8" top="98" width="86" height="22" async="false" BINDDATASET="ds_List" SOURCE_CD="RSS" SOURCE_SEQ="RSS_SEQ" USE_NEXT_FILE_TYPE="false" USE_LINK_TYPE="false" USE_MULTI_FILE="false" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" url="sales::comm/COM_Attachment.xfdl" STATUS_CD="BZ_REVIEW" tooltiptext="SI인력요청 저장후 파일등록이 가능합니다.">
                 <Layouts>
                   <Layout/>
                   <Layout name="portrait"/>
@@ -43,6 +42,7 @@
               </Div>
               <Static id="stc_Product_Name" taborder="24" text="계약제품" top="38" width="50" height="22" textAlign="right" cssclass="sta_WF_DetailTit" left="edt_ProjectName:6" TL_SEQ="332"/>
               <Edit id="edt_Product_Name" taborder="25" top="38" height="22" readonly="true" left="stc_Product_Name:8" right="450"/>
+              <Static id="Static02" taborder="26" text="요청" left="10" top="0" width="122" height="31" cssclass="sta_POP_GroupTit" TL_SEQ="22"/>
             </Layout>
             <Layout name="portrait">
               <Static id="stc_Contract_Date04" left="8" top="306" width="64" height="22"/>
@@ -74,7 +74,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Div id="div_Req" taborder="7" text="Div00" left="4" top="div_Request:4" height="177" right="4">
+        <Div id="div_Req" taborder="5" text="Div00" left="20" top="div_Request:4" height="177" right="20">
           <Layouts>
             <Layout>
               <Static id="Static01" taborder="1" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" right="0"/>
@@ -98,8 +98,8 @@
                       <Column size="80"/>
                     </Columns>
                     <Rows>
-                      <Row size="24" band="head"/>
-                      <Row size="24"/>
+                      <Row size="30" band="head"/>
+                      <Row size="30"/>
                     </Rows>
                     <Band id="head">
                       <Cell colspan="2" text="순번" TL_SEQ="333"/>
@@ -292,13 +292,13 @@
             </Layout>
           </Layouts>
         </Div>
-        <Splitter id="spt_Vertical" taborder="18" left="4" top="div_Req:-1" height="7" type="vertical" right="4">
+        <Splitter id="spt_Vertical" taborder="15" left="4" top="div_Req:-1" height="7" type="vertical" right="4">
           <Layouts>
             <Layout/>
             <Layout name="portrait"/>
           </Layouts>
         </Splitter>
-        <Div id="div_Confirm" taborder="5" left="4" top="spt_Vertical:-1" text="" right="4" bottom="43">
+        <Div id="div_Confirm" taborder="4" left="20.00" top="spt_Vertical:-1" text="" right="20" bottom="60">
           <Layouts>
             <Layout>
               <Grid id="grd_List" taborder="0" left="0" top="31" binddataset="ds_ConfirmList" formatid="default" onexpandup="div_Confirm_grd_List_onexpandup" accessibilityrole="grid" autoenter="select" bottom="0" autofittype="col" oncellclick="Grid_oncellclick" right="516" oncelldblclick="Grid_oncelldblclick">
@@ -316,8 +316,8 @@
                     <Rows>
                       <Row size="24" band="head"/>
                       <Row size="24" band="head"/>
-                      <Row size="24"/>
-                      <Row size="24"/>
+                      <Row size="28"/>
+                      <Row size="28"/>
                     </Rows>
                     <Band id="head">
                       <Cell text="순번" TL_SEQ="333"/>
@@ -631,13 +631,11 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Static id="Static03" taborder="1" left="0" top="0" height="31" cssclass="sta_POP_GroupBg" right="516"/>
-              <Static id="Static04" taborder="2" text="승인(배정)" left="10" top="0" width="90" height="31" cssclass="sta_POP_GroupTit" TL_SEQ="343"/>
-              <Static id="Static00" taborder="7" top="0" height="31" cssclass="sta_POP_GroupBg" right="0" width="512"/>
-              <Button id="btn_ConfDel" taborder="4" top="8" height="16" visible="true" cssclass="btn_POP_Del" onclick="btn_ConfDel_onclick" enable="false" width="16" left="Static03:-24"/>
-              <Button id="btn_ConfAdd" taborder="3" top="8" width="16" height="16" visible="true" cssclass="btn_POP_Add" onclick="btn_ConfAdd_onclick" enable="false" right="btn_ConfDel:8"/>
-              <Radio id="rdo_Confirm" taborder="5" left="110" top="8" width="146" height="15" innerdataset="ds_Confirm" codecolumn="CODE" datacolumn="CAPTION" index="0" text="전체" value="0" rowcount="1" onitemchanged="Radio_onitemchanged" TL_FLAG="1"/>
-              <Grid id="grd_SiInput" taborder="6" top="31" binddataset="ds_ProjectSiEmp" formatid="default" accessibilityrole="grid" autoenter="select" bottom="0" autofittype="col" right="0" oncelldblclick="Grid_oncelldblclick" width="512" oncellclick="div_Confirm_grd_SiInput_oncellclick">
+              <Static id="Static04" taborder="1" text="승인(배정)" left="10" top="0" width="90" height="31" cssclass="sta_POP_GroupTit" TL_SEQ="343"/>
+              <Button id="btn_ConfDel" taborder="3" top="8" height="16" visible="true" cssclass="btn_POP_Del" onclick="btn_ConfDel_onclick" enable="false" width="16" left="794"/>
+              <Button id="btn_ConfAdd" taborder="2" top="8" width="16" height="16" visible="true" cssclass="btn_POP_Add" onclick="btn_ConfAdd_onclick" enable="false" right="btn_ConfDel:8"/>
+              <Radio id="rdo_Confirm" taborder="4" left="110" top="8" width="146" height="15" innerdataset="ds_Confirm" codecolumn="CODE" datacolumn="CAPTION" index="0" text="전체" value="0" rowcount="1" onitemchanged="Radio_onitemchanged" TL_FLAG="1"/>
+              <Grid id="grd_SiInput" taborder="5" top="31" binddataset="ds_ProjectSiEmp" formatid="default" accessibilityrole="grid" autoenter="select" bottom="0" autofittype="col" right="0" oncelldblclick="Grid_oncelldblclick" width="512" oncellclick="div_Confirm_grd_SiInput_oncellclick">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -652,8 +650,8 @@
                     <Rows>
                       <Row size="24" band="head"/>
                       <Row size="24" band="head"/>
-                      <Row size="24"/>
-                      <Row size="24"/>
+                      <Row size="28"/>
+                      <Row size="28"/>
                     </Rows>
                     <Band id="head">
                       <Cell text="순번" TL_SEQ="333"/>
@@ -731,18 +729,16 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Static id="Static01" taborder="8" text="투입" top="0" width="58" height="31" cssclass="sta_POP_GroupTit" right="444" TL_SEQ="345"/>
-              <Static id="Static02" taborder="9" top="7" height="18" text="※ 투입완료건" width="80" color="blue" right="btn_ConfAdd:8" TL_SEQ="346"/>
-              <Button id="btn_ConfDel_PSE" taborder="10" top="8" height="16" visible="true" cssclass="btn_POP_Del" enable="false" width="16" right="8" onclick="div_Confirm_btn_ConfDel_PSE_onclick"/>
-              <Static id="st_OtherCo" taborder="11" text="※ 타사투입 인력건" top="8" height="16" color="green" width="110" right="btn_ConfDel_PSE:8" TL_SEQ="347"/>
+              <Static id="Static01" taborder="6" text="투입" top="0" width="58" height="31" cssclass="sta_POP_GroupTit" right="444" TL_SEQ="345"/>
+              <Static id="Static02" taborder="7" top="7" height="18" text="※ 투입완료건" width="80" color="blue" right="btn_ConfAdd:8" TL_SEQ="346"/>
+              <Button id="btn_ConfDel_PSE" taborder="8" top="8" height="16" visible="true" cssclass="btn_POP_Del" enable="false" width="16" right="8" onclick="div_Confirm_btn_ConfDel_PSE_onclick"/>
+              <Static id="st_OtherCo" taborder="9" text="※ 타사투입 인력건" top="8" height="16" color="green" width="110" right="btn_ConfDel_PSE:8" TL_SEQ="347"/>
             </Layout>
             <Layout name="portrait">
               <Grid id="grd_List" left="0" top="36" formatid="mobile" right="0" height="362"/>
-              <Static id="Static03" left="0" top="0" height="35" right="0"/>
-              <Static id="Static00" top="401" height="35" left="0" right="0"/>
               <Grid id="grd_SiInput" top="437" left="0" formatid="mobile" height="362" right="0"/>
               <Static id="Static01" top="401" width="58" height="35" left="10"/>
-              <Button id="btn_ConfDel_PSE" top="410" height="16" width="16" left="Static00:-24"/>
+              <Button id="btn_ConfDel_PSE" top="410" height="16" width="16" left="448"/>
               <Static id="Static04" height="35" left="10" top="0" width="90"/>
               <Radio id="rdo_Confirm" left="110" top="0" width="170" height="35"/>
               <Static id="Static02" top="0" width="104" height="35" right="btn_ConfAdd:8"/>
@@ -750,37 +746,32 @@
             </Layout>
           </Layouts>
         </Div>
-        <Static id="Static00" taborder="1" left="1" height="38" right="1" bottom="1" cssclass="sta_POP_BtnBg" text=""/>
-        <Button id="btn_Cancel" taborder="2" text="닫기" width="60" height="22" cssclass="btn_WF_cancel" right="13" bottom="9" onclick="btn_Close_onclick" TL_SEQ="59"/>
-        <Button id="btn_Save" taborder="3" text="저장" width="60" height="22" cssclass="btn_WF_tran" right="btn_Cancel:8" bottom="9" onclick="btn_Save_onclick" enable="true" TL_SEQ="115"/>
-        <Static id="st_Title" taborder="6" text="SI인력요청" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="348"/>
-        <Button id="btn_Delete" taborder="15" text="삭제" width="60" height="22" cssclass="btn_WF_tran" right="btn_Save:8" bottom="9" enable="false" onclick="btn_Delete_onclick" TL_SEQ="117"/>
-        <Static id="Static01" taborder="8" left="4" top="39" height="31" cssclass="sta_POP_GroupBg" right="4"/>
-        <Static id="Static02" taborder="9" text="요청" left="14" top="39" width="122" height="31" cssclass="sta_POP_GroupTit" TL_SEQ="22"/>
-        <Static id="stc_ClientName" taborder="10" text="고객사" left="59" top="43" width="48" height="22" textAlign="right" cssclass="sta_WF_DetailTit" visible="false" TL_SEQ="32"/>
-        <Edit id="edt_ClientName" taborder="11" left="stc_ClientName:6" top="43" height="22" width="205" readonly="true" visible="false"/>
-        <Static id="stc_ProjectName" taborder="12" text="프로젝트" left="333" top="43" width="48" height="22" textAlign="right" cssclass="sta_WF_DetailTit" visible="false" TL_SEQ="114"/>
-        <Edit id="edt_ProjectName" taborder="13" left="stc_ProjectName:9" top="43" height="22" readonly="true" visible="false" right="456"/>
-        <Button id="btn_schdDown" taborder="14" top="46" width="16" height="16" cssclass="btn_WF_schdUp" right="8" onclick="btn_schdDown_onclick"/>
-        <Static id="stc_CheckType" taborder="16" text="확인구분" top="43" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="1162" visible="false" TL_SEQ="327"/>
-        <Combo id="cmb_CheckType" taborder="17" top="43" height="22" width="115" innerdataset="ds_cmm_Check" codecolumn="CODE" datacolumn="CAPTION" left="stc_CheckType:6" visible="false" readonly="true"/>
-        <Static id="stc_Product_Name" taborder="19" text="계약제품" top="43" width="64" height="22" textAlign="right" cssclass="sta_WF_DetailTit" left="903" visible="false" TL_SEQ="332"/>
-        <Edit id="edt_Product_Name" taborder="20" top="43" height="22" width="176" readonly="true" left="stc_Product_Name:8" visible="false"/>
+        <Static id="Static00" taborder="0" left="1" height="38" right="1" bottom="1" cssclass="sta_POP_BtnBg" text=""/>
+        <Button id="btn_Cancel" taborder="1" text="닫기" width="60" height="28" cssclass="btn_WF_cancel" right="20" bottom="17" onclick="btn_Close_onclick" TL_SEQ="59"/>
+        <Button id="btn_Save" taborder="2" text="저장" width="60" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:5" bottom="17" onclick="btn_Save_onclick" enable="true" TL_SEQ="115"/>
+        <Button id="btn_Delete" taborder="12" text="삭제" width="60" height="28" cssclass="btn_WF_Crud" right="btn_Save:5" bottom="17" enable="false" onclick="btn_Delete_onclick" TL_SEQ="117"/>
+        <Static id="Static01" taborder="6" left="4" top="39" height="31" cssclass="sta_POP_GroupBg" right="4"/>
+        <Static id="stc_ClientName" taborder="7" text="고객사" left="119.00" top="26" width="48" height="22" textAlign="right" cssclass="sta_WF_DetailTit" visible="false" TL_SEQ="32"/>
+        <Edit id="edt_ClientName" taborder="8" left="stc_ClientName:6.00" top="26" height="22" width="188" readonly="true" visible="false"/>
+        <Static id="stc_ProjectName" taborder="9" text="프로젝트" left="edt_ClientName:0.00" top="26" width="56" height="22" textAlign="right" cssclass="sta_WF_DetailTit" visible="false" TL_SEQ="114"/>
+        <Edit id="edt_ProjectName" taborder="10" left="stc_ProjectName:9.00" top="26" height="22" readonly="true" visible="false" width="419"/>
+        <Button id="btn_schdDown" taborder="11" top="32" width="16" height="16" cssclass="btn_WF_schdUp" right="29" onclick="btn_schdDown_onclick"/>
+        <Static id="stc_Product_Name" taborder="16" text="계약제품" top="26" width="64" height="22" textAlign="right" cssclass="sta_WF_DetailTit" left="edt_ProjectName:0" visible="false" TL_SEQ="332"/>
+        <Edit id="edt_Product_Name" taborder="17" top="26" height="22" width="176" readonly="true" left="stc_Product_Name:8" visible="false"/>
+        <Static id="stc_CheckType" taborder="13" text="확인구분" top="26" width="48" height="22" cssclass="sta_WF_DetailTit" textAlign="right" left="edt_Product_Name:0" visible="false" TL_SEQ="327"/>
+        <Combo id="cmb_CheckType" taborder="14" top="26" height="22" width="115" innerdataset="ds_cmm_Check" codecolumn="CODE" datacolumn="CAPTION" left="stc_CheckType:6.00" visible="false" readonly="true"/>
       </Layout>
       <Layout name="portrait" screenid="Mobile_screen" width="480" height="1617" mobileorientation="portrait">
         <Div id="div_Req" left="4" top="div_Request:4" height="398" right="4"/>
         <Div id="div_Request" left="4" top="39" height="364" right="4"/>
         <Splitter id="spt_Vertical" left="4" top="div_Req:-1" height="7" right="4"/>
         <Static id="Static01" height="35" left="4" top="39" right="4"/>
-        <Static id="Static02" height="35" left="14" top="39" width="122"/>
         <Div id="div_Confirm" left="4" top="spt_Vertical:-1" right="4" height="799"/>
         <Button id="btn_schdDown" width="30" top="41" height="30" right="8"/>
         <Button id="btn_Delete" height="30" width="70" right="btn_Save:4" top="1583"/>
         <Button id="btn_Save" height="30" width="70" right="btn_Cancel:4" top="1583"/>
         <Button id="btn_Cancel" height="30" width="70" right="4" top="1583"/>
         <Static id="Static00" left="1" height="38" right="1" top="1579"/>
-        <Static id="st_Title" left="10" top="0" width="140" height="35"/>
-        <Button id="btn_Close" width="35" top="0" height="35" right="10"/>
         <Static id="stc_Product_Name" left="903" top="43" width="64" height="22"/>
         <Edit id="edt_Product_Name" left="975" top="43" width="176" height="22"/>
       </Layout>
@@ -856,19 +847,28 @@ this.fnGetCode = function()
  // Skill 코드 조회	
  this.fn_GetSkillCode = function()
  {
-	this.gfnAddOutputDataset("ds_comm_Skill", "ds_output");
-	this.gfnCommonTransaction("CO_SkillCode_S01", "CO_SkillCode_S01", null, false);
+// 	this.gfnAddOutputDataset("ds_comm_Skill", "ds_output");
+// 	this.gfnCommonTransaction("CO_SkillCode_S01", "CO_SkillCode_S01", null, false);
+	
+	this.gfnSetMap("nextCommMapper", ['CO_SkillCode_S01'], ['ds_comm_Skill']);
+	this.gfnCommonTransaction("CO_SkillCode_S01", "selectNextMultiList.do", null, false);
+	
  }
 
 // 조회
 this.fnSearch = function()
 {	
 	this.gfnAddSendParameter("RSS_SEQ", this.FV_RSS_SEQ);
-	this.gfnAddOutputDataset("ds_List", "ds_output");
-	this.gfnAddOutputDataset("ds_DetList", "ds_output2");
-	this.gfnAddOutputDataset("ds_ConfirmList", "ds_output3");
-	this.gfnAddOutputDataset("ds_ProjectSiEmp", "ds_output4");
-	this.gfnCommonTransaction("Select", "TR_RequestSIStaffReg_S01");
+// 	this.gfnAddOutputDataset("ds_List", "ds_output");
+// 	this.gfnAddOutputDataset("ds_DetList", "ds_output2");
+// 	this.gfnAddOutputDataset("ds_ConfirmList", "ds_output3");
+// 	this.gfnAddOutputDataset("ds_ProjectSiEmp", "ds_output4");
+// 	this.gfnCommonTransaction("Select", "TR_RequestSIStaffReg_S01");
+	
+	var map = ['TR_RequestSIStaffReg_S01_1','TR_RequestSIStaffReg_S01_2','TR_RequestSIStaffReg_S01_3','TR_RequestSIStaffReg_S01_4'];
+	var ds = ['ds_List','ds_DetList','ds_ConfirmList','ds_ProjectSiEmp'];
+	this.gfnSetMap("techMapper", map, ds);
+	this.gfnCommonTransaction("Select", "selectNextMultiList.do");	
 }
 
 // 시작 종료일에 대한 MEN_MONTH 조회
@@ -880,8 +880,11 @@ this.fnGetMM = function(strSvcID, sStartDt, sEndDt, nRow) {
 	this.gfnAddSendParameter("START_DATE",	sStartDt);
 	this.gfnAddSendParameter("END_DATE",	sEndDt);
 	this.gfnAddSendParameter("ROW",			nRow);
-	this.gfnAddOutputDataset("ds_MM", "ds_output");
-	this.gfnCommonTransaction(strSvcID, "CO_GetMM_S01");
+// 	this.gfnAddOutputDataset("ds_MM", "ds_output");
+// 	this.gfnCommonTransaction(strSvcID, "CO_GetMM_S01");
+	
+	this.gfnSetMap("nextBaseMapper", "CO_GetMM_S01", "ds_MM");
+	this.gfnCommonTransaction(strSvcID, 	"selectNextList.do");	
 }
 
 // SI투입중복여부 확인
@@ -916,8 +919,10 @@ this.fnCheckDuplicateSI = function(nRow, objDS, e)
 	this.gfnAddSendParameter("START_DATE",	strStartDt);
 	this.gfnAddSendParameter("END_DATE",	strEndDt);
 	this.gfnAddSendParameter("ROW",			nRow);
-	this.gfnAddOutputDataset("ds_CheckDuplicateSI", "ds_output");
-	this.gfnCommonTransaction("CheckDuplicateSI", "TR_RequestSIStaffReg_S02", null, false);
+// 	this.gfnAddOutputDataset("ds_CheckDuplicateSI", "ds_output");
+// 	this.gfnCommonTransaction("CheckDuplicateSI", "TR_RequestSIStaffReg_S02", null, false);
+	this.gfnSetMap("techMapper", ['TR_RequestSIStaffReg_S02'], ['ds_CheckDuplicateSI']);
+	this.gfnCommonTransaction("CheckDuplicateSI", "selectNextMultiList.do", null, false);	
 	
 	if (this.ds_CheckDuplicateSI.rowcount>0) {
 		var nROW = this.ds_CheckDuplicateSI.getColumn(0, "ROW");

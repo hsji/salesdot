@@ -898,4 +898,31 @@
 	  AND FMP.SOURCE_SEQ <![CDATA[<>]]> #{SOURCE_SEQ}
 </select>
 
+<select id="selectCO_SkillCode_S01" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT  
+	    A.PRODUCT_CODE AS CD_CODE,
+	    A.PRODUCT_NAME AS CAPTION,
+	    CONCAT('0_', A.PRODUCT_CODE) AS ORD
+	FROM    
+	    SALES_PRODUCT_LIST A
+	WHERE   
+	    A.MAIN_PRODUCT_FLAG = '1'
+	    AND A.DELETE_FLAG = '0'
+	    AND LEFT(A.PRODUCT_CODE, 2) = 'P0'
+	
+	UNION ALL
+	
+	SELECT  
+	    A.SSC_CD,
+	    A.SSC_CD_KORN_NM,
+	    CONCAT('1_', A.SORT_ORDR) AS ORD
+	FROM    
+	    T_SYTM_CODE A
+	WHERE   
+	    A.HCL_CD = 'SKILL_CODE'
+	    AND A.USED_YN = '1'
+	
+	ORDER BY 3;
+</select>
+
 </mapper>
