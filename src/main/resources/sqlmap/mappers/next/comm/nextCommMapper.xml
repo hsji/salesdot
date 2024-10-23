@@ -925,4 +925,190 @@
 	ORDER BY 3;
 </select>
 
+
+<!-- 부서 정보 조회 -->
+<select id="selectDeptList" parameterType="java.util.Map" resultType="java.util.Map">
+/* selectDeptList */
+WITH RECURSIVE CTE_Dept AS (
+    SELECT
+    	AA.COMPANY_CD,
+        AA.DEPT_CD,
+        HIPO_DEPT_CD,
+        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = AA.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+        AA.DEPT_KORN_NM AS DEPT_NM,
+        AA.DEPT_ENGL_NM,
+        AA.DEPT_ABBR_NM,
+        AA.DEPT_ENGL_ABBR_NM,
+        AA.DEPT_SHOW_NM,
+        AA.DEPT_ORDR,
+        AA.DEPT_YN,
+        AA.DEPT_FLAG_CD,
+        AA.DEPT_LVL AS LEV,
+        AA.BEFO_DEPT_CD,
+        AA.DEPT_FRDT,
+        AA.DEPT_TODT,
+        AA.BUSINESS_TYPE,
+        '0' AS ISCHECKED,
+        '1' AS USE_YN,
+        CONVERT(AA.DEPT_ORDR, char(100)) as SortOrder
+    FROM T_SYTM_DEPT AA
+    WHERE DEPT_LVL = '0'
+    AND AA.COMPANY_CD     = #{COMPANY_CD}
+    UNION ALL
+    SELECT
+    	BB.COMPANY_CD,
+        BB.DEPT_CD,
+        BB.HIPO_DEPT_CD,
+        (SELECT DEPT_KORN_NM FROM T_SYTM_DEPT WHERE DEPT_CD = BB.HIPO_DEPT_CD) AS HIPO_DEPT_NM,
+        BB.DEPT_KORN_NM AS DEPT_NM,
+        BB.DEPT_ENGL_NM,
+        BB.DEPT_ABBR_NM,
+        BB.DEPT_ENGL_ABBR_NM,
+        BB.DEPT_SHOW_NM,
+        BB.DEPT_ORDR,
+        BB.DEPT_YN,
+        BB.DEPT_FLAG_CD,
+        BB.DEPT_LVL AS LEV,
+        BB.BEFO_DEPT_CD,
+        BB.DEPT_FRDT,
+        BB.DEPT_TODT,
+        BB.BUSINESS_TYPE,
+        '0' AS ISCHECKED,
+        '1' AS USE_YN,
+        CONCAT(CTE_Dept.SortOrder, '|', BB.DEPT_ORDR) as DEPT_ORDER
+    FROM T_SYTM_DEPT BB
+    INNER JOIN CTE_Dept ON BB.HIPO_DEPT_CD = CTE_Dept.DEPT_CD
+    WHERE BB.COMPANY_CD     = #{COMPANY_CD}
+)
+SELECT *
+FROM CTE_Dept
+WHERE 1=1
+<if test="DEPT_CD != null and DEPT_CD != ''">
+    AND CTE_Dept.DEPT_CD LIKE CONCAT('%', #{DEPT_CD}, '%')
+</if>
+<if test="DEPT_NM != null and DEPT_NM != ''">
+    AND CTE_Dept.DEPT_KORN_NM LIKE CONCAT('%', #{DEPT_NM}, '%')
+</if >
+<if test="USED_YN != null and USED_YN != ''">
+    AND CTE_Dept.DEPT_YN = #{USED_YN}
+</if>
+<if test="COMPANY_CD != null and COMPANY_CD != ''">
+    AND CTE_Dept.COMPANY_CD = #{COMPANY_CD}
+</if>
+ORDER BY SortOrder; 
+</select>
+
+
+<!--  MAP 사용자 정보 조회  -->
+<select id="selectUserInfo" parameterType="java.util.Map" resultType="java.util.Map">
+/* searchUserInfo */
+WITH RECURSIVE CTE_Dept AS (
+   SELECT
+       convert(D.DEPT_ORDR, char(100)) as SortOrder,
+       D.*
+   FROM T_SYTM_DEPT D
+   WHERE DEPT_LVL = '0'
+   <if test="COMPANY_CD != null and COMPANY_CD != ''">
+   AND   COMPANY_CD = #{COMPANY_CD}
+   </if>
+   UNION ALL
+   SELECT
+       CONCAT(CTE_Dept.SortOrder, '|', E.DEPT_ORDR) as DEPT_ORDER,
+       E.*
+   FROM T_SYTM_DEPT E
+   INNER JOIN CTE_Dept ON E.HIPO_DEPT_CD = CTE_Dept.DEPT_CD
+   <if test="COMPANY_CD != null and COMPANY_CD != ''">
+	WHERE E.COMPANY_CD = #{COMPANY_CD}
+   </if>
+)
+	SELECT	/*  searchUserInfo  */
+	    US.EMP_NO
+	    , US.USER_ID
+	    , '' AS PASSWORD
+	    , US.EMP_NM 
+	    , US.KORN_NM 
+	    , US.ENGL_NM
+	    , US.DEPT_CD
+	    , DP.DEPT_KORN_NM AS DEPT_NM
+	    , US.USER_FLAG_CD
+	    , US.WKGD_CD AS CAPTION
+	    , US.WKDT_CD
+	    , US.OCCU_CD
+	    , US.CHAG_WORK
+	    , US.JOIN_DATE
+	    , US.RETR_DATE
+	    , US.HOOF_STAT_CD
+	    , US.WKPL_TELP_NUMB AS O_PHONE_NO
+	    , US.REGI_NUMB
+	    , US.BIR_DT
+	    , US.CELL_NUMB AS H_PHONE_NO
+	    , US.HUS_TELP_NUMB
+	    , US.EMAIL
+	    , US.ZIP_NUMB
+	    , US.BASC_ADDR
+	    , US.DTL_ADDR
+	    , US.THEME_ID
+	    , US.WKGD_CD
+	    , GCD.SSC_CD_KORN_NM WKGD_NM 
+	    , US.WKDT_CD   
+	    , DCD.SSC_CD_KORN_NM WKDT_NM 
+	    , US.COMPANY_CD
+	    , COM.COMPANY_NAME
+	FROM T_SYTM_USER US
+	    INNER JOIN (
+		    SELECT 
+				ROW_NUMBER() OVER (ORDER BY CTE_Dept.SortOrder) AS DEPT_ORDER, 
+				CTE_Dept.*
+			FROM CTE_Dept
+	      ) DP
+	      ON DP.DEPT_CD = US.DEPT_CD 
+		LEFT JOIN (
+		    SELECT SSC_CD, SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM05' AND  COMPANY_CD = #{SERVER_CO_CD}) GCD
+	      ON GCD.SSC_CD = US.WKGD_CD	      
+		LEFT JOIN (
+		    SELECT SSC_CD, SSC_CD_KORN_NM FROM T_SYTM_CODE WHERE HCL_CD = 'SM06' AND  COMPANY_CD = #{SERVER_CO_CD}) DCD
+	      ON DCD.SSC_CD = US.WKDT_CD
+	    LEFT JOIN SALES_COMPANY_LIST COM ON COM.COMPANY_CODE = US.COMPANY_CD							
+	WHERE 1=1	  
+	  <if test="USER_ID != null and USER_ID != ''">
+	  AND USER_ID LIKE CONCAT('%', #{USER_ID} ,'%')
+	  </if>
+	  <if test="CELL_NUMB != null and CELL_NUMB != ''">
+	  AND CELL_NUMB LIKE CONCAT('%', #{CELL_NUMB}, '%')
+	  </if >
+	  <if test="EMP_NM != null and EMP_NM != ''">
+	  AND KORN_NM LIKE CONCAT('%', #{EMP_NM}, '%')
+	  </if >
+	  <if test="EMAIL != null and EMAIL != ''">
+	  AND EMAIL LIKE CONCAT('%', #{EMAIL}, '%')
+	  </if >
+	  <if test="EMP_NO != null and EMP_NO != ''">
+	  AND EMP_NO LIKE CONCAT('%', #{EMP_NO}, '%')
+	  </if >
+ 	  <if test="HOOF_STAT_CD != null and HOOF_STAT_CD != ''">   
+	  AND HOOF_STAT_CD = #{HOOF_STAT_CD}
+	  </if>                        
+	  <if test="DEPT_CD != null and DEPT_CD != ''">
+	  AND US.DEPT_CD = #{DEPT_CD}
+	  </if>
+	  <if test="USER_FLAG_CD != null and USER_FLAG_CD != ''">
+	  AND US.USER_FLAG_CD = #{USER_FLAG_CD}
+	  </if>
+	  <if test="COMPANY_CD != null and COMPANY_CD != ''">
+	  AND US.COMPANY_CD = #{COMPANY_CD}
+	  </if>
+	ORDER BY DP.DEPT_ORDER, US.WKDT_CD, US.WKGD_CD, US.USER_ID	
+</select> 
+
+<select id="selectCO_Project_S01" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+	    PROJECT_CODE,
+	    PROJECT_NAME,
+	    CLIENT_CODE,
+	    (SELECT COMPANY_NAME FROM SALES_COMPANY_LIST WHERE COMPANY_CODE = CLIENT_CODE) AS CLIENT_NAME
+	FROM 
+	    SALES_PROJECT_LIST
+	WHERE 
+	    PROJECT_CODE = #{PROJECT_CODE};
+</select>
 </mapper>

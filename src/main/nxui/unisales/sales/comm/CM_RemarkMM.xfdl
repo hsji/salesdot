@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="CM_RemarkMM" width="886" height="564" titletext="내용확인" cssclass="frm_popBg" onload="CM_RemarkMM_onload">
+  <Form id="CM_RemarkMM" width="790" height="450" titletext="내용확인" cssclass="frm_popBg" onload="CM_RemarkMM_onload">
     <Layouts>
-      <Layout height="564" mobileorientation="landscape" width="886">
-        <Button id="btn_close" taborder="0" top="10" width="15" height="15" right="10" cssclass="btn_POP_Cls" onclick="btn_close_onclick"/>
-        <Static id="st_Title" taborder="1" text="비고" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="45"/>
-        <TextArea id="txt_remark" taborder="2" left="8" top="43" right="8" bottom="47" readonly="true"/>
-        <Static id="st_bottom" taborder="3" left="0" height="38" cssclass="sta_POP_BtnBg" bottom="0" right="0"/>
-        <Button id="btn_confirm" taborder="4" text="적용" width="60" height="24" right="76" bottom="7" cssclass="btn_WF_tran" onclick="btn_confirm_onclick" visible="false" TL_SEQ="684"/>
-        <Button id="btn_close00" taborder="5" text="닫기" width="60" height="24" right="8" bottom="7" cssclass="btn_WF_tran" onclick="btn_close_onclick" TL_SEQ="59"/>
+      <Layout height="450" mobileorientation="landscape" width="790">
+        <Static id="st_Title" taborder="4" left="25.00" top="5" height="43" cssclass="sta_WF_Title" right="125"/>
+        <TextArea id="txt_remark" taborder="0" left="20" top="st_Title:0" right="20" bottom="64" readonly="true"/>
+        <Static id="st_bottom" taborder="1" left="0" height="38" cssclass="sta_POP_BtnBg" bottom="0" right="0"/>
+        <Button id="btn_close00" taborder="3" text="닫기" width="60" height="28" right="20" bottom="17" cssclass="btn_WF_tran" onclick="btn_close_onclick" TL_SEQ="59"/>
+        <Button id="btn_confirm" taborder="2" text="적용" width="60" height="28" right="btn_close00:5" bottom="17" cssclass="btn_WF_Crud" onclick="btn_confirm_onclick" visible="false" TL_SEQ="684"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/************************************************************************************************
@@ -79,7 +78,7 @@ this.CM_RemarkMM_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 // 취소, 닫기버튼
 this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	this.commUtil.popupClose("");
+	this.close("");
 }
 
 
@@ -91,7 +90,7 @@ this.btn_confirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		sReturnVal = " ";
 	}
 	
-	this.commUtil.popupClose(sReturnVal);
+	this.close(sReturnVal);
 };
 ]]></Script>
     <Objects/>

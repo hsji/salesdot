@@ -1522,7 +1522,7 @@ public class projectServiceImpl implements projectService {
 	    public Map<String,Object> SP_ProjectTS_S04(Map<String,Object> searchMap, UserInfo userInfo)
 	    				throws Exception {
 	    	
-	    	int cnt1 = sqlSession1.selectOne("projectMapper.selectSSP_ProjectTS_S04",searchMap);
+	    	int cnt1 = sqlSession1.selectOne("projectMapper.selectSSP_ProjectTS_S04_1",searchMap);
 	    	Map<String,Object> map;
 	    	if(cnt1 == 0) {
 	    		map = sqlSession1.selectOne("projectMapper.selectSSP_ProjectTS_S04_2",searchMap);

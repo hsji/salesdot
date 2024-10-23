@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="CO_Project" width="1390" height="650" titletext="프로젝트 관리" cssclass="frm_popBg" onload="CO_Project_onload">
+  <Form id="CO_Project" width="1390" height="780" titletext="프로젝트 관리" cssclass="frm_popBg" onload="CO_Project_onload">
     <Layouts>
-      <Layout height="650" mobileorientation="landscape" width="1390">
-        <Div id="div_view" taborder="0" text="Div00" left="20" top="20" right="20" bottom="20" url="sales::sales/SP_ProjectMM.xfdl"/>
+      <Layout height="780" mobileorientation="landscape" width="1390">
+        <Div id="div_view" taborder="0" text="Div00" left="20" top="20" right="0" bottom="40" url="sales::sales/SP_ProjectMM.xfdl"/>
         <Static id="stc_BottomFrame" taborder="1" left="0" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg"/>
-        <Button id="btn_Cancel" taborder="2" text="닫기" height="22" cssclass="btn_WF_cancel" right="4" bottom="9" onclick="common_onclick" TL_SEQ="59" left="1298"/>
+        <Button id="btn_Cancel" taborder="2" text="닫기" height="22" cssclass="btn_WF_cancel" right="20" bottom="9" onclick="common_onclick" TL_SEQ="59" left="1298"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/************************************************************************************************
@@ -66,8 +66,10 @@ include "Script::ext_CommEco.xjs"
 	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PROJECT_CD);
 		
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("ds_List", "ds_output");
-	this.gfnCommonTransaction("select", "CO_Project_S01");
+// 	this.gfnAddOutputDataset("ds_List", "ds_output");
+// 	this.gfnCommonTransaction("select", "CO_Project_S01");
+	this.gfnSetMap("nextCommMapper", ['CO_Project_S01'], ['ds_List']);
+	this.gfnCommonTransaction("select", "selectNextMultiList.do");	
   }
   
   

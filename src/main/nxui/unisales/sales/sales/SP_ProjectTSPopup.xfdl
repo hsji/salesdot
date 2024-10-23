@@ -3,7 +3,7 @@
   <Form id="SP_ProjectTSPopup" width="1360" height="750" titletext="거래명세서 팝업" cssclass="frm_popBg" onload="SP_ProjectTSPopup_onload">
     <Layouts>
       <Layout height="750" mobileorientation="landscape" width="1360">
-        <Div id="div_List" taborder="1" text="Div00" left="20" top="20" bottom="48" right="1086">
+        <Div id="div_List" taborder="1" text="Div00" left="20.00" top="15" bottom="48" right="1086">
           <Layouts>
             <Layout>
               <Static id="stc_GbTSText" taborder="1" text="거래명세 정보" left="0" top="0" width="124" height="26" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="820"/>
@@ -153,8 +153,8 @@
             </Layout>
           </Layouts>
         </Div>
-        <Button id="btn_Cancel" taborder="0" text="닫기" width="60" height="28" cssclass="btn_WF_cancel" right="18" bottom="10" onclick="btn_Cancel_onclick" TL_SEQ="59"/>
-        <Div id="div_Contract_List" taborder="2" left="div_List:10" top="20" right="20" text="" bottom="div_TSRegInfo:4">
+        <Button id="btn_Cancel" taborder="0" text="닫기" width="60" height="28" cssclass="btn_WF_cancel" right="20" bottom="10" onclick="btn_Cancel_onclick" TL_SEQ="59"/>
+        <Div id="div_Contract_List" taborder="2" left="div_List:10" top="15" right="20" text="" bottom="div_TSRegInfo:4">
           <Layouts>
             <Layout>
               <Static id="stc_ContractListText" taborder="0" text="계약정보" left="0" top="0" width="95" height="26" cssclass="sta_POP_GroupTit" TL_SEQ="677"/>
@@ -935,7 +935,7 @@ this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
 		{
 			//trace("11==>"+this.ds_CD_GRADE_CODE.saveXML());
 			
-			this.ds_cmm_ContractType.filter("VAL1=='1'");
+			this.ds_cmm_ContractType.filter("GRP_CD_1=='1'");
 			var sMCrocount = this.ds_cmm_MaCycle.rowcount;
 			var sMnthIdx =  this.ds_cmm_MaCycle.findRow("CODE", "002");
 			var sBmnthIdx = this.ds_cmm_MaCycle.findRow("CODE", "003");
@@ -1915,6 +1915,7 @@ this.div_TSRegInfo_btn_New_onclick = function(obj:nexacro.Button,e:nexacro.Click
       <BindItem id="item11" compid="div_TSRegInfoEtc.form.edt_ContractOPhoneNo" propid="value" datasetid="dsTradingStatementList" columnid="O_PHONE_NO"/>
       <BindItem id="item13" compid="div_TSRegInfoEtc.form.edt_ContractEmpName" propid="accessibilityaction" datasetid="dsTradingStatementList" columnid="CA_NAME"/>
       <BindItem id="item14" compid="div_TSRegInfoEtc.form.cmb_ContractDuty" propid="value" datasetid="dsTradingStatementList" columnid="GRADE_CODE"/>
+      <BindItem id="item12" compid="div_TSRegInfo.form.cal_SupplyMonth" propid="value" datasetid="dsTradingStatementList" columnid="SUPPLY_MONTH"/>
     </Bind>
   </Form>
 </FDL>

@@ -1,32 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="SP_DeliveryConfirm" width="800" height="720" titletext="납품확인서" cssclass="frm_popBg" onload="SP_DeliveryConfirm_onload">
+  <Form id="SP_DeliveryConfirm" width="840" height="770" titletext="납품확인서" cssclass="frm_popBg" onload="SP_DeliveryConfirm_onload">
     <Layouts>
-      <Layout height="720" mobileorientation="landscape" width="800">
-        <Static id="stc_GbSalesProd02_00" taborder="65" cssclass="sta_POP_GroupBg" left="4" top="458" height="28" right="680"/>
-        <Static id="stc_GbSalesProd02" taborder="26" cssclass="sta_POP_GroupBg" left="4" top="485" height="52" right="680"/>
-        <Static id="stc_GbSalesProd04" taborder="30" cssclass="sta_POP_GroupBg" left="399" top="536" height="29" right="4"/>
-        <Static id="stc_GbSalesProd03" taborder="28" cssclass="sta_POP_GroupBg" left="4" top="536" height="29" right="400"/>
-        <Static id="stc_GbSalesProd01" taborder="23" cssclass="sta_POP_GroupBg" left="4" top="311" height="32" right="4"/>
-        <Static id="stc_GbSalesProd00" taborder="20" cssclass="sta_POP_GroupBg" left="4" top="38" height="32" right="4"/>
-        <Static id="stc_GbSalesProd1" taborder="6" cssclass="sta_POP_GroupBg" left="4" top="185" height="32" right="4"/>
-        <Button id="btn_Close" taborder="0" top="9" width="15" height="15" right="12" cssclass="btn_POP_Cls" onclick="btn_Close_onclick"/>
-        <Static id="Static00" taborder="1" left="0" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg" text=""/>
-        <Button id="btn_Cancel" taborder="2" text="닫기" width="80" height="22" cssclass="btn_WF_cancel" bottom="9" onclick="btn_Close_onclick" right="8" TL_SEQ="59"/>
-        <Static id="Static03" taborder="3" text="납품확인서" cssclass="sta_POP_Title" left="10" top="0" width="356" height="35" TL_SEQ="626"/>
-        <Button id="btn_DocDel" taborder="4" top="193" width="16" height="16" onclick="CommDelRow_onclick" right="12" cssclass="btn_POP_Del"/>
-        <Button id="btn_DocAdd" taborder="5" top="193" width="16" height="16" onclick="CommAddRow_onclick" right="36" cssclass="btn_POP_Add"/>
-        <Static id="stc_SalesProd1" taborder="7" text="납품확인서 정보" left="14" top="192" width="134" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="673"/>
-        <Static id="stc_Sales_List" taborder="8" cssclass="sta_WF_detailLbl01" top="216" text="" left="4" right="4" bottom="408"/>
-        <Grid id="grd_MstList" taborder="9" left="4" top="217" width="223" height="95" binddataset="ds_MstList" formatid="default" autofittype="col">
+      <Layout height="770" mobileorientation="landscape" width="840">
+        <Static id="stc_GbSalesProd02_00" taborder="53" cssclass="sta_POP_GroupBg" left="4.00" top="484" height="28" right="680"/>
+        <Static id="stc_GbSalesProd02" taborder="20" cssclass="sta_POP_GroupBg" left="4.00" top="511" height="52" right="680"/>
+        <Button id="btn_Cancel" taborder="0" text="닫기" width="72" height="28" cssclass="btn_WF_cancel" bottom="23" onclick="btn_Close_onclick" right="20" TL_SEQ="59"/>
+        <Button id="btn_DocDel" taborder="1" top="169" width="16" height="16" onclick="CommDelRow_onclick" right="22" cssclass="btn_POP_Del"/>
+        <Button id="btn_DocAdd" taborder="2" top="169" width="16" height="16" onclick="CommAddRow_onclick" right="46" cssclass="btn_POP_Add"/>
+        <Static id="stc_SalesProd1" taborder="3" text="납품확인서 정보" left="20.00" top="168" width="134" height="20" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="673"/>
+        <Static id="stc_Sales_List" taborder="4" cssclass="sta_WF_detailLbl01" top="192" text="" left="4.00" right="4" bottom="432"/>
+        <Grid id="grd_MstList" taborder="5" left="20.00" top="193" width="223" height="95" binddataset="ds_MstList" formatid="default" autofittype="col">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="220"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="문서번호" TL_SEQ="369"/>
@@ -37,17 +29,17 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="stc_ContractMain00" taborder="10" text="고객사" left="246" top="224" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="32"/>
-        <Static id="stc_ContractMain01" taborder="11" text="프로젝트" left="246" top="253" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="119"/>
-        <Edit id="edt_Project" taborder="12" left="stc_ContractMain01:8" top="253" height="22" right="12"/>
-        <Static id="stc_ContractMain04" taborder="16" text="형태" left="610" top="224" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="674" width="30"/>
-        <Edit id="edt_Client" taborder="13" top="224" height="22" width="299" left="stc_ContractMain00:8"/>
-        <Static id="stc_ContractMain03" taborder="15" text="계약번호" left="246" top="282" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="316"/>
-        <Edit id="edt_ContractNo" taborder="14" left="stc_ContractMain03:8" top="282" height="22" right="273" readonly="true"/>
-        <CheckBox id="ckb_DeliveryFlag" taborder="17" text="납품" left="stc_ContractMain04:8" top="225" width="50" height="20" truevalue="1" falsevalue="0" TL_SEQ="675"/>
-        <CheckBox id="ckb_InstallFlag" taborder="18" text="설치" top="225" height="20" truevalue="1" falsevalue="0" TL_SEQ="676" left="ckb_DeliveryFlag:4" right="7"/>
-        <Static id="stc_SalesProd00" taborder="19" text="계약정보" left="14" top="45" width="134" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="677"/>
-        <Grid id="grd_ContractList" taborder="21" left="4" top="70" width="792" height="116" autofittype="col" cellsizingtype="col" binddataset="ds_ContractList" formatid="default">
+        <Static id="stc_ContractMain00" taborder="6" text="고객사" left="256.00" top="200" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="32"/>
+        <Static id="stc_ContractMain01" taborder="7" text="프로젝트" left="256.00" top="229" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="119"/>
+        <Edit id="edt_Project" taborder="8" left="stc_ContractMain01:8.00" top="229" height="22" right="20"/>
+        <Static id="stc_ContractMain04" taborder="12" text="형태" left="620.00" top="200" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="674" width="50"/>
+        <Edit id="edt_Client" taborder="9" top="200" height="22" width="299" left="stc_ContractMain00:8.00"/>
+        <Static id="stc_ContractMain03" taborder="11" text="계약번호" left="256.00" top="258" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="316"/>
+        <Edit id="edt_ContractNo" taborder="10" left="stc_ContractMain03:8.00" top="258" height="22" right="311" readonly="true"/>
+        <CheckBox id="ckb_DeliveryFlag" taborder="13" text="납품" left="stc_ContractMain04:18.00" top="201" width="50" height="20" truevalue="1" falsevalue="0" TL_SEQ="675"/>
+        <CheckBox id="ckb_InstallFlag" taborder="14" text="설치" top="201" height="20" truevalue="1" falsevalue="0" TL_SEQ="676" left="ckb_DeliveryFlag:4.00" right="26"/>
+        <Static id="stc_SalesProd00" taborder="15" text="계약정보" left="20" top="20" width="134" height="20" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="677"/>
+        <Grid id="grd_ContractList" taborder="16" left="20" top="46" height="116" autofittype="col" cellsizingtype="col" binddataset="ds_ContractList" formatid="default" right="20">
           <Formats>
             <Format id="default">
               <Columns>
@@ -58,8 +50,8 @@
                 <Column size="420"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="선택" TL_SEQ="113"/>
@@ -78,8 +70,8 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="stc_SalesProd01" taborder="22" text="납품확인서 세부 항목 정보" left="14" top="318" width="182" height="16" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="678"/>
-        <Grid id="grd_SList" taborder="24" left="4" top="343" height="113" right="4" autofittype="col" cellsizingtype="col" binddataset="ds_SList" formatid="default" autoenter="select" onexpandup="grd_SList_onexpandup">
+        <Static id="stc_SalesProd01" taborder="17" text="납품확인서 세부 항목 정보" left="20.00" top="294" width="182" height="20" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="678"/>
+        <Grid id="grd_SList" taborder="18" left="20" top="319" height="152" right="20" autofittype="col" cellsizingtype="col" binddataset="ds_SList" formatid="default" autoenter="select" onexpandup="grd_SList_onexpandup">
           <Formats>
             <Format id="default">
               <Columns>
@@ -91,8 +83,8 @@
                 <Column size="220"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="순번" TL_SEQ="333"/>
@@ -113,44 +105,42 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="stc_SalesProd02" taborder="25" text="비고" left="14" top="495" width="94" height="31" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="45"/>
-        <Static id="stc_SalesProd03" taborder="27" text="공급자" left="14" top="543" width="134" height="13" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="681"/>
-        <Static id="stc_SalesProd04" taborder="29" text="납품 확인자" left="409" top="543" width="134" height="13" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="682"/>
-        <TextArea id="ta_Remarks" taborder="31" left="119" top="485" height="52" right="4"/>
-        <Static id="stc_Sales_List00" taborder="32" cssclass="sta_WF_detailLbl01" top="553" text="" left="4" right="400" bottom="41"/>
-        <Static id="stc_Sales_List01" taborder="33" cssclass="sta_WF_detailLbl01" top="553" text="" left="399" right="4" bottom="41"/>
-        <Static id="stc_ContractMain05" taborder="34" text="회사명" left="8" top="569" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="148"/>
-        <Static id="stc_ContractMain06" taborder="35" text="부서명" left="8" top="598" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="25"/>
-        <Static id="stc_ContractMain07" taborder="36" text="성명" left="8" top="656" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="27"/>
-        <Edit id="edt_CompanyNm" taborder="37" left="68" top="569" height="22" right="408" value="(주)투비소프" text="(주)투비소프" readonly="true"/>
-        <Edit id="edt_DeptNm" taborder="38" left="68" top="598" height="22" right="408" text=","/>
-        <Edit id="edt_DutyNm" taborder="39" left="292" top="656" height="22" right="408" text=","/>
-        <Edit id="edt_PhoneNo" taborder="40" left="68" top="627" height="22" right="408" text=","/>
-        <Static id="stc_ContractMain08" taborder="41" text="연락처" left="8" top="627" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="218"/>
-        <Static id="stc_ContractMain09" taborder="42" text="직책" left="232" top="656" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="382"/>
-        <Div id="div_SaleEmp" taborder="43" left="68" top="656" height="22" width="175" url="sales::comm/COM_Search.xfdl" kind="EMPLOYEE" param="" binddataset="ds_MstList" codecolumn="EMP_NO" datacolumn="EMP_NAME" user_onchanged="Com_Search_onChanged"/>
-        <Static id="stc_ContractMain10" taborder="44" text="회사명" left="404" top="569" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="148"/>
-        <Static id="stc_ContractMain11" taborder="45" text="부서명" left="404" top="598" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="25"/>
-        <Static id="stc_ContractMain12" taborder="46" text="연락처" left="404" top="627" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="218"/>
-        <Edit id="edt_ClientPhoneNo" taborder="47" left="464" top="627" height="22" right="12"/>
-        <Edit id="edt_ClientDetpNm" taborder="48" left="464" top="598" height="22" right="12"/>
-        <Edit id="edt_ClientNm" taborder="49" left="464" top="569" height="22" right="12"/>
-        <Static id="stc_ContractMain13" taborder="50" text="직책" left="628" top="656" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="382"/>
-        <Edit id="edt_ClientDutyNm" taborder="51" left="688" top="656" height="22" right="12"/>
-        <Static id="stc_ContractMain14" taborder="52" text="성명" left="404" top="656" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="27"/>
-        <Edit id="edt_ClientEmpNm" taborder="53" left="464" top="656" height="22" width="175"/>
-        <Button id="btn_Copy" taborder="54" text="적용" left="742" top="43" width="46" height="24" onclick="btn_Copy_onclick" TL_SEQ="684"/>
-        <Button id="btn_DetAdd" taborder="55" top="319" width="16" height="16" onclick="CommAddRow_onclick" right="36" cssclass="btn_POP_Add"/>
-        <Button id="btn_DetDel" taborder="56" top="319" width="16" height="16" onclick="CommDelRow_onclick" right="12" cssclass="btn_POP_Del"/>
-        <Button id="btn_Down" taborder="57" cssclass="btn_WF_schdDown" left="647" top="318" width="18" height="18" onclick="btn_Down_onclick"/>
-        <Button id="btn_Up" taborder="58" cssclass="btn_WF_schdUp" left="668" top="318" width="18" height="18" onclick="btn_Up_onclick"/>
-        <Static id="stc_ContractMain02" taborder="59" text="납품일자" left="539" top="282" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="275"/>
-        <Calendar id="cal_DeliveryDate" taborder="60" left="596" top="282" width="108" height="22" dateformat="yyyy-MM-dd"/>
-        <Button id="btn_Save" taborder="61" text="저장" width="60" height="22" cssclass="btn_WF_tran" right="btn_Cancel:7" bottom="9" onclick="btn_Save_onclick" TL_SEQ="115"/>
-        <Button id="btn_Print" taborder="62" text="출력" width="60" height="22" cssclass="btn_WF_tran" right="btn_Save:7" bottom="9" onclick="btn_Print_onclick" TL_SEQ="394"/>
-        <CheckBox id="ckb_DeliveryDataFlag" taborder="63" text="사용여부" left="715" top="283" width="70" height="20" truevalue="1" falsevalue="0" TL_SEQ="669"/>
-        <Static id="stc_SalesProd02_00" taborder="64" text="서버사양" left="14" top="464" width="94" height="17" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="685"/>
-        <TextArea id="ta_Remarks00" taborder="66" left="119" top="458" height="28" right="4"/>
+        <Static id="stc_SalesProd02" taborder="19" text="비고" left="20.00" top="521" width="80" height="20" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="45"/>
+        <Static id="stc_SalesProd03" taborder="21" text="공급자" left="20.00" top="560" width="134" height="20" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="681"/>
+        <Static id="stc_SalesProd04" taborder="22" text="납품 확인자" left="419.00" top="560" width="134" height="20" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="682"/>
+        <TextArea id="ta_Remarks" taborder="23" left="stc_SalesProd02:5.00" top="521" height="34" right="20"/>
+        <Static id="stc_ContractMain05" taborder="24" text="회사명" left="18.00" top="586" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="148"/>
+        <Static id="stc_ContractMain06" taborder="25" text="부서명" left="18.00" top="615" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="25"/>
+        <Static id="stc_ContractMain07" taborder="26" text="성명" left="18.00" top="673" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="27"/>
+        <Edit id="edt_CompanyNm" taborder="27" left="78.00" top="586" height="22" right="431" value="(주)투비소프" text="(주)투비소프" readonly="true"/>
+        <Edit id="edt_DeptNm" taborder="28" left="78.00" top="615" height="22" right="431" text=","/>
+        <Edit id="edt_PhoneNo" taborder="29" left="78.00" top="644" height="22" right="431" text=","/>
+        <Static id="stc_ContractMain08" taborder="30" text="연락처" left="18.00" top="644" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="218"/>
+        <Static id="stc_ContractMain09" taborder="31" text="직책" left="212.00" top="673" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="382"/>
+        <Div id="div_SaleEmp" taborder="32" left="78.00" top="673" height="22" width="134" url="sales::comm/COM_Search.xfdl" kind="EMPLOYEE" param="" binddataset="ds_MstList" codecolumn="EMP_NO" datacolumn="EMP_NAME" user_onchanged="Com_Search_onChanged"/>
+        <Static id="stc_ContractMain10" taborder="33" text="회사명" left="424.00" top="586" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="148"/>
+        <Static id="stc_ContractMain11" taborder="34" text="부서명" left="424.00" top="615" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="25"/>
+        <Static id="stc_ContractMain12" taborder="35" text="연락처" left="424.00" top="644" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="218"/>
+        <Edit id="edt_ClientPhoneNo" taborder="36" left="484.00" top="644" height="22" right="25"/>
+        <Edit id="edt_ClientDetpNm" taborder="37" left="484.00" top="615" height="22" right="25"/>
+        <Edit id="edt_ClientNm" taborder="38" left="484.00" top="586" height="22" right="25"/>
+        <Static id="stc_ContractMain13" taborder="39" text="직책" left="618.00" top="673" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="382"/>
+        <Static id="stc_ContractMain14" taborder="40" text="성명" left="424.00" top="673" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="27"/>
+        <Edit id="edt_ClientEmpNm" taborder="41" left="484.00" top="673" height="22" width="134"/>
+        <Button id="btn_Copy" taborder="42" text="적용" top="12" width="46" height="28" onclick="btn_Copy_onclick" TL_SEQ="684" cssclass="btn_WF_Crud" right="20"/>
+        <Button id="btn_DetAdd" taborder="43" top="295" width="16" height="16" onclick="CommAddRow_onclick" right="46" cssclass="btn_POP_Add"/>
+        <Button id="btn_DetDel" taborder="44" top="295" width="16" height="16" onclick="CommDelRow_onclick" right="22" cssclass="btn_POP_Del"/>
+        <Button id="btn_Down" taborder="45" cssclass="btn_WF_schdDown" left="717.00" top="294" width="18" height="18" onclick="btn_Down_onclick"/>
+        <Button id="btn_Up" taborder="46" cssclass="btn_WF_schdUp" left="738.00" top="294" width="18" height="18" onclick="btn_Up_onclick"/>
+        <Static id="stc_ContractMain02" taborder="47" text="납품일자" left="539.00" top="258" width="49" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="275"/>
+        <Calendar id="cal_DeliveryDate" taborder="48" left="596.00" top="258" width="108" height="22" dateformat="yyyy-MM-dd"/>
+        <Button id="btn_Save" taborder="49" text="저장" width="60" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:7" bottom="23" onclick="btn_Save_onclick" TL_SEQ="115"/>
+        <Button id="btn_Print" taborder="50" text="출력" width="60" height="28" cssclass="btn_WF_tran" right="btn_Save:7" bottom="23" onclick="btn_Print_onclick" TL_SEQ="394"/>
+        <CheckBox id="ckb_DeliveryDataFlag" taborder="51" text="사용여부" left="745.00" top="259" width="70" height="20" truevalue="1" falsevalue="0" TL_SEQ="669"/>
+        <Static id="stc_SalesProd02_00" taborder="52" text="서버사양" left="20.00" top="480" width="80" height="20" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="685"/>
+        <TextArea id="ta_Remarks00" taborder="54" left="stc_SalesProd02_00:5.00" top="480" height="34" right="20"/>
+        <Combo id="cbo_DutyNm" taborder="55" text="cbo00" left="272.00" top="673" width="137" height="22" innerdataset="ds_cmm_Duty" codecolumn="CODE" datacolumn="CAPTION"/>
+        <Combo id="cbo_ClientDutyNm" taborder="56" text="cbo00" left="678.00" top="673" width="137" height="22" innerdataset="ds_cmm_Duty" codecolumn="CODE" datacolumn="CAPTION"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/************************************************************************************************
@@ -191,6 +181,7 @@ this.MST_LIST_CURROW;
  ************************************************************************************************/
  this.SP_DeliveryConfirm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
+	
 	this.FV_PROJECT_CODE = this.parent.pv_project_cd;
 	this.FV_SALES_EMPNO = this.parent.pv_sales_empno;
 	
@@ -218,6 +209,7 @@ this.MST_LIST_CURROW;
  {
  	// this.gfnAddCodeDataset("ds_cmm_ContractType",	"CONTRACT_TYPE"); 		// 계약구분
 	this.gfnAddCodeDataset("ds_cmm_ProductUnit",	"PRODUCT_UNIT"); 		// 제품단위
+	this.gfnAddCodeDataset("ds_cmm_Duty",	"SM05", true); 		// 제품단위
 	
 	this.gfnCodeTransaction();
  };
@@ -311,6 +303,17 @@ this.MST_LIST_CURROW;
 	{
 		case "gfnGetCode" :
 			// this.ds_cmm_ContractType.filter("VAL1=='1'");
+			if(this.ds_MstList.rowcount == 0) {
+				this.cbo_DutyNm.set_index(0);
+				this.cbo_ClientDutyNm.set_index(0);
+			} else {
+				if(this.gfnIsNull(this.ds_MstList.getColumn(0,"DUTY_NAME"))) {
+					this.cbo_DutyNm.set_index(0);
+				}
+				if(this.gfnIsNull(this.ds_MstList.getColumn(0,"CLIENT_DUTY_NAME"))) {
+					this.cbo_ClientDutyNm.set_index(0);
+				}
+			}
 		break;
 		case "SP_DeliveryConfirm_S01" :
 			var sContractNoList = this.fn_getContractNoList();
@@ -370,7 +373,7 @@ this.MST_LIST_CURROW;
  // 팝업 콜백
  this.fnPopupCallBack = function(sPopupId, Variant)
 {
-	Variant = this.commUtil.popupReturn();
+	//Variant = this.commUtil.popupReturn();
 	if(this.gfnIsEmpty(Variant)) {
 		return;
 	} else	{	
@@ -379,7 +382,7 @@ this.MST_LIST_CURROW;
 		{
 			case "popupProductSearch" : // 제품
 				var ds = new nexacro.Dataset();
-				ds.loadXML(Variant);
+				ds.loadJSON(Variant);
 				this.recentVariant = ds;
 				this.ds_SList.setColumn(this.ds_SList.rowposition, "PRODUCT_CODE", ds.getColumn(0, "PRODUCT_CODE"));
 				this.ds_SList.setColumn(this.ds_SList.rowposition, "PRODUCT_NAME", ds.getColumn(0, "PRODUCT_NAME"));
@@ -822,7 +825,7 @@ this.fn_setPrint = function ()
 // 닫기 버튼 처리
 this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	this.commUtil.popupClose();
+	this.close();
 };
 
 
@@ -832,7 +835,7 @@ this.Com_Search_onChanged = function (obj, e)
 	if (this.gfnIsEmpty(e.newCode))	 {
 		this.edt_DeptNm.set_value(null);
 		this.edt_PhoneNo.set_value(null);
-		this.edt_DutyNm.set_value(null);
+		this.cbo_DutyNm.set_value(null);
 		this.div_SaleEmp.setCode(null);
 		this.div_SaleEmp.setData(null);
 	} else {
@@ -842,8 +845,9 @@ this.Com_Search_onChanged = function (obj, e)
 		var sPhoneNo = ds.getColumn(0, "H_PHONE_NO");
 		
 		this.edt_DeptNm.set_value(sDeptNm);
-		this.edt_DutyNm.set_value(sDutyNm);
+		this.cbo_DutyNm.set_value(sDutyNm);
 		this.edt_PhoneNo.set_value(sPhoneNo);
+		this.edt_CompanyNm.set_value(ds.getColumn(0, "COMPANY_NAME"));
 	}
 }
 
@@ -908,12 +912,10 @@ this.fn_SaveHml = function ()
     <Bind>
       <BindItem id="item1" compid="edt_DeptNm" propid="value" datasetid="ds_MstList" columnid="DEPT_NAME"/>
       <BindItem id="item2" compid="edt_PhoneNo" propid="value" datasetid="ds_MstList" columnid="PHONE_NO"/>
-      <BindItem id="item3" compid="edt_DutyNm" propid="value" datasetid="ds_MstList" columnid="DUTY_NAME"/>
       <BindItem id="item4" compid="edt_ClientNm" propid="value" datasetid="ds_MstList" columnid="CLIENT_NAME"/>
       <BindItem id="item5" compid="edt_ClientDetpNm" propid="value" datasetid="ds_MstList" columnid="CLIENT_DEPT_NAME"/>
       <BindItem id="item6" compid="edt_ClientPhoneNo" propid="value" datasetid="ds_MstList" columnid="CLIENT_PHONE_NO"/>
       <BindItem id="item7" compid="edt_ClientEmpNm" propid="value" datasetid="ds_MstList" columnid="CLIENT_EMP_NAME"/>
-      <BindItem id="item8" compid="edt_ClientDutyNm" propid="value" datasetid="ds_MstList" columnid="CLIENT_DUTY_NAME"/>
       <BindItem id="item9" compid="ta_Remarks" propid="value" datasetid="ds_MstList" columnid="REMARKS"/>
       <BindItem id="item10" compid="edt_Client" propid="value" datasetid="ds_MstList" columnid="CLIENT_NAME_RENAME"/>
       <BindItem id="item11" compid="ckb_DeliveryFlag" propid="value" datasetid="ds_MstList" columnid="DELIVERY_FLAG"/>
@@ -922,6 +924,9 @@ this.fn_SaveHml = function ()
       <BindItem id="item0" compid="cal_DeliveryDate" propid="value" datasetid="ds_MstList" columnid="DELIVERY_DATE"/>
       <BindItem id="item14" compid="ckb_DeliveryDataFlag" propid="value" datasetid="ds_MstList" columnid="DELIVERY_DATE_FLAG"/>
       <BindItem id="item15" compid="ta_Remarks00" propid="value" datasetid="ds_MstList" columnid="SERVER_SPEC"/>
+      <BindItem id="item16" compid="edt_CompanyNm" propid="value" datasetid="ds_MstList" columnid="COMPANY_NAME"/>
+      <BindItem id="item3" compid="cbo_ClientDutyNm" propid="value" datasetid="ds_MstList" columnid="CLIENT_DUTY_NAME"/>
+      <BindItem id="item8" compid="cbo_DutyNm" propid="value" datasetid="ds_MstList" columnid="DUTY_NAME"/>
     </Bind>
     <Objects>
       <Dataset id="ds_cmm_ContractType">
@@ -1061,6 +1066,18 @@ this.fn_SaveHml = function ()
       <Dataset id="ds_SalesEmpInfo">
         <ColumnInfo>
           <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cmm_Duty">
+        <ColumnInfo>
+          <Column id="CODE" type="string" size="30"/>
+          <Column id="CAPTION" type="string" size="255"/>
+          <Column id="VAL1" type="string" size="100"/>
+          <Column id="VAL2" type="string" size="100"/>
+          <Column id="VAL3" type="string" size="100"/>
+          <Column id="VAL4" type="string" size="100"/>
+          <Column id="REMARK" type="string" size="1073741823"/>
+          <Column id="ORD" type="string" size="10"/>
         </ColumnInfo>
       </Dataset>
     </Objects>

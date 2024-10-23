@@ -335,7 +335,7 @@ this.fnPopupCallBack = function(sPopupId, Variant)
 			
 			case "popOrganization" :	// 직원
 				var ds = new nexacro.Dataset();
-				ds.loadXML(Variant);
+				ds.loadJSON(Variant);
 				this.recentVariant = ds;
 				this.setCode(ds.getColumn(0, "EMP_NO"));
 				this.setData(ds.getColumn(0, "EMP_NM"));

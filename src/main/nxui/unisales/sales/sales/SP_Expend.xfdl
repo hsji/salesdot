@@ -3,12 +3,12 @@
   <Form id="SP_Expend" width="1345" height="472" titletext="지출" onload="SP_Expend_onload">
     <Layouts>
       <Layout height="472" mobileorientation="landscape" width="1345">
-        <Grid id="grd_ProjectSiEmp" taborder="1" left="10" top="10" right="10" bottom="10" binddataset="dsExpend" autoenter="select" oncelldblclick="grd_ProjectSiEmp_oncelldblclick" cellsizingtype="col" autofittype="col">
+        <Grid id="grd_ProjectSiEmp" taborder="1" left="10" top="10" right="10" bottom="10" binddataset="dsExpend" autoenter="select" cellsizingtype="col" autofittype="col" onexpandup="grd_ProjectSiEmp_onexpandup">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="100"/>
-                <Column size="100"/>
+                <Column size="110"/>
+                <Column size="115"/>
                 <Column size="300"/>
                 <Column size="100"/>
                 <Column size="100"/>
@@ -28,12 +28,12 @@
                 <Cell col="5" text="합계" TL_SEQ="437"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:EMP_NAME"/>
-                <Cell col="1" text="bind:AUTH_DT" displaytype="mask" maskeditformat="####-##-##" maskedittype="string"/>
-                <Cell col="2" text="bind:SUMMARY_NM" textAlign="left"/>
-                <Cell col="3" text="bind:COST" textAlign="right" displaytype="number"/>
-                <Cell col="4" text="bind:VAT" textAlign="right" displaytype="number"/>
-                <Cell col="5" text="bind:AMT" textAlign="right" displaytype="number"/>
+                <Cell text="bind:EMP_NAME" expandimage="url('theme://images/btn_WF_Sch_P.png')" expandsize="20" expandshow="show" edittype="normal"/>
+                <Cell col="1" text="bind:AUTH_DT" displaytype="calendarcontrol" maskeditformat="####-##-##" maskedittype="string" edittype="date"/>
+                <Cell col="2" text="bind:SUMMARY_NM" textAlign="left" edittype="normal"/>
+                <Cell col="3" text="bind:COST" textAlign="right" displaytype="mask" edittype="mask" maskeditformat="#,##0"/>
+                <Cell col="4" text="bind:VAT" textAlign="right" displaytype="mask" maskeditformat="#,##0" edittype="mask"/>
+                <Cell col="5" text="bind:AMT" textAlign="right" displaytype="mask" maskeditformat="#,##0" edittype="mask"/>
               </Band>
               <Band id="summary">
                 <Cell colspan="3" text="합계" TL_SEQ="437"/>
@@ -47,7 +47,7 @@
       </Layout>
     </Layouts>
     <Objects>
-      <Dataset id="dsExpend">
+      <Dataset id="dsExpend" oncolumnchanged="dsExpend_oncolumnchanged">
         <ColumnInfo>
           <Column id="PROJECT_CODE" type="string" size="15"/>
           <Column id="CONTRACT_NO" type="string" size="10"/>
@@ -112,6 +112,14 @@ this.FV_PARENT_FORM = this.parent.parent.parent;
 	this.fn_QueryData();
 };
 
+this.fn_AddRecord = function() {
+	var nRow = this.dsExpend.addRow();	
+	this.dsExpend.setColumn(nRow, "PROJECT_CODE", this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
+};
+
+this.fn_DelRecord = function() {
+	this.dsExpend.deleteRow(this.dsExpend.rowposition);
+};
 
  /************************************************************************************************
  * TRANSACTION 및 추가 FUNCTION 영역
@@ -129,10 +137,27 @@ this.FV_PARENT_FORM = this.parent.parent.parent;
 	this.gfnAddSendParameter("PROJECT_CODE",	this.FV_PARENT_FORM.div_search.form.edt_ProjectCode.value);
 		
 	// 조회용 Output dataset 세팅
-	this.gfnAddOutputDataset("dsExpend", "dsOutput");
-	this.gfnCommonTransaction("select", "SP_Expend_S01");
+// 	this.gfnAddOutputDataset("dsExpend", "dsOutput");
+// 	this.gfnCommonTransaction("select", "SP_Expend_S01");
+	this.gfnSetMap("projectMapper", ['SP_Expend_S01'], ['dsExpend']);
+	this.gfnCommonTransaction("select", "selectNextMultiList.do");	
  };
  
+this.fn_SaveData = function()
+{
+	// 변경된 정보없으면 리턴
+	if (this.gfnDsIsUpdated(this.dsExpend) == false) {
+		// 저장할 데이터가 없습니다.
+		this.gfnAlert("msg.save.nochange");
+		return;
+	}
+
+	if(this.fnFormValidation()){
+		this.gfnAddInputDataset ("dsExpend",					"dsInput1");
+		this.gfnSetMap("projectMapper", ['SP_Expend_R01'], ['']);
+		this.gfnCommonTransaction("Save", "saveNextList.do");	
+	}
+};
   
  // 화면 콜백
  this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
@@ -155,12 +180,31 @@ this.FV_PARENT_FORM = this.parent.parent.parent;
 	if (sType == "S") {
 		if (this.gfnIsEmpty(sProjectCd))
 		{
-			this.alert(this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
+			this.gfnAlert('msg.general',this.gfnGetTransTxt(1241, "프로젝트를 선택해 주세요"));
 			return false;
 		}
 	}
 	return true;
  }
+ 
+//정합성체큰
+this.fnFormValidation = function ()
+{
+	// 정합성 체크
+	this.gfnClearValidation(this.dsExpend);
+
+	this.gfnSetValidation(this.dsExpend, "EMP_NO", "사용자"	, "required");
+	this.gfnSetValidation(this.dsExpend, "AUTH_DT",  "사용일"	    , "required");
+	//this.gfnSetValidation(this.dsList, "PASSWORD", "비밀번호"	, "required");
+	this.gfnSetValidation(this.dsExpend, "SUMMARY_NM", "내용"	, "required");
+	this.gfnSetValidation(this.dsExpend, "COST", "금액"	, "required");
+	this.gfnSetValidation(this.dsExpend, "VAT", "부가세"	, "required");
+	this.gfnSetValidation(this.dsExpend, "AMT", "합계"	, "required");
+	
+	// Dataset의 변경된 Row Validation check
+	if (this.gfnValidation(this.dsExpend, "U") == false) return false;
+	else return true;
+}; 
   
   // 화면 초기화
  this.fn_setInit = function()
@@ -171,6 +215,45 @@ this.FV_PARENT_FORM = this.parent.parent.parent;
  /************************************************************************************************
  * 각 COMPONENT 별 EVENT 영역
  ************************************************************************************************/
+
+this.grd_ProjectSiEmp_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	if (e.cell == 0) {
+		var sTitle  = "직원 선택";
+		var oArg    = {pvCompanyCd:this.gfnGetCompanyCode(), pvSearchValue:this.dsExpend.getColumn(e.row, "EMP_NAME")};
+		var oOption = {title:sTitle
+					,titlebar:true};
+		var sPopupCallBack = "fnPopupCallback";
+		this.gfnOpenPopup("orgUserListPu", "sytm::org/orgUserListPu.xfdl", oArg, sPopupCallBack, oOption);
+	}	
+};
+
+this.fnPopupCallback = function (sPopupId, sRtn)
+{
+	switch(sPopupId) {
+		case "orgUserListPu":
+			if( !this.gfnIsNull(sRtn) ){
+				var aRtn= sRtn.split("|");
+				console.log(aRtn);
+				this.dsExpend.setColumn(this.dsExpend.rowposition, "EMP_NO", aRtn[0]);
+				this.dsExpend.setColumn(this.dsExpend.rowposition, "EMP_NAME", aRtn[1]);
+// 				this.edtCode.set_value(aRtn[0]);
+// 				this.edtName.set_value(aRtn[1]);
+// 				this.edtUserId.set_value(aRtn[2]);
+			}
+			break;
+		default:break;
+	}
+};
+
+this.dsExpend_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "COST") {
+		var vat = parseInt(e.newvalue*0.1);
+		obj.setColumn(e.row, "VAT", vat);
+		obj.setColumn(e.row, "AMT", e.newvalue+vat);
+	}
+};
 ]]></Script>
   </Form>
 </FDL>

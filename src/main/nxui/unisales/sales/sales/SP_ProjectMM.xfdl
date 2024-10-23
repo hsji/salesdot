@@ -44,7 +44,7 @@
               <Button id="btn_NewProject" taborder="2" text="프로젝트추가" width="94" height="26" right="btn_ProjectChange:5" top="0" enable="false" onclick="btn_NewProject_onclick" TL_SEQ="658" maxwidth=""/>
               <Button id="btn_BillDelivery" taborder="1" text="청구서납품서" width="100" height="25" right="btn_NewProject:5" top="0" enable="false" fittocontents="width" minwidth="80" maxwidth="" visible="false" onclick="btn_BillDelivery_onclick" TL_SEQ="12416"/>
               <Button id="btn_ContractCancel" taborder="8" text="계약확정취소" width="100" height="26" right="btn_NewProject:5" top="0" enable="false" onclick="btn_ContractCancel_onclick" TL_SEQ="660" maxwidth=""/>
-              <Button id="btn_Excel" taborder="0" text="엑셀다운로드" top="0" height="26" cssclass="btn_WF_Excel" onclick="div_search_comm_btn_onclick" right="531" width="110"/>
+              <Button id="btn_Excel" taborder="0" text="엑셀다운로드" top="0" height="26" cssclass="btn_WF_Excel" onclick="div_search_comm_btn_onclick" right="btn_NewProject:5" width="110"/>
               <Button id="btn_Print" taborder="6" text="출력" top="0" height="26" onclick="div_search_comm_btn_onclick" right="btn_Excel:5" width="78"/>
               <Button id="btn_TradingStatement" taborder="7" text="거래명세서" width="100" height="24" right="btn_NewProject:5" top="0" enable="false" visible="false" onclick="btn_TradingStatement_onclick" TL_SEQ="659" fittocontents="width" minwidth="80" maxwidth=""/>
             </Layout>
@@ -119,6 +119,8 @@ include "Script::ext_CommEco.xjs"
 	if (this.commUtil.getFormAuthority(242,20)) {
 		this.divCmmnBtn.form.btn_ContractCancel.set_enable(true);
 	}
+	
+	this.fn_ButtonContral (0);
 };
  
 // 프로젝트관리 화면 연동 처리시 호출 함수(화면 오픈)
@@ -479,7 +481,7 @@ this.tab_ProjectMM_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChange
 {
 	var bFlag = true;
 	// 수금탭 변경 처리
-	if (e.preindex == 5) {		// if (e.preindex == 4) {
+	if (e.preindex == 4) {		// if (e.preindex == 4) {
 		var objPreTabpage = this.fn_getObjTabpage(e.preindex);
 		var ds = objPreTabpage.form.objects["ds_ContractBill"];
 	
@@ -511,7 +513,7 @@ this.tab_ProjectMM_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChange
 
 this.fn_ButtonContral = function (nTabIndex)
 {
-	var sCocd = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");
+	var sCocd = this.gfnGetUserInfo("CO_CD");
 	
 	this.divCmmnBtn.form.btn_TradingStatement.set_visible(false);	// 거래명세서 버튼 비활성화
 	this.divCmmnBtn.form.btn_BillDelivery.set_visible(false);		// 청구서납품서 버튼 비활성화
@@ -520,35 +522,47 @@ this.fn_ButtonContral = function (nTabIndex)
 	if (nTabIndex == 0) {													// if (nTabIndex == 0) {
 		
 		if (!this.commUtil.getFormAuthority(242,8)) {		// [전체] 신규, 삭제 버튼 권한 없으면 비활성화
-			this.div_search.form.div_BtnCtr.form.btn_Add.set_enable(false);
-			this.div_search.form.div_BtnCtr.form.btn_Del.set_enable(false);
+// 			this.div_search.form.div_BtnCtr.form.btn_Add.set_enable(false);
+// 			this.div_search.form.div_BtnCtr.form.btn_Del.set_enable(false);
+			this.gfnSetCommBtnControl(false, false, true);
 		} 
 		
-		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(true);
-		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(true);
-		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
+// 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(true);
+// 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(true);
+// 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
+		
+		this.gfnSetCommBtnControl(true, true, true);
+		
 		this.divCmmnBtn.form.btn_Excel.set_visible(false);
 		this.divCmmnBtn.form.btn_ContractCancel.set_visible(true);
 	} else if (nTabIndex == 1) {											// } else if (nTabIndex == 1) {
-		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);
 		this.divCmmnBtn.form.btn_Excel.set_visible(false);
+		this.gfnSetCommBtnControl(false, false, false);
 	} else if (nTabIndex == 2) {											// } else if (nTabIndex == 2) {
-		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);		
-		this.divCmmnBtn.form.btn_Excel.set_left(262);
+// 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);		
+		/*this.divCmmnBtn.form.btn_Excel.set_left(262);*/
 		this.divCmmnBtn.form.btn_Excel.set_visible(true);
+		
+		this.gfnSetCommBtnControl(false, false, false);		
+		
 	} else if (nTabIndex == 3) {											// } else if (nTabIndex == 3) {
-		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);
+		
+		this.gfnSetCommBtnControl(false, false, false);		
 		this.divCmmnBtn.form.btn_Excel.set_visible(false);
 	} else if (nTabIndex == 4) {											// } else if (nTabIndex == 4) {
-		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(true);
-		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(true);
-		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
+// 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(true);
+// 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(true);
+// 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
+		
+		this.gfnSetCommBtnControl(true, true, true);
 		this.divCmmnBtn.form.btn_Excel.set_visible(false);
 		
 		
@@ -557,23 +571,31 @@ this.fn_ButtonContral = function (nTabIndex)
 		if (this.commUtil.getFormAuthority(242,24)) {		// 수금탭 신규, 삭제 버튼 활성화
 			this.div_search.form.div_BtnCtr.form.btn_Add.set_enable(true);
 			this.div_search.form.div_BtnCtr.form.btn_Del.set_enable(true);
+			
+			this.gfnSetCommBtnControl(true, true, true);
 		} 
 
 	} else if (nTabIndex == 5) {											// } else if (nTabIndex == 5) {
-		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
+// 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
+		
+		this.gfnSetCommBtnControl(false, false, true);
 		this.divCmmnBtn.form.btn_Excel.set_visible(false);
 	} else if (nTabIndex == 6) {											// } else if (nTabIndex == 6) {
-		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);		
-		this.divCmmnBtn.form.btn_Excel.set_left(262);
+// 		this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(false);		
+		
+		this.gfnSetCommBtnControl(true, true, true);
+		/*this.divCmmnBtn.form.btn_Excel.set_left(262);*/
 		this.divCmmnBtn.form.btn_Excel.set_visible(true);
 	} else if (nTabIndex == 7) {											// } else if (nTabIndex == 7) {
-				this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
-		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
+// 				this.div_search.form.div_BtnCtr.form.btn_Add.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Del.set_visible(false);
+// 		this.div_search.form.div_BtnCtr.form.btn_Save.set_visible(true);
+		
+		this.gfnSetCommBtnControl(false, false, true);		
 		this.divCmmnBtn.form.btn_Excel.set_visible(false);
 	}
 }

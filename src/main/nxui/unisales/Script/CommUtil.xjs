@@ -151,7 +151,7 @@
 			
 			sArgs.pvArrayList = arrOption;
 			
-			this.popup(objOpener, sPopupID, "Common::CO_Organization.xfdl", -1, -1, nWidth, 564, true, true, false, sArgs, popupCallBack);
+			this.popup(objOpener, sPopupID, "sales::comm/CO_Organization.xfdl", -1, -1, nWidth, 564, true, true, false, sArgs, popupCallBack);
 		},
 		
 /*******************************************************************************************
@@ -318,9 +318,9 @@
 *******************************************************************************************/
 		popupProjectMM: function (objOpener, sPopupID, popupCallBack, sProjectCd, sProjectNm, sAuthType, nTabindex)
 		{	
-			if(this.refform.gfnIsEmpty(nTabindex)) nTabindex=1;
+			if(nTabindex == null) nTabindex=1;
 			var sArgument = {pvProjectCd:sProjectCd, pvProjectNm:sProjectNm, pvAuthType:sAuthType, pvTabindex:nTabindex};
-			sArgument.title = "프로젝트 현황" + (this.gfnIsNull(sProjectNm)?'':" [" + sProjectNm + "]");
+			sArgument.title = "프로젝트 현황" + (sProjectNm==null?'':" [" + sProjectNm + "]");
 			this.popup(objOpener, sPopupID, "sales::comm/CO_Project.xfdl", -1, -1, -1, -1, true, true, false, sArgument, popupCallBack);
 		},
 		

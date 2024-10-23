@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="CO_Organization" width="1142" height="570" titletext="조직도" cssclass="frm_popBg" onload="CO_Organization_onload">
+  <Form id="CO_Organization" width="1142" height="600" titletext="조직도" cssclass="frm_popBg" onload="CO_Organization_onload">
     <Layouts>
-      <Layout height="570" mobileorientation="landscape" width="1142" screenid="Desktop_screen">
-        <Div id="div_Search" taborder="10" left="4" top="39" height="40" cssclass="div_WF_SchList" right="4">
+      <Layout height="600" mobileorientation="landscape" width="1142">
+        <Div id="div_Search" taborder="6" left="20" top="20" height="50" cssclass="div_WF_Search" right="20">
           <Layouts>
             <Layout>
-              <Combo id="cmb_Condition" taborder="0" text="이름" left="8" top="8" width="60" height="22" TL_FLAG="1" innerdataset="ds_CD_CONDITION" codecolumn="CODE" datacolumn="CAPTION" index="0" value="EMP_NM">
+              <Combo id="cmb_Condition" taborder="0" text="이름" left="28.00" top="12" width="81" height="24" TL_FLAG="1" innerdataset="ds_CD_CONDITION" codecolumn="CODE" datacolumn="CAPTION" index="0" value="EMP_NM">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
                     <Column id="codecolumn" size="256"/>
@@ -36,37 +36,37 @@
                   </Rows>
                 </Dataset>
               </Combo>
-              <Edit id="edt_Search" taborder="1" left="75" top="8" width="168" height="22" onkeydown="edt_Search_onkeydown"/>
-              <Button id="btn_Search" taborder="2" top="8" width="22" height="22" cssclass="btn_WF_Sch" onclick="common_onclick" left="243" text=""/>
-              <Button id="btn_Bcc" taborder="5" text="숨은참조" top="8" width="70" height="22" visible="false" onclick="common_onclick" right="8" TL_SEQ="830"/>
-              <Button id="btn_Cc" taborder="4" text="참조" top="8" height="22" visible="false" onclick="common_onclick" right="86" width="50" TL_SEQ="831"/>
-              <Button id="btn_To" taborder="3" text="받는사람" top="8" width="70" height="22" visible="false" onclick="common_onclick" right="btn_Cc:8" TL_SEQ="832"/>
+              <Edit id="edt_Search" taborder="1" left="cmb_Condition:10.00" top="12" width="191" height="24" onkeydown="edt_Search_onkeydown"/>
+              <Button id="btnSearch" taborder="5" text="조회" top="10" width="48" height="28" cssclass="btn_WF_Search" right="27" onclick="divSearch_btnSearch_onclick"/>
+              <Button id="btn_Bcc" taborder="4" text="숨은참조" top="10" width="70" height="28" visible="false" onclick="common_onclick" right="btnSearch:20" TL_SEQ="830"/>
+              <Button id="btn_Cc" taborder="3" text="참조" top="10" height="28" visible="false" onclick="common_onclick" right="btn_Bcc:5" width="50" TL_SEQ="831"/>
+              <Button id="btn_To" taborder="2" text="받는사람" top="10" width="70" height="28" visible="false" onclick="common_onclick" right="btn_Cc:5" TL_SEQ="832"/>
             </Layout>
             <Layout name="portrait">
               <Combo id="cmb_Condition" height="30" left="4" top="4" width="72"/>
               <Edit id="edt_Search" height="30" left="76" top="4" width="159"/>
-              <Button id="btn_Search" height="30" left="235" top="4" width="30"/>
               <Button id="btn_Cc" height="30" top="4" width="50" right="btn_Bcc:4"/>
               <Button id="btn_To" height="30" top="4" width="70" right="btn_Cc:4"/>
               <Button id="btn_Bcc" height="30" top="4" width="70" right="4"/>
             </Layout>
           </Layouts>
         </Div>
-        <Static id="stc_GbCompanyOrganization" taborder="5" left="4" top="div_Search:4" height="31" cssclass="sta_POP_GroupBg" width="316"/>
-        <Static id="stc_GbCompanyOrganizationText" taborder="4" text="조직도" left="14" top="div_Search:4" width="120" height="31" cssclass="sta_POP_GroupTit" TL_SEQ="833"/>
-        <Static id="stc_BottomFrame" taborder="3" left="1" height="38" right="1" bottom="1" cssclass="sta_POP_BtnBg"/>
-        <Button id="btn_Close" taborder="0" top="8" width="15" height="15" right="8" cssclass="btn_POP_Cls" text="" onclick="common_onclick" escapebutton="true"/>
-        <Button id="btn_Cancel" taborder="1" text="닫기" width="80" height="22" cssclass="btn_WF_cancel" right="8" bottom="9" onclick="common_onclick" TL_SEQ="59"/>
-        <Button id="btn_Confirm" taborder="2" text="확인" width="60" height="22" cssclass="btn_WF_tran" right="btn_Cancel:8" bottom="9" onclick="common_onclick" TL_SEQ="158"/>
-        <Grid id="grd_CompanyOrganizationDepartment" taborder="6" left="4" top="stc_GbCompanyOrganization:1" width="316" binddataset="ds_department" autofittype="col" treeinitstatus="expand,all" treeusecheckbox="true" bottom="stc_BottomFrame:4" oncellclick="comm_oncellclick" oncelldblclick="grd_CompanyOrganizationDepartment_oncelldblclick">
+        <Static id="stc_BottomFrame" taborder="2" left="1" height="38" right="1" bottom="1" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Cancel" taborder="0" text="닫기" width="60" height="28" cssclass="btn_WF_cancel" right="20" bottom="11" onclick="common_onclick" TL_SEQ="59"/>
+        <Button id="btn_Confirm" taborder="1" text="확인" width="60" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:8" bottom="11" onclick="common_onclick" TL_SEQ="158"/>
+        <Grid id="grd_CompanyOrganizationDepartment" taborder="3" left="20" top="div_Search:10" width="280" binddataset="ds_department" autofittype="none" treeinitstatus="expand,all" treeusecheckbox="true" bottom="20" oncellclick="comm_oncellclick" oncelldblclick="grd_CompanyOrganizationDepartment_oncelldblclick">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="80"/>
+                <Column size="283"/>
               </Columns>
               <Rows>
-                <Row size="24"/>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
               </Rows>
+              <Band id="head">
+                <Cell text="부서"/>
+              </Band>
               <Band id="body">
                 <Cell text="bind:DEPT_NM" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEV" treecheck="bind:ISCHECKED" checkboxfalsevalue="0" checkboxtruevalue="1"/>
               </Band>
@@ -77,8 +77,12 @@
                 <Column size="265"/>
               </Columns>
               <Rows>
-                <Row size="24"/>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
               </Rows>
+              <Band id="head">
+                <Cell colspan="2" text="부서"/>
+              </Band>
               <Band id="body">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:ISCHECKED"/>
                 <Cell col="1" text="bind:DEPT_NM" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEV" checkboxfalsevalue="0" checkboxtruevalue="1"/>
@@ -86,39 +90,42 @@
             </Format>
           </Formats>
         </Grid>
-        <Grid id="grd_CompanyOrganizationEmployeeInfo" taborder="8" left="grd_CompanyOrganizationDepartment:4" top="div_Search:4" width="499" autofittype="col" binddataset="ds_employee" oncellclick="comm_oncellclick" oncelldblclick="grd_CompanyOrganizationEmployeeInfo_oncelldblclick" bottom="stc_BottomFrame:4" onheadclick="grd_CompanyOrganizationEmployeeInfo_onheadclick" cellmovingtype="col" cellsizingtype="col" formatid="default">
+        <Grid id="grd_CompanyOrganizationEmployeeInfo" taborder="5" left="grd_CompanyOrganizationDepartment:8" top="div_Search:10" autofittype="none" binddataset="ds_employee" oncellclick="comm_oncellclick" oncelldblclick="grd_CompanyOrganizationEmployeeInfo_oncelldblclick" bottom="20" onheadclick="grd_CompanyOrganizationEmployeeInfo_onheadclick" cellmovingtype="col" cellsizingtype="col" formatid="default" right="335">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="48"/>
-                <Column size="80"/>
-                <Column size="100"/>
-                <Column size="100"/>
-                <Column size="100"/>
-                <Column size="100"/>
-                <Column size="120"/>
+                <Column size="107"/>
+                <Column size="86"/>
+                <Column size="125"/>
+                <Column size="116"/>
+                <Column size="121"/>
+                <Column size="127"/>
+                <Column size="173"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
-                <Cell col="1" text="이름" TL_SEQ="765"/>
-                <Cell col="2" text="부서" TL_SEQ="74"/>
-                <Cell col="3" text="직급" TL_SEQ="26"/>
-                <Cell col="4" text="전화번호" TL_SEQ="545"/>
-                <Cell col="5" text="핸드폰" TL_SEQ="76"/>
-                <Cell col="6" text="이메일" TL_SEQ="80"/>
+                <Cell col="1" text="회사" TL_SEQ="765"/>
+                <Cell col="2" text="이름" TL_SEQ="765"/>
+                <Cell col="3" text="부서" TL_SEQ="74"/>
+                <Cell col="4" text="직급" TL_SEQ="26"/>
+                <Cell col="5" text="전화번호" TL_SEQ="545"/>
+                <Cell col="6" text="핸드폰" TL_SEQ="76"/>
+                <Cell col="7" text="이메일" TL_SEQ="80"/>
               </Band>
               <Band id="body">
                 <Cell displaytype="checkboxcontrol" text="bind:ISCHECKED"/>
-                <Cell col="1" text="bind:EMP_NM"/>
-                <Cell col="2" text="bind:DEPT_NM"/>
-                <Cell col="3" text="bind:CAPTION"/>
-                <Cell col="4" text="bind:O_PHONE_NO"/>
-                <Cell col="5" text="bind:H_PHONE_NO"/>
-                <Cell col="6" text="bind:EMAIL"/>
+                <Cell col="1" text="bind:COMPANY_NAME"/>
+                <Cell col="2" text="bind:EMP_NM"/>
+                <Cell col="3" text="bind:DEPT_NM"/>
+                <Cell col="4" text="bind:CAPTION"/>
+                <Cell col="5" text="bind:O_PHONE_NO"/>
+                <Cell col="6" text="bind:H_PHONE_NO" displaytype="mask" maskeditformat="###-####-####" maskedittype="string"/>
+                <Cell col="7" text="bind:EMAIL"/>
               </Band>
             </Format>
             <Format id="EMAIL">
@@ -130,8 +137,8 @@
                 <Column size="150"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
@@ -157,8 +164,8 @@
                 <Column size="150"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
@@ -178,14 +185,14 @@
             <Format id="mobile">
               <Columns>
                 <Column size="48"/>
-                <Column size="80"/>
-                <Column size="80"/>
+                <Column size="105"/>
+                <Column size="109"/>
                 <Column size="120"/>
                 <Column size="120"/>
               </Columns>
               <Rows>
-                <Row size="30" band="head"/>
-                <Row size="30" band="head"/>
+                <Row size="28" band="head"/>
+                <Row size="28" band="head"/>
                 <Row size="30"/>
                 <Row size="30"/>
               </Rows>
@@ -210,28 +217,23 @@
             </Format>
           </Formats>
         </Grid>
-        <Div id="div_list" taborder="7" text="" left="827" right="4" top="div_Search:4" async="false" bottom="stc_BottomFrame:4">
+        <Div id="div_list" taborder="4" text="" left="grd_CompanyOrganizationEmployeeInfo:8.00" right="20" top="div_Search:10" async="false" bottom="stc_BottomFrame:11">
           <Layouts>
             <Layout/>
             <Layout name="portrait"/>
           </Layouts>
         </Div>
-        <Static id="stc_title" taborder="9" text="조직도" left="8" top="5" width="61" height="22" color="white" cssclass="sta_POP_Title " TL_SEQ="833"/>
       </Layout>
       <Layout name="portrait" screenid="Mobile_screen" width="480" height="768" mobileorientation="portrait">
         <Div id="div_list" left="676" top="429" bottom="43" width="471" visible="false"/>
         <Grid id="grd_CompanyOrganizationEmployeeInfo" left="4" top="55.08%" bottom="43" right="4" formatid="mobile"/>
-        <Static id="stc_title" height="35" left="8" top="0" width="69"/>
-        <Button id="btn_Close" height="35" top="0" width="35" right="10"/>
-        <Static id="stc_GbCompanyOrganization" height="35" left="4" top="83" right="4"/>
-        <Static id="stc_GbCompanyOrganizationText" height="35" left="14" top="83" width="120"/>
-        <Grid id="grd_CompanyOrganizationDepartment" left="4" top="stc_GbCompanyOrganization:1" bottom="45%" right="4"/>
+        <Grid id="grd_CompanyOrganizationDepartment" left="4" top="106" bottom="45%" right="4"/>
         <Button id="btn_Confirm" height="30" width="70" right="78" bottom="5"/>
         <Button id="btn_Cancel" height="30" width="70" right="4" bottom="5"/>
       </Layout>
     </Layouts>
     <Objects>
-      <Dataset id="ds_department">
+      <Dataset id="ds_department" onrowposchanged="ds_department_onrowposchanged">
         <ColumnInfo>
           <Column id="ISCHECKED" type="STRING" size="255"/>
           <Column id="DEPT_CD" type="STRING" size="30"/>
@@ -275,6 +277,8 @@
           <Column id="O_PHONE_NO" type="STRING" size="256"/>
           <Column id="FIRE_DATE" type="STRING" size="256"/>
           <Column id="HOLD_OFFICE" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="ds_employeeCopy">
@@ -403,11 +407,6 @@
             <Col id="CAPTION_JAP">名前</Col>
           </Row>
           <Row>
-            <Col id="CODE">DEPT_NM</Col>
-            <Col id="CAPTION">부서</Col>
-            <Col id="CAPTION_JAP">部署</Col>
-          </Row>
-          <Row>
             <Col id="CODE">H_PHONE_NO</Col>
             <Col id="CAPTION">Phone</Col>
             <Col id="CAPTION_JAP">Phone</Col>
@@ -463,24 +462,23 @@ this.title 			= this.gfnGetTransTxt(2087, "직원선택");
 this.divUrl			= "sales::comm/CO_SelectionEmployee.xfdl";
 this.bPartner		= false;
 this.fvExpandRow 	= -1;
-this.FV_CO_CD = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");	//로그인 회사코드
+this.FV_CO_CD = "";	//로그인 회사코드
 /************************************************************************************************
 * FORM 영역
 ************************************************************************************************/
 this.CO_Organization_onload = function(obj:nexacro.Form, e:nexacro.LoadEventInfo)
 {
+	this.FV_CO_CD = this.gfnGetCompanyCode();	//로그인 회사코드
+
 	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
 	
-	var app = nexacro.getApplication();
 	this.fnSetOption(this.parent.pvArrayList);
 	
-	if(app.gdsUserInfo.rowcount>0)
-	{
-		this.myDept		= this.gfnIsEmpty(app.gdsUserInfo.getColumn(0,"DEPT_NM")) ? this.myDept : app.gdsUserInfo.getColumn(0,"DEPT_NM");
-		this.myDeptCD 	= this.gfnIsEmpty(app.gdsUserInfo.getColumn(0,"DEPT_CD")) ? this.myDeptCD : app.gdsUserInfo.getColumn(0,"DEPT_CD");
-		this.myEmpNO 	= this.gfnIsEmpty(app.gdsUserInfo.getColumn(0,"EMP_NO")) ? this.myEmpNO : app.gdsUserInfo.getColumn(0,"EMP_NO");
-		this.myEmpNM	= this.gfnIsEmpty(app.gdsUserInfo.getColumn(0,"EMP_NM")) ? this.myEmpNM: app.gdsUserInfo.getColumn(0,"EMP_NM");
-	}
+	this.myDept		= this.gfnGetUserInfo("DEPT_NM");
+	this.myDeptCD 	= this.gfnGetUserInfo("DEPT_CD");
+	this.myEmpNO 	= this.gfnGetUserInfo("EMP_NO");
+	this.myEmpNM	= this.gfnGetUserInfo("EMP_NM");
+
 };
 
 /************************************************************************************************
@@ -505,16 +503,16 @@ this.fnSetOption = function(arrOption)
 		this.divUrl		= arrOption[5];
 		this.bPartner	= arrOption[6];
 	}
-	
-	this.stc_title.set_text(this.title);
-	this.set_titletext(this.title);
+// 	
+// 	this.stc_title.set_text(this.title);
+// 	this.set_titletext(this.title);
 	
 	if(this.gfnIsEmpty(this.divUrl))
 	{
-		this.div_list.set_width(0);		
+		//this.div_list.set_width(0);		
 		this.div_list.set_visible(false);
 		//this.grd_CompanyOrganizationEmployeeInfo.set_width(0);
-		this.grd_CompanyOrganizationEmployeeInfo.set_right(4);
+		this.grd_CompanyOrganizationEmployeeInfo.set_right(20);
 	}
 	else
 	{
@@ -598,7 +596,7 @@ this.fnSetOption = function(arrOption)
 	
 	//Transaction
 	this.fnSearchDeptList();	// Department 조회 	(callback - Tree 오픈)
-	this.fnSearchEmpList();		// Employee 조회 	(callback - User 선택)
+	//this.fnSearchEmpList();		// Employee 조회 	(callback - User 선택)
 }
 
 //검색 
@@ -757,7 +755,7 @@ this.fnCloseWin = function()
 	}
 	
 	this.fnGetOne(objDs, objDs.rowposition);
-	this.commUtil.popupClose(this.ds_selectedEmp);
+	this.close(this.ds_selectedEmp.saveJSON());
 }
 
 //선택된 row를 ds_selectedEmp에 넣어준다.
@@ -782,16 +780,46 @@ this.fnSearchEmpList = function(empKind, holdOffice)
 	var strSvcID = "searchEmpList";
 	var strModelNm = "CO_Organization_S01";
 	
+	var search = this.div_Search.form.edt_Search.value;
+	if(this.ds_department.rowposition>=0 && this.gfnIsNull(search)) {
+		this.gfnAddSendParameter("COMPANY_CD", this.gfnGetCompanyCode()); //1:현재종사자
+		this.gfnAddSendParameter("DEPT_CD", this.ds_department.getColumn(this.ds_department.rowposition, "DEPT_CD")); //TYPE 1:부서조회 2:직원리스트조회 3.직원검색
+	}
+	if(this.gfnIsNull(search)==false) {
+		this.gfnAddSendParameter("COMPANY_CD", ""); //1:현재종사자
+		this.gfnAddSendParameter("DEPT_CD", "");
+		switch(this.div_Search.form.cmb_Condition.value) {
+			case "EMP_NM" : 
+				this.gfnAddSendParameter("EMP_NM", search); break;
+			case "H_PHONE_NO" : 
+				this.gfnAddSendParameter("CELL_NUMB", search); break;
+			case "EMAIL" : 
+				this.gfnAddSendParameter("EMAIL", search); break;
+			case "EMP_NO" : 
+				this.gfnAddSendParameter("EMP_NO", search); break;
+			default:
+		}
+		this.grd_CompanyOrganizationDepartment.width = 0;
+	} else {
+		this.grd_CompanyOrganizationDepartment.width = 280;
+		this.gfnAddSendParameter("COMPANY_CD", this.gfnGetCompanyCode()); 
+	}
 	this.gfnAddSendParameter("TYPE", "2"); //TYPE 1:부서조회 2:직원리스트조회 3.직원검색
-	this.gfnAddSendParameter("EMP_KIND", this.empKind); //T:Tobe직원만
-	this.gfnAddSendParameter("HOLD_OFFICE", this.holdOffice); //1:현재종사자
-	if(this.bPartner)
-		this.gfnAddSendParameter("OUTSIDE_FLAG", "1"); //1:협력사
-	if(this.grdCol=="ASSETEMP") // 20220114 박종언 추가(협력사 코드)
-		this.gfnAddSendParameter("OUTSIDE_KIND", "1136"); //1136:투비씨엔에스
+// 	this.gfnAddSendParameter("TYPE", "2"); //TYPE 1:부서조회 2:직원리스트조회 3.직원검색
+// 	this.gfnAddSendParameter("EMP_KIND", this.empKind); //T:Tobe직원만
+// 	this.gfnAddSendParameter("HOLD_OFFICE", this.holdOffice); //1:현재종사자
+// 	if(this.bPartner)
+// 		this.gfnAddSendParameter("OUTSIDE_FLAG", "1"); //1:협력사
+// 	if(this.grdCol=="ASSETEMP") // 20220114 박종언 추가(협력사 코드)
+// 		this.gfnAddSendParameter("OUTSIDE_KIND", "1136"); //1136:투비씨엔에스
 		
-	this.gfnAddOutputDataset("ds_employee", "ds_employee");
-	this.gfnCommonTransaction(strSvcID, strModelNm, this.grd_CompanyOrganizationEmployeeInfo);
+// 	this.gfnAddOutputDataset("ds_employee", "ds_employee");
+// 	this.gfnCommonTransaction(strSvcID, strModelNm, this.grd_CompanyOrganizationEmployeeInfo);
+	
+	this.gfnSetMap("nextCommMapper", ['UserInfo'], ['ds_employee']);
+	this.gfnCommonTransaction(strSvcID, "selectNextMultiList.do", this.grd_CompanyOrganizationEmployeeInfo);
+	
+	this.resetScroll();
 }
 
 //회사 조직도 리스트
@@ -808,8 +836,11 @@ this.fnSearchDeptList = function()
 	if(this.grdCol=="ASSETEMP") // 20220114 박종언 추가(협력사 코드)
 		this.gfnAddSendParameter("OUTSIDE_KIND", "W01"); //W01:투비씨엔에스
 		
-	this.gfnAddOutputDataset("ds_department", "ds_department");
-	this.gfnCommonTransaction(strSvcID, strModelNm, this.grd_CompanyOrganizationDepartment);
+// 	this.gfnAddOutputDataset("ds_department", "ds_department");
+// 	this.gfnCommonTransaction(strSvcID, strModelNm, this.grd_CompanyOrganizationDepartment);
+	this.gfnAddSendParameter("COMPANY_CD", this.gfnGetCompanyCode()); //1:현재종사자
+	this.gfnSetMap("nextCommMapper", ['DeptList'], ['ds_department']);
+	this.gfnCommonTransaction("searchDeptList", "selectNextMultiList.do");	
 }
 
 this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
@@ -836,16 +867,16 @@ this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
 				break;
 				
 			case "searchEmpList" :
-				this.ds_employeeCopy.copyData(this.ds_employee); //검색시 row search에 쓰임
-				if(this.parent.sSubject)
-				{
-					this.div_Search.form.cmb_Condition.set_value("EMP_NM");
-					this.div_Search.form.edt_Search.set_value(this.parent.sSubject);
-					
-					this.fnSearchEmp(this.div_Search.form.cmb_Condition.value, this.div_Search.form.edt_Search.value); 
-				}else{
-					this.fnSetFocus(this.myDeptCD, this.myEmpNO);
-				}
+// 				this.ds_employeeCopy.copyData(this.ds_employee); //검색시 row search에 쓰임
+// 				if(this.parent.sSubject)
+// 				{
+// 					this.div_Search.form.cmb_Condition.set_value("EMP_NM");
+// 					this.div_Search.form.edt_Search.set_value(this.parent.sSubject);
+// 					
+// 					this.fnSearchEmp(this.div_Search.form.cmb_Condition.value, this.div_Search.form.edt_Search.value); 
+// 				}else{
+// 					this.fnSetFocus(this.myDeptCD, this.myEmpNO);
+// 				}
 				break;
 		}
 	}
@@ -856,6 +887,7 @@ this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
 ************************************************************************************************/
 this.comm_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
+	return;
 	var objDs = this.lookup(obj.binddataset);
 	
 	switch(obj.name)
@@ -950,7 +982,7 @@ this.common_onclick = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
 			break;
 			
 		case "btn_Search":
-			this.fnSearchEmp(this.div_Search.form.cmb_Condition.value, this.div_Search.form.edt_Search.value); 
+			this.fnSearchEmpList(); 
 			break;
 		
 		//fnInsert
@@ -994,7 +1026,7 @@ this.edt_Search_onkeydown = function(obj:nexacro.Edit, e:nexacro.KeyEventInfo)
 {	
 	if(e.keycode == 13) 
 	{
-		this.fnSearchEmp(this.div_Search.form.cmb_Condition.value, this.div_Search.form.edt_Search.value); 
+		this.fnSearchEmpList(); 
 	}
 };
 
@@ -1057,6 +1089,18 @@ this.grd_CompanyOrganizationDepartment_oncelldblclick = function(obj:nexacro.Gri
 			this.fnCloseWin();
 	} 
 	else return;
+};
+
+this.ds_department_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+
+	 
+	this.fnSearchEmpList();	
+};
+
+this.divSearch_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSearchEmpList();	
 };
 ]]></Script>
   </Form>

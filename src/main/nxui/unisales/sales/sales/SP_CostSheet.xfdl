@@ -367,7 +367,7 @@ include "Script::CommUtil.xjs"
 include "Script::CommSystem.xjs"
 include "Script::ext_CommEco.xjs"
 include "Script::ext_Report.xjs"
-
+ 
 /************************************************************************************************
  * 전역 변수 영역
  ************************************************************************************************/
@@ -1853,7 +1853,7 @@ this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.fn_SaveData();
 };
 
-this.CommAddRow_onclickAfter(obj, e, bConfirmFlag) {
+this.CommAddRow_onclickAfter = function(obj, e, bConfirmFlag) {
 	
 	if (!bConfirmFlag) {
 		nIdx = ojbDs.insertRow(ojbDs.rowposition + 1);

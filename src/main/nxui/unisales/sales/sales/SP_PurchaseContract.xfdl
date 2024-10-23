@@ -974,24 +974,24 @@ this.fnSearchMContractDet = function()
 						
 			// 매입세부
 			pForm.grd_GbSales.set_formatid("CONTRACT_TYPE_C");
-			pForm.stc_GbSalesBar.set_width(799);
+			/*pForm.stc_GbSalesBar.set_width(799);*/
 			pForm.grd_GbSales.set_width(799);
 			
 			// 지급내역
 			pForm.stc_GbProvideList.set_left(811);
-			pForm.stc_GbProvideListBar.set_left(803);
+			/*pForm.stc_GbProvideListBar.set_left(803);*/
 			pForm.grd_GbProvideList.set_left(803);		// W:452
 			pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_P");
 			
 			// 매출계약 세부
-			pForm2.stc_GbProductContractDetailBar.set_right(0);
+			/*pForm2.stc_GbProductContractDetailBar.set_right(0);*/
 			pForm2.grd_GbProductContractDetail.set_right(0);
 			pForm2.grd_GbProductContractDetail.set_formatid("CONTRACT_TYPE_P");
 			
 			
 			// 유지보수대상
 			pForm2.stc_GbProductContractM.set_visible(false);
-			pForm2.stc_GbProductContractMBar.set_visible(false);
+			/*pForm2.stc_GbProductContractMBar.set_visible(false);*/
 			pForm2.grd_GbProductContractM.set_visible(false);
 			
 			break;
@@ -1001,24 +1001,24 @@ this.fnSearchMContractDet = function()
 						
 			// 매입세부
 			pForm.grd_GbSales.set_formatid("CONTRACT_TYPE_D");
-			pForm.stc_GbSalesBar.set_width(799);
+			/*pForm.stc_GbSalesBar.set_width(799);*/
 			pForm.grd_GbSales.set_width(799);
 			
 			// 지급내역
 			pForm.stc_GbProvideList.set_left(811);
-			pForm.stc_GbProvideListBar.set_left(803);
+			/*pForm.stc_GbProvideListBar.set_left(803);*/
 			pForm.grd_GbProvideList.set_left(803);		// W:452
 			pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_P");
 			
 			// 매출계약 세부
-			pForm2.stc_GbProductContractDetailBar.set_right(0);
+			/*pForm2.stc_GbProductContractDetailBar.set_right(0);*/
 			pForm2.grd_GbProductContractDetail.set_right(0);
 			pForm2.grd_GbProductContractDetail.set_formatid("CONTRACT_TYPE_P");
 			
 			
 			// 유지보수대상
 			pForm2.stc_GbProductContractM.set_visible(false);
-			pForm2.stc_GbProductContractMBar.set_visible(false);
+			/*pForm2.stc_GbProductContractMBar.set_visible(false);*/
 			pForm2.grd_GbProductContractM.set_visible(false);
 			
 			break;	
@@ -1027,25 +1027,25 @@ this.fnSearchMContractDet = function()
 
 			// 매입세부
 			pForm.grd_GbSales.set_formatid("CONTRACT_TYPE_M");
-			pForm.stc_GbSalesBar.set_width(657);
+			/*pForm.stc_GbSalesBar.set_width(657);*/
 			pForm.grd_GbSales.set_width(657);
 			
 			// 지급내역
 			pForm.stc_GbProvideList.set_left(668);
-			pForm.stc_GbProvideListBar.set_left(660);
+			/*pForm.stc_GbProvideListBar.set_left(660);*/
 			pForm.grd_GbProvideList.set_left(660);		// W:596
 			pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_M");
 			
 			
 			// 매출계약 세부
-			pForm2.stc_GbProductContractDetailBar.set_right(471);
+			/*pForm2.stc_GbProductContractDetailBar.set_right(471);*/
 			pForm2.grd_GbProductContractDetail.set_right(471);
 			pForm2.grd_GbProductContractDetail.set_formatid("CONTRACT_TYPE_M");
 	
 	
 			// 유지보수대상
 			pForm2.stc_GbProductContractM.set_visible(true);
-			pForm2.stc_GbProductContractMBar.set_visible(true);
+			/*pForm2.stc_GbProductContractMBar.set_visible(true);*/
 			pForm2.grd_GbProductContractM.set_visible(true);
 			break;
 			
@@ -1054,13 +1054,13 @@ this.fnSearchMContractDet = function()
 			
 			// 매입세부 format
 			pForm.grd_GbSales.set_formatid("CONTRACT_TYPE_S");
-			pForm.stc_GbSalesBar.set_width(677);
+			/*pForm.stc_GbSalesBar.set_width(677);*/
 			pForm.grd_GbSales.set_width(677);
 			
 			
 			// 지급내역
 			pForm.stc_GbProvideList.set_left(688);	
-			pForm.stc_GbProvideListBar.set_left(680);
+			/*pForm.stc_GbProvideListBar.set_left(680);*/
 			pForm.grd_GbProvideList.set_left(680);		// W:465
 			
 			
@@ -1069,14 +1069,14 @@ this.fnSearchMContractDet = function()
 
 			
 			// 매출계약 세부
-			pForm2.stc_GbProductContractDetailBar.set_right(0);
+			/*pForm2.stc_GbProductContractDetailBar.set_right(0);*/
 			pForm2.grd_GbProductContractDetail.set_right(0);
 			pForm2.grd_GbProductContractDetail.set_formatid("CONTRACT_TYPE_S");
 			
 			
 			// 유지보수대상
 			pForm2.stc_GbProductContractM.set_visible(false);
-			pForm2.stc_GbProductContractMBar.set_visible(false);
+			/*pForm2.stc_GbProductContractMBar.set_visible(false);*/
 			pForm2.grd_GbProductContractM.set_visible(false);
 			break;
 			
@@ -1085,24 +1085,24 @@ this.fnSearchMContractDet = function()
 			
 			// 매입세부 format
 			pForm.grd_GbSales.set_formatid("CONTRACT_TYPE_ALL");
-			pForm.stc_GbSalesBar.set_width(799);
+			/*pForm.stc_GbSalesBar.set_width(799);*/
 			pForm.grd_GbSales.set_width(799);
 			
 			// 지급내역
 			pForm.stc_GbProvideList.set_left(810);	
-			pForm.stc_GbProvideListBar.set_left(802);
+			/*pForm.stc_GbProvideListBar.set_left(802);*/
 			pForm.grd_GbProvideList.set_left(802);			// W:465
 			pForm.grd_GbProvideList.set_formatid("CONTRACT_TYPE_P");
 			
 			// 매출계약 세부
-			pForm2.stc_GbProductContractDetailBar.set_right(0);
+			/*pForm2.stc_GbProductContractDetailBar.set_right(0);*/
 			pForm2.grd_GbProductContractDetail.set_right(0);
 			pForm2.grd_GbProductContractDetail.set_formatid("CONTRACT_TYPE_P");
 			
 			
 			// 유지보수대상
 			pForm2.stc_GbProductContractM.set_visible(false);
-			pForm2.stc_GbProductContractMBar.set_visible(false);
+			/*pForm2.stc_GbProductContractMBar.set_visible(false);*/
 			pForm2.grd_GbProductContractM.set_visible(false);
 			break;
 	}

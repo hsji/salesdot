@@ -60,9 +60,9 @@
                 <Column size="40"/>
                 <Column size="107"/>
                 <Column size="107"/>
-                <Column size="90"/>
                 <Column size="120"/>
-                <Column size="90"/>
+                <Column size="120"/>
+                <Column size="120"/>
                 <Column size="110"/>
                 <Column size="70"/>
                 <Column size="70"/>
@@ -274,7 +274,7 @@ include "Script::ext_CommEco.xjs"
 	this.gfnAddInputDataset("ds_ContractBill",		"dsInput1", "U");
 	this.gfnAddInputDataset("ds_InputContrProd",	"dsInput2", "U");
 	
-	this.gfnCommonTransaction("Save", "SP_ContractBill_R01");
+	//this.gfnCommonTransaction("Save", "SP_ContractBill_R01");
 	
 	this.gfnSetMap("projectMapper", ['SP_ContractBill_R01','SP_ContractBill_R01_1'], ['ds_ContractBill','ds_InputContrProd']);
 	this.gfnCommonTransaction("Save", "saveNextList.do");		
@@ -326,16 +326,35 @@ include "Script::ext_CommEco.xjs"
 		nContractPrice = nexacro.toNumber(nContractPrice);
 		
 		if (nTaxPriceSum != nContractPrice) {
-			if ( !this.confirm(this.gfnGetTransTxt(1688, "계약금액과 상이 합니다. 저장하시겠습니까?")) ){
-				bRtnVal = false;
-			}
-		}		
+		
+			this.gfnAlert('confirm.general',"계약금액과 상이 합니다. 저장하시겠습니까?",null
+				,function(srvId,rtn) {
+					if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+						this.FV_SAVE_CURROW = this.ds_ContractList.rowposition;
+						
+						
+						if (this.ds_ContractBill.rowcount>0) {
+							// 제품, 상품 무상유지보수 일자 등록 처리
+							this.fn_setFreeMaDate();
+						}
+
+						//저장용 Input Dataset 세팅
+						this.gfnAddInputDataset("ds_ContractBill",		"dsInput1", "U");
+						this.gfnAddInputDataset("ds_InputContrProd",	"dsInput2", "U");
+						
+						//this.gfnCommonTransaction("Save", "SP_ContractBill_R01");
+						
+						this.gfnSetMap("projectMapper", ['SP_ContractBill_R01','SP_ContractBill_R01_1'], ['ds_ContractBill','ds_InputContrProd']);
+						this.gfnCommonTransaction("Save", "saveNextList.do");		
+				});	
+			return false;
+		}
 		
 		for (var i=0; i<this.ds_ContractBill.rowcount ; i++) 
 		{
 			var sTaxPlanDate = this.ds_ContractBill.getColumn(i, "TAX_PLAN_DATE");
 			if (this.gfnIsEmpty(sTaxPlanDate)) {
-				this.alert(this.gfnGetTransTxt(1338, "세금계산서 발급예정일을 입력하세요."));
+				this.gfnAlert('msg.general',this.gfnGetTransTxt(1338, "세금계산서 발급예정일을 입력하세요."));
 				bRtnVal = false;
 				break;
 			}
@@ -349,7 +368,7 @@ include "Script::ext_CommEco.xjs"
 this.fn_AddRecord = function()
 {
 	if (this.ds_ContractList.rowcount == 0) {
-		this.alert(this.gfnGetTransTxt(1339, "계약내용이 없습니다."));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1339, "계약내용이 없습니다."));
 		return;
 	}
 	
@@ -391,27 +410,31 @@ this.fn_AddRecord = function()
 // 계약 삭제
 this.fn_DelRecord = function()
 {
-	if ( this.confirm(this.gfnGetTransTxt(1689, "해당 수금건을 삭제 하시겠습니까?")) ) 
 	var nFindRow = this.ds_ContractBill.findRow("CHK", "1");
 	if (nFindRow<0) {
-		this.alert(this.gfnGetTransTxt(1340, "삭제할 대상을 체크해 주세요"));
+		this.gfnAlert('msg.general',this.gfnGetTransTxt(1340, "삭제할 대상을 체크해 주세요"));
 		return;
 	}
 	
+	this.gfnAlert('confirm.general',"해당 수금건을 삭제 하시겠습니까?",null
+		,function(srvId,rtn) {
+			if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") return;
+			for (var i=this.ds_ContractBill.rowcount-1; i>=0; i--) {
+				var sChk = this.ds_ContractBill.getColumn(i, "CHK");
+				if (sChk == "1") {
+					var sBillStatus = this.ds_ContractBill.getColumn(i, "BILL_STATUS");
+					
+					if(sBillStatus != "0") {
+						this.gfnAlert('msg.general',this.gfnGetTransTxt(1341, "대기 수금상태만 삭제가 가능 합니다. "));
+						return false;
+					}
+					
+					this.ds_ContractBill.deleteRow(i);
+				}
+			}			
+		});		
 	
-	for (var i=this.ds_ContractBill.rowcount-1; i>=0; i--) {
-		var sChk = this.ds_ContractBill.getColumn(i, "CHK");
-		if (sChk == "1") {
-			var sBillStatus = this.ds_ContractBill.getColumn(i, "BILL_STATUS");
-			
-			if(sBillStatus != "0") {
-				this.alert(this.gfnGetTransTxt(1341, "대기 수금상태만 삭제가 가능 합니다. "));
-				return false;
-			}
-			
-			this.ds_ContractBill.deleteRow(i);
-		}
-	}
+
 }
 
 
@@ -452,36 +475,34 @@ this.ds_ContractList_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexa
 {
 	var bFlag = true;
 	if (this.gfnIsUpdateDs(this.ds_ContractBill)) {
-		if (! this.confirm(this.gfnGetTransTxt(1690, "수금 내역에 변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?")) ){
-			bFlag = false;
-		} 
+		bFlag = false;
+		this.gfnAlert('confirm.general',"수금 내역에 변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?",null
+			,function(srvId,rtn) {
+				if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") {
+					obj.set_enableevent(false);
+					obj.set_rowposition(e.oldrow);
+					obj.set_enableevent(true);
+					return;
+				}
+				this.fn_ContractBillQueryData(e.newrow);
+			});		
+		return;
 	}
 	
 	if (bFlag) {
 		//trace("ds_ContractList_onrowposchanged !!!");
 		this.fn_ContractBillQueryData(e.newrow);
-	} else {
-		obj.set_enableevent(false);
-		obj.set_rowposition(e.oldrow);
-		obj.set_enableevent(true);
 	}
 };
 
 
 this.ds_ContractBill_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
 {
-	var sCocd = nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD");
-	
 	if (e.columnid == "TAX_PRICE") {
 		var nTaxPrice = nexacro.toNumber(e.newvalue);
 		
 		
-		if(sCocd == "J02") {
-			var sConsumptionTax = this.ds_ContractList.getColumn(this.ds_ContractList.rowposition, "CONSUMPTION_TAX");
-			nTaxPrice = Math.floor(nTaxPrice * sConsumptionTax / 100);
-		} else {
-			nTaxPrice = Math.floor(nTaxPrice / 10);
-		}
+		nTaxPrice = Math.floor(nTaxPrice / 10);
 		this.ds_ContractBill.setColumn(e.row, "VAT_PRICE", nTaxPrice);
 	} else if (e.columnid == "TAX_DATE") {
 		var nContrProdRow = this.ds_ContractList.rowposition;
@@ -617,7 +638,8 @@ this.grd_ContractBill_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClic
 		
 		var sContents = this.ds_ContractBill.getColumn(e.row, sColId);
 		var Argument = {pv_UseEnable:bUseEnable, pvTitle:sTitle, pvContents:sContents};
-		this.commUtil.popup(this, sPopupId, "Common::CM_RemarkMM.xfdl", -1, -1, 886, 564, true, false, false, Argument, "fnPopupCallBack");
+		Argument.title = "Remarks";
+		this.commUtil.popup(this, sPopupId, "sales::comm/CM_RemarkMM.xfdl", -1, -1, -1, -1, true, false, false, Argument, "fnPopupCallBack");
 	}
 };
 
@@ -627,7 +649,7 @@ this.grd_ContractBill_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClic
  // 팝업 콜백
  this.fnPopupCallBack = function(sPopupId, Variant)
 {
-	Variant = this.commUtil.popupReturn();
+	//Variant = this.commUtil.popupReturn();
 	
 	if(this.gfnIsEmpty(Variant))
 	{
@@ -657,14 +679,23 @@ this.grd_ContractBill_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClic
 
 }
 
-
+this.fvClose = false;
 this.SP_ContractBill_onbeforeclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
 {
-	if (this.gfnIsUpdateDs(this.ds_ContractBill)) {
-		if (! this.confirm(this.gfnGetTransTxt(1690, "수금 내역에 변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?")) ){
-			return;
-		} 
+	if (this.fvClose == false && this.gfnIsUpdateDs(this.ds_ContractBill)) {
+		this.gfnAlert('confirm.general',"수금 내역에 변경된 데이터가 존재 합니다 계속 진행 하시겠습니까?",null
+			,function(srvId,rtn) {
+				if(this.gfnIsNull(rtn) || rtn == false || rtn == "false") {
+					this.fvClose = false;
+					return;
+				}
+				this.fvClose = true;
+				this.close();
+			});			
+		return false;
 	}	
+	
+	return true;
 };
 
 

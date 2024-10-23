@@ -278,8 +278,8 @@
                   <Combo id="cmb_PromiseType" taborder="5" text="" top="4" height="22" innerdataset="ds_cmm_PromiseKind" codecolumn="CODE" datacolumn="CAPTION" right="0" width="100"/>
                   <Static id="stc_PromiseType" taborder="3" text="약속종류" top="4" height="22" cssclass="sta_WF_DetailTit" textAlign="right" TL_SEQ="643" right="104" width="67"/>
                   <Edit id="edt_PromiseTitle" taborder="4" top="4" height="22" right="179" left="stc_PromiseTitle:8"/>
-                  <Calendar id="cal_PromiseDueDate" taborder="6" left="stc_PromiseDueDate:8" top="64" width="100" height="22" dateformat="yyyy-MM-dd"/>
-                  <Calendar id="cal_PromiseDate" taborder="7" left="stc_PromiseDate:8" top="34" width="100" height="22" dateformat="yyyy-MM-dd"/>
+                  <Calendar id="cal_PromiseDueDate" taborder="6" left="stc_PromiseDueDate:8.00" top="64" width="111" height="22" dateformat="yyyy-MM-dd"/>
+                  <Calendar id="cal_PromiseDate" taborder="7" left="stc_PromiseDate:8.00" top="34" width="111" height="22" dateformat="yyyy-MM-dd"/>
                   <TextArea id="txt_ContractPromise" taborder="8" left="cal_PromiseDueDate:8" top="34" right="0" bottom="0"/>
                 </Layout>
               </Layouts>
@@ -1919,7 +1919,7 @@ this.fnSetComCmbConfig = function ()
 
 	
 	this.div_ContractInfo.form.div_ContractSub.set_enableevent(false);
-	this.div_ContractInfo.form.div_ContractSub.set_url("Sales::SP_ContractProduct.xfdl");
+	this.div_ContractInfo.form.div_ContractSub.set_url("sales::sales/SP_ContractProduct.xfdl");
 	this.div_ContractInfo.form.div_ContractSub.set_enableevent(true);
 	
 	this.grd_ContractDetail.set_enableevent(false);
@@ -2231,7 +2231,7 @@ this.fn_MAContractCopy = function()
 	if(sCopyContractCnt > 1) {
 		// 다수건인 경우
 		args = {dsMainContract:_dsInContractList, sStartDt:sStartDt, sEndDt:sEndDt};
-		this.commUtil.popup(this, "popupMAContractCopy", "Sales::SP_MAContractCopy.xfdl", -1, -1, 800, 500, true, true, false, args, "fnPopupCallBack");
+		this.commUtil.popup(this, "popupMAContractCopy", "sales::sales/SP_MAContractCopy.xfdl", -1, -1, 800, 500, true, true, false, args, "fnPopupCallBack");
 	} else {
 		this.gfnAlert('confirm.general',"복사추가 하시겠습니까?",null
 			,function(srvId,rtn) {
@@ -2281,7 +2281,7 @@ this.fn_MaintenceHistEmail = function()
 	if(this.gfnIsEmpty(sContractNo)) this.gfnAlert('msg.general',this.gfnGetTransTxt(1283, "저장 후 사용하세요."));
 	else {
 		var sArgument = {pvContractNo:sContractNo ,pvKind:"MaintenceVisit"};
-		this.commUtil.popup(this, "CompanyAddMM", "Sales::SP_ContractHistoryMail.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
+		this.commUtil.popup(this, "CompanyAddMM", "sales::sales/SP_ContractHistoryMail.xfdl", -1, -1, null, null, true, true, false, sArgument, "fnPopupCallBack");
 	}
 };
 
@@ -2697,7 +2697,7 @@ this.btn_CostSheet_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInf
 	Argument.title = "매출원가표";
 	this.commUtil.popup(this, "popupCostSheet", "sales::sales/SP_CostSheet.xfdl", -1, -1, -1, -1, true, true, false, Argument, "fnPopupCallBack");
 };
-
+ 
 // 납품확인서 POPUP
 this.btn_DeliveryConfirm_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
@@ -3014,7 +3014,7 @@ this.tab_Progress_tpg_Maintenance_grd_ContractNumberList_onexpandup = function(o
 		if(sColNm == "SUPPORT_REMARKS")
 		{
 			args = {CONTRACT_NO:ds.getColumn(ds.rowposition,"UNION_CONTRACT_NO")};
-			this.commUtil.popup(this, "SP_PurchaseReg", "Sales::SM_MaintenanceStopHistory.xfdl", -1, -1, 800, 500, true, true, false, args, "fnPopupCallBack");
+			this.commUtil.popup(this, "SP_PurchaseReg", "sales::sales/SM_MaintenanceStopHistory.xfdl", -1, -1, 800, 500, true, true, false, args, "fnPopupCallBack");
 		}
 	}
 };
@@ -3237,7 +3237,7 @@ this.tab_Progress_tpg_Royalty_btn_RoyaltyConfirm_onclick = function(obj:nexacro.
 	// 고객사, 계약명
 	if (this.ds_Royalty.rowcount>0) {
 		args = {CONTRACT_NO:this.ds_Royalty.getColumn(0, "CONTRACT_NO"), objDS:this.ds_Royalty};
-		this.commUtil.popup(this, "popupContractRoyaltyConfirmPop", "Sales::SP_ContractRoyaltyConfirmPop.xfdl", -1, -1, 640, 545, true, true, false, args, "fnPopupCallBack");
+		this.commUtil.popup(this, "popupContractRoyaltyConfirmPop", "sales::sales/SP_ContractRoyaltyConfirmPop.xfdl", -1, -1, 640, 545, true, true, false, args, "fnPopupCallBack");
 	}
 };
 

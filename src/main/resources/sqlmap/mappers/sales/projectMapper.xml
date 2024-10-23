@@ -3792,8 +3792,76 @@ ORDER BY PB.PB_SEQ DESC;
 
 <update id="updateSP_GuaranteeInsurance_R01" parameterType="java.util.Map">
 	-- updateSP_GuaranteeInsurance_R01
-	UPDATE SALES_CONTRACT_GUARANTEE_INSURANCE
-	SET    
+	INSERT INTO SALES_CONTRACT_GUARANTEE_INSURANCE
+		(CONTRACT_NO, PI_BOND_NO, PI_CALL_BOX_NO
+		<if test="PI_EXECUTION != null and PI_EXECUTION != ''">
+			, PI_EXECUTION
+		</if>
+		<if test="PI_INSUPRICE != null and PI_INSUPRICE != ''">
+			, PI_INSUPRICE
+		</if>
+		, PI_START_DATE, PI_END_DATE, CI_BOND_NO, CI_CALL_BOX_NO
+		<if test="CI_EXECUTION != null and CI_EXECUTION != ''">
+			, CI_EXECUTION
+		</if>
+		<if test="CI_INSUPRICE != null and CI_INSUPRICE != ''">
+			, CI_INSUPRICE
+		</if>
+		, CI_START_DATE, CI_END_DATE, DI_BOND_NO, DI_CALL_BOX_NO
+		<if test="DI_EXECUTION != null and DI_EXECUTION != ''">
+			, DI_EXECUTION
+		</if>
+		<if test="DI_INSUPRICE != null and DI_INSUPRICE != ''">
+			, DI_INSUPRICE
+		</if>
+		, DI_START_DATE, DI_END_DATE
+		<if test="REMARKS != null and REMARKS != ''">
+			, REMARKS
+		</if>
+			,INPT_ID
+			,INPT_IP
+			,INPT_DTTM
+			,CHGE_ID
+			,CHGE_IP
+			,CHGE_DTTM	
+		)
+	VALUES
+		(#{CONTRACT_NO}, #{PI_BOND_NO}, #{PI_CALL_BOX_NO}
+		<if test="PI_EXECUTION != null and PI_EXECUTION != ''">
+			, #{PI_EXECUTION}
+		</if>
+		<if test="PI_INSUPRICE != null and PI_INSUPRICE != ''">
+			, #{PI_INSUPRICE}
+		</if>
+		, #{PI_START_DATE}, #{PI_END_DATE}, #{CI_BOND_NO}, #{CI_CALL_BOX_NO}
+		<if test="CI_EXECUTION != null and CI_EXECUTION != ''">
+			, #{CI_EXECUTION}
+		</if>
+		<if test="CI_INSUPRICE != null and CI_INSUPRICE != ''">
+			, #{CI_INSUPRICE}
+		</if>
+		, #{CI_START_DATE}, #{CI_END_DATE}, #{DI_BOND_NO}, #{DI_CALL_BOX_NO}
+		<if test="DI_EXECUTION != null and DI_EXECUTION != ''">
+			, #{DI_EXECUTION}
+		</if>
+		<if test="DI_INSUPRICE != null and DI_INSUPRICE != ''">
+			, #{DI_INSUPRICE}
+		</if>
+		, #{DI_START_DATE}, #{DI_END_DATE}
+		<if test="REMARKS != null and REMARKS != ''">
+			, #{REMARKS}
+		</if>
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()
+			,#{EMP_NO_SRV}
+			,#{USER_CON_IPADDR_SRV}
+			,NOW()		
+	)	
+	ON 
+	DUPLICATE KEY	
+	UPDATE -- SALES_CONTRACT_GUARANTEE_INSURANCE
+	-- SET    
 	    PI_BOND_NO = #{PI_BOND_NO}, 
 	    PI_CALL_BOX_NO = #{PI_CALL_BOX_NO},
 	    
@@ -3837,13 +3905,10 @@ ORDER BY PB.PB_SEQ DESC;
 		 CHGE_ID = #{EMP_NO_SRV}
 		, CHGE_IP = #{USER_CON_IPADDR_SRV}
 		, CHGE_DTTM = NOW()
-	WHERE 
-	    CONTRACT_NO = #{CONTRACT_NO};
+	-- WHERE 
+	    -- CONTRACT_NO = #{CONTRACT_NO};
 </update>
 
-<select id="selectSP_Expend_S01" parameterType="java.util.List" resultType="java.util.Map">
-	-- selectSP_Expend_S01
-</select>
 
 <select id="selectSP_RequestContract_S01" parameterType="java.util.List" resultType="java.util.Map">
 	-- selectSP_RequestContract_S01
@@ -5232,32 +5297,32 @@ VALUES
 <select id="selectSP_ProjectTS_S01" parameterType="java.util.Map" resultType="java.util.Map">
 	-- selectSP_ProjectTS_S01
 	SELECT 
-		TS.TS_SEQ AS `거래명세서 일련번호`, 
-		TS.PROJECT_CODE AS `프로젝트코드`, 
-		PR.PROJECT_NAME AS `프로젝트명`, 
-		TS.CONTRACT_MAIN AS `거래처코드`, 
-		TS.MA_FLAG AS `계약구분`, 
-		CM2.COMPANY_NAME AS CONTRACT_MAIN_NAME AS `거래처명`, 
-		DATE_FORMAT(TS.SUPPLY_MONTH, '%Y%m%d') AS `공급일자`, 
-		TS.TS_NO AS `거래명세서번호`, 
-		TS.CONTRACT_NAME AS `계약명`, 
-		TS.SIGN_KIND AS `직인코드`, 
-		TS.REMARKS AS `비고`, 
-		TS.DET_REMARKS AS `상세비고`, 
-		TS.CA_SEQ AS `계약처담당자`, 
-		CA.EMP_NAME AS CA_NAME AS `계약처담당자명`, 
-		CM3.COMPANY_NAME AS CA_COMPANY_NAME AS `계약처담당자 회사명`, 
-		CA.EMAIL AS CA_EMAIL AS `계약처담당자 이메일`, 
-		CA.O_PHONE_NO AS `계약처담당자 연락처`, 
-		CA.GRADE_CODE AS `계약처담당자 직책`, 
-		TS.INSERT_EMP_NO AS `작성자`, 
-		VED.EMP_NM AS INSERT_EMP_NAME AS `작성자명`, 
-		TS.INSERT_DEPT_CD AS `작성자부서`, 
-		DEPT.DEPT_KORN_NM AS INSERT_DEPT_NAME AS `작성자부서명`, 
-		VED.WKPL_TELP_NUMB AS `작성자 내선번호`, 
-		VED.WKGD_CD AS INSERT_GRADE_CODE AS `작성자 직급`, 
-		PR.CLIENT_CODE AS `고객사코드`, 
-		CM.COMPANY_NAME AS CLIENT_NAME AS `고객사명` 
+		TS.TS_SEQ, -- AS `거래명세서 일련번호`, 
+		TS.PROJECT_CODE, -- AS `프로젝트코드`, 
+		PR.PROJECT_NAME, -- AS `프로젝트명`, 
+		TS.CONTRACT_MAIN, -- AS `거래처코드`, 
+		TS.MA_FLAG, -- AS `계약구분`, 
+		CM2.COMPANY_NAME AS CONTRACT_MAIN_NAME, -- AS `거래처명`, 
+		DATE_FORMAT(TS.SUPPLY_MONTH, '%Y%m%d') AS SUPPLY_MONTH, -- AS `공급일자`, 
+		TS.TS_NO, -- AS `거래명세서번호`, 
+		TS.CONTRACT_NAME, -- AS `계약명`, 
+		TS.SIGN_KIND, -- AS `직인코드`, 
+		TS.REMARKS, -- AS `비고`, 
+		TS.DET_REMARKS, -- AS `상세비고`, 
+		TS.CA_SEQ, -- AS `계약처담당자`, 
+		CA.EMP_NAME AS CA_NAME, -- AS `계약처담당자명`, 
+		CM3.COMPANY_NAME AS CA_COMPANY_NAME, -- AS `계약처담당자 회사명`, 
+		CA.EMAIL AS CA_EMAIL, -- AS `계약처담당자 이메일`, 
+		CA.O_PHONE_NO, -- AS `계약처담당자 연락처`, 
+		CA.GRADE_CODE, -- AS `계약처담당자 직책`, 
+		TS.INPT_ID AS INSERT_EMP_NO, -- AS `작성자`, 
+		VED.EMP_NM AS INSERT_EMP_NAME, -- AS `작성자명`, 
+		DEPT.DEPT_CD AS INSERT_DEPT_CD, -- AS `작성자부서`, 
+		DEPT.DEPT_KORN_NM AS INSERT_DEPT_NAME, -- AS `작성자부서명`, 
+		VED.WKPL_TELP_NUMB, -- AS `작성자 내선번호`, 
+		VED.WKGD_CD AS INSERT_GRADE_CODE, -- AS `작성자 직급`, 
+		PR.CLIENT_CODE, -- AS `고객사코드`, 
+		CM.COMPANY_NAME -- AS CLIENT_NAME AS `고객사명` 
 	FROM 
 		SALES_TRADING_STATEMENT TS
 		LEFT JOIN SALES_TS_CONTRACT_LIST TCL ON TCL.TS_SEQ = TS.TS_SEQ
@@ -5267,7 +5332,7 @@ VALUES
 		LEFT JOIN SALES_COMPANY_LIST CM2 ON CM2.COMPANY_CODE = TS.CONTRACT_MAIN
 		LEFT JOIN SALES_COMPANY_LIST CM3 ON CM3.COMPANY_CODE = CA.COMPANY_CODE
 		LEFT JOIN T_SYTM_USER VED ON TS.INPT_ID = VED.EMP_NO
-		LEFT JOIN T_SYTM_DEPT VED ON VED.DEPT_CD = DEPT.DEPT_CD
+		LEFT JOIN T_SYTM_DEPT DEPT ON VED.DEPT_CD = DEPT.DEPT_CD
 	WHERE 
 		TS.PROJECT_CODE = #{PROJECT_CODE} 
 		AND TS.CONTRACT_MAIN = #{CONTRACT_MAIN}
@@ -5404,7 +5469,7 @@ VALUES
 <select id="selectSSP_ProjectTS_S04_1" parameterType="java.util.Map" resultType="_int">
 	-- 	selectSSP_ProjectTS_S04_1
         SELECT COUNT(*)
-        FROM TRADING_STATEMENT TS
+        FROM SALES_TRADING_STATEMENT TS
         WHERE 1=1
         AND DATE_FORMAT(TS.SUPPLY_MONTH, '%Y%m%d') = #{SUPPLY_MONTH}	
 </select>  
@@ -7040,7 +7105,8 @@ VALUES
 		CDC.CLIENT_EMP_NAME,
 		CDC.DELIVERY_DATE_FLAG,
 		P.PROJECT_NAME AS ORG_PROJECT_NAME,
-		COALESCE(CDC.CLIENT_NAME_RENAME, COM.COMPANY_NAME) AS CLIENT_NAME_RENAME,  -- ISNULL을 COALESCE로 변경
+		COALESCE(CDC.CLIENT_NAME_RENAME, COM.COMPANY_NAME) AS CLIENT_NAME_RENAME, 
+		COM2.COMPANY_NAME,
 		CDC.SERVER_SPEC
 	FROM 
 		SALES_CONTRACT_DELIVERY_CONFIRM CDC
@@ -7048,6 +7114,10 @@ VALUES
 		SALES_PROJECT_LIST P ON CDC.PROJECT_CODE = P.PROJECT_CODE
 	LEFT JOIN 
 		SALES_COMPANY_LIST COM ON COM.COMPANY_CODE = P.CLIENT_CODE
+	LEFT JOIN 
+		T_SYTM_USER US ON US.EMP_NO = CDC.EMP_NO
+	LEFT JOIN 
+		SALES_COMPANY_LIST COM2 ON COM2.COMPANY_CODE = US.COMPANY_CD
 	WHERE 
 		CDC.PROJECT_CODE = #{PROJECT_CODE};
 </select>
@@ -7157,23 +7227,23 @@ VALUES
 	-- selectSP_DeliveryConfirm_S01_4	
 	SELECT 
 		VED.EMP_NO,
-		VED.EMP_NAME,
+		VED.EMP_NM AS EMP_NAME,
 		VED.DEPT_CD,
-		VED.DEPT_NAME,
-		VED.HP_TEL_NO,
+		DEPT.DEPT_KORN_NM AS DEPT_NAME,
+		VED.CELL_NUMB AS HP_TEL_NO,
 		CD2.SSC_CD_KORN_NM AS DUTY_NAME
 	FROM 
 		T_SYTM_USER VED
 	LEFT JOIN 
-		T_SYTM_CODE CD2
-	ON 
-		VED.WKGD_CD = CD2.SSC_CD AND CD2.HCL_CD = 'SM05'
+		T_SYTM_CODE CD2 ON VED.WKGD_CD = CD2.SSC_CD AND CD2.HCL_CD = 'SM05'
+	LEFT JOIN 
+		T_SYTM_DEPT DEPT ON VED.DEPT_CD = DEPT.DEPT_CD
 	WHERE 
 		EMP_NO = #{SALES_EMP_NO};
 </select>
 
 <select id="selectSP_DeliveryConfirm_S02" parameterType="java.util.Map" resultType="java.util.Map">
-	-- selectSP_DeliveryConfirm_S01_4	
+	-- selectSP_DeliveryConfirm_S02	
 	SELECT 
 		CDCD.CDCD_SEQ,
 		CDCD.CDC_DOC_ID,
@@ -7191,7 +7261,7 @@ VALUES
 		CDCD.ORD,
 		CDCD.REMARKS
 	FROM 
-		SALES_CONTRACT_DELIVERY_CONFIRM_DET CDCD
+		SALES_CONTRACT_DELIVERY_CONFIRM_DETAIL CDCD
 	LEFT JOIN 
 		SALES_PRODUCT_LIST PL
 	ON 
@@ -7307,7 +7377,7 @@ VALUES
 	WHERE CDC_DOC_ID = #{CDC_DOC_ID};
 </delete>
 
-<insert id="insertSP_DeliveryConfirm_R01_1" parameterType="java.util.Map">
+<insert id="insertSP_DeliveryConfirm_R01_2" parameterType="java.util.Map">
 	-- insertSP_DeliveryConfirm_R01_1
 	INSERT INTO SALES_CONTRACT_DELIVERY_CONFIRM_DETAIL
 	( 
@@ -7330,7 +7400,7 @@ VALUES
 	(
 		<choose>
 			<when test=' CDC_DOC_ID != null and CDC_DOC_ID != "" '>
-				 #{CDC_DOC_ID},
+				 #{CDC_DOC_ID}
 			</when>
 			<otherwise>
 				#{NEW_CDC_DOC_ID}
@@ -7770,5 +7840,78 @@ VALUES
 			 RTS.RTS_SEQ;
 	
 </select>
+
+<select id="selectSP_Expend_S01" parameterType="java.util.Map" resultType="java.util.Map">
+	-- selectSP_Expend_S01
+	SELECT EXP.PROJECT_CODE,
+	 EXP.EMP_NO,
+	 US.EMP_NM AS EMP_NAME,
+	 EXP.AUTH_DT,
+	 EXP.SUMMARY_NM,
+	 EXP.COST,
+	 EXP.VAT,
+	 EXP.AMT
+	FROM SALES_PROJECT_EXPEND EXP
+	INNER JOIN T_SYTM_USER US ON EXP.EMP_NO = US.EMP_NO
+	WHERE 	EXP.PROJECT_CODE = #{PROJECT_CODE}
+</select>
+
+<insert id="insertSP_Expend_R01" parameterType="java.util.Map">
+	-- insertSP_Expend_S01
+	INSERT INTO SALES_PROJECT_EXPEND
+	(
+	 PROJECT_CODE,
+	 EXPNUMB,
+	 EMP_NO,
+	 AUTH_DT,
+	 SUMMARY_NM,
+	 COST,
+	 VAT,
+	 AMT,
+	 INPT_ID,
+	 INPT_IP,
+	 INPT_DTTM,
+	 CHGE_ID,
+	 CHGE_IP,
+	 CHGE_DTTM
+	 )
+	VALUES(
+	 #{PROJECT_CODE},
+	 (SELECT CNT FROM(SELECT LPAD((IFNULL(MAX(EXPNUMB),0) + 1), 8, '0') AS CNT FROM SALES_PROJECT_EXPEND WHERE PROJECT_CODE=#{PROJECT_CODE}) T),
+	 #{EMP_NO},
+	 #{AUTH_DT},
+	 #{SUMMARY_NM},
+	 #{COST},
+	 #{VAT},
+	 #{AMT}
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()
+	    ,#{EMP_NO_SRV}
+	    ,#{USER_CON_IPADDR_SRV}
+	    ,NOW()	
+	 );	
+</insert>
+
+<update id="updateSP_Expend_R01" parameterType="java.util.Map">
+	-- updateSP_Expend_S01
+	UPDATE SALES_PROJECT_EXPEND
+	SET SUMMARY_NM=#{SUMMARY_NM}
+	 ,EMP_NO=#{EMP_NO}
+	 ,AUTH_DT=#{AUTH_DT}
+	 ,COST=#{COST}
+	 ,VAT=#{VAT}
+	 ,AMT=#{AMT}
+	, CHGE_ID = #{EMP_NO_SRV}
+	, CHGE_IP = #{USER_CON_IPADDR_SRV}
+	, CHGE_DTTM = NOW()
+	WHERE PROJECT_CODE=#{PROJECT_CODE} AND EXPNUMB=#{EXPNUMB};	
+</update>
+
+<delete id="deleteSP_Expend_R01" parameterType="java.util.Map">
+	-- deleteSP_Expend_S01
+	DELETE FROM SALES_PROJECT_EXPEND
+	WHERE PROJECT_CODE=#{PROJECT_CODE} AND EXPNUMB=#{EXPNUMB};	
+</delete>
 
 </mapper>
