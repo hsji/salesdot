@@ -638,4 +638,103 @@ public class projectController {
 		NexacroResult result = new NexacroResult();
 		return result;
 	}  	     
+    
+	/**
+	 * 거래명세서 복사
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_PurchaseBill_R01.do")
+	public NexacroResult SP_DeliveryConfirm_R01(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, @ParamDataSet(name = "dsInput1", required = false) List<Map<String,Object>> dsInput1
+										, @ParamDataSet(name = "dsInput2", required = false) List<Map<String,Object>> dsInput2
+										, @ParamDataSet(name = "dsInput3", required = false) List<Map<String,Object>> dsInput3
+										, @ParamDataSet(name = "dsInput4", required = false) List<Map<String,Object>> dsInput4
+										, @ParamDataSet(name = "dsInput5", required = false) List<Map<String,Object>> dsInput5
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		
+		Map<String,Object> datasetMap = new HashMap<>();
+		
+		datasetMap.put("dsBill", 	dsInput1);
+		datasetMap.put("dsDistinctPpy", 		dsInput2);
+		datasetMap.put("dsDeleted", 				dsInput3);
+		datasetMap.put("dsBillProductDet", 			dsInput4);
+		datasetMap.put("dsBillSiDet", 			dsInput5);
+		
+		ProjectService.SP_PurchaseBill_R01(searchMap, datasetMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	        
+    
+	/**
+	 * 거래명세서 복사
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_PurchaseBill_R02.do")
+	public NexacroResult SP_PurchaseBill_R02(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, @ParamDataSet(name = "dsInput1", required = false) List<Map<String,Object>> dsInput1
+										, @ParamDataSet(name = "dsInput2", required = false) List<Map<String,Object>> dsInput2
+										, @ParamDataSet(name = "dsInput3", required = false) List<Map<String,Object>> dsInput3
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		
+		Map<String,Object> datasetMap = new HashMap<>();
+		
+		datasetMap.put("dsBill", 	dsInput1);
+		datasetMap.put("dsDistinctPpy", 		dsInput2);
+		datasetMap.put("dsDeleted", 				dsInput3);
+		
+		ProjectService.SP_PurchaseBill_R02(searchMap, datasetMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	      
+    
+	/**
+	 * 거래명세서 복사
+	 * @param saveMap		: 저장할 Dataset
+	 * @return result		: 데이터 셋
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+    @RequestMapping(value = "/SP_PurchaseBill_R03.do")
+	public NexacroResult SP_PurchaseBill_R03(@ParamDataSet(name = "dsCond", required = false) Map<String,Object> searchMap 
+										, HttpServletRequest request) throws NexacroException, IOException, Exception, ParseException{
+    	
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = NexaUtil.getDevUserInfo();
+			if(userInfo == null) {
+				throw new NexacroException("NO USER", -1, "nouser");
+			}
+		}
+		
+		Map<String,Object> datasetMap = new HashMap<>();
+		
+		ProjectService.SP_PurchaseBill_R03(searchMap, userInfo);
+    	
+		NexacroResult result = new NexacroResult();
+		return result;
+	}  	            
  }

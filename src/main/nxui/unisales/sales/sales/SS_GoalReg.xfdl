@@ -14,13 +14,18 @@
             </Layout>
           </Layouts>
         </Div>
-        <Static id="stc_Product" taborder="2" text="유지보수" visible="true" cssclass="sta_POP_GroupTit" top="59" left="0.00" height="30" width="12%" TL_SEQ="62"/>
-        <Grid id="grd_goal1" taborder="1" left="0" top="stc_Product:5" autofittype="col" bottom="8" binddataset="ds_Product" cellmovingtype="col" cellsizingtype="col" autoenter="select" width="12%" readonly="true" uFunction="!sort">
+        <Grid id="grd_goal" taborder="1" left="0" top="div_Project_Management:10" autofittype="col" bottom="0" binddataset="ds_Product" cellmovingtype="col" cellsizingtype="col" autoenter="select" readonly="true" uFunction="!sort" right="20">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="40"/>
-                <Column size="98"/>
+                <Column size="67"/>
+                <Column size="141"/>
+                <Column size="141"/>
+                <Column size="141"/>
+                <Column size="141"/>
+                <Column size="141"/>
+                <Column size="141"/>
+                <Column size="141"/>
               </Columns>
               <Rows>
                 <Row size="32" band="head"/>
@@ -33,303 +38,65 @@
               </Rows>
               <Band id="head">
                 <Cell text="월" TL_SEQ="403"/>
-                <Cell col="1" text="금액" TL_SEQ="97"/>
+                <Cell col="1" text="제품 금액" TL_SEQ="97"/>
+                <Cell col="2" text="용역 금액" TL_SEQ="97"/>
+                <Cell col="3" text="상품 금액" TL_SEQ="97"/>
+                <Cell col="4" text="유지보수 금액" TL_SEQ="97"/>
+                <Cell col="5" text="기술서비스 금액" TL_SEQ="97"/>
+                <Cell col="6" text="공사 금액" TL_SEQ="97"/>
+                <Cell col="7" text="기타 금액" TL_SEQ="97"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:MONTH" background="#f2f6fc"/>
-                <Cell col="1" text="bind:SM_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="1" text="bind:PD_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="2" text="bind:ZS_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="3" text="bind:GD_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="4" text="bind:SM_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="5" text="bind:ZT_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="6" text="bind:IN_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
+                <Cell col="7" text="bind:ET_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
               </Band>
               <Band id="summary">
                 <Cell text="1Q" TL_SEQ="2049" textAlign="center"/>
-                <Cell col="1" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;SM_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell col="1" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;PD_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell col="2" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;ZS_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell col="3" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;GD_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell col="4" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;SM_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell col="5" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;ZT_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell col="6" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;IN_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell col="7" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;ET_GOAL&quot;)" displaytype="number" textAlign="right"/>
                 <Cell row="1" text="2Q" TL_SEQ="2050" textAlign="center"/>
-                <Cell row="1" col="1" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;SM_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="1" col="1" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;PD_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="1" col="2" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;ZS_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="1" col="3" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;GD_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="1" col="4" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;SM_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="1" col="5" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;ZT_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="1" col="6" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;IN_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="1" col="7" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;ET_GOAL&quot;)" displaytype="number" textAlign="right"/>
                 <Cell row="2" text="3Q" TL_SEQ="2051" textAlign="center"/>
-                <Cell row="2" col="1" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;SM_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="2" col="1" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;PD_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="2" col="2" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;ZS_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="2" col="3" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;GD_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="2" col="4" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;SM_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="2" col="5" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;ZT_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="2" col="6" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;IN_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="2" col="7" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;ET_GOAL&quot;)" displaytype="number" textAlign="right"/>
                 <Cell row="3" text="4Q" TL_SEQ="2052" textAlign="center"/>
-                <Cell row="3" col="1" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;SM_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="3" col="1" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;PD_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="3" col="2" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;ZS_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="3" col="3" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;GD_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="3" col="4" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;SM_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="3" col="5" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;ZT_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="3" col="6" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;IN_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="3" col="7" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;ET_GOAL&quot;)" displaytype="number" textAlign="right"/>
                 <Cell row="4" text="합계" TL_SEQ="437" textAlign="center"/>
-                <Cell row="4" col="1" text="expr:dataset.getSum(&quot;SM_GOAL&quot;)" displaytype="number" textAlign="right"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Static id="stc_SI" taborder="4" text="SI" visible="true" cssclass="sta_POP_GroupTit" top="59" left="stc_Product:5" height="30" width="12%" TL_SEQ="17"/>
-        <Grid id="grd_goal2" taborder="3" left="grd_goal1:5" top="stc_Product:5" autofittype="col" bottom="8" binddataset="ds_Product" cellmovingtype="col" cellsizingtype="col" autoenter="select" width="12%" readonly="true" uFunction="!sort">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="40"/>
-                <Column size="98"/>
-              </Columns>
-              <Rows>
-                <Row size="32" band="head"/>
-                <Row size="30"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="월" TL_SEQ="403"/>
-                <Cell col="1" text="금액" TL_SEQ="97"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:MONTH" background="#f2f6fc"/>
-                <Cell col="1" text="bind:SI_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
-              </Band>
-              <Band id="summary">
-                <Cell text="1Q" TL_SEQ="2049" textAlign="center"/>
-                <Cell col="1" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;SI_GOAL&quot;)" displaytype="number" textAlign="right"/>
-                <Cell row="1" text="2Q" TL_SEQ="2050" textAlign="center"/>
-                <Cell row="1" col="1" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;SI_GOAL&quot;)" displaytype="number" textAlign="right"/>
-                <Cell row="2" text="3Q" TL_SEQ="2051" textAlign="center"/>
-                <Cell row="2" col="1" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;SI_GOAL&quot;)" displaytype="number" textAlign="right"/>
-                <Cell row="3" text="4Q" TL_SEQ="2052" textAlign="center"/>
-                <Cell row="3" col="1" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;SI_GOAL&quot;)" displaytype="number" textAlign="right"/>
-                <Cell row="4" text="합계" TL_SEQ="437" textAlign="center"/>
-                <Cell row="4" col="1" text="expr:dataset.getSum(&quot;SI_GOAL&quot;)" displaytype="number" textAlign="right"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Static id="stc_Consulting" taborder="12" text="상품" visible="true" cssclass="sta_POP_GroupTit" top="59" left="stc_SI:5" height="30" width="12%" TL_SEQ="407"/>
-        <Grid id="grd_goal3" taborder="11" left="grd_goal2:5" top="94" autofittype="col" bottom="8" binddataset="ds_Product" cellmovingtype="col" cellsizingtype="col" autoenter="select" width="12%" readonly="true" uFunction="!sort">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="40"/>
-                <Column size="98"/>
-              </Columns>
-              <Rows>
-                <Row size="32" band="head"/>
-                <Row size="30"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="월" TL_SEQ="403"/>
-                <Cell col="1" text="금액" TL_SEQ="97"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:MONTH" background="#f2f6fc"/>
-                <Cell col="1" text="bind:GD_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
-              </Band>
-              <Band id="summary">
-                <Cell text="1Q" TL_SEQ="2049" textAlign="center"/>
-                <Cell col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;GD_GOAL&quot;)" textAlign="right"/>
-                <Cell row="1" text="2Q" TL_SEQ="2050" textAlign="center"/>
-                <Cell row="1" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;GD_GOAL&quot;)" textAlign="right"/>
-                <Cell row="2" text="3Q" TL_SEQ="2051" textAlign="center"/>
-                <Cell row="2" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;GD_GOAL&quot;)" textAlign="right"/>
-                <Cell row="3" text="4Q" TL_SEQ="2052" textAlign="center"/>
-                <Cell row="3" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;GD_GOAL&quot;)" textAlign="right"/>
-                <Cell row="4" text="합계" TL_SEQ="437" textAlign="center"/>
-                <Cell row="4" col="1" displaytype="number" text="expr:dataset.getSum(&quot;CS_GOAL&quot;)" textAlign="right"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Static id="stc_MainTenance" taborder="6" text="공사설치" visible="true" cssclass="sta_POP_GroupTit" top="59" left="stc_Consulting:5" height="30" width="12%" TL_SEQ="46"/>
-        <Grid id="grd_goal4" taborder="5" left="grd_goal3:5" top="94" autofittype="col" bottom="8" binddataset="ds_Product" cellmovingtype="col" cellsizingtype="col" autoenter="select" width="12%" readonly="true" uFunction="!sort">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="40"/>
-                <Column size="98"/>
-              </Columns>
-              <Rows>
-                <Row size="32" band="head"/>
-                <Row size="30"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="월" TL_SEQ="403"/>
-                <Cell col="1" text="금액" TL_SEQ="97"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:MONTH" background="#f2f6fc"/>
-                <Cell col="1" text="bind:IN_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
-              </Band>
-              <Band id="summary">
-                <Cell text="1Q" TL_SEQ="2049" textAlign="center"/>
-                <Cell col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;IN_GOAL&quot;)" textAlign="right"/>
-                <Cell row="1" text="2Q" TL_SEQ="2050" textAlign="center"/>
-                <Cell row="1" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;IN_GOAL&quot;)" textAlign="right"/>
-                <Cell row="2" text="3Q" TL_SEQ="2051" textAlign="center"/>
-                <Cell row="2" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;IN_GOAL&quot;)" textAlign="right"/>
-                <Cell row="3" text="4Q" TL_SEQ="2052" textAlign="center"/>
-                <Cell row="3" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;IN_GOAL&quot;)" textAlign="right"/>
-                <Cell row="4" text="합계" TL_SEQ="437" textAlign="center"/>
-                <Cell row="4" col="1" displaytype="number" text="expr:dataset.getSum(&quot;MA_GOAL&quot;)" textAlign="right"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Static id="stc_Goods" taborder="8" text="솔루션" visible="true" cssclass="sta_POP_GroupTit" top="59" left="stc_MainTenance:5" height="30" width="12%" TL_SEQ="405"/>
-        <Grid id="grd_goal5" taborder="7" left="grd_goal4:5" top="94" autofittype="col" bottom="8" binddataset="ds_Product" cellmovingtype="col" cellsizingtype="col" autoenter="select" width="12%" readonly="true" uFunction="!sort">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="40"/>
-                <Column size="98"/>
-              </Columns>
-              <Rows>
-                <Row size="32" band="head"/>
-                <Row size="30"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="월" TL_SEQ="403"/>
-                <Cell col="1" text="금액" TL_SEQ="97"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:MONTH" background="#f2f6fc"/>
-                <Cell col="1" text="bind:SO_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
-              </Band>
-              <Band id="summary">
-                <Cell text="1Q" TL_SEQ="2049" textAlign="center"/>
-                <Cell col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;SO_GOAL&quot;)" textAlign="right"/>
-                <Cell row="1" text="2Q" TL_SEQ="2050" textAlign="center"/>
-                <Cell row="1" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;SO_GOAL&quot;)" textAlign="right"/>
-                <Cell row="2" text="3Q" TL_SEQ="2051" textAlign="center"/>
-                <Cell row="2" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;SO_GOAL&quot;)" textAlign="right"/>
-                <Cell row="3" text="4Q" TL_SEQ="2052" textAlign="center"/>
-                <Cell row="3" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;SO_GOAL&quot;)" textAlign="right"/>
-                <Cell row="4" text="합계" TL_SEQ="437" textAlign="center"/>
-                <Cell row="4" col="1" displaytype="number" text="expr:dataset.getSum(&quot;GOODS_GOAL&quot;)" textAlign="right"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Static id="stc_Etc" taborder="10" text="ITO" visible="true" cssclass="sta_POP_GroupTit" top="59" left="stc_Goods:5" height="30" width="12%" TL_SEQ="406"/>
-        <Grid id="grd_goal6" taborder="9" left="grd_goal5:5" top="94" autofittype="col" bottom="8" binddataset="ds_Product" cellmovingtype="col" cellsizingtype="col" autoenter="select" readonly="true" width="12%" uFunction="!sort">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="40"/>
-                <Column size="98"/>
-              </Columns>
-              <Rows>
-                <Row size="32" band="head"/>
-                <Row size="30"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="월" TL_SEQ="403"/>
-                <Cell col="1" text="금액" TL_SEQ="97"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:MONTH" background="#f2f6fc"/>
-                <Cell col="1" text="bind:IT_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
-              </Band>
-              <Band id="summary">
-                <Cell text="1Q" TL_SEQ="2049" textAlign="center"/>
-                <Cell col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;IT_GOAL&quot;)" textAlign="right"/>
-                <Cell row="1" text="2Q" TL_SEQ="2050" textAlign="center"/>
-                <Cell row="1" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;IT_GOAL&quot;)" textAlign="right"/>
-                <Cell row="2" text="3Q" TL_SEQ="2051" textAlign="center"/>
-                <Cell row="2" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;IT_GOAL&quot;)" textAlign="right"/>
-                <Cell row="3" text="4Q" TL_SEQ="2052" textAlign="center"/>
-                <Cell row="3" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;IT_GOAL&quot;)" textAlign="right"/>
-                <Cell row="4" text="합계" TL_SEQ="437" textAlign="center"/>
-                <Cell row="4" col="1" displaytype="number" text="expr:dataset.getSum(&quot;ETC_GOAL&quot;)" textAlign="right"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Static id="stc_Etc00" taborder="13" text="렌틸/리스" visible="true" cssclass="sta_POP_GroupTit" top="59" left="stc_Etc:5" height="30" width="12%" TL_SEQ="406"/>
-        <Grid id="grd_goal7" taborder="14" left="grd_goal6:5" top="94" autofittype="col" bottom="8" binddataset="ds_Product" cellmovingtype="col" cellsizingtype="col" autoenter="select" readonly="true" width="12%" uFunction="!sort">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="40"/>
-                <Column size="98"/>
-              </Columns>
-              <Rows>
-                <Row size="32" band="head"/>
-                <Row size="30"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="월" TL_SEQ="403"/>
-                <Cell col="1" text="금액" TL_SEQ="97"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:MONTH" background="#f2f6fc"/>
-                <Cell col="1" text="bind:RE_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
-              </Band>
-              <Band id="summary">
-                <Cell text="1Q" TL_SEQ="2049" textAlign="center"/>
-                <Cell col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;RE_GOAL&quot;)" textAlign="right"/>
-                <Cell row="1" text="2Q" TL_SEQ="2050" textAlign="center"/>
-                <Cell row="1" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;RE_GOAL&quot;)" textAlign="right"/>
-                <Cell row="2" text="3Q" TL_SEQ="2051" textAlign="center"/>
-                <Cell row="2" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;RE_GOAL&quot;)" textAlign="right"/>
-                <Cell row="3" text="4Q" TL_SEQ="2052" textAlign="center"/>
-                <Cell row="3" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;RE_GOAL&quot;)" textAlign="right"/>
-                <Cell row="4" text="합계" TL_SEQ="437" textAlign="center"/>
-                <Cell row="4" col="1" displaytype="number" text="expr:dataset.getSum(&quot;ETC_GOAL&quot;)" textAlign="right"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Static id="stc_Etc00_00" taborder="15" text="기타" visible="true" cssclass="sta_POP_GroupTit" top="59" left="stc_Etc00:5" height="30" TL_SEQ="406" right="20"/>
-        <Grid id="grd_goal8" taborder="16" left="grd_goal7:5" top="94" autofittype="col" bottom="8" binddataset="ds_Product" cellmovingtype="col" cellsizingtype="col" autoenter="select" readonly="true" right="20" uFunction="!sort">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="40"/>
-                <Column size="98"/>
-              </Columns>
-              <Rows>
-                <Row size="32" band="head"/>
-                <Row size="30"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-                <Row size="30" band="summ"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="월" TL_SEQ="403"/>
-                <Cell col="1" text="금액" TL_SEQ="97"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:MONTH" background="#f2f6fc"/>
-                <Cell col="1" text="bind:ET_GOAL" edittype="expr:dataset.parent.fnEditType(YEAR,MONTH)" displaytype="mask" textAlign="right" maskeditformat="#,#0"/>
-              </Band>
-              <Band id="summary">
-                <Cell text="1Q" TL_SEQ="2049" textAlign="center"/>
-                <Cell col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;1분기&quot;, &quot;ET_GOAL&quot;)" textAlign="right"/>
-                <Cell row="1" text="2Q" TL_SEQ="2050" textAlign="center"/>
-                <Cell row="1" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;2분기&quot;, &quot;ET_GOAL&quot;)" textAlign="right"/>
-                <Cell row="2" text="3Q" TL_SEQ="2051" textAlign="center"/>
-                <Cell row="2" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;3분기&quot;, &quot;ET_GOAL&quot;)" textAlign="right"/>
-                <Cell row="3" text="4Q" TL_SEQ="2052" textAlign="center"/>
-                <Cell row="3" col="1" displaytype="number" text="expr:dataset.parent.fn_getSum(&quot;4분기&quot;, &quot;ET_GOAL&quot;)" textAlign="right"/>
-                <Cell row="4" text="합계" TL_SEQ="437" textAlign="center"/>
-                <Cell row="4" col="1" displaytype="number" text="expr:dataset.getSum(&quot;ETC_GOAL&quot;)" textAlign="right"/>
+                <Cell row="4" col="1" text="expr:dataset.getSum(&quot;PD_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="4" col="2" text="expr:dataset.getSum(&quot;ZS_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="4" col="3" text="expr:dataset.getSum(&quot;GD_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="4" col="4" text="expr:dataset.getSum(&quot;SM_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="4" col="5" text="expr:dataset.getSum(&quot;ZT_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="4" col="6" text="expr:dataset.getSum(&quot;IN_GOAL&quot;)" displaytype="number" textAlign="right"/>
+                <Cell row="4" col="7" text="expr:dataset.getSum(&quot;ET_GOAL&quot;)" displaytype="number" textAlign="right"/>
               </Band>
             </Format>
           </Formats>
@@ -411,10 +178,9 @@ this.cfnSearch = function ()
 
 this.fnGridReadOnly = function(v)
 {
-	for(var i=1;i<=8;i++) {
-		this["grd_goal" + i].set_readonly(v);
-	}
-}
+	this.grd_goal.set_readonly(v);
+};
+
 this.fnIsMyData = function()
 {
 	if(this.gfnGetUserInfo("EMP_NO") == this.div_Project_Management.form.cmb_SalesMan.value) {
@@ -488,7 +254,7 @@ this.fnAdd = function ()
 		this.ds_Product.setColumn(nRow, "DEPT_CD", this.gfnGetUserInfo("DEPT_CD"));
 		this.ds_Product.setColumn(nRow, "MONTH", (i+'').padLeft(2,'0'));
 		this.ds_Product.setColumn(nRow, "PD_GOAL", 0);
-		this.ds_Product.setColumn(nRow, "SI_GOAL", 0);
+		this.ds_Product.setColumn(nRow, "ZS_GOAL", 0);
 		this.ds_Product.setColumn(nRow, "SM_GOAL", 0);
 		this.ds_Product.setColumn(nRow, "GD_GOAL", 0);
 		this.ds_Product.setColumn(nRow, "IN_GOAL", 0);

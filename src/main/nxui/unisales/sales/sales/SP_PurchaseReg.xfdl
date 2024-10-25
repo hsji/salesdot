@@ -134,7 +134,7 @@
         <Button id="btn_Cancel" taborder="4" text="닫기" width="60" height="28" cssclass="btn_WF_cancel" right="10" bottom="8" onclick="btn_Cancel_onclick" TL_SEQ="59"/>
         <Button id="btn_SaveClose" taborder="6" text="저장 후 닫기" width="100" height="28" cssclass="btn_WF_Crud" right="btn_Cancel:4" bottom="8" onclick="btn_SaveClose_onclick" enable="false" TL_SEQ="753"/>
         <Button id="btn_Save" taborder="0" text="저장" width="60" height="28" cssclass="btn_WF_Crud" right="btn_SaveClose:4" bottom="8" onclick="btn_Save_onclick" enable="false" TL_SEQ="115"/>
-        <Div id="div_Attachment" taborder="5" left="8" width="80" async="false" SOURCE_CD="PL" SOURCE_SEQ="CONTRACT_NO_PURCHASE_SEQ" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="false" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" BINDDATASET="dsPurchase" url="sales::comm/COM_Attachment.xfdl" bottom="8" height="24"/>
+        <Div id="div_Attachment" taborder="5" left="8.00" width="80" async="false" SOURCE_CD="PL" SOURCE_SEQ="CONTRACT_NO_PURCHASE_SEQ" USE_NEXT_FILE_TYPE="true" USE_LINK_TYPE="false" USE_MULTI_FILE="true" USE_OPEN_ADD_DIALOG="false" USE_DELETE_ALL="false" USE_BUTTON_ONLY="true" BINDDATASET="dsPurchase" url="sales::comm/COM_Attachment.xfdl" bottom="8" height="28"/>
         <Button id="btn_ProductPurchaseOrder" taborder="2" text="상품발주서" width="108" height="28" left="div_Attachment:4" bottom="8" onclick="btn_ProductPurchaseOrder_onclick" background="" TL_SEQ="754"/>
         <CheckBox id="chb_SalesDeliveryDateChangeFlag" taborder="3" text="매출 납품일자 덮어쓰기" width="156" height="22" right="btn_Save:4" bottom="11" falsevalue="0" truevalue="1" TL_SEQ="755"/>
         <Button id="btn_Delete" taborder="7" text="삭제" width="60" height="28" cssclass="btn_WF_Crud" right="chb_SalesDeliveryDateChangeFlag:4" bottom="8" onclick="btn_Delete_onclick" enable="false" TL_SEQ="117"/>
@@ -1645,7 +1645,7 @@ this.btn_ProductPurchaseOrder_onclick = function(obj:nexacro.Button, e:nexacro.C
 			ds.setColumn(row, "CONTRACT_DOC_NO", sContractDocNo);
 		}
 		
-		if(this.sContractType == "S")
+		if(this.sContractType == "ZS")
 		{	
 			//addcolumn
 			this.dsPurchaseDet.addColumn("PAY_PLAN_DATE", "STRING", "255");

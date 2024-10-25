@@ -1,0 +1,478 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SS_WeeklyReport" width="1360" height="864" titletext="주간보고" onload="SS_WeeklyReport_onload" TL_SEQ="360">
+    <Layouts>
+      <Layout height="864" mobileorientation="landscape" width="1360">
+        <Div id="div_Search" taborder="0" text="" left="0" top="0" height="50" cssclass="div_WF_Search" right="20">
+          <Layouts>
+            <Layout>
+              <Static id="stc_Year" taborder="0" text="년도" left="0" top="12" width="71" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="352"/>
+              <Button id="btn_Search" taborder="1" text="조회" cssclass="btn_WF_Search" top="10" right="25" width="48" height="28" onclick="div_Search_btn_Search_onclick" TL_SEQ="118"/>
+              <Calendar id="cal_Year" taborder="4" left="stc_Year:0.00" top="12" width="80" height="24" type="spin" dateformat="yyyy" editformat="yyyy" onspin="div_Search_cal_Year_onspin"/>
+              <Combo id="cb_Week" taborder="2" text="Combo00" left="cal_Year:8.00" top="12" width="83" height="24" innerdataset="dsWeek" codecolumn="WEEK_CODE" datacolumn="WEEK" onitemchanged="div_Search_cb_Week_onitemchanged"/>
+              <PeriodCalendar id="pCalFromTo" taborder="2" left="cb_Week:10.00" top="12" width="240" height="24" enable="false"/>
+              <Static id="stc_Year00_01" taborder="5" text="영업대표" left="pCalFromTo:0" top="12" width="91" height="24" cssclass="sta_WF_SchLabel" TL_SEQ="55"/>
+              <Combo id="cb_EmpList" taborder="3" text="Combo00" left="stc_Year00_01:0" top="12" width="226" height="24" innerdataset="dsEmpList" datacolumn="FULL_NAME" codecolumn="EMP_NO"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_Sales_Prod1" taborder="2" text="주간보고" left="0" top="div_Search:6" width="136" height="36" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="360"/>
+        <Grid id="Grid1" taborder="1" left="0" top="stc_Sales_Prod1:0" right="20" binddataset="dsOutput1" formatid="default" autofittype="col" height="19.675925925925927%">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+                <Row size="30" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell style="background:@gradation;background2:@gradation;" text="구분" TL_SEQ="68"/>
+                <Cell col="1" text="월목표" TL_SEQ="353"/>
+                <Cell col="2" text="월실적" TL_SEQ="354"/>
+                <Cell col="3" text="월 달성률" TL_SEQ="355"/>
+                <Cell col="4" text="누적 목표" TL_SEQ="356"/>
+                <Cell col="5" text="연간 목표" TL_SEQ="357"/>
+                <Cell col="6" text="현재 실적" TL_SEQ="358"/>
+                <Cell col="7" text="현재달성률" TL_SEQ="359"/>
+              </Band>
+              <Band id="body">
+                <Cell style="background:#dce6f0ff;background2:#dce6f0ff;selectbackground:#dce6f0ff;" text="bind:CONTRACT_TYPE_NAME" textAlign="left"/>
+                <Cell col="1" displaytype="mask" style="align:right;" text="bind:GOAL_PRICE_MM" textAlign="right" maskeditformat="#,##0"/>
+                <Cell col="2" displaytype="mask" style="align:right;" text="bind:MM_PRICE_MM" textAlign="right" maskeditformat="#,##0"/>
+                <Cell col="3" displaytype="mask" style="align:right;" text="bind:RATE_MM" mask="#0.##%" textAlign="right" maskeditformat="#,##0.#0"/>
+                <Cell col="4" displaytype="mask" style="align:right;" text="bind:GOAL_PRICE_A" textAlign="right" maskeditformat="#,##0"/>
+                <Cell col="5" displaytype="mask" style="align:right;" text="bind:GOAL_PRICE_YY" textAlign="right" maskeditformat="#,##0"/>
+                <Cell col="6" displaytype="mask" style="align:right;" text="bind:MM_PRICE_A" textAlign="right" maskeditformat="#,##0"/>
+                <Cell col="7" displaytype="mask" style="align:right;" text="bind:RATE_A" mask="#0.##%" textAlign="right" maskeditformat="#,##0.#0"/>
+              </Band>
+              <Band id="summary">
+                <Cell text="합계" TL_SEQ="437"/>
+                <Cell col="1" displaytype="mask" style="align:right;" text="expr:dataset.getSum(&quot;GOAL_PRICE_MM&quot;)" textAlign="right" maskeditformat="#,##0"/>
+                <Cell col="2" displaytype="mask" style="align:right;" text="expr:dataset.getSum(&quot;MM_PRICE_MM&quot;)" textAlign="right" maskeditformat="#,##0"/>
+                <Cell col="3" displaytype="mask" style="align:right;" text="expr:dataset.getSum(&quot;MM_PRICE_MM&quot;)/ dataset.getSum(&quot;GOAL_PRICE_MM&quot;) *100" textAlign="right" maskeditformat="#,##0.#0"/>
+                <Cell col="4" displaytype="mask" style="align:right;" text="expr:dataset.getSum(&quot;GOAL_PRICE_A&quot;)" textAlign="right" maskeditformat="#,##0"/>
+                <Cell col="5" displaytype="mask" style="align:right;" text="expr:dataset.getSum(&quot;GOAL_PRICE_YY&quot;)" textAlign="right" maskeditformat="#,##0"/>
+                <Cell col="6" displaytype="mask" style="align:right;" text="expr:dataset.getSum(&quot;MM_PRICE_A&quot;)" textAlign="right" maskeditformat="#,##0"/>
+                <Cell col="7" displaytype="mask" style="align:right;" text="expr:dataset.getSum(&quot;MM_PRICE_A&quot;)/ dataset.getSum(&quot;GOAL_PRICE_YY&quot;) *100" textAlign="right" maskeditformat="#,##0.#0"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_Sales_Prod1_00" taborder="4" text="전주영업현황" left="0" top="Grid1:0" width="210" height="36" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="363"/>
+        <Grid id="Grid2" taborder="3" left="0" top="stc_Sales_Prod1_00:0" height="22.453703703703702%" right="20" binddataset="dsOutput2" formatid="default" autofittype="col" autosizingtype="row" extendsizetype="row">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="120"/>
+                <Column size="200"/>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="300"/>
+                <Column size="40"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="고객사" TL_SEQ="32"/>
+                <Cell col="2" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="3" text="제품" TL_SEQ="62"/>
+                <Cell col="4" text="예상금액" TL_SEQ="180"/>
+                <Cell col="5" colspan="2" text="영업현황 및 진행사항" TL_SEQ="361"/>
+                <Cell col="7" text="영업상태" TL_SEQ="84"/>
+                <Cell col="8" text="영업채널" TL_SEQ="362"/>
+                <Cell col="9" text="담당영업" TL_SEQ="37"/>
+              </Band>
+              <Band id="body" style="cellline:1 solid #b1b1b1ff ;">
+                <Cell text="expr:currow+1"/>
+                <Cell col="1" style="align:left;" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="2" style="align:left;" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:PRODUCT_NAME" textAlign="left"/>
+                <Cell col="4" displaytype="number" style="align:right;" text="bind:CONTRACT_PRICE" textAlign="right"/>
+                <Cell col="5" colspan="2" style="align:left;" text="bind:CONTENTS" wordwrap="char" tooltiptext="bind:CONTENTS" textAlign="left" autosizerow="limitmin" wordWrap="char"/>
+                <Cell col="7" text="bind:SALES_STATUS_NAME"/>
+                <Cell col="8" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="9" text="bind:EMP_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_Sales_Prod1_00_00" taborder="6" text="금주영업계획" left="0" top="Grid2:0" width="224" height="36" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="364"/>
+        <Grid id="Grid3" taborder="5" left="0" top="stc_Sales_Prod1_00_00:0" height="23.26388888888889%" right="20" binddataset="dsOutput3" formatid="default" autofittype="col" autosizingtype="row" extendsizetype="row">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="120"/>
+                <Column size="200"/>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="300"/>
+                <Column size="40"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="고객사" TL_SEQ="32"/>
+                <Cell col="2" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="3" text="제품" TL_SEQ="62"/>
+                <Cell col="4" text="예상금액" TL_SEQ="180"/>
+                <Cell col="5" colspan="2" text="영업현황 및 진행사항" TL_SEQ="361"/>
+                <Cell col="7" text="영업상태" TL_SEQ="84"/>
+                <Cell col="8" text="영업채널" TL_SEQ="362"/>
+                <Cell col="9" text="담당영업" TL_SEQ="37"/>
+              </Band>
+              <Band id="body" style="cellline:1 solid #b1b1b1ff ;">
+                <Cell text="expr:currow+1"/>
+                <Cell col="1" style="align:left;" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="2" style="align:left;" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:PRODUCT_NAME" textAlign="left"/>
+                <Cell col="4" displaytype="number" style="align:right;" text="bind:CONTRACT_PRICE" textAlign="right"/>
+                <Cell col="5" colspan="2" style="align:left;" text="bind:CONTENTS" wordwrap="char" tooltiptext="bind:CONTENTS" textAlign="left" autosizerow="limitmin" wordWrap="char"/>
+                <Cell col="7" text="bind:SALES_STATUS_NAME"/>
+                <Cell col="8" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="9" text="bind:EMP_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stc_Sales_Prod1_00_00_00" taborder="8" text="건의사항 및 요청사항" left="0" top="Grid3:0" width="340" height="36" visible="true" cssclass="sta_POP_GroupTit" TL_SEQ="365"/>
+        <Grid id="Grid4" taborder="7" left="0" top="stc_Sales_Prod1_00_00_00:0" right="8" binddataset="dsOutput4" formatid="default" autofittype="col" autosizingtype="row" extendsizetype="row" bottom="0">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="120"/>
+                <Column size="200"/>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="300"/>
+                <Column size="40"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="No"/>
+                <Cell col="1" text="고객사" TL_SEQ="32"/>
+                <Cell col="2" text="프로젝트" TL_SEQ="119"/>
+                <Cell col="3" text="제품" TL_SEQ="62"/>
+                <Cell col="4" text="예상금액" TL_SEQ="180"/>
+                <Cell col="5" colspan="2" text="영업현황 및 진행사항" TL_SEQ="361"/>
+                <Cell col="7" text="영업상태" TL_SEQ="84"/>
+                <Cell col="8" text="영업채널" TL_SEQ="362"/>
+                <Cell col="9" text="담당영업" TL_SEQ="37"/>
+              </Band>
+              <Band id="body" style="cellline:1 solid #b1b1b1ff ;">
+                <Cell text="expr:currow+1"/>
+                <Cell col="1" style="align:left;" text="bind:CLIENT_NAME" textAlign="left"/>
+                <Cell col="2" style="align:left;" text="bind:PROJECT_NAME" textAlign="left"/>
+                <Cell col="3" text="bind:PRODUCT_NAME" textAlign="left"/>
+                <Cell col="4" displaytype="number" style="align:right;" text="bind:CONTRACT_PRICE" textAlign="right"/>
+                <Cell col="5" colspan="2" style="align:left;" text="bind:CONTENTS" wordwrap="char" tooltiptext="bind:CONTENTS" textAlign="left" autosizerow="limitmin" wordWrap="char"/>
+                <Cell col="7" text="bind:SALES_STATUS_NAME"/>
+                <Cell col="8" text="bind:COMPANY_NAME" textAlign="left"/>
+                <Cell col="9" text="bind:EMP_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분 : 공통 - 공통
+* 02. 화면명   : 
+* 03. 화면설명 : 
+* 04. 작성일   : 
+* 05. 작성자   : 
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역
+************************************************************************************************/
+this.SS_WeeklyReport_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj); //헤더클릭 이벤트 없을 시 사용
+	this.fnFormInit();
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+
+//조회
+this.cfnSearch = function ()
+{
+	this.fnSearch();
+};
+
+this.fnFormInit = function()
+{	
+	var sdate ="";	
+	var toDay = this.gfnStrToDate(this.gfnToday());
+	var day = toDay.getDay();
+	
+	if (day == 1){
+		sdate = this.gfnToday();
+	}
+	else if (day == 0){		
+		sdate = this.gfnAddDate(this.gfnToday() ,6);
+	}
+	else{
+		sdate = this.gfnAddDate(this.gfnToday() ,-(day-1));
+	}
+	
+	//년도 초기화
+	var objDate = new Date();
+	var nYear = objDate.getFullYear();
+	this.div_Search.form.cal_Year.set_value(String(nYear));	
+	this.fnMakeWeek(nYear);
+	var nRow = this.dsWeek.findRow("START_DATE", sdate);
+	this.div_Search.form.cb_Week.set_index(nRow);
+	
+	this.div_Search.form.pCalFromTo.setFromDate(sdate);
+	this.div_Search.form.pCalFromTo.setToDate(this.gfnAddDate(sdate ,6));	
+	
+	this.fnGetEmpList(nYear);
+};
+
+//주간생성	
+this.fnMakeWeek = function(year){
+	this.dsWeek.clearData();
+	var firstDay = this.gfnStrToDate(year+"0101");
+	var lastDay	 = this.gfnStrToDate(year+"0101");	 
+	var i = 1;
+	this.dsWeek.enableevent = false;
+	while(i <= 53)	{	
+		if(firstDay.getDay() == 0)
+		{
+			firstDay = this.gfnAddDate(firstDay, 1);
+			lastDay = this.gfnAddDate(firstDay, 6);
+		}
+		else if (firstDay.getDay() == 1)
+		{
+			lastDay = this.gfnAddDate(firstDay, 6);
+		}
+		else{
+			var addstr = 7-firstDay.getDay();
+			lastDay =  this.gfnAddDate(firstDay, addstr);
+		}
+		
+		var nRow=  this.dsWeek.addRow();
+		var week="";
+		if(String(i).length == 1)
+		{
+			week = year +"0"+ String(i);
+		}
+		else
+		{
+			week = year + String(i);
+		}		
+		
+		if(i == 53)
+		{
+			lastDay = this.gfnStrToDate(year + "1231");		
+		}		
+		this.dsWeek.setColumn(nRow, "WEEK", this.gfnGetTransTxt(2182,"@1@주차",[i]));
+		this.dsWeek.setColumn(nRow, "WEEK_CODE", week);	
+		this.dsWeek.setColumn(nRow, "START_DATE", this.gfnGetDate("date","",firstDay));
+		this.dsWeek.setColumn(nRow, "LAST_DATE", this.gfnGetDate("date","",lastDay));
+		
+		firstDay = this.gfnAddDate(lastDay, 1); 
+		i=i+1;
+	}
+	this.dsWeek.enableevent = true;
+}
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetEmpList = function(strYear)
+{
+	// 조건값 셋팅
+	this.gfnAddSendParameter("YEAR",		strYear);
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("dsEmpList", 	"dsOutput");
+// 	this.gfnCommonTransaction("GetEmpList", "SS_WeeklyReport_S02");
+	
+	this.gfnAddSendParameter("COMPANY_CODE", this.gfnGetCompanyCode());
+	this.gfnSetMap("salesManagerMapper", "SalesmanCombo", "dsEmpList");
+	this.gfnCommonTransaction("GetEmpList", 	"selectNextList.do"/*		"CO_SalesEmp_S01"*/);	
+}
+
+this.fnSearch = function()
+{
+	// 조건값 셋팅
+	var year = this.div_Search.form.cal_Year.value.substr(0, 4) + "";
+	this.gfnAddSendParameter("YEAR",		year);
+	this.gfnAddSendParameter("MONTH",		this.div_Search.form.pCalFromTo.getFromDate().substr(4, 2));
+	this.gfnAddSendParameter("START_DATE",	this.div_Search.form.pCalFromTo.getFromDate());
+	this.gfnAddSendParameter("END_DATE",	this.div_Search.form.pCalFromTo.getToDate());	
+	this.gfnAddSendParameter("START_MONTH",	year + "01");
+	this.gfnAddSendParameter("END_MONTH",	year + "12");	
+	if(this.gfnIsEmpty(this.div_Search.form.cb_EmpList.value))
+	{
+		var strDeptCD = this.dsEmpList.getColumn(this.div_Search.form.cb_EmpList.index, "DEPT_CD");
+		this.gfnAddSendParameter("DEPT_CD",	strDeptCD);
+	}
+	else
+		this.gfnAddSendParameter("EMP_NO",	this.div_Search.form.cb_EmpList.value);
+	this.gfnAddSendParameter("UNIT",		1);
+
+	// 조회용 Output dataset 세팅
+// 	this.gfnAddOutputDataset("dsOutput1", "dsOutput1");
+// 	this.gfnAddOutputDataset("dsOutput2", "dsOutput2");
+// 	this.gfnAddOutputDataset("dsOutput3", "dsOutput3");
+// 	this.gfnAddOutputDataset("dsOutput4", "dsOutput4");
+		
+	var grdArray = new Array();	
+	grdArray[0] = this.Grid1
+	grdArray[1] = this.Grid2;
+	grdArray[2] = this.Grid3;
+	grdArray[3] = this.Grid4;
+	
+/*	this.gfnCommonTransaction("Search", "SS_WeeklyReport_S01", grdArray);
+*/	
+	var map = ['SS_WeeklyReport_S01_1','SS_WeeklyReport_S01_2','SS_WeeklyReport_S01_3','SS_WeeklyReport_S01_4','SS_WeeklyReport_S01_5'];
+	var ds = ['dsOutputDummy', 'dsOutput1','dsOutput2','dsOutput3','dsOutput4'];
+	this.gfnSetMap("salesMapper", map, ds);
+	this.gfnCommonTransaction("Select_S", "selectNextMultiList.do", grdArray);
+	
+};
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		alert("strSvcID : " + strSvcID + "\n" + "nErrorCode : " + nErrorCode + "\n" + "strErrorMsg : " + strErrorMsg);
+		return;
+	}
+	else 
+	{
+		if(strSvcID == "GetEmpList")
+		{
+			var sLoginEmpNo = this.gfnGetUserInfo("EMP_NO");
+			var nFindRow = this.dsEmpList.findRow("EMP_NO", sLoginEmpNo);
+			if (nFindRow<0) nFindRow = 0;
+			this.div_Search.form.cb_EmpList.set_index(nFindRow);
+// 			this.div_Search.form.cb_EmpList.set_value(nexacro.getApplication().gdsUserInfo.getColumn(0, "EMP_NO"));
+// 			if(this.div_Search.form.cb_EmpList.index==-1)
+// 				this.div_Search.form.cb_EmpList.set_index(0);
+		}
+		else if(strSvcID == "Search")
+		{
+		}
+	}	
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.div_Search_btn_Search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.cfnSearch();
+};
+
+this.div_Search_cb_Week_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var nRow = this.dsWeek.findRow("WEEK_CODE", e.postvalue);	
+	
+	this.div_Search.form.pCalFromTo.setFromDate(this.dsWeek.getColumn(nRow,"START_DATE"));
+	this.div_Search.form.pCalFromTo.setToDate(this.dsWeek.getColumn(nRow,"LAST_DATE"));	
+};
+
+this.div_Search_cal_Year_onspin = function(obj:nexacro.Calendar,e:nexacro.CalendarSpinEventInfo)
+{
+	var nRow = this.div_Search.form.cb_Week.index;
+	this.fnMakeWeek(e.postvalue);
+	this.div_Search.form.cb_Week.set_index(nRow);
+	this.div_Search.form.pCalFromTo.setFromDate(this.dsWeek.getColumn(nRow,"START_DATE"));
+	this.div_Search.form.pCalFromTo.setToDate(this.dsWeek.getColumn(nRow,"LAST_DATE"));
+	
+	this.fnGetEmpList(e.postvalue);
+};
+
+
+]]></Script>
+    <Objects>
+      <Dataset id="dsWeek">
+        <ColumnInfo>
+          <Column id="WEEK" type="STRING" size="256"/>
+          <Column id="WEEK_CODE" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="LAST_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput1">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput2">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput3">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsOutput4">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsEmpList"/>
+      <Dataset id="dsOutputDummy"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_Search.form.pCalFromTo.form.calFrom" propid="value" datasetid="dsCond" columnid="FROM_DT"/>
+      <BindItem id="item1" compid="div_Search.form.pCalFromTo.form.calTo" propid="value" datasetid="dsCond" columnid="TO_DT"/>
+    </Bind>
+  </Form>
+</FDL>

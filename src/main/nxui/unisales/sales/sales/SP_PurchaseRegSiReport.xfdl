@@ -1,0 +1,1199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_PurchaseRegSiReport" width="680" height="780" titletext="매입계약서 출력" cssclass="frm_popBg" onload="SP_PurchaseRegSiReport_onload">
+    <Layouts>
+      <Layout height="780" mobileorientation="landscape" width="680">
+        <UbiReport id="UbiViewer" taborder="0" top="20" right="20" bottom="60" left="20"/>
+        <Static id="Static00" taborder="2" left="0" height="38" right="0" bottom="0" cssclass="sta_POP_BtnBg"/>
+        <Button id="btn_Cancel" taborder="0" text="닫기" width="60" height="28" cssclass="btn_WF_cancel" right="18" bottom="18" onclick="btn_Cancel_onclick" TL_SEQ="59"/>
+        <Button id="btn_SaveReport" taborder="1" text="반영" width="84" height="28" cssclass="btn_WF_tran" right="82" bottom="18" onclick="btn_Save_onclick" TL_SEQ="957"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: xxx
+* 02. 화면명		: xxx
+* 03. 화면설명 		: xxx
+* 04. 작성일   	: 2018.xx.xx
+* 05. 작성자   	: xxx
+* 06. 수정이력 	:
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::ext_Report.xjs"
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.SP_PurchaseRegSiReport_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{	
+	//this.fnGetCode();
+	this.fnInitForm();
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.btn_Save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.opener.hasOwnProperty("fnSave"))
+	{
+		this.opener.fnSave("UpdateReport");
+	}
+	this.fnViewReport();
+};
+
+this.btn_Close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+
+this.btn_Cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.commUtil.popupClose();
+};
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.isUndefineCheck = function(chkVal)
+{
+	if(this.gfnIsEmpty(chkVal))
+	{
+		chkVal = "";
+	}
+	
+	chkVal = chkVal.toString();
+	
+	return chkVal;
+};
+
+this.isUndefineCheckParentheses = function(chkVal)
+{
+	if(this.gfnIsEmpty(chkVal))
+	{
+		chkVal = "";
+	}
+	
+	chkVal = chkVal.toString();
+	
+	return "("+chkVal+")";
+};
+this.fn_GetReplaceContractNm = function(sContractNm)
+{
+	if(this.gfnIsEmpty(sContractNm))
+		return "";
+		
+	var nSIdx = 0;
+    var nEIdx = 0;
+    var arrReplaceChr = new Array();
+    
+    //계약명에 대괄호(제거대상) 여부 확인 및 임시 배열에 담기
+    for (var i=0; i<sContractNm.length; i++)
+    {
+		var nChr = sContractNm.charAt(i);
+		if (nChr == "[")
+		{
+			nSIdx = i;
+		}
+		else if (nChr == "]")
+		{
+			nEIdx = i;
+			arrReplaceChr[arrReplaceChr.length] =  sContractNm.substr(nSIdx, (nEIdx-nSIdx) + 1);
+			
+			nSIdx = 0;
+			nEIdx = 0;
+		}
+    }
+    
+	//제거 대상 대괄호 치환 처리
+	for(var i=0; i<arrReplaceChr.length; i++)
+	{
+		sContractNm = sContractNm.replace(arrReplaceChr[i], "");
+	}
+    
+    return sContractNm;
+}
+
+this.fnInitForm = function()
+{	
+	this.dsPurchase = this.parent.dsPurchase;
+	this.dsPurchaseDet = this.parent.dsPurchaseDet;
+	this.dsPurchaseDet2 = this.parent.dsPurchaseDet2; //popup창에서 수정한 값.
+	this.dsPurchasePay = this.parent.dsPurchasePay;
+	
+	var ds_CD_LEVEL_CODE = this.parent.ds_CD_LEVEL_CODE;
+	
+	var bIsEarlyTermination = this.parent.bIsEarlyTermination;
+	var sContractMain 		= this.dsPurchase.getColumn(0, "CONTRACT_MAIN");
+	var sContractAddType 	= this.dsPurchase.getColumn(0, "CONTRACT_ADD_TYPE");
+	var sPayTerm 			= this.dsPurchase.getColumn(0, "PAY_TERM");
+	var sPurchaseType 		= this.dsPurchase.getColumn(0, "PURCHASE_TYPE");
+	var sEmpNo 				= this.dsPurchaseDet.getColumn(0, "EMP_NO");
+	
+	if (this.gfnIsEmpty(sContractAddType)) sContractAddType = "0";
+	
+	this.fnGetCompanyList(); //투비소프트 회사정보
+	
+	this.fnGetContractMainList(sContractMain, sEmpNo); //매입계약처에 대한 회사정보
+	
+	var sReportFileName = "";
+	/*
+		월별지급 외에는 모두 분할지급으로 처리
+	*/
+	if(bIsEarlyTermination)
+	{	
+		//1. 조기종료확인서 
+		
+		var arrCols1 = "CONTRACT_DOC_NO|계약서번호,CLIENT_NAME|고객사명,PROJECT_NAME|프로젝트명,CEO_NAME|협력사대표자명,ADDRESS|협력사주소,CONTRACT_MAIN_NAME|협력사명".split(",");	
+		var sChkCols1 = this.checkNullColumns(this.dsPurchase, 0, arrCols1);
+		
+		//투입인력주소 병합(POST_ADDR = POST_ADDR + DETAIL_ADDR로 지정 후 작업.)
+		var strAddress = this.isUndefineCheck(this.dsContractMain.getColumn(0, "POST_ADDR")) + "\n" + this.isUndefineCheck(this.dsContractMain.getColumn(0, "DETAIL_ADDR"));
+		this.dsPurchaseDet.setColumn(0, "POST_ADDR", strAddress);
+			
+		//validation
+		if(this.gfnIsEmpty(sChkCols1))
+		{
+			if(sPayTerm == "M") //월별지급
+			{
+				//계약처가 프리랜서이면서 원청(턴)키일 경우 에러.
+				
+				if(sContractMain == "A104") //프리랜서 
+				{	
+					//1.1 조기종료확인서(프리랜서)
+					var nRow = this.ds_Contract_Collaboration.addRow();
+					
+					//ds_Contract_Collaboration parameter settings//////////////////////////////////////////////////////////////////////////
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT12", this.dsCompanyList.getColumn(0, "COMPANY_NAME")+"(이하 “甲”)와 "
+					+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(0, "EMP_NAME")) +"(이하 “乙”)은 쌍방 합의에 따라 " 
+					+ this.isUndefineCheck(this.dsPurchase.getColumn(0, "CLIENT_NAME")) + " " 
+					+ this.isUndefineCheck(this.fn_GetReplaceContractNm(this.dsPurchase.getColumn(0, "CONTRACT_NAME"))) + " " 
+					+ "(계약서번호 : TBS-" + this.isUndefineCheck(this.dsPurchase.getColumn(0, "CONTRACT_DOC_NO")) + ")에 대한 역무기간이 다음과 같이 조기종료 되었음을 상호 확인한다.");
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT13", "1) 투입인력 및 기간");
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT6", this.isUndefineCheck(this.dsCompanyList.getColumn(0, "COMPANY_NAME")));
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT7", this.isUndefineCheck(this.dsCompanyList.getColumn(0, "COMPANY_REG_NO")));
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT8", this.isUndefineCheck(this.dsCompanyList.getColumn(0, "POST_ADDR")) 
+																										+ "\n"
+																									    + this.isUndefineCheck(this.dsCompanyList.getColumn(0, "DETAIL_ADDR")));
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT9", this.isUndefineCheck(this.dsPurchaseDet2.getColumn(0, "EMP_NAME"))); //성명
+					if(this.gfnIsEmpty(this.dsPurchaseDet2.getColumn(0, "REGISTER_NO")))
+					{
+						this.gfnAlert('msg.general',"주민번호가 비어있습니다.\n직원정보에서 주민번호를 입력바랍니다.")
+						return;
+					}
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT10", this.isUndefineCheck(this.dsPurchaseDet2.getColumn(0, "REGISTER_NO").substr(0, 6)) 
+																										  + "-" 
+																										  + this.isUndefineCheck(this.dsPurchaseDet2.getColumn(0, "REGISTER_NO").substr(6, 1) 
+																										  + "******")); //주민등록번호
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT11", strAddress);		//주소
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					
+					//ds_Contract_Collaboration_Sub1 parameter settings//////////////////////////////////////////////////////////////////////
+					var strContractDate = "", strRContractDate = "", mm = ""; 
+					
+					for(var i = 0, iL = this.dsPurchaseDet2.rowcount; i<iL; i++)
+					{
+						var nRow = this.ds_Contract_Collaboration_Sub1.addRow();
+						
+						//계약기간
+						strContractDate = this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(0,4)) + "-" 
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(4,2)) + "-"
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(6,2)) + " ~ "
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "PRE_END_DATE").substr(0,4)) + "-" 
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "PRE_END_DATE").substr(4,2)) + "-"
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "PRE_END_DATE").substr(6,2));
+										
+						//실역무기간
+						strRContractDate = this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(0,4)) + "-" 
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(4,2)) + "-"
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(6,2)) + " ~ "
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "END_DATE").substr(0,4)) + "-" 
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "END_DATE").substr(4,2)) + "-"
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "END_DATE").substr(6,2));
+						
+						mm = this.gfnGetMenMonth(this.dsPurchaseDet2.getColumn(i, "START_DATE"), this.dsPurchaseDet2.getColumn(i, "PRE_END_DATE")); 
+						
+						this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT1", this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "EMP_NAME"))); //성명
+						this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT2", strContractDate); //계약기간
+						this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT3", strRContractDate); //실역무기간
+						this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT5", nexacro.floor(mm, 2) + "MM" + " -> " + this.dsPurchaseDet2.getColumn(i, "MEN_MONTH") + "MM"); //비고
+					}
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					
+					//ds_Contract_Collaboration_Sub2 parameter settings//////////////////////////////////////////////////////////////////////
+					var strRContractDate = "", strPaymentDate = "", strSum=0;
+					for(var i = 0, iL = this.dsPurchasePay.rowcount; i<iL; i++)
+					{
+						var nRow = this.ds_Contract_Collaboration_Sub2.addRow();
+						
+						//SP_PurchaseRegPopup.xfdl창에서 dsPurchaseDet2에서 사용자가 선택한 데이터 값만 넘어오고, 데이터값에 대한 PSD_SEQ값으로 dsPurchasePay에서 역무기간을 찾는다. 
+						this.dsPurchaseDet2.filter("PSD_SEQ == '" + this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "PSD_SEQ")) + "'");
+						
+						//한건밖에 나오지 않기 때문에 this.dsPurchaseDet2.getColumn(0, "EMP_NAME")로 처리가능.
+						this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT1", this.isUndefineCheck(this.dsPurchaseDet2.getColumn(0, "EMP_NAME"))); //성명
+						
+						//역무기간
+						strRContractDate = this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "START_DATE").substr(0,4)) + "-" 
+										+ this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "START_DATE").substr(4,2)) + "-"
+										+ this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "START_DATE").substr(6,2)) + " ~ "
+										+ this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "END_DATE").substr(0,4)) + "-" 
+										+ this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "END_DATE").substr(4,2)) + "-"
+										+ this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "END_DATE").substr(6,2));
+					    //지급일
+					    strPaymentDate  = this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "PAY_PLAN_DATE").substr(0,4)) + "-" 
+ 								        + this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "PAY_PLAN_DATE").substr(4,2)) + "-"
+ 								        + this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "PAY_PLAN_DATE").substr(6,2));
+						
+						if(!this.gfnIsEmpty(this.dsPurchasePay.getColumn(i, "TAX_PRICE")))
+						{
+							strSum = nexacro.toNumber(this.dsPurchasePay.getColumn(i, "TAX_PRICE"));
+						}
+						
+// 						if(!this.gfnIsEmpty(this.dsPurchasePay.getColumn(i, "VAT_PRICE")))
+// 						{
+// 							strSum += nexacro.toNumber(this.dsPurchasePay.getColumn(i, "VAT_PRICE"));
+// 						}
+						
+						this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT2", strRContractDate); //역무기간
+						this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT3", strPaymentDate); //지급일
+						this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT4", strSum); //금액
+					}
+					this.ds_Contract_Collaboration_Sub2.applyChange();
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					sReportFileName = "EARLY_TERMINATION_CONFIRMATION_FREELANCER_M.jrf";
+				}
+				else
+				{	
+					//1.2 조기종료확인서(일반) 
+					var nRow = this.ds_Contract_Collaboration.addRow();
+					
+					//ds_Contract_Collaboration parameter settings//////////////////////////////////////////////////////////////////////////
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT12", this.dsCompanyList.getColumn(0, "COMPANY_NAME")+"(이하 “甲”)와 "
+					+ this.isUndefineCheck(this.dsPurchase.getColumn(0, "CONTRACT_MAIN_NAME")) +"(이하 “乙”)은 쌍방 합의에 따라 " 
+					+ this.isUndefineCheck(this.dsPurchase.getColumn(0, "CLIENT_NAME")) + " " 
+					+ this.isUndefineCheck(this.fn_GetReplaceContractNm(this.dsPurchase.getColumn(0, "CONTRACT_NAME"))) + " " 
+					+ "(계약서번호 : TBS-" + this.isUndefineCheck(this.dsPurchase.getColumn(0, "CONTRACT_DOC_NO")) + ")에 대한 역무기간이 다음과 같이 조기종료 되었음을 상호 확인한다.");
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT9", "1) 투입인력 및 기간");
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT5", this.isUndefineCheck(this.dsCompanyList.getColumn(0, "COMPANY_NAME")));
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT7", this.isUndefineCheck(this.dsCompanyList.getColumn(0, "CEO_NAME")));
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT10", this.isUndefineCheck(this.dsCompanyList.getColumn(0, "POST_ADDR"))
+																										  + "\n" 
+																										  + this.isUndefineCheck(this.dsCompanyList.getColumn(0, "DETAIL_ADDR")));
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT11", this.isUndefineCheck(this.dsPurchase.getColumn(0, "ADDRESS")));
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT6", this.isUndefineCheck(this.dsPurchase.getColumn(0, "CONTRACT_MAIN_NAME")));
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT8", this.isUndefineCheck(this.dsPurchase.getColumn(0, "CEO_NAME")));
+					
+					//ds_Contract_Collaboration_Sub1 parameter settings//////////////////////////////////////////////////////////////////////
+					var strContractDate = "", strRContractDate = "", mm = ""; 
+					
+					for(var i = 0, iL = this.dsPurchaseDet2.rowcount; i<iL; i++)
+					{
+						var nRow = this.ds_Contract_Collaboration_Sub1.addRow();
+						
+						//계약기간
+						strContractDate = this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(0,4)) + "-" 
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(4,2)) + "-"
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(6,2)) + " ~ "
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "PRE_END_DATE").substr(0,4)) + "-" 
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "PRE_END_DATE").substr(4,2)) + "-"
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "PRE_END_DATE").substr(6,2));
+										
+						//실역무기간
+						strRContractDate = this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(0,4)) + "-" 
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(4,2)) + "-"
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "START_DATE").substr(6,2)) + " ~ "
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "END_DATE").substr(0,4)) + "-" 
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "END_DATE").substr(4,2)) + "-"
+										+ this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "END_DATE").substr(6,2));
+						
+						mm = this.gfnGetMenMonth(this.dsPurchaseDet2.getColumn(i, "START_DATE"), this.dsPurchaseDet2.getColumn(i, "PRE_END_DATE")); 
+						
+						this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT1", this.isUndefineCheck(this.dsPurchaseDet2.getColumn(i, "EMP_NAME"))
+																					+(sPurchaseType=="2"?this.isUndefineCheckParentheses(this.dsPurchaseDet2.getColumn(i, "LEVEL_NAME")):""));
+						this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT2", strContractDate); //계약기간
+						this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT3", strRContractDate); //실역무기간
+						this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT5", nexacro.floor(mm, 2) + "MM" + " -> " + this.dsPurchaseDet2.getColumn(i, "MEN_MONTH") + "MM"); //비고
+					}
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					
+					//ds_Contract_Collaboration_Sub2 parameter settings//////////////////////////////////////////////////////////////////////
+					var strRContractDate = "", strPaymentDate = "", strSum=0;
+					
+					for(var j=0; j < this.dsPurchaseDet2.rowcount; j++)
+					{	
+						// 일괄지급일경우 지급내역 필터를 안함
+						if(this.dsPurchase.getColumn(this.dsPurchase.rowposition, "LUMP_PAY_FLAG") == "1")
+							this.dsPurchasePay.filter("");
+						else	//SP_PurchaseRegPopup.xfdl창에서 dsPurchaseDet2에서 사용자가 선택한 데이터 값만 넘어오고, 데이터값에 대한 PSD_SEQ값으로 dsPurchasePay에서 역무기간을 찾는다. 
+							this.dsPurchasePay.filter("PSD_SEQ == '" + this.isUndefineCheck(this.dsPurchaseDet2.getColumn(j, "PSD_SEQ")) + "'");
+						
+						for(var i = 0; i < this.dsPurchasePay.rowcount; i++)
+						{
+							// 일괄지급일경우 처음 매입상세일경우만 지급내역을 출력한다.
+							if(this.dsPurchase.getColumn(this.dsPurchase.rowposition, "LUMP_PAY_FLAG") == "1" && j>0)
+								break;
+								
+							var nRow = this.ds_Contract_Collaboration_Sub2.addRow();
+							//수정한데
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "PSD_SEQ", this.dsPurchaseDet.getColumn(j, "PSD_SEQ"));
+							//여러건이 나올 수 있으므로 this.dsPurchaseDet2.getColumn(j, "EMP_NAME")로 처리해야 함.
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT1", this.isUndefineCheck(this.dsPurchaseDet2.getColumn(j, "EMP_NAME"))
+																						+(sPurchaseType=="2"?this.isUndefineCheckParentheses(this.dsPurchaseDet2.getColumn(j, "LEVEL_NAME")):""));
+							
+							//역무기간
+							strRContractDate = this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "START_DATE").substr(0,4)) + "-" 
+											 + this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "START_DATE").substr(4,2)) + "-"
+											 + this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "START_DATE").substr(6,2)) + " ~ "
+											 + this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "END_DATE").substr(0,4)) + "-" 
+											 + this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "END_DATE").substr(4,2)) + "-"
+											 + this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "END_DATE").substr(6,2));
+							//지급일
+							strPaymentDate  = this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "PAY_PLAN_DATE").substr(0,4)) + "-" 
+											+ this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "PAY_PLAN_DATE").substr(4,2)) + "-"
+											+ this.isUndefineCheck(this.dsPurchasePay.getColumn(i, "PAY_PLAN_DATE").substr(6,2));
+							
+							if(!this.gfnIsEmpty(this.dsPurchasePay.getColumn(i, "TAX_PRICE")))
+							{
+								strSum = nexacro.toNumber(this.dsPurchasePay.getColumn(i, "TAX_PRICE"));
+							}
+							
+// 							if(!this.gfnIsEmpty(this.dsPurchasePay.getColumn(i, "VAT_PRICE")))
+// 							{
+// 								strSum += nexacro.toNumber(this.dsPurchasePay.getColumn(i, "VAT_PRICE"));
+// 							}
+							
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT2", strRContractDate); //역무기간
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT3", strPaymentDate); //지급일
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT4", strSum); //금액
+						}
+						this.ds_Contract_Collaboration_Sub2.applyChange();
+					}
+					
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					sReportFileName = "EARLY_TERMINATION_CONFIRMATION_M.jrf";
+				}		
+			}
+			else
+			{
+				this.gfnAlert('msg.general',"조기종료확인서는 월별지급(지급구분)일 경우만 출력 가능합니다.");
+			}
+		}
+		else
+		{
+			this.gfnAlert('msg.general',"협력사 정보를 입력하십시오.\n\n  " + sChkCols1);
+		}		
+	}
+	else
+	{	//2. 용역 매입계약서
+		if(sContractMain == "A104")
+		{
+			//2.1 프리랜서
+		
+			//투입인력주소 병합(POST_ADDR = POST_ADDR + DETAIL_ADDR로 지정 후 작업.)
+			var strAddress = this.isUndefineCheck(this.dsContractMain.getColumn(0, "POST_ADDR")) + "\n" + this.isUndefineCheck(this.dsContractMain.getColumn(0, "DETAIL_ADDR"));
+			var sCoCd = nexacro.getApplication().gdsGlobal.getColumn(0, "CO_CD");
+			this.dsPurchaseDet.setColumn(0, "POST_ADDR", strAddress);
+			
+			var arrCols1 = "CONTRACT_DOC_NO|계약서번호,CONTRACT_NAME|계약명,CONTRACT_DATE|계약일,PROJECT_NAME|프로젝트명,CEO_NAME|협력사대표자명,ADDRESS|협력사주소,CONTRACT_MAIN_NAME|협력사명".split(",");	;
+			var arrCols2 = "START_DATE|계약시작일,END_DATE|계약종료일,EMP_NAME|투입인력명,REGISTER_NO|주민번호,POST_ADDR|투입인력주소,UNIT_COST|계약단가".split(",");	
+			
+			var sChkCols1 = this.checkNullColumns(this.dsPurchase, 0, arrCols1);
+			var sChkCols2 = this.checkNullColumns(this.dsPurchaseDet, 0, arrCols2);
+	
+			//validation
+			if(this.gfnIsEmpty(sChkCols1) || this.gfnIsEmpty(sChkCols2))
+			{	
+				var nRow = this.ds_Contract_Collaboration.addRow();
+				var strText = "";
+				
+				if(sContractAddType == 0) //신규일 때
+				{
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT1",this.dsCompanyList.getColumn(0, "COMPANY_NAME")+"(이하 “甲”)와 " 
+					+ this.dsPurchaseDet.getColumn(0, "EMP_NAME") + "(이하 “乙”)은 쌍방 합의에 따라 본 도급계약을 다음과 같이 체결한다.");
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT2", "TBS-" + this.dsPurchase.getColumn(0, "CONTRACT_DOC_NO")); 
+				}
+				else //추가, 연장일 때
+				{
+					strText = sContractAddType == 1 ? "추가" : sContractAddType == 2 ? "연장" : "";
+					
+					this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT1", "본 계약서는 계약서번호 TBS-" 
+					+ this.dsPurchase.getColumn(0, "CONTRACT_DOC_NO_PRE") + "에 대한 "+this.dsCompanyList.getColumn(0, "COMPANY_NAME")+"(이하 “甲”)와 "
+					+ this.dsPurchaseDet.getColumn(0, "EMP_NAME") +"(이하 “乙”)의 " 
+					+ strText + "계약서로써 역무기간을 제외한 모든 조건은 原 계약서 조항과 동일하다.");
+					
+				}
+				strText = (sPurchaseType == 5) ? " 출장기간 및 금액" : " 투입인력 및 기간";
+				var sContractNm = this.dsPurchase.getColumn(0, "CONTRACT_NAME");		
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT14", "1) "+this.dsPurchase.getColumn(0, "CLIENT_NAME") + " " 
+																			   + this.fn_GetReplaceContractNm(sContractNm) + strText); //협력사
+																			   
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT2", "TBS-" + this.dsPurchase.getColumn(0, "CONTRACT_DOC_NO")); 
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT3", this.dsPurchase.getColumn(0, "CONTRACT_DATE").substr(0, 4) + "년 " 
+				+ this.dsPurchase.getColumn(0, "CONTRACT_DATE").substr(4, 2) + "월 "
+				+ this.dsPurchase.getColumn(0, "CONTRACT_DATE").substr(6, 2) + "일 ");
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT4", this.dsPurchase.getColumn(0, "CLIENT_NAME") + " / " + this.fn_GetReplaceContractNm(this.dsPurchase.getColumn(0, "CONTRACT_NAME")));
+				
+				strText = this.dsPurchase.getColumn(0, "PROJECT_NAME") + "-개발"; //디자인/개발 구분 필요? 
+				
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT5", strText);
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT6", this.dsPurchaseDet.getColumn(0, "START_DATE").substr(0, 4) + "-" 
+				+ this.dsPurchaseDet.getColumn(0, "START_DATE").substr(4, 2) + "-"
+				+ this.dsPurchaseDet.getColumn(0, "START_DATE").substr(6, 2) + " ~ " 
+				+ this.dsPurchaseDet.getColumn(0, "END_DATE").substr(0, 4) + "-"
+				+ this.dsPurchaseDet.getColumn(0, "END_DATE").substr(4, 2) + "-"
+				+ this.dsPurchaseDet.getColumn(0, "END_DATE").substr(6, 2));
+				
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT7", this.dsPurchasePay.getSum("TAX_PRICE")
+																				//+ this.dsPurchasePay.getColumn(0, "VAT_PRICE")
+																				);
+				
+				var sContractText16 = "원 (소득세, 주민세 포함)";
+				var sContractText17 = "";
+				if(sCoCd == "W01") {
+					sContractText16 = "원 (소득세, 주민세, 고용/산재보험료 포함)";
+					sContractText17 = "3) 상기 용역대금은 소득세,주민세와 특수형태근로종사자(SW기술자)에 대한 고용보험료, 산재보험료를 포함한다.";
+				} 
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT16", sContractText16);
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT17", sContractText17);
+				
+				strText = sContractAddType == 1 ? strText = "추가" : sContractAddType == 2 ? strText = "연장" : "";
+				
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT8", "프리랜서 도급" + strText + " 계약서");
+				
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT9", this.dsPurchaseDet.getColumn(0, "EMP_NAME"));
+				if(this.gfnIsEmpty(this.dsPurchaseDet.getColumn(0, "REGISTER_NO")))
+				{
+					this.gfnAlert('msg.general',"주민번호가 비어있습니다.\n직원정보에서 주민번호를 입력바랍니다.")
+					return;
+				}
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT10", this.dsPurchaseDet.getColumn(0, "REGISTER_NO").substr(0, 6)
+				+ "-" 
+				+ this.dsPurchaseDet.getColumn(0, "REGISTER_NO").substr(6, 1) 
+				+ "******"); //주민등록번호
+				this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT11", strAddress);
+				
+				this.ds_Contract_Collaboration.setColumn(nRow, "COMPANY_NAME", this.dsCompanyList.getColumn(0, "COMPANY_NAME"));
+				this.ds_Contract_Collaboration.setColumn(nRow, "COMPANY_REG_NO", this.dsCompanyList.getColumn(0, "COMPANY_REG_NO"));
+				this.ds_Contract_Collaboration.setColumn(nRow, "ADDRESS", this.dsCompanyList.getColumn(0, "POST_ADDR")+this.dsCompanyList.getColumn(0, "DETAIL_ADDR"));
+				//프리랜서(투비윈은 15일 지급)
+				if(nexacro.getApplication().gdsUserInfo.getColumn(0, "CO_CD") == 'W01')
+					this.ds_Contract_Collaboration.setColumn(nRow, "PAY_PLAN_DAY", "15");
+				else
+					this.ds_Contract_Collaboration.setColumn(nRow, "PAY_PLAN_DAY", "10");
+				
+				
+				//지급상세내역
+				for(var i=0; i<this.dsPurchaseDet.rowcount; i++)
+				{
+					var nRow = this.ds_Contract_Collaboration_Sub1.addRow();
+					
+					this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT1", this.dsPurchaseDet.getColumn(i, "EMP_NAME"));
+					this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT2", this.dsPurchaseDet.getColumn(i, "START_DATE").substr(0,4) + "-" 
+																			   + this.dsPurchaseDet.getColumn(i, "START_DATE").substr(4,2) + "-"
+																			   + this.dsPurchaseDet.getColumn(i, "START_DATE").substr(6,2) + " ~ "
+																			   + this.dsPurchaseDet.getColumn(i, "END_DATE").substr(0,4) + "-" 
+																			   + this.dsPurchaseDet.getColumn(i, "END_DATE").substr(4,2) + "-"
+																			   + this.dsPurchaseDet.getColumn(i, "END_DATE").substr(6,2));										  									
+					
+					strText = (this.parent.chb_IsIncludeRemark.value == true) ?  "<v2>" + this.dsPurchaseDet.getColumn(i, "REMARKS") + "</v2>" : "";
+					
+					this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT3", this.gfnSetComma(parseInt(this.dsPurchaseDet.getColumn(i, "UNIT_COST"))+parseInt(this.dsPurchaseDet.getColumn(i, "EXPENSE")))
+																				+ " * " + this.dsPurchaseDet.getColumn(i, "MEN_MONTH"));
+					this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT5", "<v1>" + this.dsPurchaseDet.getColumn(i, "MEN_MONTH") + "</v1>" + strText);
+					this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT4", this.dsPurchasePay.getSum("TAX_PRICE") 
+																				//+ this.dsPurchasePay.getSum("VAT_PRICE")
+																				);
+					// 일괄지급일경우 지급내역 필터를 안함
+					if(this.dsPurchase.getColumn(this.dsPurchase.rowposition, "LUMP_PAY_FLAG") == "1")
+						this.dsPurchasePay.filter("");
+					else 
+						this.dsPurchasePay.filter("PSD_SEQ == '" + this.dsPurchaseDet.getColumn(i, "PSD_SEQ") + "'");
+					
+					for(var j=0; j<this.dsPurchasePay.rowcount; j++)
+					{
+						// 일괄지급일경우 처음 매입상세일경우만 지급내역을 출력한다.
+						if(this.dsPurchase.getColumn(this.dsPurchase.rowposition, "LUMP_PAY_FLAG") == "1" && i>0)
+							break;
+							
+						var nRow = this.ds_Contract_Collaboration_Sub2.addRow();
+						
+						if(sPayTerm == "M")
+						{
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT1", this.dsPurchaseDet.getColumn(i, "EMP_NAME"));
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT2", this.dsPurchasePay.getColumn(j, "START_DATE").substr(0,4) + "-" 
+																					   + this.dsPurchasePay.getColumn(j, "START_DATE").substr(4,2) + "-"
+																					   + this.dsPurchasePay.getColumn(j, "START_DATE").substr(6,2) + " ~ "
+																					   + this.dsPurchasePay.getColumn(j, "END_DATE").substr(0,4) + "-" 
+																					   + this.dsPurchasePay.getColumn(j, "END_DATE").substr(4,2) + "-"
+																					   + this.dsPurchasePay.getColumn(j, "END_DATE").substr(6,2));	
+							
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT3", this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(0,4) + "-"
+																					   + this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(4,2) + "-"
+																					   + this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(6,2));
+																					   
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT4", this.dsPurchasePay.getColumn(j, "TAX_PRICE") 
+																						//+ this.dsPurchasePay.getColumn(j, "VAT_PRICE")
+																						);
+						}
+						else
+						{
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT1", this.dsPurchaseDet.getColumn(i, "EMP_NAME"));
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT2", this.dsPurchasePay.getColumn(j, "REMARKS"));
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT3", this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(0,4) + "-"
+																					   + this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(4,2) + "-"
+																					   + this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(6,2));
+							this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT4", this.dsPurchasePay.getColumn(j, "TAX_PRICE") 
+																						//+ this.dsPurchasePay.getColumn(j, "VAT_PRICE")
+																						);
+						}						
+					}
+					this.ds_Contract_Collaboration_Sub2.applyChange();
+				}
+				sReportFileName = "PUCHASE_CONTRACT_FREELANCER.jrf";
+			}
+			else
+			{
+				this.gfnAlert('msg.general',"협력사 정보를 입력하십시오.\n\n  " + sChkCols1 + sChkCols2);
+			}
+		}
+		else
+		{
+			//신규 validation / 추가, 연장 validation.
+			var strText = (sContractAddType == 0) ? strText = "CONTRACT_DOC_NO|계약서번호,CONTRACT_DATE|계약일,PROJECT_NAME|프로젝트명,CONTRACT_TYPE|계약구분,PAY_TERM|지급구분,CLIENT_NAME|고객사명,CEO_NAME|협력사대표자명,ADDRESS|협력사주소,CONTRACT_MAIN_NAME|협력사명" : (sContractAddType == 1 || sContractAddType == 2) ? strText = "CONTRACT_DOC_NO|계약서번호,CONTRACT_NO_PURCHASE_PRE|이전계약서번호,CONTRACT_NAME|계약명,CONTRACT_DATE|계약일,PROJECT_NAME|프로젝트명,CONTRACT_TYPE|계약구분,PAY_TERM|지급구분,CLIENT_NAME|고객사명,CEO_NAME|협력사대표자명,ADDRESS|협력사주소,CONTRACT_MAIN_NAME|협력사명" : "";
+			var arrCols1 = strText.split(",");
+			var arrCols2 = "START_DATE|계약시작일,END_DATE|계약종료일".split(",");
+			var strBusinessScale = this.dsContractMain.getColumn(0, "BUSINESS_SCALE"); // 회사규모
+			var sCoCd = nexacro.getApplication().gdsGlobal.getColumn(0, "CO_CD");
+			
+			var sChkCols1 = this.checkNullColumns(this.dsPurchase, 0, arrCols1);
+			var sChkCols2 = this.checkNullColumns(this.dsPurchaseDet, 0, arrCols2);
+			switch(sContractAddType)
+			{
+				case "0" :
+					if(this.gfnIsEmpty(sChkCols1) || this.gfnIsEmpty(sChkCols2))
+					{
+						var nRow = this.ds_Contract_Collaboration.addRow();
+						var strText = "";						
+						var sContractNm = this.dsPurchase.getColumn(0, "CONTRACT_NAME");						
+						this.dsCompanyList.setColumn(0, "POST_ADDR", this.dsCompanyList.getColumn(0, "POST_ADDR") + "\n" + this.dsCompanyList.getColumn(0, "DETAIL_ADDR"));
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_NO", "TBS-" + this.dsPurchase.getColumn(0, "CONTRACT_DOC_NO"));
+						
+						strText = this.dsPurchase.getColumn(0, "CLIENT_NAME") + " " + this.fn_GetReplaceContractNm(sContractNm);
+						strText = (this.dsPurchasePay == 5) ? strText += " 출장비" : strText += "";
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "PROJECT_NAME", strText);
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_DATE", this.dsPurchase.getColumn(0, "CONTRACT_DATE").substr(0,4) + ". " 
+																					  + this.dsPurchase.getColumn(0, "CONTRACT_DATE").substr(4,2) + ". " 
+																					  + this.dsPurchase.getColumn(0, "CONTRACT_DATE").substr(6,2) + ". ") ;
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_MAIN",	this.dsPurchase.getColumn(0, "CONTRACT_MAIN_NAME"));
+						
+						strText = this.dsCompanyList.getColumn(0, "COMPANY_NAME")+"(이하“甲”이라한다)와 " + this.dsPurchase.getColumn(0,"CONTRACT_MAIN_NAME")+" (이하“乙”이라한다)는 인력계약을  맺고 성실히 준수하기로 약정한다.";
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT1", strText);
+						
+						strText = "“乙”은 “甲”에게 인력을 투입하여 " + this.dsPurchase.getColumn(0,"CLIENT_NAME") + " " + this.fn_GetReplaceContractNm(sContractNm) 
+								+ " 프로젝트를 완료할 수 있도록 성실하게 역무 지원을 하도록 한다.";
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT2", strText);
+						
+						strText = "“乙”의 역무 지원기간은 " + this.dsPurchaseDet.getMin("START_DATE").substr(0,4) 
+																+ "년 " + this.dsPurchaseDet.getMin("START_DATE").substr(4,2)
+																+ "월 " + this.dsPurchaseDet.getMin("START_DATE").substr(6,2) 
+																+ "일부터 " + this.dsPurchaseDet.getMax("END_DATE").substr(0,4)
+																+ "년 " + this.dsPurchaseDet.getMax("END_DATE").substr(4,2)
+																+ "월 " + this.dsPurchaseDet.getMax("END_DATE").substr(6,2) + "일까지 한다.";
+																
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT3", strText);
+						
+						strText = (sPurchaseType == 5) ? " 출장경비로" : " 대가금으로";
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT4", "역무의 범위에 따른 역무의 " 
+						+ strText + " “甲”은 “乙”에게 일금 " 
+						//+ this.gfnSetComma((parseInt(this.dsPurchasePay.getSumNF("TAX_PRICE")) 
+						+ this.gfnIntToHanGul((parseInt(this.dsPurchasePay.getSumNF("TAX_PRICE"))
+						//+ parseInt(this.dsPurchasePay.getSumNF("VAT_PRICE"))
+						).toString())
+						+ "원 정(V.A.T 별도)을 지불한다.");
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT5", this.dsCompanyList.getColumn(0, "COMPANY_NAME")); //투비소프트
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT6", this.dsPurchase.getColumn(0, "CONTRACT_MAIN_NAME")); //협력사
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT7", "대표이사 " + this.dsCompanyList.getColumn(0, "CEO_NAME")); //투비소프트
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT8", "대표이사 " + this.dsPurchase.getColumn(0, "CEO_NAME")); //협력사
+						
+						strText = (sPurchaseType == 5) ? " 출장기간 및 금액" : " 투입인력 및 기간";
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT9", "1) "+this.dsPurchase.getColumn(0, "CLIENT_NAME") + " " 
+																					   + this.fn_GetReplaceContractNm(sContractNm) + strText); //협력사
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT10", this.dsCompanyList.getColumn(0, "POST_ADDR")); //투비소프트
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT11", this.dsPurchase.getColumn(0,"ADDRESS")); //협력사
+						
+						strText = (sPurchaseType == 5) ? "출장경비를" : "대가금으로";
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT13","“甲”은 “乙”이 지원하는 역무의 " + strText + " “乙”에게 다음과 같이 지불한다.");
+						
+						if(sCoCd == "W01" && strBusinessScale == "004") {
+							this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT14","3) 상기 용역대금은 특수형태근로종사자(SW기술자)에 대한 고용보험료, 산재보험료를 포함한다.");
+						} else {
+							this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT14","");
+						}
+						
+						for(var i = 0; i < this.dsPurchaseDet.rowcount; i++)
+						{
+							var nRow = this.ds_Contract_Collaboration_Sub1.addRow();
+							
+							if(sPurchaseType == 1)
+							{
+								this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT1", this.fn_GetReplaceContractNm(this.dsPurchase.getColumn(0, "CONTRACT_NAME")));
+							}
+							else
+							{
+								this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT1", this.dsPurchaseDet.getColumn(i, "EMP_NAME")
+																							+(sPurchaseType=="2"?this.isUndefineCheckParentheses(this.dsPurchaseDet.getColumn(i, "LEVEL_NAME")):""));
+							}
+							
+							this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT2", this.dsPurchaseDet.getColumn(i, "START_DATE").substr(0,4) + "-" 
+																					   + this.dsPurchaseDet.getColumn(i, "START_DATE").substr(4,2) + "-" 
+																					   + this.dsPurchaseDet.getColumn(i, "START_DATE").substr(6,2) + " ~ "
+																					   + this.dsPurchaseDet.getColumn(i, "END_DATE").substr(0,4) + "-"
+																					   + this.dsPurchaseDet.getColumn(i, "END_DATE").substr(4,2) + "-"
+																					   + this.dsPurchaseDet.getColumn(i, "END_DATE").substr(6,2));
+																					   
+							this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT3", this.gfnSetComma(parseInt(this.dsPurchaseDet.getColumn(i, "UNIT_COST"))+parseInt(this.dsPurchaseDet.getColumn(i, "EXPENSE")))
+																						+ " * " + this.dsPurchaseDet.getColumn(i, "MEN_MONTH"));
+																										
+							strText = (this.parent.chb_IsIncludeRemark.value == true) ?  "<v2>" + this.fn_GetReplaceContractNm(this.dsPurchaseDet.getColumn(i, "REMARKS")) + "</v2>" : "";		
+							
+							this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT5", "<v1>" + this.dsPurchaseDet.getColumn(i, "MEN_MONTH") + "</v1>" + strText);
+							this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT4", this.dsPurchaseDet.getColumn(i, "CONTRACT_PRICE")
+																						//parseInt(this.dsPurchasePay.getSum("TAX_PRICE")) 
+																						//+ parseInt(this.dsPurchasePay.getSum("VAT_PRICE"))
+																						);
+							// 일괄지급일경우 지급내역 필터를 안함
+							if(this.dsPurchase.getColumn(this.dsPurchase.rowposition, "LUMP_PAY_FLAG") == "1")
+								this.dsPurchasePay.filter("");
+							else 
+								this.dsPurchasePay.filter("PSD_SEQ=='" + this.dsPurchaseDet.getColumn(i, "PSD_SEQ") + "'");
+							
+							for(var j = 0; j<this.dsPurchasePay.rowcount; j++)
+							{
+								// 일괄지급일경우 처음 매입상세일경우만 지급내역을 출력한다.
+								if(this.dsPurchase.getColumn(this.dsPurchase.rowposition, "LUMP_PAY_FLAG") == "1" && i>0)
+									break;
+									
+								var nRow = this.ds_Contract_Collaboration_Sub2.addRow();
+								
+								if(sPayTerm == "M")
+								{
+									if(sPurchaseType == "1")
+									{
+										this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT1", this.fn_GetReplaceContractNm(this.dsPurchase.getColumn(0, "CONTRACT_NAME")));
+									}
+									else
+									{
+										//원청인력에는 등급을 같이 표시										
+										this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "PSD_SEQ", this.dsPurchaseDet.getColumn(i, "PSD_SEQ"));
+										this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT1", this.dsPurchaseDet.getColumn(i, "EMP_NAME")
+																									+(sPurchaseType=="2"?this.isUndefineCheckParentheses(this.dsPurchaseDet.getColumn(i, "LEVEL_NAME")):""));
+									}
+									
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT2",this.dsPurchasePay.getColumn(j, "START_DATE").substr(0,4) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "START_DATE").substr(4,2) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "START_DATE").substr(6,2) + " ~ "
+																							   +this.dsPurchasePay.getColumn(j, "END_DATE").substr(0,4) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "END_DATE").substr(4,2) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "END_DATE").substr(6,2));
+									
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT3",this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(0,4) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(4,2) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(6,2));
+																							   
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT4", parseInt(this.dsPurchasePay.getColumn(j, "TAX_PRICE")) 
+																								//+ parseInt(this.dsPurchasePay.getColumn(j, "VAT_PRICE"))
+																								);
+								}
+								else
+								{						
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT2",this.dsPurchasePay.getColumn(j, "REMARKS"));
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT4", parseInt(this.dsPurchasePay.getColumn(j, "TAX_PRICE")) 
+																								//+ parseInt(this.dsPurchasePay.getColumn(j, "VAT_PRICE"))
+																								);
+								}
+								
+							}
+							this.ds_Contract_Collaboration_Sub2.applyChange();
+						}
+						
+						//2.2 신규
+						if(sPurchaseType == "1")	//1 : 원청(턴키)
+						{
+							//2.2.1 원청(턴키) : PURCHASE_TYPE:1
+							if(sPayTerm == "M") 
+							{	
+								//2.2.1.1 월별
+								sReportFileName = "PUCHASE_CONTRACT_COMMON_WONCHUNG_M2.jrf";
+							}
+							else
+							{
+								//2.2.1.2 일시/분할
+								sReportFileName = "PUCHASE_CONTRACT_COMMON_WONCHUNG_P2.jrf";
+							}
+						}
+						else if(sPurchaseType == "2")	//2 : 원청(인력)
+						{
+							//2.2.2 원청(인력) : PURCHASE_TYPE:2
+							if(sPayTerm == "M")
+							{	
+								//2.2.2.1 월별
+								sReportFileName = "PUCHASE_CONTRACT_COMMON_WONCHUNG_M.jrf";
+							}
+							else
+							{
+								//2.2.2.2 일시/분할
+								sReportFileName = "PUCHASE_CONTRACT_COMMON_WONCHUNG_P.jrf";
+							}
+						}else{
+							//2.2.3 일반
+							if(sPayTerm == "M")
+							{	
+								//2.2.3.1 월별
+								sReportFileName = "PUCHASE_CONTRACT_COMMON_M.jrf";
+							}
+							else
+							{
+								//2.2.3.2 일시/분할
+								sReportFileName = "PUCHASE_CONTRACT_COMMON_P.jrf";
+							}
+						}
+					}
+					else
+					{
+						this.gfnAlert('msg.general',"협력사 정보를 입력하십시오.\n\n  " + sChkCols1);
+					}
+				break;
+				
+				case "1" :	//추가
+					//2.3 추가
+				case "2" :	//연장
+					if(this.gfnIsEmpty(sChkCols1))
+					{
+						var nRow = this.ds_Contract_Collaboration.addRow();
+						var strText = "";
+						var sContractNm = this.dsPurchase.getColumn(0, "CONTRACT_NAME");
+						
+						this.dsCompanyList.setColumn(0, "POST_ADDR", this.dsCompanyList.getColumn(0, "POST_ADDR") + "\n" + this.dsCompanyList.getColumn(0, "DETAIL_ADDR"));
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_NO", this.dsPurchase.getColumn(0, "CONTRACT_DOC_NO"));
+						
+						strText = this.dsPurchase.getColumn(0, "CLIENT_NAME") + " " + this.fn_GetReplaceContractNm(sContractNm);
+						strText = (this.dsPurchasePay == 5) ? strText += " 출장비" : strText += "";
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "PROJECT_NAME", strText);
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_DATE", this.dsPurchase.getColumn(0, "CONTRACT_DATE").substr(0,4) + ". " 
+																					  + this.dsPurchase.getColumn(0, "CONTRACT_DATE").substr(4,2) + ". " 
+																					  + this.dsPurchase.getColumn(0, "CONTRACT_DATE").substr(6,2) + ". ");
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_MAIN",	this.dsPurchase.getColumn(0, "CONTRACT_MAIN_NAME"));
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT5", this.dsCompanyList.getColumn(0, "COMPANY_NAME")); //투비소프트
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT6", this.dsPurchase.getColumn(0, "CONTRACT_MAIN_NAME")); //협력사
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT7", "대표이사 " + this.dsCompanyList.getColumn(0, "CEO_NAME")); //투비소프트
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT8", "대표이사 " + this.dsPurchase.getColumn(0, "CEO_NAME")); //협력사
+						
+						strText = (sPurchaseType == 5) ? " 출장기간 및 금액" : " 투입인력 및 기간";
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT9", "1) "+this.dsPurchase.getColumn(0, "CLIENT_NAME") + " " 
+																					   + this.fn_GetReplaceContractNm(sContractNm) + strText); //협력사
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT10", this.dsCompanyList.getColumn(0, "POST_ADDR")); //투비소프트
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT11", this.dsPurchase.getColumn(0,"ADDRESS")); //협력사
+						
+						strText = (sPurchaseType == 5) ? " 출장비" : "";
+						strText2 = (sContractAddType == 1) ? "추가" : (sContractAddType == 2) ? "연장" : "";
+						
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT12","본 계약서는 계약서번호 'TBS-" + this.dsPurchase.getColumn(0, "CONTRACT_DOC_NO_PRE") +
+																	"' " + this.dsPurchase.getColumn(0, "CLIENT_NAME") + " "
+																	+ this.fn_GetReplaceContractNm(this.dsPurchase.getColumn(0,"CONTRACT_NAME"))
+																	+ strText +"에 대한" + strText2 + "계약서로써 역무기간을 제외한 모든 조건은 原 계약서 조항과 동일하다.");
+						
+						strText = (sPurchaseType == 5) ? "출장경비를" : "대가금으로";
+						this.ds_Contract_Collaboration.setColumn(nRow, "CONTRACT_TEXT13","“甲”은 “乙”이 지원하는 역무의 " + strText + " “乙”에게 다음과 같이 지불한다.");
+						
+						for(var i = 0; i < this.dsPurchaseDet.rowcount; i++)
+						{
+							var nRow = this.ds_Contract_Collaboration_Sub1.addRow();
+							
+							this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT1", this.dsPurchaseDet.getColumn(i, "EMP_NAME")
+																						+(sPurchaseType=="2"?this.isUndefineCheckParentheses(this.dsPurchaseDet.getColumn(i, "LEVEL_NAME")):""));
+							this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT2", this.dsPurchaseDet.getColumn(i, "START_DATE").substr(0,4) + "-" 
+																					   + this.dsPurchaseDet.getColumn(i, "START_DATE").substr(4,2) + "-" 
+																					   + this.dsPurchaseDet.getColumn(i, "START_DATE").substr(6,2) + " ~ "
+																					   + this.dsPurchaseDet.getColumn(i, "END_DATE").substr(0,4) + "-"
+																					   + this.dsPurchaseDet.getColumn(i, "END_DATE").substr(4,2) + "-"
+																					   + this.dsPurchaseDet.getColumn(i, "END_DATE").substr(6,2));
+																					   
+							this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT3", this.gfnSetComma(parseInt(this.dsPurchaseDet.getColumn(i, "UNIT_COST"))+parseInt(this.dsPurchaseDet.getColumn(i, "EXPENSE")))
+																						+ " * " + this.dsPurchaseDet.getColumn(i, "MEN_MONTH"));
+																										
+							strText = (this.parent.chb_IsIncludeRemark.value == true) ?  "<v2>" + this.fn_GetReplaceContractNm(this.dsPurchaseDet.getColumn(i, "REMARKS")) + "</v2>" : "";		
+							
+							this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT5", "<v1>" + this.dsPurchaseDet.getColumn(i, "MEN_MONTH") + "</v1>" + strText);
+							
+							// 일괄지급일경우 지급내역 필터를 안함
+							if(this.dsPurchase.getColumn(this.dsPurchase.rowposition, "LUMP_PAY_FLAG") == "1")
+								this.dsPurchasePay.filter("");
+							else 
+								this.dsPurchasePay.filter("PSD_SEQ=='" + this.dsPurchaseDet.getColumn(i,"PSD_SEQ") + "'");
+							
+							this.ds_Contract_Collaboration_Sub1.setColumn(nRow, "TEXT4", this.dsPurchaseDet.getColumn(i, "CONTRACT_PRICE")
+																						//parseInt(this.dsPurchasePay.getSum("TAX_PRICE")) 
+																						//+ parseInt(this.dsPurchasePay.getSum("VAT_PRICE"))
+																						);
+							
+							for(var j = 0; j<this.dsPurchasePay.rowcount; j++)
+							{
+								// 일괄지급일경우 처음 매입상세일경우만 지급내역을 출력한다.
+								if(this.dsPurchase.getColumn(this.dsPurchase.rowposition, "LUMP_PAY_FLAG") == "1" && i>0)
+									break;
+									
+								var nRow = this.ds_Contract_Collaboration_Sub2.addRow();
+								if(sPayTerm == "M")
+								{
+									//원청인력에는 등급을 같이 표시
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "PSD_SEQ", this.dsPurchaseDet.getColumn(i, "PSD_SEQ"));
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT1", this.dsPurchaseDet.getColumn(i, "EMP_NAME")
+																								+(sPurchaseType=="2"?this.isUndefineCheckParentheses(this.dsPurchaseDet.getColumn(i, "LEVEL_NAME")):""));
+									
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT2",this.dsPurchasePay.getColumn(j, "START_DATE").substr(0,4) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "START_DATE").substr(4,2) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "START_DATE").substr(6,2) + " ~ "
+																							   +this.dsPurchasePay.getColumn(j, "END_DATE").substr(0,4) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "END_DATE").substr(4,2) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "END_DATE").substr(6,2));
+									
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT3",this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(0,4) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(4,2) + "-"
+																							   +this.dsPurchasePay.getColumn(j, "PAY_PLAN_DATE").substr(6,2));
+																							   
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT4", parseInt(this.dsPurchasePay.getColumn(j, "TAX_PRICE")) 
+																								//+ parseInt(this.dsPurchasePay.getColumn(j, "VAT_PRICE"))
+																								);
+								}
+								else
+								{
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT2",this.dsPurchasePay.getColumn(j, "REMARKS"));
+									this.ds_Contract_Collaboration_Sub2.setColumn(nRow, "TEXT4", parseInt(this.dsPurchasePay.getColumn(j, "TAX_PRICE")) 
+																								//+ parseInt(this.dsPurchasePay.getColumn(j, "VAT_PRICE"))
+																								);
+								}
+								
+							}
+							this.ds_Contract_Collaboration_Sub2.applyChange();
+						}
+						//2.4 연장
+						if(sPayTerm == "M")
+						{	
+							//2.4.1 월별
+							sReportFileName = "PUCHASE_CONTRACT_ADD_M.jrf";
+						}
+						else
+						{
+							//2.4.1 일시/분할						
+							sReportFileName = "PUCHASE_CONTRACT_ADD_P.jrf";
+						}
+					}
+					else
+					{
+						this.gfnAlert('msg.general',"협력사 정보를 입력하십시오.\n\n  " + sChkCols1);
+					}
+				break;			
+			}
+		}
+	}
+	if(!this.gfnIsEmpty(sReportFileName))
+	{
+		this.fnViewReport(sReportFileName);
+	}
+	/*
+	//프리랜서도급계약
+		PUCHASE_CONTRACT_FREELANCER.jrf
+	//원청일반계약
+		PUCHASE_CONTRACT_COMMON_WONCHUNG_M.jrf	원청(인력)
+		PUCHASE_CONTRACT_COMMON_WONCHUNG_P.jrf
+		PUCHASE_CONTRACT_COMMON_WONCHUNG_M2.jrf	원청(턴키)
+		PUCHASE_CONTRACT_COMMON_WONCHUNG_P2.jrf
+	//신규계약
+		PUCHASE_CONTRACT_COMMON_M.jrf
+		PUCHASE_CONTRACT_COMMON_P.jrf
+	//추가계약
+		PUCHASE_CONTRACT_ADD_P.jrf
+		PUCHASE_CONTRACT_ADD_M.jrf
+	//연장계약
+		PUCHASE_CONTRACT_ADD_M.jrf
+		PUCHASE_CONTRACT_ADD_P.jrf
+	//조기종료확인서
+		EARLY_TERMINATION_CONFIRMATION_M.jrf
+		EARLY_TERMINATION_CONFIRMATION_FREELANCER_M.jrf
+	*/
+}
+
+/*빈컬럼이 존재할 경우 ,로 컬럼Name을 이어붙여 return*/
+this.checkNullColumns = function(ds, row, arrColumnInfo)
+{
+	var sRtn = "";
+	var arrRtn = [];
+	var val, col;
+	for(var i = 0, iL = arrColumnInfo.length; i < iL; i++)
+	{
+		col = arrColumnInfo[i].split("|");
+		val = ds.getColumn(row, col[0]);
+		if(this.gfnIsEmpty(val))
+		{
+			arrRtn.push(col[1]);
+		}
+	}
+	return arrRtn.join(", ");
+}
+
+this.fnPopupCallBack = function (popupId, popupArg)
+{
+	popupArg = this.commUtil.popupReturn();
+	
+	switch(popupId)
+	{
+		case "" :			
+			//this.fnSearch();
+		default:
+			break;
+	}
+}
+
+this.fnViewReport = function(sReportFileName)
+{
+	if(this.gfnIsEmpty(sReportFileName))
+		return;
+	//Dataset 설정
+	this.gfn_SetAddInputDs("ds0", this.ds_Contract_Collaboration);
+	this.gfn_SetAddInputDs("ds1", this.ds_Contract_Collaboration_Sub1);
+	this.gfn_SetAddInputDs("ds2", this.ds_Contract_Collaboration_Sub2);
+	this.gfnOpenReportViewer(this.UbiViewer, sReportFileName);
+}
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCompanyList = function()
+{
+// 	this.gfnAddOutputDataset("dsCompanyList", "dsOutput");
+// 	this.gfnCommonTransaction("fnGetCompanyList", "SP_PurchaseRegSiReport_S01", null, false);
+	this.gfnSetMap("nextCommMapper", ['SP_PurchaseRegSiReport_S01'], ['dsCompanyList']);
+	this.gfnCommonTransaction("fnGetCompanyList", "selectNextMultiList.do", null, false);
+};
+
+this.fnGetContractMainList = function(sContractMain, sEmpNo)
+{
+	this.gfnAddSendParameter("CONTRACT_MAIN", sContractMain);
+	this.gfnAddSendParameter("EMP_NO", sEmpNo);
+	
+// 	this.gfnAddOutputDataset("dsContractMain", "dsOutput");
+// 	this.gfnCommonTransaction("fnGetContractMainList", "SP_PurchaseRegSiReport_S02", null, false);
+	this.gfnSetMap("nextCommMapper", ['SP_PurchaseRegSiReport_S02'], ['dsContractMain']);
+	this.gfnCommonTransaction("fnGetContractMainList", "selectNextMultiList.do", null, false);
+};
+
+// this.fnGetCode = function()
+// {
+// 	this.gfnAddSendParameter("RTS_SEQ", this.rtsSeq);
+// 	this.gfnAddOutputDataset("ds_List"		, "dsOutput");
+// 	this.gfnCommonTransaction("Select", "TS_SupportSchedule_S01", this.grd_CompanySerachList);
+// }
+// 
+// this.fnSearch = function()
+// {	
+// 	this.gfnAddSendParameter("RTS_SEQ", this.rtsSeq);
+// 	this.gfnAddOutputDataset("ds_List"		, "dsOutput");
+// 	this.gfnCommonTransaction("Select", "TS_SupportSchedule_S01", this.grd_CompanySerachList);
+// }
+
+this.fnCallBack = function(strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		return;
+	}
+	else 
+	{
+		if(strSvcID=="gfnGetCode") 
+		{
+			this.fnInitForm();			
+		}
+		else if(strSvcID=="Select") 
+		{
+			
+		}
+		else if(strSvcID=="fnGetCompanyList")
+		{
+		
+		}
+		else if(strSvcID=="fnGetContractMainList")
+		{
+		
+		}
+	}
+}
+
+]]></Script>
+    <Objects>
+      <Dataset id="dsCompanyList">
+        <ColumnInfo>
+          <Column id="COMPANY_NAME" type="STRING" size="100"/>
+          <Column id="COMPANY_REG_NO" type="STRING" size="30"/>
+          <Column id="CEO_NAME" type="STRING" size="100"/>
+          <Column id="BUSINESS_FORM_NAME" type="STRING" size="30"/>
+          <Column id="BUSINESS_KIND_NAME" type="STRING" size="30"/>
+          <Column id="PHONE_NO" type="STRING" size="30"/>
+          <Column id="FAX_NO" type="STRING" size="30"/>
+          <Column id="POST_NO" type="STRING" size="10"/>
+          <Column id="POST_ADDR" type="STRING" size="255"/>
+          <Column id="DETAIL_ADDR" type="STRING" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsContractMain">
+        <ColumnInfo>
+          <Column id="COMPANY_CODE" type="STRING" size="20"/>
+          <Column id="COMPANY_NAME" type="STRING" size="100"/>
+          <Column id="TAG" type="STRING" size="200"/>
+          <Column id="CLIENT_FLAG" type="STRING" size="1"/>
+          <Column id="COMPANY_FLAG" type="STRING" size="1"/>
+          <Column id="TMP_FLAG" type="STRING" size="1"/>
+          <Column id="BLACKLIST_FLAG" type="STRING" size="1"/>
+          <Column id="NATION_CODE" type="STRING" size="20"/>
+          <Column id="BUSINESS_SCALE" type="STRING" size="20"/>
+          <Column id="L_CATEGORY" type="STRING" size="20"/>
+          <Column id="M_CATEGORY" type="STRING" size="20"/>
+          <Column id="COMPANY_REG_NO" type="STRING" size="20"/>
+          <Column id="CORPORATE_REG_NO" type="STRING" size="30"/>
+          <Column id="INCORPORATION_DATE" type="DATETIME" size="23"/>
+          <Column id="CEO_NAME" type="STRING" size="30"/>
+          <Column id="CEO_PHONE" type="STRING" size="20"/>
+          <Column id="POST_NO" type="STRING" size="8"/>
+          <Column id="POST_ADDR" type="STRING" size="100"/>
+          <Column id="DETAIL_ADDR" type="STRING" size="100"/>
+          <Column id="PHONE_NO" type="STRING" size="20"/>
+          <Column id="FAX_NO" type="STRING" size="20"/>
+          <Column id="BUSINESS_FORM" type="STRING" size="20"/>
+          <Column id="BUSINESS_KIND" type="STRING" size="20"/>
+          <Column id="PURCHASE_COMPANY_CODE" type="STRING" size="4"/>
+          <Column id="PRODUCT_FLAG" type="STRING" size="1"/>
+          <Column id="SI_FLAG" type="STRING" size="1"/>
+          <Column id="SOLUTION_FLAG" type="STRING" size="1"/>
+          <Column id="GOODS_FLAG" type="STRING" size="1"/>
+          <Column id="PARTNER_FLAG" type="STRING" size="1"/>
+          <Column id="PARTNER_KIND" type="STRING" size="20"/>
+          <Column id="COMPANY_STATE" type="STRING" size="20"/>
+          <Column id="COMPANY_KIND" type="STRING" size="20"/>
+          <Column id="BANK_CODE" type="STRING" size="20"/>
+          <Column id="ACCOUNT_NO" type="STRING" size="30"/>
+          <Column id="ACCOUNT_NAME" type="STRING" size="50"/>
+          <Column id="SI_VIEW_FLAG" type="STRING" size="1"/>
+          <Column id="COLLECTION_BOND_FLAG" type="STRING" size="1"/>
+          <Column id="CL_APPROVAL_EMP_NO" type="STRING" size="60"/>
+          <Column id="CL_ASSET" type="FLOAT" size="22"/>
+          <Column id="CL_EMP_NUMBER" type="INT" size="11"/>
+          <Column id="CL_APPROVAL_DATE" type="DATETIME" size="23"/>
+          <Column id="CL_CAPITAL" type="FLOAT" size="22"/>
+          <Column id="CL_OPINION" type="STRING" size="20"/>
+          <Column id="CL_PS" type="FLOAT" size="22"/>
+          <Column id="CL_ANNUAL_SALES" type="FLOAT" size="22"/>
+          <Column id="CL_SI" type="FLOAT" size="22"/>
+          <Column id="CL_NET_INCOME" type="FLOAT" size="22"/>
+          <Column id="CL_EVALUATION" type="INT" size="11"/>
+          <Column id="CL_LISTED_FLAG" type="STRING" size="1"/>
+          <Column id="CL_EXCEPTION_CODE" type="STRING" size="20"/>
+          <Column id="CL_ADD_SCORE1" type="STRING" size="20"/>
+          <Column id="CL_ADD_SCORE2" type="STRING" size="20"/>
+          <Column id="CL_ADD_SCORE3" type="STRING" size="20"/>
+          <Column id="REMARKS" type="STRING" size="1073741823"/>
+          <Column id="DELETE_FLAG" type="STRING" size="1"/>
+          <Column id="INSERT_DATE" type="DATETIME" size="23"/>
+          <Column id="INSERT_EMP_NO" type="STRING" size="60"/>
+          <Column id="INSERT_DEPT_CD" type="STRING" size="60"/>
+          <Column id="INSERT_DEPT_NM" type="STRING" size="100"/>
+          <Column id="INSERT_MODEL" type="STRING" size="100"/>
+          <Column id="UPDATE_DATE" type="DATETIME" size="23"/>
+          <Column id="UPDATE_EMP_NO" type="STRING" size="60"/>
+          <Column id="UPDATE_DEPT_CD" type="STRING" size="60"/>
+          <Column id="UPDATE_DEPT_NM" type="STRING" size="100"/>
+          <Column id="UPDATE_MODEL" type="STRING" size="100"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Contract_Collaboration">
+        <ColumnInfo>
+          <Column id="CONTRACT_NO" type="STRING" size="256"/>
+          <Column id="PROJECT_NAME" type="STRING" size="256"/>
+          <Column id="CONTRACT_DATE" type="STRING" size="256"/>
+          <Column id="CONTRACT_MAIN" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT1" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT2" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT3" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT4" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT5" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT6" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT7" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT8" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT9" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT10" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT11" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT12" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT13" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT14" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT15" type="STRING" size="256"/>
+          <Column id="COMPANY_NAME" type="STRING" size="256"/>
+          <Column id="COMPANY_REG_NO" type="STRING" size="256"/>
+          <Column id="ADDRESS" type="STRING" size="256"/>
+          <Column id="PAY_PLAN_DAY" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT16" type="STRING" size="256"/>
+          <Column id="CONTRACT_TEXT17" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Contract_Collaboration_Sub1">
+        <ColumnInfo>
+          <Column id="TEXT1" type="STRING" size="256"/>
+          <Column id="TEXT2" type="STRING" size="256"/>
+          <Column id="TEXT3" type="STRING" size="256"/>
+          <Column id="TEXT4" type="STRING" size="256"/>
+          <Column id="TEXT5" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Contract_Collaboration_Sub2">
+        <ColumnInfo>
+          <Column id="TEXT1" type="STRING" size="256"/>
+          <Column id="TEXT2" type="STRING" size="256"/>
+          <Column id="TEXT3" type="STRING" size="256"/>
+          <Column id="TEXT4" type="STRING" size="256"/>
+          <Column id="PSD_SEQ" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

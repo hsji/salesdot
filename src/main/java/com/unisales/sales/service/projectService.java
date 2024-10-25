@@ -69,4 +69,10 @@ public interface projectService {
 	
 	public void SP_DeliveryConfirm_R01(Map<String,Object> searchMap, List<Map<String,Object>> dsList1, List<Map<String,Object>> dsList2, UserInfo userInfo) throws Exception;
 	
+	public void SP_PurchaseBill_R01(Map<String,Object> searchMap, Map<String,Object> datasetMap, UserInfo userInfo) throws Exception;
+	
+	public void SP_PurchaseBill_R02(Map<String,Object> searchMap, Map<String,Object> datasetMap, UserInfo userInfo) throws Exception;
+	
+	public void SP_PurchaseBill_R03(Map<String,Object> searchMap, UserInfo userInfo) throws Exception;
+	
 }

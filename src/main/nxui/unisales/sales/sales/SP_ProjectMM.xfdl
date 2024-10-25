@@ -15,7 +15,7 @@
                   <Layout>
                     <Button id="btn_Add" taborder="0" text="신규" top="0" width="60" height="28" left="134" onclick="div_search_comm_btn_onclick" cssclass="btn_WF_Crud" enable="false" TL_SEQ="116" visible="false"/>
                     <Button id="btn_Del" taborder="1" text="삭제" top="0" width="60" height="28" left="198" onclick="div_search_comm_btn_onclick" cssclass="btn_WF_Crud" enable="false" TL_SEQ="117" visible="false"/>
-                    <Button id="btn_search" taborder="3" text="조회" top="0" width="60" height="28" onclick="div_search_comm_btn_onclick" left="326" TL_SEQ="118" cssclass="btn_WF_SchText"/>
+                    <Button id="btn_search" taborder="3" text="조회" top="0" width="60" height="28" onclick="div_search_comm_btn_onclick" left="326" TL_SEQ="118" cssclass="btn_WF_Search"/>
                     <Button id="btn_Save" taborder="2" text="저장" top="0" width="60" height="28" left="262" onclick="div_search_comm_btn_onclick" cssclass="btn_WF_Crud" enable="false" TL_SEQ="115" visible="false"/>
                   </Layout>
                 </Layouts>

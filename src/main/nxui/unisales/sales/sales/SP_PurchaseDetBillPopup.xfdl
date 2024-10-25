@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SP_PurchaseDetBillPopup" width="1000" height="400" titletext="매입 청구서 선택" cssclass="frm_popBg" onload="SP_PurchaseDetBillPopup_onload">
+    <Layouts>
+      <Layout height="400" mobileorientation="landscape" width="1000">
+        <Static id="st_Title" taborder="0" text="매입청구서 작성리스트" left="10" top="0" width="356" height="35" cssclass="sta_POP_Title" TL_SEQ="32858"/>
+        <Button id="btn_Close" taborder="1" top="10" width="15" height="15" right="8" cssclass="btn_POP_Cls" onclick="common_onclick" escapebutton="true"/>
+        <Static id="Static00" taborder="2" left="0" right="0" cssclass="sta_POP_BtnBg" top="359" height="40"/>
+        <Button id="btn_Cancel" taborder="3" text="닫기" width="70" height="22" cssclass="btn_WF_cancel" right="8" onclick="common_onclick" TL_SEQ="59" top="367"/>
+        <Button id="btn_Confirm" taborder="4" text="적용" top="367" height="22" cssclass="btn_WF_tran" right="86" onclick="common_onclick" TL_SEQ="684" width="60"/>
+        <Grid id="grd_GbSales" taborder="5" binddataset="dsPurchaseProductDet" scrollbars="alwaysvert" autoenter="select" useinputpanel="false" cellsizingtype="col" top="43" visible="true" left="8" formatid="CONTRACT_TYPE_P" bottom="Static00:8" right="8" autofittype="col">
+          <Formats>
+            <Format id="CONTRACT_TYPE_S">
+              <Columns>
+                <Column size="48"/>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="40"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="25" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="선택" TL_SEQ="113"/>
+                <Cell col="1" text="성명" TL_SEQ="27"/>
+                <Cell col="2" text="등급" TL_SEQ="92"/>
+                <Cell col="3" text="투입시작일" TL_SEQ="1115"/>
+                <Cell col="4" text="투입종료일" TL_SEQ="1116"/>
+                <Cell col="5" text="MM"/>
+                <Cell col="6" text="매출 단가" TL_SEQ="334"/>
+                <Cell col="7" text="매입계약금액" TL_SEQ="12370"/>
+                <Cell col="8" text="지급예정일" TL_SEQ="736"/>
+                <Cell col="9" text="시작일" TL_SEQ="38"/>
+                <Cell col="10" text="종료일" TL_SEQ="39"/>
+                <Cell col="11" text="공급가" TL_SEQ="733"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell col="1" text="bind:EMP_NAME" expandshow="hide" expandimage="URL(&quot;theme://images/tab_MDI_MdiTabCls.png&quot;)" textAlign="center" tooltiptype="hover"/>
+                <Cell col="2" text="bind:LEVEL_CODE" edittype="none" displaytype="combotext" combodataset="ds_CD_LEVEL_CODE" combocodecol="CODE" combodatacol="CAPTION" editinputtype="number"/>
+                <Cell col="3" text="bind:START_DATE" displaytype="date" edittype="none" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="4" text="bind:END_DATE" displaytype="date" edittype="none" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="5" text="bind:MEN_MONTH" displaytype="number" edittype="none" textAlign="center" editinputtype="number"/>
+                <Cell col="6" text="bind:CSD_UNIT_COST" displaytype="number" edittype="none" editinputtype="number" textAlign="right"/>
+                <Cell col="7" text="bind:CONTRACT_PRICE" displaytype="number" edittype="none" textAlign="right" editinputtype="number"/>
+                <Cell col="8" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:PAY_PLAN_DATE"/>
+                <Cell col="9" displaytype="date" text="bind:PAY_START_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="10" displaytype="date" text="bind:PAY_END_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="11" displaytype="number" text="bind:TAX_PRICE" textAlign="right"/>
+              </Band>
+              <Band id="summary">
+                <Cell/>
+                <Cell col="1" colspan="10" text="합계" TL_SEQ="437"/>
+                <Cell col="11" displaytype="number" textAlign="right"/>
+              </Band>
+            </Format>
+            <Format id="CONTRACT_TYPE_P">
+              <Columns>
+                <Column size="48"/>
+                <Column size="240"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="25" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="선택" TL_SEQ="113"/>
+                <Cell col="1" text="품명" displaytype="text" edittype="text" TL_SEQ="679"/>
+                <Cell col="2" text="수량" TL_SEQ="103"/>
+                <Cell col="3" text="단위" TL_SEQ="104"/>
+                <Cell col="4" text="매출계약금액" TL_SEQ="1111" displaytype="normal"/>
+                <Cell col="5" text="매입계약금액" TL_SEQ="12370"/>
+                <Cell col="6" text="지급예정일" TL_SEQ="736"/>
+                <Cell col="7" text="공급가" TL_SEQ="733"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell col="1" text="bind:PRODUCT_NAME" expandshow="hide" expandimage="URL(&quot;theme://images/tab_MDI_MdiTabCls.png&quot;)" textAlign="left"/>
+                <Cell col="2" text="bind:QUANTITY" displaytype="number" editinputtype="number" edittype="none" textAlign="center"/>
+                <Cell col="3" text="bind:PRODUCT_UNIT" displaytype="combotext" edittype="none" textAlign="center" combodataset="ds_CD_PRODUCT_UNIT" combodatacol="CAPTION" combocodecol="CODE"/>
+                <Cell col="4" text="bind:UNIT_COST" displaytype="number" edittype="none" textAlign="right" editinputtype="number"/>
+                <Cell col="5" text="bind:CONTRACT_PRICE" textAlign="right" edittype="none" displaytype="number"/>
+                <Cell col="6" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:PAY_PLAN_DATE"/>
+                <Cell col="7" displaytype="number" text="bind:TAX_PRICE" textAlign="right"/>
+              </Band>
+              <Band id="summary">
+                <Cell/>
+                <Cell col="1" colspan="6" text="합계" TL_SEQ="437"/>
+                <Cell col="7" displaytype="number" textAlign="right"/>
+              </Band>
+            </Format>
+            <Format id="CONTRACT_TYPE_M">
+              <Columns>
+                <Column size="48"/>
+                <Column size="240"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="25" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="선택" TL_SEQ="113"/>
+                <Cell col="1" text="품명" displaytype="text" edittype="text" TL_SEQ="679"/>
+                <Cell col="2" text="매출계약금액" TL_SEQ="1111" displaytype="normal"/>
+                <Cell col="3" text="매입계약금액" TL_SEQ="12370"/>
+                <Cell col="4" text="지급예정일" TL_SEQ="736"/>
+                <Cell col="5" text="시작일" TL_SEQ="38"/>
+                <Cell col="6" text="종료일" TL_SEQ="39"/>
+                <Cell col="7" text="공급가" TL_SEQ="733"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell col="1" text="bind:PRODUCT_NAME" expandshow="hide" expandimage="URL(&quot;theme://images/tab_MDI_MdiTabCls.png&quot;)" textAlign="left"/>
+                <Cell col="2" text="bind:UNIT_COST" displaytype="number" edittype="none" textAlign="right" editinputtype="number"/>
+                <Cell col="3" text="bind:CONTRACT_PRICE" textAlign="right" edittype="none" displaytype="number"/>
+                <Cell col="4" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:PAY_PLAN_DATE"/>
+                <Cell col="5" displaytype="date" text="bind:PAY_START_DATE" calendardateformat="yyyy-MM-dd "/>
+                <Cell col="6" displaytype="date" text="bind:PAY_END_DATE" calendardateformat="yyyy-MM-dd"/>
+                <Cell col="7" displaytype="number" text="bind:TAX_PRICE" textAlign="right"/>
+              </Band>
+              <Band id="summary">
+                <Cell/>
+                <Cell col="1" colspan="6" text="합계" TL_SEQ="437"/>
+                <Cell col="7" displaytype="number" textAlign="right"/>
+              </Band>
+            </Format>
+            <Format id="CONTRACT_TYPE_G">
+              <Columns>
+                <Column size="48"/>
+                <Column size="240"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="25" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="선택" TL_SEQ="113"/>
+                <Cell col="1" text="품명" displaytype="text" edittype="text" TL_SEQ="679"/>
+                <Cell col="2" text="수량" TL_SEQ="103"/>
+                <Cell col="3" text="단위" TL_SEQ="104"/>
+                <Cell col="4" text="단가" TL_SEQ="102" displaytype="normal"/>
+                <Cell col="5" text="매입계약금액" TL_SEQ="12370"/>
+                <Cell col="6" text="지급예정일" TL_SEQ="736"/>
+                <Cell col="7" text="공급가" TL_SEQ="733"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell col="1" text="bind:PRODUCT_NAME" expandshow="hide" expandimage="URL(&quot;theme://images/tab_MDI_MdiTabCls.png&quot;)" textAlign="left"/>
+                <Cell col="2" text="bind:QUANTITY" displaytype="number" editinputtype="number" edittype="none" textAlign="center"/>
+                <Cell col="3" text="bind:PRODUCT_UNIT" displaytype="combotext" edittype="none" textAlign="center" combodataset="ds_CD_PRODUCT_UNIT" combodatacol="CAPTION" combocodecol="CODE"/>
+                <Cell col="4" text="bind:UNIT_COST" displaytype="number" edittype="none" textAlign="right" editinputtype="number"/>
+                <Cell col="5" text="bind:CONTRACT_PRICE" textAlign="right" edittype="none" displaytype="number"/>
+                <Cell col="6" displaytype="date" calendardateformat="yyyy-MM-dd" text="bind:PAY_PLAN_DATE"/>
+                <Cell col="7" displaytype="number" text="bind:TAX_PRICE" textAlign="right"/>
+              </Band>
+              <Band id="summary">
+                <Cell/>
+                <Cell col="1" colspan="6" text="합계" TL_SEQ="437"/>
+                <Cell col="7" displaytype="number" textAlign="right"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+* 01. 업무구분	 	: 프로젝트관리
+* 02. 화면명		: 청구서 납품서 팝업
+* 03. 화면설명 	: 청구서 납품서
+						
+* 04. 작성일   	: 2023.08.22
+* 05. 작성자   	: 박종언
+* 06. 수정이력 :
+***********************************************************************************************
+*     수정일          이  름    사유
+***********************************************************************************************
+*     
+************************************************************************************************/
+
+/************************************************************************************************
+* 공통 라이브러리 INCLUDE 영역
+************************************************************************************************/
+include "Script::CommSystem.xjs";
+include "Script::CommTrans.xjs";
+include "Script::CommUtil.xjs"; 	
+include "Script::CommGrid.xjs";
+include "Script::ext_Report.xjs"
+
+/************************************************************************************************
+* 전역 변수 영역
+************************************************************************************************/
+this.sContractType;
+this.sContractNoPurchase;
+/************************************************************************************************
+* FORM 영역 EVENT 영역
+************************************************************************************************/
+this.SP_PurchaseDetBillPopup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnCompInit(obj);  	// Grid 공통함수 호출
+	this.fnInitForm();
+};
+
+/************************************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+this.common_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.name) {
+		case "btn_Close": case "btn_Cancel":
+			this.commUtil.popupClose("close");
+		break;
+		
+		case "btn_Confirm":
+			var ds = this.dsPurchaseProductDet;
+			if(this.sContractType == "S") ds = this.dsPurchaseSiDet;
+			
+			var cnt = ds.getCaseCount("CHK=='1'");
+			
+			if(cnt > 0) this.fnConfirmData();
+		break;
+	}
+};
+
+this.dsPurchaseProductDet_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.col==0) {
+		this.fnSetTotalTaxPrice(obj);
+	}
+};
+
+this.dsPurchaseSiDet_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.col==0) {
+		this.fnSetTotalTaxPrice(obj);
+	}
+};
+
+/************************************************************************************************
+* FORM 공통 FUNCTION 영역
+************************************************************************************************/
+this.fnInitForm = function()
+{
+	this.sContractType	= this.parent.sContractType;
+	this.sContractNoPurchase	= this.parent.sContractNoPurchase;
+	
+	switch(this.sContractType)
+	{
+		case "M" : 
+			this.grd_GbSales.set_formatid("CONTRACT_TYPE_M");			
+			this.grd_GbSales.set_binddataset("dsPurchaseProductDet");
+			break;
+			
+		case "S" : 
+			this.grd_GbSales.set_formatid("CONTRACT_TYPE_S");
+			this.grd_GbSales.set_binddataset("dsPurchaseSiDet");
+			break;
+		case "G" : 
+			this.grd_GbSales.set_formatid("CONTRACT_TYPE_G");
+			this.grd_GbSales.set_binddataset("dsPurchaseProductDet");
+			break;
+		default : 
+		break;
+	}
+	
+	this.fnGetCode();
+};
+
+/************************************************************************************************
+* TRANSACTION 및 추가 FUNCTION 영역
+************************************************************************************************/
+this.fnGetCode = function()
+{
+	this.gfnAddCodeDataset("ds_CD_PRODUCT_UNIT"		, "PRODUCT_UNIT");
+	this.gfnAddCodeDataset("ds_CD_LEVEL_CODE"		, "LEVEL_CODE");
+	this.gfnCodeTransaction();
+};
+
+// 조회
+this.fnSearch = function()
+{
+	var sModelNm = "SP_PurchaseDetBill_S01";
+	var sOutputDs = "dsPurchaseProductDet";
+	if(this.sContractType == "S") {
+		sModelNm = "SP_PurchaseDetBill_S02";
+		sOutputDs = "dsPurchaseSiDet";
+	}
+	
+	// 조건값 셋팅
+	this.gfnAddSendParameter("CONTRACT_NO_PURCHASE",	this.sContractNoPurchase);
+	
+	// 조회용 Output dataset 세팅
+	this.gfnAddOutputDataset(sOutputDs, "dsOutput");
+	this.gfnCommonTransaction("BillDetSearch", sModelNm);
+};
+
+// 적용
+this.fnConfirmData = function()
+{
+	this.dsProductSelect.clearData();
+	this.dsSiSelect.clearData();
+	
+	var ds = this.dsPurchaseProductDet;
+	var selectedDs = this.dsProductSelect;
+	if(this.sContractType == "S") {
+		ds = this.dsPurchaseSiDet;
+		selectedDs = this.dsSiSelect;
+	}
+	
+	ds.set_enableevent(false);
+	ds.filter("CHK=='1'");
+	
+	for(var i = 0; i < ds.rowcount; i++) {
+		var nRow = selectedDs.addRow();
+		selectedDs.copyRow(nRow, ds, i);
+	}
+	
+	ds.set_enableevent(true);
+	
+	this.commUtil.popupClose(selectedDs);
+};
+
+// 합계 계산
+this.fnSetTotalTaxPrice = function(objDs)
+{
+	var sTotalTaxPrice = 0;
+	
+	for(var i = 0; i < objDs.rowcount; i++) {
+		var checked = objDs.getColumn(i, "CHK");
+		var sTaxPrice = objDs.getColumn(i, "TAX_PRICE");
+		if(checked == "1") sTotalTaxPrice += sTaxPrice;
+	}
+	
+	this.grd_GbSales.setCellProperty("summary", 2, "expr", sTotalTaxPrice);
+};
+
+// 화면 콜백
+this.fnCallBack = function (strSvcID, nErrorCode, strErrorMag)
+{
+	// 에러 예외처리
+	if(nErrorCode != 0) 
+	{
+		return;
+	}
+	else
+	{
+		if(strSvcID == "gfnGetCode") 
+		{
+			this.fnSearch();
+		}
+		else if(strSvcID == "BillDetSearch")
+		{
+			this.fnSetTotalTaxPrice(this.components.grd_GbSales.getBindDataset());
+		}
+	}
+};]]></Script>
+    <Objects>
+      <Dataset id="dsPurchaseProductDet" oncolumnchanged="dsPurchaseProductDet_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="PPD_SEQ" type="INT" size="256"/>
+          <Column id="PPY_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="STRING" size="256"/>
+          <Column id="RELATED_PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="RELATED_PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="STRING" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="STRING" size="256"/>
+          <Column id="PAY_PLAN_DATE" type="STRING" size="256"/>
+          <Column id="PAY_START_DATE" type="STRING" size="256"/>
+          <Column id="PAY_END_DATE" type="STRING" size="256"/>
+          <Column id="TAX_PRICE" type="STRING" size="256"/>
+          <Column id="PAY_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_CD_PRODUCT_UNIT"/>
+      <Dataset id="ds_CD_LEVEL_CODE"/>
+      <Dataset id="dsPurchaseSiDet" oncolumnchanged="dsPurchaseSiDet_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="PSD_SEQ" type="INT" size="256"/>
+          <Column id="PPY_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="STRING" size="256"/>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="EMP_NAME" type="STRING" size="256"/>
+          <Column id="LEVEL_CODE" type="STRING" size="256"/>
+          <Column id="MEN_MONTH" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="CSD_UNIT_COST" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="STRING" size="256"/>
+          <Column id="PAY_PLAN_DATE" type="STRING" size="256"/>
+          <Column id="PAY_START_DATE" type="STRING" size="256"/>
+          <Column id="PAY_END_DATE" type="STRING" size="256"/>
+          <Column id="TAX_PRICE" type="STRING" size="256"/>
+          <Column id="PAY_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsProductSelect" oncolumnchanged="dsPurchaseDet_oncolumnchanged" onrowposchanged="dsPurchaseDet_onrowposchanged" cancolumnchange="dsPurchaseDet_cancolumnchange">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="PPD_SEQ" type="INT" size="256"/>
+          <Column id="PPY_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="STRING" size="256"/>
+          <Column id="RELATED_PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="RELATED_PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="STRING" size="256"/>
+          <Column id="PRODUCT_UNIT" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="STRING" size="256"/>
+          <Column id="PAY_PLAN_DATE" type="STRING" size="256"/>
+          <Column id="PAY_START_DATE" type="STRING" size="256"/>
+          <Column id="PAY_END_DATE" type="STRING" size="256"/>
+          <Column id="TAX_PRICE" type="STRING" size="256"/>
+          <Column id="PAY_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSiSelect">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="PSD_SEQ" type="INT" size="256"/>
+          <Column id="PPY_SEQ" type="INT" size="256"/>
+          <Column id="CONTRACT_NO_PURCHASE" type="STRING" size="256"/>
+          <Column id="EMP_NO" type="STRING" size="256"/>
+          <Column id="EMP_NAME" type="STRING" size="256"/>
+          <Column id="LEVEL_CODE" type="STRING" size="256"/>
+          <Column id="MEN_MONTH" type="STRING" size="256"/>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="UNIT_COST" type="STRING" size="256"/>
+          <Column id="CONTRACT_PRICE" type="STRING" size="256"/>
+          <Column id="PAY_PLAN_DATE" type="STRING" size="256"/>
+          <Column id="PAY_START_DATE" type="STRING" size="256"/>
+          <Column id="PAY_END_DATE" type="STRING" size="256"/>
+          <Column id="TAX_PRICE" type="STRING" size="256"/>
+          <Column id="PAY_FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

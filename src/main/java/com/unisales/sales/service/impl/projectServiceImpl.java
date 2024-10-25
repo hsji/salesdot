@@ -1900,4 +1900,235 @@ public class projectServiceImpl implements projectService {
 	            }
 			}	 			
 	    }	    
+	    
+	   /**
+		 * 확정취소.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_PurchaseBill_R01(Map<String,Object> searchMap, Map<String,Object> datasetMap, UserInfo userInfo)
+	    				throws Exception {
+	    	
+	    	// model
+	    	Map<String,Object> dsOutput = sqlSession1.selectOne("salesMapper.selectSP_PurchaseBill_S03",searchMap);
+	    	// PURCHASE_BILL_I_U
+	 		int rowType;
+	 		List<Map<String,Object>> dsBill = (List<Map<String, Object>>) datasetMap.get("dsBill");
+	        int size = dsBill.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsBill.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+                saveMap.put("NEW_BILL_DELIVERY_NO", dsOutput.get("BILL_DELIVERY_NO"));
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.insert("salesMapper.insertSP_PurchaseBill_R01_PURCHASE_BILL_I_U", saveMap);
+	            } else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	        		sqlSession1.update("salesMapper.updateSP_PurchaseBill_R01_PURCHASE_BILL_I_U",saveMap);         		
+	            }	             
+	        }
+	        // select1(
+	        Map<String,Object> dsBD_SEQ = sqlSession1.selectOne("salesMapper.selectSP_PurchaseBill_R01_select");
+	        // PURCHASE_BILL_PRODUCT_DET_I_U
+	        List<Map<String,Object>> dsBillProductDet = (List<Map<String, Object>>) datasetMap.get("dsBillProductDet");
+	        size = dsBillProductDet.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsBillProductDet.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+                saveMap.put("NEW_BD_SEQ", dsBD_SEQ.get("BD_SEQ"));
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.insert("salesMapper.insertSP_PurchaseBill_R01_PURCHASE_BILL_PRODUCT_DET_I_U", saveMap);
+	            } else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	        		sqlSession1.update("salesMapper.updateSP_PurchaseBill_R01_PURCHASE_BILL_PRODUCT_DET_I_U",saveMap);      
+	            } else if (rowType == DataSet.ROW_TYPE_DELETED){
+	        		sqlSession1.update("salesMapper.deleteSP_PurchaseBill_R01_PURCHASE_BILL_PRODUCT_DET_I_U",saveMap);      	        		
+	            }	             
+	        }	        
+	        // PURCHASE_BILL_SI_DET_I_U
+	        List<Map<String,Object>> dsBillSiDet = (List<Map<String, Object>>) datasetMap.get("dsBillSiDet");
+	        size = dsBillSiDet.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsBillSiDet.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+                saveMap.put("NEW_BD_SEQ", dsBD_SEQ.get("BD_SEQ"));
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.insert("salesMapper.insertSP_PurchaseBill_R01_PURCHASE_BILL_SI_DET_I_U", saveMap);
+	            } else if (rowType == DataSet.ROW_TYPE_UPDATED){
+	            	sqlSession1.update("salesMapper.updateSP_PurchaseBill_R01_PURCHASE_BILL_SI_DET_I_U", saveMap);
+	            } else if (rowType == DataSet.ROW_TYPE_DELETED){
+	            	sqlSession1.delete("salesMapper.deleteSP_PurchaseBill_R01_PURCHASE_BILL_SI_DET_I_U", saveMap);
+	            }	             
+	        }	  	        
+	        // BILL_DELIVERY_DET_DELIVERY_I_U_D
+	        List<Map<String,Object>> dsDeleted = (List<Map<String, Object>>) datasetMap.get("dsDeleted");
+	        size = dsDeleted.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsDeleted.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.insert("salesMapper.insertSP_PurchaseBill_R01_PURCHASE_PAY_TAX_DATE_D", saveMap);
+	            }	             
+	        }
+	        
+	        int updateTaxDateFlag = (int) searchMap.get("UPDATE_TAX_DATE");
+	        if(updateTaxDateFlag == 1) {
+		        // BILL_DELIVERY_DET_DELIVERY_I_U_D
+		        List<Map<String,Object>> dsDistinctPpy = (List<Map<String, Object>>) datasetMap.get("dsDistinctPpy");
+		        size = dsDistinctPpy.size();
+		         
+		        for (int i=0; i<size; i++) {
+		             Map<String,Object> saveMap = dsDistinctPpy.get(i);
+		             
+	                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+	                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+	                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+	                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+	                
+		            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		             
+		            if (rowType == DataSet.ROW_TYPE_INSERTED){
+		             	sqlSession1.insert("salesMapper.insertSP_PurchaseBill_R01_PURCHASE_PAY_UPDATE", saveMap);
+		            }	             
+		        }	        	
+	        }
+	        
+       
+	    }	    
+	    
+	   /**
+		 * 확정취소.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_PurchaseBill_R02(Map<String,Object> searchMap, Map<String,Object> datasetMap, UserInfo userInfo)
+	    				throws Exception {
+	    	// PURCHASE_BILL_D
+	 		int rowType;
+	 		List<Map<String,Object>> dsBill = (List<Map<String, Object>>) datasetMap.get("dsBill");
+	        int size = dsBill.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsBill.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	            if (rowType == DataSet.ROW_TYPE_DELETED){
+	             	sqlSession1.insert("salesMapper.deleteSP_PurchaseBill_R02_PURCHASE_BILL_D", saveMap);
+	            }	             
+	        }
+
+	        // PURCHASE_PAY_TAX_DATE_D
+	        List<Map<String,Object>> dsDeleted = (List<Map<String, Object>>) datasetMap.get("dsDeleted");
+	        size = dsDeleted.size();
+	         
+	        for (int i=0; i<size; i++) {
+	             Map<String,Object> saveMap = dsDeleted.get(i);
+	             
+                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+                
+	            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+	             
+	            if (rowType == DataSet.ROW_TYPE_INSERTED){
+	             	sqlSession1.update("salesMapper.updateSP_PurchaseBill_R02_PURCHASE_PAY_TAX_DATE_D", saveMap);
+	            }	             
+	        }
+	        
+	        int updateTaxDateFlag = (int) searchMap.get("UPDATE_TAX_DATE");
+	        if(updateTaxDateFlag == 1) {
+		        // BILL_DELIVERY_DET_DELIVERY_I_U_D
+		        List<Map<String,Object>> dsDistinctPpy = (List<Map<String, Object>>) datasetMap.get("dsDistinctPpy");
+		        size = dsDistinctPpy.size();
+		         
+		        for (int i=0; i<size; i++) {
+		             Map<String,Object> saveMap = dsDistinctPpy.get(i);
+		             
+	                saveMap.put("USER_ID_SRV", userInfo.getStrUserId());
+	                saveMap.put("EMP_NO_SRV", userInfo.getStrEmpNo());
+	                saveMap.put("USER_CON_IPADDR_SRV", userInfo.getStrUserIPAddress());
+	                saveMap.put("SERVER_CO_CD", userInfo.getStrCompanyCd());
+	                
+		            rowType = Integer.parseInt(String.valueOf(saveMap.get(DataSetRowTypeAccessor.NAME)));
+		             
+		            if (rowType == DataSet.ROW_TYPE_INSERTED){
+		             	sqlSession1.update("salesMapper.updateSP_PurchaseBill_R02_modify", saveMap);
+		            }	             
+		        }	        	
+	        }
+	        
+       
+	    }	   	    
+	    
+	   /**
+		 * 확정취소.
+		 * @param queryMap		: Mapper Info
+		 * @param saveList		: 저장할 데이터 리스트
+		 * @param userInfo		: Login UserInfo
+		 * @return				: N/A
+		 * @throws Exception 
+		 */
+	    @Override
+	    public void SP_PurchaseBill_R03(Map<String,Object> searchMap, UserInfo userInfo)
+	    				throws Exception {
+	    	
+	    	Map<String,Object> dsOutput = sqlSession1.selectOne("salesMapper.selectSP_PurchaseBill_S03",searchMap);
+	    	searchMap.put("NEW_BILL_DELIVERY_NO", dsOutput.get("BILL_DELIVERY_NO"));
+	    	
+	    	
+	    	sqlSession1.insert("salesMapper.insertSP_PurchaseBill_R03_1", searchMap);
+	    	
+	    	Map<String,Object> dsSeq = sqlSession1.selectOne("salesMapper.selectSP_PurchaseBill_R01_select");
+	    	searchMap.put("NEW_PB_SEQ", dsSeq.get("PB_SEQ"));
+	    	
+	    	sqlSession1.insert("salesMapper.insertSP_PurchaseBill_R03_2", searchMap);
+
+	    }	   	 	    
 }
